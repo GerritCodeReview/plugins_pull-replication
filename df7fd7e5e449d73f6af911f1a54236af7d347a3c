@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07bec95d_01013a55",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-01-15T15:05:03Z",
+      "side": 1,
+      "message": "I\u0027m not sure how to organise configuration for pull replication, current code is heavily based on Source which more or less is representing section of [remote ...] configuration, for example:\n[remote \"Replication\"]\n    url \u003d file:///tmp/gerrit_setup/instance-2/git/${name}.git\n    fetch \u003d +refs/*:refs/*\n    mirror \u003d true\n    timeout \u003d 600\n    rescheduleDelay \u003d 15\n    replicationDelay \u003d 5\n    createMissingRepositories \u003d true\n    replicateProjectDeletions \u003d true\n    replicateHiddenProjects \u003d true\n\nTo figure out which source configuration I should use I\u0027m filtering by url and finding a match. I was also thinking about using label instead of url but url should be unique across configurations and labels can be different on different nodes.\n\nIssue with that approach is that every time we are adding new node we have to update configuration on all existing nodes. \n\nWe can also think about having one common configuration for all sources but this requires significant refactoring for example org.eclipse.jgit.transport.Transport accepts org.eclipse.jgit.transport.RemoteConfig and to create it we have to pass Config object with subsection of following format: [remote \"name\"] we could create something like:\n [remote \"fetch\"]\n    fetch \u003d +refs/*:refs/*\n    mirror \u003d true\n    timeout \u003d 600\n    rescheduleDelay \u003d 15\n    replicationDelay \u003d 5\n    createMissingRepositories \u003d true\n    replicateProjectDeletions \u003d true\n    replicateHiddenProjects \u003d true\nIssue with default configuration is that we cannot control settings per source, for example we cannot have different timeout per source.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 95
+      },
+      "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
