@@ -28,3 +28,11 @@ junit_tests(
         "//plugins/replication:replication",
     ],
 )
+
+java_library(
+    name = "pull-replication__plugin_test_deps",
+    testonly = 1,
+    visibility = ["//visibility:public"],
+    exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
+    ],
+)
