@@ -62,7 +62,7 @@ import org.slf4j.MDC;
  * <p>Instance members are protected by the lock within FetchQueue. Callers must take that lock to
  * ensure they are working with a current view of the object.
  */
-class FetchOne implements ProjectRunnable, CanceledWhileRunning {
+public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final ReplicationStateListener stateLog;
   static final String ALL_REFS = "..all..";
   static final String ID_MDC_KEY = "fetchOneId";
