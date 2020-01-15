@@ -37,6 +37,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfigValidator;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
+import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiModule;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -54,6 +55,8 @@ class PullReplicationModule extends AbstractModule {
 
   @Override
   protected void configure() {
+
+    install(new PullReplicationApiModule());
     install(new FactoryModuleBuilder().build(Source.Factory.class));
     bind(FetchReplicationMetrics.class).in(Scopes.SINGLETON);
 

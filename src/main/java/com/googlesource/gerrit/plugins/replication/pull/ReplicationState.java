@@ -19,6 +19,7 @@ import com.google.common.collect.Table;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -156,6 +157,10 @@ public class ReplicationState {
 
   public void waitForReplication() throws InterruptedException {
     allFetchTasksFinished.await();
+  }
+
+  public void waitForReplication(long timeout) throws InterruptedException {
+    allFetchTasksFinished.await(timeout, TimeUnit.SECONDS);
   }
 
   public void writeStdOut(String message) {
