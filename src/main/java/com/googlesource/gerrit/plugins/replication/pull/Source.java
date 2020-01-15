@@ -22,7 +22,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
@@ -64,8 +63,12 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FilenameUtils;
@@ -85,7 +88,7 @@ public class Source {
   }
 
   private final ReplicationStateListener stateLog;
-  private final Object stateLock = new Object();
+  private final Map<Project.NameKey, Object> stateLock = new ConcurrentHashMap<>();
   private final Map<URIish, FetchOne> pending = new HashMap<>();
   private final Map<URIish, FetchOne> inFlight = new HashMap<>();
   private final FetchOne.Factory opFactory;
@@ -319,20 +322,18 @@ public class Source {
     return false;
   }
 
-  void schedule(Project.NameKey project, String ref, URIish uri, ReplicationState state) {
-    schedule(project, ref, uri, state, false);
-  }
+  public Future<?> schedule(
+      Project.NameKey project, String ref, ReplicationState state, boolean now) {
 
-  void schedule(
-      Project.NameKey project, String ref, URIish uri, ReplicationState state, boolean now) {
+    URIish uri = getURI(project);
     repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
     if (!shouldReplicate(project, ref, state)) {
-      return;
+      return CompletableFuture.completedFuture(null);
     }
 
     if (!config.replicatePermissions()) {
       FetchOne e;
-      synchronized (stateLock) {
+      synchronized (stateLock.getOrDefault(project, new Object())) {
         e = pending.get(uri);
       }
       if (e == null) {
@@ -342,26 +343,27 @@ public class Source {
             if (head != null
                 && head.isSymbolic()
                 && RefNames.REFS_CONFIG.equals(head.getLeaf().getName())) {
-              return;
+              return CompletableFuture.completedFuture(null);
             }
           } catch (IOException err) {
             stateLog.error(String.format("cannot check type of project %s", project), err, state);
-            return;
+            return CompletableFuture.completedFuture(null);
           }
         } catch (IOException err) {
           stateLog.error(String.format("source project %s not available", project), err, state);
-          return;
+          return CompletableFuture.completedFuture(null);
         }
       }
     }
 
-    synchronized (stateLock) {
+    synchronized (stateLock.getOrDefault(project, new Object())) {
       FetchOne e = pending.get(uri);
+      Future<?> f = CompletableFuture.completedFuture(null);
       if (e == null) {
         e = opFactory.create(project, uri);
         addRef(e, ref);
         e.addState(ref, state);
-        pool.schedule(e, now ? 0 : config.getDelay(), TimeUnit.SECONDS);
+        f = pool.schedule(e, now ? 0 : config.getDelay(), TimeUnit.SECONDS);
         pending.put(uri, e);
       } else if (!e.getRefs().contains(ref)) {
         addRef(e, ref);
@@ -369,11 +371,12 @@ public class Source {
       }
       state.increaseFetchTaskCount(project.get(), ref);
       repLog.info("scheduled {}:{} => {} to run after {}s", e, ref, project, config.getDelay());
+      return f;
     }
   }
 
   void fetchWasCanceled(FetchOne fetchOp) {
-    synchronized (stateLock) {
+    synchronized (stateLock.getOrDefault(fetchOp.getProjectNameKey(), new Object())) {
       URIish uri = fetchOp.getURI();
       pending.remove(uri);
     }
@@ -518,32 +521,52 @@ public class Source {
     return config.isSingleProjectMatch();
   }
 
-  List<URIish> getURIs(Project.NameKey project, String urlMatch) {
-    List<URIish> r = Lists.newArrayListWithCapacity(config.getRemoteConfig().getURIs().size());
-    for (URIish uri : config.getRemoteConfig().getURIs()) {
-      if (matches(uri, urlMatch)) {
-        String name = project.get();
-        if (needsUrlEncoding(uri)) {
-          name = encode(name);
-        }
-        String remoteNameStyle = config.getRemoteNameStyle();
-        if (remoteNameStyle.equals("dash")) {
-          name = name.replace("/", "-");
-        } else if (remoteNameStyle.equals("underscore")) {
-          name = name.replace("/", "_");
-        } else if (remoteNameStyle.equals("basenameOnly")) {
-          name = FilenameUtils.getBaseName(name);
-        } else if (!remoteNameStyle.equals("slash")) {
-          repLog.debug("Unknown remoteNameStyle: {}, falling back to slash", remoteNameStyle);
-        }
-        String replacedPath = replaceName(uri.getPath(), name, isSingleProjectMatch());
-        if (replacedPath != null) {
-          uri = uri.setPath(replacedPath);
-          r.add(uri);
-        }
-      }
+  public URIish getURI(Project.NameKey project) {
+
+    return getURI(project, null)
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Cannot match url for remote configuration %s, project name %s",
+                        getRemoteConfigName(), project.get())));
+  }
+
+  public Optional<URIish> getURI(Project.NameKey project, String urlMatch) {
+    if (config.getRemoteConfig().getURIs().size() != 1) {
+      throw new IllegalStateException(
+          String.format(
+              "Pull replication source %s must have only one url property.", project.get()));
     }
-    return r;
+
+    URIish uri = config.getRemoteConfig().getURIs().get(0);
+    if (!matches(uri, urlMatch)) {
+      return Optional.empty();
+    }
+
+    String name = project.get();
+    if (needsUrlEncoding(uri)) {
+      name = encode(name);
+    }
+    String remoteNameStyle = config.getRemoteNameStyle();
+    if (remoteNameStyle.equals("dash")) {
+      name = name.replace("/", "-");
+    } else if (remoteNameStyle.equals("underscore")) {
+      name = name.replace("/", "_");
+    } else if (remoteNameStyle.equals("basenameOnly")) {
+      name = FilenameUtils.getBaseName(name);
+    } else if (!remoteNameStyle.equals("slash")) {
+      repLog.debug("Unknown remoteNameStyle: {}, falling back to slash", remoteNameStyle);
+    }
+    String replacedPath = replaceName(uri.getPath(), name, isSingleProjectMatch());
+    if (replacedPath == null) {
+      throw new IllegalStateException(
+          String.format(
+              "Remote config %s url %s does not contain ${name} field",
+              config.getRemoteConfig().getName(), uri.getPath()));
+    }
+
+    return Optional.of(uri.setPath(replacedPath));
   }
 
   static boolean needsUrlEncoding(URIish uri) {
@@ -585,7 +608,7 @@ public class Source {
     return config.getLockErrorMaxRetries();
   }
 
-  String getRemoteConfigName() {
+  public String getRemoteConfigName() {
     return config.getRemoteConfig().getName();
   }
 

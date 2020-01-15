@@ -109,17 +109,11 @@ replication.maxRetries
 
 	Can be overridden at remote-level by setting replicationMaxRetries.
 
-	By default, fetchs are retried indefinitely.
+	By default, fetches are retried indefinitely.
 
 remote.NAME.url
-:	Address of the remote server to fetch from.  Multiple URLs may be
-	specified within a single remote block, listing different
-	destinations which share the same settings.  Assuming
-	sufficient threads in the thread pool, Gerrit fetchs from all
-	URLs in parallel, using one thread per URL.
-
-    TODO: This doesn't apply here: you can only replicate from one url
-
+:	Address of the remote server to fetch from. Single URL can be
+	specified within a single remote block.
 	Within each URL value the magic placeholder `${name}` is
 	replaced with the Gerrit project name.  This is a Gerrit
 	specific extension to the otherwise standard Git URL syntax
