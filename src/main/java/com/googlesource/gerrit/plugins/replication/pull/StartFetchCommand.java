@@ -32,7 +32,7 @@ import org.kohsuke.args4j.Option;
 @CommandMetaData(
     name = "start",
     description = "Start replication for specific project or all projects")
-public final class StartFetchCommand extends SshCommand {
+public final class StartFetchCommand extends SshCommand implements Command {
   @Inject private PullReplicationStateLogger fetchStateLog;
 
   @Option(name = "--all", usage = "fetch all known projects")
@@ -100,6 +100,7 @@ public final class StartFetchCommand extends SshCommand {
     }
   }
 
+  @Override
   public void writeStdOutSync(String message) {
     if (wait) {
       synchronized (stdout) {
@@ -109,6 +110,7 @@ public final class StartFetchCommand extends SshCommand {
     }
   }
 
+  @Override
   public void writeStdErrSync(String message) {
     if (wait) {
       synchronized (stderr) {
