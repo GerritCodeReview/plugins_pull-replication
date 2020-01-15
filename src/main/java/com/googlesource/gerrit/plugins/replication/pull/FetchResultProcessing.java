@@ -69,10 +69,10 @@ public abstract class FetchResultProcessing {
   }
 
   public static class CommandProcessing extends FetchResultProcessing {
-    private WeakReference<StartFetchCommand> sshCommand;
+    private WeakReference<Command> sshCommand;
     private AtomicBoolean hasError = new AtomicBoolean();
 
-    CommandProcessing(StartFetchCommand sshCommand) {
+    public CommandProcessing(Command sshCommand) {
       this.sshCommand = new WeakReference<>(sshCommand);
     }
 
@@ -107,7 +107,7 @@ public abstract class FetchResultProcessing {
           break;
       }
       sb.append(" (");
-      sb.append(refUpdateResult.toString());
+      sb.append(refUpdateResult != null ? refUpdateResult.toString() : "");
       sb.append(")");
       writeStdOut(sb.toString());
     }
@@ -140,7 +140,7 @@ public abstract class FetchResultProcessing {
 
     @Override
     void writeStdOut(String message) {
-      StartFetchCommand command = sshCommand.get();
+      Command command = sshCommand.get();
       if (command != null) {
         command.writeStdOutSync(message);
       }
@@ -148,7 +148,7 @@ public abstract class FetchResultProcessing {
 
     @Override
     void writeStdErr(String message) {
-      StartFetchCommand command = sshCommand.get();
+      Command command = sshCommand.get();
       if (command != null) {
         command.writeStdErrSync(message);
       }
