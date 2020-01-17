@@ -39,7 +39,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
 
   public static class Input {
     public String url;
-    public String sha1;
+    public String object_id;
   }
 
   @Override
@@ -49,12 +49,12 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
         throw new BadRequestException("Source url cannot be null or empty");
       }
 
-      if (Strings.isNullOrEmpty(input.sha1)) {
-        throw new BadRequestException("Ref-update sha1 cannot be null or empty");
+      if (Strings.isNullOrEmpty(input.object_id)) {
+        throw new BadRequestException("Ref-update objectId cannot be null or empty");
       }
 
       String resolvedUrl = resolveName(input.url, resource.getName());
-      service.fetch(resource.getNameKey(), new URIish(resolvedUrl), input.sha1);
+      service.fetch(resource.getNameKey(), new URIish(resolvedUrl), input.object_id);
 
       return Response.created(input);
     } catch (InterruptedException | ExecutionException e) {

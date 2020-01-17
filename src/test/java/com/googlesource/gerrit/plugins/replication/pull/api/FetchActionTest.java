@@ -34,7 +34,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class FetchActionTest {
   FetchAction fetchAction;
   String url = "file:///gerrit-host/instance-1/git/${name}.git";
-  String sha1 = "c90989ed7a8ab01f1bdd022872428f020b866358";
+  String objectId = "c90989ed7a8ab01f1bdd022872428f020b866358";
 
   @Mock FetchService fetchService;
   @Mock ProjectResource projectResource;
@@ -49,7 +49,7 @@ public class FetchActionTest {
   public void shouldReturnCreatedResponseCode() throws RestApiException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.url = url;
-    inputParams.sha1 = sha1;
+    inputParams.object_id = objectId;
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
 
@@ -61,7 +61,7 @@ public class FetchActionTest {
   public void shouldReturnSourceUrlAndSha1AsResponseBody() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.url = url;
-    inputParams.sha1 = sha1;
+    inputParams.object_id = objectId;
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
 
@@ -71,7 +71,7 @@ public class FetchActionTest {
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenMissingUrl() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
-    inputParams.sha1 = sha1;
+    inputParams.object_id = objectId;
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -80,7 +80,7 @@ public class FetchActionTest {
   public void shouldThrowBadRequestExceptionWhenUrlInWrongFormat() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.url = "file:///gerrit-host/instance-1/git/test_repo_name.git";
-    inputParams.sha1 = sha1;
+    inputParams.object_id = objectId;
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -89,7 +89,7 @@ public class FetchActionTest {
   public void shouldThrowBadRequestExceptionWhenEmptyUrl() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.url = "";
-    inputParams.sha1 = sha1;
+    inputParams.object_id = objectId;
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -106,7 +106,7 @@ public class FetchActionTest {
   public void shouldThrowBadRequestExceptionWhenEmptySha1() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.url = url;
-    inputParams.sha1 = "";
+    inputParams.object_id = "";
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -116,7 +116,7 @@ public class FetchActionTest {
       throws RestApiException, InterruptedException, ExecutionException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.url = url;
-    inputParams.sha1 = sha1;
+    inputParams.object_id = objectId;
 
     doThrow(new InterruptedException()).when(fetchService).fetch(any(), any(), any());
 
@@ -128,7 +128,7 @@ public class FetchActionTest {
       throws RestApiException, InterruptedException, ExecutionException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.url = url;
-    inputParams.sha1 = sha1;
+    inputParams.object_id = objectId;
 
     doThrow(new ExecutionException(new RuntimeException()))
         .when(fetchService)

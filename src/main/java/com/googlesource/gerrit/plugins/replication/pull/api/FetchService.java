@@ -43,7 +43,7 @@ public class FetchService implements Command {
     this.sources = sources;
   }
 
-  public void fetch(Project.NameKey name, URIish url, String sha1)
+  public void fetch(Project.NameKey name, URIish url, String objectId)
       throws InterruptedException, ExecutionException {
     ReplicationState state =
         fetchReplicationStateFactory.create(new FetchResultProcessing.CommandProcessing(this));
@@ -53,7 +53,7 @@ public class FetchService implements Command {
       fetchStateLog.warn("Unknown configuration section for:" + url.getPath(), state);
       return;
     }
-    Future<?> future = source.get().schedule(name, sha1, url, state, true);
+    Future<?> future = source.get().schedule(name, objectId, url, state, true);
     state.markAllFetchTasksScheduled();
     if (future != null) {
       try {
