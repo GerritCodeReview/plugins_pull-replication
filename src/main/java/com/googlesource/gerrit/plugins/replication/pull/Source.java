@@ -77,6 +77,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
@@ -509,7 +510,22 @@ public class Source {
     }
   }
 
-  boolean wouldFetchProject(Project.NameKey project) {
+  public boolean wouldFetchRef(String ref) {
+    if (!config.replicatePermissions() && RefNames.REFS_CONFIG.equals(ref)) {
+      return false;
+    }
+    if (FetchOne.ALL_REFS.equals(ref)) {
+      return true;
+    }
+    for (RefSpec s : config.getRemoteConfig().getFetchRefSpecs()) {
+      if (s.matchSource(ref)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean wouldFetchProject(Project.NameKey project) {
     if (!shouldReplicate(project)) {
       return false;
     }
@@ -624,6 +640,10 @@ public class Source {
 
   public int getTimeout() {
     return config.getRemoteConfig().getTimeout();
+  }
+
+  public ImmutableList<String> getApis() {
+    return config.getApis();
   }
 
   public int getMaxRetries() {
