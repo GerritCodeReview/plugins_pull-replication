@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e7469d39_0e2bee86",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-17T14:57:23Z",
+      "side": 1,
+      "message": "Why is this needed? If we want to schedule an async action we can directly call `scheduleAsync`. The polymorphic nature of schedule is hiding the synchronicity/asynchronicity of the operation.",
+      "range": {
+        "startLine": 331,
+        "startChar": 4,
+        "endLine": 331,
+        "endChar": 49
+      },
+      "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "07bec95d_01013a55",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 1
@@ -42,6 +65,29 @@
         "startChar": 0,
         "endLine": 51,
         "endChar": 95
+      },
+      "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5ec69cb_893f94ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-17T14:57:23Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we stop here if we don\u0027t find the source?",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 5
       },
       "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
