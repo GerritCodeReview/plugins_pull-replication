@@ -20,6 +20,7 @@ file, for example to replicate in parallel from four different hosts:</a>
 ```
   [remote "host-one"]
     url = gerrit2@host-one.example.com:/some/path/${name}.git
+    api = http://host-one.example.com:8080
 
   [remote "pubmirror"]
     url = mirror1.us.some.org:/pub/git/${name}.git
@@ -30,6 +31,8 @@ file, for example to replicate in parallel from four different hosts:</a>
     threads = 3
     authGroup = Public Mirror Group
     authGroup = Second Public Mirror Group
+  [replication]
+    sourceUrl = gerrit2@current-host.example.com:/some/path/${name}.git
 ```
 
 Then reload the replication plugin to pick up the new configuration:
@@ -111,6 +114,11 @@ replication.maxRetries
 
 	By default, fetchs are retried indefinitely.
 
+replication.sourceUrl
+:	Address of the current server to fetch from. This url is passed as
+	a part of the payload to notify other servers to fetch specified
+	ref-update sha1 from the source url.
+
 remote.NAME.url
 :	Address of the remote server to fetch from.  Multiple URLs may be
 	specified within a single remote block, listing different
@@ -133,6 +141,12 @@ remote.NAME.url
 
 [1]: http://www.git-scm.com/docs/git-fetch#URLS
 [3]: #remote.NAME.projects
+
+remote.NAME.api
+:	Address of the rest api endpoint of the remote server to fetch from.
+	Multiple URLs may be specified within a single remote block, listing
+	different destinations which share the same settings. Gerrit calls
+	all URLs in sequence.
 
 remote.NAME.uploadpack
 :	Path of the `git-upload-pack` executable on the remote system,
