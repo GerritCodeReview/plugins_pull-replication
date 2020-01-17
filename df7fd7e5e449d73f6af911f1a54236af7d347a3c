@@ -22,6 +22,30 @@
       "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e7ffe68_c4e9ac69",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-17T10:35:09Z",
+      "side": 1,
+      "message": "I believe you did a good thing in looking up by url, it is the only \"unique identifier\" we have at the moment.\n\nRegarding the discoverability of new nodes, since it is a problem we already have and, I recogn, is part of a bigger discussion, we could assume the addition of a node will imply an update and restart of all the nodes.\n\nI agree with you about the common configuration section, I don\u0027t thin it is a good idea.",
+      "parentUuid": "07bec95d_01013a55",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 95
+      },
+      "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
