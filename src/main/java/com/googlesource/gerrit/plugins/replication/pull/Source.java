@@ -510,7 +510,7 @@ public class Source {
     }
   }
 
-  boolean wouldFetchProject(Project.NameKey project) {
+  public boolean wouldFetchProject(Project.NameKey project) {
     if (!shouldReplicate(project)) {
       return false;
     }
@@ -597,6 +597,10 @@ public class Source {
 
   public String getRemoteConfigName() {
     return config.getRemoteConfig().getName();
+  }
+
+  public String getApi() {
+    return config.getApi();
   }
 
   public int getMaxRetries() {

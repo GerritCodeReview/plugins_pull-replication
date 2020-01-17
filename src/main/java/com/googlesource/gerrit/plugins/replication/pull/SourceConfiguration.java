@@ -40,6 +40,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private final ImmutableList<String> projects;
   private final ImmutableList<String> authGroupNames;
   private final RemoteConfig remoteConfig;
+  private final String api;
   private final int maxRetries;
   private int slowLatencyThreshold;
 
@@ -47,6 +48,7 @@ public class SourceConfiguration implements RemoteConfiguration {
     this.remoteConfig = remoteConfig;
     String name = remoteConfig.getName();
     urls = ImmutableList.copyOf(cfg.getStringList("remote", name, "url"));
+    api = cfg.getString("remote", name, "api");
     delay = Math.max(0, getInt(remoteConfig, cfg, "replicationdelay", DEFAULT_REPLICATION_DELAY));
     rescheduleDelay =
         Math.max(3, getInt(remoteConfig, cfg, "rescheduledelay", DEFAULT_RESCHEDULE_DELAY));
@@ -101,6 +103,10 @@ public class SourceConfiguration implements RemoteConfiguration {
   @Override
   public ImmutableList<String> getUrls() {
     return urls;
+  }
+
+  public String getApi() {
+    return api;
   }
 
   @Override
