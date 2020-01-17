@@ -18,8 +18,9 @@ Next, create `$site_path/etc/@PLUGIN@.config` as a Git-style config
 file, for example to replicate in parallel from four different hosts:</a>
 
 ```
-  [remote "host-one"]
-    url = gerrit2@host-one.example.com:/some/path/${name}.git
+  [remote "host-two"]
+    url = gerrit2@host-two.example.com:/some/path/${name}.git
+    api = http://host-two.example.com:8080
 
   [remote "pubmirror"]
     url = mirror1.us.some.org:/pub/git/${name}.git
@@ -30,6 +31,8 @@ file, for example to replicate in parallel from four different hosts:</a>
     threads = 3
     authGroup = Public Mirror Group
     authGroup = Second Public Mirror Group
+  [replication]
+    instanceLabel = host-one
 ```
 
 Then reload the replication plugin to pick up the new configuration:
@@ -111,6 +114,13 @@ replication.maxRetries
 
 	By default, fetches are retried indefinitely.
 
+replication.instanceLabel
+:	Remote configuration name of the current server.
+	This label is passed as a part of the payload to notify other
+	servers to fetch specified ref-update object id from the url
+	provided in the remote configuration section which name is equal
+	to instanceLabel.
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block.
@@ -127,6 +137,12 @@ remote.NAME.url
 
 [1]: http://www.git-scm.com/docs/git-fetch#URLS
 [3]: #remote.NAME.projects
+
+remote.NAME.api
+:	Address of the rest api endpoint of the remote server to fetch from.
+	Multiple URLs may be specified within a single remote block, listing
+	different destinations which share the same settings. Gerrit calls
+	all URLs in sequence.
 
 remote.NAME.uploadpack
 :	Path of the `git-upload-pack` executable on the remote system,
