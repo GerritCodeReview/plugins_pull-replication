@@ -36,10 +36,12 @@ import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
@@ -50,6 +52,7 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.TrackingRefUpdate;
 import org.eclipse.jgit.transport.Transport;
@@ -373,9 +376,17 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     tn.applyConfig(config);
     tn.setCredentialsProvider(credentialsProvider);
 
-    repLog.info("Fetch references {} from {}", config.getFetchRefSpecs(), uri);
+    List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
 
-    return tn.fetch(NullProgressMonitor.INSTANCE, config.getFetchRefSpecs());
+    repLog.info("Fetch references {} from {}", fetchRefSpecs, uri);
+    return tn.fetch(NullProgressMonitor.INSTANCE, fetchRefSpecs);
+  }
+
+  private List<RefSpec> getFetchRefSpecs() {
+    if (delta.isEmpty()) {
+      return config.getFetchRefSpecs();
+    }
+    return delta.stream().map(ref -> new RefSpec(ref + ":" + ref)).collect(Collectors.toList());
   }
 
   private void updateStates(Collection<TrackingRefUpdate> refUpdates) throws IOException {
