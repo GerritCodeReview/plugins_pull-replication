@@ -19,6 +19,7 @@ import static com.googlesource.gerrit.plugins.replication.StartReplicationCapabi
 import com.google.common.eventbus.EventBus;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
@@ -38,9 +39,12 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfigValidator;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiModule;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
+import com.googlesource.gerrit.plugins.replication.pull.client.HttpClientProvider;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -57,7 +61,11 @@ class PullReplicationModule extends AbstractModule {
   protected void configure() {
 
     install(new PullReplicationApiModule());
+
+    bind(CloseableHttpClient.class).toProvider(HttpClientProvider.class).in(Scopes.SINGLETON);
     install(new FactoryModuleBuilder().build(Source.Factory.class));
+    install(new FactoryModuleBuilder().build(FetchRestApiClient.Factory.class));
+
     bind(FetchReplicationMetrics.class).in(Scopes.SINGLETON);
 
     bind(OnStartStop.class).in(Scopes.SINGLETON);
@@ -77,7 +85,14 @@ class PullReplicationModule extends AbstractModule {
 
     bind(EventBus.class).in(Scopes.SINGLETON);
     bind(ReplicationSources.class).to(SourcesCollection.class);
-    bind(ObservableQueue.class).to(NoopObservableQueue.class).in(Scopes.SINGLETON);
+
+    bind(ReplicationQueue.class).in(Scopes.SINGLETON);
+    bind(ObservableQueue.class).to(ReplicationQueue.class);
+    bind(LifecycleListener.class)
+        .annotatedWith(UniqueAnnotations.create())
+        .to(ReplicationQueue.class);
+
+    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReplicationQueue.class);
 
     bind(ReplicationConfigValidator.class).to(SourcesCollection.class);
 
