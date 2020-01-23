@@ -30,6 +30,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -82,6 +83,12 @@ public class FetchRestApiClient {
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
     return httpClient.execute(post, new HttpResponseHandler(), getContext(targetUri));
+  }
+
+  public HttpResult createProject(Project.NameKey project, URIish uri)
+      throws ClientProtocolException, IOException {
+    String url = String.format("%s/a/projects/%s", toHttpUri(uri), Url.encode(project.get()));
+    return httpClient.execute(new HttpPut(url), new HttpResponseHandler(), getContext(uri));
   }
 
   private static String toHttpUri(URIish uri) {
