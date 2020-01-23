@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Project;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResponseHandler.HttpResult;
 import java.io.IOException;
 import org.apache.http.HttpEntity;
@@ -44,6 +45,11 @@ public class HttpResponseHandler implements ResponseHandler<HttpResult> {
 
     public String getMessage() {
       return message;
+    }
+
+    public boolean isProjectMissing(Project.NameKey projectName) {
+      String projectMissingMessage = String.format("Not found: %s", projectName.get());
+      return message.contains(projectMissingMessage);
     }
   }
 

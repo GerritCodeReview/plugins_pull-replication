@@ -139,6 +139,11 @@ public class ReplicationQueue
 
             HttpResult result = fetchClient.callFetch(project, objectId, uri);
 
+            if (result.isProjectMissing(project)) {
+              fetchClient.createProject(project, uri);
+              result = fetchClient.callFetch(project, objectId, uri);
+            }
+
             if (!result.isSuccessful()) {
               stateLog.warn(
                   String.format(
