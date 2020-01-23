@@ -35,6 +35,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private final int poolThreads;
   private final boolean replicatePermissions;
   private final boolean replicateHiddenProjects;
+  private final boolean createMissingRepos;
   private final String remoteNameStyle;
   private final ImmutableList<String> urls;
   private final ImmutableList<String> projects;
@@ -59,6 +60,7 @@ public class SourceConfiguration implements RemoteConfiguration {
     authGroupNames = ImmutableList.copyOf(cfg.getStringList("remote", name, "authGroup"));
     lockErrorMaxRetries = cfg.getInt("replication", "lockErrorMaxRetries", 0);
 
+    createMissingRepos = cfg.getBoolean("remote", name, "createMissingRepositories", true);
     replicatePermissions = cfg.getBoolean("remote", name, "replicatePermissions", true);
     replicateHiddenProjects = cfg.getBoolean("remote", name, "replicateHiddenProjects", false);
     remoteNameStyle =
@@ -146,6 +148,10 @@ public class SourceConfiguration implements RemoteConfiguration {
   @Override
   public int getMaxRetries() {
     return maxRetries;
+  }
+
+  public boolean createMissingRepos() {
+    return createMissingRepos;
   }
 
   private static int getInt(RemoteConfig rc, Config cfg, String name, int defValue) {
