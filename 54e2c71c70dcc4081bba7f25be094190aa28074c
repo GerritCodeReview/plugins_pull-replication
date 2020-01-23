@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00e9178e_30bf6c06",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-23T12:28:29Z",
+      "side": 1,
+      "message": "I initially thought the url was the only unique ID in the replication configuration, but I am not sure anymore 😐\n\nFor example, the way we name urls in the gerrithub multisite setup doesn\u0027t enforce the urls to be unique identifier of a server in the cluster.\n\nWe could modify it and make the urls unique identifiers, but we should probably clearly mention it in the documentation, i.e.: if you are using fetch-replication make sure the urls are unique identifier in the cluster.\n\nAlso we are implying that the node calling the API to trigger the fetch knows how it has been named in the replication config of the remote node. \n\nI think we can maybe make this assumption as a starting point, but:\n* we need to make it clear in the documentation\n* we could use labels for the lookup since anyway we need to enforce a unique id\n\n\nWDYT? Am I missing something?",
+      "range": {
+        "startLine": 68,
+        "startChar": 36,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb2eb01c_8093d20c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-23T12:28:29Z",
+      "side": 1,
+      "message": "Is this just a warning or an error? If we cannot replicate because of configuration issue I think we should be more verbose.",
+      "range": {
+        "startLine": 53,
+        "startChar": 20,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a3f2ddf_f66b199b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-23T12:28:29Z",
+      "side": 1,
+      "message": "What does it mean if it is null? It seems like we always return a Future",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 14
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68b9fff7_13ac61ec",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchServiceTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-23T12:28:29Z",
+      "side": 1,
+      "message": "Shall we make this a fixture constant? Like SHA1_TO_FETCH or something similar?",
+      "range": {
+        "startLine": 64,
+        "startChar": 39,
+        "endLine": 64,
+        "endChar": 79
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
