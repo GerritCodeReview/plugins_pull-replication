@@ -137,7 +137,16 @@ public class ReplicationQueue
             replicationTasksStorage.start(replicationRefUpdate);
 
             HttpResult result =
-                executeCall(() -> fetchClient.callFetch(project, objectId, uri), cfg);
+                executeCall(
+                    () -> {
+                      HttpResult r = fetchClient.callFetch(project, objectId, uri);
+                      if (r.isProjectMissing(project)) {
+                        fetchClient.createProject(project, uri);
+                        r = fetchClient.callFetch(project, objectId, uri);
+                      }
+                      return r;
+                    },
+                    cfg);
 
             if (!result.isSuccessful()) {
               stateLog.warn(
