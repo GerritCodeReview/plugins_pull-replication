@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.EventDispatcher;
@@ -29,18 +30,24 @@ import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.Gi
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationTasksStorage.ReplicateRefUpdate;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResponseHandler.HttpResult;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ReplicationQueue
-    implements ObservableQueue, LifecycleListener, GitReferenceUpdatedListener {
+    implements ObservableQueue,
+        LifecycleListener,
+        GitReferenceUpdatedListener,
+        HeadUpdatedListener {
 
   static final String PULL_REPLICATION_LOG_NAME = "pull_replication_log";
   static final Logger repLog = LoggerFactory.getLogger(PULL_REPLICATION_LOG_NAME);
@@ -108,6 +115,41 @@ public class ReplicationQueue
     fire(event.getProjectName(), ObjectId.fromString(event.getNewObjectId()), event.getRefName());
   }
 
+  @Override
+  public void onHeadUpdated(HeadUpdatedListener.Event event) {
+    ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
+    Project.NameKey project = Project.nameKey(event.getProjectName());
+    String newHead = event.getNewHeadName();
+    for (Source cfg : sources.get().getAll()) {
+      for (String apiUrl : cfg.getApis()) {
+        try {
+          URIish uri = new URIish(apiUrl);
+          FetchRestApiClient fetchClient = fetchClientFactory.create(cfg);
+          Optional<HttpResult> result =
+              executeCall(
+                  () -> {
+                    return fetchClient.updateHead(project, newHead, uri);
+                  },
+                  cfg,
+                  apiUrl,
+                  state);
+          result.ifPresent(
+              r -> {
+                if (!r.isSuccessful()) {
+                  stateLog.warn(
+                      String.format(
+                          "Pull replication rest api head update call failed. Endpoint url: %s, reason:%s",
+                          apiUrl, r.getMessage()),
+                      state);
+                }
+              });
+        } catch (URISyntaxException e) {
+          stateLog.warn(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
+        }
+      }
+    }
+  }
+
   private void fire(String projectName, ObjectId objectId, String refName) {
     ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
     fire(Project.nameKey(projectName), objectId, refName, state);
@@ -136,7 +178,7 @@ public class ReplicationQueue
             FetchRestApiClient fetchClient = fetchClientFactory.create(cfg);
             replicationTasksStorage.start(replicationRefUpdate);
 
-            HttpResult result =
+            Optional<HttpResult> result =
                 executeCall(
                     () -> {
                       HttpResult r = fetchClient.callFetch(project, objectId, uri);
@@ -146,17 +188,22 @@ public class ReplicationQueue
                       }
                       return r;
                     },
-                    cfg);
+                    cfg,
+                    apiUrl,
+                    state);
 
-            if (!result.isSuccessful()) {
-              stateLog.warn(
-                  String.format(
-                      "Pull replication rest api fetch call failed. Endpoint url: %s, reason:%s",
-                      apiUrl, result.getMessage().orElse("unknown")),
-                  state);
-            } else {
-              replicationTasksStorage.finish(replicationRefUpdate);
-            }
+            result.ifPresent(
+                r -> {
+                  if (!r.isSuccessful()) {
+                    stateLog.warn(
+                        String.format(
+                            "Pull replication rest api fetch call failed. Endpoint url: %s, reason:%s",
+                            apiUrl, r.getMessage().orElse("unknown")),
+                        state);
+                  } else {
+                    replicationTasksStorage.finish(replicationRefUpdate);
+                  }
+                });
           } catch (URISyntaxException e) {
             stateLog.warn(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
           } catch (Exception e) {
@@ -172,8 +219,29 @@ public class ReplicationQueue
     }
   }
 
-  private HttpResult executeCall(Callable<HttpResult> fn, Source source) throws Exception {
-    return executeCall(fn, 0, source.getMaxRetries());
+  private Optional<HttpResult> executeCall(
+      Callable<HttpResult> fn, Source source, String apiUrl, ReplicationState state) {
+    try {
+      return Optional.of(executeCall(fn, 0, source.getMaxRetries()));
+    } catch (ClientProtocolException e) {
+      stateLog.warn(
+          String.format(
+              "Http protocol error during the pull replication rest api call. Endpoint url:%s, message:%s",
+              apiUrl, e.getMessage()),
+          state);
+    } catch (IOException e) {
+      stateLog.warn(
+          String.format(
+              "Problem with network connection during the pull replication rest api call. Endpoint url:%s, message:%s",
+              apiUrl, e.getMessage()),
+          state);
+    } catch (Exception e) {
+      stateLog.error(
+          String.format("Unknown exception. Endpoint url:%s, message:%s", apiUrl, e.getMessage()),
+          e,
+          state);
+    }
+    return Optional.empty();
   }
 
   private HttpResult executeCall(Callable<HttpResult> fn, int attempts, int maxRetries)
