@@ -20,6 +20,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
@@ -93,6 +94,7 @@ class PullReplicationModule extends AbstractModule {
         .to(ReplicationQueue.class);
 
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReplicationQueue.class);
+    DynamicSet.bind(binder(), HeadUpdatedListener.class).to(ReplicationQueue.class);
 
     bind(ReplicationConfigValidator.class).to(SourcesCollection.class);
 

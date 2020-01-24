@@ -32,6 +32,7 @@ import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -70,6 +71,9 @@ public class FetchRestApiClientTest {
 
   String expectedPayload =
       "{\"label\":\"Replication\", \"object_id\": \"c90989ed7a8ab01f1bdd022872428f020b866358\"}";
+
+  String expectedHeadUpdatePayload = "{\"ref\": \"c90989ed7a8ab01f1bdd022872428f020b866358\"}";
+
   Header expectedHeader = new BasicHeader("Content-Type", "application/json");
 
   FetchRestApiClient objectUnderTest;
@@ -130,7 +134,7 @@ public class FetchRestApiClientTest {
   }
 
   @Test
-  public void shouldSetContentTypeHeader()
+  public void shouldSetContentTypeHeaderForFetchEndpoint()
       throws ClientProtocolException, IOException, URISyntaxException {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), objectId, new URIish(api));
@@ -155,7 +159,46 @@ public class FetchRestApiClientTest {
     assertThat(httpPut.getURI().getPath()).isEqualTo("/a/projects/test_repo");
   }
 
-  public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {
+  @Test
+  public void shouldCallUpdateHeadEndpoint()
+      throws ClientProtocolException, IOException, URISyntaxException {
+
+    objectUnderTest.updateHead(Project.nameKey("test_repo"), objectId.getName(), new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any(), any());
+
+    HttpPut httpPut = httpPutCaptor.getValue();
+    assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPut.getURI().getPath()).isEqualTo("/a/projects/test_repo/HEAD");
+  }
+
+  @Test
+  public void shouldSetContentTypeHeaderForUpdateHead()
+      throws ClientProtocolException, IOException, URISyntaxException {
+
+    objectUnderTest.updateHead(Project.nameKey("test_repo"), objectId.getName(), new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any(), any());
+
+    HttpPut httpPut = httpPutCaptor.getValue();
+    assertThat(httpPut.getLastHeader("Content-Type").getValue())
+        .isEqualTo(expectedHeader.getValue());
+  }
+
+  @Test
+  public void shouldCallUpdateHeadWithPayload()
+      throws ClientProtocolException, IOException, URISyntaxException {
+
+    objectUnderTest.updateHead(Project.nameKey("test_repo"), objectId.getName(), new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any(), any());
+
+    HttpPut httpPut = httpPutCaptor.getValue();
+    assertThat(readPayload(httpPut)).isEqualTo(expectedHeadUpdatePayload);
+  }
+
+  public String readPayload(HttpEntityEnclosingRequestBase entity)
+      throws UnsupportedOperationException, IOException {
     ByteBuffer buf = IO.readWholeStream(entity.getEntity().getContent(), 1024);
     return RawParseUtils.decode(buf.array(), buf.arrayOffset(), buf.limit()).trim();
   }
