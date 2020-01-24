@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
+import com.google.common.base.Charsets;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.inject.Inject;
@@ -89,6 +90,16 @@ public class FetchRestApiClient {
       throws ClientProtocolException, IOException {
     String url = String.format("%s/a/projects/%s", toHttpUri(uri), Url.encode(project.get()));
     return httpClient.execute(new HttpPut(url), new HttpResponseHandler(), getContext(uri));
+  }
+
+  public HttpResult updateHead(Project.NameKey project, String newHead, URIish uri)
+      throws ClientProtocolException, IOException {
+    String url = String.format("%s/a/projects/%s/HEAD", toHttpUri(uri), Url.encode(project.get()));
+    HttpPut req = new HttpPut(url);
+    req.setEntity(
+        new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), Charsets.UTF_8.name()));
+    req.addHeader(new BasicHeader("Content-Type", "application/json"));
+    return httpClient.execute(req, new HttpResponseHandler(), getContext(uri));
   }
 
   private static String toHttpUri(URIish uri) {
