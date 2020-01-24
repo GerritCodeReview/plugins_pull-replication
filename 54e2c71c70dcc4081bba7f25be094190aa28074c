@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1e93bbeb_9e324b08",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-01-24T11:22:02Z",
+      "side": 1,
+      "message": "I\u0027m not sure, we can have situation when we don\u0027t want to replicate from some node so we are not including it in the configuration. In this case we will just notify that we haven\u0027t replicated",
+      "parentUuid": "bb2eb01c_8093d20c",
+      "range": {
+        "startLine": 53,
+        "startChar": 20,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a3f2ddf_f66b199b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 7
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "735a1651_ef992b1d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-01-24T11:22:02Z",
+      "side": 1,
+      "message": "You are right I\u0027ve change the schedule method to always return future but I forgot to remove this if",
+      "parentUuid": "2a3f2ddf_f66b199b",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 14
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68b9fff7_13ac61ec",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchServiceTest.java",
         "patchSetId": 7
@@ -91,6 +139,30 @@
       "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbc6c97a_34f444bb",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchServiceTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-01-24T11:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68b9fff7_13ac61ec",
+      "range": {
+        "startLine": 64,
+        "startChar": 39,
+        "endLine": 64,
+        "endChar": 79
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
