@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "14927dfd_2e3ab229",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-25T12:13:54Z",
+      "side": 1,
+      "message": "I would just let the remote to explicitly tell what’s the source name to be used for pull replication.",
+      "parentUuid": "f3c5e584_94e969ff",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 95
+      },
+      "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5ec69cb_893f94ec",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 1
