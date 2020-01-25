@@ -49,6 +49,40 @@
     },
     {
       "key": {
+        "uuid": "f926f354_a30c8979",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-25T12:12:06Z",
+      "side": 1,
+      "message": "Don’t use Singleton annotation in the class but rather put them\nin the Guice module definition",
+      "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7af1ba8_b402f557",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-25T12:12:06Z",
+      "side": 1,
+      "message": "I have doubts about the URI here: how does this node knows what is the profilo that the remote node would use? he could have different options and this node should not tell the remote which one he should use.\n\nwhy don’t we simply define that the remote must have matching definitions in the replication.config?\n\nthis would just be the remote name.\n\nbetter to tell the other what to do rather that letting the remote to guess.\nbear in mind that the same Gerrit admin configures all the modes.",
+      "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "07bec95d_01013a55",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 1
