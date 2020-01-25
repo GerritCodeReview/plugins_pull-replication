@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f3c5e584_94e969ff",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-25T12:06:11Z",
+      "side": 1,
+      "message": "I wouldn’t worry about the dynamic discoverability because that is a no goal for now",
+      "parentUuid": "3e7ffe68_c4e9ac69",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 95
+      },
+      "revId": "df7fd7e5e449d73f6af911f1a54236af7d347a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5ec69cb_893f94ec",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 1
