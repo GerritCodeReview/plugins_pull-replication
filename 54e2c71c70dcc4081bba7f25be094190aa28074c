@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "c373e8de_b7c0671b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-29T17:22:53Z",
+      "side": 1,
+      "message": "I believe that if we requested a node to fetch, giving a source label *and* that source doesn\u0027t exist in the remote, we should return an error to the client, letting him know that the operation has failed.",
+      "parentUuid": "1e93bbeb_9e324b08",
+      "range": {
+        "startLine": 53,
+        "startChar": 20,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2a3f2ddf_f66b199b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 7
