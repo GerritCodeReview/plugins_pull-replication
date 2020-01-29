@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "928aefee_a6b3bf86",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-01-29T16:22:44Z",
+      "side": 1,
+      "message": "Makes sense. If we don\u0027t care about discoverability for the time being it is the easiest lookup way.",
+      "parentUuid": "84d94530_424a72bf",
+      "range": {
+        "startLine": 68,
+        "startChar": 36,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb2eb01c_8093d20c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 7
