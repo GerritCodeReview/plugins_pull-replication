@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84d94530_424a72bf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-01-29T16:18:57Z",
+      "side": 1,
+      "message": "After discussion with Luca we decided to use label",
+      "parentUuid": "00e9178e_30bf6c06",
+      "range": {
+        "startLine": 68,
+        "startChar": 36,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb2eb01c_8093d20c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 7
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "You are right I\u0027ve change the schedule method to always return future but I forgot to remove this if",
       "parentUuid": "2a3f2ddf_f66b199b",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 14
+      },
+      "revId": "54e2c71c70dcc4081bba7f25be094190aa28074c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ccd108e_bda1a712",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-01-29T16:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "735a1651_ef992b1d",
       "range": {
         "startLine": 58,
         "startChar": 8,
