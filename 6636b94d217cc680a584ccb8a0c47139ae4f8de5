@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38aa6817_5525a39c",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-30T21:37:02Z",
+      "side": 1,
+      "message": "Why no srcs? What is supposed to contain?",
+      "revId": "6636b94d217cc680a584ccb8a0c47139ae4f8de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
