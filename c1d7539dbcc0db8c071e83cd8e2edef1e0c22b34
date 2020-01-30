@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8f6779_5a407370",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchAll.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-30T22:42:06Z",
+      "side": 1,
+      "message": "Before this would have triggered the replication of a repository from all sources, but now it is restricted to one. Any reason for that?",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 22
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b8d7c34_5cb30cc0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-30T22:42:06Z",
+      "side": 1,
+      "message": "This can be called objectId, the transformation between camelCase to snake_case is done by Gerrit.\n\nSee ChangeInfo as an example.",
+      "range": {
+        "startLine": 39,
+        "startChar": 18,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de091ef4_16a526fa",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-30T22:42:06Z",
+      "side": 1,
+      "message": "FetchCommand?",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 25
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b223c9c_b683b69c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-30T22:42:06Z",
+      "side": 1,
+      "message": "I believe the fetch should just expose its service, which is inherently async.\nThen the caller (REST-API) should wait for the completion, if requested to do so.\n\nSee, as an example, how the Gerrit GC REST-API has been implemented:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#run-gc",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 19
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2760f5d_b7ccfe3e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-30T22:42:06Z",
+      "side": 1,
+      "message": "Not sure we want to wait forever",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6372419_e14f0b1a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-30T22:42:06Z",
+      "side": 1,
+      "message": "We already started and fetch and waited for it to finish: why should we have extra pending replication tasks here?",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c77bffd5_9c0afab3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-30T22:42:06Z",
+      "side": 1,
+      "message": "Not sure we want to wait forever.",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 34
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d39a0ed_962e3ad1",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-01-30T22:42:06Z",
+      "side": 1,
+      "message": "Just explain the rationale behind it: a remote node can request a fetch from a source. However, it will need to be sure that the source corresponds to only *him* configured es remote. Fetching from multiple sources at the same time, whilst it was useful in a push scenario, doesn\u0027t make so much sense in a pull-replication flow.",
+      "range": {
+        "startLine": 115,
+        "startChar": 46,
+        "endLine": 116,
+        "endChar": 40
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
