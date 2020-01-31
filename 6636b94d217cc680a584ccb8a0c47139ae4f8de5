@@ -16,6 +16,24 @@
       "revId": "6636b94d217cc680a584ccb8a0c47139ae4f8de5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "501774c7_bcfc7231",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-01-31T09:30:42Z",
+      "side": 1,
+      "message": "This should contain additional dependencies and I think commit message is misleading. Without that `./tools/eclipse/project.py` will throw exception: `ERROR: /home/maczech/development/workspace/gerrit/tools/eclipse/BUILD:36:1: no such target \u0027//plugins/pull-replication:pull-replication__plugin_test_deps\u0027: target \u0027pull-replication__plugin_test_deps\u0027 not declared in package \u0027plugins/pull-replication\u0027 defined by /home/maczech/development/workspace/gerrit/plugins/pull-replication/BUILD and referenced by \u0027//tools/eclipse:main_classpath_collect\u0027\nERROR: Analysis of target \u0027//tools/eclipse:main_classpath_collect\u0027 failed; build aborted: Analysis failed`",
+      "parentUuid": "38aa6817_5525a39c",
+      "revId": "6636b94d217cc680a584ccb8a0c47139ae4f8de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
