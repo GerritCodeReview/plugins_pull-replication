@@ -331,6 +331,30 @@
       "revId": "c563308bce3788de5e205379f2338c254136c38b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "222b8ae5_75f29184",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-03T16:08:57Z",
+      "side": 1,
+      "message": "My last 2c to clarify my previous comments :P \n\nI believe that:\n* if you want to test that we are logging stuff, then the test name should reflect it and you can reuse the current test\n* if you want to test the \"state\" has been correctly set, we should find a way to inspect that value somehow, but not using the logs as a \"probe\"\n\nIf you want to test both, there should probably be 2 different tests.\n\nHowever, I don\u0027t think this should stop the change to go out.",
+      "parentUuid": "5bbe7896_f3780c41",
+      "range": {
+        "startLine": 153,
+        "startChar": 6,
+        "endLine": 153,
+        "endChar": 75
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
