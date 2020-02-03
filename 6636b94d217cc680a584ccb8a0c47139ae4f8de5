@@ -34,6 +34,24 @@
       "revId": "6636b94d217cc680a584ccb8a0c47139ae4f8de5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb2ef6b0_e2253242",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-03T13:18:25Z",
+      "side": 1,
+      "message": "Without this change, I run:\n\n  bazelisk test plugins/pull-replication:pull_replication_tests\n  INFO: Invocation ID: cccae2aa-312b-4de9-afd2-a61654c350b6\n  INFO: Analyzed target //plugins/pull-replication:pull_replication_tests (56 packages loaded, \n  405 targets configured).\n  INFO: Found 1 test target...\n  Target //plugins/pull-replication:pull_replication_tests up-to-date:\n    bazel-bin/plugins/pull-replication/pull_replication_tests.jar\n    bazel-bin/plugins/pull-replication/pull_replication_tests\n  INFO: Elapsed time: 35.960s, Critical Path: 34.92s\n  INFO: 102 processes: 56 remote cache hit, 16 darwin-sandbox, 30 worker.\n  INFO: Build completed successfully, 107 total actions\n  //plugins/pull-replication:pull_replication_tests                        PASSED in 1.0s\n\n  Executed 1 out of 1 test: 1 test passes.\n  INFO: Build completed successfully, 107 total actions\n\nI am not able to reproduce the failure you had.",
+      "parentUuid": "501774c7_bcfc7231",
+      "revId": "6636b94d217cc680a584ccb8a0c47139ae4f8de5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
