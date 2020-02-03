@@ -661,6 +661,30 @@
     },
     {
       "key": {
+        "uuid": "804ef23a_6f7465ba",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-03T12:07:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "990b518a_bc34f34a",
+      "range": {
+        "startLine": 115,
+        "startChar": 46,
+        "endLine": 116,
+        "endChar": 40
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8f288f3_bb84e1cc",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchActionTest.java",
         "patchSetId": 12

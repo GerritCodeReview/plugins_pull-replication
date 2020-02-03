@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d952d61_ea356304",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-03T12:07:19Z",
+      "side": 1,
+      "message": "\"for fetching\" or \"to fetch\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe4b976_9891449b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-03T12:07:19Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this return an Optional as well for consistency?",
+      "range": {
+        "startLine": 544,
+        "startChar": 9,
+        "endLine": 544,
+        "endChar": 15
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8482af80_f718d660",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-03T12:07:19Z",
+      "side": 1,
+      "message": "Are we using this method somewhere? I cannot find it 😮",
+      "range": {
+        "startLine": 554,
+        "startChar": 9,
+        "endLine": 554,
+        "endChar": 74
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6965b27_b173b84f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-03T12:07:19Z",
+      "side": 1,
+      "message": "I think you can just check the exception is thrown as you did in the FetchActionTests , i.e.: @Test(expected \u003d TimeooutException.class)\n\nI don\u0027t see added value in checking we are logging something, WDYT?",
+      "range": {
+        "startLine": 153,
+        "startChar": 6,
+        "endLine": 153,
+        "endChar": 75
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
