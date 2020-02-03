@@ -259,6 +259,30 @@
       "revId": "c563308bce3788de5e205379f2338c254136c38b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9d01d33_d42e0fbf",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-03T13:53:26Z",
+      "side": 1,
+      "message": "But that\u0027s the assertion I\u0027m testing. I want to make sure that for all major exceptions we are *updating the state*. Assertion on logs was precise but there was a comment that it should not be because we want to check fact that we are logging not the exact message. About comment \"shouldLogExceptionWhen....\" I\u0027m naming it \"shouldUpdateStateWhen...\" because I thought that this is how we call it in replication plugin context because PullReplicationStateLogger is not just logging it\u0027s doing more like it\u0027s implementing ReplicationStateListener and calling stateWriteErr:\n`  private void stateWriteErr(String msg, ReplicationState[] states) {\n    for (ReplicationState rs : states) {\n      if (rs !\u003d null) {\n        rs.writeStdErr(msg);\n      }\n    }\n  }`\n\nAnyway if you guys don\u0027t like it I will remove it. @luca @ponch last vote :)",
+      "parentUuid": "ee982f80_6467ba70",
+      "range": {
+        "startLine": 153,
+        "startChar": 6,
+        "endLine": 153,
+        "endChar": 75
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
