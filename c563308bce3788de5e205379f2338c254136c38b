@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "28f3cd9b_3094d886",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-03T12:25:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d952d61_ea356304",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afe4b976_9891449b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-03T12:07:19Z",
       "side": 1,
       "message": "Shouldn\u0027t this return an Optional as well for consistency?",
+      "range": {
+        "startLine": 544,
+        "startChar": 9,
+        "endLine": 544,
+        "endChar": 15
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "691a574a_ad9dbd06",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-03T12:25:50Z",
+      "side": 1,
+      "message": "We have Optional because when we are filtering we can expect that we will have no match. But without filtering URI is mandatory",
+      "parentUuid": "afe4b976_9891449b",
       "range": {
         "startLine": 544,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3c8b093e_5c801aa8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-03T12:25:50Z",
+      "side": 1,
+      "message": "Yes we are using it in line 545 😊 But I\u0027m not sure we need it we were using it as well in FetchAll but now it\u0027s only here. WDYT? I think is still useful to keep",
+      "parentUuid": "8482af80_f718d660",
+      "range": {
+        "startLine": 554,
+        "startChar": 9,
+        "endLine": 554,
+        "endChar": 74
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6965b27_b173b84f",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
         "patchSetId": 13
@@ -82,6 +154,30 @@
       "writtenOn": "2020-02-03T12:07:19Z",
       "side": 1,
       "message": "I think you can just check the exception is thrown as you did in the FetchActionTests , i.e.: @Test(expected \u003d TimeooutException.class)\n\nI don\u0027t see added value in checking we are logging something, WDYT?",
+      "range": {
+        "startLine": 153,
+        "startChar": 6,
+        "endLine": 153,
+        "endChar": 75
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bac13768_59977d9d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-03T12:25:50Z",
+      "side": 1,
+      "message": "Hmm it\u0027s quite important to have good logging for replication, most of our issues are solved because we see problems in logs. That\u0027s why checking if we are not just returning error to the client but we are also leaving trace in our logs in my opinion is important",
+      "parentUuid": "c6965b27_b173b84f",
       "range": {
         "startLine": 153,
         "startChar": 6,
