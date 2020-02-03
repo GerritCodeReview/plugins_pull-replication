@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "216a328d_26b76b8d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-03T13:25:04Z",
+      "side": 1,
+      "message": "I would just merge the two methods into a single one: you are not gonna need it ... and if you do in the future, you\u0027ll introduce it in the future.",
+      "parentUuid": "3c8b093e_5c801aa8",
+      "range": {
+        "startLine": 554,
+        "startChar": 9,
+        "endLine": 554,
+        "endChar": 74
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6965b27_b173b84f",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
         "patchSetId": 13
@@ -178,6 +202,30 @@
       "side": 1,
       "message": "Hmm it\u0027s quite important to have good logging for replication, most of our issues are solved because we see problems in logs. That\u0027s why checking if we are not just returning error to the client but we are also leaving trace in our logs in my opinion is important",
       "parentUuid": "c6965b27_b173b84f",
+      "range": {
+        "startLine": 153,
+        "startChar": 6,
+        "endLine": 153,
+        "endChar": 75
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee982f80_6467ba70",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-03T13:25:04Z",
+      "side": 1,
+      "message": "The assertion on the logs is very generic anyway and the test is not saying \"shouldLogExceptionWhen....\".\n\nI would just leave assertions for the use-case you are testing.",
+      "parentUuid": "bac13768_59977d9d",
       "range": {
         "startLine": 153,
         "startChar": 6,
