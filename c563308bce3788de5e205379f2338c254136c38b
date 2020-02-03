@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "274d0e8d_a3d9cd31",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-03T13:50:38Z",
+      "side": 1,
+      "message": "LGTM",
+      "parentUuid": "691a574a_ad9dbd06",
+      "range": {
+        "startLine": 544,
+        "startChar": 9,
+        "endLine": 544,
+        "endChar": 15
+      },
+      "revId": "c563308bce3788de5e205379f2338c254136c38b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8482af80_f718d660",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
         "patchSetId": 13

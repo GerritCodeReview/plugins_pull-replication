@@ -449,6 +449,30 @@
     },
     {
       "key": {
+        "uuid": "1b33ba96_2d787159",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-03T13:50:38Z",
+      "side": 1,
+      "message": "That was a different context: it was \"starting\" the replication by just putting it in a queue. I believe this instead is waiting for the replication event to complete, correct? or am I wrong?",
+      "parentUuid": "66b8b841_a4f4adc4",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4d30a82_636ee409",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 12
@@ -484,6 +508,30 @@
       "side": 1,
       "message": "I will combine some but I want to be explicit what happened",
       "parentUuid": "d4d30a82_636ee409",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 5
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a190cf9_ae1023b5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-03T13:50:38Z",
+      "side": 1,
+      "message": "The exception is included in the error and tells what situation happened. I believe that would be good enough.",
+      "parentUuid": "f64caa07_139d3b32",
       "range": {
         "startLine": 62,
         "startChar": 4,
@@ -543,6 +591,30 @@
     },
     {
       "key": {
+        "uuid": "8f5f2538_784bb410",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-03T13:50:38Z",
+      "side": 1,
+      "message": "That example was different, because it was only scheduling stuff.",
+      "parentUuid": "e690e4a2_dd687cc5",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 28
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c77bffd5_9c0afab3",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 12
@@ -578,6 +650,30 @@
       "side": 1,
       "message": "Same as above taken from `com.googlesource.gerrit.plugins.replication.pull.StartFetchCommand` should I change it there as well?",
       "parentUuid": "c77bffd5_9c0afab3",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 34
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "740c7b3e_b3717c47",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-03T13:50:38Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "parentUuid": "0072d940_0af94ab7",
       "range": {
         "startLine": 76,
         "startChar": 14,
