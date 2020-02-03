@@ -568,6 +568,30 @@
     },
     {
       "key": {
+        "uuid": "e395e818_65982383",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-03T15:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a190cf9_ae1023b5",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 5
+      },
+      "revId": "c1d7539dbcc0db8c071e83cd8e2edef1e0c22b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6372419_e14f0b1a",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchService.java",
         "patchSetId": 12
