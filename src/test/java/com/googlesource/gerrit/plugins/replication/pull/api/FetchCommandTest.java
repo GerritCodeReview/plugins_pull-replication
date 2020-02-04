@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
@@ -21,7 +22,6 @@ import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
@@ -97,27 +97,30 @@ public class FetchCommandTest {
 
   @Test
   public void shouldUpdateStateWhenRemoteConfigNameIsMissing() {
-      assertThrows(RemoteConfigurationMissingException.class, () -> objectUnderTest.fetch(projectName, "unknownLabel", OBJECT_ID_TO_FETCH));
-      verify(fetchStateLog, times(1)).error(anyString(), eq(state));
+    assertThrows(
+        RemoteConfigurationMissingException.class,
+        () -> objectUnderTest.fetch(projectName, "unknownLabel", OBJECT_ID_TO_FETCH));
+    verify(fetchStateLog, times(1)).error(anyString(), eq(state));
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void shouldUpdateStateWhenInterruptedException()
-      throws InterruptedException, ExecutionException,
-          TimeoutException {
+      throws InterruptedException, ExecutionException, TimeoutException {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new InterruptedException());
     when(source.schedule(projectName, OBJECT_ID_TO_FETCH, state, true)).thenReturn(future);
 
-    InterruptedException e = assertThrows(InterruptedException.class,() -> objectUnderTest.fetch(projectName, label, OBJECT_ID_TO_FETCH));
+    InterruptedException e =
+        assertThrows(
+            InterruptedException.class,
+            () -> objectUnderTest.fetch(projectName, label, OBJECT_ID_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
   }
 
   @SuppressWarnings("unchecked")
   @Test
   public void shouldUpdateStateWhenExecutionException()
-      throws InterruptedException, ExecutionException,
-          TimeoutException {
+      throws InterruptedException, ExecutionException, TimeoutException {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS)))
         .thenThrow(new ExecutionException(new Exception()));
     when(source.schedule(projectName, OBJECT_ID_TO_FETCH, state, true)).thenReturn(future);
@@ -132,8 +135,7 @@ public class FetchCommandTest {
   @SuppressWarnings("unchecked")
   @Test
   public void shouldUpdateStateWhenTimeoutException()
-      throws InterruptedException, ExecutionException,
-          TimeoutException {
+      throws InterruptedException, ExecutionException, TimeoutException {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new TimeoutException());
     when(source.schedule(projectName, OBJECT_ID_TO_FETCH, state, true)).thenReturn(future);
 
