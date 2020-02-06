@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6bf572c_5c491460",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/NoopObservableQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-06T11:49:58Z",
+      "side": 1,
+      "message": "Is this part of this CR?",
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b17a7905_a3f94334",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-06T11:49:58Z",
+      "side": 1,
+      "message": "Why not using Flogger?",
+      "range": {
+        "startLine": 48,
+        "startChar": 31,
+        "endLine": 48,
+        "endChar": 44
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eb4a1eb_00d733f5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-06T11:49:58Z",
+      "side": 1,
+      "message": "If the only aim of the multiple catch is understanding the type of failure, I believe, those can be collapsed in a single catch and the reason can be found in the logs checking for the Exception raised.",
+      "range": {
+        "startLine": 153,
+        "startChar": 12,
+        "endLine": 173,
+        "endChar": 11
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7701f436_1488bf39",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-06T11:49:58Z",
+      "side": 1,
+      "message": "plural?",
+      "range": {
+        "startLine": 183,
+        "startChar": 62,
+        "endLine": 183,
+        "endChar": 69
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90e52c4c_fede4a16",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-06T11:49:58Z",
+      "side": 1,
+      "message": "What is this logic for? Can you give me an example to help understanding?",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 3
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa61fe8_7d3cb816",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-06T11:49:58Z",
+      "side": 1,
+      "message": "What\u0027s the rationale behind this calculation?",
+      "range": {
+        "startLine": 43,
+        "startChar": 27,
+        "endLine": 43,
+        "endChar": 70
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c19d395_cf13ed0b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-06T11:49:58Z",
+      "side": 1,
+      "message": "This is ms as well, right? Shall we rename it to MAX_CONNECTION_INACTIVITY_MS?",
+      "range": {
+        "startLine": 45,
+        "startChar": 27,
+        "endLine": 45,
+        "endChar": 52
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf214b9c_4fe188c9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResponseHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-06T11:49:58Z",
+      "side": 1,
+      "message": "What about an Optional\u003cString\u003e?",
+      "range": {
+        "startLine": 60,
+        "startChar": 17,
+        "endLine": 60,
+        "endChar": 23
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f200a75_6ac347d6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-06T11:49:58Z",
+      "side": 1,
+      "message": "what about something less generic, like fetchApi or something similar ?",
+      "range": {
+        "startLine": 145,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 15
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
