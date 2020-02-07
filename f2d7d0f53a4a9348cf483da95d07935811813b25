@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97ef486e_aa32716a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/NoopObservableQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-07T18:28:33Z",
+      "side": 1,
+      "message": "NoopObservable queue is replaced with ReplicationQueue which is introduced in this cr. NoopObservableQueue is not used anymore that\u0027s why I\u0027ve decided to remove it",
+      "parentUuid": "f6bf572c_5c491460",
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b17a7905_a3f94334",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2020-02-06T11:49:58Z",
       "side": 1,
       "message": "Why not using Flogger?",
+      "range": {
+        "startLine": 48,
+        "startChar": 31,
+        "endLine": 48,
+        "endChar": 44
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86c53840_b08b9cb1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-07T18:28:33Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we can get the same functionality with Flogger. We want to send these logs to separate file. Even in the new websession-broker plugin we have used log4j.",
+      "parentUuid": "b17a7905_a3f94334",
       "range": {
         "startLine": 48,
         "startChar": 31,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "654026a7_f584d7f3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-07T18:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3eb4a1eb_00d733f5",
+      "range": {
+        "startLine": 153,
+        "startChar": 12,
+        "endLine": 173,
+        "endChar": 11
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7701f436_1488bf39",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 9
@@ -85,6 +151,30 @@
       "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa8bb763_b0d829bc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-07T18:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7701f436_1488bf39",
+      "range": {
+        "startLine": 183,
+        "startChar": 62,
+        "endLine": 183,
+        "endChar": 69
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "95326589_1ecbae83",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-07T18:28:33Z",
+      "side": 1,
+      "message": "Hmm I\u0027m not sure that we need that at the moment. But we have to add this functionality in following change.\nThis logic is copied from replication plugin. More details can be found:\nhttps://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/config.md\n\n```\nremote.NAME.adminUrl : Address of the alternative remote server only for repository creation. Multiple URLs may be specified within a single remote block, listing different destinations which share the same settings.\n\nThe adminUrl can be used as an ssh alternative to the url\noption, but only related to repository creation.  If not\nspecified, the repository creation tries to follow the default\nway through the url value specified.\n\nIt is useful when the remote.NAME.url protocols do not allow\nrepository creation although their usage is mandatory in the\nlocal environment.  In that case, an alternative SSH url could\nbe specified to repository creation.\n\nTo enable replication to different Gerrit instance use `gerrit+ssh://`,\n`gerrit+http://` or `gerrit+https://` as protocol name followed\nby hostname of another Gerrit server eg.\n\n`gerrit+ssh://replica1.my.org/`\n\u003cbr\u003e\n`gerrit+http://replica2.my.org/`\n\u003cbr\u003e\n`gerrit+https://replica3.my.org/`\n```",
+      "parentUuid": "90e52c4c_fede4a16",
+      "range": {
+        "startLine": 84,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 3
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fa61fe8_7d3cb816",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
         "patchSetId": 9
@@ -122,6 +236,30 @@
       "writtenOn": "2020-02-06T11:49:58Z",
       "side": 1,
       "message": "What\u0027s the rationale behind this calculation?",
+      "range": {
+        "startLine": 43,
+        "startChar": 27,
+        "endLine": 43,
+        "endChar": 70
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80dd69c3_996bc88d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-07T18:28:33Z",
+      "side": 1,
+      "message": "This logic is copied from replication plugin, we have the same logic in webhooks as well. My understanding is that every gerrit host can accept 100 connections and we are summing that we have at least two nodes.",
+      "parentUuid": "4fa61fe8_7d3cb816",
       "range": {
         "startLine": 43,
         "startChar": 27,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "63f6779b_63604d92",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-07T18:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c19d395_cf13ed0b",
+      "range": {
+        "startLine": 45,
+        "startChar": 27,
+        "endLine": 45,
+        "endChar": 52
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf214b9c_4fe188c9",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResponseHandler.java",
         "patchSetId": 9
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "cbe4c6ee_1c7cbca0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResponseHandler.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-07T18:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf214b9c_4fe188c9",
+      "range": {
+        "startLine": 60,
+        "startChar": 17,
+        "endLine": 60,
+        "endChar": 23
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f200a75_6ac347d6",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 9
@@ -191,6 +377,30 @@
       "writtenOn": "2020-02-06T11:49:58Z",
       "side": 1,
       "message": "what about something less generic, like fetchApi or something similar ?",
+      "range": {
+        "startLine": 145,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 15
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfcf0349_69d5e050",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-07T18:28:33Z",
+      "side": 1,
+      "message": "I believe it should be generic. Currently it\u0027s use only for fetch but in the future we will add more functionalities",
+      "parentUuid": "5f200a75_6ac347d6",
       "range": {
         "startLine": 145,
         "startChar": 12,
