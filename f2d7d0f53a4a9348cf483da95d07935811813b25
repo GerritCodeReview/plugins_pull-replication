@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "906bcd8e_7d6cf2e7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/NoopObservableQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-10T08:13:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "97ef486e_aa32716a",
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b17a7905_a3f94334",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 9
@@ -81,6 +99,54 @@
       "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1e459da_bc042fc3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-10T08:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86c53840_b08b9cb1",
+      "range": {
+        "startLine": 48,
+        "startChar": 31,
+        "endLine": 48,
+        "endChar": 44
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d9c790a_e52a1701",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-10T08:13:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "86c53840_b08b9cb1",
+      "range": {
+        "startLine": 48,
+        "startChar": 31,
+        "endLine": 48,
+        "endChar": 44
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -272,6 +338,30 @@
     },
     {
       "key": {
+        "uuid": "4416a5c4_7d0d9e1a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-10T08:13:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "80dd69c3_996bc88d",
+      "range": {
+        "startLine": 43,
+        "startChar": 27,
+        "endLine": 43,
+        "endChar": 70
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c19d395_cf13ed0b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
         "patchSetId": 9
@@ -410,6 +500,30 @@
       "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c688d38a_4eeb0533",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-10T08:13:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bfcf0349_69d5e050",
+      "range": {
+        "startLine": 145,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 15
+      },
+      "revId": "f2d7d0f53a4a9348cf483da95d07935811813b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef798bd4_32532503",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-10T08:13:26Z",
+      "side": 1,
+      "message": "nit: This wrapper is only used once, is it really needed?",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 169,
+        "endChar": 0
+      },
+      "revId": "32a0e8d1ec1c3d3dee290dfad51d2978cc717dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59f0ca5f_6b001a4e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-10T08:13:26Z",
+      "side": 1,
+      "message": "Could sharing the same storage lead to pull and fetch replication to interfere between them? I.e.: if an instance is configured for pull and fetch replication is it possible that a task created by one mode is consumed by another one?",
+      "range": {
+        "startLine": 42,
+        "startChar": 3,
+        "endLine": 42,
+        "endChar": 30
+      },
+      "revId": "32a0e8d1ec1c3d3dee290dfad51d2978cc717dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad6ca3c4_85cbe404",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-10T08:13:26Z",
+      "side": 1,
+      "message": "Is any of these parameters meant to be configurable?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 53
+      },
+      "revId": "32a0e8d1ec1c3d3dee290dfad51d2978cc717dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
