@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0eb8dc35_ac6c3e54",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-10T12:06:44Z",
+      "side": 1,
+      "message": "My intention was to make a clear api to someone who call it do not have to know how to initiate attempts. I can remove that\u0027s fine WDYT?",
+      "parentUuid": "ef798bd4_32532503",
+      "range": {
+        "startLine": 166,
+        "startChar": 2,
+        "endLine": 169,
+        "endChar": 0
+      },
+      "revId": "32a0e8d1ec1c3d3dee290dfad51d2978cc717dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "59f0ca5f_6b001a4e",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "71c9b732_697cbcc8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-10T12:06:44Z",
+      "side": 1,
+      "message": "We are using \u003csite_dir\u003e/data/pull-replication I haven\u0027t updated the configuration",
+      "parentUuid": "59f0ca5f_6b001a4e",
+      "range": {
+        "startLine": 42,
+        "startChar": 3,
+        "endLine": 42,
+        "endChar": 30
+      },
+      "revId": "32a0e8d1ec1c3d3dee290dfad51d2978cc717dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad6ca3c4_85cbe404",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
         "patchSetId": 10
@@ -59,6 +107,30 @@
       "writtenOn": "2020-02-10T08:13:26Z",
       "side": 1,
       "message": "Is any of these parameters meant to be configurable?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 53
+      },
+      "revId": "32a0e8d1ec1c3d3dee290dfad51d2978cc717dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40537922_1601ac61",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-10T12:06:44Z",
+      "side": 1,
+      "message": "I was thinking about that but it\u0027s the same in replication and webhooks plugin so there was no need yet to configure it.",
+      "parentUuid": "ad6ca3c4_85cbe404",
       "range": {
         "startLine": 45,
         "startChar": 0,
