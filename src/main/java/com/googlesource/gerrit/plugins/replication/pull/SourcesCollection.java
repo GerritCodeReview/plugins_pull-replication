@@ -25,8 +25,6 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfigValidator;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -47,7 +45,9 @@ public class SourcesCollection implements ReplicationSources, ReplicationConfigV
 
   @Inject
   public SourcesCollection(
-      ReplicationFileBasedConfig replicationConfig, Source.Factory sourceFactory, EventBus eventBus)
+      PullReplicationFileBasedConfig replicationConfig,
+      Source.Factory sourceFactory,
+      EventBus eventBus)
       throws ConfigInvalidException {
     this.sourceFactory = sourceFactory;
     this.sources = allSources(sourceFactory, validateConfig(replicationConfig));
@@ -119,7 +119,7 @@ public class SourcesCollection implements ReplicationSources, ReplicationConfigV
   }
 
   @Override
-  public List<RemoteConfiguration> validateConfig(ReplicationFileBasedConfig newConfig)
+  public List<RemoteConfiguration> validateConfig(PullReplicationFileBasedConfig newConfig)
       throws ConfigInvalidException {
 
     try {

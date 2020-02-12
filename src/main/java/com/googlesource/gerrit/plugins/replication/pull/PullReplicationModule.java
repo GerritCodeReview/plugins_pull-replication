@@ -30,13 +30,9 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
-import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
-import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfigValidator;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiModule;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
@@ -54,7 +50,7 @@ class PullReplicationModule extends AbstractModule {
 
   @Inject
   public PullReplicationModule(SitePaths site) {
-    cfgPath = site.etc_dir.resolve("replication.config");
+    cfgPath = site.etc_dir.resolve("pull-replication.config");
   }
 
   @Override
@@ -102,7 +98,7 @@ class PullReplicationModule extends AbstractModule {
           .annotatedWith(UniqueAnnotations.create())
           .to(AutoReloadConfigDecorator.class);
     } else {
-      bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
+      bind(ReplicationConfig.class).to(PullReplicationFileBasedConfig.class);
     }
 
     DynamicSet.setOf(binder(), ReplicationStateListener.class);

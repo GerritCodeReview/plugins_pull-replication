@@ -72,7 +72,7 @@ gerrit.replicateOnStartup
 
 gerrit.autoReload
 :	If true, automatically reloads replication sources and settings
-	after `replication.config` file is updated, without the need to restart
+	after `pull-replication.config` file is updated, without the need to restart
 	the replication plugin. When the reload takes place, pending replication
 	events based on old settings are discarded. By default, false.
 

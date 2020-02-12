@@ -14,8 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
 import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationFileBasedConfig.replaceName;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;

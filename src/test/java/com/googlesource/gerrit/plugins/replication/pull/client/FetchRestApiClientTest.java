@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 import com.google.gerrit.entities.Project;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.pull.PullReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResponseHandler.HttpResult;
 import java.io.IOException;
@@ -59,7 +59,7 @@ public class FetchRestApiClientTest {
   @Mock CredentialsFactory credentials;
   @Mock CloseableHttpClient httpClient;
   @Mock FileBasedConfig config;
-  @Mock ReplicationFileBasedConfig replicationConfig;
+  @Mock PullReplicationFileBasedConfig replicationConfig;
   @Mock Source source;
   @Captor ArgumentCaptor<HttpPost> httpPostCaptor;
 
