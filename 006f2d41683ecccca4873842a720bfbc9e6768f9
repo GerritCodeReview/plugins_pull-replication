@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "677b320b_a06f4c5b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-14T10:30:24Z",
+      "side": 1,
+      "message": "nit: Since we are catching and re-throwing we could be more specific with the exception here.",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 183,
+        "endChar": 16
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e802367_0579e810",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-14T10:30:24Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9441c5ee_274b1e4a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-02-14T10:30:24Z",
+      "side": 1,
+      "message": "nit: objectId ?",
+      "range": {
+        "startLine": 92,
+        "startChar": 14,
+        "endLine": 92,
+        "endChar": 19
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
