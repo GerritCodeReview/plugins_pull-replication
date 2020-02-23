@@ -2,6 +2,63 @@
   "comments": [
     {
       "key": {
+        "uuid": "552e6a50_85adfcda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-23T00:49:25Z",
+      "side": 1,
+      "message": "I believe we use \u0027Bug\u0027 here.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68693bef_2d225667",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/NoopObservableQueue.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-23T00:49:25Z",
+      "side": 1,
+      "message": "Is this removal related?",
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f410af01_37e0512d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-23T00:49:25Z",
+      "side": 1,
+      "message": "Is this a copy\u0026paste of the replication plugin?",
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "677b320b_a06f4c5b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 11
@@ -19,6 +76,23 @@
         "endLine": 183,
         "endChar": 16
       },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d243f80e_9c7d7a9b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-23T00:49:25Z",
+      "side": 1,
+      "message": "Is this a copy\u0026paste from the replication plugin?",
       "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -64,6 +138,75 @@
         "startChar": 14,
         "endLine": 92,
         "endChar": 19
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5372da63_feb5d6fd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-23T00:49:25Z",
+      "side": 1,
+      "message": "All these settings should be configurable and not hardcoded.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 53
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64ab1cee_9a4a4017",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-23T00:49:25Z",
+      "side": 1,
+      "message": "Why do we need a custom SSL context and a keystore?",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 3
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5752afdf_8833cebf",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-02-23T00:49:25Z",
+      "side": 1,
+      "message": "apiUrl? It would make it more consistent with the adminUrl one also.",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 7
       },
       "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
