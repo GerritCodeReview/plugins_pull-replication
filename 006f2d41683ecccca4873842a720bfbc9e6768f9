@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "63993329_a5b13ba7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "Bug? We always use \u0027Feature\u0027 for new functionality and \u0027Bug\u0027 for actual bug fix",
+      "parentUuid": "552e6a50_85adfcda",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "68693bef_2d225667",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/NoopObservableQueue.java",
         "patchSetId": 11
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "0903a91f_2cdbcadb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/NoopObservableQueue.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "I believe so we replaced Noop implementation with ReplicationQueue",
+      "parentUuid": "68693bef_2d225667",
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f410af01_37e0512d",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 11
@@ -53,6 +95,24 @@
       "writtenOn": "2020-02-23T00:49:25Z",
       "side": 1,
       "message": "Is this a copy\u0026paste of the replication plugin?",
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb6e3c06_e8c4684f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "Most of it yes but I had to modify it to be blocking instead of async. Most of the changes are from line 117 to line 194",
+      "parentUuid": "f410af01_37e0512d",
       "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "d22fdf71_54430d3c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "I want to make sure that we are catching all exception to retry",
+      "parentUuid": "677b320b_a06f4c5b",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 183,
+        "endChar": 16
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d243f80e_9c7d7a9b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
         "patchSetId": 11
@@ -93,6 +177,24 @@
       "writtenOn": "2020-02-23T00:49:25Z",
       "side": 1,
       "message": "Is this a copy\u0026paste from the replication plugin?",
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7a5387c_d5cb4d6a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "Yes but we have to store FetchOne instead of PushOne",
+      "parentUuid": "d243f80e_9c7d7a9b",
       "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "55408770_126c07ea",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e802367_0579e810",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9441c5ee_274b1e4a",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
         "patchSetId": 11
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "02b451c6_0ce01df7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9441c5ee_274b1e4a",
+      "range": {
+        "startLine": 92,
+        "startChar": 14,
+        "endLine": 92,
+        "endChar": 19
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5372da63_feb5d6fd",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
         "patchSetId": 11
@@ -156,6 +306,30 @@
       "writtenOn": "2020-02-23T00:49:25Z",
       "side": 1,
       "message": "All these settings should be configurable and not hardcoded.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 53
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cba61246_354ae0e0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "This a copy \u0026 paste from replication and webhooks in both implementations these setting are hardcoded so I thought that there is no need to change them. WDYT should we still move them to configuration?",
+      "parentUuid": "5372da63_feb5d6fd",
       "range": {
         "startLine": 40,
         "startChar": 0,
@@ -191,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "55ad4637_8f78c168",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "That\u0027s just a copy\u0026paste from the replication plugin. I was trying to find Rest Api client example in Gerrit. Only two I have are replication and webhooks both are defining custome SSL context and a keystore. Do you know any good example how we should create http client in gerrit ecosystem?",
+      "parentUuid": "64ab1cee_9a4a4017",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 3
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5752afdf_8833cebf",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 11
@@ -202,6 +400,30 @@
       "writtenOn": "2020-02-23T00:49:25Z",
       "side": 1,
       "message": "apiUrl? It would make it more consistent with the adminUrl one also.",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 7
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb9900f0_94dae7fd",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-02-28T13:46:12Z",
+      "side": 1,
+      "message": "Ok I got the same feedback from Ponch I will change it then.",
+      "parentUuid": "5752afdf_8833cebf",
       "range": {
         "startLine": 23,
         "startChar": 4,
