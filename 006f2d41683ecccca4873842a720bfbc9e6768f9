@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c9a9071d_3a569520",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-02T23:41:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "63993329_a5b13ba7",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68693bef_2d225667",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/NoopObservableQueue.java",
         "patchSetId": 11
@@ -342,6 +366,30 @@
     },
     {
       "key": {
+        "uuid": "ca1577bc_7382c63c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-02T23:41:18Z",
+      "side": 1,
+      "message": "I believe so, but it could be done in a follow-up change.",
+      "parentUuid": "cba61246_354ae0e0",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 53
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64ab1cee_9a4a4017",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
         "patchSetId": 11
@@ -377,6 +425,30 @@
       "side": 1,
       "message": "That\u0027s just a copy\u0026paste from the replication plugin. I was trying to find Rest Api client example in Gerrit. Only two I have are replication and webhooks both are defining custome SSL context and a keystore. Do you know any good example how we should create http client in gerrit ecosystem?",
       "parentUuid": "64ab1cee_9a4a4017",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 3
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2431110_95c1ee4f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-02T23:41:18Z",
+      "side": 1,
+      "message": "I believe it was there for allowing custom X.509 certs or in-house CAs.\nI would rather introduce this as needed, rather than copy\u0026pasting existing code.",
+      "parentUuid": "55ad4637_8f78c168",
       "range": {
         "startLine": 91,
         "startChar": 0,
@@ -433,6 +505,30 @@
       "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbe9d891_533d7122",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-02T23:41:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb9900f0_94dae7fd",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 7
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
