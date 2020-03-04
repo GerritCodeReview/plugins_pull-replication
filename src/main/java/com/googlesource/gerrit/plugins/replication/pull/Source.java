@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
@@ -72,7 +73,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -84,6 +87,7 @@ import org.slf4j.Logger;
 
 public class Source {
   private static final Logger repLog = PullReplicationLogger.repLog;
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     Source create(SourceConfiguration config);
@@ -102,6 +106,7 @@ public class Source {
   private final PerThreadRequestScope.Scoper threadScoper;
   private final SourceConfiguration config;
   private final DynamicItem<EventDispatcher> eventDispatcher;
+  private volatile CloseableHttpClient httpClient;
 
   protected enum RetryReason {
     TRANSPORT_ERROR,
@@ -193,6 +198,14 @@ public class Source {
     threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
   }
 
+  public synchronized CloseableHttpClient memoize(
+      Supplier<CloseableHttpClient> httpClientSupplier) {
+    if (httpClient == null) {
+      httpClient = httpClientSupplier.get();
+    }
+    return httpClient;
+  }
+
   private void addRecursiveParents(
       AccountGroup.UUID g,
       Builder<AccountGroup.UUID> builder,
@@ -217,12 +230,21 @@ public class Source {
     pool = workQueue.createQueue(config.getPoolThreads(), poolName);
   }
 
-  public int shutdown() {
+  public synchronized int shutdown() {
     int cnt = 0;
     if (pool != null) {
       cnt = pool.shutdownNow().size();
       pool = null;
     }
+    if (httpClient != null) {
+      try {
+        httpClient.close();
+        httpClient = null;
+      } catch (IOException e) {
+        logger.atSevere().withCause(e).log("Error occurred while closing HTTP client connections");
+      }
+    }
+
     return cnt;
   }
 
@@ -644,6 +666,22 @@ public class Source {
 
   public ImmutableList<String> getApis() {
     return config.getApis();
+  }
+
+  public int getConnectionTimeout() {
+    return config.getConnectionTimeout();
+  }
+
+  public int getIdleTimeout() {
+    return config.getIdleTimeout();
+  }
+
+  public int getMaxConnectionsPerRoute() {
+    return config.getMaxConnectionsPerRoute();
+  }
+
+  public int getMaxConnections() {
+    return config.getMaxConnections();
   }
 
   public int getMaxRetries() {

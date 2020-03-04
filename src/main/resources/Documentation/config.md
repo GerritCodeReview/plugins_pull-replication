@@ -121,6 +121,16 @@ replication.instanceLabel
 	provided in the remote configuration section which name is equal
 	to instanceLabel.
 
+replication.maxConnectionsPerRoute
+:	Maximum number of HTTP connections per one HTTP route.
+
+	Default: 100
+
+replication.maxConnections
+:	Total number of HTTP connections pool.
+
+	Default: 2 * replication.maxConnectionsPerRoute
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
@@ -147,6 +157,21 @@ remote.NAME.apiUrl
 	Multiple URLs may be specified within a single remote block, listing
 	different destinations which share the same settings. Gerrit calls
 	all URLs in sequence.
+
+remote.NAME.connectionTimeout
+:	Defines the socket timeout ({@code SO_TIMEOUT}) in milliseconds,
+	which is the timeout for waiting for data or, put differently,
+	a maximum period inactivity between two consecutive data packets.
+
+	Default: 5000
+
+remote.NAME.idleTimeout
+:	Defines period of inactivity in milliseconds after which persistent connections must
+	be re-validated prior to being leased to the consumer. Non-positive value disables 
+	connection validation. This check helps detect connections that have become stale
+	(half-closed) while kept inactive in the pool.
+
+	Default: 10000
 
 remote.NAME.uploadpack
 :	Path of the `git-upload-pack` executable on the remote system,
