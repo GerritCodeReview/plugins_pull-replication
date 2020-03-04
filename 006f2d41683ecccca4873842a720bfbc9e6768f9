@@ -390,6 +390,30 @@
     },
     {
       "key": {
+        "uuid": "bd21e375_dcb7e37d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-03-04T23:56:43Z",
+      "side": 1,
+      "message": "Done in follow up change",
+      "parentUuid": "ca1577bc_7382c63c",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 53
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64ab1cee_9a4a4017",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
         "patchSetId": 11
