@@ -461,6 +461,30 @@
     },
     {
       "key": {
+        "uuid": "2483d49e_01bf1184",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-03-04T21:21:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2431110_95c1ee4f",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 3
+      },
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5752afdf_8833cebf",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 11
