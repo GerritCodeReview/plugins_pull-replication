@@ -34,7 +34,6 @@ import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.CredentialItem;
@@ -56,7 +55,8 @@ import org.mockito.stubbing.Answer;
 public class FetchRestApiClientTest {
   @Mock CredentialsProvider credentialProvider;
   @Mock CredentialsFactory credentials;
-  @Mock CloseableHttpClient httpClient;
+  @Mock HttpClient httpClient;
+  @Mock SourceHttpClient.Factory httpClientFactory;
   @Mock FileBasedConfig config;
   @Mock ReplicationFileBasedConfig replicationConfig;
   @Mock Source source;
@@ -96,8 +96,9 @@ public class FetchRestApiClientTest {
 
     HttpResult httpResult = new HttpResult(SC_CREATED, Optional.of("result message"));
     when(httpClient.execute(any(HttpPost.class), any(), any())).thenReturn(httpResult);
-
-    objectUnderTest = new FetchRestApiClient(credentials, httpClient, replicationConfig, source);
+    when(httpClientFactory.create(any())).thenReturn(httpClient);
+    objectUnderTest =
+        new FetchRestApiClient(credentials, httpClientFactory, replicationConfig, source);
   }
 
   @Test
