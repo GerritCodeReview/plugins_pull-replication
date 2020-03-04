@@ -57,6 +57,7 @@ public class FetchRestApiClientTest {
   @Mock CredentialsProvider credentialProvider;
   @Mock CredentialsFactory credentials;
   @Mock CloseableHttpClient httpClient;
+  @Mock HttpClientFactory httpClientFactory;
   @Mock FileBasedConfig config;
   @Mock ReplicationFileBasedConfig replicationConfig;
   @Mock Source source;
@@ -96,8 +97,9 @@ public class FetchRestApiClientTest {
 
     HttpResult httpResult = new HttpResult(SC_CREATED, Optional.of("result message"));
     when(httpClient.execute(any(HttpPost.class), any(), any())).thenReturn(httpResult);
-
-    objectUnderTest = new FetchRestApiClient(credentials, httpClient, replicationConfig, source);
+    when(httpClientFactory.create(any())).thenReturn(httpClient);
+    objectUnderTest =
+        new FetchRestApiClient(credentials, httpClientFactory, replicationConfig, source);
   }
 
   @Test
