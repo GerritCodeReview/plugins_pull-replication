@@ -42,12 +42,11 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiModule;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
-import com.googlesource.gerrit.plugins.replication.pull.client.HttpClientProvider;
+import com.googlesource.gerrit.plugins.replication.pull.client.HttpClientFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -67,7 +66,7 @@ class PullReplicationModule extends AbstractModule {
 
     install(new PullReplicationApiModule());
 
-    bind(CloseableHttpClient.class).toProvider(HttpClientProvider.class).in(Scopes.SINGLETON);
+    bind(HttpClientFactory.class).in(Scopes.SINGLETON);
     install(new FactoryModuleBuilder().build(Source.Factory.class));
     install(new FactoryModuleBuilder().build(FetchRestApiClient.Factory.class));
 

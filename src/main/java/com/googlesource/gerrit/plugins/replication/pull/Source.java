@@ -646,6 +646,14 @@ public class Source {
     return config.getApis();
   }
 
+  public int getConnectionTimeout() {
+    return config.getConnectionTimeout();
+  }
+
+  public int getIdleTimeout() {
+    return config.getIdleTimeout();
+  }
+
   public int getMaxRetries() {
     return config.getMaxRetries();
   }

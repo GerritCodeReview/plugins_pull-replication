@@ -36,7 +36,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.transport.CredentialItem;
@@ -51,18 +50,18 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   }
 
   private final CredentialsFactory credentials;
-  private final CloseableHttpClient httpClient;
+  private final HttpClientFactory httpClientFactory;
   private final Source source;
   private final String instanceLabel;
 
   @Inject
   FetchRestApiClient(
       CredentialsFactory credentials,
-      CloseableHttpClient httpClient,
+      HttpClientFactory httpClientFactory,
       ReplicationConfig replicationConfig,
       @Assisted Source source) {
     this.credentials = credentials;
-    this.httpClient = httpClient;
+    this.httpClientFactory = httpClientFactory;
     this.source = source;
     this.instanceLabel =
         replicationConfig.getConfig().getString("replication", null, "instanceLabel");
@@ -81,7 +80,7 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
             String.format("{\"label\":\"%s\", \"ref_name\": \"%s\"}", instanceLabel, refName),
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
-    return httpClient.execute(post, this, getContext(targetUri));
+    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
   }
 
   @Override
