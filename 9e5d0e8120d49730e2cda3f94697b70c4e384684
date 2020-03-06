@@ -22,6 +22,30 @@
       "revId": "9e5d0e8120d49730e2cda3f94697b70c4e384684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b2e94b9_a51ab337",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResponseHandler.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-03-06T21:09:24Z",
+      "side": 1,
+      "message": "Yes I though the same but in replication plugin we are checking the message so I\u0027m afraid that there is some edge case where SC_NOT_FOUND is not enough",
+      "parentUuid": "387e6d14_7f44a3eb",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 83
+      },
+      "revId": "9e5d0e8120d49730e2cda3f94697b70c4e384684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
