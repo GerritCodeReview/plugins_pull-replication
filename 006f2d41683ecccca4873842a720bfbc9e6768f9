@@ -249,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "7b1e7f70_e8d91e37",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-06T22:15:50Z",
+      "side": 1,
+      "message": "Why do we need to store the FetchOne events? The pull-replication plugin is mainly designed for low-latency replication, in addition to the standard push-replication.\n\nI do not see the value of having the persistence of the pull-replication events, at least at this stage. What\u0027s the use-cases that you wanted to achieve instead?",
+      "parentUuid": "e7a5387c_d5cb4d6a",
+      "revId": "006f2d41683ecccca4873842a720bfbc9e6768f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e802367_0579e810",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTasksStorage.java",
         "patchSetId": 11
