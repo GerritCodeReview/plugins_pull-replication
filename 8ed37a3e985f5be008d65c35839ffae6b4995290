@@ -22,6 +22,30 @@
       "revId": "8ed37a3e985f5be008d65c35839ffae6b4995290",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54a5d493_28d33398",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-03-07T12:21:55Z",
+      "side": 1,
+      "message": "Why refName? I was sure that we should pass the object sha1 so we can fetch specific object",
+      "parentUuid": "fa265064_6225a13b",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 86
+      },
+      "revId": "8ed37a3e985f5be008d65c35839ffae6b4995290",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
