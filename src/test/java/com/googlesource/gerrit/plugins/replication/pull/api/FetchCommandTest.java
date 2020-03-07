@@ -45,7 +45,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FetchCommandTest {
-  private static final String OBJECT_ID_TO_FETCH = "8f22c45da5ce298291b7329552568aae1bb62c10";
+  private static final String REF_NAME_TO_FETCH = "refs/heads/master";
   @Mock ReplicationState state;
   @Mock ReplicationState.Factory fetchReplicationStateFactory;
   @Mock PullReplicationStateLogger fetchStateLog;
@@ -71,27 +71,27 @@ public class FetchCommandTest {
     when(fetchReplicationStateFactory.create(any())).thenReturn(state);
     when(source.getRemoteConfigName()).thenReturn(label);
     when(sources.getAll()).thenReturn(Lists.newArrayList(source));
-    when(source.schedule(projectName, OBJECT_ID_TO_FETCH, state, true))
+    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, true))
         .thenReturn(CompletableFuture.completedFuture(null));
     objectUnderTest = new FetchCommand(fetchReplicationStateFactory, fetchStateLog, sources);
   }
 
   @Test
-  public void shouldFetchRefUpdate()
+  public void shouldScheduleRefFetch()
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    objectUnderTest.fetch(projectName, label, OBJECT_ID_TO_FETCH);
+    objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH);
 
-    verify(source, times(1)).schedule(projectName, OBJECT_ID_TO_FETCH, state, true);
+    verify(source, times(1)).schedule(projectName, REF_NAME_TO_FETCH, state, true);
   }
 
   @Test
   public void shouldMarkAllFetchTasksScheduled()
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    objectUnderTest.fetch(projectName, label, OBJECT_ID_TO_FETCH);
+    objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH);
 
-    verify(source, times(1)).schedule(projectName, OBJECT_ID_TO_FETCH, state, true);
+    verify(source, times(1)).schedule(projectName, REF_NAME_TO_FETCH, state, true);
     verify(state, times(1)).markAllFetchTasksScheduled();
   }
 
@@ -99,7 +99,7 @@ public class FetchCommandTest {
   public void shouldUpdateStateWhenRemoteConfigNameIsMissing() {
     assertThrows(
         RemoteConfigurationMissingException.class,
-        () -> objectUnderTest.fetch(projectName, "unknownLabel", OBJECT_ID_TO_FETCH));
+        () -> objectUnderTest.fetch(projectName, "unknownLabel", REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(state));
   }
 
@@ -108,12 +108,12 @@ public class FetchCommandTest {
   public void shouldUpdateStateWhenInterruptedException()
       throws InterruptedException, ExecutionException, TimeoutException {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new InterruptedException());
-    when(source.schedule(projectName, OBJECT_ID_TO_FETCH, state, true)).thenReturn(future);
+    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, true)).thenReturn(future);
 
     InterruptedException e =
         assertThrows(
             InterruptedException.class,
-            () -> objectUnderTest.fetch(projectName, label, OBJECT_ID_TO_FETCH));
+            () -> objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
   }
 
@@ -123,12 +123,12 @@ public class FetchCommandTest {
       throws InterruptedException, ExecutionException, TimeoutException {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS)))
         .thenThrow(new ExecutionException(new Exception()));
-    when(source.schedule(projectName, OBJECT_ID_TO_FETCH, state, true)).thenReturn(future);
+    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, true)).thenReturn(future);
 
     ExecutionException e =
         assertThrows(
             ExecutionException.class,
-            () -> objectUnderTest.fetch(projectName, label, OBJECT_ID_TO_FETCH));
+            () -> objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
   }
 
@@ -137,12 +137,12 @@ public class FetchCommandTest {
   public void shouldUpdateStateWhenTimeoutException()
       throws InterruptedException, ExecutionException, TimeoutException {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new TimeoutException());
-    when(source.schedule(projectName, OBJECT_ID_TO_FETCH, state, true)).thenReturn(future);
+    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, true)).thenReturn(future);
 
     TimeoutException e =
         assertThrows(
             TimeoutException.class,
-            () -> objectUnderTest.fetch(projectName, label, OBJECT_ID_TO_FETCH));
+            () -> objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
   }
 }
