@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e00e9c_d1286289",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-07T12:18:07Z",
+      "side": 1,
+      "message": "This needs to be adjusted: when the fetch is coming from the API, it should be further filtered out by the ref passed in the API as a parameter.",
+      "range": {
+        "startLine": 378,
+        "startChar": 50,
+        "endLine": 378,
+        "endChar": 75
+      },
+      "revId": "e8a10bcb81dfef58679486c965d01c5389257048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
