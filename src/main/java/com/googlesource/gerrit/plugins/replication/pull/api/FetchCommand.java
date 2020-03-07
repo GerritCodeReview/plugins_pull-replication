@@ -45,7 +45,7 @@ public class FetchCommand implements Command {
     this.sources = sources;
   }
 
-  public void fetch(Project.NameKey name, String label, String objectId)
+  public void fetch(Project.NameKey name, String label, String refName)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
     ReplicationState state =
@@ -59,7 +59,7 @@ public class FetchCommand implements Command {
     }
 
     try {
-      Future<?> future = source.get().schedule(name, objectId, state, true);
+      Future<?> future = source.get().schedule(name, refName, state, true);
       state.markAllFetchTasksScheduled();
       future.get(source.get().getTimeout(), TimeUnit.SECONDS);
     } catch (ExecutionException

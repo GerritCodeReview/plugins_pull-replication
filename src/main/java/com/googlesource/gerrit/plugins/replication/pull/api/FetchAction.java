@@ -51,7 +51,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
 
   public static class Input {
     public String label;
-    public String objectId;
+    public String refName;
     public boolean async;
   }
 
@@ -62,8 +62,8 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
         throw new BadRequestException("Source label cannot be null or empty");
       }
 
-      if (Strings.isNullOrEmpty(input.objectId)) {
-        throw new BadRequestException("Ref-update objectId cannot be null or empty");
+      if (Strings.isNullOrEmpty(input.refName)) {
+        throw new BadRequestException("Ref-update refname cannot be null or empty");
       }
 
       if (input.async) {
@@ -83,7 +83,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private Response<?> applySync(Project.NameKey project, Input input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    command.fetch(project, input.label, input.objectId);
+    command.fetch(project, input.label, input.refName);
     return Response.created(input);
   }
 
@@ -117,16 +117,16 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     @Override
     public void run() {
       try {
-        command.fetch(project, input.label, input.objectId);
+        command.fetch(project, input.label, input.refName);
       } catch (InterruptedException
           | ExecutionException
           | RemoteConfigurationMissingException
           | TimeoutException e) {
         log.atSevere().withCause(e).log(
-            "Exception during the async fetch call for project {}, label {} and object id {}",
+            "Exception during the async fetch call for project {}, label {} and ref name {}",
             project.get(),
             input.label,
-            input.objectId);
+            input.refName);
       }
     }
   }
