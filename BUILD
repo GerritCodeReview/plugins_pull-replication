@@ -20,11 +20,30 @@ gerrit_plugin(
 
 junit_tests(
     name = "pull_replication_tests",
-    srcs = glob(["src/test/java/**/*Test.java"]),
+    srcs = glob([
+        "src/test/java/**/*Test.java",
+        "src/test/java/**/*IT.java",
+    ]),
     tags = ["pull-replication"],
     visibility = ["//visibility:public"],
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
+        ":pull_replication_util",
         "//plugins/replication:replication",
+    ],
+)
+
+java_library(
+    name = "pull_replication_util",
+    testonly = True,
+    srcs = glob(
+        ["src/test/java/**/*.java"],
+        exclude = [
+            "src/test/java/**/*Test.java",
+            "src/test/java/**/*IT.java",
+        ],
+    ),
+    deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
+        ":pull-replication__plugin",
     ],
 )
