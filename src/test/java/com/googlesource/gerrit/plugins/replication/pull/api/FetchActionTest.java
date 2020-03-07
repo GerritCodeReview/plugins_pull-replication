@@ -49,7 +49,7 @@ public class FetchActionTest {
   FetchAction fetchAction;
   String label = "instance-2-label";
   String url = "file:///gerrit-host/instance-1/git/${name}.git";
-  String objectId = "c90989ed7a8ab01f1bdd022872428f020b866358";
+  String refName = "refs/heads/master";
   String location = "http://gerrit-host/a/config/server/tasks/08d173e9";
   int taskId = 1234;
 
@@ -83,7 +83,7 @@ public class FetchActionTest {
   public void shouldReturnCreatedResponseCode() throws RestApiException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
 
@@ -92,10 +92,10 @@ public class FetchActionTest {
 
   @SuppressWarnings("cast")
   @Test
-  public void shouldReturnSourceUrlAndObjectIdAsAResponseBody() throws Exception {
+  public void shouldReturnSourceUrlAndrefNameAsAResponseBody() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
 
@@ -105,7 +105,7 @@ public class FetchActionTest {
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenMissingLabel() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -114,13 +114,13 @@ public class FetchActionTest {
   public void shouldThrowBadRequestExceptionWhenEmptyLabel() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = "";
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
 
     fetchAction.apply(projectResource, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
-  public void shouldThrowBadRequestExceptionWhenMissingObjectId() throws Exception {
+  public void shouldThrowBadRequestExceptionWhenMissingrefName() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
 
@@ -128,10 +128,10 @@ public class FetchActionTest {
   }
 
   @Test(expected = BadRequestException.class)
-  public void shouldThrowBadRequestExceptionWhenEmptyObjectId() throws Exception {
+  public void shouldThrowBadRequestExceptionWhenEmptyrefName() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
-    inputParams.objectId = "";
+    inputParams.refName = "";
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -142,7 +142,7 @@ public class FetchActionTest {
           RemoteConfigurationMissingException, TimeoutException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
 
     doThrow(new InterruptedException()).when(fetchCommand).fetch(any(), any(), any());
 
@@ -155,7 +155,7 @@ public class FetchActionTest {
           RemoteConfigurationMissingException, TimeoutException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = "non-existing-label";
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
 
     doThrow(new RemoteConfigurationMissingException(""))
         .when(fetchCommand)
@@ -170,7 +170,7 @@ public class FetchActionTest {
           RemoteConfigurationMissingException, TimeoutException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
 
     doThrow(new ExecutionException(new RuntimeException()))
         .when(fetchCommand)
@@ -185,7 +185,7 @@ public class FetchActionTest {
           RemoteConfigurationMissingException, TimeoutException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
 
     doThrow(new IllegalStateException()).when(fetchCommand).fetch(any(), any(), any());
 
@@ -198,7 +198,7 @@ public class FetchActionTest {
           RemoteConfigurationMissingException, TimeoutException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
 
     doThrow(new TimeoutException()).when(fetchCommand).fetch(any(), any(), any());
 
@@ -209,7 +209,7 @@ public class FetchActionTest {
   public void shouldReturnScheduledTaskForAsyncCall() throws RestApiException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
     inputParams.async = true;
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
@@ -220,7 +220,7 @@ public class FetchActionTest {
   public void shouldLocationHeaderForAsyncCall() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
-    inputParams.objectId = objectId;
+    inputParams.refName = refName;
     inputParams.async = true;
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
