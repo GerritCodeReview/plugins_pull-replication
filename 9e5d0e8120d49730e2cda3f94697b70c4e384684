@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e73d631c_24d704d1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-09T10:45:33Z",
+      "side": 1,
+      "message": "Do we really need to create one instance per method call?",
+      "range": {
+        "startLine": 88,
+        "startChar": 48,
+        "endLine": 88,
+        "endChar": 73
+      },
+      "revId": "9e5d0e8120d49730e2cda3f94697b70c4e384684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "387e6d14_7f44a3eb",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResponseHandler.java",
         "patchSetId": 15
