@@ -202,11 +202,8 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
     return projectOperations.newProject().name(name).create();
   }
 
-  private String getListenUrl() throws IOException, ConfigInvalidException {
-    FileBasedConfig gerritConfig =
-        new FileBasedConfig(sitePaths.etc_dir.resolve("gerrit.config").toFile(), FS.DETECTED);
-    gerritConfig.load();
-    String listenUrl = gerritConfig.getString("httpd", null, "listenUrl");
+  private String getListenUrl() {
+    String listenUrl = adminRestSession.url();
     return listenUrl.endsWith("/") ? listenUrl.substring(0, listenUrl.length() - 1) : listenUrl;
   }
 }
