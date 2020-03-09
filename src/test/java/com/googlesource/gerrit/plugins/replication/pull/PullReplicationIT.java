@@ -174,7 +174,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
             .collect(toList());
     config.setString("replication", null, "instanceLabel", remoteName);
     config.setStringList("remote", remoteName, "url", replicaUrls);
-    config.setString("remote", remoteName, "apiUrl", getListenUrl());
+    config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
     config.setString("remote", remoteName, "fetch", "+refs/*:refs/*");
     config.setInt("remote", remoteName, "timeout", 600);
     config.setInt("remote", remoteName, "replicationDelay", TEST_REPLICATION_DELAY);
@@ -200,13 +200,5 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
 
   private Project.NameKey createTestProject(String name) throws Exception {
     return projectOperations.newProject().name(name).create();
-  }
-
-  private String getListenUrl() throws IOException, ConfigInvalidException {
-    FileBasedConfig gerritConfig =
-        new FileBasedConfig(sitePaths.etc_dir.resolve("gerrit.config").toFile(), FS.DETECTED);
-    gerritConfig.load();
-    String listenUrl = gerritConfig.getString("httpd", null, "listenUrl");
-    return listenUrl.endsWith("/") ? listenUrl.substring(0, listenUrl.length() - 1) : listenUrl;
   }
 }
