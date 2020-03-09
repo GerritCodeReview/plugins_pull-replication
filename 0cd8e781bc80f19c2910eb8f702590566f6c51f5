@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3708be4e_907792a4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-03-09T12:11:15Z",
+      "side": 1,
+      "message": "getFetchRefSpects \u003d\u003e getFetchRefSpecs",
+      "range": {
+        "startLine": 385,
+        "startChar": 24,
+        "endLine": 385,
+        "endChar": 41
+      },
+      "revId": "0cd8e781bc80f19c2910eb8f702590566f6c51f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bb3f4d6_4fbef383",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-03-09T12:11:15Z",
+      "side": 1,
+      "message": "Do we always return an empty response body or the response body should come from the parsing at line #92?",
+      "range": {
+        "startLine": 96,
+        "startChar": 68,
+        "endLine": 96,
+        "endChar": 80
+      },
+      "revId": "0cd8e781bc80f19c2910eb8f702590566f6c51f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cc138de_62cd0cbd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientProvider.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-03-09T12:11:15Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "0cd8e781bc80f19c2910eb8f702590566f6c51f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
