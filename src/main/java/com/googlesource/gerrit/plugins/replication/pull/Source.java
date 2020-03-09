@@ -28,6 +28,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -255,19 +256,19 @@ public class Source {
               new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws NoSuchProjectException, PermissionBackendException {
-                  ProjectState projectState;
+                  Optional<ProjectState> projectState;
                   try {
-                    projectState = projectCache.checkedGet(project);
-                  } catch (IOException e) {
+                    projectState = projectCache.get(project);
+                  } catch (StorageException e) {
                     return false;
                   }
-                  if (projectState == null) {
+                  if (!projectState.isPresent()) {
                     throw new NoSuchProjectException(project);
                   }
-                  if (!projectState.statePermitsRead()) {
+                  if (!projectState.get().statePermitsRead()) {
                     return false;
                   }
-                  if (!shouldReplicate(projectState, userProvider.get())) {
+                  if (!shouldReplicate(projectState.get(), userProvider.get())) {
                     return false;
                   }
                   if (FetchOne.ALL_REFS.equals(ref)) {
@@ -302,16 +303,16 @@ public class Source {
               new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws NoSuchProjectException, PermissionBackendException {
-                  ProjectState projectState;
+                  Optional<ProjectState> projectState;
                   try {
-                    projectState = projectCache.checkedGet(project);
-                  } catch (IOException e) {
+                    projectState = projectCache.get(project);
+                  } catch (StorageException e) {
                     return false;
                   }
-                  if (projectState == null) {
+                  if (!projectState.isPresent()) {
                     throw new NoSuchProjectException(project);
                   }
-                  return shouldReplicate(projectState, userProvider.get());
+                  return shouldReplicate(projectState.get(), userProvider.get());
                 }
               })
           .call();

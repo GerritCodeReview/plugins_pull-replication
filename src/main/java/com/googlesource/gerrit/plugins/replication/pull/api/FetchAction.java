@@ -74,7 +74,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
         | ExecutionException
         | IllegalStateException
         | TimeoutException e) {
-      throw new RestApiException(e.getMessage(), e);
+      throw RestApiException.wrap(e.getMessage(), e);
     } catch (RemoteConfigurationMissingException e) {
       throw new UnprocessableEntityException(e.getMessage());
     }
