@@ -291,6 +291,82 @@ remote.NAME.remoteNameStyle
 	By default, replicates without matching, i.e. replicates
 	everything from all remotes.
 
+Directory `replication`
+--------------------
+The optional directory `$site_path/etc/replication` contains Git-style
+config files that controls the replication settings for the pull replication
+plugin. When present all `remote` sections from `replication.config` file are
+ignored.
+
+Files are composed of one `remote` section. Multiple `remote` sections or any
+other section makes the file invalid and skipped by the pull replication plugin.
+File name defines remote section name. Each section provides common configuration
+settings for one or more destination URLs. For more details how to setup `remote`
+sections please refer to the `replication.config` section.
+
+### Configuration example:
+
+Static configuration in `$site_path/etc/replication.config`:
+
+```
+[gerrit]
+    autoReload = true
+    replicateOnStartup = false
+[replication]
+	instanceLabel = host-one
+    lockErrorMaxRetries = 5
+    maxRetries = 5
+```
+
+Remote sections in `$site_path/etc/replication` directory:
+
+* File `$site_path/etc/replication/host-two.config`
+
+ ```
+ [remote]
+    url = gerrit2@host-two.example.com:/some/path/${name}.git
+    apiUrl = http://host-two
+    fetch = +refs/*:refs/*
+ ```
+
+
+* File `$site_path/etc/replication/host-three.config`
+
+ ```
+  [remote]
+    url = mirror1.host-three:/pub/git/${name}.git
+    url = mirror2.host-three:/pub/git/${name}.git
+    url = mirror3.host-three:/pub/git/${name}.git
+    apiUrl = http://host-three
+    fetch = +refs/heads/*:refs/heads/*
+    fetch = +refs/tags/*:refs/tags/*
+ ```
+
+Pull replication plugin resolves config files to the following configuration:
+
+```
+[gerrit]
+    autoReload = true
+    replicateOnStartup = false
+[replication]
+    instanceLabel = host-one
+    lockErrorMaxRetries = 5
+    maxRetries = 5
+
+[remote "host-two"]
+    url = gerrit2@host-two.example.com:/some/path/${name}.git
+    apiUrl = http://host-two
+    fetch = +refs/*:refs/*
+
+[remote "host-three"]
+    url = mirror1.host-three:/pub/git/${name}.git
+    url = mirror2.host-three:/pub/git/${name}.git
+    url = mirror3.host-three:/pub/git/${name}.git
+    apiUrl = http://host-three
+    fetch = +refs/heads/*:refs/heads/*
+    fetch = +refs/tags/*:refs/tags/*
+```
+
 File `secure.config`
 --------------------
 

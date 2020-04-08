@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -59,7 +59,7 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   FetchRestApiClient(
       CredentialsFactory credentials,
       CloseableHttpClient httpClient,
-      ReplicationFileBasedConfig replicationConfig,
+      ReplicationConfig replicationConfig,
       @Assisted Source source) {
     this.credentials = credentials;
     this.httpClient = httpClient;
