@@ -33,9 +33,10 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
+import com.googlesource.gerrit.plugins.replication.FanoutReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.MainReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfigValidator;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiModule;
@@ -43,6 +44,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClien
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpClientProvider;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -50,10 +52,12 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
 class PullReplicationModule extends AbstractModule {
+  private final SitePaths site;
   private final Path cfgPath;
 
   @Inject
   public PullReplicationModule(SitePaths site) {
+    this.site = site;
     cfgPath = site.etc_dir.resolve("replication.config");
   }
 
@@ -94,15 +98,18 @@ class PullReplicationModule extends AbstractModule {
 
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReplicationQueue.class);
 
-    bind(ReplicationConfigValidator.class).to(SourcesCollection.class);
+    bind(ConfigParser.class).in(Scopes.SINGLETON);
 
     if (getReplicationConfig().getBoolean("gerrit", "autoReload", false)) {
-      bind(ReplicationConfig.class).to(AutoReloadConfigDecorator.class);
+      bind(ReplicationConfig.class)
+          .annotatedWith(MainReplicationConfig.class)
+          .to(getReplicationConfigClass());
+      bind(ReplicationConfig.class).to(AutoReloadConfigDecorator.class).in(Scopes.SINGLETON);
       bind(LifecycleListener.class)
           .annotatedWith(UniqueAnnotations.create())
           .to(AutoReloadConfigDecorator.class);
     } else {
-      bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
+      bind(ReplicationConfig.class).to(getReplicationConfigClass()).in(Scopes.SINGLETON);
     }
 
     DynamicSet.setOf(binder(), ReplicationStateListener.class);
@@ -121,5 +128,12 @@ class PullReplicationModule extends AbstractModule {
       throw new ProvisionException("Unable to load " + replicationConfigFile.getAbsolutePath(), e);
     }
     return config;
+  }
+
+  private Class<? extends ReplicationConfig> getReplicationConfigClass() {
+    if (Files.exists(site.etc_dir.resolve("replication"))) {
+      return FanoutReplicationConfig.class;
+    }
+    return ReplicationFileBasedConfig.class;
   }
 }
