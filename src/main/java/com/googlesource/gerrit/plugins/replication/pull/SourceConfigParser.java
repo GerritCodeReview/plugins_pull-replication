@@ -79,7 +79,7 @@ public class SourceConfigParser implements ConfigParser {
         if (!remoteConfig.getFetchRefSpecs().isEmpty()) {
           result.add(remoteConfig);
         } else {
-          logger.atWarning().log(
+          logger.atFine().log(
               "Skip loading of remote [remote \"%s\"], since it has no 'fetch' configuration",
               name);
         }
