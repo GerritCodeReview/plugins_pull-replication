@@ -14,23 +14,13 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
-import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
-import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
-
-import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
-import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.inject.Scopes;
 
-public class PullReplicationApiModule extends RestApiModule {
+public class FetchApiCapability extends CapabilityDefinition {
+  static final String CALL_FETCH_ACTION = "callFetchAction";
+
   @Override
-  protected void configure() {
-    bind(FetchAction.class).in(Scopes.SINGLETON);
-    post(PROJECT_KIND, "fetch").to(FetchAction.class);
-
-    bind(FetchPreconditions.class).in(Scopes.SINGLETON);
-    bind(CapabilityDefinition.class)
-        .annotatedWith(Exports.named(CALL_FETCH_ACTION))
-        .to(FetchApiCapability.class);
+  public String getDescription() {
+    return "Call Pull Replication";
   }
 }
