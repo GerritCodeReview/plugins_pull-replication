@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a73d41e8_dc1c77ea",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchApiCapability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T08:41:09Z",
+      "side": 1,
+      "message": "This look a bit redundant to me: why not calling it simply \u0027Pull Replication\u0027 ?",
+      "range": {
+        "startLine": 24,
+        "startChar": 12,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "755f5f2b3372b24e835c220f5759fe9434ac82b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "917204e7_ceb8ecd6",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T08:41:09Z",
+      "side": 1,
+      "message": "Shy not simply \u0027Pull Replication\u0027 ?",
+      "range": {
+        "startLine": 16,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "755f5f2b3372b24e835c220f5759fe9434ac82b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
