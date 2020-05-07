@@ -20,7 +20,6 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -41,18 +40,13 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private final FetchCommand command;
   private final WorkQueue workQueue;
   private final DynamicItem<UrlFormatter> urlFormatter;
-  private final FetchPreconditions preConditions;
 
   @Inject
   public FetchAction(
-      FetchCommand command,
-      WorkQueue workQueue,
-      DynamicItem<UrlFormatter> urlFormatter,
-      FetchPreconditions preConditions) {
+      FetchCommand command, WorkQueue workQueue, DynamicItem<UrlFormatter> urlFormatter) {
     this.command = command;
     this.workQueue = workQueue;
     this.urlFormatter = urlFormatter;
-    this.preConditions = preConditions;
   }
 
   public static class Input {
@@ -63,10 +57,6 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
 
   @Override
   public Response<?> apply(ProjectResource resource, Input input) throws RestApiException {
-
-    if (!preConditions.canCallFetchApi()) {
-      throw new AuthException("not allowed to call fetch command");
-    }
     try {
       if (Strings.isNullOrEmpty(input.label)) {
         throw new BadRequestException("Source label cannot be null or empty");

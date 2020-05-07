@@ -18,12 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -61,7 +60,6 @@ public class FetchActionTest {
   @Mock DynamicItem<UrlFormatter> urlFormatterDynamicItem;
   @Mock UrlFormatter urlFormatter;
   @Mock WorkQueue.Task<Void> task;
-  @Mock FetchPreconditions preConditions;
 
   @Before
   public void setup() {
@@ -77,9 +75,8 @@ public class FetchActionTest {
             });
     when(urlFormatterDynamicItem.get()).thenReturn(urlFormatter);
     when(task.getTaskId()).thenReturn(taskId);
-    when(preConditions.canCallFetchApi()).thenReturn(true);
 
-    fetchAction = new FetchAction(fetchCommand, workQueue, urlFormatterDynamicItem, preConditions);
+    fetchAction = new FetchAction(fetchCommand, workQueue, urlFormatterDynamicItem);
   }
 
   @Test
@@ -204,18 +201,6 @@ public class FetchActionTest {
     inputParams.refName = refName;
 
     doThrow(new TimeoutException()).when(fetchCommand).fetch(any(), any(), any());
-
-    fetchAction.apply(projectResource, inputParams);
-  }
-
-  @Test(expected = AuthException.class)
-  public void shouldThrowAuthExceptionWhenCallFetchActionCapabilityNotAssigned()
-      throws RestApiException {
-    FetchAction.Input inputParams = new FetchAction.Input();
-    inputParams.label = label;
-    inputParams.refName = refName;
-
-    when(preConditions.canCallFetchApi()).thenReturn(false);
 
     fetchAction.apply(projectResource, inputParams);
   }
