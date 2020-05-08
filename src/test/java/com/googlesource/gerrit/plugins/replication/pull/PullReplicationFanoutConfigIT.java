@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Arrays;
@@ -152,6 +153,59 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     }
   }
 
+  @Test
+  public void shouldAutoReloadConfiguration() throws Exception {
+    SourcesCollection sources = getInstance(SourcesCollection.class);
+    AutoReloadConfigDecorator autoReloadConfigDecorator =
+        getInstance(AutoReloadConfigDecorator.class);
+    assertThat(sources.getAll().get(0).getTimeout()).isEqualTo(600);
+    remoteConfig.setInt("remote", null, "timeout", 1000);
+    remoteConfig.save();
+    autoReloadConfigDecorator.reload();
+    waitUntil(() -> !sources.getAll().isEmpty() && sources.getAll().get(0).getTimeout() == 1000);
+  }
+
+  @Test
+  public void shouldAutoReloadConfigurationWhenRemoteConfigAdded() throws Exception {
+    SourcesCollection sources = getInstance(SourcesCollection.class);
+    AutoReloadConfigDecorator autoReloadConfigDecorator =
+        getInstance(AutoReloadConfigDecorator.class);
+    assertThat(sources.getAll().size()).isEqualTo(1);
+
+    FileBasedConfig newRemoteConfig =
+        new FileBasedConfig(
+            sitePaths.etc_dir.resolve("replication/new-remote-config.config").toFile(),
+            FS.DETECTED);
+    setRemoteConfig(newRemoteConfig, TEST_REPLICATION_SUFFIX, ALL_PROJECTS);
+    autoReloadConfigDecorator.reload();
+    waitUntil(() -> sources.getAll().size() == 2);
+
+    // clean up
+    Files.delete(newRemoteConfig.getFile().toPath());
+  }
+
+  @Test
+  public void shouldAutoReloadConfigurationWhenRemoteConfigDeleted() throws Exception {
+    SourcesCollection sources = getInstance(SourcesCollection.class);
+    AutoReloadConfigDecorator autoReloadConfigDecorator =
+        getInstance(AutoReloadConfigDecorator.class);
+    assertThat(sources.getAll().size()).isEqualTo(1);
+
+    FileBasedConfig newRemoteConfig =
+        new FileBasedConfig(
+            sitePaths.etc_dir.resolve("replication/new-remote-config.config").toFile(),
+            FS.DETECTED);
+    setRemoteConfig(newRemoteConfig, TEST_REPLICATION_SUFFIX, ALL_PROJECTS);
+    autoReloadConfigDecorator.reload();
+    waitUntil(() -> sources.getAll().size() == 2);
+
+    Files.delete(newRemoteConfig.getFile().toPath());
+
+    autoReloadConfigDecorator.reload();
+
+    waitUntil(() -> sources.getAll().size() == 1);
+  }
+
   private Ref getRef(Repository repo, String branchName) throws IOException {
     return repo.getRefDatabase().exactRef(branchName);
   }
@@ -172,10 +226,17 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   private void setRemoteConfig(String replicaSuffix, Optional<String> project) throws IOException {
-    setRemoteConfig(Arrays.asList(replicaSuffix), project);
+    setRemoteConfig(remoteConfig, replicaSuffix, project);
   }
 
-  private void setRemoteConfig(List<String> replicaSuffixes, Optional<String> project)
+  private void setRemoteConfig(
+      FileBasedConfig remoteConfig, String replicaSuffix, Optional<String> project)
+      throws IOException {
+    setRemoteConfig(remoteConfig, Arrays.asList(replicaSuffix), project);
+  }
+
+  private void setRemoteConfig(
+      FileBasedConfig remoteConfig, List<String> replicaSuffixes, Optional<String> project)
       throws IOException {
     List<String> replicaUrls =
         replicaSuffixes.stream()

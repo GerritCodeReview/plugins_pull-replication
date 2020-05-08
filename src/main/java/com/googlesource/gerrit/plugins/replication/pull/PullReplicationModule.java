@@ -30,7 +30,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
-import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.FanoutReplicationConfig;
@@ -87,7 +86,10 @@ class PullReplicationModule extends AbstractModule {
     install(new FactoryModuleBuilder().build(FetchAll.Factory.class));
     install(new FactoryModuleBuilder().build(ReplicationState.Factory.class));
 
-    bind(EventBus.class).in(Scopes.SINGLETON);
+    bind(EventBus.class)
+        .annotatedWith(PullReplicationAutoReload.class)
+        .to(EventBus.class)
+        .in(Scopes.SINGLETON);
     bind(ReplicationSources.class).to(SourcesCollection.class);
 
     bind(ReplicationQueue.class).in(Scopes.SINGLETON);

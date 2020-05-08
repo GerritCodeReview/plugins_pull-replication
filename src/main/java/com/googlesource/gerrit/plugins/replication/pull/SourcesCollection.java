@@ -41,7 +41,7 @@ public class SourcesCollection implements ReplicationSources {
       ReplicationConfig replicationConfig,
       ConfigParser configParser,
       Source.Factory sourceFactory,
-      EventBus eventBus)
+      @PullReplicationAutoReload EventBus eventBus)
       throws ConfigInvalidException {
     this.sourceFactory = sourceFactory;
     this.sources =
