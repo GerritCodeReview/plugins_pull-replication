@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bcf6c0e_ba9aae80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-08T23:34:47Z",
+      "side": 1,
+      "message": "You need to exaplain a bit more:\n\n1. What was exactly the issue\n2. Why and how copy\u0026pasting the code would solve it",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "36abfd91b141f3d79de78fe0592120f9324ce25d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f337ec8a_8debbe9e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/AutoReloadConfigDecorator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-08T23:34:47Z",
+      "side": 1,
+      "message": "This is identical to the one in the replication plugin: what\u0027s the point of copy\u0026pasting it here?",
+      "revId": "36abfd91b141f3d79de78fe0592120f9324ce25d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
