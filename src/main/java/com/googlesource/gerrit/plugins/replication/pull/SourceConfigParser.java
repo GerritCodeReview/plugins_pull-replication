@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
+import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
 import java.net.URISyntaxException;
 import java.util.Collections;
@@ -27,16 +28,12 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 
-public class ConfigParser {
+public class SourceConfigParser implements ConfigParser {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  /**
-   * parse the new replication config
-   *
-   * @param config new configuration to parse
-   * @return List of parsed {@link RemoteConfiguration}
-   * @throws ConfigInvalidException if the new configuration is not valid.
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.ConfigParser#parseRemotes(org.eclipse.jgit.lib.Config)
    */
   public List<RemoteConfiguration> parseRemotes(Config config) throws ConfigInvalidException {
 
