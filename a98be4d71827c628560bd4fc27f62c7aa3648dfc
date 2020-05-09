@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1152b35b_e3e671e7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ConfigParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-09T00:25:10Z",
+      "side": 1,
+      "message": "How is this discovered and bound to the auto-reload mechanism?",
+      "range": {
+        "startLine": 30,
+        "startChar": 13,
+        "endLine": 30,
+        "endChar": 25
+      },
+      "revId": "a98be4d71827c628560bd4fc27f62c7aa3648dfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1768dcb5_71567617",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-09T00:25:10Z",
+      "side": 1,
+      "message": "This isn\u0027t enough for attaching it to the auto-reload runner.",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 50
+      },
+      "revId": "a98be4d71827c628560bd4fc27f62c7aa3648dfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
