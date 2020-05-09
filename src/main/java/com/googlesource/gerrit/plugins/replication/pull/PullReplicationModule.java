@@ -32,6 +32,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
+import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.FanoutReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.MainReplicationConfig;
@@ -98,7 +99,7 @@ class PullReplicationModule extends AbstractModule {
 
     DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReplicationQueue.class);
 
-    bind(ConfigParser.class).in(Scopes.SINGLETON);
+    bind(ConfigParser.class).to(SourceConfigParser.class).in(Scopes.SINGLETON);
 
     if (getReplicationConfig().getBoolean("gerrit", "autoReload", false)) {
       bind(ReplicationConfig.class)

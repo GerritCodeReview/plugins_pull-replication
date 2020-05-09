@@ -22,6 +22,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import java.util.List;
