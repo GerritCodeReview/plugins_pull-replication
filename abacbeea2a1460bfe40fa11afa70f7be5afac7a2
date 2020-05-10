@@ -81,6 +81,24 @@
       "revId": "abacbeea2a1460bfe40fa11afa70f7be5afac7a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7ad59fe_de20a2c2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-10T22:09:04Z",
+      "side": 1,
+      "message": "I answered by myself: because before it was in the same package, but now it is in a different one therefore needs to be imported.",
+      "parentUuid": "040e8c54_e1f77e68",
+      "revId": "abacbeea2a1460bfe40fa11afa70f7be5afac7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
