@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cedd2d32_1a20e2e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-10T11:34:13Z",
+      "side": 1,
+      "message": "This issue is the implementation of the pull-replication triggering based on ref-update\nand isn\u0027t related to this fix.",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "abacbeea2a1460bfe40fa11afa70f7be5afac7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb9ba4df_e5d1938e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-10T11:34:13Z",
+      "side": 1,
+      "message": "Why is this import needed now?",
+      "revId": "abacbeea2a1460bfe40fa11afa70f7be5afac7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
