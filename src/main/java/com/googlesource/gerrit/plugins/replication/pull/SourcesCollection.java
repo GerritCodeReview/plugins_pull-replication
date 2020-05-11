@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
@@ -36,17 +37,20 @@ public class SourcesCollection implements ReplicationSources {
   private final Source.Factory sourceFactory;
   private volatile List<Source> sources;
   private boolean shuttingDown;
+  private final Provider<ReplicationQueue> replicationQueue;
 
   @Inject
   public SourcesCollection(
       ReplicationConfig replicationConfig,
       ConfigParser configParser,
       Source.Factory sourceFactory,
-      EventBus eventBus)
+      EventBus eventBus,
+      Provider<ReplicationQueue> replicationQueue)
       throws ConfigInvalidException {
     this.sourceFactory = sourceFactory;
     this.sources =
         allSources(sourceFactory, configParser.parseRemotes(replicationConfig.getConfig()));
+    this.replicationQueue = replicationQueue;
     eventBus.register(this);
   }
 
@@ -109,8 +113,12 @@ public class SourcesCollection implements ReplicationSources {
       logger.atWarning().log("Shutting down: configuration reload ignored");
       return;
     }
-
-    sources = allSources(sourceFactory, sourceConfigurations);
-    logger.atInfo().log("Configuration reloaded: %d sources", getAll().size());
+    try {
+      replicationQueue.get().stop();
+      sources = allSources(sourceFactory, sourceConfigurations);
+      logger.atInfo().log("Configuration reloaded: %d sources", getAll().size());
+    } finally {
+      replicationQueue.get().start();
+    }
   }
 }
