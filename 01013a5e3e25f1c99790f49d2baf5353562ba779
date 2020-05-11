@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9794647_2d42db0e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpClientFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-05-11T21:27:56Z",
+      "side": 1,
+      "message": "I was trying to use Guice Factory but it looks like it can just inject @Assisted object into the constructor. Guice Provider interface has only T get method. The only way to use provider with params is to use @Provider method but again it can just use the injection. So is there a better way of doing that or we have to use good old Factory?",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "01013a5e3e25f1c99790f49d2baf5353562ba779",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

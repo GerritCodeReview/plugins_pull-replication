@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fd4cfcc_9c49d5c4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-05-11T21:27:56Z",
+      "side": 1,
+      "message": "all params must be moved here to allow auto reloade",
+      "range": {
+        "startLine": 47,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 35
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
