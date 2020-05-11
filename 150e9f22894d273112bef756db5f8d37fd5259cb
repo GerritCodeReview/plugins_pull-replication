@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "2a3cbf63_ae87ab98",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-05-11T22:01:59Z",
+      "side": 1,
+      "message": "Yes I was already asking about that in my comment. All examples of the Assisted annotation are used in constructor. But here we are not instantiating new HttpClient object we are wrapping apache.http client builder:\nHttpClients.custom()\n          .setConnectionManager(customConnectionManager(source))\n          .setDefaultRequestConfig(customRequestConfig(source))\n          .build();\n\nTo use it with @Assisted we whould have to instantiate it in constructor and serve so it would look like this: HttpClient.Factory.create(source).get()\n\nIs there a way of constructing the instance in the method instead of constructor with @Assisted?",
+      "parentUuid": "09523cc1_9f07a774",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 33
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "833f1ef4_25bc9902",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
         "patchSetId": 6
@@ -105,6 +129,30 @@
       "writtenOn": "2020-05-11T21:34:09Z",
       "side": 1,
       "message": "Are we sure we want to create one new http client for every HTTP request?",
+      "range": {
+        "startLine": 83,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 43
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "941a3f8f_fbb9ecc1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-05-11T22:01:59Z",
+      "side": 1,
+      "message": "yes you are right not the best idea, but I should handle configuration autoreload. To do that I can listen on the event but I believe I cannot guarantee that my code will be called after the Source is reloaded 😞",
+      "parentUuid": "833f1ef4_25bc9902",
       "range": {
         "startLine": 83,
         "startChar": 11,
