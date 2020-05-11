@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "00bc2385_6777679e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T21:34:09Z",
+      "side": 1,
+      "message": "Commit message should follow the Gerrit contribution guidelines:\nhttps://gerrit-documentation.storage.googleapis.com/Documentation/3.1.4/dev-crafting-changes.html#commit-message",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 13
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bace1532_ae900ca5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T21:34:09Z",
+      "side": 1,
+      "message": "Why not using Guice\u0027s Factory and assisted inject?",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 55
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5fd4cfcc_9c49d5c4",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
         "patchSetId": 6
@@ -18,6 +64,52 @@
         "startChar": 1,
         "endLine": 50,
         "endChar": 35
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09523cc1_9f07a774",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T21:34:09Z",
+      "side": 1,
+      "message": "Why not using Guice\u0027s factory and assisted inject?",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 33
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833f1ef4_25bc9902",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T21:34:09Z",
+      "side": 1,
+      "message": "Are we sure we want to create one new http client for every HTTP request?",
+      "range": {
+        "startLine": 83,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 43
       },
       "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
