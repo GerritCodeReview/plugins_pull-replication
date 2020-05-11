@@ -122,6 +122,41 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  public void shouldReplicateNewChangeRefAfterConfigReloaded() throws Exception {
+    testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
+
+    // Trigger configuration autoreload
+    AutoReloadConfigDecorator autoReloadConfigDecorator =
+        getInstance(AutoReloadConfigDecorator.class);
+    SourcesCollection sources = getInstance(SourcesCollection.class);
+    remoteConfig.setInt("remote", null, "timeout", 1000);
+    remoteConfig.save();
+    autoReloadConfigDecorator.reload();
+    waitUntil(() -> !sources.getAll().isEmpty() && sources.getAll().get(0).getTimeout() == 1000);
+
+    Result pushResult = createChange();
+    RevCommit sourceCommit = pushResult.getCommit();
+    final String sourceRef = pushResult.getPatchSet().refName();
+    ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
+    GitReferenceUpdatedListener.Event event =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            sourceRef,
+            ObjectId.zeroId().getName(),
+            sourceCommit.getId().getName(),
+            ReceiveCommand.Type.CREATE);
+    pullReplicationQueue.onGitReferenceUpdated(event);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
+
+      Ref targetBranchRef = getRef(repo, sourceRef);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
+    }
+  }
+
+  @Test
   public void shouldReplicateNewBranch() throws Exception {
     String testProjectName = project + TEST_REPLICATION_SUFFIX;
     createTestProject(testProjectName);
