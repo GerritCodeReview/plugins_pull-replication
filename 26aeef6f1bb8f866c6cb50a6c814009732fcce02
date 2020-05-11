@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdf10c17_414e4c9b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T21:39:34Z",
+      "side": 1,
+      "message": "Do we really need this initial check? The test is focusing explicitly on making sure that replication works *after* the auto-reload.",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 5
+      },
+      "revId": "26aeef6f1bb8f866c6cb50a6c814009732fcce02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
