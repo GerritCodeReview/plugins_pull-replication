@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85799e01_d851ab0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T23:39:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00bc2385_6777679e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 13
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bace1532_ae900ca5",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
         "patchSetId": 6
@@ -142,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "dd2462a8_8a627472",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T23:39:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35793289_94f5d54d",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 33
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "833f1ef4_25bc9902",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
         "patchSetId": 6
@@ -186,6 +234,30 @@
       "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7eadc010_20d6dba9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T23:39:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "941a3f8f_fbb9ecc1",
+      "range": {
+        "startLine": 83,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 43
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
