@@ -122,6 +122,63 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  public void shouldReplicateNewChangeRefAfterConfigReloaded() throws Exception {
+    testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
+
+    Result pushResult = createChange();
+    RevCommit sourceCommit = pushResult.getCommit();
+    final String changeOneSourceRef = pushResult.getPatchSet().refName();
+
+    ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
+    GitReferenceUpdatedListener.Event event =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            changeOneSourceRef,
+            ObjectId.zeroId().getName(),
+            sourceCommit.getId().getName(),
+            ReceiveCommand.Type.CREATE);
+    pullReplicationQueue.onGitReferenceUpdated(event);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, changeOneSourceRef) != null);
+
+      Ref targetBranchRef = getRef(repo, changeOneSourceRef);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
+    }
+
+    // Trigger configuration autoreload
+    AutoReloadConfigDecorator autoReloadConfigDecorator =
+        getInstance(AutoReloadConfigDecorator.class);
+    SourcesCollection sources = getInstance(SourcesCollection.class);
+    remoteConfig.setInt("remote", null, "timeout", 1000);
+    remoteConfig.save();
+    autoReloadConfigDecorator.reload();
+    waitUntil(() -> !sources.getAll().isEmpty() && sources.getAll().get(0).getTimeout() == 1000);
+
+    pushResult = createChange();
+    sourceCommit = pushResult.getCommit();
+    final String changeTwoSourceRef = pushResult.getPatchSet().refName();
+
+    event =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            changeTwoSourceRef,
+            ObjectId.zeroId().getName(),
+            sourceCommit.getId().getName(),
+            ReceiveCommand.Type.CREATE);
+    pullReplicationQueue.onGitReferenceUpdated(event);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, changeTwoSourceRef) != null);
+
+      Ref targetBranchRef = getRef(repo, changeTwoSourceRef);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
+    }
+  }
+
+  @Test
   public void shouldReplicateNewBranch() throws Exception {
     String testProjectName = project + TEST_REPLICATION_SUFFIX;
     createTestProject(testProjectName);
