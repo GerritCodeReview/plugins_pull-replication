@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd13530e_430e8dde",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T13:27:35Z",
+      "side": 1,
+      "message": "These should be on a remote-basis. Different remotes could be located in different geo-locations with higher or lower latency.",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 15
+      },
+      "revId": "cf6f91c102bcc23907fcab32066aa23598a34db7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
