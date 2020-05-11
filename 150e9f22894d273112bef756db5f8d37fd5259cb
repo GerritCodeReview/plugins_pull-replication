@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "35793289_94f5d54d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T22:05:42Z",
+      "side": 1,
+      "message": "Let me try to make the change and I\u0027ll push a PS7 on top if you\u0027d like.",
+      "parentUuid": "2a3cbf63_ae87ab98",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 33
+      },
+      "revId": "150e9f22894d273112bef756db5f8d37fd5259cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "833f1ef4_25bc9902",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
         "patchSetId": 6
