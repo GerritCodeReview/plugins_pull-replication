@@ -6,9 +6,9 @@
       "updated": "2020-05-12T12:36:37Z"
     },
     "gerritforge:pull-replication-format-3852e64366bb37d13b8baf8af9b15cfd38eb9227": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2020-05-12T11:12:10Z",
-      "updated": "2020-05-12T12:36:36Z"
+      "updated": "2020-05-12T12:36:48Z"
     }
   }
 }
