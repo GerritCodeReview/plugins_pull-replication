@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -36,7 +36,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.transport.CredentialItem;
@@ -51,18 +50,18 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   }
 
   private final CredentialsFactory credentials;
-  private final CloseableHttpClient httpClient;
+  private final SourceHttpClient.Factory httpClientFactory;
   private final Source source;
   private final String instanceLabel;
 
   @Inject
   FetchRestApiClient(
       CredentialsFactory credentials,
-      CloseableHttpClient httpClient,
-      ReplicationFileBasedConfig replicationConfig,
+      SourceHttpClient.Factory httpClientFactory,
+      ReplicationConfig replicationConfig,
       @Assisted Source source) {
     this.credentials = credentials;
-    this.httpClient = httpClient;
+    this.httpClientFactory = httpClientFactory;
     this.source = source;
     this.instanceLabel =
         replicationConfig.getConfig().getString("replication", null, "instanceLabel");
@@ -81,7 +80,7 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
             String.format("{\"label\":\"%s\", \"ref_name\": \"%s\"}", instanceLabel, refName),
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
-    return httpClient.execute(post, this, getContext(targetUri));
+    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
   }
 
   @Override
