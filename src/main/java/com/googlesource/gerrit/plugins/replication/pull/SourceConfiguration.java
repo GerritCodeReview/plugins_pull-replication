@@ -26,6 +26,9 @@ public class SourceConfiguration implements RemoteConfiguration {
   static final int DEFAULT_REPLICATION_DELAY = 15;
   static final int DEFAULT_RESCHEDULE_DELAY = 3;
   static final int DEFAULT_SLOW_LATENCY_THRESHOLD_SECS = 900;
+  static final int DEFAULT_MAX_CONNECTION_INACTIVITY_MS = 10000;
+  static final int DEFAULT_CONNECTION_TIMEOUT_MS = 5000;
+  static final int DEFAULT_CONNECTIONS_PER_ROUTE = 100;
 
   private final int delay;
   private final int rescheduleDelay;
@@ -41,6 +44,10 @@ public class SourceConfiguration implements RemoteConfiguration {
   private final ImmutableList<String> authGroupNames;
   private final RemoteConfig remoteConfig;
   private final ImmutableList<String> apis;
+  private final int connectionTimeout;
+  private final int idleTimeout;
+  private final int maxConnectionsPerRoute;
+  private final int maxConnections;
   private final int maxRetries;
   private int slowLatencyThreshold;
 
@@ -49,6 +56,12 @@ public class SourceConfiguration implements RemoteConfiguration {
     String name = remoteConfig.getName();
     urls = ImmutableList.copyOf(cfg.getStringList("remote", name, "url"));
     apis = ImmutableList.copyOf(cfg.getStringList("remote", name, "apiUrl"));
+    connectionTimeout =
+        cfg.getInt("remote", name, "connectionTimeout", DEFAULT_CONNECTION_TIMEOUT_MS);
+    idleTimeout = cfg.getInt("remote", name, "idleTimeout", DEFAULT_MAX_CONNECTION_INACTIVITY_MS);
+    maxConnectionsPerRoute =
+        cfg.getInt("replication", "maxConnectionsPerRoute", DEFAULT_CONNECTIONS_PER_ROUTE);
+    maxConnections = cfg.getInt("replication", "maxConnections", 2 * maxConnectionsPerRoute);
     delay = Math.max(0, getInt(remoteConfig, cfg, "replicationdelay", DEFAULT_REPLICATION_DELAY));
     rescheduleDelay =
         Math.max(3, getInt(remoteConfig, cfg, "rescheduledelay", DEFAULT_RESCHEDULE_DELAY));
@@ -107,6 +120,22 @@ public class SourceConfiguration implements RemoteConfiguration {
 
   public ImmutableList<String> getApis() {
     return apis;
+  }
+
+  public int getConnectionTimeout() {
+    return connectionTimeout;
+  }
+
+  public int getIdleTimeout() {
+    return idleTimeout;
+  }
+
+  public int getMaxConnectionsPerRoute() {
+    return maxConnectionsPerRoute;
+  }
+
+  public int getMaxConnections() {
+    return maxConnections;
   }
 
   @Override
