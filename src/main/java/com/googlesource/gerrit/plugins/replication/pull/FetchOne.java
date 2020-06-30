@@ -31,7 +31,9 @@ import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.util.Collection;
@@ -47,15 +49,10 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.TrackingRefUpdate;
-import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.MDC;
 
@@ -77,7 +74,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final GitRepositoryManager gitManager;
   private final Source pool;
   private final RemoteConfig config;
-  private final CredentialsProvider credentialsProvider;
   private final PerThreadRequestScope.Scoper threadScoper;
 
   private final Project.NameKey projectName;
@@ -96,23 +92,23 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final long createdAt;
   private final FetchReplicationMetrics metrics;
   private final AtomicBoolean canceledWhileRunning;
+  private final FetchFactory fetchFactory;
 
   @Inject
   FetchOne(
       GitRepositoryManager grm,
       Source s,
       RemoteConfig c,
-      CredentialsFactory cpFactory,
       PerThreadRequestScope.Scoper ts,
       IdGenerator ig,
       ReplicationStateListeners sl,
       FetchReplicationMetrics m,
+      FetchFactory fetchFactory,
       @Assisted Project.NameKey d,
       @Assisted URIish u) {
     gitManager = grm;
     pool = s;
     config = c;
-    credentialsProvider = cpFactory.create(c.getName());
     threadScoper = ts;
     projectName = d;
     uri = u;
@@ -123,6 +119,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     createdAt = System.nanoTime();
     metrics = m;
     canceledWhileRunning = new AtomicBoolean(false);
+    this.fetchFactory = fetchFactory;
     maxRetries = s.getMaxRetries();
   }
 
@@ -365,21 +362,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   private void runImpl() throws IOException {
-    FetchResult res;
-    try (Transport tn = Transport.open(git, uri)) {
-      res = fetchVia(tn);
-    }
-    updateStates(res.getTrackingRefUpdates());
-  }
-
-  private FetchResult fetchVia(Transport tn) throws IOException {
-    tn.applyConfig(config);
-    tn.setCredentialsProvider(credentialsProvider);
-
+    Fetch fetch = fetchFactory.create(uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
-
-    repLog.info("Fetch references {} from {}", fetchRefSpecs, uri);
-    return tn.fetch(NullProgressMonitor.INSTANCE, fetchRefSpecs);
+    updateStates(fetch.fetch(fetchRefSpecs));
   }
 
   private List<RefSpec> getFetchRefSpecs() {
@@ -389,12 +374,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     return delta.stream().map(ref -> new RefSpec(ref + ":" + ref)).collect(Collectors.toList());
   }
 
-  private void updateStates(Collection<TrackingRefUpdate> refUpdates) throws IOException {
+  private void updateStates(List<RefUpdateState> refUpdates) throws IOException {
     Set<String> doneRefs = new HashSet<>();
     boolean anyRefFailed = false;
     RefUpdate.Result lastRefUpdateResult = RefUpdate.Result.NO_CHANGE;
 
-    for (TrackingRefUpdate u : refUpdates) {
+    for (RefUpdateState u : refUpdates) {
       ReplicationState.RefFetchResult fetchStatus = ReplicationState.RefFetchResult.SUCCEEDED;
       Set<ReplicationState> logStates = new HashSet<>();
       lastRefUpdateResult = u.getResult();
