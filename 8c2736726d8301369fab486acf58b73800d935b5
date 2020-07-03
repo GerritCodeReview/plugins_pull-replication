@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4173ee3b_7ae0b8b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "Is it too tricky to add some tests?\nAlso, I think some java docs could help understand better the aim of the components (at least for public methods)",
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "411628bc_f656c613",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "here too, what\u0027s the reason for swapping these two lines?",
+      "range": {
+        "startLine": 401,
+        "startChar": 0,
+        "endLine": 402,
+        "endChar": 76
+      },
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "365ced77_e1427fbe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "What\u0027s the reason for swapping these two lines? is it intentional?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 75
+      },
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7e9f332_3feb51f3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/Fetch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "2020?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de54a7de_f39eba95",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/Fetch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "nit: this looks like a functional interface, we could annotate it as such:\nhttp://baddotrobot.com/blog/2014/04/07/functional-interfaces-in-java8",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5acb1187_7a9e2e1a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/FetchFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72df9ede_f034d7bf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/FetchFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "nit: FunctionalInterface",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 1
+      },
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3e98081_91876860",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/JGitFetch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cccb48a0_a08be2d9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "Does this assume git is in the path?\nWhat happens if the git binary is not available/installed?\n\nShould we eperhaps fail at bind time?",
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "041e9025_79235eaf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-03T08:53:03Z",
+      "side": 1,
+      "message": "s/replicate/fetch",
+      "range": {
+        "startLine": 70,
+        "startChar": 34,
+        "endLine": 70,
+        "endChar": 43
+      },
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
