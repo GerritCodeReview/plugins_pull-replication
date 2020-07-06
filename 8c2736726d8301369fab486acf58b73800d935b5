@@ -203,6 +203,30 @@
     },
     {
       "key": {
+        "uuid": "fe1c499f_af83f8ae",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-06T21:26:52Z",
+      "side": 1,
+      "message": "Done https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/274535/1",
+      "parentUuid": "74e5c739_04dec245",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 75
+      },
+      "revId": "8c2736726d8301369fab486acf58b73800d935b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7e9f332_3feb51f3",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/Fetch.java",
         "patchSetId": 2
