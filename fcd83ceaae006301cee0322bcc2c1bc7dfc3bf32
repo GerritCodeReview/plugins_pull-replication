@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aaaa4668_cdd6789d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-06T19:35:39Z",
+      "side": 1,
+      "message": "but this is just one off so 10 sec is not gonna impact overall performance",
+      "parentUuid": "8ccb125e_44100ad0",
+      "range": {
+        "startLine": 31,
+        "startChar": 45,
+        "endLine": 31,
+        "endChar": 46
+      },
+      "revId": "fcd83ceaae006301cee0322bcc2c1bc7dfc3bf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c930c553_0bc0a126",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2020-07-06T07:10:08Z",
       "side": 1,
       "message": "Why do we need to set protocol version when checking the git binary version? This should is a local operation and require no connectivity to the server right?",
+      "range": {
+        "startLine": 38,
+        "startChar": 48,
+        "endLine": 38,
+        "endChar": 74
+      },
+      "revId": "fcd83ceaae006301cee0322bcc2c1bc7dfc3bf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffaa5e55_f65f517f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-06T19:35:39Z",
+      "side": 1,
+      "message": "yes but I wanted trigger command with the same params as we will use later to make sure that I\u0027m not getting any exceptions",
+      "parentUuid": "c930c553_0bc0a126",
       "range": {
         "startLine": 38,
         "startChar": 48,
@@ -62,6 +110,24 @@
       "revId": "fcd83ceaae006301cee0322bcc2c1bc7dfc3bf32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09aace81_2387b182",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-06T19:35:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "972c0281_a7d95e6e",
+      "revId": "fcd83ceaae006301cee0322bcc2c1bc7dfc3bf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
