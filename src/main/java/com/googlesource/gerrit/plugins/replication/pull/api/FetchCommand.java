@@ -59,8 +59,8 @@ public class FetchCommand implements Command {
     }
 
     try {
-      Future<?> future = source.get().schedule(name, refName, state, true);
       state.markAllFetchTasksScheduled();
+      Future<?> future = source.get().schedule(name, refName, state, true);
       future.get(source.get().getTimeout(), TimeUnit.SECONDS);
     } catch (ExecutionException
         | IllegalStateException
@@ -70,11 +70,13 @@ public class FetchCommand implements Command {
       throw e;
     }
 
-    try {
-      state.waitForReplication(source.get().getTimeout());
-    } catch (InterruptedException e) {
-      writeStdErrSync("We are interrupted while waiting replication to complete");
-      throw e;
+    if (state.hasFetchTask()) {
+      try {
+        state.waitForReplication(source.get().getTimeout());
+      } catch (InterruptedException e) {
+        writeStdErrSync("We are interrupted while waiting replication to complete");
+        throw e;
+      }
     }
   }
 
