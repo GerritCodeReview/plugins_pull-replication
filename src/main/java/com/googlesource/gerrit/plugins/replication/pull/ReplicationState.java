@@ -116,7 +116,7 @@ public class ReplicationState {
     countingLock.lock();
     try {
       allScheduled = true;
-      if (finishedFetchTasksCount < totalFetchTasksCount) {
+      if ((finishedFetchTasksCount < totalFetchTasksCount) || totalFetchTasksCount == 0) {
         return;
       }
     } finally {
