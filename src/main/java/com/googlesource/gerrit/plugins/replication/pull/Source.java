@@ -392,8 +392,8 @@ public class Source {
         e = opFactory.create(project, uri);
         addRef(e, ref);
         e.addState(ref, state);
-        f = pool.schedule(e, now ? 0 : config.getDelay(), TimeUnit.SECONDS);
         pending.put(uri, e);
+        f = pool.schedule(e, now ? 0 : config.getDelay(), TimeUnit.SECONDS);
       } else if (!e.getRefs().contains(ref)) {
         addRef(e, ref);
         e.addState(ref, state);
