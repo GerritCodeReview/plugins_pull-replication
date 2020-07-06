@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ccb125e_44100ad0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-06T07:10:08Z",
+      "side": 1,
+      "message": "imho, 10 seconds is *a lot* to check for git version.\nI think 1 or 2 seconds should be plenty",
+      "range": {
+        "startLine": 31,
+        "startChar": 45,
+        "endLine": 31,
+        "endChar": 46
+      },
+      "revId": "fcd83ceaae006301cee0322bcc2c1bc7dfc3bf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c930c553_0bc0a126",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-06T07:10:08Z",
+      "side": 1,
+      "message": "Why do we need to set protocol version when checking the git binary version? This should is a local operation and require no connectivity to the server right?",
+      "range": {
+        "startLine": 38,
+        "startChar": 48,
+        "endLine": 38,
+        "endChar": 74
+      },
+      "revId": "fcd83ceaae006301cee0322bcc2c1bc7dfc3bf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "972c0281_a7d95e6e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-07-06T07:10:08Z",
+      "side": 1,
+      "message": "perhaps we could log the version of git that has been validated (info level?).\nit\u0027d be useful for triaging, mailing list questions, etc.",
+      "revId": "fcd83ceaae006301cee0322bcc2c1bc7dfc3bf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
