@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d572b060_2991cf2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-07T00:14:44Z",
+      "side": 1,
+      "message": "Missing documentation updates and tests.",
+      "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "459f9fce_52b99c80",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-07T00:14:44Z",
+      "side": 1,
+      "message": "Can we call it \u0027CGitFetch.java\u0027 instead? So that is clear that we refer to the C-implementation of Git.",
+      "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0260e02c_f1f85737",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-07T00:14:44Z",
+      "side": 1,
+      "message": "This is only supported from a certain version of Git, correct? Why not relying on the Git config instead of hardcoding protocol.version\u003d2?",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 55
+      },
+      "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd899038_8488cb96",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-07T00:14:44Z",
+      "side": 1,
+      "message": "CGitFetchValidator.java?",
+      "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d973e58_a6449529",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-07T00:14:44Z",
+      "side": 1,
+      "message": "Same as before: we should rely on the Git config rather than hardcoding protocol.version\u003d2",
+      "range": {
+        "startLine": 41,
+        "startChar": 48,
+        "endLine": 41,
+        "endChar": 74
+      },
+      "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
