@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "18f527ec_44b20d9d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-10T10:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "459f9fce_52b99c80",
+      "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0260e02c_f1f85737",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetch.java",
         "patchSetId": 7
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "e1fb1a3e_0e0b7246",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetch.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-10T10:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0260e02c_f1f85737",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 55
+      },
+      "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd899038_8488cb96",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
         "patchSetId": 7
@@ -73,6 +115,24 @@
       "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54b74758_1e62845d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-10T10:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd899038_8488cb96",
+      "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +156,30 @@
       "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80983413_174e9d7a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-10T10:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d973e58_a6449529",
+      "range": {
+        "startLine": 41,
+        "startChar": 48,
+        "endLine": 41,
+        "endChar": 74
+      },
+      "revId": "c962c9ec43da2cd5c60caed55809c8fb8a474183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
