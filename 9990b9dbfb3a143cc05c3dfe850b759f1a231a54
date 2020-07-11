@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4b5937f8_edcd458b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-11T13:37:13Z",
+      "side": 1,
+      "message": "I\u0027m manage to reproduce that issue during the tests but similar to other race condition issues it is difficult to reproduce it in constant manner. I\u0027ve noticed that during tests I\u0027m getting some timeouts from http calls but refs are fetched correctly. The issue is that \u0027ReplicationState.markAllFetchTasksScheduled\u0027 *must* be called before task is finished if not \u0027ReplicationState.notifyRefReplicated\u0027 is not gonna decrement allFetchTasksFinished and ReplicationState.waitForReplication(long timeout) will wait till timeout. That\u0027s why I see timeouts in tests",
+      "revId": "9990b9dbfb3a143cc05c3dfe850b759f1a231a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e569148_9e8d499a",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
         "patchSetId": 1
