@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5a6f458_b61a59cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-11T00:23:36Z",
+      "side": 1,
+      "message": "I do not see where we chose between JGitFetch and CGitFetch.\nIt looks like we hardcode CGitFetch?",
+      "revId": "9c3bccff52769e9cfde920803cfb1f12b2fa7985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e80633f3_3692c0de",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-11T00:23:36Z",
+      "side": 1,
+      "message": "Hardcoded? I would expect to bind JGitFetch or CGitFetch based on a config setting?",
+      "range": {
+        "startLine": 181,
+        "startChar": 48,
+        "endLine": 181,
+        "endChar": 63
+      },
+      "revId": "9c3bccff52769e9cfde920803cfb1f12b2fa7985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
