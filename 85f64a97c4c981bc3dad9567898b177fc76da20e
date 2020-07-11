@@ -46,6 +46,30 @@
       "revId": "85f64a97c4c981bc3dad9567898b177fc76da20e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8f8c484_aa8bc022",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/CGitFetch.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-11T13:09:52Z",
+      "side": 1,
+      "message": "I will do that as a follow up change",
+      "parentUuid": "2f8c8c3b_4bc15322",
+      "range": {
+        "startLine": 54,
+        "startChar": 12,
+        "endLine": 54,
+        "endChar": 24
+      },
+      "revId": "85f64a97c4c981bc3dad9567898b177fc76da20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

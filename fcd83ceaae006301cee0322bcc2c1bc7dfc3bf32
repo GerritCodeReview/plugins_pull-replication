@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a3d19e10_0232a144",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-11T13:09:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffaa5e55_f65f517f",
+      "range": {
+        "startLine": 38,
+        "startChar": 48,
+        "endLine": 38,
+        "endChar": 74
+      },
+      "revId": "fcd83ceaae006301cee0322bcc2c1bc7dfc3bf32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "972c0281_a7d95e6e",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/NativeGitFetchValidator.java",
         "patchSetId": 4
