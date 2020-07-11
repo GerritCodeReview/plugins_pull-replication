@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "476920d4_6fa5f217",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/CGitFetch.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-11T00:05:47Z",
+      "side": 1,
+      "message": "Have you checked the limit of the command line in terms of list of refs passed as parameter?",
+      "range": {
+        "startLine": 54,
+        "startChar": 12,
+        "endLine": 54,
+        "endChar": 24
+      },
+      "revId": "85f64a97c4c981bc3dad9567898b177fc76da20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
