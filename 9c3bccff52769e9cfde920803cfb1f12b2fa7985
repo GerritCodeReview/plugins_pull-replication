@@ -39,6 +39,30 @@
       "revId": "9c3bccff52769e9cfde920803cfb1f12b2fa7985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1466bd4e_393a8dd4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-11T09:38:03Z",
+      "side": 1,
+      "message": "Sure I can implement that it\u0027s easy, my understanding was that CGitFetch is just temporary solution until JGit performance is not going to be resolved. After fixing JGit we have to rebuild and redeploy anyway so then we will switch to JGitFetch. But again it\u0027s easy to add this setting so I will do it now.",
+      "parentUuid": "e80633f3_3692c0de",
+      "range": {
+        "startLine": 181,
+        "startChar": 48,
+        "endLine": 181,
+        "endChar": 63
+      },
+      "revId": "9c3bccff52769e9cfde920803cfb1f12b2fa7985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
