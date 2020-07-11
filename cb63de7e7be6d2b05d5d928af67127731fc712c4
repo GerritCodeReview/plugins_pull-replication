@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d445db80_b71ab4c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-11T00:07:42Z",
+      "side": 1,
+      "message": "the task is triggered immediately",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "cb63de7e7be6d2b05d5d928af67127731fc712c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
