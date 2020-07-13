@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f9ae42f_13dd0ce3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-13T23:33:39Z",
+      "side": 1,
+      "message": "Very good job: see just a nit below.",
+      "revId": "5f5462d0a1c64e782428a85f1d8600170cf7f834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f71b33a2_0fbe8122",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-13T23:33:39Z",
+      "side": 1,
+      "message": "This wasn\u0027t mentioned in the commit message: can you amend the commit message or, alternatively, extra this into a separate follow-up change?",
+      "revId": "5f5462d0a1c64e782428a85f1d8600170cf7f834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
