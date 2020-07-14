@@ -51,6 +51,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private final int maxRetries;
   private int slowLatencyThreshold;
   private boolean useCGitClient;
+  private int refsBatchSize;
 
   public SourceConfiguration(RemoteConfig remoteConfig, Config cfg) {
     this.remoteConfig = remoteConfig;
@@ -76,6 +77,9 @@ public class SourceConfiguration implements RemoteConfiguration {
     replicatePermissions = cfg.getBoolean("remote", name, "replicatePermissions", true);
     replicateHiddenProjects = cfg.getBoolean("remote", name, "replicateHiddenProjects", false);
     useCGitClient = cfg.getBoolean("replication", "useCGitClient", false);
+    refsBatchSize = cfg.getInt("replication", "refsBatchSize", 50);
+    if (refsBatchSize <= 0)
+      throw new IllegalArgumentException("refsBatchSize must be greater than zero");
     remoteNameStyle =
         MoreObjects.firstNonNull(cfg.getString("remote", name, "remoteNameStyle"), "slash");
     maxRetries =
@@ -171,6 +175,10 @@ public class SourceConfiguration implements RemoteConfiguration {
 
   public boolean useCGitClient() {
     return useCGitClient;
+  }
+
+  public int getRefsBatchSize() {
+    return refsBatchSize;
   }
 
   @Override

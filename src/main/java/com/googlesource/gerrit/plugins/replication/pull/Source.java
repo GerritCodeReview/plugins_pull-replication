@@ -59,9 +59,11 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.servlet.RequestScoped;
 import com.googlesource.gerrit.plugins.replication.RemoteSiteUser;
 import com.googlesource.gerrit.plugins.replication.ReplicationFilter;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.BatchFetchClient;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.CGitFetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.CGitFetchValidator;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.JGitFetch;
 import java.io.IOException;
@@ -85,7 +87,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 
@@ -175,13 +176,14 @@ public class Source {
                 bind(PerThreadRequestScope.Propagator.class);
 
                 bind(Source.class).toInstance(Source.this);
-                bind(RemoteConfig.class).toInstance(config.getRemoteConfig());
+                bind(SourceConfiguration.class).toInstance(config);
                 install(new FactoryModuleBuilder().build(FetchOne.Factory.class));
                 Class<? extends Fetch> clientClass =
                     cfg.useCGitClient() ? CGitFetch.class : JGitFetch.class;
                 install(
                     new FactoryModuleBuilder()
-                        .implement(Fetch.class, clientClass)
+                        .implement(Fetch.class, BatchFetchClient.class)
+                        .implement(Fetch.class, FetchClientImplementation.class, clientClass)
                         .build(FetchFactory.class));
               }
 

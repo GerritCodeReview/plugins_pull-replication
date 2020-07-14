@@ -138,6 +138,15 @@ replication.useCGitClient
 
 	Default: false
 
+replication.refsBatchSize
+:	Number of refs that are fetched in a single fetch call.
+	If number of refs to fetch is greater then this param,
+	refs are going to be split into a separate fetch operations.
+
+	Value must be greater than zero.
+
+	Default: 50
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request

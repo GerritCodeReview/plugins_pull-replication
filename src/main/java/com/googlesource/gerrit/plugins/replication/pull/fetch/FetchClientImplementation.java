@@ -14,12 +14,10 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.URIish;
+import com.google.inject.BindingAnnotation;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-public interface FetchFactory {
-  Fetch create(URIish uri, Repository git);
-  // Return implementation without any decorators
-  @FetchClientImplementation
-  Fetch createPlainImpl(URIish uri, Repository git);
-}
+@BindingAnnotation
+@Retention(RetentionPolicy.RUNTIME)
+public @interface FetchClientImplementation {}
