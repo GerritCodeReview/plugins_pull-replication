@@ -19,6 +19,7 @@ import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLo
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +31,6 @@ import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 
 public class CGitFetch implements Fetch {
@@ -40,11 +40,11 @@ public class CGitFetch implements Fetch {
   private int timeout;
 
   @Inject
-  public CGitFetch(RemoteConfig config, @Assisted URIish uri, @Assisted Repository git) {
+  public CGitFetch(SourceConfiguration config, @Assisted URIish uri, @Assisted Repository git) {
 
     this.localProjectDirectory = git.getDirectory();
     this.uri = uri;
-    this.timeout = config.getTimeout();
+    this.timeout = config.getRemoteConfig().getTimeout();
   }
 
   @Override

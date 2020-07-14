@@ -98,7 +98,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   FetchOne(
       GitRepositoryManager grm,
       Source s,
-      RemoteConfig c,
+      SourceConfiguration c,
       PerThreadRequestScope.Scoper ts,
       IdGenerator ig,
       ReplicationStateListeners sl,
@@ -108,7 +108,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       @Assisted URIish u) {
     gitManager = grm;
     pool = s;
-    config = c;
+    config = c.getRemoteConfig();
     threadScoper = ts;
     projectName = d;
     uri = u;
