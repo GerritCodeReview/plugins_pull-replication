@@ -51,6 +51,24 @@
       "revId": "5f5462d0a1c64e782428a85f1d8600170cf7f834",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43f3f712_2f064754",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-14T07:18:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4e7eaf8_bebabff0",
+      "revId": "5f5462d0a1c64e782428a85f1d8600170cf7f834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
