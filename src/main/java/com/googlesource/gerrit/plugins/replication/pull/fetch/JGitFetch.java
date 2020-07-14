@@ -19,6 +19,7 @@ import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLo
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
+import com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,11 +40,11 @@ public class JGitFetch implements Fetch {
 
   @Inject
   public JGitFetch(
-      RemoteConfig config,
+      SourceConfiguration sourceConfig,
       CredentialsFactory cpFactory,
       @Assisted URIish uri,
       @Assisted Repository git) {
-    this.config = config;
+    this.config = sourceConfig.getRemoteConfig();
     this.credentialsProvider = cpFactory.create(config.getName());
     this.uri = uri;
     this.git = git;

@@ -19,6 +19,8 @@ import static com.googlesource.gerrit.plugins.replication.pull.Source.encode;
 import static com.googlesource.gerrit.plugins.replication.pull.Source.needsUrlEncoding;
 
 import java.net.URISyntaxException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
 
@@ -42,5 +44,15 @@ public class FetchReplicationTest {
     assertThat(encode("-- All Projects --")).isEqualTo("--%20All%20Projects%20--");
     assertThat(encode("name/with a space")).isEqualTo("name/with%20a%20space");
     assertThat(encode("name\nwith-LF")).isEqualTo("name%0Awith-LF");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testRefsBatchSizeMustBeGreaterThanZero() throws URISyntaxException {
+    Config cf = new Config();
+    cf.setInt("remote", "test_config", "timeout", 0);
+    cf.setInt("replication", null, "refsBatchSize", 0);
+    RemoteConfig remoteConfig = new RemoteConfig(cf, "test_config");
+
+    new SourceConfiguration(remoteConfig, cf);
   }
 }
