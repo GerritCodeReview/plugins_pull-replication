@@ -85,7 +85,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 
@@ -175,7 +174,7 @@ public class Source {
                 bind(PerThreadRequestScope.Propagator.class);
 
                 bind(Source.class).toInstance(Source.this);
-                bind(RemoteConfig.class).toInstance(config.getRemoteConfig());
+                bind(SourceConfiguration.class).toInstance(config);
                 install(new FactoryModuleBuilder().build(FetchOne.Factory.class));
                 Class<? extends Fetch> clientClass =
                     cfg.useCGitClient() ? CGitFetch.class : JGitFetch.class;
