@@ -160,6 +160,55 @@ public class CGitFetchIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  public void shouldFetchMultipleRefsInMultipleBatches() throws Exception {
+    testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
+
+    try (Repository repo = repoManager.openRepository(project)) {
+
+      Result pushResultOne = createChange();
+      String sourceRefOne = pushResultOne.getPatchSet().refName();
+      Result pushResultTwo = createChange();
+      String sourceRefTwo = pushResultTwo.getPatchSet().refName();
+      Result pushResultThree = createChange();
+      String sourceRefThree = pushResultThree.getPatchSet().refName();
+
+      Config cf = new Config();
+      cf.setInt("remote", "test_config", "timeout", 0);
+      cf.setInt("replication", null, "refsBatchSize", 2);
+
+      RemoteConfig remoteConfig = new RemoteConfig(cf, "test_config");
+      SourceConfiguration sourceConfig = new SourceConfiguration(remoteConfig, cf);
+
+      Fetch objectUnderTest =
+          new CGitFetch(sourceConfig, new URIish(testRepoPath.toString()), repo);
+
+      objectUnderTest.fetch(
+          Lists.newArrayList(
+              new RefSpec(sourceRefOne + ":" + sourceRefOne),
+              new RefSpec(sourceRefTwo + ":" + sourceRefTwo),
+              new RefSpec(sourceRefThree + ":" + sourceRefThree)));
+
+      waitUntil(
+          () ->
+              checkedGetRef(repo, sourceRefOne) != null
+                  && checkedGetRef(repo, sourceRefTwo) != null
+                  && checkedGetRef(repo, sourceRefThree) != null);
+
+      Ref targetBranchRef = getRef(repo, sourceRefOne);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId()).isEqualTo(pushResultOne.getCommit().getId());
+
+      targetBranchRef = getRef(repo, sourceRefTwo);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId()).isEqualTo(pushResultTwo.getCommit().getId());
+
+      targetBranchRef = getRef(repo, sourceRefThree);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId()).isEqualTo(pushResultThree.getCommit().getId());
+    }
+  }
+
+  @Test
   public void shouldFetchNewBranch() throws Exception {
     String testProjectName = project + TEST_REPLICATION_SUFFIX;
     createTestProject(testProjectName);
@@ -232,7 +281,9 @@ public class CGitFetchIT extends LightweightPluginDaemonTest {
       cf.setInt("remote", "test_config", "timeout", 0);
       try {
         RemoteConfig remoteConfig = new RemoteConfig(cf, "test_config");
-        bind(RemoteConfig.class).toInstance(remoteConfig);
+        SourceConfiguration sourceConfig = new SourceConfiguration(remoteConfig, cf);
+
+        bind(SourceConfiguration.class).toInstance(sourceConfig);
         install(
             new FactoryModuleBuilder()
                 .implement(Fetch.class, CGitFetch.class)
