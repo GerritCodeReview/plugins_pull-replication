@@ -138,6 +138,15 @@ replication.useCGitClient
 
 	Default: false
 
+replication.refsBatchSize
+:	Number of refs that are fetched in a single fetch call.
+	When #replication.useCGitClient is set to true. Pull replication plugin uses
+	command line client to execute fetch. Length of the command is limited by
+	the operating system. If number of refs to fetch is greater then this param,
+	refs are going to be split into separate fetch operations.  
+
+	Default: 50
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
