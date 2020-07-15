@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36dca013_ec06b8ee",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-15T14:33:50Z",
+      "side": 1,
+      "message": "readability nit: \u003c\u003d 0 so that it matches the exception description.",
+      "range": {
+        "startLine": 81,
+        "startChar": 22,
+        "endLine": 81,
+        "endChar": 25
+      },
+      "revId": "2b2499bf5f4bcc19bd8c730c27aad88369144b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce759afb_c63db088",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchReplicationTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-15T14:33:50Z",
+      "side": 1,
+      "message": "we typically use JUnit\u0027s assertThrows() instead of just declaring the exception in this way.",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 49
+      },
+      "revId": "2b2499bf5f4bcc19bd8c730c27aad88369144b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
