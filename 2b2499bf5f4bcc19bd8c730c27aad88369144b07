@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8c4f47d9_9a96e26c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-15T16:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36dca013_ec06b8ee",
+      "range": {
+        "startLine": 81,
+        "startChar": 22,
+        "endLine": 81,
+        "endChar": 25
+      },
+      "revId": "2b2499bf5f4bcc19bd8c730c27aad88369144b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce759afb_c63db088",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchReplicationTest.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "2b2499bf5f4bcc19bd8c730c27aad88369144b07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "068fc47b_b216040e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchReplicationTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-07-15T16:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce759afb_c63db088",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 49
+      },
+      "revId": "2b2499bf5f4bcc19bd8c730c27aad88369144b07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
