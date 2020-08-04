@@ -14,6 +14,9 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
+import static java.util.Objects.requireNonNull;
+
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.Url;
@@ -65,6 +68,8 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     this.source = source;
     this.instanceLabel =
         replicationConfig.getConfig().getString("replication", null, "instanceLabel");
+    requireNonNull(
+        Strings.emptyToNull(instanceLabel), "replication.instanceLabel cannot be null or empty");
   }
 
   public HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
