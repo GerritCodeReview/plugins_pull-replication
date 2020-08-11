@@ -46,6 +46,30 @@
       "revId": "f1edffa503f1b849fb343d7e16754299c4d6cbd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ffc8dd5_660a343b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-08-11T10:05:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "096c22c2_d27913bb",
+      "range": {
+        "startLine": 72,
+        "startChar": 28,
+        "endLine": 72,
+        "endChar": 41
+      },
+      "revId": "f1edffa503f1b849fb343d7e16754299c4d6cbd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
