@@ -59,8 +59,8 @@ public class FetchCommand implements Command {
     }
 
     try {
-      Future<?> future = source.get().schedule(name, refName, state, true);
       state.markAllFetchTasksScheduled();
+      Future<?> future = source.get().schedule(name, refName, state, true);
       future.get(source.get().getTimeout(), TimeUnit.SECONDS);
     } catch (ExecutionException
         | IllegalStateException
