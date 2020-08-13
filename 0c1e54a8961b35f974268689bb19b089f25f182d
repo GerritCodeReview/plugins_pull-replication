@@ -17,6 +17,24 @@
       "revId": "0c1e54a8961b35f974268689bb19b089f25f182d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73660876_e979e099",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-13T14:25:36Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "23a5de8e_3077436d",
+      "revId": "0c1e54a8961b35f974268689bb19b089f25f182d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
