@@ -24,9 +24,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
@@ -60,6 +60,13 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.servlet.RequestScoped;
 import com.googlesource.gerrit.plugins.replication.RemoteSiteUser;
 import com.googlesource.gerrit.plugins.replication.ReplicationFilter;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.BatchFetchClient;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.CGitFetch;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.CGitFetchValidator;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.JGitFetch;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -70,7 +77,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -82,7 +88,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 
@@ -95,7 +100,7 @@ public class Source {
   }
 
   private final ReplicationStateListener stateLog;
-  private final Map<Project.NameKey, Object> stateLock = new ConcurrentHashMap<>();
+  private final Object stateLock = new Object();
   private final Map<URIish, FetchOne> pending = new HashMap<>();
   private final Map<URIish, FetchOne> inFlight = new HashMap<>();
   private final FetchOne.Factory opFactory;
@@ -172,8 +177,15 @@ public class Source {
                 bind(PerThreadRequestScope.Propagator.class);
 
                 bind(Source.class).toInstance(Source.this);
-                bind(RemoteConfig.class).toInstance(config.getRemoteConfig());
+                bind(SourceConfiguration.class).toInstance(config);
                 install(new FactoryModuleBuilder().build(FetchOne.Factory.class));
+                Class<? extends Fetch> clientClass =
+                    cfg.useCGitClient() ? CGitFetch.class : JGitFetch.class;
+                install(
+                    new FactoryModuleBuilder()
+                        .implement(Fetch.class, BatchFetchClient.class)
+                        .implement(Fetch.class, FetchClientImplementation.class, clientClass)
+                        .build(FetchFactory.class));
               }
 
               @Provides
@@ -194,7 +206,7 @@ public class Source {
                 };
               }
             });
-
+    child.getBinding(FetchFactory.class).acceptTargetVisitor(new CGitFetchValidator());
     opFactory = child.getInstance(FetchOne.Factory.class);
     threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
   }
@@ -363,7 +375,7 @@ public class Source {
 
     if (!config.replicatePermissions()) {
       FetchOne e;
-      synchronized (stateLock.getOrDefault(project, new Object())) {
+      synchronized (stateLock) {
         e = pending.get(uri);
       }
       if (e == null) {
@@ -386,15 +398,15 @@ public class Source {
       }
     }
 
-    synchronized (stateLock.getOrDefault(project, new Object())) {
+    synchronized (stateLock) {
       FetchOne e = pending.get(uri);
       Future<?> f = CompletableFuture.completedFuture(null);
       if (e == null) {
         e = opFactory.create(project, uri);
         addRef(e, ref);
         e.addState(ref, state);
-        f = pool.schedule(e, now ? 0 : config.getDelay(), TimeUnit.SECONDS);
         pending.put(uri, e);
+        f = pool.schedule(e, now ? 0 : config.getDelay(), TimeUnit.SECONDS);
       } else if (!e.getRefs().contains(ref)) {
         addRef(e, ref);
         e.addState(ref, state);
@@ -406,7 +418,7 @@ public class Source {
   }
 
   void fetchWasCanceled(FetchOne fetchOp) {
-    synchronized (stateLock.getOrDefault(fetchOp.getProjectNameKey(), new Object())) {
+    synchronized (stateLock) {
       URIish uri = fetchOp.getURI();
       pending.remove(uri);
     }

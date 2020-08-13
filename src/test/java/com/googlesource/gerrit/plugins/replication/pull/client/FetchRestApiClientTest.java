@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
@@ -138,6 +139,30 @@ public class FetchRestApiClientTest {
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(httpPost.getLastHeader("Content-Type").getValue())
         .isEqualTo(expectedHeader.getValue());
+  }
+
+  @Test
+  public void shouldThrowExceptionWhenInstanceLabelIsNull() {
+    when(config.getString("replication", null, "instanceLabel")).thenReturn(null);
+    assertThrows(
+        NullPointerException.class,
+        () -> new FetchRestApiClient(credentials, httpClientFactory, replicationConfig, source));
+  }
+
+  @Test
+  public void shouldTrimInstanceLabel() {
+    when(config.getString("replication", null, "instanceLabel")).thenReturn(" ");
+    assertThrows(
+        NullPointerException.class,
+        () -> new FetchRestApiClient(credentials, httpClientFactory, replicationConfig, source));
+  }
+
+  @Test
+  public void shouldThrowExceptionWhenInstanceLabelIsEmpty() {
+    when(config.getString("replication", null, "instanceLabel")).thenReturn("");
+    assertThrows(
+        NullPointerException.class,
+        () -> new FetchRestApiClient(credentials, httpClientFactory, replicationConfig, source));
   }
 
   public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {

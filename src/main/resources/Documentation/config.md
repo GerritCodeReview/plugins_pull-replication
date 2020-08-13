@@ -14,7 +14,7 @@ with the command line:
 ```
 
 <a name="example_file">
-Next, create `$site_path/etc/@PLUGIN@.config` as a Git-style config
+Next, create `$site_path/etc/replication.config` as a Git-style config
 file, for example to replicate in parallel from four different hosts:</a>
 
 ```
@@ -47,7 +47,7 @@ SSH command [start](cmd-start.md).
 File `@PLUGIN@.config`
 -------------------------
 
-The optional file `$site_path/etc/@PLUGIN@.config` is a Git-style
+The optional file `$site_path/etc/replication.config` is a Git-style
 config file that controls the replication settings for the replication
 plugin.
 
@@ -131,6 +131,22 @@ replication.maxConnections
 
 	Default: 2 * replication.maxConnectionsPerRoute
 
+replication.useCGitClient
+:	By default Gerrit uses JGit library to execute all git protocol command.
+	By setting this property to true all git fetch operation are going to be
+	executed using CGit client instead of JGit.
+
+	Default: false
+
+replication.refsBatchSize
+:	Number of refs that are fetched in a single fetch call.
+	If number of refs to fetch is greater then this param,
+	refs are going to be split into a separate fetch operations.
+
+	Value must be greater than zero.
+
+	Default: 50
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
@@ -209,6 +225,15 @@ remote.NAME.timeout
 	seconds is a much more reasonable timeout value.
 
 	Defaults to 0 seconds, wait indefinitely.
+
+remote.NAME.replicationDelay
+:	Time to wait before scheduling a remote fetch operation. Setting
+	the delay to 0 effectively disables the delay, causing the fetch
+	to start as soon as possible.
+
+	This is a Gerrit specific extension to the Git remote block.
+
+	By default, 0 seconds.
 
 remote.NAME.rescheduleDelay
 :	Delay when rescheduling a fetch operation due to an in-flight fetch
