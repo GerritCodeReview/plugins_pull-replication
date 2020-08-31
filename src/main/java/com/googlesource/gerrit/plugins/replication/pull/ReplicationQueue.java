@@ -25,6 +25,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
@@ -32,6 +33,10 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
@@ -52,6 +57,9 @@ public class ReplicationQueue
   private volatile boolean replaying;
   private final Queue<ReferenceUpdatedEvent> beforeStartupEventsQueue;
   private FetchRestApiClient.Factory fetchClientFactory;
+  private ForkJoinPool fetchCallsPool;
+  private ReplicationConfig replicationConfig;
+  private Integer fetchCallsTimeout;
 
   @Inject
   ReplicationQueue(
@@ -59,19 +67,31 @@ public class ReplicationQueue
       Provider<SourcesCollection> rd,
       DynamicItem<EventDispatcher> dis,
       ReplicationStateListeners sl,
-      FetchRestApiClient.Factory fetchClientFactory) {
+      FetchRestApiClient.Factory fetchClientFactory,
+      ReplicationConfig replicationConfig) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
     stateLog = sl;
     beforeStartupEventsQueue = Queues.newConcurrentLinkedQueue();
     this.fetchClientFactory = fetchClientFactory;
+    this.replicationConfig = replicationConfig;
   }
 
   @Override
   public void start() {
     if (!running) {
       sources.get().startup(workQueue);
+      fetchCallsTimeout =
+          2
+              * sources.get().getAll().stream()
+                  .map(Source::getConnectionTimeout)
+                  .reduce(0, Integer::sum);
+      fetchCallsPool =
+          new ForkJoinPool(
+              replicationConfig
+                  .getConfig()
+                  .getInt("replication", "clientThreads", sources.get().getAll().size()));
       running = true;
       fireBeforeStartupEvents();
     }
@@ -80,6 +100,7 @@ public class ReplicationQueue
   @Override
   public void stop() {
     running = false;
+    fetchCallsPool.shutdown();
     int discarded = sources.get().shutdown();
     if (discarded > 0) {
       repLog.warn("Canceled {} replication events during shutdown", discarded);
@@ -117,32 +138,55 @@ public class ReplicationQueue
       return;
     }
 
-    for (Source cfg : sources.get().getAll()) {
-      if (cfg.wouldFetchProject(project) && cfg.wouldFetchRef(refName)) {
-        for (String apiUrl : cfg.getApis()) {
-          try {
-            URIish uri = new URIish(apiUrl);
-            FetchRestApiClient fetchClient = fetchClientFactory.create(cfg);
+    try {
+      fetchCallsPool
+          .submit(
+              () ->
+                  sources
+                      .get()
+                      .getAll()
+                      .parallelStream()
+                      .forEach(
+                          source -> {
+                            callFetch(source, project, refName, state);
+                          }))
+          .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      stateLog.error(
+          String.format(
+              "Exception during the pull replication fetch rest api call.  Message:%s",
+              e.getMessage()),
+          e,
+          state);
+    }
+  }
 
-            HttpResult result = fetchClient.callFetch(project, refName, uri);
+  private void callFetch(
+      Source source, Project.NameKey project, String refName, ReplicationState state) {
+    if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
+      for (String apiUrl : source.getApis()) {
+        try {
+          URIish uri = new URIish(apiUrl);
+          FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
-            if (!result.isSuccessful()) {
-              stateLog.warn(
-                  String.format(
-                      "Pull replication rest api fetch call failed. Endpoint url: %s, reason:%s",
-                      apiUrl, result.getMessage().orElse("unknown")),
-                  state);
-            }
-          } catch (URISyntaxException e) {
-            stateLog.warn(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
-          } catch (Exception e) {
-            stateLog.error(
+          HttpResult result = fetchClient.callFetch(project, refName, uri);
+
+          if (!result.isSuccessful()) {
+            stateLog.warn(
                 String.format(
-                    "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
-                    apiUrl, e.getMessage()),
-                e,
+                    "Pull replication rest api fetch call failed. Endpoint url: %s, reason:%s",
+                    apiUrl, result.getMessage().orElse("unknown")),
                 state);
           }
+        } catch (URISyntaxException e) {
+          stateLog.warn(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
+        } catch (Exception e) {
+          stateLog.error(
+              String.format(
+                  "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
+                  apiUrl, e.getMessage()),
+              e,
+              state);
         }
       }
     }
