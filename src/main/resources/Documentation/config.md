@@ -147,6 +147,12 @@ replication.refsBatchSize
 
 	Default: 50
 
+replication.clientThreads
+:	Number of worker threads to dedicate to REST API fetch call.
+	Each thread can call one remote apiUrl to fetch one ref at a time.
+
+	By default, number of remote destinations.
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
