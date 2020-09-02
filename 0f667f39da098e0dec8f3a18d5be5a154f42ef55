@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "b2c34c98_56aff824",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-02T09:19:02Z",
+      "side": 1,
+      "message": "ReplicationQueue is here to stop/start sources on receiver site plus to implement GitReferenceUpdatedListener on the sender site. We can separate those two but I think it should be done in separate change. Do you want to use default queue work queue instead of dedicated thread  pool? I though that we want to have control over how many threads we are occupying and have better logging in java melody",
+      "parentUuid": "37018d06_a7b8f199",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 44
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d44a3dbc_1c473ee6",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 3
@@ -117,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "5ee32463_8cf140de",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-02T09:19:02Z",
+      "side": 1,
+      "message": "I agree it would be much easier. I have checked and I could not find any usage of ForkJoinPool in Gerrit code so I wanted to follow the same patter we already have. But if this is fine I will refactor the code to use ForkJoinPool",
+      "parentUuid": "aba4be3f_d02a307a",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 47
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa8370f7_8f8f3258",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 3
@@ -140,6 +188,30 @@
     },
     {
       "key": {
+        "uuid": "17863803_f272f6f9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-02T09:19:02Z",
+      "side": 1,
+      "message": "I was thinking about that but we already have http connection timeout and idle timeout so I thought that adding new timeout to the config will make it very confusing",
+      "parentUuid": "aa8370f7_8f8f3258",
+      "range": {
+        "startLine": 164,
+        "startChar": 13,
+        "endLine": 164,
+        "endChar": 18
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a754579b_935673af",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 3
@@ -151,6 +223,24 @@
       "writtenOn": "2020-09-02T08:49:45Z",
       "side": 1,
       "message": "This isn\u0027t needed as a separate class, you could just use a lambda inside a ForkJoinPool inside a parallel stream execution.",
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e08945ac_3b7ea693",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-02T09:19:02Z",
+      "side": 1,
+      "message": "Yep same as above I was following the pattern for example from multi-site. But I\u0027m happy to use lambda",
+      "parentUuid": "a754579b_935673af",
       "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
