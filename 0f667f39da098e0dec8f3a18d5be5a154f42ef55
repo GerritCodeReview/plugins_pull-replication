@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "9bfe5543_1c37a399",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T10:04:10Z",
+      "side": 1,
+      "message": "See below, I am proposing to use a much simpler structure, with parallel streams and a ForkJoinPool.",
+      "parentUuid": "b2c34c98_56aff824",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 44
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d44a3dbc_1c473ee6",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 3
@@ -165,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "e17eeec1_6d7cdb5f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T10:04:10Z",
+      "side": 1,
+      "message": "\u003e I agree it would be much easier. I have checked and I could not find any usage of ForkJoinPool in Gerrit code so I wanted to follow the same patter we already have.\n\nIf this change was for Gerrit core, I would agree.\nFrom a plugin we have more freedom and we are free to use what we believe makes sense.\n\n\u003e But if this is fine I will refactor the code to use ForkJoinPool\n\n+1",
+      "parentUuid": "5ee32463_8cf140de",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 47
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa8370f7_8f8f3258",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 3
@@ -212,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "74f1ea3f_4e09370c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T10:04:10Z",
+      "side": 1,
+      "message": "It could well be just a static constant in the code, but *infinite wait* isn\u0027t good in general.",
+      "parentUuid": "17863803_f272f6f9",
+      "range": {
+        "startLine": 164,
+        "startChar": 13,
+        "endLine": 164,
+        "endChar": 18
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a754579b_935673af",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 3
@@ -241,6 +313,24 @@
       "side": 1,
       "message": "Yep same as above I was following the pattern for example from multi-site. But I\u0027m happy to use lambda",
       "parentUuid": "a754579b_935673af",
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93c6cb91_bce75c06",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T10:04:10Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "e08945ac_3b7ea693",
       "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
