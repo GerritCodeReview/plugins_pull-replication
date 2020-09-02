@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4311beec_15cbc0a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T08:49:45Z",
+      "side": 1,
+      "message": "Parallelise",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29b685f6_3f2d4001",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T08:49:45Z",
+      "side": 1,
+      "message": "Can you please elaborate more on what was the bottleneck?\n\nLooking at the code, here you are parallelising the replication from multiple hosts rather than making them asynchronous.",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37018d06_a7b8f199",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T08:49:45Z",
+      "side": 1,
+      "message": "Do we really need to create a replication queue and a thread pool?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 44
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d44a3dbc_1c473ee6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T08:49:45Z",
+      "side": 1,
+      "message": "I believe we should wait for the tasks to complete, as we should keep existing behaviour.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 5
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aba4be3f_d02a307a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T08:49:45Z",
+      "side": 1,
+      "message": "Using a ForkJoinPool and a parallel stream would make the whole code a lot easier.\nJava 8 parallel streams were introduced exactly for this use-case.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 47
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa8370f7_8f8f3258",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T08:49:45Z",
+      "side": 1,
+      "message": "This would wait indefinitely: we should always allow to specify a timeout whenever there is a wait cycle.",
+      "range": {
+        "startLine": 164,
+        "startChar": 13,
+        "endLine": 164,
+        "endChar": 18
+      },
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a754579b_935673af",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T08:49:45Z",
+      "side": 1,
+      "message": "This isn\u0027t needed as a separate class, you could just use a lambda inside a ForkJoinPool inside a parallel stream execution.",
+      "revId": "0f667f39da098e0dec8f3a18d5be5a154f42ef55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
