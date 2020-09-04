@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5f73e1df_1cf7af51",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-04T11:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b1bfcd1_2a16b236",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 41
+      },
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77ddfd5d_4c89509e",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 4
@@ -113,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "db9c2d5f_1bbe5494",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-04T11:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "081bbfc1_8cf1cb09",
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "681d064f_a636b296",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 4
@@ -157,6 +199,30 @@
       "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40c966dd_b2ca08c5",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-04T11:28:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f032a290_b0375f12",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 43
+      },
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
