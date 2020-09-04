@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7b1bfcd1_2a16b236",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-04T09:35:16Z",
+      "side": 1,
+      "message": "I we have number of threads \u003d\u003d number of sources yes max would be sufficient but if we have less threads than sources we have to use something else",
+      "parentUuid": "0099562b_e0e40323",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 41
+      },
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77ddfd5d_4c89509e",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2020-09-04T09:03:42Z",
       "side": 1,
       "message": "This would cause all the fetch replication calls to be serialised.\n\nExample: repo-A and repo-B receive two concurrent ref-updates. If repo-A replication starts it will use all the threads of the ForkJoinPool and replications for repo-B would have to wait.\n\nWhy don\u0027t we move this new ForkJoinPool to L142?\n\nSecond question: why would you use more threads than the number of remotes? If you have 3 remotes and we run 3 parallel calls, why would you like to have 4 threads?",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 90
+      },
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47c85bf8_ee909043",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-04T09:35:16Z",
+      "side": 1,
+      "message": "Yeah you are right I forgot about that 😞 let me change that\n\nAbout second part I was thinking more about possibility to reduce number of threads. I saw setup with 5 masters and 20 slaves this mean that for every event we will create pool of 25 threads. I wanted to have control over it. But if we are ok with that I will simplify the code",
+      "parentUuid": "77ddfd5d_4c89509e",
       "range": {
         "startLine": 90,
         "startChar": 0,
@@ -76,6 +124,30 @@
       "writtenOn": "2020-09-04T09:03:42Z",
       "side": 1,
       "message": "What would be the value of having more threads than the number of sources?",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 43
+      },
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f032a290_b0375f12",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-09-04T09:35:16Z",
+      "side": 1,
+      "message": "Same as above more is not useful but I think reducing number of threads can be useful",
+      "parentUuid": "681d064f_a636b296",
       "range": {
         "startLine": 150,
         "startChar": 0,
