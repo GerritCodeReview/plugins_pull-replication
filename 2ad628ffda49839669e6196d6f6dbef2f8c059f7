@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0099562b_e0e40323",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T09:03:42Z",
+      "side": 1,
+      "message": "This should the max() of all timeouts, but not really the sum of them, correct?\nIf all the calls are running in parallel, we should wait as much as the slowest of all sources.",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 41
+      },
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77ddfd5d_4c89509e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T09:03:42Z",
+      "side": 1,
+      "message": "This would cause all the fetch replication calls to be serialised.\n\nExample: repo-A and repo-B receive two concurrent ref-updates. If repo-A replication starts it will use all the threads of the ForkJoinPool and replications for repo-B would have to wait.\n\nWhy don\u0027t we move this new ForkJoinPool to L142?\n\nSecond question: why would you use more threads than the number of remotes? If you have 3 remotes and we run 3 parallel calls, why would you like to have 4 threads?",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 90
+      },
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "081bbfc1_8cf1cb09",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T09:03:42Z",
+      "side": 1,
+      "message": "This also can be moved into a finally block after L161",
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "681d064f_a636b296",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T09:03:42Z",
+      "side": 1,
+      "message": "What would be the value of having more threads than the number of sources?",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 43
+      },
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
