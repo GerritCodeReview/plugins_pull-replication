@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "f1165f8a_aeb218ba",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T22:41:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47c85bf8_ee909043",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 90
+      },
+      "revId": "2ad628ffda49839669e6196d6f6dbef2f8c059f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "081bbfc1_8cf1cb09",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 4
