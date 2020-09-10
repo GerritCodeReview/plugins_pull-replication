@@ -58,6 +58,7 @@ public class ReplicationQueue
   private final Queue<ReferenceUpdatedEvent> beforeStartupEventsQueue;
   private FetchRestApiClient.Factory fetchClientFactory;
   private Integer fetchCallsTimeout;
+  private RefsFilter refsFilter;
 
   @Inject
   ReplicationQueue(
@@ -65,13 +66,15 @@ public class ReplicationQueue
       Provider<SourcesCollection> rd,
       DynamicItem<EventDispatcher> dis,
       ReplicationStateListeners sl,
-      FetchRestApiClient.Factory fetchClientFactory) {
+      FetchRestApiClient.Factory fetchClientFactory,
+      RefsFilter refsFilter) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
     stateLog = sl;
     beforeStartupEventsQueue = Queues.newConcurrentLinkedQueue();
     this.fetchClientFactory = fetchClientFactory;
+    this.refsFilter = refsFilter;
   }
 
   @Override
@@ -111,7 +114,13 @@ public class ReplicationQueue
 
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
-    fire(event.getProjectName(), ObjectId.fromString(event.getNewObjectId()), event.getRefName());
+    if (isRefToBeReplicated(event.getRefName())) {
+      fire(event.getProjectName(), ObjectId.fromString(event.getNewObjectId()), event.getRefName());
+    }
+  }
+
+  private Boolean isRefToBeReplicated(String refName) {
+    return !refsFilter.match(refName);
   }
 
   private void fire(String projectName, ObjectId objectId, String refName) {
