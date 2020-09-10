@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -48,6 +49,7 @@ public class ReplicationQueue
   static final Logger repLog = LoggerFactory.getLogger(PULL_REPLICATION_LOG_NAME);
 
   private static final Integer DEFAULT_FETCH_CALLS_TIMEOUT = 0;
+  private static final String MULTI_SITE_VERSIONING_REF = "refs/multi-site/version";
   private final ReplicationStateListener stateLog;
 
   private final WorkQueue workQueue;
@@ -111,14 +113,28 @@ public class ReplicationQueue
 
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
+	  if(!isSpecialRefName(event.getRefName())) {
     fire(event.getProjectName(), ObjectId.fromString(event.getNewObjectId()), event.getRefName());
+	  }
   }
 
   private void fire(String projectName, ObjectId objectId, String refName) {
-    ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
+	ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
     fire(Project.nameKey(projectName), objectId, refName, state);
     state.markAllFetchTasksScheduled();
   }
+  
+  private boolean isSpecialRefName(String refName) {
+	    return refName.startsWith(RefNames.REFS_USERS)
+	        || refName.startsWith(RefNames.REFS_CONFIG)
+	        || refName.startsWith(RefNames.REFS_SEQUENCES)
+	        || refName.startsWith(RefNames.REFS_EXTERNAL_IDS)
+	        || refName.startsWith(RefNames.REFS_GROUPS)
+	        || refName.startsWith(RefNames.REFS_GROUPNAMES)
+	        || refName.startsWith(RefNames.REFS_CACHE_AUTOMERGE)
+	        || refName.startsWith(RefNames.REFS_STARRED_CHANGES)
+	        || refName.startsWith(MULTI_SITE_VERSIONING_REF);
+	  }
 
   private void fire(
       Project.NameKey project, ObjectId objectId, String refName, ReplicationState state) {
