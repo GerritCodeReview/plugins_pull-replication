@@ -147,6 +147,40 @@ replication.refsBatchSize
 
 	Default: 50
 
+replication.excludeRefs
+:   Specify which refs should be excluded from git fetch calls. It can be provided
+    more than once, and supports three formats: regular expressions, wildcard
+    matching, and single ref matching. All three formats match are case-sensitive.
+
+    Values starting with a caret `^` are treated as regular
+    expressions. For the regular expressions details please follow
+    official [java documentation](https://docs.oracle.com/javase/tutorial/essential/regex/).
+
+    Please note that regular expressions could also be used
+    with inverse match.
+
+    Values that are not regular expressions and end in `*` are
+    treated as wildcard matches. Wildcards match refs whose
+    name agrees from the beginning until the trailing `*`. So
+    `foo/b*` would match the refs `foo/b`, `foo/bar`, and
+    `foo/baz`, but neither `foobar`, nor `bar/foo/baz`.
+
+    Values that are neither regular expressions nor wildcards are
+    treated as single ref matches. So `foo/bar` matches only
+    the ref `foo/bar`, but no other refs.
+
+    Following refs are always excluded from the git fetch calls:
+    - refs/users/*
+    - refs/meta/config
+    - refs/sequences/*
+    - refs/meta/external-ids
+    - refs/groups/*
+    - refs/meta/group-names
+    - refs/cache-automerge/*
+    - refs/starred-changes/*
+
+    By default, all other refs are included.
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
