@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d39b2e50_3fec3ef6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-11T21:33:52Z",
+      "side": 1,
+      "message": "You are coupling this plugin with the multi-site, which is incorrect.\nOne may use the pull-replication plugin without having to use multi-site at all.\n\nAlso, you may want to configure which refs to exclude and not having it hardcoded.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 84
+      },
+      "revId": "1d5826247e0c89ecdec414200014265d9a3ac65e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebb5eaf2_276b7e54",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-11T21:33:52Z",
+      "side": 1,
+      "message": "Why not changing into a positive check and with a more expressive name?\n\nExample:\n\n  isRefToBeReplicated()",
+      "range": {
+        "startLine": 116,
+        "startChar": 9,
+        "endLine": 116,
+        "endChar": 25
+      },
+      "revId": "1d5826247e0c89ecdec414200014265d9a3ac65e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "636e4253_8e254786",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-11T21:33:52Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be an hardcoded list but rather a configuration.\nYou could have some \"defaults\" in the config (e.g. REFS_SEQUENCES, REFS_CACHE_AUTOMERGE) but allow everything else to be configurable.",
+      "range": {
+        "startLine": 128,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 57
+      },
+      "revId": "1d5826247e0c89ecdec414200014265d9a3ac65e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
