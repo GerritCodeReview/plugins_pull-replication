@@ -92,6 +92,30 @@
       "revId": "1d5826247e0c89ecdec414200014265d9a3ac65e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45d9beac_8ad65249",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T13:15:38Z",
+      "side": 1,
+      "message": "\u003e I didn\u0027t want to double the functionality we already have a way to exclude refs. We have remote.\u003cname\u003e.fetch which can be use to include/exclude refs from being fetch with git fetch command. \n\nReally? If yes, then the documentation is wrong. the remote.\u003cname\u003e.fetch is simply a ref-spec, right? You cannot, at the moment, define any exclude regex, or I am mistaken?\n\n\u003e This functionality is more like we know that some of the refs cannot be fetch so why even bother to call remote destination to try to fetch them. If I make them configurable we will have something like:\n\u003e remote.\u003cname\u003e.fetch \u003d refs/*\n\u003e remote.\u003cname\u003e.refsToReplicate \u003d ...\n\nI thought you would define a specific \u0027blockList\u0027 for fetches, with the usual smart-regex logic:\n- full text\n- wildcard (if ends with \u0027*\u0027)\n- regex (if starts with \u0027^\u0027)\n\nThat looks like a different mechanism than the fetch ref-spec.",
+      "parentUuid": "16aa9548_fa02911d",
+      "range": {
+        "startLine": 128,
+        "startChar": 11,
+        "endLine": 136,
+        "endChar": 57
+      },
+      "revId": "1d5826247e0c89ecdec414200014265d9a3ac65e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }
