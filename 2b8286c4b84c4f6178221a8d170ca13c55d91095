@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94360d91_0f13b978",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-18T21:02:28Z",
+      "side": 1,
+      "message": "Thanks, Marcin, a lot better :-)\nJust some nits and then I believe we\u0027re good to merge it.",
+      "revId": "2b8286c4b84c4f6178221a8d170ca13c55d91095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d002a70a_b54b95bb",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-18T21:02:28Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 153,
+        "startChar": 66,
+        "endLine": 153,
+        "endChar": 67
+      },
+      "revId": "2b8286c4b84c4f6178221a8d170ca13c55d91095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed707e93_9190af0f",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-18T21:02:28Z",
+      "side": 1,
+      "message": "ref",
+      "range": {
+        "startLine": 153,
+        "startChar": 25,
+        "endLine": 153,
+        "endChar": 32
+      },
+      "revId": "2b8286c4b84c4f6178221a8d170ca13c55d91095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b00d125_aa288252",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-18T21:02:28Z",
+      "side": 1,
+      "message": "nit: remove extra empty line",
+      "revId": "2b8286c4b84c4f6178221a8d170ca13c55d91095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}
