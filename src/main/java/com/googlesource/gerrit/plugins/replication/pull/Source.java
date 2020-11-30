@@ -309,11 +309,13 @@ public class Source {
                     return true;
                   }
                   try {
-                    permissionBackend
-                        .user(userProvider.get())
-                        .project(project)
-                        .ref(ref)
-                        .check(RefPermission.READ);
+                    if (!ref.startsWith(RefNames.REFS_CHANGES)) {
+                      permissionBackend
+                          .user(userProvider.get())
+                          .project(project)
+                          .ref(ref)
+                          .check(RefPermission.READ);
+                    }
                   } catch (AuthException e) {
                     return false;
                   }
