@@ -294,12 +294,25 @@ public class Source {
                   try {
                     projectState = projectCache.get(project);
                   } catch (StorageException e) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because could not open source project",
+                        project,
+                        ref,
+                        e);
                     return false;
                   }
                   if (!projectState.isPresent()) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because project does not exist",
+                        project,
+                        ref);
                     throw new NoSuchProjectException(project);
                   }
                   if (!projectState.get().statePermitsRead()) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because project is not readable",
+                        project,
+                        ref);
                     return false;
                   }
                   if (!shouldReplicate(projectState.get(), userProvider.get())) {
@@ -317,6 +330,10 @@ public class Source {
                           .check(RefPermission.READ);
                     }
                   } catch (AuthException e) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because lack of permissions to access project/ref",
+                        project,
+                        ref);
                     return false;
                   }
                   return true;
@@ -329,6 +346,7 @@ public class Source {
       Throwables.throwIfUnchecked(e);
       throw new RuntimeException(e);
     }
+    repLog.warn("NOT scheduling replication {}:{}", project, ref);
     return false;
   }
 
