@@ -293,27 +293,50 @@ public class Source {
                   try {
                     projectState = projectCache.checkedGet(project);
                   } catch (IOException e) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because could not open source project",
+                        project,
+                        ref,
+                        e);
                     return false;
                   }
                   if (projectState == null) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because project does not exist",
+                        project,
+                        ref);
                     throw new NoSuchProjectException(project);
                   }
                   if (!projectState.statePermitsRead()) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because project is not readable",
+                        project,
+                        ref);
                     return false;
                   }
                   if (!shouldReplicate(projectState, userProvider.get())) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because project is supposed to be replicated",
+                        project,
+                        ref);
                     return false;
                   }
                   if (FetchOne.ALL_REFS.equals(ref)) {
                     return true;
                   }
                   try {
-                    permissionBackend
-                        .user(userProvider.get())
-                        .project(project)
-                        .ref(ref)
-                        .check(RefPermission.READ);
+                    if (!ref.startsWith(RefNames.REFS_CHANGES)) {
+                      permissionBackend
+                          .user(userProvider.get())
+                          .project(project)
+                          .ref(ref)
+                          .check(RefPermission.READ);
+                    }
                   } catch (AuthException e) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because lack of permissions to access project/ref",
+                        project,
+                        ref);
                     return false;
                   }
                   return true;
@@ -326,6 +349,7 @@ public class Source {
       Throwables.throwIfUnchecked(e);
       throw new RuntimeException(e);
     }
+    repLog.warn("NOT scheduling replication {}:{}", project, ref);
     return false;
   }
 
