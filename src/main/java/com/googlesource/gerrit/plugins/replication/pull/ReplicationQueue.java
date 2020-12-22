@@ -17,6 +17,8 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -26,8 +28,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Queue;
@@ -36,6 +41,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Consumer;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
@@ -59,6 +65,7 @@ public class ReplicationQueue
   private FetchRestApiClient.Factory fetchClientFactory;
   private Integer fetchCallsTimeout;
   private RefsFilter refsFilter;
+  private RevisionReader revisionReader;
 
   @Inject
   ReplicationQueue(
@@ -67,7 +74,8 @@ public class ReplicationQueue
       DynamicItem<EventDispatcher> dis,
       ReplicationStateListeners sl,
       FetchRestApiClient.Factory fetchClientFactory,
-      RefsFilter refsFilter) {
+      RefsFilter refsFilter,
+      RevisionReader revReader) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -75,6 +83,7 @@ public class ReplicationQueue
     beforeStartupEventsQueue = Queues.newConcurrentLinkedQueue();
     this.fetchClientFactory = fetchClientFactory;
     this.refsFilter = refsFilter;
+    this.revisionReader = revReader;
   }
 
   @Override
@@ -141,18 +150,12 @@ public class ReplicationQueue
     ForkJoinPool fetchCallsPool = null;
     try {
       fetchCallsPool = new ForkJoinPool(sources.get().getAll().size());
+
+      final Consumer<Source> callFunction = callFunction(project, refName, state);
       fetchCallsPool
-          .submit(
-              () ->
-                  sources
-                      .get()
-                      .getAll()
-                      .parallelStream()
-                      .forEach(
-                          source -> {
-                            callFetch(source, project, refName, state);
-                          }))
+          .submit(() -> sources.get().getAll().parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
+
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       stateLog.error(
           String.format(
@@ -167,6 +170,74 @@ public class ReplicationQueue
     }
   }
 
+  private Consumer<Source> callFunction(NameKey project, String refName, ReplicationState state) {
+    CallFunction call = getCallFunction(project, refName, state);
+
+    return (source) -> {
+      try {
+        call.call(source);
+      } catch (MissingParentObjectException e) {
+        callFetch(source, project, refName, state);
+      }
+    };
+  }
+
+  private CallFunction getCallFunction(NameKey project, String refName, ReplicationState state) {
+    if (RefNames.isNoteDbMetaRef(refName)) {
+      try {
+        RevisionData revision = revisionReader.read(project, refName);
+        return (source) -> callSendObject(source, project, refName, revision, state);
+      } catch (IOException e) {
+        stateLog.error(
+            String.format(
+                "Exception during reading ref: %s, project:%s, message: %s",
+                refName, project.get(), e.getMessage()),
+            e,
+            state);
+      }
+    }
+
+    return (source) -> callFetch(source, project, refName, state);
+  }
+
+  private void callSendObject(
+      Source source,
+      Project.NameKey project,
+      String refName,
+      RevisionData revision,
+      ReplicationState state)
+      throws MissingParentObjectException {
+    if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
+      for (String apiUrl : source.getApis()) {
+        try {
+          URIish uri = new URIish(apiUrl);
+          FetchRestApiClient fetchClient = fetchClientFactory.create(source);
+
+          HttpResult result = fetchClient.callSendObject(project, refName, revision, uri);
+          if (!result.isSuccessful()) {
+            repLog.warn(
+                String.format(
+                    "Pull replication rest api apply object call failed. Endpoint url: %s, reason:%s",
+                    apiUrl, result.getMessage().orElse("unknown")));
+            if (result.isParentObjectMissing()) {
+              throw new MissingParentObjectException(
+                  project, refName, source.getRemoteConfigName());
+            }
+          }
+        } catch (URISyntaxException e) {
+          stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
+        } catch (IOException e) {
+          stateLog.error(
+              String.format(
+                  "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
+                  apiUrl, e.getMessage()),
+              e,
+              state);
+        }
+      }
+    }
+  }
+
   private void callFetch(
       Source source, Project.NameKey project, String refName, ReplicationState state) {
     if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
@@ -176,7 +247,6 @@ public class ReplicationQueue
           FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
           HttpResult result = fetchClient.callFetch(project, refName, uri);
-
           if (!result.isSuccessful()) {
             stateLog.warn(
                 String.format(
@@ -185,7 +255,7 @@ public class ReplicationQueue
                 state);
           }
         } catch (URISyntaxException e) {
-          stateLog.warn(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
+          stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
         } catch (Exception e) {
           stateLog.error(
               String.format(
@@ -226,5 +296,10 @@ public class ReplicationQueue
     public abstract String refName();
 
     public abstract ObjectId objectId();
+  }
+
+  @FunctionalInterface
+  private interface CallFunction {
+    void call(Source source) throws MissingParentObjectException;
   }
 }
