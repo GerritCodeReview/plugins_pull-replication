@@ -247,6 +247,14 @@ remote.NAME.fetch
 
 [2]: #example_file
 
+remote.NAME.sendObject
+:	Standard Git refspec denoting which objects should be
+	send as a REST Api payload. All meta refs are always sent as
+	an REST Api payload.
+
+	Multiple sendObjects keys can be supplied, to specify multiple
+	patterns to match against.
+
 remote.NAME.timeout
 :	Number of seconds to wait for a network read or write to
 	complete before giving up and declaring the remote side is not
