@@ -17,10 +17,12 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -37,6 +39,10 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +65,7 @@ public class ReplicationQueue
   private FetchRestApiClient.Factory fetchClientFactory;
   private Integer fetchCallsTimeout;
   private RefsFilter refsFilter;
+  private GitRepositoryManager gitRepositoryManager;
 
   @Inject
   ReplicationQueue(
@@ -67,7 +74,8 @@ public class ReplicationQueue
       DynamicItem<EventDispatcher> dis,
       ReplicationStateListeners sl,
       FetchRestApiClient.Factory fetchClientFactory,
-      RefsFilter refsFilter) {
+      RefsFilter refsFilter,
+      GitRepositoryManager gitRepositoryManager) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -75,6 +83,7 @@ public class ReplicationQueue
     beforeStartupEventsQueue = Queues.newConcurrentLinkedQueue();
     this.fetchClientFactory = fetchClientFactory;
     this.refsFilter = refsFilter;
+    this.gitRepositoryManager = gitRepositoryManager;
   }
 
   @Override
@@ -175,15 +184,36 @@ public class ReplicationQueue
           URIish uri = new URIish(apiUrl);
           FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
-          HttpResult result = fetchClient.callFetch(project, refName, uri);
+          if (RefNames.isNoteDbMetaRef(refName)) {
+            try (Repository git = gitRepositoryManager.openRepository(project)) {
+              Ref head = git.exactRef(refName);
+              ObjectLoader ol = git.open(head.getObjectId());
+              byte[] bytes = ol.getCachedBytes();
+              RevCommit commit = RevCommit.parse(bytes);
 
-          if (!result.isSuccessful()) {
-            stateLog.warn(
-                String.format(
-                    "Pull replication rest api fetch call failed. Endpoint url: %s, reason:%s",
-                    apiUrl, result.getMessage().orElse("unknown")),
-                state);
+              ObjectLoader treeLoader = git.open(commit.getTree().toObjectId());
+              byte[] treeObjectBytes = treeLoader.getCachedBytes();
+
+              HttpResult result =
+                  fetchClient.callSendObject(project, refName, bytes, treeObjectBytes, uri);
+              if (!result.isSuccessful()) {
+                repLog.warn(
+                    String.format(
+                        "Pull replication rest api apply object call failed. Endpoint url: %s, reason:%s",
+                        apiUrl, result.getMessage().orElse("unknown")));
+              }
+            }
+          } else {
+            HttpResult result = fetchClient.callFetch(project, refName, uri);
+            if (!result.isSuccessful()) {
+              stateLog.warn(
+                  String.format(
+                      "Pull replication rest api fetch call failed. Endpoint url: %s, reason:%s",
+                      apiUrl, result.getMessage().orElse("unknown")),
+                  state);
+            }
           }
+
         } catch (URISyntaxException e) {
           stateLog.warn(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
         } catch (Exception e) {
