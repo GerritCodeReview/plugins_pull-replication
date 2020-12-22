@@ -20,6 +20,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 
 public class SourceConfiguration implements RemoteConfiguration {
@@ -44,6 +45,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private final ImmutableList<String> authGroupNames;
   private final RemoteConfig remoteConfig;
   private final ImmutableList<String> apis;
+  private final ImmutableList<RefSpec> sendObjectRefSpecs;
   private final int connectionTimeout;
   private final int idleTimeout;
   private final int maxConnectionsPerRoute;
@@ -58,6 +60,7 @@ public class SourceConfiguration implements RemoteConfiguration {
     String name = remoteConfig.getName();
     urls = ImmutableList.copyOf(cfg.getStringList("remote", name, "url"));
     apis = ImmutableList.copyOf(cfg.getStringList("remote", name, "apiUrl"));
+    sendObjectRefSpecs = ImmutableList.copyOf(cfg.getRefSpecs("remote", name, "sendObject"));
     connectionTimeout =
         cfg.getInt("remote", name, "connectionTimeout", DEFAULT_CONNECTION_TIMEOUT_MS);
     idleTimeout = cfg.getInt("remote", name, "idleTimeout", DEFAULT_MAX_CONNECTION_INACTIVITY_MS);
@@ -157,6 +160,10 @@ public class SourceConfiguration implements RemoteConfiguration {
   @Override
   public ImmutableList<String> getAuthGroupNames() {
     return authGroupNames;
+  }
+
+  public ImmutableList<RefSpec> getSendObjectRefSpecs() {
+    return sendObjectRefSpecs;
   }
 
   @Override
