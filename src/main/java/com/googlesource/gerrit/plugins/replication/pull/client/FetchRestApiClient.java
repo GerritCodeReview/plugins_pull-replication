@@ -90,6 +90,25 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
   }
 
+  public HttpResult callSendObject(
+      Project.NameKey project, String refName, byte[] object, URIish targetUri)
+      throws ClientProtocolException, IOException {
+    String url =
+        String.format(
+            "%s/a/projects/%s/pull-replication~apply-object",
+            targetUri.toString(), Url.encode(project.get()));
+
+    HttpPost post = new HttpPost(url);
+    post.setEntity(
+        new StringEntity(
+            String.format(
+                "{\"label\":\"%s\", \"ref_name\": \"%s\", \"object_blob\":\"%s\"}",
+                instanceLabel, refName, new String(object)),
+            StandardCharsets.UTF_8));
+    post.addHeader(new BasicHeader("Content-Type", "application/json"));
+    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+  }
+
   @Override
   public HttpResult handleResponse(HttpResponse response) {
     Optional<String> responseBody = Optional.empty();

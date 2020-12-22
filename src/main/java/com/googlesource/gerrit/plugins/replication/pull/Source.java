@@ -597,6 +597,15 @@ public class Source {
     return (new ReplicationFilter(projects)).matches(project);
   }
 
+  public boolean wouldSendObject(String refName) {
+    for (RefSpec s : config.getSendObjectRefSpecs()) {
+      if (s.matchSource(refName)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public boolean isSingleProjectMatch() {
     return config.isSingleProjectMatch();
   }
