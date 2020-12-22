@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 
 import java.util.Optional;
 
@@ -35,5 +36,9 @@ public class HttpResult {
 
   public boolean isSuccessful() {
     return responseCode == SC_CREATED || responseCode == SC_NO_CONTENT || responseCode == SC_OK;
+  }
+  
+  public boolean isParentObjectMissing() {
+	  return responseCode == SC_CONFLICT;
   }
 }
