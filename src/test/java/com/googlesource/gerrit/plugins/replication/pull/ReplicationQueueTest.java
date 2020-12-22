@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener.Event;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
@@ -47,8 +48,10 @@ public class ReplicationQueueTest {
   @Mock ReplicationStateListeners sl;
   @Mock FetchRestApiClient.Factory fetchClientFactory;
   @Mock AccountInfo accountInfo;
+  @Mock GitRepositoryManager gitRepositoryManager;
 
   RefsFilter refsFilter;
+  RevisionReader revReader;
 
   private ReplicationQueue objectUnderTest;
   private SitePaths sitePaths;
@@ -61,7 +64,9 @@ public class ReplicationQueueTest {
     Path pluginDataPath = createTempPath("data");
     ReplicationConfig replicationConfig = new ReplicationFileBasedConfig(sitePaths, pluginDataPath);
     refsFilter = new RefsFilter(replicationConfig);
-    objectUnderTest = new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter);
+    revReader = new RevisionReader(gitRepositoryManager);
+    objectUnderTest =
+        new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
   }
 
   @Test
@@ -104,7 +109,9 @@ public class ReplicationQueueTest {
     fileConfig.save();
     ReplicationConfig replicationConfig = new ReplicationFileBasedConfig(sitePaths, pluginDataPath);
     refsFilter = new RefsFilter(replicationConfig);
-    objectUnderTest = new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter);
+
+    objectUnderTest =
+        new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onGitReferenceUpdated(event);
 
