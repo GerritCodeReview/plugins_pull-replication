@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -26,8 +27,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Queue;
@@ -59,6 +62,7 @@ public class ReplicationQueue
   private FetchRestApiClient.Factory fetchClientFactory;
   private Integer fetchCallsTimeout;
   private RefsFilter refsFilter;
+  private RevisionReader revisionReader;
 
   @Inject
   ReplicationQueue(
@@ -67,7 +71,8 @@ public class ReplicationQueue
       DynamicItem<EventDispatcher> dis,
       ReplicationStateListeners sl,
       FetchRestApiClient.Factory fetchClientFactory,
-      RefsFilter refsFilter) {
+      RefsFilter refsFilter,
+      RevisionReader revReader) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -75,6 +80,7 @@ public class ReplicationQueue
     beforeStartupEventsQueue = Queues.newConcurrentLinkedQueue();
     this.fetchClientFactory = fetchClientFactory;
     this.refsFilter = refsFilter;
+    this.revisionReader = revReader;
   }
 
   @Override
@@ -141,19 +147,35 @@ public class ReplicationQueue
     ForkJoinPool fetchCallsPool = null;
     try {
       fetchCallsPool = new ForkJoinPool(sources.get().getAll().size());
-      fetchCallsPool
-          .submit(
-              () ->
-                  sources
-                      .get()
-                      .getAll()
-                      .parallelStream()
-                      .forEach(
-                          source -> {
-                            callFetch(source, project, refName, state);
-                          }))
-          .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
-    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      if (RefNames.isNoteDbMetaRef(refName)) {
+        RevisionData revision = revisionReader.read(project, refName);
+        fetchCallsPool
+            .submit(
+                () ->
+                    sources
+                        .get()
+                        .getAll()
+                        .parallelStream()
+                        .forEach(
+                            source -> {
+                              callSendObject(source, project, refName, revision, state);
+                            }))
+            .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
+      } else {
+        fetchCallsPool
+            .submit(
+                () ->
+                    sources
+                        .get()
+                        .getAll()
+                        .parallelStream()
+                        .forEach(
+                            source -> {
+                              callFetch(source, project, refName, state);
+                            }))
+            .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
+      }
+    } catch (InterruptedException | ExecutionException | TimeoutException | IOException e) {
       stateLog.error(
           String.format(
               "Exception during the pull replication fetch rest api call.  Message:%s",
@@ -167,6 +189,39 @@ public class ReplicationQueue
     }
   }
 
+  private void callSendObject(
+      Source source,
+      Project.NameKey project,
+      String refName,
+      RevisionData revision,
+      ReplicationState state) {
+    if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
+      for (String apiUrl : source.getApis()) {
+        try {
+          URIish uri = new URIish(apiUrl);
+          FetchRestApiClient fetchClient = fetchClientFactory.create(source);
+
+          HttpResult result = fetchClient.callSendObject(project, refName, revision, uri);
+          if (!result.isSuccessful()) {
+            repLog.warn(
+                String.format(
+                    "Pull replication rest api apply object call failed. Endpoint url: %s, reason:%s",
+                    apiUrl, result.getMessage().orElse("unknown")));
+          }
+        } catch (URISyntaxException e) {
+          stateLog.warn(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
+        } catch (Exception e) {
+          stateLog.error(
+              String.format(
+                  "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
+                  apiUrl, e.getMessage()),
+              e,
+              state);
+        }
+      }
+    }
+  }
+
   private void callFetch(
       Source source, Project.NameKey project, String refName, ReplicationState state) {
     if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
@@ -176,7 +231,6 @@ public class ReplicationQueue
           FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
           HttpResult result = fetchClient.callFetch(project, refName, uri);
-
           if (!result.isSuccessful()) {
             stateLog.warn(
                 String.format(
