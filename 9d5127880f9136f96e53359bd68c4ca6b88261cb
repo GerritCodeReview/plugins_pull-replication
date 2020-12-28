@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8586a9d_730d63dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-12-28T11:12:04Z",
+      "side": 1,
+      "message": "It\u0027s still WIP because I\u0027ve manage to get this situation after testing revert:\nbroken link from  commit 3aa57c3df7f381036a3e6ecc0d9beac4a2686e62 (refs/changes/83/883/meta)\nto  commit f5104e6a853e083f785a0aaf1eb752cbc5ea6f7a (refs/changes/83/883/meta^)\n\nmissing commit f5104e6a853e083f785a0aaf1eb752cbc5ea6f7a (refs/changes/83/883/meta^)\n\nI have no idea why this commit is missing. I will investigate but maybe you know why",
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
