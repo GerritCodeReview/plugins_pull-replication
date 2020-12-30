@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "570e1178_3d07d407",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T21:45:20Z",
+      "side": 1,
+      "message": "I believe this can be simplified *a lot*.\n\nA couple of suggestions:\n- Indexing a change: just use the Gerrit API, and do:\n  api.changes().id(project + \"~\" + changeNum).index()\n- Use the FetchReplicatedEvent listener to trigger it.\n  Check if the event is happening on the local instance using the GerritInstanceId\n\nWith the two above hints, it should be a very small change.",
+      "revId": "2a1d50d42230003429f7fd26cba3bd93f021aaca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0976b3a2_9809b0d2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 4
