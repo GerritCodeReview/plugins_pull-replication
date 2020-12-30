@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99c05f09_42ac1984",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-12-30T08:58:23Z",
+      "side": 1,
+      "message": "1. Yes you are absolutely right this is still WIP I just wanted to send content to make sure that everything else works and my approach is correct. I will address they way how we are sending data, simple string is not a prod solution.\n2. I wanted to start with something simple, so for now we are just passing meta ref. Fetching meta refs was blocking the UI so this would help with the overall experience. I was planning to add small blobs + trees in a follow up commit. But one question: for meta ref is it fine to pass just the Commit and update ref to point to that object?\n3. You are right I should not put that config. As mentioned in point 2 I wanted to start with meta ref and add blobs + commit + tree in a follow up change",
+      "parentUuid": "2c90e8ac_78d0b7b2",
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "721c6d3e_f7080d15",
@@ -48,6 +66,30 @@
       "writtenOn": "2020-12-30T00:41:00Z",
       "side": 1,
       "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46116f9a_6f92c487",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-12-30T08:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "721c6d3e_f7080d15",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b9250c5_08ae7f1d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-12-30T08:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d91f7a7c_2dfef7f1",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 25
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18432fc5_cbc3f226",
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "176067f4_5b599615",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-12-30T08:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18432fc5_cbc3f226",
+      "range": {
+        "startLine": 30,
+        "startChar": 24,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f3a52df_ba634710",
@@ -117,6 +207,30 @@
       "writtenOn": "2020-12-30T00:41:00Z",
       "side": 1,
       "message": "apply-object",
+      "range": {
+        "startLine": 98,
+        "startChar": 47,
+        "endLine": 98,
+        "endChar": 58
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "706e8e43_8de7e143",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-12-30T08:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f3a52df_ba634710",
       "range": {
         "startLine": 98,
         "startChar": 47,
