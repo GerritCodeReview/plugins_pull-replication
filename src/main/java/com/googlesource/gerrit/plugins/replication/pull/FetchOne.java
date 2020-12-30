@@ -37,6 +37,7 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -364,7 +365,14 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private void runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
-    updateStates(fetch.fetch(fetchRefSpecs));
+    List<RefSpec> refsToReindex = updateStates(fetch.fetch(fetchRefSpecs));
+    //XXX: Instead of "fetchRefSpecs" we should only get the references were correctly replicated
+    refsToReindex = fetchRefSpecs;
+    indexChanges(refsToReindex);
+  }
+
+  private void indexChanges(List<RefSpec> refsToReindex) throws IOException {
+    //XXX need to send indexing events here
   }
 
   private List<RefSpec> getFetchRefSpecs() {
@@ -374,7 +382,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     return delta.stream().map(ref -> new RefSpec(ref + ":" + ref)).collect(Collectors.toList());
   }
 
-  private void updateStates(List<RefUpdateState> refUpdates) throws IOException {
+  private List<RefSpec> updateStates(List<RefUpdateState> refUpdates) throws IOException {
     Set<String> doneRefs = new HashSet<>();
     boolean anyRefFailed = false;
     RefUpdate.Result lastRefUpdateResult = RefUpdate.Result.NO_CHANGE;
@@ -383,7 +391,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       ReplicationState.RefFetchResult fetchStatus = ReplicationState.RefFetchResult.SUCCEEDED;
       Set<ReplicationState> logStates = new HashSet<>();
       lastRefUpdateResult = u.getResult();
-
       logStates.addAll(stateMap.get(u.getRemoteName()));
       logStates.addAll(stateMap.get(ALL_REFS));
       ReplicationState[] logStatesArray = logStates.toArray(new ReplicationState[logStates.size()]);
@@ -454,6 +461,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       }
     }
     stateMap.clear();
+
+    return Collections.EMPTY_LIST;
   }
 
   public static class LockFailureException extends TransportException {
