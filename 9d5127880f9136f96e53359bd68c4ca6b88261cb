@@ -16,6 +16,184 @@
       "message": "It\u0027s still WIP because I\u0027ve manage to get this situation after testing revert:\nbroken link from  commit 3aa57c3df7f381036a3e6ecc0d9beac4a2686e62 (refs/changes/83/883/meta)\nto  commit f5104e6a853e083f785a0aaf1eb752cbc5ea6f7a (refs/changes/83/883/meta^)\n\nmissing commit f5104e6a853e083f785a0aaf1eb752cbc5ea6f7a (refs/changes/83/883/meta^)\n\nI have no idea why this commit is missing. I will investigate but maybe you know why",
       "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c90e8ac_78d0b7b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T00:41:00Z",
+      "side": 1,
+      "message": "I like the idea overall, but I see three problems:\n\n1. The BLOB is sent encoded in an UTF-8 String, which is unsafe\n2. You are passing the Commit BLOB but not the Trees and the pointed BLOBs: how are they supposed to go through the other side?\n3. The configuration requires quite some knowledge of the refs to use: have you thought about the possibility to just do it based on the cumulative commit + tree + BLOB size as well?",
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "721c6d3e_f7080d15",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T00:41:00Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d91f7a7c_2dfef7f1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T00:41:00Z",
+      "side": 1,
+      "message": "apply_object",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 25
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18432fc5_cbc3f226",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T00:41:00Z",
+      "side": 1,
+      "message": "Do not use mixed case URL fragments, as you would be looking for trouble :-)\nWhat about just apply-object?",
+      "range": {
+        "startLine": 30,
+        "startChar": 24,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f3a52df_ba634710",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T00:41:00Z",
+      "side": 1,
+      "message": "apply-object",
+      "range": {
+        "startLine": 98,
+        "startChar": 47,
+        "endLine": 98,
+        "endChar": 58
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7a864f9_9d89bc1d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T00:41:00Z",
+      "side": 1,
+      "message": "Well, it isn\u0027t safe at all to encode a Git BLOB into an UTF_8 string.\nYou should use at least a Base64 encoding here, which I know involves a space overhead.\n\nThe best would be a multipart form-data, where the BLOB is a binary part of it.\nCan you explore that option as well?\n\nI am also missing where you are passing the rest of it:\n- Trees\n- BLOBs\n\nPassing the BLOB of the commit object isn\u0027t enough.",
+      "range": {
+        "startLine": 106,
+        "startChar": 40,
+        "endLine": 106,
+        "endChar": 58
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77735d81_35d4bddf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T00:41:00Z",
+      "side": 1,
+      "message": "It would be best to use a JSON serialisation, so to make sure of not having problems with strange encodings.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 37
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e70637aa_d2856e77",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T00:41:00Z",
+      "side": 1,
+      "message": "This is a very unsafe way of transmitting the BLOB binary data.\nSee my earlier comment about Base64 encoding.\n\nAlso, that would give you the commit object and the pointers to the Tree and the BLOBs. Where are those transferred?",
+      "range": {
+        "startLine": 47,
+        "startChar": 47,
+        "endLine": 47,
+        "endChar": 64
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
