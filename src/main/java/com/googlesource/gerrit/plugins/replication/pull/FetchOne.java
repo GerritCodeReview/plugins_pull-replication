@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue.CanceledWhileRunning;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
@@ -34,14 +35,19 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
+import com.googlesource.gerrit.plugins.replication.pull.index.IndexChangeTask;
+import com.googlesource.gerrit.plugins.replication.pull.index.IndexEvent;
 import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
@@ -93,6 +99,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final FetchReplicationMetrics metrics;
   private final AtomicBoolean canceledWhileRunning;
   private final FetchFactory fetchFactory;
+  private final Set<ChangeIndexer.IndexTask> queuedTasks = Collections.newSetFromMap(new ConcurrentHashMap <>());
+  private final ScheduledExecutorService executor; //XXX Inject this in the constructor
 
   @Inject
   FetchOne(
@@ -364,7 +372,20 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private void runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
-    updateStates(fetch.fetch(fetchRefSpecs));
+    List<RefSpec> refsToReindex = updateStates(fetch.fetch(fetchRefSpecs));
+    //XXX: Instead of "fetchRefSpecs" we should only get the references were correctly replicated
+    refsToReindex = fetchRefSpecs;
+    indexChanges(refsToReindex);
+  }
+
+  private void indexChanges(List<RefSpec> refsToReindex) throws IOException {
+    //XXX need to send indexing events here
+    IndexEvent event = new IndexEvent();
+    event.targetSha = getBranchTargetSha(); //XXX getBranchTargetSha is a placeholder
+    IndexChangeTask task = new IndexChangeTask(projectName, id, event);
+    if (queuedTasks.add(task)) {
+      executor.execute(task);
+    }
   }
 
   private List<RefSpec> getFetchRefSpecs() {
@@ -374,7 +395,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     return delta.stream().map(ref -> new RefSpec(ref + ":" + ref)).collect(Collectors.toList());
   }
 
-  private void updateStates(List<RefUpdateState> refUpdates) throws IOException {
+  private List<RefSpec> updateStates(List<RefUpdateState> refUpdates) throws IOException {
     Set<String> doneRefs = new HashSet<>();
     boolean anyRefFailed = false;
     RefUpdate.Result lastRefUpdateResult = RefUpdate.Result.NO_CHANGE;
@@ -383,7 +404,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       ReplicationState.RefFetchResult fetchStatus = ReplicationState.RefFetchResult.SUCCEEDED;
       Set<ReplicationState> logStates = new HashSet<>();
       lastRefUpdateResult = u.getResult();
-
       logStates.addAll(stateMap.get(u.getRemoteName()));
       logStates.addAll(stateMap.get(ALL_REFS));
       ReplicationState[] logStatesArray = logStates.toArray(new ReplicationState[logStates.size()]);
@@ -454,6 +474,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       }
     }
     stateMap.clear();
+
+    return Collections.EMPTY_LIST;
   }
 
   public static class LockFailureException extends TransportException {
