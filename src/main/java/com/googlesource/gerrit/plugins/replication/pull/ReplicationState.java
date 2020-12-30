@@ -25,6 +25,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.URIish;
 
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
+
 public class ReplicationState {
 
   public interface Factory {
