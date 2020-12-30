@@ -44,6 +44,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiMo
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.SourceHttpClient;
+import com.googlesource.gerrit.plugins.replication.pull.event.FetchRefReplicatedEventModule;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -66,6 +67,8 @@ class PullReplicationModule extends AbstractModule {
   protected void configure() {
 
     install(new PullReplicationApiModule());
+
+    install(new FetchRefReplicatedEventModule());
 
     install(
         new FactoryModuleBuilder()
