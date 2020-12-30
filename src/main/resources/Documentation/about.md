@@ -15,3 +15,5 @@ Access
 To be allowed to trigger pull replication a user must be a member of a
 group that is granted the 'Pull Replication' capability (provided
 by this plugin) or the 'Administrate Server' capability.
+
+XXX Add permission to reindex as well
