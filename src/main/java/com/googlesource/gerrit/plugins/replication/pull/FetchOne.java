@@ -383,7 +383,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       ReplicationState.RefFetchResult fetchStatus = ReplicationState.RefFetchResult.SUCCEEDED;
       Set<ReplicationState> logStates = new HashSet<>();
       lastRefUpdateResult = u.getResult();
-
       logStates.addAll(stateMap.get(u.getRemoteName()));
       logStates.addAll(stateMap.get(ALL_REFS));
       ReplicationState[] logStatesArray = logStates.toArray(new ReplicationState[logStates.size()]);
