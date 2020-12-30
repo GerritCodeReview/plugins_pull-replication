@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da059515_ce29a07f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-30T21:51:14Z",
+      "side": 1,
+      "message": "\u003e 1. Yes you are absolutely right this is still WIP I just wanted to send content to make sure that everything else works and my approach is correct. I will address they way how we are sending data, simple string is not a prod solution.\n\n+1\n\n\u003e 2. I wanted to start with something simple, so for now we are just passing meta ref. Fetching meta refs was blocking the UI so this would help with the overall experience. I was planning to add small blobs + trees in a follow up commit. But one question: for meta ref is it fine to pass just the Commit and update ref to point to that object?\n\nThe meta-refs updates have also new trees and BLOBs: you cannot really merge this change if you don\u0027t pass them over as well, otherwise you may corrupt the repository.\n\n\u003e 3. You are right I should not put that config. As mentioned in point 2 I wanted to start with meta ref and add blobs + commit + tree in a follow up change\n\n+1",
+      "parentUuid": "99c05f09_42ac1984",
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "721c6d3e_f7080d15",
