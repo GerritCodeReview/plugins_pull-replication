@@ -22,7 +22,9 @@ import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventTypes;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -48,6 +50,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.Executor;
+
+import com.googlesource.gerrit.plugins.replication.pull.event.EventExecutor;
+import com.googlesource.gerrit.plugins.replication.pull.event.EventExecutorProvider;
+import com.googlesource.gerrit.plugins.replication.pull.event.FetchRefReplicatedEventHandler;
+import com.googlesource.gerrit.plugins.replication.pull.event.FetchRefReplicatedEventModule;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -66,6 +74,8 @@ class PullReplicationModule extends AbstractModule {
   protected void configure() {
 
     install(new PullReplicationApiModule());
+
+    install(new FetchRefReplicatedEventModule());
 
     install(
         new FactoryModuleBuilder()
