@@ -15,6 +15,8 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.events.EventDispatcher;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.Command;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing;
@@ -34,22 +36,26 @@ public class FetchCommand implements Command {
   private ReplicationState.Factory fetchReplicationStateFactory;
   private PullReplicationStateLogger fetchStateLog;
   private SourcesCollection sources;
+  private final DynamicItem <EventDispatcher> eventDispatcher;
 
   @Inject
   public FetchCommand(
       ReplicationState.Factory fetchReplicationStateFactory,
       PullReplicationStateLogger fetchStateLog,
-      SourcesCollection sources) {
+      SourcesCollection sources,
+      DynamicItem <EventDispatcher> eventDispatcher
+      ) {
     this.fetchReplicationStateFactory = fetchReplicationStateFactory;
     this.fetchStateLog = fetchStateLog;
     this.sources = sources;
+    this.eventDispatcher = eventDispatcher;
   }
 
   public void fetch(Project.NameKey name, String label, String refName)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
     ReplicationState state =
-        fetchReplicationStateFactory.create(new FetchResultProcessing.CommandProcessing(this));
+        fetchReplicationStateFactory.create(new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
     Optional<Source> source =
         sources.getAll().stream().filter(s -> s.getRemoteConfigName().equals(label)).findFirst();
     if (!source.isPresent()) {

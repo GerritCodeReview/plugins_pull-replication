@@ -15,6 +15,8 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -54,6 +56,8 @@ public final class StartFetchCommand extends SshCommand implements Command {
 
   @Inject private ReplicationState.Factory fetchReplicationStateFactory;
 
+  @Inject private DynamicItem <EventDispatcher> eventDispatcher;
+
   @Override
   protected void run() throws Failure {
     if (all && projectPatterns.size() > 0) {
@@ -61,7 +65,7 @@ public final class StartFetchCommand extends SshCommand implements Command {
     }
 
     ReplicationState state =
-        fetchReplicationStateFactory.create(new FetchResultProcessing.CommandProcessing(this));
+        fetchReplicationStateFactory.create(new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
     Future<?> future = null;
 
     ReplicationFilter projectFilter;
