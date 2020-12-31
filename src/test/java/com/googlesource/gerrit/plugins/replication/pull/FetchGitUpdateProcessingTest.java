@@ -21,6 +21,7 @@ import static org.mockito.Mockito.verify;
 
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.CommandProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
 import java.net.URISyntaxException;
@@ -32,15 +33,20 @@ import org.junit.Test;
 public class FetchGitUpdateProcessingTest {
   private EventDispatcher dispatcherMock;
   private GitUpdateProcessing gitUpdateProcessing;
+  private CommandProcessing commandProcessing;
+  private Command sshCommandMock;
 
   @Before
   public void setUp() throws Exception {
     dispatcherMock = mock(EventDispatcher.class);
     gitUpdateProcessing = new GitUpdateProcessing(dispatcherMock);
+    sshCommandMock = mock(Command.class);
+    commandProcessing = new CommandProcessing(sshCommandMock, dispatcherMock);
   }
 
   @Test
-  public void headRefReplicated() throws URISyntaxException, PermissionBackendException {
+  public void headRefReplicatedInGitUpdateProcessing()
+      throws URISyntaxException, PermissionBackendException {
     FetchRefReplicatedEvent expectedEvent =
         new FetchRefReplicatedEvent(
             "someProject",
@@ -50,6 +56,26 @@ public class FetchGitUpdateProcessingTest {
             RefUpdate.Result.NEW);
 
     gitUpdateProcessing.onOneProjectReplicationDone(
+        "someProject",
+        "refs/heads/master",
+        new URIish("git://someHost/someProject.git"),
+        RefFetchResult.SUCCEEDED,
+        RefUpdate.Result.NEW);
+    verify(dispatcherMock, times(1)).postEvent(eq(expectedEvent));
+  }
+
+  @Test
+  public void headRefReplicatedInCommandProcessing()
+      throws URISyntaxException, PermissionBackendException {
+    FetchRefReplicatedEvent expectedEvent =
+        new FetchRefReplicatedEvent(
+            "someProject",
+            "refs/heads/master",
+            "someHost",
+            RefFetchResult.SUCCEEDED,
+            RefUpdate.Result.NEW);
+
+    commandProcessing.onOneProjectReplicationDone(
         "someProject",
         "refs/heads/master",
         new URIish("git://someHost/someProject.git"),
