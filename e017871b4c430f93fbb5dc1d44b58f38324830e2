@@ -81,6 +81,24 @@
       "parentUuid": "92210052_a5b5c599",
       "revId": "e017871b4c430f93fbb5dc1d44b58f38324830e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca692bee_3136b02f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-12-31T16:03:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0f530c7f_e7a4f6c9",
+      "revId": "e017871b4c430f93fbb5dc1d44b58f38324830e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
