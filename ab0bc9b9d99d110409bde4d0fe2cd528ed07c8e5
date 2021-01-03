@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6fced6c_49850a13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-03T16:57:34Z",
+      "side": 1,
+      "message": "reindexed.",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bf07e76_bbf5fbb4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventExecutor.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-03T16:57:34Z",
+      "side": 1,
+      "message": "All these Executor classes are not actually used, as you use GerritApi that is calling Index REST endpoint and then call directly ChangeIndexer.index().",
+      "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cfc2f6e_c4675327",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-03T16:57:34Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 33,
+        "startChar": 9,
+        "endLine": 33,
+        "endChar": 19
+      },
+      "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cec86f4e_6f6d1c7d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-03T16:57:34Z",
+      "side": 1,
+      "message": "Change.Id.fromRef(str).get();",
+      "range": {
+        "startLine": 58,
+        "startChar": 11,
+        "endLine": 58,
+        "endChar": 47
+      },
+      "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28b623b0_43b02ac6",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-01-03T16:57:34Z",
+      "side": 1,
+      "message": "You don\u0027t need a permission here, as there is no user interaction involved, compared to trigger pull replication. May be you want to add a configuration option to enable auto-reindexing on fetch-ref-replicated event and enable it per default?",
+      "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
