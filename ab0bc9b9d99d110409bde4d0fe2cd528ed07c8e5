@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cce71a1f_92a8f61e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-04T15:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6fced6c_49850a13",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bf07e76_bbf5fbb4",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15c128f9_d04e8e4d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-04T15:26:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cfc2f6e_c4675327",
+      "range": {
+        "startLine": 33,
+        "startChar": 9,
+        "endLine": 33,
+        "endChar": 19
+      },
+      "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cec86f4e_6f6d1c7d",
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7437081f_2d6a45a5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-04T15:26:17Z",
+      "side": 1,
+      "message": "this method has been removed in the next patchset",
+      "parentUuid": "cec86f4e_6f6d1c7d",
+      "range": {
+        "startLine": 58,
+        "startChar": 11,
+        "endLine": 58,
+        "endChar": 47
+      },
+      "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28b623b0_43b02ac6",
@@ -100,6 +172,24 @@
       "writtenOn": "2021-01-03T16:57:34Z",
       "side": 1,
       "message": "You don\u0027t need a permission here, as there is no user interaction involved, compared to trigger pull replication. May be you want to add a configuration option to enable auto-reindexing on fetch-ref-replicated event and enable it per default?",
+      "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bb98654_f5e53b14",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-04T15:26:17Z",
+      "side": 1,
+      "message": "Yep, sounds good. For back compatibility we should probably disable it by default. I am happy to do it in a followup change if we think it is needed.",
+      "parentUuid": "28b623b0_43b02ac6",
       "revId": "ab0bc9b9d99d110409bde4d0fe2cd528ed07c8e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
