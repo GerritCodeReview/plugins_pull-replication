@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6adf297_96e889a7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-05T08:24:43Z",
+      "side": 1,
+      "message": "nit: could move this at line 39 and use projectNameKey.get() when logging.",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 83
+      },
+      "revId": "0f98f4d0defa3f6bae895bbc568c76f1a8ee5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cca9515_8f6940a3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-05T08:24:43Z",
+      "side": 1,
+      "message": "nit: could use projectNameKey.get() here.",
+      "range": {
+        "startLine": 49,
+        "startChar": 50,
+        "endLine": 49,
+        "endChar": 75
+      },
+      "revId": "0f98f4d0defa3f6bae895bbc568c76f1a8ee5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "377db8ea_1fae43ed",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-05T08:24:43Z",
+      "side": 1,
+      "message": "nit: this could be factored out in a fetchReplicatedvent(ref) method and reused in both tests.",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 42
+      },
+      "revId": "0f98f4d0defa3f6bae895bbc568c76f1a8ee5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0c9549b_e9be7eae",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-05T08:24:43Z",
+      "side": 1,
+      "message": "nit: could be factored out.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 68
+      },
+      "revId": "0f98f4d0defa3f6bae895bbc568c76f1a8ee5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
