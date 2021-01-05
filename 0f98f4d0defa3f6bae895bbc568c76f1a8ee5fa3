@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "903f47e3_2b346def",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-05T13:23:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d3c3c676_dc66d73f",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 42
+      },
+      "revId": "0f98f4d0defa3f6bae895bbc568c76f1a8ee5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0c9549b_e9be7eae",
