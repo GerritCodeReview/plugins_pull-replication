@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30a31b41_d32b05fa",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-05T10:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6adf297_96e889a7",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 83
+      },
+      "revId": "0f98f4d0defa3f6bae895bbc568c76f1a8ee5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cca9515_8f6940a3",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-01-05T08:24:43Z",
       "side": 1,
       "message": "nit: could use projectNameKey.get() here.",
+      "range": {
+        "startLine": 49,
+        "startChar": 50,
+        "endLine": 49,
+        "endChar": 75
+      },
+      "revId": "0f98f4d0defa3f6bae895bbc568c76f1a8ee5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b3fa823_5098eb71",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-05T10:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cca9515_8f6940a3",
       "range": {
         "startLine": 49,
         "startChar": 50,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3c3c676_dc66d73f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-05T10:33:19Z",
+      "side": 1,
+      "message": "Since the test is quite straight forward, I prefer keeping it dumb and having a bit of code repetition avoiding the addition of a wrapper just to initialise a class.",
+      "parentUuid": "377db8ea_1fae43ed",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 42
+      },
+      "revId": "0f98f4d0defa3f6bae895bbc568c76f1a8ee5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0c9549b_e9be7eae",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
         "patchSetId": 19
@@ -83,6 +155,30 @@
       "writtenOn": "2021-01-05T08:24:43Z",
       "side": 1,
       "message": "nit: could be factored out.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 68
+      },
+      "revId": "0f98f4d0defa3f6bae895bbc568c76f1a8ee5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc530b1f_c6029684",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-05T10:33:19Z",
+      "side": 1,
+      "message": "I removed it totally",
+      "parentUuid": "b0c9549b_e9be7eae",
       "range": {
         "startLine": 60,
         "startChar": 4,
