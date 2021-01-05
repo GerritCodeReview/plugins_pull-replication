@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cec19d65_037f5a5d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ExecutorProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-05T10:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2db6ef4_d369666d",
+      "revId": "2a79e04707878ca8e50c88f9034474811ab6e7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd52b0b8_c4ee195b",
@@ -118,6 +136,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d7579af_e13240e5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-05T10:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1330b647_699e57a7",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 83
+      },
+      "revId": "2a79e04707878ca8e50c88f9034474811ab6e7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "153d7020_195a6b82",
@@ -155,6 +197,30 @@
       "side": 1,
       "message": "`fromRef` could return `null`",
       "parentUuid": "153d7020_195a6b82",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "2a79e04707878ca8e50c88f9034474811ab6e7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8c57979_a9465c53",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-01-05T10:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e64f649d_60454db9",
       "range": {
         "startLine": 45,
         "startChar": 6,
