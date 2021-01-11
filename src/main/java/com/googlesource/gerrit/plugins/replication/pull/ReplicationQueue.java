@@ -18,7 +18,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -183,18 +182,21 @@ public class ReplicationQueue
   }
 
   private CallFunction getCallFunction(NameKey project, String refName, ReplicationState state) {
-    if (RefNames.isNoteDbMetaRef(refName)) {
-      try {
-        RevisionData revision = revisionReader.read(project, refName);
-        return (source) -> callSendObject(source, project, refName, revision, state);
-      } catch (IOException | RefUpdateException e) {
-        stateLog.error(
-            String.format(
-                "Exception during reading ref: %s, project:%s, message: %s",
-                refName, project.get(), e.getMessage()),
-            e,
-            state);
-      }
+    try {
+      return revisionReader
+          .read(project, refName)
+          .<CallFunction>map(
+              revisionData -> {
+                return (source) -> callSendObject(source, project, refName, revisionData, state);
+              })
+          .orElse(source -> callFetch(source, project, refName, state));
+    } catch (IOException | RefUpdateException e) {
+      stateLog.error(
+          String.format(
+              "Exception during reading ref: %s, project:%s, message: %s",
+              refName, project.get(), e.getMessage()),
+          e,
+          state);
     }
 
     return (source) -> callFetch(source, project, refName, state);

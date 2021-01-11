@@ -34,6 +34,7 @@ import com.google.inject.Scopes;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.junit.Test;
 
@@ -49,8 +50,10 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     Result pushResult = createChange();
     String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
 
-    RevisionData revisionData = objectUnderTest.read(project, refName);
+    Optional<RevisionData> revisionDataOption = objectUnderTest.read(project, refName);
 
+    assertThat(revisionDataOption.isPresent()).isTrue();
+    RevisionData revisionData = revisionDataOption.get();
     assertThat(revisionData).isNotNull();
     assertThat(revisionData.getCommitObject()).isNotNull();
     assertThat(revisionData.getCommitObject().getType()).isEqualTo(Constants.OBJ_COMMIT);
@@ -75,8 +78,10 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(changeId.get()).current().review(reviewInput);
 
-    RevisionData revisionData = objectUnderTest.read(project, refName);
+    Optional<RevisionData> revisionDataOption = objectUnderTest.read(project, refName);
 
+    assertThat(revisionDataOption.isPresent()).isTrue();
+    RevisionData revisionData = revisionDataOption.get();
     assertThat(revisionData).isNotNull();
     assertThat(revisionData.getCommitObject()).isNotNull();
     assertThat(revisionData.getCommitObject().getType()).isEqualTo(Constants.OBJ_COMMIT);
