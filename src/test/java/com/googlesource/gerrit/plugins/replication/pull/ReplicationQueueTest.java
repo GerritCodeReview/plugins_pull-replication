@@ -41,6 +41,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import java.io.IOException;
 import java.nio.file.Path;
 import org.apache.http.client.ClientProtocolException;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -73,7 +74,7 @@ public class ReplicationQueueTest {
   private Path pluginDataPath;
 
   @Before
-  public void setup() throws IOException, RefUpdateException {
+  public void setup() throws IOException, LargeObjectException, RefUpdateException {
     Path sitePath = createTempPath("site");
     sitePaths = new SitePaths(sitePath);
     Path pluginDataPath = createTempPath("data");
@@ -107,21 +108,34 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallFetchWhenPatchSetRef() throws ClientProtocolException, IOException {
+  public void shouldCallSendObjectWhenPatchSetRef() throws ClientProtocolException, IOException {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
+    objectUnderTest.onGitReferenceUpdated(event);
+
+    verify(fetchRestApiClient).callSendObject(any(), anyString(), any(), any());
+  }
+
+  @Test
+  public void shouldFallbackToCallFetchWhenIOException()
+      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    objectUnderTest.start();
+
+    when(revReader.read(any(), anyString())).thenThrow(IOException.class);
+
     objectUnderTest.onGitReferenceUpdated(event);
 
     verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenIOException()
-      throws ClientProtocolException, IOException, RefUpdateException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+  public void shouldFallbackToCallFetchWhenLargeRef()
+      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+    Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
-    when(revReader.read(any(), anyString())).thenThrow(IOException.class);
+    when(revReader.read(any(), anyString())).thenThrow(LargeObjectException.class);
 
     objectUnderTest.onGitReferenceUpdated(event);
 
