@@ -181,6 +181,13 @@ replication.excludeRefs
 
     By default, all other refs are included.
 
+replication.payloadMaxRefSize
+: Maximum size in bytes of the ref to be send as a REST Api call
+  payload. For refs larger than threshold git fetch operation
+  will be used.
+
+  Default: 10000
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
