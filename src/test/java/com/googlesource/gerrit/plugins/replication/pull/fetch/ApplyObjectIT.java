@@ -124,7 +124,6 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     String refName = RefNames.changeMetaRef(changeId);
 
     CommentInput comment = createCommentInput(1, 0, 1, 1, "Test comment");
-
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(changeId.get()).current().review(reviewInput);
