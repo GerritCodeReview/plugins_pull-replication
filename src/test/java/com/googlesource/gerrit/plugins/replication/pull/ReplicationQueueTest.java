@@ -31,6 +31,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import java.io.IOException;
 import java.nio.file.Path;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Before;
@@ -49,6 +50,7 @@ public class ReplicationQueueTest {
   @Mock FetchRestApiClient.Factory fetchClientFactory;
   @Mock AccountInfo accountInfo;
   @Mock GitRepositoryManager gitRepositoryManager;
+  @Mock Config config;
 
   RefsFilter refsFilter;
   RevisionReader revReader;
@@ -64,7 +66,13 @@ public class ReplicationQueueTest {
     Path pluginDataPath = createTempPath("data");
     ReplicationConfig replicationConfig = new ReplicationFileBasedConfig(sitePaths, pluginDataPath);
     refsFilter = new RefsFilter(replicationConfig);
-    revReader = new RevisionReader(gitRepositoryManager);
+
+    Mockito.when(
+            config.getLong(
+                Mockito.eq("replication"), Mockito.eq("payloadMaxRefSize"), Mockito.anyLong()))
+        .thenReturn(1L);
+
+    revReader = new RevisionReader(gitRepositoryManager, config);
     objectUnderTest =
         new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
   }
