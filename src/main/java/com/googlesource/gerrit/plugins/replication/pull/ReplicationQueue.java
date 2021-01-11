@@ -18,7 +18,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -30,6 +29,7 @@ import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import java.io.IOException;
@@ -42,6 +42,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
@@ -155,6 +156,7 @@ public class ReplicationQueue
       fetchCallsPool
           .submit(() -> sources.get().getAll().parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
+
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       stateLog.error(
           String.format(
@@ -182,18 +184,16 @@ public class ReplicationQueue
   }
 
   private CallFunction getCallFunction(NameKey project, String refName, ReplicationState state) {
-    if (RefNames.isNoteDbMetaRef(refName)) {
-      try {
-        RevisionData revision = revisionReader.read(project, refName);
-        return (source) -> callSendObject(source, project, refName, revision, state);
-      } catch (IOException e) {
-        stateLog.error(
-            String.format(
-                "Exception during reading ref: %s, project:%s, message: %s",
-                refName, project.get(), e.getMessage()),
-            e,
-            state);
-      }
+    try {
+      RevisionData revision = revisionReader.read(project, refName);
+      return (source) -> callSendObject(source, project, refName, revision, state);
+    } catch (LargeObjectException | IOException | RefUpdateException e) {
+      stateLog.error(
+          String.format(
+              "Exception during reading ref: %s, project:%s, message: %s",
+              refName, project.get(), e.getMessage()),
+          e,
+          state);
     }
 
     return (source) -> callFetch(source, project, refName, state);
