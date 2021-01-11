@@ -18,7 +18,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -36,6 +35,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -183,18 +183,18 @@ public class ReplicationQueue
   }
 
   private CallFunction getCallFunction(NameKey project, String refName, ReplicationState state) {
-    if (RefNames.isNoteDbMetaRef(refName)) {
-      try {
-        RevisionData revision = revisionReader.read(project, refName);
-        return (source) -> callSendObject(source, project, refName, revision, state);
-      } catch (IOException | RefUpdateException e) {
-        stateLog.error(
-            String.format(
-                "Exception during reading ref: %s, project:%s, message: %s",
-                refName, project.get(), e.getMessage()),
-            e,
-            state);
+    try {
+      Optional<RevisionData> revisionData = revisionReader.read(project, refName);
+      if (revisionData.isPresent()) {
+        return ((source) -> callSendObject(source, project, refName, revisionData.get(), state));
       }
+    } catch (IOException | RefUpdateException e) {
+      stateLog.error(
+          String.format(
+              "Exception during reading ref: %s, project:%s, message: %s",
+              refName, project.get(), e.getMessage()),
+          e,
+          state);
     }
 
     return (source) -> callFetch(source, project, refName, state);

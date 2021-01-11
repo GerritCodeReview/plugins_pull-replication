@@ -41,6 +41,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -67,13 +68,14 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     Result pushResult = createChange();
     String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
 
-    RevisionData revisionData = reader.read(Project.nameKey(testRepoProjectName), refName);
+    Optional<RevisionData> revisionData =
+        reader.read(Project.nameKey(testRepoProjectName), refName);
 
     RefSpec refSpec = new RefSpec(refName);
-    objectUnderTest.apply(project, refSpec, revisionData);
-    RevisionData newRevisionData = reader.read(project, refName);
+    objectUnderTest.apply(project, refSpec, revisionData.get());
+    Optional<RevisionData> newRevisionData = reader.read(project, refName);
 
-    compareObjects(revisionData, newRevisionData);
+    compareObjects(revisionData.get(), newRevisionData);
 
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<Repository> testRepo = new TestRepository<>(repo); ) {
@@ -91,22 +93,23 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     String refName = RefNames.changeMetaRef(changeId);
     RefSpec refSpec = new RefSpec(refName);
 
-    RevisionData revisionData = reader.read(Project.nameKey(testRepoProjectName), refName);
-    objectUnderTest.apply(project, refSpec, revisionData);
+    Optional<RevisionData> revisionData =
+        reader.read(Project.nameKey(testRepoProjectName), refName);
+    objectUnderTest.apply(project, refSpec, revisionData.get());
 
     ReviewInput reviewInput = new ReviewInput();
     CommentInput comment = createCommentInput(1, 0, 1, 1, "Test comment");
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(changeId.get()).current().review(reviewInput);
 
-    RevisionData revisionDataWithComment =
+    Optional<RevisionData> revisionDataWithComment =
         reader.read(Project.nameKey(testRepoProjectName), refName);
 
-    objectUnderTest.apply(project, refSpec, revisionDataWithComment);
+    objectUnderTest.apply(project, refSpec, revisionDataWithComment.get());
 
-    RevisionData newRevisionData = reader.read(project, refName);
+    Optional<RevisionData> newRevisionData = reader.read(project, refName);
 
-    compareObjects(revisionDataWithComment, newRevisionData);
+    compareObjects(revisionDataWithComment.get(), newRevisionData);
 
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
@@ -124,20 +127,22 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     String refName = RefNames.changeMetaRef(changeId);
 
     CommentInput comment = createCommentInput(1, 0, 1, 1, "Test comment");
-
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(changeId.get()).current().review(reviewInput);
 
-    RevisionData revisionData = reader.read(Project.nameKey(testRepoProjectName), refName);
+    Optional<RevisionData> revisionData =
+        reader.read(Project.nameKey(testRepoProjectName), refName);
 
     RefSpec refSpec = new RefSpec(refName);
     assertThrows(
         MissingParentObjectException.class,
-        () -> objectUnderTest.apply(project, refSpec, revisionData));
+        () -> objectUnderTest.apply(project, refSpec, revisionData.get()));
   }
 
-  private void compareObjects(RevisionData expected, RevisionData actual) {
+  private void compareObjects(RevisionData expected, Optional<RevisionData> actualOption) {
+    assertThat(actualOption.isPresent()).isTrue();
+    RevisionData actual = actualOption.get();
     compareContent(expected.getCommitObject(), actual.getCommitObject());
     compareContent(expected.getTreeObject(), expected.getTreeObject());
     List<List<Byte>> actualBlobs =
