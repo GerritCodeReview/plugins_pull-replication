@@ -282,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e9188e9_872b7a8c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-11T14:08:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7a864f9_9d89bc1d",
+      "range": {
+        "startLine": 106,
+        "startChar": 40,
+        "endLine": 106,
+        "endChar": 58
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77735d81_35d4bddf",
@@ -295,6 +319,30 @@
       "writtenOn": "2020-12-30T00:41:00Z",
       "side": 1,
       "message": "It would be best to use a JSON serialisation, so to make sure of not having problems with strange encodings.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 37
+      },
+      "revId": "9d5127880f9136f96e53359bd68c4ca6b88261cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e78bbe2b_29ed2203",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-11T14:08:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77735d81_35d4bddf",
       "range": {
         "startLine": 103,
         "startChar": 0,
