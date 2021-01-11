@@ -81,19 +81,24 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     Change.Id changeId = pushResult.getChange().getId();
     String refName = RefNames.changeMetaRef(changeId);
 
+    RevisionData revisionData = reader.read(Project.nameKey(testRepoProjectName), refName);
+
+    RefSpec refSpec = new RefSpec(refName);
+    objectUnderTest.apply(project, refSpec, revisionData);
+
     CommentInput comment = createCommentInput(1, 0, 1, 1, "Test comment");
 
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(changeId.get()).current().review(reviewInput);
 
-    RevisionData revisionData = reader.read(Project.nameKey(testRepoProjectName), refName);
+    RevisionData revisionDataWithComment =
+        reader.read(Project.nameKey(testRepoProjectName), refName);
 
-    RefSpec refSpec = new RefSpec(refName);
-    objectUnderTest.apply(project, refSpec, revisionData);
+    objectUnderTest.apply(project, refSpec, revisionDataWithComment);
 
     RevisionData newRevisionData = reader.read(project, refName);
-    compareObjects(revisionData, newRevisionData);
+    compareObjects(revisionDataWithComment, newRevisionData);
   }
 
   private void compareObjects(RevisionData expected, RevisionData actual) {

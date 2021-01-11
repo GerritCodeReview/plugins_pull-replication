@@ -29,6 +29,7 @@ import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import java.io.IOException;
@@ -41,6 +42,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
@@ -149,12 +151,10 @@ public class ReplicationQueue
     ForkJoinPool fetchCallsPool = null;
     try {
       fetchCallsPool = new ForkJoinPool(sources.get().getAll().size());
-
       final Consumer<Source> callFunction = getCallFunction(project, refName, state);
       fetchCallsPool
           .submit(() -> sources.get().getAll().parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
-
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       stateLog.error(
           String.format(
@@ -176,7 +176,7 @@ public class ReplicationQueue
       try {
         RevisionData revision = revisionReader.read(project, refName);
         callFunction = (source) -> callSendObject(source, project, refName, revision, state);
-      } catch (IOException e) {
+      } catch (LargeObjectException | IOException | RefUpdateException e) {
         stateLog.error(
             String.format(
                 "Exception during reading ref: %s, project:%s, message: %s",
@@ -187,6 +187,7 @@ public class ReplicationQueue
       }
 
     } else {
+
       callFunction = (source) -> callFetch(source, project, refName, state);
     }
 
