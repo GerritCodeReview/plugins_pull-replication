@@ -1,0 +1,285 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8651ced_d26831f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "Looks really good. Now I believe the \"packaging\" of the objects is correct. Just double-check that it will work also with nested trees.\n\nCan you implement the Base64 encoding for the BLOB data? Serialising the byte[] directly brings an awful lots of data and will have an explosion effect.\n\nAlso we need to check in our tests that the repository isn\u0027t corrupted.",
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfe77d1c_67df5990",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "return",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b786560e_0c0f2cc5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "When can this situation happen?",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 19
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de352242_12bb8276",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 78
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcb8cd8f_df598bc0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "else block not needed",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 12
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e72fe068_42e2bad2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "return",
+      "range": {
+        "startLine": 190,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 20
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd3d94dd_97f57d3e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "Just a warning?\nShouldn\u0027t this be traced in the stateLog as a failure?",
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "450d8691_39aa45f2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "Does this perform nested navigation? Or the ref/changes/NN/NNNN/meta is a one-level only tree?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 27
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "145e4c99_4b3cfd0a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "Why not simply setting the naming style in the GSON serializer/deserializer?\n  setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)\n\nP.S. Do we really care about the naming style?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 40
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54f7c6dd_97034dbb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "Why not simply setting the naming style in the GSON serializer/deserializer?\n\n  setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)\nP.S. Do we really care about the naming style?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 36
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bce07380_81426f7a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionObjectData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "How is this serialized?",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 31
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad1535b1_0e34243d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "That\u0027s verbose as binary encoding. Can we just do a Base64 to start?",
+      "range": {
+        "startLine": 78,
+        "startChar": 128,
+        "endLine": 78,
+        "endChar": 3431
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa3da9ab_09981743",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-01-14T23:45:40Z",
+      "side": 1,
+      "message": "Can you add another test-case where:\n1. We create a change (but not replicate)\n2. We add comments (but not replicate)\n3. We add further comments *AND* replicate with the new applyObject",
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
