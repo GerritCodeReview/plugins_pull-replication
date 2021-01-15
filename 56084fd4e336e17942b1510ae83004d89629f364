@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbd2f3b6_28d67f14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Nested tree is added in follow up change. I could not find meta ref with a subtree",
+      "parentUuid": "b8651ced_d26831f4",
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfe77d1c_67df5990",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-01-14T23:45:40Z",
       "side": 1,
       "message": "return",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 178,
+        "endChar": 22
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d14bdf56_02287838",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfe77d1c_67df5990",
       "range": {
         "startLine": 178,
         "startChar": 8,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55f7ec77_86bf1178",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "From L177, when we read data object can be missing or git.open(head.getObjectId()) can throw exception. In that case I want to log it and try with fetch",
+      "parentUuid": "b786560e_0c0f2cc5",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 19
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de352242_12bb8276",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-01-14T23:45:40Z",
       "side": 1,
       "message": "remove this",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 78
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9511f14_d2b57a51",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de352242_12bb8276",
       "range": {
         "startLine": 186,
         "startChar": 0,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38cfb096_dfae75eb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcb8cd8f_df598bc0",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 12
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e72fe068_42e2bad2",
@@ -123,6 +237,30 @@
       "writtenOn": "2021-01-14T23:45:40Z",
       "side": 1,
       "message": "return",
+      "range": {
+        "startLine": 190,
+        "startChar": 6,
+        "endLine": 190,
+        "endChar": 20
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3894bab4_467446e9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e72fe068_42e2bad2",
       "range": {
         "startLine": 190,
         "startChar": 6,
@@ -150,6 +288,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbde5609_caa69004",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd3d94dd_97f57d3e",
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "450d8691_39aa45f2",
@@ -163,6 +319,30 @@
       "writtenOn": "2021-01-14T23:45:40Z",
       "side": 1,
       "message": "Does this perform nested navigation? Or the ref/changes/NN/NNNN/meta is a one-level only tree?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 27
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cdbb2ee_e71f2e1d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "ref/changes/NN/NNNN/meta is one-level tree only. In follow up change I\u0027m handling subtrees",
+      "parentUuid": "450d8691_39aa45f2",
       "range": {
         "startLine": 63,
         "startChar": 0,
@@ -196,6 +376,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b104f77_1030762a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "I was trying to use camel case but by default if I don\u0027t use lower case with underscores json is not deserialized to the object during the rest call.",
+      "parentUuid": "145e4c99_4b3cfd0a",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 40
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54f7c6dd_97034dbb",
@@ -209,6 +413,30 @@
       "writtenOn": "2021-01-14T23:45:40Z",
       "side": 1,
       "message": "Why not simply setting the naming style in the GSON serializer/deserializer?\n\n  setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)\nP.S. Do we really care about the naming style?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 36
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe50357b_9f60d9b2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54f7c6dd_97034dbb",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -242,6 +470,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83078f25_b4d79d6d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionObjectData.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Base64 encoding/decoding added",
+      "parentUuid": "bce07380_81426f7a",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 31
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad1535b1_0e34243d",
@@ -265,6 +517,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11cd4cd2_f07f4308",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad1535b1_0e34243d",
+      "range": {
+        "startLine": 78,
+        "startChar": 128,
+        "endLine": 78,
+        "endChar": 3431
+      },
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa3da9ab_09981743",
@@ -278,6 +554,24 @@
       "writtenOn": "2021-01-14T23:45:40Z",
       "side": 1,
       "message": "Can you add another test-case where:\n1. We create a change (but not replicate)\n2. We add comments (but not replicate)\n3. We add further comments *AND* replicate with the new applyObject",
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b74d1c5c_6de271b8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:30:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa3da9ab_09981743",
       "revId": "56084fd4e336e17942b1510ae83004d89629f364",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
