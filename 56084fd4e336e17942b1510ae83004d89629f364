@@ -574,6 +574,24 @@
       "parentUuid": "aa3da9ab_09981743",
       "revId": "56084fd4e336e17942b1510ae83004d89629f364",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "955d05b4_653e4f04",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-15T16:50:24Z",
+      "side": 1,
+      "message": "I see what you want to achieve with that test. Without follow up change all works fine because we simply read the data. In follow up change this test will fail because parent will be missing and we are calculating the diff to send just new objects not a whole tree.\n\nI\u0027m not sure how we can prevent this situation. Pull replication is just addition so we do not know what was sent to the other side. We are just sending the current ref and hope that it\u0027s consistent on the other side and if not replication plugin will adjust the repo. Other thing we can do is to add check on the receiver site that if the parent is missing we could reject the ref update and wait for the replication to correct the data.\n\nWDYT?",
+      "parentUuid": "b74d1c5c_6de271b8",
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
