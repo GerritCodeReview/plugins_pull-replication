@@ -592,6 +592,24 @@
       "parentUuid": "b74d1c5c_6de271b8",
       "revId": "56084fd4e336e17942b1510ae83004d89629f364",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbefebf9_224fa92b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-18T16:46:24Z",
+      "side": 1,
+      "message": "Ok I\u0027ve added check if parent object exists in the target repository. if not exception is thrown and sender is calling git fetch",
+      "parentUuid": "955d05b4_653e4f04",
+      "revId": "56084fd4e336e17942b1510ae83004d89629f364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
