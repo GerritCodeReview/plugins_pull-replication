@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac41c61d_c9bd9369",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-22T11:02:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this in scope of this change but I believe sending ref as a RestApi payload is not triggering this event.",
+      "revId": "628a7e5493f742ceb3476d6291c0185abf92af03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0108ee87_fb841ec3",
