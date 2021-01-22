@@ -18,11 +18,18 @@ import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLo
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
@@ -35,6 +42,8 @@ import org.eclipse.jgit.transport.RefSpec;
 
 public class ApplyObjectCommand {
 
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final Set<RefUpdate.Result> SUCCESSFUL_RESULTS =
       ImmutableSet.of(
           RefUpdate.Result.NEW,
@@ -45,15 +54,18 @@ public class ApplyObjectCommand {
   private final PullReplicationStateLogger fetchStateLog;
   private final ApplyObject applyObject;
   private final ApplyObjectMetrics metrics;
+  private final DynamicItem<EventDispatcher> eventDispatcher;
 
   @Inject
   public ApplyObjectCommand(
       PullReplicationStateLogger fetchStateLog,
       ApplyObject applyObject,
-      ApplyObjectMetrics metrics) {
+      ApplyObjectMetrics metrics,
+      DynamicItem<EventDispatcher> eventDispatcher) {
     this.fetchStateLog = fetchStateLog;
     this.applyObject = applyObject;
     this.metrics = metrics;
+    this.eventDispatcher = eventDispatcher;
   }
 
   public void applyObject(
@@ -64,6 +76,21 @@ public class ApplyObjectCommand {
     Timer1.Context<String> context = metrics.start(sourceLabel);
     RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionData);
     long elapsed = NANOSECONDS.toMillis(context.stop());
+
+    try {
+      eventDispatcher
+          .get()
+          .postEvent(
+              new FetchRefReplicatedEvent(
+                  name.get(),
+                  refName,
+                  sourceLabel,
+                  getStatus(refUpdateState),
+                  refUpdateState.getResult()));
+    } catch (PermissionBackendException e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot post event for ref '%s', project %s", refName, name);
+    }
 
     if (!isSuccessful(refUpdateState.getResult())) {
       String message =
@@ -79,6 +106,12 @@ public class ApplyObjectCommand {
         name,
         refName,
         elapsed);
+  }
+
+  private RefFetchResult getStatus(RefUpdateState refUpdateState) {
+    return isSuccessful(refUpdateState.getResult())
+        ? ReplicationState.RefFetchResult.SUCCEEDED
+        : ReplicationState.RefFetchResult.FAILED;
   }
 
   private Boolean isSuccessful(RefUpdate.Result result) {
