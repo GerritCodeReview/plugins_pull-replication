@@ -37,6 +37,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0947477d_cbaf1452",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-22T17:40:45Z",
+      "side": 1,
+      "message": "FetchRefReplicatedEvent contains also status field. Should we check if is success?",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "628a7e5493f742ceb3476d6291c0185abf92af03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0108ee87_fb841ec3",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
         "patchSetId": 20
