@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "202c02e8_4520f230",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "Sorry Marcin, some initial feedback, I\u0027ll have to continue, got to go shortly 😊",
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bded056d_1175137c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "Can this ever be null?\nRevisionObjectData is not annotated with @nullable.",
+      "range": {
+        "startLine": 83,
+        "startChar": 13,
+        "endLine": 83,
+        "endChar": 80
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ef0d6ff_2e514871",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 78
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "165d3a77_304ed765",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "Unneded: already captured by IOException",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 40
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e791549_7c421788",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "What is this URL? Is it documented somewhere?",
+      "range": {
+        "startLine": 121,
+        "startChar": 24,
+        "endLine": 121,
+        "endChar": 86
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9a135e1_d8d55e14",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "We create url at line 118, how can this be empty?",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 32
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23cd5644_97d0141a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "remove comma",
+      "range": {
+        "startLine": 147,
+        "startChar": 64,
+        "endLine": 147,
+        "endChar": 65
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e66fa9f_ed679de3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "applyObject",
+      "range": {
+        "startLine": 147,
+        "startChar": 34,
+        "endLine": 147,
+        "endChar": 44
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2e156da_08853352",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "Why do we extend Command if we don\u0027t log aanything?\nShould we give some output to the users?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 1
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47b772d4_273ccb7e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiModule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "Is this documented somewhere?",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 67
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c55acc02_9eca1922",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionData.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "Could this be AutoValue?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba2ed5f4_32639dd1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-25T19:08:56Z",
+      "side": 1,
+      "message": "Could this be AutoValue?",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
