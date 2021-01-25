@@ -126,6 +126,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1abebe5c_0d9b1408",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-25T09:00:55Z",
+      "side": 1,
+      "message": "I just wanted to check if there is a place where we actually sending state other that success. And answer is yes we do that in that method",
+      "parentUuid": "49fd3b9d_5fbe29ea",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 27
+      },
+      "revId": "628a7e5493f742ceb3476d6291c0185abf92af03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0108ee87_fb841ec3",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
         "patchSetId": 20
