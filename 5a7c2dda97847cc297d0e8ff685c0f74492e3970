@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d939bd9a_c20b6b54",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:47:49Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "fef19068_0a1c8a49",
+      "revId": "5a7c2dda97847cc297d0e8ff685c0f74492e3970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7f850e8_a69689c1",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "154c94dc_088e4804",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:47:49Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c7f850e8_a69689c1",
+      "revId": "5a7c2dda97847cc297d0e8ff685c0f74492e3970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0b8e74f_c12f0230",
@@ -48,6 +84,24 @@
       "writtenOn": "2021-01-25T16:33:38Z",
       "side": 0,
       "message": "leftover",
+      "revId": "5a7c2dda97847cc297d0e8ff685c0f74492e3970",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1cebf3a_960e8f51",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:47:49Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c0b8e74f_c12f0230",
       "revId": "5a7c2dda97847cc297d0e8ff685c0f74492e3970",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
