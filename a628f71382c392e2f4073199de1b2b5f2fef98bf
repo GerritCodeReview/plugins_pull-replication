@@ -20,6 +20,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "227d0993_ddc00949",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectMetrics.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-26T16:24:02Z",
+      "side": 1,
+      "message": "We could document what this final metric name is and what it tracks.\nPerhaps in a metrics.md?",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0f5c13b_3761494c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-26T16:24:02Z",
+      "side": 1,
+      "message": "nit: extra line",
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bded056d_1175137c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
         "patchSetId": 19
@@ -59,6 +99,29 @@
         "startChar": 13,
         "endLine": 89,
         "endChar": 78
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78dd46d1_ccd1f6c5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-26T16:24:02Z",
+      "side": 1,
+      "message": "Would be useful to document all these return statuses:\n\n- 409 - Missing Parent\n- 422 - Resource not found\n- 500 ...",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 5
       },
       "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -266,6 +329,69 @@
         "startChar": 1,
         "endLine": 17,
         "endChar": 28
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ae09528_16e6d242",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-26T16:24:02Z",
+      "side": 1,
+      "message": "should this be @pluginName instead?",
+      "range": {
+        "startLine": 109,
+        "startChar": 30,
+        "endLine": 109,
+        "endChar": 46
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21019a41_349ec9a1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-26T16:24:02Z",
+      "side": 1,
+      "message": "nit: could use HttpHeaders.CONTENT_TYPE",
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9116456e_58c1a97d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObject.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-01-26T16:24:02Z",
+      "side": 1,
+      "message": "I think we could open both resources within the same try block, without having two nested ones.\nThis would allow to remove the initialization to null as well:\n\n    try (Repository git \u003d gitManager.openRepository(name);\n        ObjectInserter oi \u003d git.newObjectInserter()) {\n    ...\n   }",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 57
       },
       "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
