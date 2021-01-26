@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c82988dc_dc7a2a8f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectMetrics.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "I agree we should do that for ApplyObjectMetrics and FetchReplicationMetrics. Could we do the documentation in a follow up change?",
+      "parentUuid": "227d0993_ddc00949",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0f5c13b_3761494c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 19
@@ -54,6 +78,24 @@
       "writtenOn": "2021-01-26T16:24:02Z",
       "side": 1,
       "message": "nit: extra line",
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c991c54_f1470a6a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0f5c13b_3761494c",
       "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +113,30 @@
       "writtenOn": "2021-01-25T19:08:56Z",
       "side": 1,
       "message": "Can this ever be null?\nRevisionObjectData is not annotated with @nullable.",
+      "range": {
+        "startLine": 83,
+        "startChar": 13,
+        "endLine": 83,
+        "endChar": 80
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "173a31f4_3635c379",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "Yes, I\u0027ve tested this situation. If client will send wrong json payload without those fields. But with this particular example there is different issue, because type is stored as a int instead of Integer it will be defaulted to zero which is bad because we will store wrong object type",
+      "parentUuid": "bded056d_1175137c",
       "range": {
         "startLine": 83,
         "startChar": 13,
@@ -106,6 +172,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68df02e1_293c2cd9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "same as above, can be null if JSON payload is wrong",
+      "parentUuid": "7ef0d6ff_2e514871",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 78
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78dd46d1_ccd1f6c5",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
         "patchSetId": 19
@@ -129,6 +219,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e705aae5_ce9cbf5f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "This change is already 1500 lines of code and we have multiple commands without return status documentation. Could we address all of them as a follow up change?",
+      "parentUuid": "78dd46d1_ccd1f6c5",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "165d3a77_304ed765",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
         "patchSetId": 19
@@ -140,6 +254,30 @@
       "writtenOn": "2021-01-25T19:08:56Z",
       "side": 1,
       "message": "Unneded: already captured by IOException",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 40
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb0b030c_a85acf1c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "165d3a77_304ed765",
       "range": {
         "startLine": 107,
         "startChar": 13,
@@ -175,6 +313,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d382f1d_bdafd916",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "yes: https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#:~:text\u003dGerrit%20contains%20an%20internal%20scheduler,observe%20tasks%20in%20these%20states.",
+      "parentUuid": "9e791549_7c421788",
+      "range": {
+        "startLine": 121,
+        "startChar": 24,
+        "endLine": 121,
+        "endChar": 86
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f9a135e1_d8d55e14",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
         "patchSetId": 19
@@ -186,6 +348,30 @@
       "writtenOn": "2021-01-25T19:08:56Z",
       "side": 1,
       "message": "We create url at line 118, how can this be empty?",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 32
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1b04421_3306a6c6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "This code is copy\u0026paste from existing solution.\nIf you check UrlFormatter it can return Optional.empty\n\nUrlFormatter javadoc:\n * \u003cp\u003eUnfortunately, Gerrit operates in modes for which there is no canonical URL. This can be in\n * standalone utilities that have no HTTP server (eg. index upgrade commands), in servers that run\n * SSH only, or in a HTTP/SSH server that is accessed over SSH without canonical web URL configured.\n */",
+      "parentUuid": "f9a135e1_d8d55e14",
       "range": {
         "startLine": 123,
         "startChar": 0,
@@ -242,6 +428,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05e33de9_516cac1d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e66fa9f_ed679de3",
+      "range": {
+        "startLine": 147,
+        "startChar": 34,
+        "endLine": 147,
+        "endChar": 44
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05ccec6b_e14bbeee",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23cd5644_97d0141a",
+      "range": {
+        "startLine": 147,
+        "startChar": 64,
+        "endLine": 147,
+        "endChar": 65
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2e156da_08853352",
@@ -255,6 +489,30 @@
       "writtenOn": "2021-01-25T19:08:56Z",
       "side": 1,
       "message": "Why do we extend Command if we don\u0027t log aanything?\nShould we give some output to the users?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 1
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e476152f_9010f359",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "You are correct apply object is not exposed as a ssh command yet so we should not implement the Command interface. I\u0027m wondering if we should rename the class as well to something like ApplyObjectService. WDYT? Maybe you have better name?",
+      "parentUuid": "a2e156da_08853352",
       "range": {
         "startLine": 89,
         "startChar": 0,
@@ -290,6 +548,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0f0c5921_7b13b3b0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiModule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "No, we do not documented any of the REST Api endpoint \nThis change is already large plus we should document fetch as well. Could we do that as a follow up?",
+      "parentUuid": "47b772d4_273ccb7e",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 67
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c55acc02_9eca1922",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionData.java",
         "patchSetId": 19
@@ -313,6 +595,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b164bdca_f3ecd2db",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionData.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "I don\u0027t think so, this class is used to map our JSON payload and I wasn\u0027t able to find any example of mapping REST payload to AutoValue. All classes which are doing that are POJO",
+      "parentUuid": "c55acc02_9eca1922",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ba2ed5f4_32639dd1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
         "patchSetId": 19
@@ -324,6 +630,30 @@
       "writtenOn": "2021-01-25T19:08:56Z",
       "side": 1,
       "message": "Could this be AutoValue?",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "111d1219_2b25a4f1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "same as above",
+      "parentUuid": "ba2ed5f4_32639dd1",
       "range": {
         "startLine": 17,
         "startChar": 1,
@@ -374,6 +704,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0138def_9587f3ac",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ae09528_16e6d242",
+      "range": {
+        "startLine": 109,
+        "startChar": 30,
+        "endLine": 109,
+        "endChar": 46
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b48b6d5f_ec0ca8b8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21019a41_349ec9a1",
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9116456e_58c1a97d",
@@ -387,6 +759,30 @@
       "writtenOn": "2021-01-26T16:24:02Z",
       "side": 1,
       "message": "I think we could open both resources within the same try block, without having two nested ones.\nThis would allow to remove the initialization to null as well:\n\n    try (Repository git \u003d gitManager.openRepository(name);\n        ObjectInserter oi \u003d git.newObjectInserter()) {\n    ...\n   }",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 57
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ed1bd9_4a18707b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObject.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:17:59Z",
+      "side": 1,
+      "message": "Yes we could do that but I wanted to make sure that update from L67 will not fail because of not released resource or object not flushed yet",
+      "parentUuid": "9116456e_58c1a97d",
       "range": {
         "startLine": 43,
         "startChar": 0,
