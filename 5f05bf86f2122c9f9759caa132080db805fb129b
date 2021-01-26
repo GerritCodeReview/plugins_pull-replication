@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2440477_81599902",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:47:49Z",
+      "side": 1,
+      "message": "Yes, this should be done in the previous change. I will move it there",
+      "parentUuid": "9be8a278_bcf90d44",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 7
+      },
+      "revId": "5f05bf86f2122c9f9759caa132080db805fb129b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce6805d1_d169d98c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
         "patchSetId": 12
@@ -54,6 +78,30 @@
       "writtenOn": "2021-01-25T16:33:38Z",
       "side": 1,
       "message": "what about getSize? or if we want to keep a method to check the size is correct maybe we can make it return a boolean or throw an exception and just make it for the check, i.e.:\n\n private void verifySize(Long totalRefSize, ObjectLoader loader, ObjectId objectId) {\n   if (loader.isLarge() || totalRefSize \u003e maxRefSize) {\n      throw new LargeObjectException(objectId);\n   }\n }\n \nAs it is at the moment the method is doing 2 things.",
+      "range": {
+        "startLine": 145,
+        "startChar": 15,
+        "endLine": 145,
+        "endChar": 25
+      },
+      "revId": "5f05bf86f2122c9f9759caa132080db805fb129b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a855346_5c5a325d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:47:49Z",
+      "side": 1,
+      "message": "you are right this a code smell. Let me split that method into two",
+      "parentUuid": "ce6805d1_d169d98c",
       "range": {
         "startLine": 145,
         "startChar": 15,
@@ -77,6 +125,30 @@
       "writtenOn": "2021-01-25T16:33:38Z",
       "side": 1,
       "message": "sent",
+      "range": {
+        "startLine": 185,
+        "startChar": 41,
+        "endLine": 185,
+        "endChar": 45
+      },
+      "revId": "5f05bf86f2122c9f9759caa132080db805fb129b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a033e255_46565f7c",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-01-26T21:47:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c82bce2_beb6f696",
       "range": {
         "startLine": 185,
         "startChar": 41,
