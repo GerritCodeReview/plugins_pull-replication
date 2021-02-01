@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99b81c7d_920ecae7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:32:21Z",
+      "side": 1,
+      "message": "nit: no need for space between Issue and ChangeId",
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10d9a065_7ae1783c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:32:21Z",
+      "side": 1,
+      "message": "nit: extra line",
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bf6db57_78cf1f45",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:32:21Z",
+      "side": 1,
+      "message": "See my previous comment: I am not sure if we should be treating this as an error: it is totally fine when it happens, it just honours whatever configuration the user defined.",
+      "range": {
+        "startLine": 190,
+        "startChar": 13,
+        "endLine": 190,
+        "endChar": 35
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f7f343d_3c0f6957",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:32:21Z",
+      "side": 1,
+      "message": "Is this bytes? Should we change the variable name accordingly?",
+      "range": {
+        "startLine": 44,
+        "startChar": 28,
+        "endLine": 44,
+        "endChar": 48
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac69c856_6adb89a7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:32:21Z",
+      "side": 1,
+      "message": "We call verifySize() here, so this could raise a LargeObjectException, we should add it to the signature of the method.\n\nAlternatively we could only leave IOException, since it is parent of all other exceptions mentioned.",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 109,
+        "endChar": 21
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a5c5db3_217c2770",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:32:21Z",
+      "side": 1,
+      "message": "nit: redundant initialization",
+      "range": {
+        "startLine": 110,
+        "startChar": 34,
+        "endLine": 110,
+        "endChar": 59
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da676d23_b58c6a1c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:32:21Z",
+      "side": 1,
+      "message": "Should we actually throw an exception when the size of the change exceeds the configured payloadMaxRefSize?\n\nThis will log an error via ReplicationQueue[1], which should be used only for fatal errors[2].\n\nIf it\u0027s not *exceptional* that this can happen, perhaps we shouldn\u0027t model it as an exception at all, or at least that exception should be treated differently, so that it does not cause failures to be logged.\n\nWDYT?\n\n\n[1]https://gerrit.googlesource.com/plugins/pull-replication/+/06a12886b65cc39491b32d486bf0a3b529ed8480/src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java#191\n\n[2]https://gerrit.googlesource.com/plugins/pull-replication/+/06a12886b65cc39491b32d486bf0a3b529ed8480/src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationStateListener.java#31",
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f642ec12_0b922456",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:32:21Z",
+      "side": 1,
+      "message": "I think throwing this exception with \"objectId\" might be misleading.\nAs I undertand it, we are cumulating the size of the blobs and trees that we find, so that we can fail fast if we cross over the threshold without checking any further.\n\nIn this way though, the object Id that will be logged will be only the one that caused to \"tip\" over the threshold, without necessarily be a large object at all.",
+      "range": {
+        "startLine": 151,
+        "startChar": 16,
+        "endLine": 151,
+        "endChar": 46
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c7fb00a_72af41e9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:32:21Z",
+      "side": 1,
+      "message": "nit: new line",
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
