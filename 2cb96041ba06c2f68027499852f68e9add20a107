@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfe1e4a2_02cc4f13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:33:36Z",
+      "side": 1,
+      "message": "This needs rebasing and adapting on the latest parent changes",
+      "revId": "2cb96041ba06c2f68027499852f68e9add20a107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
