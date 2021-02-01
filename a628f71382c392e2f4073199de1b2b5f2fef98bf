@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01fb2e87_2f0574b1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectMetrics.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c82988dc_dc7a2a8f",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 35
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0f5c13b_3761494c",
@@ -147,6 +171,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dc27afd_0c5c7ffa",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "173a31f4_3635c379",
+      "range": {
+        "startLine": 83,
+        "startChar": 13,
+        "endLine": 83,
+        "endChar": 80
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ef0d6ff_2e514871",
@@ -194,6 +242,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ed0a779_00b37205",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "68df02e1_293c2cd9",
+      "range": {
+        "startLine": 89,
+        "startChar": 13,
+        "endLine": 89,
+        "endChar": 78
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78dd46d1_ccd1f6c5",
@@ -231,6 +303,30 @@
       "side": 1,
       "message": "This change is already 1500 lines of code and we have multiple commands without return status documentation. Could we address all of them as a follow up change?",
       "parentUuid": "78dd46d1_ccd1f6c5",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "904a6849_8c227317",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "Yep, fine by me",
+      "parentUuid": "e705aae5_ce9cbf5f",
       "range": {
         "startLine": 96,
         "startChar": 0,
@@ -335,6 +431,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fb80cdc_7c573e06",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2d382f1d_bdafd916",
+      "range": {
+        "startLine": 121,
+        "startChar": 24,
+        "endLine": 121,
+        "endChar": 86
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9a135e1_d8d55e14",
@@ -372,6 +492,30 @@
       "side": 1,
       "message": "This code is copy\u0026paste from existing solution.\nIf you check UrlFormatter it can return Optional.empty\n\nUrlFormatter javadoc:\n * \u003cp\u003eUnfortunately, Gerrit operates in modes for which there is no canonical URL. This can be in\n * standalone utilities that have no HTTP server (eg. index upgrade commands), in servers that run\n * SSH only, or in a HTTP/SSH server that is accessed over SSH without canonical web URL configured.\n */",
       "parentUuid": "f9a135e1_d8d55e14",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 32
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be9144ea_56f442d3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a1b04421_3306a6c6",
       "range": {
         "startLine": 123,
         "startChar": 0,
@@ -523,6 +667,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bfd07f7_d41c74e1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "I can\u0027t think much of better names, perhaps:\n\nApplyObjectOperation\nApplyObjectFunction\n\nAnyway, not every *Command class in Gerrit extends Command",
+      "parentUuid": "e476152f_9010f359",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 1
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47b772d4_273ccb7e",
@@ -560,6 +728,30 @@
       "side": 1,
       "message": "No, we do not documented any of the REST Api endpoint \nThis change is already large plus we should document fetch as well. Could we do that as a follow up?",
       "parentUuid": "47b772d4_273ccb7e",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 67
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89218db9_ba105778",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiModule.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0f0c5921_7b13b3b0",
       "range": {
         "startLine": 31,
         "startChar": 4,
@@ -617,6 +809,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5086a413_596066d2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionData.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b164bdca_f3ecd2db",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba2ed5f4_32639dd1",
@@ -654,6 +870,30 @@
       "side": 1,
       "message": "same as above",
       "parentUuid": "ba2ed5f4_32639dd1",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 28
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7baf8040_ff5bcc40",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "111d1219_2b25a4f1",
       "range": {
         "startLine": 17,
         "startChar": 1,
@@ -783,6 +1023,30 @@
       "side": 1,
       "message": "Yes we could do that but I wanted to make sure that update from L67 will not fail because of not released resource or object not flushed yet",
       "parentUuid": "9116456e_58c1a97d",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 57
+      },
+      "revId": "a628f71382c392e2f4073199de1b2b5f2fef98bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d9f37de_d616b373",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObject.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-02-01T17:00:46Z",
+      "side": 1,
+      "message": "\u003e Yes we could do that but I wanted to make sure that update from L67 will not fail because of not released resource\n\nOpening them in the try() will always ensure releasing of the resources right?\n\n or object not flushed yet\n\nThe flushing will happen exactly in the same way at it is now no?\n\nAnyway, not a big deal.",
+      "parentUuid": "12ed1bd9_4a18707b",
       "range": {
         "startLine": 43,
         "startChar": 0,
