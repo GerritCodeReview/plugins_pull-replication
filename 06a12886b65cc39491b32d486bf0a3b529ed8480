@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13ba8048_f4300c59",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-03T11:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d9a065_7ae1783c",
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bf6db57_78cf1f45",
@@ -84,6 +102,30 @@
       "writtenOn": "2021-02-01T17:32:21Z",
       "side": 1,
       "message": "See my previous comment: I am not sure if we should be treating this as an error: it is totally fine when it happens, it just honours whatever configuration the user defined.",
+      "range": {
+        "startLine": 190,
+        "startChar": 13,
+        "endLine": 190,
+        "endChar": 35
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b102cf2_b9953798",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-03T11:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bf6db57_78cf1f45",
       "range": {
         "startLine": 190,
         "startChar": 13,
@@ -117,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65607f45_586eb63c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-03T11:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f7f343d_3c0f6957",
+      "range": {
+        "startLine": 44,
+        "startChar": 28,
+        "endLine": 44,
+        "endChar": 48
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac69c856_6adb89a7",
@@ -140,6 +206,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "991cc906_09f77dc6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-03T11:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac69c856_6adb89a7",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 109,
+        "endChar": 21
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a5c5db3_217c2770",
@@ -153,6 +243,30 @@
       "writtenOn": "2021-02-01T17:32:21Z",
       "side": 1,
       "message": "nit: redundant initialization",
+      "range": {
+        "startLine": 110,
+        "startChar": 34,
+        "endLine": 110,
+        "endChar": 59
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "821a9e56_f3c9d682",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-03T11:48:29Z",
+      "side": 1,
+      "message": "we don\u0027t want to return null",
+      "parentUuid": "5a5c5db3_217c2770",
       "range": {
         "startLine": 110,
         "startChar": 34,
@@ -203,6 +317,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bf9266f_f6ce274c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-03T11:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da676d23_b58c6a1c",
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56a0221d_f02ce42a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-03T11:48:29Z",
+      "side": 1,
+      "message": "You are correct, plus now we treat LargeObjectException as an internal one so don\u0027t need to pass objectId",
+      "parentUuid": "f642ec12_0b922456",
+      "range": {
+        "startLine": 151,
+        "startChar": 16,
+        "endLine": 151,
+        "endChar": 46
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c7fb00a_72af41e9",
@@ -216,6 +372,24 @@
       "writtenOn": "2021-02-01T17:32:21Z",
       "side": 1,
       "message": "nit: new line",
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10b0679c_def9bc83",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-03T11:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c7fb00a_72af41e9",
       "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
