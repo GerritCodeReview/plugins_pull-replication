@@ -16,6 +16,24 @@
       "message": "This needs rebasing and adapting on the latest parent changes",
       "revId": "2cb96041ba06c2f68027499852f68e9add20a107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12169575_30c81225",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-03T11:53:58Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "bfe1e4a2_02cc4f13",
+      "revId": "2cb96041ba06c2f68027499852f68e9add20a107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
