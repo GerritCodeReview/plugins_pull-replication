@@ -22,6 +22,30 @@
       },
       "revId": "cf309ece3b1c2cb31200e582c0a1f8c87f249cca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3467ca1e_78db3257",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-04T15:46:44Z",
+      "side": 1,
+      "message": "What is the replication plugin doing in this case?",
+      "parentUuid": "7c159610_64abc6e2",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "cf309ece3b1c2cb31200e582c0a1f8c87f249cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

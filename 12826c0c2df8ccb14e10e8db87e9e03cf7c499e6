@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a301f5f_2c6cf491",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-04T15:46:44Z",
+      "side": 1,
+      "message": "nit: headline too long, see [1].\n\n[1] https://chris.beams.io/posts/git-commit/",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 7
+      },
+      "revId": "12826c0c2df8ccb14e10e8db87e9e03cf7c499e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e991bccf_e01cde71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-04T15:46:44Z",
+      "side": 1,
+      "message": "Are we missing the IT test? From the current test I just see that IF you call ApplyObject, then we trigger the event.",
+      "revId": "12826c0c2df8ccb14e10e8db87e9e03cf7c499e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
