@@ -46,6 +46,30 @@
       },
       "revId": "cf309ece3b1c2cb31200e582c0a1f8c87f249cca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b61d915_eb1ba832",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T01:16:52Z",
+      "side": 1,
+      "message": "The replication plugin trigger the event synchronously and we should do the same.",
+      "parentUuid": "3467ca1e_78db3257",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "cf309ece3b1c2cb31200e582c0a1f8c87f249cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
