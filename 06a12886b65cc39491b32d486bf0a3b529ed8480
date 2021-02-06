@@ -277,6 +277,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b42f65ca_0cc62162",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T01:06:48Z",
+      "side": 1,
+      "message": "You have to create the empty list, otherwise what can you add to at L127?",
+      "parentUuid": "821a9e56_f3c9d682",
+      "range": {
+        "startLine": 110,
+        "startChar": 34,
+        "endLine": 110,
+        "endChar": 59
+      },
+      "revId": "06a12886b65cc39491b32d486bf0a3b529ed8480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da676d23_b58c6a1c",

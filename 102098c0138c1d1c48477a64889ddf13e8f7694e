@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c428d454_11fd3f6d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T01:06:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb458c0b_3125343b",
+      "range": {
+        "startLine": 192,
+        "startChar": 10,
+        "endLine": 192,
+        "endChar": 72
+      },
+      "revId": "102098c0138c1d1c48477a64889ddf13e8f7694e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd5a7b53_d60d0323",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-04T15:36:09Z",
       "side": 1,
       "message": "payloadMaxRefSize is misleading IMHO: a ref is just a pointer to a commit and has a fixed size.\n\nShould be simply a \u0027maxApiPayloadSize\u0027 instead? (size \u003d commit + tree + blob size, correct?)",
+      "range": {
+        "startLine": 55,
+        "startChar": 36,
+        "endLine": 55,
+        "endChar": 53
+      },
+      "revId": "102098c0138c1d1c48477a64889ddf13e8f7694e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c0fb2bf_d54208cd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T01:06:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd5a7b53_d60d0323",
       "range": {
         "startLine": 55,
         "startChar": 36,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "095c65fd_145a4b34",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T01:06:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4db01d07_9ad0d949",
+      "revId": "102098c0138c1d1c48477a64889ddf13e8f7694e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "689c0094_130fa43f",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-02-04T15:36:09Z",
       "side": 1,
       "message": "What about verifySizeLessThan? Looks more readable to me, otherwise it isn\u0027t obvious the type of verification performed. WDYT?",
+      "range": {
+        "startLine": 157,
+        "startChar": 15,
+        "endLine": 157,
+        "endChar": 25
+      },
+      "revId": "102098c0138c1d1c48477a64889ddf13e8f7694e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d519c2dc_3f1bc618",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-06T01:06:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "689c0094_130fa43f",
       "range": {
         "startLine": 157,
         "startChar": 15,
