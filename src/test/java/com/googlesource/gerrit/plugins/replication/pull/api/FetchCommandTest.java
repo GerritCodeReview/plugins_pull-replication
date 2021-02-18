@@ -25,6 +25,8 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.events.EventDispatcher;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
@@ -51,6 +53,7 @@ public class FetchCommandTest {
   @Mock PullReplicationStateLogger fetchStateLog;
   @Mock Source source;
   @Mock SourcesCollection sources;
+  @Mock DynamicItem<EventDispatcher> eventDispatcher;
 
   @SuppressWarnings("rawtypes")
   @Mock
@@ -73,7 +76,8 @@ public class FetchCommandTest {
     when(sources.getAll()).thenReturn(Lists.newArrayList(source));
     when(source.schedule(projectName, REF_NAME_TO_FETCH, state, true))
         .thenReturn(CompletableFuture.completedFuture(null));
-    objectUnderTest = new FetchCommand(fetchReplicationStateFactory, fetchStateLog, sources);
+    objectUnderTest =
+        new FetchCommand(fetchReplicationStateFactory, fetchStateLog, sources, eventDispatcher);
   }
 
   @Test
