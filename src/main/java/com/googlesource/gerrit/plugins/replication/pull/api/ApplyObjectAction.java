@@ -96,7 +96,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
     } catch (MissingParentObjectException e) {
       throw new ResourceConflictException(e.getMessage(), e);
     } catch (NumberFormatException | IOException e) {
-      throw new RestApiException(e.getMessage(), e);
+      throw RestApiException.wrap(e.getMessage(), e);
     } catch (RefUpdateException e) {
       throw new UnprocessableEntityException(e.getMessage());
     }
