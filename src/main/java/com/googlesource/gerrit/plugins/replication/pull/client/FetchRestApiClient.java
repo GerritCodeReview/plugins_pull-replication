@@ -14,17 +14,24 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
+import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.net.MediaType;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -48,6 +55,9 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static String GERRIT_ADMIN_PROTOCOL_PREFIX = "gerrit+";
 
+  private static final Gson GSON =
+      new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
+
   public interface Factory {
     FetchRestApiClient create(Source source);
   }
@@ -56,16 +66,19 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   private final SourceHttpClient.Factory httpClientFactory;
   private final Source source;
   private final String instanceLabel;
+  private final String pluginName;
 
   @Inject
   FetchRestApiClient(
       CredentialsFactory credentials,
       SourceHttpClient.Factory httpClientFactory,
       ReplicationConfig replicationConfig,
+      @PluginName String pluginName,
       @Assisted Source source) {
     this.credentials = credentials;
     this.httpClientFactory = httpClientFactory;
     this.source = source;
+    this.pluginName = pluginName;
     this.instanceLabel =
         Strings.nullToEmpty(
                 replicationConfig.getConfig().getString("replication", null, "instanceLabel"))
@@ -87,6 +100,23 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
             String.format("{\"label\":\"%s\", \"ref_name\": \"%s\"}", instanceLabel, refName),
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
+    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+  }
+
+  public HttpResult callSendObject(
+      Project.NameKey project, String refName, RevisionData revisionData, URIish targetUri)
+      throws ClientProtocolException, IOException {
+
+    RevisionInput input = new RevisionInput(instanceLabel, refName, revisionData);
+
+    String url =
+        String.format(
+            "%s/a/projects/%s/%s~apply-object",
+            targetUri.toString(), Url.encode(project.get()), pluginName);
+
+    HttpPost post = new HttpPost(url);
+    post.setEntity(new StringEntity(GSON.toJson(input)));
+    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
   }
 
