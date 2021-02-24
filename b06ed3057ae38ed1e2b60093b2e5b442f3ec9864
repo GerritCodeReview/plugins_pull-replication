@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfc2f6ec_14ea805b",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-24T21:27:19Z",
+      "side": 1,
+      "message": "I\u0027m thinking if not easier is to create opposite filter. We have to figure out what will be the most common use case. If most of our refs will be synchronous than it\u0027s fine but if we think most of them will be asynchronous(for example only meta ref will be synchronous) than it should be syncRefs instead of asyncRef.\n\nFor example with current implementation to send only meta refs synchronously we have to use inverse match ^(?:(?!(meta)).)*$\n\nWDYT?",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 21
+      },
+      "revId": "b06ed3057ae38ed1e2b60093b2e5b442f3ec9864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
