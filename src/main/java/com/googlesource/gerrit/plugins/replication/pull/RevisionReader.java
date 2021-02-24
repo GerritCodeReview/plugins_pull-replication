@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
@@ -33,7 +34,6 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
@@ -50,10 +50,11 @@ public class RevisionReader {
   private Long maxRefSize;
 
   @Inject
-  public RevisionReader(GitRepositoryManager gitRepositoryManager, Config cfg) {
+  public RevisionReader(GitRepositoryManager gitRepositoryManager, ReplicationConfig cfg) {
     this.gitRepositoryManager = gitRepositoryManager;
     this.maxRefSize =
-        cfg.getLong("replication", CONFIG_MAX_API_PAYLOAD_SIZE, DEFAULT_MAX_PAYLOAD_SIZE_IN_BYTES);
+        cfg.getConfig()
+            .getLong("replication", CONFIG_MAX_API_PAYLOAD_SIZE, DEFAULT_MAX_PAYLOAD_SIZE_IN_BYTES);
   }
 
   public Optional<RevisionData> read(Project.NameKey project, String refName)
