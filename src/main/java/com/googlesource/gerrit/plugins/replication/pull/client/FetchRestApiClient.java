@@ -32,6 +32,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
+import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -67,18 +68,21 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   private final Source source;
   private final String instanceLabel;
   private final String pluginName;
+  private final SyncRefsFilter syncRefsFilter;
 
   @Inject
   FetchRestApiClient(
       CredentialsFactory credentials,
       SourceHttpClient.Factory httpClientFactory,
       ReplicationConfig replicationConfig,
+      SyncRefsFilter syncRefsFilter,
       @PluginName String pluginName,
       @Assisted Source source) {
     this.credentials = credentials;
     this.httpClientFactory = httpClientFactory;
     this.source = source;
     this.pluginName = pluginName;
+    this.syncRefsFilter = syncRefsFilter;
     this.instanceLabel =
         Strings.nullToEmpty(
                 replicationConfig.getConfig().getString("replication", null, "instanceLabel"))
@@ -93,11 +97,13 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
         String.format(
             "%s/a/projects/%s/pull-replication~fetch",
             targetUri.toString(), Url.encode(project.get()));
-
+    Boolean callAsync = !syncRefsFilter.match(refName);
     HttpPost post = new HttpPost(url);
     post.setEntity(
         new StringEntity(
-            String.format("{\"label\":\"%s\", \"ref_name\": \"%s\"}", instanceLabel, refName),
+            String.format(
+                "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
+                instanceLabel, refName, callAsync),
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));

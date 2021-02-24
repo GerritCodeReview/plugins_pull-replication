@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -24,15 +23,11 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.config.UrlFormatter;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.project.ProjectResource;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
@@ -40,17 +35,13 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectD
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ApplyObjectActionTest {
@@ -82,32 +73,13 @@ public class ApplyObjectActionTest {
 
   @Mock ApplyObjectCommand applyObjectCommand;
   @Mock ProjectResource projectResource;
-  @Mock WorkQueue workQueue;
-  @Mock ScheduledExecutorService exceutorService;
-  @Mock DynamicItem<UrlFormatter> urlFormatterDynamicItem;
-  @Mock UrlFormatter urlFormatter;
-  @Mock WorkQueue.Task<Void> task;
   @Mock FetchPreconditions preConditions;
 
   @Before
   public void setup() {
-    when(workQueue.getDefaultQueue()).thenReturn(exceutorService);
-    when(urlFormatter.getRestUrl(anyString())).thenReturn(Optional.of(location));
-    when(exceutorService.submit(any(Runnable.class)))
-        .thenAnswer(
-            new Answer<WorkQueue.Task<Void>>() {
-              @Override
-              public Task<Void> answer(InvocationOnMock invocation) throws Throwable {
-                return task;
-              }
-            });
-    when(urlFormatterDynamicItem.get()).thenReturn(urlFormatter);
-    when(task.getTaskId()).thenReturn(taskId);
     when(preConditions.canCallFetchApi()).thenReturn(true);
 
-    applyObjectAction =
-        new ApplyObjectAction(
-            applyObjectCommand, workQueue, urlFormatterDynamicItem, preConditions);
+    applyObjectAction = new ApplyObjectAction(applyObjectCommand, preConditions);
   }
 
   @Test
@@ -205,24 +177,6 @@ public class ApplyObjectActionTest {
         .applyObject(any(), anyString(), any(), anyString());
 
     applyObjectAction.apply(projectResource, inputParams);
-  }
-
-  @Test
-  public void shouldReturnScheduledTaskForAsyncCall() throws RestApiException {
-    RevisionInput inputParams = new RevisionInput(label, refName, createSampleRevisionData(), true);
-
-    Response<?> response = applyObjectAction.apply(projectResource, inputParams);
-    assertThat(response.statusCode()).isEqualTo(SC_ACCEPTED);
-  }
-
-  @Test
-  public void shouldLocationHeaderForAsyncCall() throws Exception {
-    RevisionInput inputParams = new RevisionInput(label, refName, createSampleRevisionData(), true);
-
-    Response<?> response = applyObjectAction.apply(projectResource, inputParams);
-    assertThat(response).isInstanceOf(Response.Accepted.class);
-    Response.Accepted acceptResponse = (Response.Accepted) response;
-    assertThat(acceptResponse.location()).isEqualTo(location);
   }
 
   private RevisionData createSampleRevisionData() {
