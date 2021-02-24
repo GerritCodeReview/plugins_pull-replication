@@ -14,12 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
-import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -27,9 +23,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.config.UrlFormatter;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
@@ -37,24 +30,15 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingPar
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
   private final ApplyObjectCommand command;
-  private final WorkQueue workQueue;
-  private final DynamicItem<UrlFormatter> urlFormatter;
   private final FetchPreconditions preConditions;
 
   @Inject
-  public ApplyObjectAction(
-      ApplyObjectCommand command,
-      WorkQueue workQueue,
-      DynamicItem<UrlFormatter> urlFormatter,
-      FetchPreconditions preConditions) {
+  public ApplyObjectAction(ApplyObjectCommand command, FetchPreconditions preConditions) {
     this.command = command;
-    this.workQueue = workQueue;
-    this.urlFormatter = urlFormatter;
     this.preConditions = preConditions;
   }
 
@@ -89,63 +73,15 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
         throw new BadRequestException("Ref-update tree object cannot be null");
       }
 
-      if (input.isAsync()) {
-        return applyAsync(resource.getNameKey(), input);
-      }
-      return applySync(resource.getNameKey(), input);
+      command.applyObject(
+          resource.getNameKey(), input.getRefName(), input.getRevisionData(), input.getLabel());
+      return Response.created(input);
     } catch (MissingParentObjectException e) {
       throw new ResourceConflictException(e.getMessage(), e);
     } catch (NumberFormatException | IOException e) {
       throw new RestApiException(e.getMessage(), e);
     } catch (RefUpdateException e) {
       throw new UnprocessableEntityException(e.getMessage());
-    }
-  }
-
-  private Response<?> applySync(Project.NameKey project, RevisionInput input)
-      throws NumberFormatException, IOException, RefUpdateException, MissingParentObjectException {
-    command.applyObject(project, input.getRefName(), input.getRevisionData(), input.getLabel());
-    return Response.created(input);
-  }
-
-  private Response.Accepted applyAsync(Project.NameKey project, RevisionInput input) {
-    @SuppressWarnings("unchecked")
-    WorkQueue.Task<Void> task =
-        (WorkQueue.Task<Void>)
-            workQueue.getDefaultQueue().submit(new ApplyObjectJob(command, project, input));
-    Optional<String> url =
-        urlFormatter
-            .get()
-            .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
-    // We're in a HTTP handler, so must be present.
-    checkState(url.isPresent());
-    return Response.accepted(url.get());
-  }
-
-  private static class ApplyObjectJob implements Runnable {
-    private static final FluentLogger log = FluentLogger.forEnclosingClass();
-
-    private ApplyObjectCommand command;
-    private Project.NameKey project;
-    private RevisionInput input;
-
-    public ApplyObjectJob(
-        ApplyObjectCommand command, Project.NameKey project, RevisionInput input) {
-      this.command = command;
-      this.project = project;
-      this.input = input;
-    }
-
-    @Override
-    public void run() {
-      try {
-        command.applyObject(project, input.getRefName(), input.getRevisionData(), input.getLabel());
-      } catch (IOException | RefUpdateException | MissingParentObjectException e) {
-        log.atSevere().withCause(e).log(
-            "Exception during the applyObject call for project {} and ref name {}",
-            project.get(),
-            input.getRefName());
-      }
     }
   }
 }
