@@ -36,6 +36,8 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.RevisionReader;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
@@ -46,6 +48,7 @@ import java.util.stream.Collectors;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
+import org.junit.Before;
 import org.junit.Test;
 
 @SkipProjectClone
@@ -57,8 +60,13 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
 
   @Inject private ProjectOperations projectOperations;
-  @Inject RevisionReader reader;
   @Inject ApplyObject objectUnderTest;
+  RevisionReader reader;
+
+  @Before
+  public void setup() {
+    reader = plugin.getSysInjector().getInstance(RevisionReader.class);
+  }
 
   @Test
   public void shouldApplyRefMetaObject() throws Exception {
@@ -184,6 +192,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
   private static class TestModule extends FactoryModule {
     @Override
     protected void configure() {
+      bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
       bind(RevisionReader.class).in(Scopes.SINGLETON);
       bind(ApplyObject.class);
     }
