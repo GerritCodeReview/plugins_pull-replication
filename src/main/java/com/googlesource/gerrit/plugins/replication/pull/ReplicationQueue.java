@@ -32,6 +32,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingPar
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
@@ -65,7 +66,7 @@ public class ReplicationQueue
   private final Queue<ReferenceUpdatedEvent> beforeStartupEventsQueue;
   private FetchRestApiClient.Factory fetchClientFactory;
   private Integer fetchCallsTimeout;
-  private RefsFilter refsFilter;
+  private ExcludedRefsFilter refsFilter;
   private RevisionReader revisionReader;
 
   @Inject
@@ -75,7 +76,7 @@ public class ReplicationQueue
       DynamicItem<EventDispatcher> dis,
       ReplicationStateListeners sl,
       FetchRestApiClient.Factory fetchClientFactory,
-      RefsFilter refsFilter,
+      ExcludedRefsFilter refsFilter,
       RevisionReader revReader) {
     workQueue = wq;
     dispatcher = dis;
