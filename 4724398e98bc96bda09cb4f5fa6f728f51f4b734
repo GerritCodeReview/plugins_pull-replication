@@ -22,6 +22,30 @@
       },
       "revId": "4724398e98bc96bda09cb4f5fa6f728f51f4b734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9a81d35_69164f50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-25T10:49:52Z",
+      "side": 1,
+      "message": "It was such a small fix that I decided that there is no point to create separate ticket for it. But now ticket is there",
+      "parentUuid": "730f61da_a837b5f6",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "4724398e98bc96bda09cb4f5fa6f728f51f4b734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
