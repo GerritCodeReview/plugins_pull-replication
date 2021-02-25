@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01489397_9249e213",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-25T17:05:58Z",
+      "side": 0,
+      "message": "I tested it both ways with the previous version and it works as expected. This change is about to specify if we use sync or async. Before this change we do not send this field in a payload at all and it was always defaulted to false",
+      "parentUuid": "150dda9d_41ae2412",
+      "range": {
+        "startLine": 30,
+        "startChar": 79,
+        "endLine": 30,
+        "endChar": 93
+      },
+      "revId": "4724398e98bc96bda09cb4f5fa6f728f51f4b734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5a49679_ce7933fd",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2021-02-25T00:12:56Z",
       "side": 0,
       "message": "This change means we are breaking compatibility, isn\u0027t it?",
+      "range": {
+        "startLine": 79,
+        "startChar": 1556,
+        "endLine": 79,
+        "endChar": 1572
+      },
+      "revId": "4724398e98bc96bda09cb4f5fa6f728f51f4b734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aab830e3_fa2641f6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-25T17:05:58Z",
+      "side": 0,
+      "message": "Not necessary, before this change we never sent async field as a payload so it was receiver always defaulted it to false. After removing the field we just do not use the default",
+      "parentUuid": "b5a49679_ce7933fd",
       "range": {
         "startLine": 79,
         "startChar": 1556,
