@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "150dda9d_41ae2412",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:12:56Z",
+      "side": 0,
+      "message": "Would this break compatibility with existing API calls?",
+      "range": {
+        "startLine": 30,
+        "startChar": 79,
+        "endLine": 30,
+        "endChar": 93
+      },
+      "revId": "4724398e98bc96bda09cb4f5fa6f728f51f4b734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a49679_ce7933fd",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:12:56Z",
+      "side": 0,
+      "message": "This change means we are breaking compatibility, isn\u0027t it?",
+      "range": {
+        "startLine": 79,
+        "startChar": 1556,
+        "endLine": 79,
+        "endChar": 1572
+      },
+      "revId": "4724398e98bc96bda09cb4f5fa6f728f51f4b734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

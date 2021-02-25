@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b5dd1aa_38029787",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:12:56Z",
+      "side": 1,
+      "message": "I like the approach, however, I am concerned that we are breaking compatibility with existing API.",
+      "revId": "b06ed3057ae38ed1e2b60093b2e5b442f3ec9864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfc2f6ec_14ea805b",
@@ -14,6 +31,30 @@
       "writtenOn": "2021-02-24T21:27:19Z",
       "side": 1,
       "message": "I\u0027m thinking if not easier is to create opposite filter. We have to figure out what will be the most common use case. If most of our refs will be synchronous than it\u0027s fine but if we think most of them will be asynchronous(for example only meta ref will be synchronous) than it should be syncRefs instead of asyncRef.\n\nFor example with current implementation to send only meta refs synchronously we have to use inverse match ^(?:(?!(meta)).)*$\n\nWDYT?",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 21
+      },
+      "revId": "b06ed3057ae38ed1e2b60093b2e5b442f3ec9864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12c03c3b_493cec71",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-25T00:12:56Z",
+      "side": 1,
+      "message": "Yes, I agree. There are a lot less refs that are compatible with a sync call rather than the async ones.",
+      "parentUuid": "dfc2f6ec_14ea805b",
       "range": {
         "startLine": 184,
         "startChar": 0,
