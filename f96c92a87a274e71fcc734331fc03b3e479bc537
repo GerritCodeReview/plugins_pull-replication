@@ -16,6 +16,24 @@
       "message": "I believe it should be LocalDiskRepository if not with multi-site we will check global-refdb before updating the ref but in the global-ref db we already have the new sha1(updated by sender) so it will report a split-brain",
       "revId": "f96c92a87a274e71fcc734331fc03b3e479bc537",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a0d923_cc87719d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-26T23:42:55Z",
+      "side": 1,
+      "message": "True, that wasn\u0027t obvious though from the code and looked like a genuine bug.\nLet me turn this into an added comment on that.\n\nGood catch indeed.",
+      "parentUuid": "84cfcdaf_6b35d5b1",
+      "revId": "f96c92a87a274e71fcc734331fc03b3e479bc537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
