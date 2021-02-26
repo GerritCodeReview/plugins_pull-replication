@@ -22,6 +22,30 @@
       },
       "revId": "5165e6def6f8da9a1957a02feae724ab9bfd2230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6892f130_25187ceb",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-26T23:22:52Z",
+      "side": 1,
+      "message": "Ah you are right this is just copy and paste from there. DO you want me to fix it here now?",
+      "parentUuid": "5ba93fda_04a82ecb",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "5165e6def6f8da9a1957a02feae724ab9bfd2230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
