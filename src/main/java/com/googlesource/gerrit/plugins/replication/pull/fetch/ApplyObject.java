@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
@@ -34,7 +33,7 @@ public class ApplyObject {
   private final GitRepositoryManager gitManager;
 
   @Inject
-  public ApplyObject(LocalDiskRepositoryManager gitManager) {
+  public ApplyObject(GitRepositoryManager gitManager) {
     this.gitManager = gitManager;
   }
 
