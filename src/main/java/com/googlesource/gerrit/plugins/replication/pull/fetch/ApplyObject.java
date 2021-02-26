@@ -34,7 +34,7 @@ public class ApplyObject {
   private final GitRepositoryManager gitManager;
 
   @Inject
-  public ApplyObject(LocalDiskRepositoryManager gitManager) {
+  public ApplyObject(GitRepositoryManager gitManager) {
     this.gitManager = gitManager;
   }
 
