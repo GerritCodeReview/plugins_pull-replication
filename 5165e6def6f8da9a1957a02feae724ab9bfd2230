@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ba93fda_04a82ecb",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-26T23:20:38Z",
+      "side": 1,
+      "message": "This is suspicious: why do we really need a local disk?\nThe problem was located in ApplyObject() where instead of plugging the GitRepositoryManager we were injecting directly the LocalRepositoryManager.\n\nLet me fix that in a separate change and rebase this one on top of the other.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "5165e6def6f8da9a1957a02feae724ab9bfd2230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
