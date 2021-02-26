@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe2ccc7d_9870fd32",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/filter/RefsFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-26T15:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfaac795_2b8928d6",
+      "revId": "292f31372d4b850f35c4d0813ae01e778670c793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0705f08e_e148d9f0",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-02-25T23:27:28Z",
       "side": 1,
       "message": "set to \u0027*\u0027 (all refs are replicated synchronously)",
+      "range": {
+        "startLine": 206,
+        "startChar": 16,
+        "endLine": 206,
+        "endChar": 48
+      },
+      "revId": "292f31372d4b850f35c4d0813ae01e778670c793",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16797863_a0876806",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-02-26T15:55:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0705f08e_e148d9f0",
       "range": {
         "startLine": 206,
         "startChar": 16,
