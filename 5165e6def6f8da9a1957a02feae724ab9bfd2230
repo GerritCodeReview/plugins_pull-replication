@@ -46,6 +46,30 @@
       },
       "revId": "5165e6def6f8da9a1957a02feae724ab9bfd2230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "096777d5_b891c94f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-26T23:52:19Z",
+      "side": 1,
+      "message": "I change my mind as that is *needed* because the pull-replication uses directly the *LocalDiskRepositoryManager*, so we have to use the local disk here.",
+      "parentUuid": "6892f130_25187ceb",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 13
+      },
+      "revId": "5165e6def6f8da9a1957a02feae724ab9bfd2230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
