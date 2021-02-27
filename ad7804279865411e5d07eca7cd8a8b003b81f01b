@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3868d30_fe918cfe",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-02-27T00:07:06Z",
+      "side": 1,
+      "message": "This is strange: the test is green for me, but I do see exceptions on the log:\n\nCaused by: org.eclipse.jgit.errors.MissingObjectException: Missing unknown 9144de003fb1ac4f0dd099b17631770c040f19c9\n\tat org.eclipse.jgit.internal.storage.file.WindowCursor.open(WindowCursor.java:168)\n\tat org.eclipse.jgit.lib.ObjectReader.open(ObjectReader.java:236)\n\tat org.eclipse.jgit.revwalk.RevWalk.parseAny(RevWalk.java:941)\n\tat org.eclipse.jgit.revwalk.RevWalk.parseCommit(RevWalk.java:851)\n\tat com.google.gerrit.server.query.change.ChangeData.loadCommitData(ChangeData.java:594)\n\t... 96 more\n\nCan you investigate on why the repository is corrupted?",
+      "revId": "ad7804279865411e5d07eca7cd8a8b003b81f01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
