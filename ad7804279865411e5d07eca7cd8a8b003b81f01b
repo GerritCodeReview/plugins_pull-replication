@@ -34,6 +34,24 @@
       "parentUuid": "e3868d30_fe918cfe",
       "revId": "ad7804279865411e5d07eca7cd8a8b003b81f01b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54f5aba3_64d95214",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-01T23:04:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "23abb9f8_33935297",
+      "revId": "ad7804279865411e5d07eca7cd8a8b003b81f01b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

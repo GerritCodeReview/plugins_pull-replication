@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42125fbd_cd46ff96",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-01T23:04:13Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "37b347cb_ac0c5147",
+      "range": {
+        "startLine": 30,
+        "startChar": 79,
+        "endLine": 30,
+        "endChar": 93
+      },
+      "revId": "4724398e98bc96bda09cb4f5fa6f728f51f4b734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5a49679_ce7933fd",
@@ -181,6 +205,30 @@
       "side": 0,
       "message": "Implemented in ApplyObjectActionIT",
       "parentUuid": "3a5c7054_afce62b6",
+      "range": {
+        "startLine": 79,
+        "startChar": 1556,
+        "endLine": 79,
+        "endChar": 1572
+      },
+      "revId": "4724398e98bc96bda09cb4f5fa6f728f51f4b734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c33a9c4_a16b5029",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-01T23:04:13Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "9d9e2ecc_3da7b723",
       "range": {
         "startLine": 79,
         "startChar": 1556,
