@@ -16,6 +16,40 @@
       "message": "hello ponch",
       "revId": "4597fa29540d49c8d1ec64bc24c12b2ccf0fdae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "142668a4_ae328de6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-02T09:13:59Z",
+      "side": 1,
+      "message": "post-merge -1",
+      "revId": "4597fa29540d49c8d1ec64bc24c12b2ccf0fdae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5a32244_be2841d2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-02T09:13:59Z",
+      "side": 1,
+      "message": "This should be triggered only when the \u0027/meta\u0027 is updated, otherwise you don\u0027t have the up-to-date metadata to perform the reindex.",
+      "revId": "4597fa29540d49c8d1ec64bc24c12b2ccf0fdae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
