@@ -56,6 +56,21 @@ public class FetchRefReplicatedEventHandlerTest {
   }
 
   @Test
+  public void onEventShouldIndexOnlyMetaRef() {
+    Project.NameKey projectNameKey = Project.nameKey("testProject");
+    String ref = "refs/changes/41/41/1";
+    Change.Id changeId = Change.Id.fromRef(ref);
+    fetchRefReplicatedEventHandler.onEvent(
+        new FetchRefReplicatedEvent(
+            projectNameKey.get(),
+            ref,
+            "aSourceNode",
+            ReplicationState.RefFetchResult.SUCCEEDED,
+            RefUpdate.Result.FAST_FORWARD));
+    verify(changeIndexerMock, never()).index(eq(projectNameKey), eq(changeId));
+  }
+
+  @Test
   public void onEventShouldNotIndexMissingChange() {
     fetchRefReplicatedEventHandler.onEvent(
         new FetchRefReplicatedEvent(

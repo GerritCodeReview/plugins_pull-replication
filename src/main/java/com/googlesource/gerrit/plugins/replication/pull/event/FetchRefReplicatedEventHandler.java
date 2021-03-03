@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.event;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -37,11 +38,14 @@ public class FetchRefReplicatedEventHandler implements EventListener {
   public void onEvent(Event event) {
     if (event instanceof FetchRefReplicatedEvent) {
       FetchRefReplicatedEvent fetchRefReplicatedEvent = (FetchRefReplicatedEvent) event;
+      if (!RefNames.isNoteDbMetaRef(fetchRefReplicatedEvent.getRefName())) {
+        return;
+      }
+
       Project.NameKey projectNameKey = fetchRefReplicatedEvent.getProjectNameKey();
       logger.atFine().log(
           "Indexing ref '%s' for project %s",
           fetchRefReplicatedEvent.getRefName(), projectNameKey.get());
-
       Change.Id changeId = Change.Id.fromRef(fetchRefReplicatedEvent.getRefName());
       if (changeId != null
           && fetchRefReplicatedEvent
