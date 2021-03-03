@@ -77,6 +77,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c1cde66_7e9af726",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-03T15:42:28Z",
+      "side": 1,
+      "message": "Yeah, good catch.\n\nI would suggest you to introduce a function called \u0027isLocalEvent()\u0027 which is checking the current thread on stable-3.1 and uses then the instanceId concept from stable-3.2 onwards.",
+      "parentUuid": "f19e0b59_22de4cbe",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 51
+      },
+      "revId": "4597fa29540d49c8d1ec64bc24c12b2ccf0fdae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5a32244_be2841d2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
         "patchSetId": 22
@@ -106,6 +130,24 @@
       "side": 1,
       "message": "Done in https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/298925",
       "parentUuid": "f5a32244_be2841d2",
+      "revId": "4597fa29540d49c8d1ec64bc24c12b2ccf0fdae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ea71e1c_639100b7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-03T15:42:28Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "4e7813ce_fcbb35f6",
       "revId": "4597fa29540d49c8d1ec64bc24c12b2ccf0fdae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
