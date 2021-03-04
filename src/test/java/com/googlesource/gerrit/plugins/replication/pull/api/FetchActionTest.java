@@ -147,7 +147,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    doThrow(new InterruptedException()).when(fetchCommand).fetch(any(), any(), any());
+    doThrow(new InterruptedException()).when(fetchCommand).fetchSync(any(), any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -162,7 +162,7 @@ public class FetchActionTest {
 
     doThrow(new RemoteConfigurationMissingException(""))
         .when(fetchCommand)
-        .fetch(any(), any(), any());
+        .fetchSync(any(), any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -177,7 +177,7 @@ public class FetchActionTest {
 
     doThrow(new ExecutionException(new RuntimeException()))
         .when(fetchCommand)
-        .fetch(any(), any(), any());
+        .fetchSync(any(), any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -190,7 +190,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    doThrow(new IllegalStateException()).when(fetchCommand).fetch(any(), any(), any());
+    doThrow(new IllegalStateException()).when(fetchCommand).fetchSync(any(), any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -203,7 +203,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    doThrow(new TimeoutException()).when(fetchCommand).fetch(any(), any(), any());
+    doThrow(new TimeoutException()).when(fetchCommand).fetchSync(any(), any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
