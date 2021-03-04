@@ -99,6 +99,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66c2f21a_820c3ce8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-03-04T17:39:42Z",
+      "side": 1,
+      "message": "Addressed in: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/299109",
+      "parentUuid": "0c1cde66_7e9af726",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 51
+      },
+      "revId": "4597fa29540d49c8d1ec64bc24c12b2ccf0fdae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5a32244_be2841d2",
