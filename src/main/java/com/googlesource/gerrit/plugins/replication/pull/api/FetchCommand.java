@@ -50,7 +50,7 @@ public class FetchCommand implements Command {
     this.eventDispatcher = eventDispatcher;
   }
 
-  public void fetch(Project.NameKey name, String label, String refName)
+  public void fetch(Project.NameKey name, String label, String refName, boolean now)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
     ReplicationState state =
@@ -66,7 +66,7 @@ public class FetchCommand implements Command {
 
     try {
       state.markAllFetchTasksScheduled();
-      Future<?> future = source.get().schedule(name, refName, state, true);
+      Future<?> future = source.get().schedule(name, refName, state, now);
       future.get(source.get().getTimeout(), TimeUnit.SECONDS);
     } catch (ExecutionException
         | IllegalStateException
