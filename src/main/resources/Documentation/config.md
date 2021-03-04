@@ -292,13 +292,14 @@ remote.NAME.timeout
 	Defaults to 0 seconds, wait indefinitely.
 
 remote.NAME.replicationDelay
-:	Time to wait before scheduling a remote fetch operation. Setting
-	the delay to 0 effectively disables the delay, causing the fetch
-	to start as soon as possible.
+:	Time to wait before scheduling an asynchronous remote fetch
+	operation. Setting the delay to 0 effectively disables the delay,
+	causing the fetch to start as soon as possible.
 
 	This is a Gerrit specific extension to the Git remote block.
 
-	By default, 0 seconds.
+	By default for asynchronous fetch, 1 seconds. For a synchronous fetch
+	replicationDelay is zero.
 
 remote.NAME.rescheduleDelay
 :	Delay when rescheduling a fetch operation due to an in-flight fetch

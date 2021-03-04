@@ -93,7 +93,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private Response<?> applySync(Project.NameKey project, Input input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    command.fetch(project, input.label, input.refName);
+    command.fetchSync(project, input.label, input.refName);
     return Response.created(input);
   }
 
@@ -127,7 +127,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     @Override
     public void run() {
       try {
-        command.fetch(project, input.label, input.refName);
+        command.fetchAsync(project, input.label, input.refName);
       } catch (InterruptedException
           | ExecutionException
           | RemoteConfigurationMissingException

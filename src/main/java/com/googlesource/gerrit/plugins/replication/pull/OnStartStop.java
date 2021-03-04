@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.ASYNC;
+
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -65,7 +67,7 @@ public class OnStartStop implements LifecycleListener {
               new FetchResultProcessing.GitUpdateProcessing(eventDispatcher.get()));
       fetchAllFuture.set(
           fetchAll
-              .create(null, ReplicationFilter.all(), state, false)
+              .create(null, ReplicationFilter.all(), state, ASYNC)
               .schedule(30, TimeUnit.SECONDS));
     }
 
