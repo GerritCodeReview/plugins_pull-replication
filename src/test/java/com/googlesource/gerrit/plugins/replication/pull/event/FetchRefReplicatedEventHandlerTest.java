@@ -24,6 +24,7 @@ import static org.mockito.Mockito.verify;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -45,6 +46,26 @@ public class FetchRefReplicatedEventHandlerTest {
     Project.NameKey projectNameKey = Project.nameKey("testProject");
     String ref = "refs/changes/41/41/meta";
     Change.Id changeId = Change.Id.fromRef(ref);
+    try {
+      Context.setLocalEvent(true);
+      fetchRefReplicatedEventHandler.onEvent(
+          new FetchRefReplicatedEvent(
+              projectNameKey.get(),
+              ref,
+              "aSourceNode",
+              ReplicationState.RefFetchResult.SUCCEEDED,
+              RefUpdate.Result.FAST_FORWARD));
+      verify(changeIndexerMock, times(1)).index(eq(projectNameKey), eq(changeId));
+    } finally {
+      Context.unsetLocalEvent();
+    }
+  }
+
+  @Test
+  public void onEventShouldNotIndexIfNotLocalEvent() {
+    Project.NameKey projectNameKey = Project.nameKey("testProject");
+    String ref = "refs/changes/41/41/meta";
+    Change.Id changeId = Change.Id.fromRef(ref);
     fetchRefReplicatedEventHandler.onEvent(
         new FetchRefReplicatedEvent(
             projectNameKey.get(),
@@ -52,7 +73,7 @@ public class FetchRefReplicatedEventHandlerTest {
             "aSourceNode",
             ReplicationState.RefFetchResult.SUCCEEDED,
             RefUpdate.Result.FAST_FORWARD));
-    verify(changeIndexerMock, times(1)).index(eq(projectNameKey), eq(changeId));
+    verify(changeIndexerMock, never()).index(eq(projectNameKey), eq(changeId));
   }
 
   @Test
