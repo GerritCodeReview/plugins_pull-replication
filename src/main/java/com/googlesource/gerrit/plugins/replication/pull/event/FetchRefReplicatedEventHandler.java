@@ -22,6 +22,7 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.inject.Inject;
+import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 
@@ -36,7 +37,7 @@ public class FetchRefReplicatedEventHandler implements EventListener {
 
   @Override
   public void onEvent(Event event) {
-    if (event instanceof FetchRefReplicatedEvent) {
+    if (event instanceof FetchRefReplicatedEvent && isLocalEvent()) {
       FetchRefReplicatedEvent fetchRefReplicatedEvent = (FetchRefReplicatedEvent) event;
       if (!RefNames.isNoteDbMetaRef(fetchRefReplicatedEvent.getRefName())) {
         return;
@@ -58,5 +59,9 @@ public class FetchRefReplicatedEventHandler implements EventListener {
             fetchRefReplicatedEvent.getRefName(), projectNameKey.get());
       }
     }
+  }
+
+  private boolean isLocalEvent() {
+    return Context.isLocalEvent();
   }
 }

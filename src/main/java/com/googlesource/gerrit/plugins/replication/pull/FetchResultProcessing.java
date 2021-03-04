@@ -118,12 +118,15 @@ public abstract class FetchResultProcessing {
       }
       writeStdOut(sb.toString());
       try {
+        Context.setLocalEvent(true);
         dispatcher.postEvent(
             new FetchRefReplicatedEvent(
                 project, ref, resolveNodeName(uri), status, refUpdateResult));
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log(
             "Cannot post event for ref '%s', project %s", ref, project);
+      } finally {
+        Context.unsetLocalEvent();
       }
     }
 
@@ -200,9 +203,12 @@ public abstract class FetchResultProcessing {
 
     private void postEvent(RefEvent event) {
       try {
+        Context.setLocalEvent(true);
         dispatcher.postEvent(event);
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("Cannot post event");
+      } finally {
+        Context.unsetLocalEvent();
       }
     }
   }
