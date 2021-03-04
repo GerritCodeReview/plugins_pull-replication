@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb3b78ab_1f95e55c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-03-04T15:09:55Z",
+      "side": 1,
+      "message": "I was trying to add integration tests but it\u0027s far more complex than the change. I\u0027ve tested manually on local environment ",
+      "revId": "d70169dfb672469ffdbe6733cfec22e4d6e6e55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
