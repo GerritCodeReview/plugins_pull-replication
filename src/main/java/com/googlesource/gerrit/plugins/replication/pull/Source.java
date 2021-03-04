@@ -753,15 +753,20 @@ public class Source {
   private void postReplicationFailedEvent(FetchOne fetchOp, RefUpdate.Result result) {
     Project.NameKey project = fetchOp.getProjectNameKey();
     String sourceNode = resolveNodeName(fetchOp.getURI());
-    for (String ref : fetchOp.getRefs()) {
-      FetchRefReplicatedEvent event =
-          new FetchRefReplicatedEvent(
-              project.get(), ref, sourceNode, ReplicationState.RefFetchResult.FAILED, result);
-      try {
-        eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
-      } catch (PermissionBackendException e) {
-        repLog.error("error posting event", e);
+    try {
+      Context.setLocalEvent(true);
+      for (String ref : fetchOp.getRefs()) {
+        FetchRefReplicatedEvent event =
+            new FetchRefReplicatedEvent(
+                project.get(), ref, sourceNode, ReplicationState.RefFetchResult.FAILED, result);
+        try {
+          eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
+        } catch (PermissionBackendException e) {
+          repLog.error("error posting event", e);
+        }
       }
+    } finally {
+      Context.unsetLocalEvent();
     }
   }
 }
