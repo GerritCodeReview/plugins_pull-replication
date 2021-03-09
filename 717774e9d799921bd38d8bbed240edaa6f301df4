@@ -22,6 +22,52 @@
       },
       "revId": "717774e9d799921bd38d8bbed240edaa6f301df4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5650896a_367d61c5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Context.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-09T15:14:45Z",
+      "side": 1,
+      "message": "This is a hack because we should really analyse the instanceId that we don\u0027t have it in v3.1 :-(\n\nCan you add a TODO about that and change the implementation in stable-3.2?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 22
+      },
+      "revId": "717774e9d799921bd38d8bbed240edaa6f301df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0adaf9d_6c244edb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-09T15:14:45Z",
+      "side": 1,
+      "message": "It would be best to check this at L45, so to minimise the instructions executed where instead there is nothing to do.",
+      "range": {
+        "startLine": 52,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 53
+      },
+      "revId": "717774e9d799921bd38d8bbed240edaa6f301df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
