@@ -16,6 +16,75 @@
       "message": "I was trying to add integration tests but it\u0027s far more complex than the change. I\u0027ve tested manually on local environment ",
       "revId": "d70169dfb672469ffdbe6733cfec22e4d6e6e55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80b15650_2456e1be",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-09T15:02:24Z",
+      "side": 1,
+      "message": "That name looks like a time: why not calling what it is?\nIt would also more readable to have an enum called ReplicationType { SYNC, ASYNC } rather than a boolean.",
+      "range": {
+        "startLine": 53,
+        "startChar": 80,
+        "endLine": 53,
+        "endChar": 83
+      },
+      "revId": "d70169dfb672469ffdbe6733cfec22e4d6e6e55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70038b57_b4c428cb",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-09T15:02:24Z",
+      "side": 1,
+      "message": "Have you checked if 1 second is enough? How the events are coming through? What is the average lag between them?\n\nP.S. I believe here the use-case is the creation of a new change or a new patch-set, isn\u0027t it? Where the new patch-set ref and the meta-ref need to be put into the same async replication API call.",
+      "range": {
+        "startLine": 301,
+        "startChar": 36,
+        "endLine": 301,
+        "endChar": 45
+      },
+      "revId": "d70169dfb672469ffdbe6733cfec22e4d6e6e55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b932a760_c1b2f075",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-09T15:02:24Z",
+      "side": 1,
+      "message": "is zero.",
+      "range": {
+        "startLine": 302,
+        "startChar": 18,
+        "endLine": 302,
+        "endChar": 29
+      },
+      "revId": "d70169dfb672469ffdbe6733cfec22e4d6e6e55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
