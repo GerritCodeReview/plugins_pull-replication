@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea531267_bc93ce33",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-03-10T16:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80b15650_2456e1be",
+      "range": {
+        "startLine": 53,
+        "startChar": 80,
+        "endLine": 53,
+        "endChar": 83
+      },
+      "revId": "d70169dfb672469ffdbe6733cfec22e4d6e6e55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70038b57_b4c428cb",
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62a38114_17a44903",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-03-10T16:48:26Z",
+      "side": 1,
+      "message": "Ok I did some data crunching. I took our replication log from production and checked \"scheduling replication\" - we are logging this line just after getting the git ref update event.\nAverage time between getting the event for patchset and meta ref is: 803 milliseconds, maximum is: 3 seconds and 589 milliseconds.\nThis is the distribution:\nBelow 500 - 80\nBetween 500-1000 - 28\nBetween 1000-1500 - 18\nBetween 1500-2000 - 14\nBetween 2000-2500 - 4\nBetween 2500-3000 - 4\nAbove 3000 - 2\n\nSetting default to 2 sec will cover 144 out of 150.\nWDYT?",
+      "parentUuid": "70038b57_b4c428cb",
+      "range": {
+        "startLine": 301,
+        "startChar": 36,
+        "endLine": 301,
+        "endChar": 45
+      },
+      "revId": "d70169dfb672469ffdbe6733cfec22e4d6e6e55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b932a760_c1b2f075",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 2
@@ -77,6 +125,30 @@
       "writtenOn": "2021-03-09T15:02:24Z",
       "side": 1,
       "message": "is zero.",
+      "range": {
+        "startLine": 302,
+        "startChar": 18,
+        "endLine": 302,
+        "endChar": 29
+      },
+      "revId": "d70169dfb672469ffdbe6733cfec22e4d6e6e55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f940351_703e0e26",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-03-10T16:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b932a760_c1b2f075",
       "range": {
         "startLine": 302,
         "startChar": 18,
