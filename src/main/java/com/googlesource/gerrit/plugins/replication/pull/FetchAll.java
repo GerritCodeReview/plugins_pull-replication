@@ -29,7 +29,11 @@ public class FetchAll implements Runnable {
   private final ReplicationStateListener stateLog;
 
   public interface Factory {
-    FetchAll create(String urlMatch, ReplicationFilter filter, ReplicationState state, boolean now);
+    FetchAll create(
+        String urlMatch,
+        ReplicationFilter filter,
+        ReplicationState state,
+        ReplicationType replicationType);
   }
 
   private final WorkQueue workQueue;
@@ -37,7 +41,7 @@ public class FetchAll implements Runnable {
   private final String urlMatch;
   private final ReplicationFilter filter;
   private final ReplicationState state;
-  private final boolean now;
+  private final ReplicationType replicationType;
   private final SourcesCollection sources;
 
   @Inject
@@ -49,7 +53,7 @@ public class FetchAll implements Runnable {
       @Assisted @Nullable String urlMatch,
       @Assisted ReplicationFilter filter,
       @Assisted ReplicationState state,
-      @Assisted boolean now) {
+      @Assisted ReplicationType replicationType) {
     this.workQueue = wq;
     this.projectCache = projectCache;
     this.stateLog = stateLog;
@@ -57,7 +61,7 @@ public class FetchAll implements Runnable {
     this.urlMatch = urlMatch;
     this.filter = filter;
     this.state = state;
-    this.now = now;
+    this.replicationType = replicationType;
   }
 
   Future<?> schedule(long delay, TimeUnit unit) {
@@ -69,7 +73,7 @@ public class FetchAll implements Runnable {
     try {
       for (Project.NameKey nameKey : projectCache.all()) {
         if (filter.matches(nameKey)) {
-          scheduleFullSync(nameKey, urlMatch, state, now);
+          scheduleFullSync(nameKey, urlMatch, state, replicationType);
         }
       }
     } catch (Exception e) {
@@ -79,12 +83,15 @@ public class FetchAll implements Runnable {
   }
 
   private void scheduleFullSync(
-      Project.NameKey project, String urlMatch, ReplicationState state, boolean now) {
+      Project.NameKey project,
+      String urlMatch,
+      ReplicationState state,
+      ReplicationType replicationType) {
 
     for (Source cfg : sources.getAll()) {
       if (cfg.wouldFetchProject(project)) {
         for (URIish uri : cfg.getURIs(project, urlMatch)) {
-          cfg.schedule(project, FetchOne.ALL_REFS, uri, state, now);
+          cfg.schedule(project, FetchOne.ALL_REFS, uri, state, replicationType);
         }
       }
     }

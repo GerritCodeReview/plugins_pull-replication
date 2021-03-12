@@ -21,17 +21,10 @@ public class RevisionInput {
 
   private RevisionData revisionData;
 
-  private boolean async;
-
   public RevisionInput(String label, String refName, RevisionData revisionData) {
-    this(label, refName, revisionData, false);
-  }
-
-  public RevisionInput(String label, String refName, RevisionData revisionData, boolean async) {
     this.label = label;
     this.refName = refName;
     this.revisionData = revisionData;
-    this.async = async;
   }
 
   public String getLabel() {
@@ -44,9 +37,5 @@ public class RevisionInput {
 
   public RevisionData getRevisionData() {
     return revisionData;
-  }
-
-  public boolean isAsync() {
-    return async;
   }
 }
