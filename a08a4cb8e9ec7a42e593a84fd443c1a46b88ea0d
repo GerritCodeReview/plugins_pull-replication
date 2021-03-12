@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad76ca32_96a3c8f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-03-12T12:24:54Z",
+      "side": 1,
+      "message": "Approving, with the caveat of having, post-merge, a followup ticket that says:\n- Given you are waiting for async events to be grouped\n- When a \u0027/meta\u0027 ref update is triggered\n- If the patch associated is already in the group of ref updates\n- Then fire the pull even *before* the expiry of the timeout\n\nThe above would allow the 4s wait default time to be cut to a minimum as soon as the change (patchset + meta ref) is ready to be replicated.",
+      "revId": "a08a4cb8e9ec7a42e593a84fd443c1a46b88ea0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
