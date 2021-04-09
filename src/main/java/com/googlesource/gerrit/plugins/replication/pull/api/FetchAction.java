@@ -133,7 +133,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
           | RemoteConfigurationMissingException
           | TimeoutException e) {
         log.atSevere().withCause(e).log(
-            "Exception during the async fetch call for project {}, label {} and ref name {}",
+            "Exception during the async fetch call for project %s, label %s and ref name %s",
             project.get(),
             input.label,
             input.refName);
