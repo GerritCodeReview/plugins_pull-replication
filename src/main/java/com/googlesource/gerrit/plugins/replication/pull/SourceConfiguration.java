@@ -23,7 +23,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.RemoteConfig;
 
 public class SourceConfiguration implements RemoteConfiguration {
-  static final int DEFAULT_REPLICATION_DELAY = 0;
+  static final int DEFAULT_REPLICATION_DELAY = 4;
   static final int DEFAULT_RESCHEDULE_DELAY = 3;
   static final int DEFAULT_SLOW_LATENCY_THRESHOLD_SECS = 900;
   static final int DEFAULT_MAX_CONNECTION_INACTIVITY_MS = 10000;

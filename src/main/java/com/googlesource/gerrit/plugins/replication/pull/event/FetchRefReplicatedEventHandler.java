@@ -17,10 +17,12 @@ package com.googlesource.gerrit.plugins.replication.pull.event;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.inject.Inject;
+import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 
@@ -35,18 +37,21 @@ public class FetchRefReplicatedEventHandler implements EventListener {
 
   @Override
   public void onEvent(Event event) {
-    if (event instanceof FetchRefReplicatedEvent) {
+    if (event instanceof FetchRefReplicatedEvent && isLocalEvent()) {
       FetchRefReplicatedEvent fetchRefReplicatedEvent = (FetchRefReplicatedEvent) event;
+      if (!RefNames.isNoteDbMetaRef(fetchRefReplicatedEvent.getRefName())
+          || !fetchRefReplicatedEvent
+              .getStatus()
+              .equals(ReplicationState.RefFetchResult.SUCCEEDED.toString())) {
+        return;
+      }
+
       Project.NameKey projectNameKey = fetchRefReplicatedEvent.getProjectNameKey();
       logger.atFine().log(
           "Indexing ref '%s' for project %s",
           fetchRefReplicatedEvent.getRefName(), projectNameKey.get());
-
       Change.Id changeId = Change.Id.fromRef(fetchRefReplicatedEvent.getRefName());
-      if (changeId != null
-          && fetchRefReplicatedEvent
-              .getStatus()
-              .equals(ReplicationState.RefFetchResult.SUCCEEDED.toString())) {
+      if (changeId != null) {
         changeIndexer.index(projectNameKey, changeId);
       } else {
         logger.atWarning().log(
@@ -54,5 +59,9 @@ public class FetchRefReplicatedEventHandler implements EventListener {
             fetchRefReplicatedEvent.getRefName(), projectNameKey.get());
       }
     }
+  }
+
+  private boolean isLocalEvent() {
+    return Context.isLocalEvent();
   }
 }
