@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
 import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -294,12 +295,25 @@ public class Source {
                   try {
                     projectState = projectCache.get(project);
                   } catch (StorageException e) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because could not open source project",
+                        project,
+                        ref,
+                        e);
                     return false;
                   }
                   if (!projectState.isPresent()) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because project does not exist",
+                        project,
+                        ref);
                     throw new NoSuchProjectException(project);
                   }
                   if (!projectState.get().statePermitsRead()) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because project is not readable",
+                        project,
+                        ref);
                     return false;
                   }
                   if (!shouldReplicate(projectState.get(), userProvider.get())) {
@@ -309,12 +323,18 @@ public class Source {
                     return true;
                   }
                   try {
-                    permissionBackend
-                        .user(userProvider.get())
-                        .project(project)
-                        .ref(ref)
-                        .check(RefPermission.READ);
+                    if (!ref.startsWith(RefNames.REFS_CHANGES)) {
+                      permissionBackend
+                          .user(userProvider.get())
+                          .project(project)
+                          .ref(ref)
+                          .check(RefPermission.READ);
+                    }
                   } catch (AuthException e) {
+                    repLog.warn(
+                        "NOT scheduling replication {}:{} because lack of permissions to access project/ref",
+                        project,
+                        ref);
                     return false;
                   }
                   return true;
@@ -327,6 +347,7 @@ public class Source {
       Throwables.throwIfUnchecked(e);
       throw new RuntimeException(e);
     }
+    repLog.warn("NOT scheduling replication {}:{}", project, ref);
     return false;
   }
 
@@ -360,13 +381,20 @@ public class Source {
   }
 
   public Future<?> schedule(
-      Project.NameKey project, String ref, ReplicationState state, boolean now) {
+      Project.NameKey project,
+      String ref,
+      ReplicationState state,
+      ReplicationType replicationType) {
     URIish uri = getURI(project);
-    return schedule(project, ref, uri, state, now);
+    return schedule(project, ref, uri, state, replicationType);
   }
 
   public Future<?> schedule(
-      Project.NameKey project, String ref, URIish uri, ReplicationState state, boolean now) {
+      Project.NameKey project,
+      String ref,
+      URIish uri,
+      ReplicationState state,
+      ReplicationType replicationType) {
 
     repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
     if (!shouldReplicate(project, ref, state)) {
@@ -406,7 +434,7 @@ public class Source {
         addRef(e, ref);
         e.addState(ref, state);
         pending.put(uri, e);
-        f = pool.schedule(e, now ? 0 : config.getDelay(), TimeUnit.SECONDS);
+        f = pool.schedule(e, isSyncCall(replicationType) ? 0 : config.getDelay(), TimeUnit.SECONDS);
       } else if (!e.getRefs().contains(ref)) {
         addRef(e, ref);
         e.addState(ref, state);
@@ -427,6 +455,10 @@ public class Source {
   private void addRef(FetchOne e, String ref) {
     e.addRef(ref);
     postReplicationScheduledEvent(e, ref);
+  }
+
+  private boolean isSyncCall(ReplicationType replicationType) {
+    return SYNC.equals(replicationType);
   }
 
   /**
@@ -730,15 +762,20 @@ public class Source {
   private void postReplicationFailedEvent(FetchOne fetchOp, RefUpdate.Result result) {
     Project.NameKey project = fetchOp.getProjectNameKey();
     String sourceNode = resolveNodeName(fetchOp.getURI());
-    for (String ref : fetchOp.getRefs()) {
-      FetchRefReplicatedEvent event =
-          new FetchRefReplicatedEvent(
-              project.get(), ref, sourceNode, ReplicationState.RefFetchResult.FAILED, result);
-      try {
-        eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
-      } catch (PermissionBackendException e) {
-        repLog.error("error posting event", e);
+    try {
+      Context.setLocalEvent(true);
+      for (String ref : fetchOp.getRefs()) {
+        FetchRefReplicatedEvent event =
+            new FetchRefReplicatedEvent(
+                project.get(), ref, sourceNode, ReplicationState.RefFetchResult.FAILED, result);
+        try {
+          eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
+        } catch (PermissionBackendException e) {
+          repLog.error("error posting event", e);
+        }
       }
+    } finally {
+      Context.unsetLocalEvent();
     }
   }
 }

@@ -12,20 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.replication.pull;
+package com.googlesource.gerrit.plugins.replication.pull.filter;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.entities.AccessSection;
-import com.google.gerrit.entities.RefNames;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
-@Singleton
-public class RefsFilter {
+public abstract class RefsFilter {
   public enum PatternType {
     REGEX,
     WILDCARD,
@@ -44,7 +40,6 @@ public class RefsFilter {
 
   private final List<String> refsPatterns;
 
-  @Inject
   public RefsFilter(ReplicationConfig replicationConfig) {
     refsPatterns = getRefNamePatterns(replicationConfig.getConfig());
   }
@@ -66,12 +61,7 @@ public class RefsFilter {
     return false;
   }
 
-  private List<String> getRefNamePatterns(Config cfg) {
-    return ImmutableList.<String>builder()
-        .addAll(getDefaultExcludeRefPatterns())
-        .addAll(ImmutableList.copyOf(cfg.getStringList("replication", null, "excludeRefs")))
-        .build();
-  }
+  protected abstract List<String> getRefNamePatterns(Config cfg);
 
   private boolean matchesPattern(String refName, String pattern) {
     boolean match = false;
@@ -86,17 +76,5 @@ public class RefsFilter {
         match = refName.equals(pattern);
     }
     return match;
-  }
-
-  private List<String> getDefaultExcludeRefPatterns() {
-    return ImmutableList.of(
-        RefNames.REFS_USERS + "*",
-        RefNames.REFS_CONFIG,
-        RefNames.REFS_SEQUENCES + "*",
-        RefNames.REFS_EXTERNAL_IDS,
-        RefNames.REFS_GROUPS + "*",
-        RefNames.REFS_GROUPNAMES,
-        RefNames.REFS_CACHE_AUTOMERGE + "*",
-        RefNames.REFS_STARRED_CHANGES + "*");
   }
 }

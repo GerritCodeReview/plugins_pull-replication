@@ -181,6 +181,37 @@ replication.excludeRefs
 
     By default, all other refs are included.
 
+replication.syncRefs
+:   Specify for which refs git fetch calls should be executed synchronously.
+    It can be provided more than once, and supports three formats: regular expressions,
+    wildcard matching, and single ref matching. All three formats match are case-sensitive.
+
+    Values starting with a caret `^` are treated as regular
+    expressions. For the regular expressions details please follow
+    official [java documentation](https://docs.oracle.com/javase/tutorial/essential/regex/).
+
+    Please note that regular expressions could also be used
+    with inverse match.
+
+    Values that are not regular expressions and end in `*` are
+    treated as wildcard matches. Wildcards match refs whose
+    name agrees from the beginning until the trailing `*`. So
+    `foo/b*` would match the refs `foo/b`, `foo/bar`, and
+    `foo/baz`, but neither `foobar`, nor `bar/foo/baz`.
+
+    Values that are neither regular expressions nor wildcards are
+    treated as single ref matches. So `foo/bar` matches only
+    the ref `foo/bar`, but no other refs.
+
+    By default, set to '*' (all refs are replicated synchronously).
+
+replication.maxApiPayloadSize
+:	Maximum size in bytes of the ref to be sent as a REST Api call
+	payload. For refs larger than threshold git fetch operation
+	will be used.
+
+	Default: 10000
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
@@ -261,13 +292,14 @@ remote.NAME.timeout
 	Defaults to 0 seconds, wait indefinitely.
 
 remote.NAME.replicationDelay
-:	Time to wait before scheduling a remote fetch operation. Setting
-	the delay to 0 effectively disables the delay, causing the fetch
-	to start as soon as possible.
+:	Time to wait before scheduling an asynchronous remote fetch
+	operation. Setting the delay to 0 effectively disables the delay,
+	causing the fetch to start as soon as possible.
 
 	This is a Gerrit specific extension to the Git remote block.
 
-	By default, 0 seconds.
+	By default for asynchronous fetch, 4 seconds. For a synchronous fetch
+	replicationDelay is zero.
 
 remote.NAME.rescheduleDelay
 :	Delay when rescheduling a fetch operation due to an in-flight fetch

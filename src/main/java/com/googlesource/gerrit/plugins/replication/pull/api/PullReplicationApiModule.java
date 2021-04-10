@@ -26,7 +26,9 @@ public class PullReplicationApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(FetchAction.class).in(Scopes.SINGLETON);
+    bind(ApplyObjectAction.class).in(Scopes.SINGLETON);
     post(PROJECT_KIND, "fetch").to(FetchAction.class);
+    post(PROJECT_KIND, "apply-object").to(ApplyObjectAction.class);
 
     bind(FetchPreconditions.class).in(Scopes.SINGLETON);
     bind(CapabilityDefinition.class)
