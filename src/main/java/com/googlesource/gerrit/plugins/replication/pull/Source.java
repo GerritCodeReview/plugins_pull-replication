@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
 import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -380,13 +381,20 @@ public class Source {
   }
 
   public Future<?> schedule(
-      Project.NameKey project, String ref, ReplicationState state, boolean now) {
+      Project.NameKey project,
+      String ref,
+      ReplicationState state,
+      ReplicationType replicationType) {
     URIish uri = getURI(project);
-    return schedule(project, ref, uri, state, now);
+    return schedule(project, ref, uri, state, replicationType);
   }
 
   public Future<?> schedule(
-      Project.NameKey project, String ref, URIish uri, ReplicationState state, boolean now) {
+      Project.NameKey project,
+      String ref,
+      URIish uri,
+      ReplicationState state,
+      ReplicationType replicationType) {
 
     repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
     if (!shouldReplicate(project, ref, state)) {
@@ -426,7 +434,7 @@ public class Source {
         addRef(e, ref);
         e.addState(ref, state);
         pending.put(uri, e);
-        f = pool.schedule(e, now ? 0 : config.getDelay(), TimeUnit.SECONDS);
+        f = pool.schedule(e, isSyncCall(replicationType) ? 0 : config.getDelay(), TimeUnit.SECONDS);
       } else if (!e.getRefs().contains(ref)) {
         addRef(e, ref);
         e.addState(ref, state);
@@ -447,6 +455,10 @@ public class Source {
   private void addRef(FetchOne e, String ref) {
     e.addRef(ref);
     postReplicationScheduledEvent(e, ref);
+  }
+
+  private boolean isSyncCall(ReplicationType replicationType) {
+    return SYNC.equals(replicationType);
   }
 
   /**
@@ -750,15 +762,20 @@ public class Source {
   private void postReplicationFailedEvent(FetchOne fetchOp, RefUpdate.Result result) {
     Project.NameKey project = fetchOp.getProjectNameKey();
     String sourceNode = resolveNodeName(fetchOp.getURI());
-    for (String ref : fetchOp.getRefs()) {
-      FetchRefReplicatedEvent event =
-          new FetchRefReplicatedEvent(
-              project.get(), ref, sourceNode, ReplicationState.RefFetchResult.FAILED, result);
-      try {
-        eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
-      } catch (PermissionBackendException e) {
-        repLog.error("error posting event", e);
+    try {
+      Context.setLocalEvent(true);
+      for (String ref : fetchOp.getRefs()) {
+        FetchRefReplicatedEvent event =
+            new FetchRefReplicatedEvent(
+                project.get(), ref, sourceNode, ReplicationState.RefFetchResult.FAILED, result);
+        try {
+          eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
+        } catch (PermissionBackendException e) {
+          repLog.error("error posting event", e);
+        }
       }
+    } finally {
+      Context.unsetLocalEvent();
     }
   }
 }

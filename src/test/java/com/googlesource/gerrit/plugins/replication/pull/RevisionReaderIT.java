@@ -29,13 +29,15 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.inject.Inject;
 import com.google.inject.Scopes;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
+import org.junit.Before;
 import org.junit.Test;
 
 @UseLocalDisk
@@ -43,7 +45,12 @@ import org.junit.Test;
     name = "pull-replication",
     sysModule = "com.googlesource.gerrit.plugins.replication.pull.RevisionReaderIT$TestModule")
 public class RevisionReaderIT extends LightweightPluginDaemonTest {
-  @Inject RevisionReader objectUnderTest;
+  RevisionReader objectUnderTest;
+
+  @Before
+  public void setup() {
+    objectUnderTest = plugin.getSysInjector().getInstance(RevisionReader.class);
+  }
 
   @Test
   public void shouldReadRefMetaObject() throws Exception {
@@ -114,6 +121,7 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
   private static class TestModule extends FactoryModule {
     @Override
     protected void configure() {
+      bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
       bind(RevisionReader.class).in(Scopes.SINGLETON);
       bind(ApplyObject.class);
     }

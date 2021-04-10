@@ -26,6 +26,7 @@ import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
@@ -78,6 +79,7 @@ public class ApplyObjectCommand {
     long elapsed = NANOSECONDS.toMillis(context.stop());
 
     try {
+      Context.setLocalEvent(true);
       eventDispatcher
           .get()
           .postEvent(
@@ -90,6 +92,8 @@ public class ApplyObjectCommand {
     } catch (PermissionBackendException e) {
       logger.atSevere().withCause(e).log(
           "Cannot post event for ref '%s', project %s", refName, name);
+    } finally {
+      Context.unsetLocalEvent();
     }
 
     if (!isSuccessful(refUpdateState.getResult())) {

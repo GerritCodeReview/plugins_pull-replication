@@ -31,6 +31,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
+import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
@@ -72,11 +73,15 @@ public class FetchRestApiClientTest {
   String label = "Replication";
   String refName = RefNames.REFS_HEADS + "master";
 
-  String expectedPayload = "{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\"}";
+  String expectedPayload =
+      "{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":false}";
+  String expectedAsyncPayload =
+      "{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":true}";
   Header expectedHeader = new BasicHeader("Content-Type", "application/json");
+  SyncRefsFilter syncRefsFilter;
 
   String expectedSendObjectPayload =
-      "{\"label\":\"Replication\",\"ref_name\":\"refs/heads/master\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"dHJlZSA3NzgxNGQyMTZhNmNhYjJkZGI5ZjI4NzdmYmJkMGZlYmRjMGZhNjA4CnBhcmVudCA5ODNmZjFhM2NmNzQ3MjVhNTNhNWRlYzhkMGMwNjEyMjEyOGY1YThkCmF1dGhvciBHZXJyaXQgVXNlciAxMDAwMDAwIDwxMDAwMDAwQDY5ZWMzOGYwLTM1MGUtNGQ5Yy05NmQ0LWJjOTU2ZjJmYWFhYz4gMTYxMDU3ODY0OCArMDEwMApjb21taXR0ZXIgR2Vycml0IENvZGUgUmV2aWV3IDxyb290QG1hY3plY2gtWFBTLTE1PiAxNjEwNTc4NjQ4ICswMTAwCgpVcGRhdGUgcGF0Y2ggc2V0IDEKClBhdGNoIFNldCAxOgoKKDEgY29tbWVudCkKClBhdGNoLXNldDogMQo\\u003d\"},\"tree_object\":{\"type\":2,\"content\":\"MTAwNjQ0IGJsb2IgYmIzODNmNTI0OWM2OGE0Y2M4YzgyYmRkMTIyOGI0YTg4ODNmZjZlOCAgICBmNzVhNjkwMDRhOTNiNGNjYzhjZTIxNWMxMjgwODYzNmMyYjc1Njc1\"},\"blobs\":[{\"type\":3,\"content\":\"ewogICJjb21tZW50cyI6IFsKICAgIHsKICAgICAgImtleSI6IHsKICAgICAgICAidXVpZCI6ICI5MGI1YWJmZl80ZjY3NTI2YSIsCiAgICAgICAgImZpbGVuYW1lIjogIi9DT01NSVRfTVNHIiwKICAgICAgICAicGF0Y2hTZXRJZCI6IDEKICAgICAgfSwKICAgICAgImxpbmVOYnIiOiA5LAogICAgICAiYXV0aG9yIjogewogICAgICAgICJpZCI6IDEwMDAwMDAKICAgICAgfSwKICAgICAgIndyaXR0ZW5PbiI6ICIyMDIxLTAxLTEzVDIyOjU3OjI4WiIsCiAgICAgICJzaWRlIjogMSwKICAgICAgIm1lc3NhZ2UiOiAidGVzdCBjb21tZW50IiwKICAgICAgInJhbmdlIjogewogICAgICAgICJzdGFydExpbmUiOiA5LAogICAgICAgICJzdGFydENoYXIiOiAyMSwKICAgICAgICAiZW5kTGluZSI6IDksCiAgICAgICAgImVuZENoYXIiOiAzNAogICAgICB9LAogICAgICAicmV2SWQiOiAiZjc1YTY5MDA0YTkzYjRjY2M4Y2UyMTVjMTI4MDg2MzZjMmI3NTY3NSIsCiAgICAgICJzZXJ2ZXJJZCI6ICI2OWVjMzhmMC0zNTBlLTRkOWMtOTZkNC1iYzk1NmYyZmFhYWMiLAogICAgICAidW5yZXNvbHZlZCI6IHRydWUKICAgIH0KICBdCn0\\u003d\"}]},\"async\":false}";
+      "{\"label\":\"Replication\",\"ref_name\":\"refs/heads/master\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"dHJlZSA3NzgxNGQyMTZhNmNhYjJkZGI5ZjI4NzdmYmJkMGZlYmRjMGZhNjA4CnBhcmVudCA5ODNmZjFhM2NmNzQ3MjVhNTNhNWRlYzhkMGMwNjEyMjEyOGY1YThkCmF1dGhvciBHZXJyaXQgVXNlciAxMDAwMDAwIDwxMDAwMDAwQDY5ZWMzOGYwLTM1MGUtNGQ5Yy05NmQ0LWJjOTU2ZjJmYWFhYz4gMTYxMDU3ODY0OCArMDEwMApjb21taXR0ZXIgR2Vycml0IENvZGUgUmV2aWV3IDxyb290QG1hY3plY2gtWFBTLTE1PiAxNjEwNTc4NjQ4ICswMTAwCgpVcGRhdGUgcGF0Y2ggc2V0IDEKClBhdGNoIFNldCAxOgoKKDEgY29tbWVudCkKClBhdGNoLXNldDogMQo\\u003d\"},\"tree_object\":{\"type\":2,\"content\":\"MTAwNjQ0IGJsb2IgYmIzODNmNTI0OWM2OGE0Y2M4YzgyYmRkMTIyOGI0YTg4ODNmZjZlOCAgICBmNzVhNjkwMDRhOTNiNGNjYzhjZTIxNWMxMjgwODYzNmMyYjc1Njc1\"},\"blobs\":[{\"type\":3,\"content\":\"ewogICJjb21tZW50cyI6IFsKICAgIHsKICAgICAgImtleSI6IHsKICAgICAgICAidXVpZCI6ICI5MGI1YWJmZl80ZjY3NTI2YSIsCiAgICAgICAgImZpbGVuYW1lIjogIi9DT01NSVRfTVNHIiwKICAgICAgICAicGF0Y2hTZXRJZCI6IDEKICAgICAgfSwKICAgICAgImxpbmVOYnIiOiA5LAogICAgICAiYXV0aG9yIjogewogICAgICAgICJpZCI6IDEwMDAwMDAKICAgICAgfSwKICAgICAgIndyaXR0ZW5PbiI6ICIyMDIxLTAxLTEzVDIyOjU3OjI4WiIsCiAgICAgICJzaWRlIjogMSwKICAgICAgIm1lc3NhZ2UiOiAidGVzdCBjb21tZW50IiwKICAgICAgInJhbmdlIjogewogICAgICAgICJzdGFydExpbmUiOiA5LAogICAgICAgICJzdGFydENoYXIiOiAyMSwKICAgICAgICAiZW5kTGluZSI6IDksCiAgICAgICAgImVuZENoYXIiOiAzNAogICAgICB9LAogICAgICAicmV2SWQiOiAiZjc1YTY5MDA0YTkzYjRjY2M4Y2UyMTVjMTI4MDg2MzZjMmI3NTY3NSIsCiAgICAgICJzZXJ2ZXJJZCI6ICI2OWVjMzhmMC0zNTBlLTRkOWMtOTZkNC1iYzk1NmYyZmFhYWMiLAogICAgICAidW5yZXNvbHZlZCI6IHRydWUKICAgIH0KICBdCn0\\u003d\"}]}}";
   String commitObject =
       "tree 77814d216a6cab2ddb9f2877fbbd0febdc0fa608\n"
           + "parent 983ff1a3cf74725a53a5dec8d0c06122128f5a8d\n"
@@ -143,15 +148,17 @@ public class FetchRestApiClientTest {
     when(credentialProvider.get(any(), any(CredentialItem.class))).thenReturn(true);
     when(credentials.create(anyString())).thenReturn(credentialProvider);
     when(replicationConfig.getConfig()).thenReturn(config);
+    when(config.getStringList("replication", null, "syncRefs")).thenReturn(new String[0]);
     when(source.getRemoteConfigName()).thenReturn("Replication");
     when(config.getString("replication", null, "instanceLabel")).thenReturn(label);
 
     HttpResult httpResult = new HttpResult(SC_CREATED, Optional.of("result message"));
     when(httpClient.execute(any(HttpPost.class), any(), any())).thenReturn(httpResult);
     when(httpClientFactory.create(any())).thenReturn(httpClient);
+    syncRefsFilter = new SyncRefsFilter(replicationConfig);
     objectUnderTest =
         new FetchRestApiClient(
-            credentials, httpClientFactory, replicationConfig, pluginName, source);
+            credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
   }
 
   @Test
@@ -166,6 +173,67 @@ public class FetchRestApiClientTest {
     assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpPost.getURI().getPath())
         .isEqualTo("/a/projects/test_repo/pull-replication~fetch");
+  }
+
+  @Test
+  public void shouldByDefaultCallSyncFetchForAllRefs()
+      throws ClientProtocolException, IOException, URISyntaxException {
+
+    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    objectUnderTest =
+        new FetchRestApiClient(
+            credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
+
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
+  }
+
+  @Test
+  public void shouldCallAsyncFetchForAllRefs()
+      throws ClientProtocolException, IOException, URISyntaxException {
+
+    when(config.getStringList("replication", null, "syncRefs"))
+        .thenReturn(new String[] {"NO_SYNC_REFS"});
+    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    objectUnderTest =
+        new FetchRestApiClient(
+            credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
+
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
+  }
+
+  @Test
+  public void shouldCallSyncFetchOnlyForMetaRef()
+      throws ClientProtocolException, IOException, URISyntaxException {
+    String metaRefName = "refs/changes/01/101/meta";
+    String expectedMetaRefPayload =
+        "{\"label\":\"Replication\", \"ref_name\": \"" + metaRefName + "\", \"async\":false}";
+
+    when(config.getStringList("replication", null, "syncRefs"))
+        .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
+    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    objectUnderTest =
+        new FetchRestApiClient(
+            credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
+
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    HttpPost httpPost = httpPostCaptor.getValue();
+    assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
+
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), metaRefName, new URIish(api));
+    verify(httpClient, times(2)).execute(httpPostCaptor.capture(), any(), any());
+    httpPost = httpPostCaptor.getValue();
+    assertThat(readPayload(httpPost)).isEqualTo(expectedMetaRefPayload);
   }
 
   @Test
@@ -241,7 +309,12 @@ public class FetchRestApiClientTest {
         NullPointerException.class,
         () ->
             new FetchRestApiClient(
-                credentials, httpClientFactory, replicationConfig, pluginName, source));
+                credentials,
+                httpClientFactory,
+                replicationConfig,
+                syncRefsFilter,
+                pluginName,
+                source));
   }
 
   @Test
@@ -251,7 +324,12 @@ public class FetchRestApiClientTest {
         NullPointerException.class,
         () ->
             new FetchRestApiClient(
-                credentials, httpClientFactory, replicationConfig, pluginName, source));
+                credentials,
+                httpClientFactory,
+                replicationConfig,
+                syncRefsFilter,
+                pluginName,
+                source));
   }
 
   @Test
@@ -261,7 +339,12 @@ public class FetchRestApiClientTest {
         NullPointerException.class,
         () ->
             new FetchRestApiClient(
-                credentials, httpClientFactory, replicationConfig, pluginName, source));
+                credentials,
+                httpClientFactory,
+                replicationConfig,
+                syncRefsFilter,
+                pluginName,
+                source));
   }
 
   public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {
