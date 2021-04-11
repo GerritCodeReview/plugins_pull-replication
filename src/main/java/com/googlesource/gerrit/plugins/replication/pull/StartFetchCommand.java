@@ -14,7 +14,12 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.ASYNC;
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
+
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -54,6 +59,8 @@ public final class StartFetchCommand extends SshCommand implements Command {
 
   @Inject private ReplicationState.Factory fetchReplicationStateFactory;
 
+  @Inject private DynamicItem<EventDispatcher> eventDispatcher;
+
   @Override
   protected void run() throws Failure {
     if (all && projectPatterns.size() > 0) {
@@ -61,7 +68,8 @@ public final class StartFetchCommand extends SshCommand implements Command {
     }
 
     ReplicationState state =
-        fetchReplicationStateFactory.create(new FetchResultProcessing.CommandProcessing(this));
+        fetchReplicationStateFactory.create(
+            new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
     Future<?> future = null;
 
     ReplicationFilter projectFilter;
@@ -72,7 +80,10 @@ public final class StartFetchCommand extends SshCommand implements Command {
       projectFilter = new ReplicationFilter(projectPatterns);
     }
 
-    future = fetchFactory.create(urlMatch, projectFilter, state, now).schedule(0, TimeUnit.SECONDS);
+    future =
+        fetchFactory
+            .create(urlMatch, projectFilter, state, replicationType(now))
+            .schedule(0, TimeUnit.SECONDS);
 
     if (wait) {
       if (future != null) {
@@ -98,6 +109,10 @@ public final class StartFetchCommand extends SshCommand implements Command {
         writeStdOutSync("Nothing to replicate");
       }
     }
+  }
+
+  private ReplicationType replicationType(Boolean now) {
+    return now ? SYNC : ASYNC;
   }
 
   @Override

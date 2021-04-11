@@ -42,6 +42,10 @@ public class FetchRefReplicatedEvent extends RefEvent {
     this.refUpdateResult = refUpdateResult;
   }
 
+  public String getStatus() {
+    return status;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(project, ref, status, refUpdateResult);

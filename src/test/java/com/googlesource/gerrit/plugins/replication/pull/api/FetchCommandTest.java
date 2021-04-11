@@ -15,6 +15,8 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.ASYNC;
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
@@ -25,6 +27,8 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.events.EventDispatcher;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
@@ -51,6 +55,7 @@ public class FetchCommandTest {
   @Mock PullReplicationStateLogger fetchStateLog;
   @Mock Source source;
   @Mock SourcesCollection sources;
+  @Mock DynamicItem<EventDispatcher> eventDispatcher;
 
   @SuppressWarnings("rawtypes")
   @Mock
@@ -71,27 +76,37 @@ public class FetchCommandTest {
     when(fetchReplicationStateFactory.create(any())).thenReturn(state);
     when(source.getRemoteConfigName()).thenReturn(label);
     when(sources.getAll()).thenReturn(Lists.newArrayList(source));
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, true))
+    when(source.schedule(eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), any()))
         .thenReturn(CompletableFuture.completedFuture(null));
-    objectUnderTest = new FetchCommand(fetchReplicationStateFactory, fetchStateLog, sources);
+    objectUnderTest =
+        new FetchCommand(fetchReplicationStateFactory, fetchStateLog, sources, eventDispatcher);
   }
 
   @Test
   public void shouldScheduleRefFetch()
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH);
+    objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
 
-    verify(source, times(1)).schedule(projectName, REF_NAME_TO_FETCH, state, true);
+    verify(source, times(1)).schedule(projectName, REF_NAME_TO_FETCH, state, SYNC);
+  }
+
+  @Test
+  public void shouldScheduleRefFetchWithDelay()
+      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
+          TimeoutException {
+    objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH);
+
+    verify(source, times(1)).schedule(projectName, REF_NAME_TO_FETCH, state, ASYNC);
   }
 
   @Test
   public void shouldMarkAllFetchTasksScheduled()
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH);
+    objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
 
-    verify(source, times(1)).schedule(projectName, REF_NAME_TO_FETCH, state, true);
+    verify(source, times(1)).schedule(projectName, REF_NAME_TO_FETCH, state, SYNC);
     verify(state, times(1)).markAllFetchTasksScheduled();
   }
 
@@ -99,7 +114,7 @@ public class FetchCommandTest {
   public void shouldUpdateStateWhenRemoteConfigNameIsMissing() {
     assertThrows(
         RemoteConfigurationMissingException.class,
-        () -> objectUnderTest.fetch(projectName, "unknownLabel", REF_NAME_TO_FETCH));
+        () -> objectUnderTest.fetchSync(projectName, "unknownLabel", REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(state));
   }
 
@@ -108,12 +123,12 @@ public class FetchCommandTest {
   public void shouldUpdateStateWhenInterruptedException()
       throws InterruptedException, ExecutionException, TimeoutException {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new InterruptedException());
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, true)).thenReturn(future);
+    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC)).thenReturn(future);
 
     InterruptedException e =
         assertThrows(
             InterruptedException.class,
-            () -> objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH));
+            () -> objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
   }
 
@@ -123,12 +138,12 @@ public class FetchCommandTest {
       throws InterruptedException, ExecutionException, TimeoutException {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS)))
         .thenThrow(new ExecutionException(new Exception()));
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, true)).thenReturn(future);
+    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC)).thenReturn(future);
 
     ExecutionException e =
         assertThrows(
             ExecutionException.class,
-            () -> objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH));
+            () -> objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
   }
 
@@ -137,12 +152,12 @@ public class FetchCommandTest {
   public void shouldUpdateStateWhenTimeoutException()
       throws InterruptedException, ExecutionException, TimeoutException {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new TimeoutException());
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, true)).thenReturn(future);
+    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC)).thenReturn(future);
 
     TimeoutException e =
         assertThrows(
             TimeoutException.class,
-            () -> objectUnderTest.fetch(projectName, label, REF_NAME_TO_FETCH));
+            () -> objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
   }
 }
