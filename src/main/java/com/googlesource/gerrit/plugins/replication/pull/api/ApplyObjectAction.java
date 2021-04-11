@@ -142,7 +142,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
         command.applyObject(project, input.getRefName(), input.getRevisionData(), input.getLabel());
       } catch (IOException | RefUpdateException | MissingParentObjectException e) {
         log.atSevere().withCause(e).log(
-            "Exception during the applyObject call for project {} and ref name {}",
+            "Exception during the applyObject call for project %s and ref name %s",
             project.get(),
             input.getRefName());
       }
