@@ -181,6 +181,9 @@ replication.excludeRefs
 
     By default, all other refs are included.
 
+	Note that if you are using @PLUGIN@ together with multi-site, you should
+	explicitly exclude `refs/multi-site/version` from being replicated.
+
 replication.syncRefs
 :   Specify for which refs git fetch calls should be executed synchronously.
     It can be provided more than once, and supports three formats: regular expressions,
