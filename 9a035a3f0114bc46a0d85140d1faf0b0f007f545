@@ -22,6 +22,30 @@
       },
       "revId": "9a035a3f0114bc46a0d85140d1faf0b0f007f545",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a636455d_467eba42",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-07-13T12:13:08Z",
+      "side": 1,
+      "message": "It\u0027s a good point and an interesting idea.\n\nMy opinion is that changing the replication.config might OR might not be the right thing to do depending on different contexts.\n\nSome companies, for example, automate configuration deployments (i.e. ansible, puppet, salt, etc) and any diversion from that expected conf truth might cause the confs to be overridden/services to be restarted etc: hot-changing the configuration during the init might be considered a configuration drift.\n\nWorth discussing though.\n\nMerging this for now, and thanks for the review!",
+      "parentUuid": "25dc10a0_6346279e",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 71
+      },
+      "revId": "9a035a3f0114bc46a0d85140d1faf0b0f007f545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
