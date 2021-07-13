@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25dc10a0_6346279e",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-07-13T08:18:03Z",
+      "side": 1,
+      "message": "plugins have init step that is called during the Gerrit init - was wondering if it would make sense for multi-site plugin to go over replication config and add ref exclusion automatically - obviously to consider as a follow up (if considered at all) ;)",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 71
+      },
+      "revId": "9a035a3f0114bc46a0d85140d1faf0b0f007f545",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
