@@ -81,4 +81,8 @@ public class FetchRefReplicatedEvent extends RefEvent {
   public String getRefName() {
     return ref;
   }
+
+  public String getSourceNode() {
+    return sourceNode;
+  }
 }
