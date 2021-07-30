@@ -40,4 +40,8 @@ public class FetchReplicationScheduledEvent extends RefEvent {
   public Project.NameKey getProjectNameKey() {
     return Project.nameKey(project);
   }
+
+  public String getSourceNode() {
+    return sourceNode;
+  }
 }
