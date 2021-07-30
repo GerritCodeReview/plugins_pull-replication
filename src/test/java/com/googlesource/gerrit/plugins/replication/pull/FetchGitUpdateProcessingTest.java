@@ -35,6 +35,7 @@ public class FetchGitUpdateProcessingTest {
   private GitUpdateProcessing gitUpdateProcessing;
   private CommandProcessing commandProcessing;
   private Command sshCommandMock;
+  private static URIish sourceUri;
 
   @Before
   public void setUp() throws Exception {
@@ -42,6 +43,7 @@ public class FetchGitUpdateProcessingTest {
     gitUpdateProcessing = new GitUpdateProcessing(dispatcherMock);
     sshCommandMock = mock(Command.class);
     commandProcessing = new CommandProcessing(sshCommandMock, dispatcherMock);
+    sourceUri = new URIish("git://someHost/someProject.git");
   }
 
   @Test
@@ -51,14 +53,14 @@ public class FetchGitUpdateProcessingTest {
         new FetchRefReplicatedEvent(
             "someProject",
             "refs/heads/master",
-            "someHost",
+            sourceUri,
             RefFetchResult.SUCCEEDED,
             RefUpdate.Result.NEW);
 
     gitUpdateProcessing.onOneProjectReplicationDone(
         "someProject",
         "refs/heads/master",
-        new URIish("git://someHost/someProject.git"),
+        sourceUri,
         RefFetchResult.SUCCEEDED,
         RefUpdate.Result.NEW);
     verify(dispatcherMock, times(1)).postEvent(eq(expectedEvent));
@@ -71,7 +73,7 @@ public class FetchGitUpdateProcessingTest {
         new FetchRefReplicatedEvent(
             "someProject",
             "refs/heads/master",
-            "someHost",
+            sourceUri,
             RefFetchResult.SUCCEEDED,
             RefUpdate.Result.NEW);
 
@@ -90,7 +92,7 @@ public class FetchGitUpdateProcessingTest {
         new FetchRefReplicatedEvent(
             "someProject",
             "refs/changes/01/1/1",
-            "someHost",
+            sourceUri,
             RefFetchResult.FAILED,
             RefUpdate.Result.REJECTED_OTHER_REASON);
 

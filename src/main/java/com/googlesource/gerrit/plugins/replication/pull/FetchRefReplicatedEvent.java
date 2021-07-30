@@ -15,30 +15,23 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.events.RefEvent;
+import com.googlesource.gerrit.plugins.replication.events.RemoteRefReplicationEvent;
 import java.util.Objects;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.transport.URIish;
 
-public class FetchRefReplicatedEvent extends RefEvent {
+public class FetchRefReplicatedEvent extends RemoteRefReplicationEvent {
   static final String TYPE = "fetch-ref-replicated";
 
-  final String project;
-  final String ref;
-  final String sourceNode;
-  final String status;
   final RefUpdate.Result refUpdateResult;
 
   public FetchRefReplicatedEvent(
       String project,
       String ref,
-      String sourceNode,
+      URIish sourceUri,
       ReplicationState.RefFetchResult status,
       RefUpdate.Result refUpdateResult) {
-    super(TYPE);
-    this.project = project;
-    this.ref = ref;
-    this.sourceNode = sourceNode;
-    this.status = status.toString();
+    super(TYPE, project, ref, sourceUri, status.toString());
     this.refUpdateResult = refUpdateResult;
   }
 
@@ -63,7 +56,7 @@ public class FetchRefReplicatedEvent extends RefEvent {
     if (!Objects.equals(event.ref, this.ref)) {
       return false;
     }
-    if (!Objects.equals(event.sourceNode, this.sourceNode)) {
+    if (!Objects.equals(event.targetUri, this.targetUri)) {
       return false;
     }
     if (!Objects.equals(event.status, this.status)) {
@@ -80,9 +73,5 @@ public class FetchRefReplicatedEvent extends RefEvent {
   @Override
   public String getRefName() {
     return ref;
-  }
-
-  public String getSourceNode() {
-    return sourceNode;
   }
 }

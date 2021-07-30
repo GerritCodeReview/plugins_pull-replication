@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
-import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
 import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
 
 import com.google.common.base.Throwables;
@@ -747,10 +746,9 @@ public class Source {
   private void postReplicationScheduledEvent(FetchOne fetchOp, String inputRef) {
     Set<String> refs = inputRef == null ? fetchOp.getRefs() : ImmutableSet.of(inputRef);
     Project.NameKey project = fetchOp.getProjectNameKey();
-    String targetNode = resolveNodeName(fetchOp.getURI());
     for (String ref : refs) {
       FetchReplicationScheduledEvent event =
-          new FetchReplicationScheduledEvent(project.get(), ref, targetNode);
+          new FetchReplicationScheduledEvent(project.get(), ref, fetchOp.getURI());
       try {
         eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
       } catch (PermissionBackendException e) {
@@ -761,13 +759,16 @@ public class Source {
 
   private void postReplicationFailedEvent(FetchOne fetchOp, RefUpdate.Result result) {
     Project.NameKey project = fetchOp.getProjectNameKey();
-    String sourceNode = resolveNodeName(fetchOp.getURI());
     try {
       Context.setLocalEvent(true);
       for (String ref : fetchOp.getRefs()) {
         FetchRefReplicatedEvent event =
             new FetchRefReplicatedEvent(
-                project.get(), ref, sourceNode, ReplicationState.RefFetchResult.FAILED, result);
+                project.get(),
+                ref,
+                fetchOp.getURI(),
+                ReplicationState.RefFetchResult.FAILED,
+                result);
         try {
           eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
         } catch (PermissionBackendException e) {

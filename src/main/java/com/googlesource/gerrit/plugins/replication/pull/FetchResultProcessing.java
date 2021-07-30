@@ -55,7 +55,7 @@ public abstract class FetchResultProcessing {
     // Default doing nothing
   }
 
-  public static String resolveNodeName(URIish uri) {
+  private static String resolveNodeName(URIish uri) {
     StringBuilder sb = new StringBuilder();
     if (uri.isRemote()) {
       sb.append(uri.getHost());
@@ -120,8 +120,7 @@ public abstract class FetchResultProcessing {
       try {
         Context.setLocalEvent(true);
         dispatcher.postEvent(
-            new FetchRefReplicatedEvent(
-                project, ref, resolveNodeName(uri), status, refUpdateResult));
+            new FetchRefReplicatedEvent(project, ref, uri, status, refUpdateResult));
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log(
             "Cannot post event for ref '%s', project %s", ref, project);
@@ -189,8 +188,7 @@ public abstract class FetchResultProcessing {
         URIish uri,
         ReplicationState.RefFetchResult result,
         RefUpdate.Result refUpdateResult) {
-      postEvent(
-          new FetchRefReplicatedEvent(project, ref, resolveNodeName(uri), result, refUpdateResult));
+      postEvent(new FetchRefReplicatedEvent(project, ref, uri, result, refUpdateResult));
     }
 
     @Override

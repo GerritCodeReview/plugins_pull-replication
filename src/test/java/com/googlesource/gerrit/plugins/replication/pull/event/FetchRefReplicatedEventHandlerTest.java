@@ -28,17 +28,20 @@ import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
 
 public class FetchRefReplicatedEventHandlerTest {
   private ChangeIndexer changeIndexerMock;
   private FetchRefReplicatedEventHandler fetchRefReplicatedEventHandler;
+  private static URIish sourceUri;
 
   @Before
   public void setUp() throws Exception {
     changeIndexerMock = mock(ChangeIndexer.class);
     fetchRefReplicatedEventHandler = new FetchRefReplicatedEventHandler(changeIndexerMock);
+    sourceUri = new URIish("git://aSourceNode/testProject.git");
   }
 
   @Test
@@ -52,7 +55,7 @@ public class FetchRefReplicatedEventHandlerTest {
           new FetchRefReplicatedEvent(
               projectNameKey.get(),
               ref,
-              "aSourceNode",
+              sourceUri,
               ReplicationState.RefFetchResult.SUCCEEDED,
               RefUpdate.Result.FAST_FORWARD));
       verify(changeIndexerMock, times(1)).index(eq(projectNameKey), eq(changeId));
@@ -70,7 +73,7 @@ public class FetchRefReplicatedEventHandlerTest {
         new FetchRefReplicatedEvent(
             projectNameKey.get(),
             ref,
-            "aSourceNode",
+            sourceUri,
             ReplicationState.RefFetchResult.SUCCEEDED,
             RefUpdate.Result.FAST_FORWARD));
     verify(changeIndexerMock, never()).index(eq(projectNameKey), eq(changeId));
@@ -85,7 +88,7 @@ public class FetchRefReplicatedEventHandlerTest {
         new FetchRefReplicatedEvent(
             projectNameKey.get(),
             ref,
-            "aSourceNode",
+            sourceUri,
             ReplicationState.RefFetchResult.SUCCEEDED,
             RefUpdate.Result.FAST_FORWARD));
     verify(changeIndexerMock, never()).index(eq(projectNameKey), eq(changeId));
@@ -97,7 +100,7 @@ public class FetchRefReplicatedEventHandlerTest {
         new FetchRefReplicatedEvent(
             Project.nameKey("testProject").get(),
             "invalidRef",
-            "aSourceNode",
+            sourceUri,
             ReplicationState.RefFetchResult.SUCCEEDED,
             RefUpdate.Result.FAST_FORWARD));
     verify(changeIndexerMock, never()).index(any(), any());
@@ -111,7 +114,7 @@ public class FetchRefReplicatedEventHandlerTest {
         new FetchRefReplicatedEvent(
             projectNameKey.get(),
             ref,
-            "aSourceNode",
+            sourceUri,
             ReplicationState.RefFetchResult.FAILED,
             RefUpdate.Result.FAST_FORWARD));
     verify(changeIndexerMock, never()).index(any(), any());
@@ -125,7 +128,7 @@ public class FetchRefReplicatedEventHandlerTest {
         new FetchRefReplicatedEvent(
             projectNameKey.get(),
             ref,
-            "aSourceNode",
+            sourceUri,
             ReplicationState.RefFetchResult.NOT_ATTEMPTED,
             RefUpdate.Result.FAST_FORWARD));
     verify(changeIndexerMock, never()).index(any(), any());
