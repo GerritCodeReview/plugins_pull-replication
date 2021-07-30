@@ -44,6 +44,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
@@ -189,7 +190,7 @@ public class ReplicationQueue
       if (revisionData.isPresent()) {
         return ((source) -> callSendObject(source, project, refName, revisionData.get(), state));
       }
-    } catch (IOException | RefUpdateException e) {
+    } catch (InvalidObjectIdException | IOException | RefUpdateException e) {
       stateLog.error(
           String.format(
               "Exception during reading ref: %s, project:%s, message: %s",
