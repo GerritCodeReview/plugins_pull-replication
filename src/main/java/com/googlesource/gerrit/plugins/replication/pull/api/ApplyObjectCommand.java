@@ -37,9 +37,11 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Set;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.URIish;
 
 public class ApplyObjectCommand {
 
@@ -86,10 +88,10 @@ public class ApplyObjectCommand {
               new FetchRefReplicatedEvent(
                   name.get(),
                   refName,
-                  sourceLabel,
+                  new URIish(sourceLabel),
                   getStatus(refUpdateState),
                   refUpdateState.getResult()));
-    } catch (PermissionBackendException e) {
+    } catch (PermissionBackendException | URISyntaxException e) {
       logger.atSevere().withCause(e).log(
           "Cannot post event for ref '%s', project %s", refName, name);
     } finally {

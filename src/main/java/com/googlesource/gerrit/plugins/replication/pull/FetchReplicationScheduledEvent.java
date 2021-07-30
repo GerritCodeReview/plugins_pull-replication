@@ -15,20 +15,14 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.events.RefEvent;
+import com.googlesource.gerrit.plugins.replication.events.RemoteRefReplicationEvent;
+import org.eclipse.jgit.transport.URIish;
 
-public class FetchReplicationScheduledEvent extends RefEvent {
+public class FetchReplicationScheduledEvent extends RemoteRefReplicationEvent {
   static final String TYPE = "fetch-ref-replication-scheduled";
 
-  final String project;
-  final String ref;
-  final String sourceNode;
-
-  public FetchReplicationScheduledEvent(String project, String ref, String sourceNode) {
-    super(TYPE);
-    this.project = project;
-    this.ref = ref;
-    this.sourceNode = sourceNode;
+  public FetchReplicationScheduledEvent(String project, String ref, URIish sourceUri) {
+    super(TYPE, project, ref, sourceUri, null);
   }
 
   @Override
@@ -39,9 +33,5 @@ public class FetchReplicationScheduledEvent extends RefEvent {
   @Override
   public Project.NameKey getProjectNameKey() {
     return Project.nameKey(project);
-  }
-
-  public String getSourceNode() {
-    return sourceNode;
   }
 }
