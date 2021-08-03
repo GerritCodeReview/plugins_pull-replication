@@ -22,6 +22,30 @@
       },
       "revId": "b2abf5a26fa63793e7a8ca08097d3b6809610b6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "603d8519_74c5fe59",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefReplicatedEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-08-03T07:48:27Z",
+      "side": 1,
+      "message": "@Marcin, the thing is that it is not called `uri` and changing that will be another core plugin replication change.\n\nRenaming fields is a different exercise than just making the replication events to inherit from a parent: it\u0027d require to deprecate the fields, add additional ones, and then remove them.\n\nInheriting from a common parent was the minimal change we needed to move forward with this and that\u0027s why I took that direction in [1]\n\nIf you feel strongly about this, we should block this CR again and make another (possibly long) in replication plugin.\n\nWDYT?\n\n\n[1]https://gerrit-review.googlesource.com/c/plugins/replication/+/312802",
+      "parentUuid": "cf279f1b_386dd50b",
+      "range": {
+        "startLine": 59,
+        "startChar": 30,
+        "endLine": 59,
+        "endChar": 39
+      },
+      "revId": "b2abf5a26fa63793e7a8ca08097d3b6809610b6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
