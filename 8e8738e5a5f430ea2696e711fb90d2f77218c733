@@ -22,6 +22,30 @@
       },
       "revId": "8e8738e5a5f430ea2696e711fb90d2f77218c733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5dacacd_3eba2a4a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-08-03T09:01:05Z",
+      "side": 0,
+      "message": "It is still used by the logger [1].\n\nYes, I guess it could be made private since it is used only by FetchResultProcessing.\n\nLet me do that.\n\n[1]https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchResultProcessing.java#58",
+      "parentUuid": "a61e4542_7813cf2c",
+      "range": {
+        "startLine": 18,
+        "startChar": 85,
+        "endLine": 18,
+        "endChar": 100
+      },
+      "revId": "8e8738e5a5f430ea2696e711fb90d2f77218c733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
