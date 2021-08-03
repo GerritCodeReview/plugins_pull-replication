@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a61e4542_7813cf2c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-08-03T08:54:35Z",
+      "side": 0,
+      "message": "This could probably be removed from the static library? I think it shouldn\u0027t be needed anymore. Even as a follow up change.",
+      "range": {
+        "startLine": 18,
+        "startChar": 85,
+        "endLine": 18,
+        "endChar": 100
+      },
+      "revId": "8e8738e5a5f430ea2696e711fb90d2f77218c733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
