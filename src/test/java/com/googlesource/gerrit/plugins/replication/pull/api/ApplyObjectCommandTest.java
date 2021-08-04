@@ -31,6 +31,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
+import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
@@ -38,8 +40,11 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +59,7 @@ public class ApplyObjectCommandTest {
   private static final String TEST_REF_NAME = "refs/changes/01/1/1";
   private static final NameKey TEST_PROJECT_NAME = Project.nameKey("test-project");
   private static final String TEST_REMOTE_NAME = "test-remote-name";
+  private static URIish TEST_REMOTE_URI;
 
   @Mock private PullReplicationStateLogger fetchStateLog;
   @Mock private ApplyObject applyObject;
@@ -61,20 +67,26 @@ public class ApplyObjectCommandTest {
   @Mock private DynamicItem<EventDispatcher> eventDispatcherDataItem;
   @Mock private EventDispatcher eventDispatcher;
   @Mock private Timer1.Context<String> timetContext;
+  @Mock private SourcesCollection sourceCollection;
+  @Mock private Source source;
   @Captor ArgumentCaptor<Event> eventCaptor;
 
   private ApplyObjectCommand objectUnderTest;
 
   @Before
-  public void setup() throws MissingParentObjectException, IOException {
+  public void setup() throws MissingParentObjectException, IOException, URISyntaxException {
     RefUpdateState state = new RefUpdateState(TEST_REMOTE_NAME, RefUpdate.Result.NEW);
+    TEST_REMOTE_URI = new URIish("git://some.remote.uri");
     when(eventDispatcherDataItem.get()).thenReturn(eventDispatcher);
     when(metrics.start(anyString())).thenReturn(timetContext);
     when(timetContext.stop()).thenReturn(100L);
     when(applyObject.apply(any(), any(), any())).thenReturn(state);
+    when(sourceCollection.getByRemoteName(TEST_SOURCE_LABEL)).thenReturn(Optional.of(source));
+    when(source.getURI(TEST_PROJECT_NAME)).thenReturn(TEST_REMOTE_URI);
 
     objectUnderTest =
-        new ApplyObjectCommand(fetchStateLog, applyObject, metrics, eventDispatcherDataItem);
+        new ApplyObjectCommand(
+            fetchStateLog, applyObject, metrics, eventDispatcherDataItem, sourceCollection);
   }
 
   @Test
@@ -90,6 +102,7 @@ public class ApplyObjectCommandTest {
     FetchRefReplicatedEvent fetchEvent = (FetchRefReplicatedEvent) sentEvent;
     assertThat(fetchEvent.getProjectNameKey()).isEqualTo(TEST_PROJECT_NAME);
     assertThat(fetchEvent.getRefName()).isEqualTo(TEST_REF_NAME);
+    assertThat(fetchEvent.targetUri).isEqualTo(TEST_REMOTE_URI.toASCIIString());
   }
 
   private RevisionData createSampleRevisionData() {

@@ -623,6 +623,10 @@ public class Source {
     return r;
   }
 
+  public String getRemoteName() {
+    return config.getRemoteConfig().getName();
+  }
+
   public URIish getURI(Project.NameKey project) {
     if (config.getRemoteConfig().getURIs().size() != 1) {
       throw new IllegalStateException(
