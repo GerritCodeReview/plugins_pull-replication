@@ -31,17 +31,17 @@ import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
+import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Set;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.URIish;
 
 public class ApplyObjectCommand {
 
@@ -58,17 +58,20 @@ public class ApplyObjectCommand {
   private final ApplyObject applyObject;
   private final ApplyObjectMetrics metrics;
   private final DynamicItem<EventDispatcher> eventDispatcher;
+  private final SourcesCollection sourcesCollection;
 
   @Inject
   public ApplyObjectCommand(
       PullReplicationStateLogger fetchStateLog,
       ApplyObject applyObject,
       ApplyObjectMetrics metrics,
-      DynamicItem<EventDispatcher> eventDispatcher) {
+      DynamicItem<EventDispatcher> eventDispatcher,
+      SourcesCollection sourcesCollection) {
     this.fetchStateLog = fetchStateLog;
     this.applyObject = applyObject;
     this.metrics = metrics;
     this.eventDispatcher = eventDispatcher;
+    this.sourcesCollection = sourcesCollection;
   }
 
   public void applyObject(
@@ -82,16 +85,23 @@ public class ApplyObjectCommand {
 
     try {
       Context.setLocalEvent(true);
+      Source source =
+          sourcesCollection
+              .getByRemoteName(sourceLabel)
+              .orElseThrow(
+                  () ->
+                      new IllegalStateException(
+                          String.format("Could not find URI for %s remote", sourceLabel)));
       eventDispatcher
           .get()
           .postEvent(
               new FetchRefReplicatedEvent(
                   name.get(),
                   refName,
-                  new URIish(sourceLabel),
+                  source.getURI(name),
                   getStatus(refUpdateState),
                   refUpdateState.getResult()));
-    } catch (PermissionBackendException | URISyntaxException e) {
+    } catch (PermissionBackendException | IllegalStateException e) {
       logger.atSevere().withCause(e).log(
           "Cannot post event for ref '%s', project %s", refName, name);
     } finally {
