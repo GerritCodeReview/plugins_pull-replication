@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52f40261_5ae03876",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-08-04T14:16:13Z",
+      "side": 1,
+      "message": "Plus as a follow up we should use getByRemoteName in FetchCommand",
+      "revId": "60f92d9f3af09b15be7e6c18ca89727457888a33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f3954d0_aa160f9d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-08-04T14:16:13Z",
+      "side": 1,
+      "message": "Duplicate: getRemoteConfigName provide that same information",
+      "range": {
+        "startLine": 625,
+        "startChar": 0,
+        "endLine": 628,
+        "endChar": 3
+      },
+      "revId": "60f92d9f3af09b15be7e6c18ca89727457888a33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
