@@ -72,8 +72,7 @@ public class FetchCommand implements Command {
     ReplicationState state =
         fetchReplicationStateFactory.create(
             new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
-    Optional<Source> source =
-        sources.getAll().stream().filter(s -> s.getRemoteConfigName().equals(label)).findFirst();
+    Optional<Source> source = sources.getByRemoteName(label);
     if (!source.isPresent()) {
       String msg = String.format("Remote configuration section %s not found", label);
       fetchStateLog.error(msg, state);

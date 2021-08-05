@@ -25,7 +25,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.EventDispatcher;
@@ -35,6 +34,7 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.net.URISyntaxException;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -74,8 +74,7 @@ public class FetchCommandTest {
     label = "instance-1-label";
 
     when(fetchReplicationStateFactory.create(any())).thenReturn(state);
-    when(source.getRemoteConfigName()).thenReturn(label);
-    when(sources.getAll()).thenReturn(Lists.newArrayList(source));
+    when(sources.getByRemoteName(label)).thenReturn(Optional.of(source));
     when(source.schedule(eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), any()))
         .thenReturn(CompletableFuture.completedFuture(null));
     objectUnderTest =
