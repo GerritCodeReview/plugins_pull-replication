@@ -10,6 +10,7 @@ gerrit_plugin(
         "Gerrit-PluginName: pull-replication",
         "Gerrit-Module: com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
         "Gerrit-SshModule: com.googlesource.gerrit.plugins.replication.pull.SshModule",
+        "Gerrit-HttpModule: com.googlesource.gerrit.plugins.replication.pull.api.HttpModule"
     ],
     resources = glob(["src/main/resources/**/*"]),
     deps = [
