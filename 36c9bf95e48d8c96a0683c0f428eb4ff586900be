@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5df2f86_4516b57d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-10T15:01:49Z",
+      "side": 1,
+      "message": "s/slave/replica/ throughout the code",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "36c9bf95e48d8c96a0683c0f428eb4ff586900be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41db7861_de4d51b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-10T15:01:49Z",
+      "side": 1,
+      "message": "Any chance to have some test to make sure this works?\n\nWe have something similar for healthcheck plugin [1]\n\n[1]https://gerrit.googlesource.com/plugins/healthcheck/+/refs/heads/stable-3.2/src/test/java/com/googlesource/gerrit/plugins/healthcheck/HealthCheckIT.java#101",
+      "revId": "36c9bf95e48d8c96a0683c0f428eb4ff586900be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c01dcd6c_a9c22728",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-10T15:01:49Z",
+      "side": 1,
+      "message": "I think you can use the @GerritIsReplica annotation",
+      "range": {
+        "startLine": 29,
+        "startChar": 20,
+        "endLine": 29,
+        "endChar": 59
+      },
+      "revId": "36c9bf95e48d8c96a0683c0f428eb4ff586900be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "786bf5f9_a34c0447",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-10T15:01:49Z",
+      "side": 1,
+      "message": "Should we not set Content-Type application/json here?",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 33
+      },
+      "revId": "36c9bf95e48d8c96a0683c0f428eb4ff586900be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cd0a047_5fb757be",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-09-10T15:01:49Z",
+      "side": 1,
+      "message": "We always get the projectName from this (field 3), perhaps we should consider to return this directly from the method instead and remove getProjectName()\n\nAlternatively, any chance to use ChangeTriplet instead?",
+      "range": {
+        "startLine": 208,
+        "startChar": 17,
+        "endLine": 208,
+        "endChar": 31
+      },
+      "revId": "36c9bf95e48d8c96a0683c0f428eb4ff586900be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
