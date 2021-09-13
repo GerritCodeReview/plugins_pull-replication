@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a3539efb_4974c48f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-13T21:12:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5df2f86_4516b57d",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "36c9bf95e48d8c96a0683c0f428eb4ff586900be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "41db7861_de4d51b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb799a49_54065612",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-13T21:12:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c01dcd6c_a9c22728",
+      "range": {
+        "startLine": 29,
+        "startChar": 20,
+        "endLine": 29,
+        "endChar": 59
+      },
+      "revId": "36c9bf95e48d8c96a0683c0f428eb4ff586900be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "786bf5f9_a34c0447",
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54d6e64c_4745a83f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-13T21:12:30Z",
+      "side": 1,
+      "message": "I was thinking about that but looks like we do not set that in Healthcheck plugin as well:\nhttps://gerrit.googlesource.com/plugins/healthcheck/+/refs/heads/stable-3.2/src/main/java/com/googlesource/gerrit/plugins/healthcheck/filter/HealthCheckStatusFilter.java",
+      "parentUuid": "786bf5f9_a34c0447",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 33
+      },
+      "revId": "36c9bf95e48d8c96a0683c0f428eb4ff586900be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cd0a047_5fb757be",
@@ -100,6 +172,30 @@
       "writtenOn": "2021-09-10T15:01:49Z",
       "side": 1,
       "message": "We always get the projectName from this (field 3), perhaps we should consider to return this directly from the method instead and remove getProjectName()\n\nAlternatively, any chance to use ChangeTriplet instead?",
+      "range": {
+        "startLine": 208,
+        "startChar": 17,
+        "endLine": 208,
+        "endChar": 31
+      },
+      "revId": "36c9bf95e48d8c96a0683c0f428eb4ff586900be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92ceafca_d93e10be",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-13T21:12:30Z",
+      "side": 1,
+      "message": "I cannot use ChangeTriplet because url format is different. ChangeTriplet expects:\n`project~branch~id` but pull replication format is: `projects/test_repo/pull-replication~apply-object`",
+      "parentUuid": "8cd0a047_5fb757be",
       "range": {
         "startLine": 208,
         "startChar": 17,
