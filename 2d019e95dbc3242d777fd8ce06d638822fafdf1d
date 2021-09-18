@@ -3,6 +3,132 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "57e6c254_c74eb28a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-18T15:24:21Z",
+      "side": 1,
+      "message": "isReplica",
+      "range": {
+        "startLine": 25,
+        "startChar": 18,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6545c83a_541b36fc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-18T15:24:21Z",
+      "side": 1,
+      "message": "isReplica",
+      "range": {
+        "startLine": 28,
+        "startChar": 45,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d14df70_a831a268",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-18T15:24:21Z",
+      "side": 1,
+      "message": "isReplica",
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e1a4c4_72dba6a1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-18T15:24:21Z",
+      "side": 1,
+      "message": "isReplica",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 15
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5019b38a_d7885a4e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-18T15:24:21Z",
+      "side": 1,
+      "message": "Is this cheaper than isFetchAction() and/or isApplyObjectAction()?\n\nIf so, we could invert the check, so the computation will be cheaper and we will have a unique place were we check for permissions:\n\n    if (userProvider.get().isIdentifiedUser()) {\n      httpResponse.sendError(SC_UNAUTHORIZED);\n      return;\n    }\n\n    if (isFetcchAction()) {\n      .. do stuff ..\n    } else if (isApplyObjectAction()) { \n      .. do stuff ..\n    } else {\n      .. do stuff ..\n    }\n\nThis could have an impact on performance considering we are checking all the requests.",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 99,
+        "endChar": 47
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff7aa2b4_c54214c5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-18T15:24:21Z",
+      "side": 1,
+      "message": "Both _doApplyObject_ and _doFetch_ hide the side effect of sending the response back.\n\nWhat about either:\n1) make it explicit in the method name, i.e.: _doApplyObjectAndSendResponse_\n2) change the signature of the two methods, returning a (HttpServletResponse, Response, String) triplet and feeding _writeResponse_ with it, so we can have something like:\n    \n    writeResponse(doFetch(httpRequest, httpResponse));",
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "182af65a_b3768f05",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 3
@@ -20,6 +146,63 @@
         "endLine": 165,
         "endChar": 59
       },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82f60ba_6c76f81e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-18T15:24:21Z",
+      "side": 1,
+      "message": "worth adding a log here ?",
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "addd0f9c_313d50b4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-18T15:24:21Z",
+      "side": 1,
+      "message": "It might be worth adding a comment explaining this logic. Maybe just adding an example of the string we are parsing.",
+      "range": {
+        "startLine": 203,
+        "startChar": 2,
+        "endLine": 214,
+        "endChar": 3
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73a544ed_e4f6e231",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-09-18T15:24:21Z",
+      "side": 1,
+      "message": "To make sure we don\u0027t end up with security issues, it might be worth adding a test to check for authorised users/non authorised users. WDYT?",
       "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
