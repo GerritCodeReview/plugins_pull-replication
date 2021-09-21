@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e00bc289_e0067391",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57e6c254_c74eb28a",
+      "range": {
+        "startLine": 25,
+        "startChar": 18,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6545c83a_541b36fc",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-18T15:24:21Z",
       "side": 1,
       "message": "isReplica",
+      "range": {
+        "startLine": 28,
+        "startChar": 45,
+        "endLine": 28,
+        "endChar": 52
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce9df91b_23e32125",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6545c83a_541b36fc",
       "range": {
         "startLine": 28,
         "startChar": 45,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d155c1b_8c8a3ce6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d14df70_a831a268",
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6e1a4c4_72dba6a1",
@@ -77,6 +143,30 @@
       "writtenOn": "2021-09-18T15:24:21Z",
       "side": 1,
       "message": "isReplica",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 15
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e8e4f81_e4d15df3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6e1a4c4_72dba6a1",
       "range": {
         "startLine": 34,
         "startChar": 8,
@@ -112,6 +202,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "73f089f0_3ef2a813",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "hmm interesting... I though that string operations are pretty fast and isFetch or isAppy just checks the if the uri ends with a string. While I\u0027m not sure what is the performance of getting the current user and checking if it\u0027s not anonymous. Anyway one extra string operation should not impact the performance",
+      "parentUuid": "5019b38a_d7885a4e",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 99,
+        "endChar": 47
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff7aa2b4_c54214c5",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 3
@@ -123,6 +237,24 @@
       "writtenOn": "2021-09-18T15:24:21Z",
       "side": 1,
       "message": "Both _doApplyObject_ and _doFetch_ hide the side effect of sending the response back.\n\nWhat about either:\n1) make it explicit in the method name, i.e.: _doApplyObjectAndSendResponse_\n2) change the signature of the two methods, returning a (HttpServletResponse, Response, String) triplet and feeding _writeResponse_ with it, so we can have something like:\n    \n    writeResponse(doFetch(httpRequest, httpResponse));",
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8140cfe_2e0a83cb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff7aa2b4_c54214c5",
       "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -150,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bb77796_1ba3c666",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "182af65a_b3768f05",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 59
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e82f60ba_6c76f81e",
@@ -163,6 +319,24 @@
       "writtenOn": "2021-09-18T15:24:21Z",
       "side": 1,
       "message": "worth adding a log here ?",
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a7cbd97_f29afe7c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e82f60ba_6c76f81e",
       "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -190,6 +364,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0e5c2b2_73e52eab",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "addd0f9c_313d50b4",
+      "range": {
+        "startLine": 203,
+        "startChar": 2,
+        "endLine": 214,
+        "endChar": 3
+      },
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "083af979_7d316eaa",
@@ -207,6 +405,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2aba7fa_52ca88f7",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ActionITBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "083af979_7d316eaa",
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73a544ed_e4f6e231",
@@ -220,6 +436,24 @@
       "writtenOn": "2021-09-18T15:24:21Z",
       "side": 1,
       "message": "To make sure we don\u0027t end up with security issues, it might be worth adding a test to check for authorised users/non authorised users. WDYT?",
+      "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2afa93ee_b418cfd0",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-21T08:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73a544ed_e4f6e231",
       "revId": "2d019e95dbc3242d777fd8ce06d638822fafdf1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
