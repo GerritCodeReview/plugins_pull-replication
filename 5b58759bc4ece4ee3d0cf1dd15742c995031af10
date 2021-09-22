@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c5473e53_f9392030",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-22T08:45:54Z",
+      "side": 1,
+      "message": "I will add a test but this code is similar to what we have in the `RestApiServlet.java`:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/httpd/restapi/RestApiServlet.java#1721",
+      "parentUuid": "326341ab_9614f35f",
+      "range": {
+        "startLine": 209,
+        "startChar": 20,
+        "endLine": 209,
+        "endChar": 48
+      },
+      "revId": "5b58759bc4ece4ee3d0cf1dd15742c995031af10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01928f77_bd1f491e",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-22T08:30:59Z",
       "side": 1,
       "message": "Would it be easier and clearer using a regexp? \n\n    .*?\\/projects\\/([a-zA-Z0-9_\\/].*?)\\/pull-replication~apply-object\n\nSee some tests here https://regex101.com/r/caAzEj/1",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 22
+      },
+      "revId": "5b58759bc4ece4ee3d0cf1dd15742c995031af10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c278ac27_7ca3a783",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-09-22T08:45:54Z",
+      "side": 1,
+      "message": "I wanted to avoid regex for performance reasons",
+      "parentUuid": "01928f77_bd1f491e",
       "range": {
         "startLine": 206,
         "startChar": 0,
