@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c99c2f3a_04968ab1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-10-26T15:08:11Z",
+      "side": 1,
+      "message": "This is not working in case of multi-site since the project is firstly create on the node triggering the replication, hence when trying to create the same project on the secondary node the shared-refdb won\u0027t allow it.",
+      "range": {
+        "startLine": 113,
+        "startChar": 20,
+        "endLine": 113,
+        "endChar": 33
+      },
+      "revId": "4ea0097a9cb5dc25a14d429b72c7a8a6cd19c7bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
