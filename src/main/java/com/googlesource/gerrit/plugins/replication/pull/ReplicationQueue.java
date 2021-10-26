@@ -249,6 +249,10 @@ public class ReplicationQueue
           FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
           HttpResult result = fetchClient.callFetch(project, refName, uri);
+          if (result.isProjectMissing(project)) {
+            fetchClient.createProject(project, uri);
+            result = fetchClient.callFetch(project, refName, uri);
+          }
           if (!result.isSuccessful()) {
             stateLog.warn(
                 String.format(

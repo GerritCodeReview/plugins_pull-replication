@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
+import com.google.gerrit.entities.Project;
+
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
@@ -36,6 +38,11 @@ public class HttpResult {
 
   public boolean isSuccessful() {
     return responseCode == SC_CREATED || responseCode == SC_NO_CONTENT || responseCode == SC_OK;
+  }
+
+  public boolean isProjectMissing(Project.NameKey projectName) {
+    String projectMissingMessage = String.format("Not found: %s", projectName.get());
+    return message.map(msg -> msg.contains(projectMissingMessage)).orElse(false);
   }
 
   public boolean isParentObjectMissing() {
