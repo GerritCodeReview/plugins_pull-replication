@@ -44,6 +44,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -107,6 +108,17 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+  }
+
+  public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
+    String url =
+        String.format(
+            "%s/a/plugins/%s/init-project?project-name=%s",
+            uri.toString(), pluginName, project.get() + ".git");
+    HttpPut put = new HttpPut(url);
+    //    put.setEntity(new StringEntity("project-name=" + ));
+    put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
+    return httpClientFactory.create(source).execute(put, this, getContext(uri));
   }
 
   public HttpResult callSendObject(
