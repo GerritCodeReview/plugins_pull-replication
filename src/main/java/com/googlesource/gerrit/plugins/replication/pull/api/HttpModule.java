@@ -36,5 +36,6 @@ public class HttpModule extends ServletModule {
           .to(PullReplicationFilter.class)
           .in(Scopes.SINGLETON);
     }
+    serveRegex("/init-project/.*$").with(ProjectInitializationAction.class);
   }
 }

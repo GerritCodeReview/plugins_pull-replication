@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static java.nio.file.Files.createTempDirectory;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -95,6 +96,7 @@ public class ReplicationQueueTest {
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(httpResult);
     when(httpResult.isSuccessful()).thenReturn(true);
+    when(httpResult.isProjectMissing(any())).thenReturn(false);
 
     objectUnderTest =
         new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
@@ -107,6 +109,32 @@ public class ReplicationQueueTest {
     objectUnderTest.onGitReferenceUpdated(event);
 
     verify(fetchRestApiClient).callSendObject(any(), anyString(), any(), any());
+  }
+
+  @Test
+  public void shouldCallInitProjectWhenProjectIsMissing() throws IOException {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    when(httpResult.isSuccessful()).thenReturn(false);
+    when(httpResult.isProjectMissing(any())).thenReturn(true);
+    when(source.isCreateMissingRepositories()).thenReturn(true);
+
+    objectUnderTest.start();
+    objectUnderTest.onGitReferenceUpdated(event);
+
+    verify(fetchRestApiClient).initProject(any(), any());
+  }
+
+  @Test
+  public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    when(httpResult.isSuccessful()).thenReturn(false);
+
+    when(source.isCreateMissingRepositories()).thenReturn(false);
+
+    objectUnderTest.start();
+    objectUnderTest.onGitReferenceUpdated(event);
+
+    verify(fetchRestApiClient, never()).initProject(any(), any());
   }
 
   @Test
