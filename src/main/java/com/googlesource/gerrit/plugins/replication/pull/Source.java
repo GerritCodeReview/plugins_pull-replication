@@ -733,6 +733,10 @@ public class Source {
     return config.getMaxRetries();
   }
 
+  public boolean isReplicateNewRepositories() {
+    return config.replicateNewRepositories();
+  }
+
   private static boolean matches(URIish uri, String urlMatch) {
     if (urlMatch == null || urlMatch.equals("") || urlMatch.equals("*")) {
       return true;
