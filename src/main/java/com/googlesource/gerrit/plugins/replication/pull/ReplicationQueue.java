@@ -216,6 +216,14 @@ public class ReplicationQueue
           FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
           HttpResult result = fetchClient.callSendObject(project, refName, revision, uri);
+          if (!result.isSuccessful()
+              && source.isReplicateNewRepositories()
+              && result.isProjectMissing(project)) {
+            HttpResult initProjectResult = fetchClient.initProject(project, uri);
+            if (initProjectResult.isSuccessful()) {
+              result = fetchClient.callFetch(project, "refs/*", uri);
+            }
+          }
           if (!result.isSuccessful()) {
             repLog.warn(
                 String.format(
@@ -249,6 +257,7 @@ public class ReplicationQueue
           FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
           HttpResult result = fetchClient.callFetch(project, refName, uri);
+
           if (!result.isSuccessful()) {
             stateLog.warn(
                 String.format(
