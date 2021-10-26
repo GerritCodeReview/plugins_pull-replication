@@ -35,6 +35,8 @@ public class HttpModule extends ServletModule {
       DynamicSet.bind(binder(), AllRequestFilter.class)
           .to(PullReplicationFilter.class)
           .in(Scopes.SINGLETON);
+    } else {
+      serveRegex("/init-project/.*$").with(ProjectInitializationAction.class);
     }
   }
 }
