@@ -349,6 +349,11 @@ remote.NAME.threads
 
 	By default, 1 thread.
 
+remote.NAME.createMissingRepositories
+:	Replicate newly created repositories.
+
+	By default, true.
+
 remote.NAME.authGroup
 :	Specifies the name of a group that the remote should use to
 	access the repositories. Multiple authGroups may be specified
