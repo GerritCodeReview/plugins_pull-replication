@@ -39,6 +39,7 @@ import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -67,6 +68,7 @@ public class FetchRestApiClientTest {
   @Mock ReplicationFileBasedConfig replicationConfig;
   @Mock Source source;
   @Captor ArgumentCaptor<HttpPost> httpPostCaptor;
+  @Captor ArgumentCaptor<HttpPut> httpPutCaptor;
 
   String api = "http://gerrit-host";
   String pluginName = "pull-replication";
@@ -345,6 +347,19 @@ public class FetchRestApiClientTest {
                 syncRefsFilter,
                 pluginName,
                 source));
+  }
+
+  @Test
+  public void shouldCallCreateProjectEndpoint()
+      throws ClientProtocolException, IOException, URISyntaxException {
+
+    objectUnderTest.createProject(Project.nameKey("test_repo"), new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any(), any());
+
+    HttpPut httpPut = httpPutCaptor.getValue();
+    assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPut.getURI().getPath()).isEqualTo("/a/projects/test_repo");
   }
 
   public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {
