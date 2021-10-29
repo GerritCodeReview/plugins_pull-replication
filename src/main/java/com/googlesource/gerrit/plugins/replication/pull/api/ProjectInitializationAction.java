@@ -111,7 +111,7 @@ public class ProjectInitializationAction extends HttpServlet {
     return localFS.createProject(projectNameKey, RefNames.HEAD);
   }
 
-  private Optional<URIish> getGitRepositoryURI(String projectName) {
+  protected Optional<URIish> getGitRepositoryURI(String projectName) {
     Path basePath = sitePath.resolve(gerritConfig.getString("gerrit", null, "basePath"));
     URIish uri;
 

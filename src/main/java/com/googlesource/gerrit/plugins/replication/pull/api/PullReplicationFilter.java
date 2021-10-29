@@ -15,10 +15,12 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
+import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.PROJECT_NAME;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
@@ -27,7 +29,9 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -48,13 +52,18 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.InitProjectException;
+import org.eclipse.jgit.transport.URIish;
+
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -67,6 +76,7 @@ public class PullReplicationFilter extends AllRequestFilter {
 
   private FetchAction fetchAction;
   private ApplyObjectAction applyObjectAction;
+  private ProjectInitializationAction projectInitializationAction;
   private ProjectsCollection projectsCollection;
   private Gson gson;
   private Provider<CurrentUser> userProvider;
@@ -75,10 +85,12 @@ public class PullReplicationFilter extends AllRequestFilter {
   public PullReplicationFilter(
       FetchAction fetchAction,
       ApplyObjectAction applyObjectAction,
+      ProjectInitializationAction projectInitializationAction,
       ProjectsCollection projectsCollection,
       Provider<CurrentUser> userProvider) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
+    this.projectInitializationAction = projectInitializationAction;
     this.projectsCollection = projectsCollection;
     this.userProvider = userProvider;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
@@ -107,6 +119,12 @@ public class PullReplicationFilter extends AllRequestFilter {
         } else {
           httpResponse.sendError(SC_UNAUTHORIZED);
         }
+      } else if (isInitProjectAction(httpRequest)) {
+        if (userProvider.get().isIdentifiedUser()) {
+          writeResponse(httpResponse, doInitProject(httpRequest));
+        } else {
+          httpResponse.sendError(SC_UNAUTHORIZED);
+        }
       } else {
         chain.doFilter(request, response);
       }
@@ -126,8 +144,24 @@ public class PullReplicationFilter extends AllRequestFilter {
     } catch (ResourceConflictException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_CONFLICT, e.getMessage(), e.caching(), e);
+    } catch (InitProjectException e) {
+      RestApiServlet.replyError(
+              httpRequest, httpResponse, SC_INTERNAL_SERVER_ERROR, e.getMessage(), e.caching(), e);
     } catch (Exception e) {
       throw new ServletException(e);
+    }
+  }
+
+  private Response<Map<String, Object>> doInitProject(HttpServletRequest httpRequest) throws InitProjectException, RestApiException {
+    Optional<String> maybeProjectName =
+    Optional.ofNullable(httpRequest.getParameter(PROJECT_NAME));
+    if (maybeProjectName.isPresent()) {
+      if(projectInitializationAction.initProject(maybeProjectName.get())) {
+        return Response.created(Collections.emptyMap());
+      }
+      throw new InitProjectException(maybeProjectName.get());
+    } else {
+      throw new BadRequestException("Missing project name in request");
     }
   }
 
@@ -136,9 +170,18 @@ public class PullReplicationFilter extends AllRequestFilter {
       throws RestApiException, IOException, PermissionBackendException {
     RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class));
     IdString id = getProjectName(httpRequest);
-    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
-
-    return (Response<Map<String, Object>>) applyObjectAction.apply(projectResource, input);
+    ProjectResource projectResource;
+    try {
+      projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
+      return (Response<Map<String, Object>>) applyObjectAction.apply(projectResource, input);
+    } catch (ResourceNotFoundException e) {
+      if(projectInitializationAction.initProject(id.get())) {
+        projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
+        return (Response<Map<String, Object>>) applyObjectAction.apply(projectResource, input);
+      } else {
+        throw new PreconditionFailedException("Unable to create project " + id.get());
+      }
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -221,5 +264,9 @@ public class PullReplicationFilter extends AllRequestFilter {
 
   private boolean isFetchAction(HttpServletRequest httpRequest) {
     return httpRequest.getRequestURI().endsWith("pull-replication~fetch");
+  }
+
+  private boolean isInitProjectAction(HttpServletRequest httpRequest) {
+    return httpRequest.getRequestURI().contains("pull-replication/init-project?project-name=");
   }
 }
