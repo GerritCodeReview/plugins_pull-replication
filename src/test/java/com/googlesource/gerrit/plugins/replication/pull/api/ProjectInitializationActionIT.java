@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 
 import com.google.common.net.MediaType;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.restapi.Url;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -25,6 +26,8 @@ import org.apache.http.message.BasicHeader;
 import org.junit.Test;
 
 public class ProjectInitializationActionIT extends ActionITBase {
+  public static final String INVALID_TEST_PROJECT_NAME = "\0";
+  private String testProjectName = "new/Project";
 
   @Test
   public void shouldReturnUnauthorizedForUserWithoutPermissions() throws Exception {
@@ -63,11 +66,48 @@ public class ProjectInitializationActionIT extends ActionITBase {
             getNewProjectRequest, assertHttpResponseCode(HttpServletResponse.SC_OK), getContext());
   }
 
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldCreateRepositoryWhenNodeIsAReplica() throws Exception {
+    httpClientFactory
+        .create(source)
+        .execute(
+            createPutRequestWithHeaders(),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
+            getContext());
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldReturnInternalServerErrorIfContentNotSetWhenNodeIsAReplica() throws Exception {
+    testProjectName = INVALID_TEST_PROJECT_NAME;
+    url = getURL();
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            createPutRequestWithoutHeaders(),
+            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR),
+            getContext());
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldReturnUnauthorizedForUserWithoutPermissionsWhenNodeIsAReplica()
+      throws Exception {
+    httpClientFactory
+        .create(source)
+        .execute(
+            createPutRequestWithHeaders(),
+            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED),
+            getAnonymousContext());
+  }
+
   @Override
   protected String getURL() {
     return userRestSession.url()
         + "/"
-        + getProjectInitializationUrl("pull-replication", Url.encode("new/Project"));
+        + getProjectInitializationUrl("pull-replication", Url.encode(testProjectName));
   }
 
   protected HttpPut createPutRequestWithHeaders() {
