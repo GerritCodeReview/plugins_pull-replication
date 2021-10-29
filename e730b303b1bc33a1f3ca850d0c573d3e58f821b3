@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a2a465_78970af1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-10-29T18:10:03Z",
+      "side": 1,
+      "message": "I\u0027d like to add some tests, but it seems like there are no tests for the replicas. Trying to figure out how tricky it is. Feel free to suggest if you have any idea.",
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
