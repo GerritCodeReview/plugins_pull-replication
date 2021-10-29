@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "999990f5_92efcef3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpServletOps.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-10-29T07:20:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bef955f8_4d6ae882",
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faed6290_578a0651",
@@ -54,6 +72,30 @@
       "writtenOn": "2021-10-29T06:55:55Z",
       "side": 1,
       "message": "nit: protected?",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b66448df_07370b2d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-10-29T07:20:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faed6290_578a0651",
       "range": {
         "startLine": 45,
         "startChar": 2,
@@ -87,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "593c3162_5adee1fd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-10-29T07:20:58Z",
+      "side": 1,
+      "message": "good catch!",
+      "parentUuid": "cf5e07f4_6efa3134",
+      "range": {
+        "startLine": 117,
+        "startChar": 77,
+        "endLine": 117,
+        "endChar": 90
+      },
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c5b4012_4e969282",
@@ -110,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "feb78e5e_2167dbe8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationActionIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-10-29T07:20:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5b4012_4e969282",
+      "range": {
+        "startLine": 57,
+        "startChar": 59,
+        "endLine": 57,
+        "endChar": 69
+      },
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b9bce00_066fe579",
@@ -123,6 +213,30 @@
       "writtenOn": "2021-10-29T06:55:55Z",
       "side": 1,
       "message": "nit: s/shouldCallCreateProjectEndpoint/shouldCallInitProjectEndpoint/ WDYT?",
+      "range": {
+        "startLine": 353,
+        "startChar": 14,
+        "endLine": 353,
+        "endChar": 45
+      },
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "231019ff_60428c2c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-10-29T07:20:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b9bce00_066fe579",
       "range": {
         "startLine": 353,
         "startChar": 14,
