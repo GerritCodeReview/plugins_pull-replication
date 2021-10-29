@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70dd4aec_e68e19ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-29T06:55:55Z",
+      "side": 1,
+      "message": "could init be also called on the parent project? I guess it would have to follow whole hierarchy of projects so maybe it should be done as a follow-up, WDYT?",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 13
+      },
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bef955f8_4d6ae882",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpServletOps.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-29T06:55:55Z",
+      "side": 1,
+      "message": "nit: class can be also package-protected",
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faed6290_578a0651",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-29T06:55:55Z",
+      "side": 1,
+      "message": "nit: protected?",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf5e07f4_6efa3134",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-29T06:55:55Z",
+      "side": 1,
+      "message": "AFAICT in the other calls project name is URI encoded IMHO it should be here URI encoded too...",
+      "range": {
+        "startLine": 117,
+        "startChar": 77,
+        "endLine": 117,
+        "endChar": 90
+      },
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c5b4012_4e969282",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationActionIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-29T06:55:55Z",
+      "side": 1,
+      "message": "nit: consider using name that needs to be URI encoded ;)",
+      "range": {
+        "startLine": 57,
+        "startChar": 59,
+        "endLine": 57,
+        "endChar": 69
+      },
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b9bce00_066fe579",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-29T06:55:55Z",
+      "side": 1,
+      "message": "nit: s/shouldCallCreateProjectEndpoint/shouldCallInitProjectEndpoint/ WDYT?",
+      "range": {
+        "startLine": 353,
+        "startChar": 14,
+        "endLine": 353,
+        "endChar": 45
+      },
+      "revId": "2fe17d3757be7fe908fa8a04466565ef5274b09f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
