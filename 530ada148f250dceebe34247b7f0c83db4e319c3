@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "b03cef37_4d87bd65",
         "filename": "/PATCHSET_LEVEL",
@@ -14,8 +15,24 @@
       "side": 1,
       "message": "This has merge conflicts: what are your plans with this change?",
       "revId": "530ada148f250dceebe34247b7f0c83db4e319c3",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5496a2e7_67d99acc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-10-29T06:57:00Z",
+      "side": 1,
+      "message": "I would probably abandon this one as it was cherry-picked to stable-3.3 and get it by merge-up. Does that make any sense?",
+      "revId": "530ada148f250dceebe34247b7f0c83db4e319c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
