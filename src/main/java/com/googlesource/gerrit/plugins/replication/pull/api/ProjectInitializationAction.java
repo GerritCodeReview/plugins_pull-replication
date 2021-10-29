@@ -93,7 +93,7 @@ public class ProjectInitializationAction extends HttpServlet {
         "Cannot initialize project " + projectName);
   }
 
-  private boolean initProject(String projectName) {
+  protected boolean initProject(String projectName) {
     Optional<URIish> maybeUri = getGitRepositoryURI(projectName);
     if (!maybeUri.isPresent()) {
       logger.atSevere().log("Cannot initialize project '{}'", projectName);
