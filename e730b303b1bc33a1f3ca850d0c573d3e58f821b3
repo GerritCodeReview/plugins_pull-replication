@@ -33,6 +33,75 @@
       "message": "I\u0027d like to add some tests, but it seems like there are no tests for the replicas. Trying to figure out how tricky it is. Feel free to suggest if you have any idea.",
       "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31346b8e_198d2e29",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-01T16:02:49Z",
+      "side": 1,
+      "message": "nit: I think this is redundant, doesn\u0027t initProjectAction already check for user authentication?",
+      "range": {
+        "startLine": 120,
+        "startChar": 12,
+        "endLine": 120,
+        "endChar": 49
+      },
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d1cdbaa_b1114c51",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-01T16:02:49Z",
+      "side": 1,
+      "message": "I think this return status and body, should be the same one returned by the master REST API.",
+      "range": {
+        "startLine": 157,
+        "startChar": 7,
+        "endLine": 157,
+        "endChar": 56
+      },
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf7d82c2_d0d7de29",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-01T16:02:49Z",
+      "side": 1,
+      "message": "As I mentioned in the parent change, if we make the URL to use the project segment rather than project parameter, this could be removed.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 5
+      },
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
