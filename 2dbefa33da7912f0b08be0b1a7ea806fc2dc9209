@@ -118,6 +118,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "652d1b45_90e7e664",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-01T16:00:08Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we return 204 Created instead?",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 36
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fde0b088_adb64ddc",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 14
