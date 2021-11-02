@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "475e3da1_0b158002",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-02T21:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9f0b120_c37fba02",
+      "range": {
+        "startLine": 223,
+        "startChar": 12,
+        "endLine": 223,
+        "endChar": 51
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04880161_bec70809",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-01T15:46:23Z",
       "side": 1,
       "message": "The push-replication plugin already has a configuration value named: createMissingRepositories [1]\n\nI think we should just use that without introducing a new one\n\n[1]https://gerrit.googlesource.com/plugins/replication/+/refs/heads/stable-3.3/src/main/java/com/googlesource/gerrit/plugins/replication/DestinationConfiguration.java#68",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 96
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9395172c_fc341d7c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-02T21:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04880161_bec70809",
       "range": {
         "startLine": 78,
         "startChar": 0,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b621a05_9b4b8d56",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-02T21:22:56Z",
+      "side": 1,
+      "message": "I can do it in a follow-up change along with the other endpoints (fetch and apply-object). Is it ok?",
+      "parentUuid": "eecdbfbb_260c5e30",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 26
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b430efd_9d2d17e2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 14
@@ -83,6 +155,30 @@
       "writtenOn": "2021-11-01T15:46:23Z",
       "side": 1,
       "message": "If project-name is required all the times, why don\u0027t we make it part of the URL?\n\n```\n/init-project/foobar\n```\n\nThis way we can remove all the code that checks whether it is defined and we won\u0027t have to deal with an Option.",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b3b814c_80ac1970",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-02T21:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b430efd_9d2d17e2",
       "range": {
         "startLine": 81,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af99016_bbb21fa6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-02T21:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48694e6b_a2712541",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 42
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "652d1b45_90e7e664",
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3a314af_bd60454d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-02T21:22:56Z",
+      "side": 1,
+      "message": "Good point. Actually 201",
+      "parentUuid": "652d1b45_90e7e664",
+      "range": {
+        "startLine": 93,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 36
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fde0b088_adb64ddc",
@@ -152,6 +296,30 @@
       "writtenOn": "2021-11-01T15:46:23Z",
       "side": 1,
       "message": "nit: This can be private?",
+      "range": {
+        "startLine": 104,
+        "startChar": 2,
+        "endLine": 104,
+        "endChar": 11
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d54a6f9e_98c36631",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-02T21:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fde0b088_adb64ddc",
       "range": {
         "startLine": 104,
         "startChar": 2,
@@ -187,6 +355,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01133e3d_c287926a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-02T21:22:56Z",
+      "side": 1,
+      "message": "Currently, the pull-replication plugin is not honouring the replication.config [1]\n\nI would fix the creation of projects, along with the fetching from existing projects in a separate change. WDYT?\n\n[1]: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15221",
+      "parentUuid": "328221a1_23186622",
+      "range": {
+        "startLine": 130,
+        "startChar": 65,
+        "endLine": 130,
+        "endChar": 85
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5de587b8_db8b40a3",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationActionIT.java",
         "patchSetId": 14
@@ -198,6 +390,30 @@
       "writtenOn": "2021-11-01T15:46:23Z",
       "side": 1,
       "message": "nit: If",
+      "range": {
+        "startLine": 36,
+        "startChar": 36,
+        "endLine": 36,
+        "endChar": 38
+      },
+      "revId": "2dbefa33da7912f0b08be0b1a7ea806fc2dc9209",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ccbb750_80ad2495",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationActionIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-02T21:22:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5de587b8_db8b40a3",
       "range": {
         "startLine": 36,
         "startChar": 36,
