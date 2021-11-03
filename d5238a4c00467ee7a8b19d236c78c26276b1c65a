@@ -46,6 +46,30 @@
       },
       "revId": "d5238a4c00467ee7a8b19d236c78c26276b1c65a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1af5bbc_b2653443",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationActionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-03T13:51:16Z",
+      "side": 1,
+      "message": "looks like this test is mixing two thing:\n* createPutRequestWithoutHeaders\n* INVALID_TEST_PROJECT_NAME\n\nCould we split it into two tests?",
+      "parentUuid": "cd587060_55b80cc8",
+      "range": {
+        "startLine": 90,
+        "startChar": 55,
+        "endLine": 90,
+        "endChar": 79
+      },
+      "revId": "d5238a4c00467ee7a8b19d236c78c26276b1c65a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
