@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d96f8b8d_256a10d0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-03T14:29:03Z",
+      "side": 1,
+      "message": "as for the master implementation: isn\u0027t the projectInitializationAction.initProject going to check for user auth?",
+      "range": {
+        "startLine": 120,
+        "startChar": 3,
+        "endLine": 123,
+        "endChar": 11
+      },
+      "revId": "72b0860efbc2f72fc41679a24a271ddf42a55340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
