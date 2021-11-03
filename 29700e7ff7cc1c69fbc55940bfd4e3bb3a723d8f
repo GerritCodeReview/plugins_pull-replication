@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cac16dd_84d31e3e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-03T09:27:57Z",
+      "side": 1,
+      "message": "how that\u0027s gonna work? In the FetchRestApiClient I see different path:\n`\"a/plugins/%s/init-project/%s\", pluginName, Url.encode(projectName) + \".git\");`\nin the `src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java` we are checking for different path as well:\n`/a/plugins/pull-replication/init-project/test_repo.git`",
+      "range": {
+        "startLine": 258,
+        "startChar": 49,
+        "endLine": 258,
+        "endChar": 92
+      },
+      "revId": "29700e7ff7cc1c69fbc55940bfd4e3bb3a723d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
