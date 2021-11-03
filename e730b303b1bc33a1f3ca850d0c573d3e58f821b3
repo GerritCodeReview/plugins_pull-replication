@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a255ba33_7fe5a229",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-11-03T09:38:40Z",
+      "side": 1,
+      "message": "for example:\nhttps://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/master/src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchActionIT.java?autodive\u003d0%2F#27",
+      "parentUuid": "9d429045_766636bb",
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31346b8e_198d2e29",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 3
