@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2df2aa08_b9df460e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-03T13:10:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a255ba33_7fe5a229",
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31346b8e_198d2e29",
@@ -155,6 +173,30 @@
       "side": 1,
       "message": "+1 it should be identical to primary instance",
       "parentUuid": "0d1cdbaa_b1114c51",
+      "range": {
+        "startLine": 157,
+        "startChar": 7,
+        "endLine": 157,
+        "endChar": 56
+      },
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9146cfa5_68cede94",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-03T13:10:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1ca2b05_642d3af4",
       "range": {
         "startLine": 157,
         "startChar": 7,
