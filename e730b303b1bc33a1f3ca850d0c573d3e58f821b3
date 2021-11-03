@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9d429045_766636bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-03T09:36:16Z",
+      "side": 1,
+      "message": "Unresolve to make it more visible.",
+      "parentUuid": "0240e819_3f39f20e",
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31346b8e_198d2e29",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 3
@@ -48,6 +66,30 @@
       "writtenOn": "2021-11-01T16:02:49Z",
       "side": 1,
       "message": "nit: I think this is redundant, doesn\u0027t initProjectAction already check for user authentication?",
+      "range": {
+        "startLine": 120,
+        "startChar": 12,
+        "endLine": 120,
+        "endChar": 49
+      },
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27bad022_6eb41f8a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-03T09:36:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31346b8e_198d2e29",
       "range": {
         "startLine": 120,
         "startChar": 12,
@@ -118,6 +160,30 @@
       "writtenOn": "2021-11-01T16:02:49Z",
       "side": 1,
       "message": "As I mentioned in the parent change, if we make the URL to use the project segment rather than project parameter, this could be removed.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 5
+      },
+      "revId": "e730b303b1bc33a1f3ca850d0c573d3e58f821b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fc15e4e_2377453e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-03T09:36:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf7d82c2_d0d7de29",
       "range": {
         "startLine": 160,
         "startChar": 0,
