@@ -22,6 +22,30 @@
       },
       "revId": "7e2a6616ee0d950981bd747fb1713b2fddc70420",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "952633ce_7cce2e37",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-03T10:50:39Z",
+      "side": 1,
+      "message": "We are logging it already in the getGitRepositoryURI where we have visibility on the reason at L115. Did you have something else in mind?",
+      "parentUuid": "99ba6f7c_2155a7f5",
+      "range": {
+        "startLine": 99,
+        "startChar": 29,
+        "endLine": 99,
+        "endChar": 54
+      },
+      "revId": "7e2a6616ee0d950981bd747fb1713b2fddc70420",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

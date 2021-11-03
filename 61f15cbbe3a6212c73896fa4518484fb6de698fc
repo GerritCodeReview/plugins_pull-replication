@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2075f19e_bdb066c6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-03T10:50:39Z",
+      "side": 1,
+      "message": "good point!",
+      "parentUuid": "c3520171_a1379ddf",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 76
+      },
+      "revId": "61f15cbbe3a6212c73896fa4518484fb6de698fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af5853cd_5bf85a77",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-03T09:18:08Z",
       "side": 1,
       "message": "should we log that project already exists",
+      "range": {
+        "startLine": 98,
+        "startChar": 3,
+        "endLine": 100,
+        "endChar": 5
+      },
+      "revId": "61f15cbbe3a6212c73896fa4518484fb6de698fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4eb19383_edb4cd31",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-03T10:50:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af5853cd_5bf85a77",
       "range": {
         "startLine": 98,
         "startChar": 3,
