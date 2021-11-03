@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "afe32b91_e0a05d1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-03T09:38:07Z",
+      "side": 1,
+      "message": "See my previous comment: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/322367/comments/0240e819_3f39f20e\n\nI will look again at the code to see how I can sort it out.",
+      "parentUuid": "3156b8ed_fa60f8ab",
+      "revId": "29700e7ff7cc1c69fbc55940bfd4e3bb3a723d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6cac16dd_84d31e3e",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 5
