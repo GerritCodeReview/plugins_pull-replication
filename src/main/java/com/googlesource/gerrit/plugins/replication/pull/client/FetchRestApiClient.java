@@ -44,6 +44,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -121,6 +122,13 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     return httpClientFactory.create(source).execute(put, this, getContext(uri));
   }
 
+  public HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
+    String url =
+        String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
+    HttpDelete delete = new HttpDelete(url);
+    return httpClientFactory.create(source).execute(delete, this, getContext(apiUri));
+  }
+
   public HttpResult callSendObject(
       Project.NameKey project, String refName, RevisionData revisionData, URIish targetUri)
       throws ClientProtocolException, IOException {
@@ -167,5 +175,9 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
       return adapted;
     }
     return null;
+  }
+
+  String getProjectDeletionUrl(String projectName) {
+    return String.format("a/projects/%s", Url.encode(projectName));
   }
 }
