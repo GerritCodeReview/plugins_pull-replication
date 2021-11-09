@@ -122,4 +122,9 @@ public class ProjectInitializationAction extends HttpServlet {
     return String.format(
         "a/plugins/%s/init-project/%s", pluginName, Url.encode(projectName) + ".git");
   }
+
+  public static String getProjectDeletionUrl(String projectName) {
+    return String.format(
+            "a/projects/%s", Url.encode(projectName));
+  }
 }

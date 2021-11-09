@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectDeletionUrl;
 import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 import static java.util.Objects.requireNonNull;
 
@@ -44,6 +45,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -119,6 +121,14 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
     put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
     return httpClientFactory.create(source).execute(put, this, getContext(uri));
+  }
+
+  public HttpResult deleteProject(Project.NameKey project, URIish uri) throws IOException {
+    String url =
+            String.format(
+                    "%s/%s", uri.toString(), getProjectDeletionUrl(project.get()));
+    HttpDelete delete = new HttpDelete(url);
+    return httpClientFactory.create(source).execute(delete, this, getContext(uri));
   }
 
   public HttpResult callSendObject(
