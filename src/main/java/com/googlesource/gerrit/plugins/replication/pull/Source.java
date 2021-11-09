@@ -80,6 +80,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import org.apache.commons.io.FilenameUtils;
@@ -114,6 +115,7 @@ public class Source {
   private final SourceConfiguration config;
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private CloseableHttpClient httpClient;
+  private final DeleteProjectTask.Factory deleteProjectFactory;
 
   protected enum RetryReason {
     TRANSPORT_ERROR,
@@ -210,6 +212,7 @@ public class Source {
     child.getBinding(FetchFactory.class).acceptTargetVisitor(new CGitFetchValidator());
     opFactory = child.getInstance(FetchOne.Factory.class);
     threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
+    deleteProjectFactory = child.getInstance(DeleteProjectTask.Factory.class);
   }
 
   public synchronized CloseableHttpClient memoize(
@@ -445,6 +448,12 @@ public class Source {
     }
   }
 
+  void scheduleDeleteProject(Source source, String uri, Project.NameKey project) {
+    @SuppressWarnings("unused")
+    ScheduledFuture<?> ignored =
+        pool.schedule(deleteProjectFactory.create(source, uri, project), 0, TimeUnit.SECONDS);
+  }
+
   void fetchWasCanceled(FetchOne fetchOp) {
     synchronized (stateLock) {
       URIish uri = fetchOp.getURI();
@@ -592,11 +601,21 @@ public class Source {
     return false;
   }
 
+  public boolean wouldDeleteProject(Project.NameKey project) {
+    // When deleting a project shouldReplicate should not be called
+    // since it checks if the project exists
+    return configSettingsAllowReplication(project);
+  }
+
   public boolean wouldFetchProject(Project.NameKey project) {
     if (!shouldReplicate(project)) {
       return false;
     }
 
+    return configSettingsAllowReplication(project);
+  }
+
+  private boolean configSettingsAllowReplication(Project.NameKey project) {
     // by default fetch all projects
     List<String> projects = config.getProjects();
     if (projects.isEmpty()) {
@@ -735,6 +754,10 @@ public class Source {
 
   public boolean isCreateMissingRepositories() {
     return config.createMissingRepositories();
+  }
+
+  public boolean isReplicateProjectDeletions() {
+    return config.replicateProjectDeletions();
   }
 
   private static boolean matches(URIish uri, String urlMatch) {
