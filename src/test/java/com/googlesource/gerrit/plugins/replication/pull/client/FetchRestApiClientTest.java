@@ -38,6 +38,7 @@ import java.nio.ByteBuffer;
 import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.message.BasicHeader;
@@ -69,6 +70,7 @@ public class FetchRestApiClientTest {
   @Mock Source source;
   @Captor ArgumentCaptor<HttpPost> httpPostCaptor;
   @Captor ArgumentCaptor<HttpPut> httpPutCaptor;
+  @Captor ArgumentCaptor<HttpDelete> httpDeleteCaptor;
 
   String api = "http://gerrit-host";
   String pluginName = "pull-replication";
@@ -360,6 +362,18 @@ public class FetchRestApiClientTest {
     assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpPut.getURI().getPath())
         .isEqualTo("/a/plugins/pull-replication/init-project/test_repo.git");
+  }
+
+  @Test
+  public void shouldCallDeleteProjectEndpoint() throws IOException, URISyntaxException {
+
+    objectUnderTest.deleteProject(Project.nameKey("test_repo"), new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpDeleteCaptor.capture(), any(), any());
+
+    HttpDelete httpDelete = httpDeleteCaptor.getValue();
+    assertThat(httpDelete.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpDelete.getURI().getPath()).isEqualTo("/a/projects/test_repo");
   }
 
   public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {

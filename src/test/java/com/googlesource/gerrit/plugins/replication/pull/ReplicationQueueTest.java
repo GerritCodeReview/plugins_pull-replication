@@ -14,20 +14,24 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.Files.createTempDirectory;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener.Event;
+import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventDispatcher;
@@ -51,6 +55,8 @@ import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -70,6 +76,9 @@ public class ReplicationQueueTest {
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
   @Mock HttpResult httpResult;
+
+  @Captor ArgumentCaptor<String> stringCaptor;
+  @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
 
   private ExcludedRefsFilter refsFilter;
   private ReplicationQueue objectUnderTest;
@@ -261,6 +270,34 @@ public class ReplicationQueueTest {
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
   }
 
+  @Test
+  public void shouldCallDeleteWhenReplicateProjectDeletionsTrue() throws IOException {
+    when(source.wouldDeleteProject(any())).thenReturn(true);
+
+    String projectName = "testProject";
+    FakeProjectDeletedEvent event = new FakeProjectDeletedEvent(projectName);
+
+    objectUnderTest.start();
+    objectUnderTest.onProjectDeleted(event);
+
+    verify(source, times(1))
+        .scheduleDeleteProject(any(), stringCaptor.capture(), projectNameKeyCaptor.capture());
+    assertThat(stringCaptor.getValue()).isEqualTo(source.getApis().get(0));
+    assertThat(projectNameKeyCaptor.getValue()).isEqualTo(Project.NameKey.parse(projectName));
+  }
+
+  @Test
+  public void shouldNotCallDeleteWhenProjectNotToDelete() throws IOException {
+    when(source.wouldDeleteProject(any())).thenReturn(false);
+
+    FakeProjectDeletedEvent event = new FakeProjectDeletedEvent("testProject");
+
+    objectUnderTest.start();
+    objectUnderTest.onProjectDeleted(event);
+
+    verify(source, never()).scheduleDeleteProject(any(), any(), any());
+  }
+
   protected static Path createTempPath(String prefix) throws IOException {
     return createTempDirectory(prefix);
   }
@@ -323,6 +360,24 @@ public class ReplicationQueueTest {
     @Override
     public AccountInfo getUpdater() {
       return null;
+    }
+  }
+
+  private class FakeProjectDeletedEvent implements ProjectDeletedListener.Event {
+    private String projectName;
+
+    public FakeProjectDeletedEvent(String projectName) {
+      this.projectName = projectName;
+    }
+
+    @Override
+    public NotifyHandling getNotify() {
+      return null;
+    }
+
+    @Override
+    public String getProjectName() {
+      return projectName;
     }
   }
 }
