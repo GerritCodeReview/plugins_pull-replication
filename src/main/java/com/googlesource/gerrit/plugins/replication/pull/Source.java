@@ -14,10 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
-import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
-import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
-
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -68,8 +64,19 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.JGitFetch;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.URIish;
+import org.slf4j.Logger;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -83,15 +90,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.URIish;
-import org.slf4j.Logger;
+
+import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
 
 public class Source {
   private static final Logger repLog = PullReplicationLogger.repLog;
@@ -102,6 +104,7 @@ public class Source {
   }
 
   private final ReplicationStateListener stateLog;
+  private final UpdateHeadTask.Factory updateHeadFactory;
   private final Object stateLock = new Object();
   private final Map<URIish, FetchOne> pending = new HashMap<>();
   private final Map<URIish, FetchOne> inFlight = new HashMap<>();
@@ -189,6 +192,7 @@ public class Source {
                         .implement(Fetch.class, BatchFetchClient.class)
                         .implement(Fetch.class, FetchClientImplementation.class, clientClass)
                         .build(FetchFactory.class));
+                factory(UpdateHeadTask.Factory.class);
               }
 
               @Provides
@@ -213,6 +217,7 @@ public class Source {
     opFactory = child.getInstance(FetchOne.Factory.class);
     threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
     deleteProjectFactory = child.getInstance(DeleteProjectTask.Factory.class);
+    updateHeadFactory = child.getInstance(UpdateHeadTask.Factory.class);
   }
 
   public synchronized CloseableHttpClient memoize(
@@ -748,6 +753,21 @@ public class Source {
 
   public boolean isReplicateProjectDeletions() {
     return config.replicateProjectDeletions();
+  }
+
+  void scheduleUpdateHead(Source s, Project.NameKey project, String newHead) {
+    for (String apiUrl : getApis()) {
+      try {
+        URIish apiURI = new URIish(apiUrl);
+        @SuppressWarnings("unused")
+        ScheduledFuture<?> ignored =
+            pool.schedule(
+                updateHeadFactory.create(s, apiURI, project, newHead), 0, TimeUnit.SECONDS);
+      } catch (URISyntaxException e) {
+        logger.atSevere().withCause(e).log(
+            "Could not schedule HEAD pull-replication for project {}", project.get());
+      }
+    }
   }
 
   private static boolean matches(URIish uri, String urlMatch) {

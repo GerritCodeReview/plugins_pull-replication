@@ -14,10 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
-import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
-import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
-import static java.util.Objects.requireNonNull;
-
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.net.MediaType;
@@ -34,9 +30,6 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.auth.AuthScope;
@@ -54,6 +47,15 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
+
+import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -128,6 +130,19 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     return httpClientFactory.create(source).execute(delete, this, getContext(uri));
   }
 
+  public HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri)
+      throws IOException {
+    logger.atFine().log("Updating head of %s on %s", project.get(), newHead);
+    String url =
+        String.format(
+            "%s/a/projects/%s/HEAD",
+            apiUri.toASCIIString(), getProjectUpdateHeadUrl(project.get()));
+    HttpPut req = new HttpPut(url);
+    req.setEntity(new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), UTF_8.name()));
+    req.addHeader(new BasicHeader("Content-Type", "application/json"));
+    return httpClientFactory.create(source).execute(req, this, getContext(apiUri));
+  }
+
   public HttpResult callSendObject(
       Project.NameKey project, String refName, RevisionData revisionData, URIish targetUri)
       throws ClientProtocolException, IOException {
@@ -178,5 +193,9 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
 
   String getProjectDeletionUrl(String projectName) {
     return String.format("a/projects/%s", Url.encode(projectName));
+  }
+
+  String getProjectUpdateHeadUrl(String projectName) {
+    return String.format("a/projects/%s/HEAD", Url.encode(projectName));
   }
 }

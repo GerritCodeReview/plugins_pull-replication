@@ -19,6 +19,7 @@ import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -55,7 +56,8 @@ public class ReplicationQueue
     implements ObservableQueue,
         LifecycleListener,
         GitReferenceUpdatedListener,
-        ProjectDeletedListener {
+        ProjectDeletedListener,
+        HeadUpdatedListener {
 
   static final String PULL_REPLICATION_LOG_NAME = "pull_replication_log";
   static final Logger repLog = LoggerFactory.getLogger(PULL_REPLICATION_LOG_NAME);
@@ -315,6 +317,14 @@ public class ReplicationQueue
         eventsReplayed.add(eventKey);
       }
     }
+  }
+
+  @Override
+  public void onHeadUpdated(HeadUpdatedListener.Event event) {
+    Project.NameKey p = Project.nameKey(event.getProjectName());
+    sources.get().getAll().stream()
+        .filter(s -> s.wouldFetchProject(p))
+        .forEach(s -> s.scheduleUpdateHead(s, p, event.getNewHeadName()));
   }
 
   @AutoValue
