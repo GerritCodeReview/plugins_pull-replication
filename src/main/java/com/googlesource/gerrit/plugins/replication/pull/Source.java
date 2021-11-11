@@ -70,6 +70,7 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.JGitFetch;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +103,7 @@ public class Source {
   }
 
   private final ReplicationStateListener stateLog;
+  private final UpdateHeadTask.Factory updateHeadFactory;
   private final Object stateLock = new Object();
   private final Map<URIish, FetchOne> pending = new HashMap<>();
   private final Map<URIish, FetchOne> inFlight = new HashMap<>();
@@ -189,6 +191,7 @@ public class Source {
                         .implement(Fetch.class, BatchFetchClient.class)
                         .implement(Fetch.class, FetchClientImplementation.class, clientClass)
                         .build(FetchFactory.class));
+                factory(UpdateHeadTask.Factory.class);
               }
 
               @Provides
@@ -213,6 +216,7 @@ public class Source {
     opFactory = child.getInstance(FetchOne.Factory.class);
     threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
     deleteProjectFactory = child.getInstance(DeleteProjectTask.Factory.class);
+    updateHeadFactory = child.getInstance(UpdateHeadTask.Factory.class);
   }
 
   public synchronized CloseableHttpClient memoize(
@@ -748,6 +752,21 @@ public class Source {
 
   public boolean isReplicateProjectDeletions() {
     return config.replicateProjectDeletions();
+  }
+
+  void scheduleUpdateHead(Source s, Project.NameKey project, String newHead) {
+    for (String apiUrl : getApis()) {
+      try {
+        URIish apiURI = new URIish(apiUrl);
+        @SuppressWarnings("unused")
+        ScheduledFuture<?> ignored =
+            pool.schedule(
+                updateHeadFactory.create(s, apiURI, project, newHead), 0, TimeUnit.SECONDS);
+      } catch (URISyntaxException e) {
+        logger.atSevere().withCause(e).log(
+            "Could not schedule HEAD pull-replication for project {}", project.get());
+      }
+    }
   }
 
   private static boolean matches(URIish uri, String urlMatch) {
