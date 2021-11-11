@@ -30,12 +30,14 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.config.SitePaths;
@@ -282,6 +284,38 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
     }
 
     waitUntil(() -> fakeDeleteProjectPlugin.getDeleteEndpointCalls() == 1);
+  }
+
+  @Test
+  public void shouldReplicateHeadUpdate() throws Exception {
+    String testProjectName = project.get();
+    setReplicationSource(TEST_REPLICATION_REMOTE, "", Optional.of(testProjectName));
+    config.save();
+    AutoReloadConfigDecorator autoReloadConfigDecorator =
+        getInstance(AutoReloadConfigDecorator.class);
+    autoReloadConfigDecorator.reload();
+
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(testProjectName).branch(newBranch).create(input);
+    String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+
+    HeadUpdatedListener.Event event = new FakeHeadUpdateEvent(master, newBranch, testProjectName);
+    pullReplicationQueue.onHeadUpdated(event);
+
+    waitUntil(
+        () -> {
+          try {
+            return gApi.projects().name(testProjectName).head().equals(newBranch);
+          } catch (RestApiException e) {
+            return false;
+          }
+        });
   }
 
   private Ref getRef(Repository repo, String branchName) throws IOException {
