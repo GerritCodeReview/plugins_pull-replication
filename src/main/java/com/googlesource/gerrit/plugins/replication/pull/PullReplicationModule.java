@@ -20,6 +20,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -103,6 +104,7 @@ class PullReplicationModule extends AbstractModule {
     bind(EventBus.class).in(Scopes.SINGLETON);
     bind(ReplicationSources.class).to(SourcesCollection.class);
     DynamicSet.bind(binder(), ProjectDeletedListener.class).to(ReplicationQueue.class);
+    DynamicSet.bind(binder(), HeadUpdatedListener.class).to(ReplicationQueue.class);
 
     bind(ReplicationQueue.class).in(Scopes.SINGLETON);
     bind(ObservableQueue.class).to(ReplicationQueue.class);
