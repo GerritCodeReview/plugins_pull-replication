@@ -23,7 +23,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
+import com.google.common.io.CharStreams;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
@@ -33,6 +35,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.Optional;
@@ -374,6 +377,25 @@ public class FetchRestApiClientTest {
     HttpDelete httpDelete = httpDeleteCaptor.getValue();
     assertThat(httpDelete.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpDelete.getURI().getPath()).isEqualTo("/a/projects/test_repo");
+  }
+
+  @Test
+  public void shouldCallUpdateHEADEndpoint() throws IOException, URISyntaxException {
+    String newHead = "newHead";
+    String projectName = "aProject";
+    objectUnderTest.updateHead(Project.nameKey(projectName), newHead, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any(), any());
+
+    HttpPut httpPut = httpPutCaptor.getValue();
+    String payload =
+        CharStreams.toString(
+            new InputStreamReader(httpPut.getEntity().getContent(), Charsets.UTF_8));
+
+    assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPut.getURI().getPath())
+        .isEqualTo(String.format("/a/projects/%s/HEAD", projectName));
+    assertThat(payload).isEqualTo(String.format("{\"ref\": \"%s\"}", newHead));
   }
 
   public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {
