@@ -298,6 +298,34 @@ public class ReplicationQueueTest {
     verify(source, never()).scheduleDeleteProject(any(), any(), any());
   }
 
+  @Test
+  public void shouldScheduleUpdateHeadWhenWouldFetchProject() throws IOException {
+    when(source.wouldFetchProject(any())).thenReturn(true);
+
+    String projectName = "aProject";
+    String newHEAD = "newHEAD";
+
+    objectUnderTest.start();
+    objectUnderTest.onHeadUpdated(new FakeHeadUpdateEvent("oldHead", newHEAD, projectName));
+    verify(source, times(1))
+        .scheduleUpdateHead(any(), projectNameKeyCaptor.capture(), stringCaptor.capture());
+
+    assertThat(stringCaptor.getValue()).isEqualTo(newHEAD);
+    assertThat(projectNameKeyCaptor.getValue()).isEqualTo(Project.NameKey.parse(projectName));
+  }
+
+  @Test
+  public void shouldNotScheduleUpdateHeadWhenNotWouldFetchProject() throws IOException {
+    when(source.wouldFetchProject(any())).thenReturn(false);
+
+    String projectName = "aProject";
+    String newHEAD = "newHEAD";
+
+    objectUnderTest.start();
+    objectUnderTest.onHeadUpdated(new FakeHeadUpdateEvent("oldHead", newHEAD, projectName));
+    verify(source, never()).scheduleUpdateHead(any(), any(), any());
+  }
+
   protected static Path createTempPath(String prefix) throws IOException {
     return createTempDirectory(prefix);
   }
