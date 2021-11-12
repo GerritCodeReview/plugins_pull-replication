@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b142d51_428e5ccd",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T17:50:38Z",
+      "side": 1,
+      "message": "not used anymore",
+      "range": {
+        "startLine": 346,
+        "startChar": 0,
+        "endLine": 353,
+        "endChar": 0
+      },
+      "revId": "375d1204c40e1be2b79c3b8194674b07de5b1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
