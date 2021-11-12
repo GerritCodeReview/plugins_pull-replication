@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "29289232_31d2c823",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FakeHeadUpdateEvent.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T20:40:51Z",
+      "side": 1,
+      "message": "This is different because FakeHeadUpdateEvent is used in multiple tests.",
+      "parentUuid": "51a941a3_6407e102",
+      "revId": "f27807416a6f396865afe70e91cd69be2c440dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "620025c8_cfcabd7b",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 15
@@ -31,6 +49,30 @@
       "writtenOn": "2021-11-12T20:24:07Z",
       "side": 1,
       "message": "nit: consider using \"Not\" for consistency with the other tests\n\n➜  pull-replication git:(stable-3.3) git grep  houldNOT . | wc -l\n       0\n➜  pull-replication git:(stable-3.3) git grep  houldNot . | wc -l\n       7\n➜  pull-replication git:(stable-3.3)",
+      "range": {
+        "startLine": 318,
+        "startChar": 20,
+        "endLine": 318,
+        "endChar": 23
+      },
+      "revId": "f27807416a6f396865afe70e91cd69be2c440dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f2c815c_1ec939d8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T20:40:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "620025c8_cfcabd7b",
       "range": {
         "startLine": 318,
         "startChar": 20,

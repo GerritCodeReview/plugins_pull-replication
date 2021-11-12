@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "498d1961_6f5cfc4a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T20:40:51Z",
+      "side": 1,
+      "message": "Good point, I think scheduleUpdateHead should only deal with *one* scheduling.\nLet me fix it.",
+      "parentUuid": "49ebb123_4c3dba85",
+      "range": {
+        "startLine": 770,
+        "startChar": 4,
+        "endLine": 781,
+        "endChar": 5
+      },
+      "revId": "a5fdaeedba01a3939f481fd7ced8376d9451e869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "007fb4e6_15b1c5b3",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
         "patchSetId": 14
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-12T20:24:07Z",
       "side": 1,
       "message": "nit: you could use MediaType.JSON_UTF_8",
+      "range": {
+        "startLine": 140,
+        "startChar": 51,
+        "endLine": 140,
+        "endChar": 67
+      },
+      "revId": "a5fdaeedba01a3939f481fd7ced8376d9451e869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43809725_d6378041",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T20:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "007fb4e6_15b1c5b3",
       "range": {
         "startLine": 140,
         "startChar": 51,
