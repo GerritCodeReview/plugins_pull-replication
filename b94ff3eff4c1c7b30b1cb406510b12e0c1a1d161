@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e14f3e44_c1ff68cc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T19:30:06Z",
+      "side": 1,
+      "message": "nit: each integration test already comes with a pre-created project, named `project`.\n\nWe could use that one rather than creating one from scratch.",
+      "range": {
+        "startLine": 260,
+        "startChar": 0,
+        "endLine": 261,
+        "endChar": 51
+      },
+      "revId": "b94ff3eff4c1c7b30b1cb406510b12e0c1a1d161",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
