@@ -22,6 +22,30 @@
       },
       "revId": "a7e7c1264cbe152033858c5a87eafa1594b6f505",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "904d8bc8_3b0c4bc0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/DeleteProjectTask.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-12T18:27:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5960596_48c6cfed",
+      "range": {
+        "startLine": 61,
+        "startChar": 1,
+        "endLine": 61,
+        "endChar": 71
+      },
+      "revId": "a7e7c1264cbe152033858c5a87eafa1594b6f505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
