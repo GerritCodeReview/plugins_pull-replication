@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c85afae0_22bc9b69",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-12T17:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4ee08b6_abd43799",
+      "range": {
+        "startLine": 142,
+        "startChar": 21,
+        "endLine": 142,
+        "endChar": 85
+      },
+      "revId": "b32692911f6d72c506303edf072584497ad2587e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59634cc0_c64d6925",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-12T17:46:04Z",
       "side": 1,
       "message": "I think this comment could be removed.",
+      "range": {
+        "startLine": 606,
+        "startChar": 0,
+        "endLine": 607,
+        "endChar": 44
+      },
+      "revId": "b32692911f6d72c506303edf072584497ad2587e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "987076de_3c1867e2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-12T17:49:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59634cc0_c64d6925",
       "range": {
         "startLine": 606,
         "startChar": 0,
