@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea70868e_6cfc4d67",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T17:46:04Z",
+      "side": 1,
+      "message": "Looks like the only need for DeleteProjectTask is in the Source class.\nConsider binding this in its child injector, similarly to what the replication plugin does.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 79
+      },
+      "revId": "5c310b4e3881ea45a72be6dd934ba2a8366b3d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "898a16e5_722ecc0b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T17:46:04Z",
+      "side": 1,
+      "message": "consider renaming this to apiUri or something similar to make it clear this is NOT the fetch url.",
+      "range": {
+        "startLine": 125,
+        "startChar": 66,
+        "endLine": 125,
+        "endChar": 69
+      },
+      "revId": "5c310b4e3881ea45a72be6dd934ba2a8366b3d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0afc8a63_a191476c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T17:46:04Z",
+      "side": 1,
+      "message": "there is a method called toASCIIString() in URIish, which does some useful escaping.",
+      "range": {
+        "startLine": 126,
+        "startChar": 44,
+        "endLine": 126,
+        "endChar": 52
+      },
+      "revId": "5c310b4e3881ea45a72be6dd934ba2a8366b3d15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

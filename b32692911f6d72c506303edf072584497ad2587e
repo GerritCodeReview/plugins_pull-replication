@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4ee08b6_abd43799",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T17:46:04Z",
+      "side": 1,
+      "message": "nit: could merge these two together, since you wouldn\u0027t delete a project without the RrplicateProjectDeletions setting.",
+      "range": {
+        "startLine": 142,
+        "startChar": 21,
+        "endLine": 142,
+        "endChar": 85
+      },
+      "revId": "b32692911f6d72c506303edf072584497ad2587e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59634cc0_c64d6925",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T17:46:04Z",
+      "side": 1,
+      "message": "I think this comment could be removed.",
+      "range": {
+        "startLine": 606,
+        "startChar": 0,
+        "endLine": 607,
+        "endChar": 44
+      },
+      "revId": "b32692911f6d72c506303edf072584497ad2587e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
