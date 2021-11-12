@@ -22,6 +22,30 @@
       },
       "revId": "7b54f9a40076dd0b4dc28ac79d60143d13ec0c45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a016ad4a_587fb3e9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-12T18:26:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c897beb_9adaf212",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 89
+      },
+      "revId": "7b54f9a40076dd0b4dc28ac79d60143d13ec0c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
