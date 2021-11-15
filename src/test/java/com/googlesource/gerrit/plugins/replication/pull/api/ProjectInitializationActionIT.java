@@ -51,6 +51,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
 
   @Test
   public void shouldCreateRepository() throws Exception {
+    String newProjectName = "new/newProject";
+    url = getURL(newProjectName);
     httpClientFactory
         .create(source)
         .execute(
@@ -59,7 +61,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
             getContext());
 
     HttpGet getNewProjectRequest =
-        new HttpGet(userRestSession.url() + "/a/projects/" + Url.encode("new/Project"));
+        new HttpGet(userRestSession.url() + "/a/projects/" + Url.encode(newProjectName));
     httpClientFactory
         .create(source)
         .execute(
@@ -69,6 +71,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @Test
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldCreateRepositoryWhenNodeIsAReplica() throws Exception {
+    String newProjectName = "new/newProjectForReplica";
+    url = getURL(newProjectName);
     httpClientFactory
         .create(source)
         .execute(
@@ -116,10 +120,10 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Override
-  protected String getURL() {
+  protected String getURL(String projectName) {
     return userRestSession.url()
         + "/"
-        + getProjectInitializationUrl("pull-replication", Url.encode(testProjectName));
+        + getProjectInitializationUrl("pull-replication", Url.encode(projectName));
   }
 
   protected HttpPut createPutRequestWithHeaders() {

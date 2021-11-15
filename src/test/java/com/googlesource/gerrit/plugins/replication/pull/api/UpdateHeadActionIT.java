@@ -161,7 +161,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Override
-  protected String getURL() {
+  protected String getURL(String projectName) {
     return String.format("%s/a/projects/%s/HEAD", adminRestSession.url(), project.get());
   }
 }

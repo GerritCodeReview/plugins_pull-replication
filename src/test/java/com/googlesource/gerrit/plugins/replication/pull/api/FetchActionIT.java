@@ -76,7 +76,7 @@ public class FetchActionIT extends ActionITBase {
   }
 
   @Override
-  protected String getURL() {
+  protected String getURL(String projectName) {
     return String.format(
         "%s/a/projects/%s/pull-replication~fetch",
         adminRestSession.url(), Url.encode(project.get()));

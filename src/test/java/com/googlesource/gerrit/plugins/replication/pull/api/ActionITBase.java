@@ -81,7 +81,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   SourceHttpClient.Factory httpClientFactory;
   String url;
 
-  protected abstract String getURL();
+  protected abstract String getURL(String projectName);
 
   @Override
   public void setUpTestPlugin() throws Exception {
@@ -107,7 +107,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     revisionReader = plugin.getSysInjector().getInstance(RevisionReader.class);
     source = plugin.getSysInjector().getInstance(SourcesCollection.class).getAll().get(0);
 
-    url = getURL();
+    url = getURL(project.get());
   }
 
   protected HttpPost createRequest(String sendObjectPayload) {
