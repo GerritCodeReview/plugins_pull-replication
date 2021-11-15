@@ -48,6 +48,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -113,6 +114,13 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     post.setEntity(new StringEntity(sendObjectPayload, StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
     return post;
+  }
+
+  protected HttpPut createPutRequest(String sendObjectPayload) {
+    HttpPut put = new HttpPut(url);
+    put.setEntity(new StringEntity(sendObjectPayload, StandardCharsets.UTF_8));
+    put.addHeader(new BasicHeader("Content-Type", "application/json"));
+    return put;
   }
 
   protected String createRef() throws Exception {
