@@ -83,6 +83,10 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
 
   protected abstract String getURL();
 
+  protected String getURL(String projectName) {
+    return getURL();
+  }
+
   @Override
   public void setUpTestPlugin() throws Exception {
     gitPath = sitePaths.site_path.resolve("git");
@@ -107,7 +111,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     revisionReader = plugin.getSysInjector().getInstance(RevisionReader.class);
     source = plugin.getSysInjector().getInstance(SourcesCollection.class).getAll().get(0);
 
-    url = getURL();
+    url = getURL(project.get());
   }
 
   protected HttpPost createRequest(String sendObjectPayload) {
