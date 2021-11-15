@@ -22,6 +22,30 @@
       },
       "revId": "15d806ee3fad174047936f5e5d7ae93558968982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b64a810c_829753c7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/UpdateHeadAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-15T15:34:00Z",
+      "side": 1,
+      "message": "This is already returning 403 when permissions are not satisfied.\n\nLet me add some tests.",
+      "parentUuid": "4aa94c82_6a29ff3e",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 39
+      },
+      "revId": "15d806ee3fad174047936f5e5d7ae93558968982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
