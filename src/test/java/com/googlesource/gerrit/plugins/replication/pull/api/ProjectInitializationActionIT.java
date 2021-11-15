@@ -27,7 +27,6 @@ import org.junit.Test;
 
 public class ProjectInitializationActionIT extends ActionITBase {
   public static final String INVALID_TEST_PROJECT_NAME = "\0";
-  private String testProjectName = "new/Project";
 
   @Test
   public void shouldReturnUnauthorizedForUserWithoutPermissions() throws Exception {
@@ -51,6 +50,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
 
   @Test
   public void shouldCreateRepository() throws Exception {
+    String newProjectName = "new/newProject";
+    url = getURL(newProjectName);
     httpClientFactory
         .create(source)
         .execute(
@@ -59,7 +60,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
             getContext());
 
     HttpGet getNewProjectRequest =
-        new HttpGet(userRestSession.url() + "/a/projects/" + Url.encode("new/Project"));
+        new HttpGet(userRestSession.url() + "/a/projects/" + Url.encode(newProjectName));
     httpClientFactory
         .create(source)
         .execute(
@@ -69,6 +70,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @Test
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldCreateRepositoryWhenNodeIsAReplica() throws Exception {
+    String newProjectName = "new/newProjectForReplica";
+    url = getURL(newProjectName);
     httpClientFactory
         .create(source)
         .execute(
@@ -81,8 +84,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnInternalServerErrorIfProjectCannotBeCreatedWhenNodeIsAReplica()
       throws Exception {
-    testProjectName = INVALID_TEST_PROJECT_NAME;
-    url = getURL();
+    url = getURL(INVALID_TEST_PROJECT_NAME);
 
     httpClientFactory
         .create(source)
@@ -116,10 +118,10 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Override
-  protected String getURL() {
+  protected String getURL(String projectName) {
     return userRestSession.url()
         + "/"
-        + getProjectInitializationUrl("pull-replication", Url.encode(testProjectName));
+        + getProjectInitializationUrl("pull-replication", Url.encode(projectName));
   }
 
   protected HttpPut createPutRequestWithHeaders() {
