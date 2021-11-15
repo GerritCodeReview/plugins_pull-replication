@@ -54,6 +54,8 @@ import com.google.inject.TypeLiteral;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.InitProjectException;
+import org.eclipse.jetty.http.HttpMethod;
+
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
@@ -74,6 +76,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private FetchAction fetchAction;
   private ApplyObjectAction applyObjectAction;
   private ProjectInitializationAction projectInitializationAction;
+  private ProjectDeletionAction projectDeletionAction;
   private ProjectsCollection projectsCollection;
   private Gson gson;
   private Provider<CurrentUser> userProvider;
@@ -83,11 +86,13 @@ public class PullReplicationFilter extends AllRequestFilter {
       FetchAction fetchAction,
       ApplyObjectAction applyObjectAction,
       ProjectInitializationAction projectInitializationAction,
+      ProjectDeletionAction projectDeletionAction,
       ProjectsCollection projectsCollection,
       Provider<CurrentUser> userProvider) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.projectInitializationAction = projectInitializationAction;
+    this.projectDeletionAction = projectDeletionAction;
     this.projectsCollection = projectsCollection;
     this.userProvider = userProvider;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
@@ -122,6 +127,12 @@ public class PullReplicationFilter extends AllRequestFilter {
             return;
           }
           doInitProject(httpRequest, httpResponse);
+        } else {
+          httpResponse.sendError(SC_UNAUTHORIZED);
+        }
+      } else if (isDeleteProjectProjectAction(httpRequest)) {
+        if (userProvider.get().isIdentifiedUser()) {
+          writeResponse(httpResponse, doApplyObject(httpRequest));
         } else {
           httpResponse.sendError(SC_UNAUTHORIZED);
         }
@@ -173,6 +184,15 @@ public class PullReplicationFilter extends AllRequestFilter {
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
     return (Response<Map<String, Object>>) applyObjectAction.apply(projectResource, input);
+  }
+
+  @SuppressWarnings("unchecked")
+  private Response<Map<String, Object>> doProjectDelete(HttpServletRequest httpRequest)
+          throws Exception {
+    IdString id = getProjectName(httpRequest);
+    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
+
+    return (Response<Map<String, Object>>) projectDeletionAction.apply(projectResource, null);
   }
 
   @SuppressWarnings("unchecked")
@@ -259,5 +279,11 @@ public class PullReplicationFilter extends AllRequestFilter {
 
   private boolean isInitProjectAction(HttpServletRequest httpRequest) {
     return httpRequest.getRequestURI().contains("pull-replication/init-project/");
+  }
+
+  private boolean isDeleteProjectProjectAction(HttpServletRequest httpRequest) {
+    String path = httpRequest.getRequestURI();
+    String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
+    return httpRequest.getRequestURI().endsWith("projects/" + projectName) && httpRequest.getMethod().equalsIgnoreCase(HttpMethod.DELETE.asString());
   }
 }
