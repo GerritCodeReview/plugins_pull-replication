@@ -21,8 +21,12 @@ import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOp
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -45,11 +49,16 @@ public class ProjectInitializationAction extends HttpServlet {
 
   private final GerritConfigOps gerritConfigOps;
   private final Provider<CurrentUser> userProvider;
+  private final PermissionBackend permissionBackend;
 
   @Inject
-  ProjectInitializationAction(GerritConfigOps gerritConfigOps, Provider<CurrentUser> userProvider) {
+  ProjectInitializationAction(
+      GerritConfigOps gerritConfigOps,
+      Provider<CurrentUser> userProvider,
+      PermissionBackend permissionBackend) {
     this.gerritConfigOps = gerritConfigOps;
     this.userProvider = userProvider;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -72,11 +81,19 @@ public class ProjectInitializationAction extends HttpServlet {
     String path = httpServletRequest.getRequestURI();
     String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
 
-    if (initProject(projectName)) {
+    try {
+      if (initProject(projectName)) {
+        setResponse(
+            httpServletResponse,
+            HttpServletResponse.SC_CREATED,
+            "Project " + projectName + " initialized");
+        return;
+      }
+    } catch (AuthException | PermissionBackendException e) {
       setResponse(
           httpServletResponse,
-          HttpServletResponse.SC_CREATED,
-          "Project " + projectName + " initialized");
+          HttpServletResponse.SC_FORBIDDEN,
+          "User not authorized to create project " + projectName);
       return;
     }
 
@@ -86,7 +103,10 @@ public class ProjectInitializationAction extends HttpServlet {
         "Cannot initialize project " + projectName);
   }
 
-  protected boolean initProject(String projectName) {
+  protected boolean initProject(String projectName)
+      throws AuthException, PermissionBackendException {
+    permissionBackend.user(userProvider.get()).check(GlobalPermission.CREATE_PROJECT);
+
     Optional<URIish> maybeUri = gerritConfigOps.getGitRepositoryURI(projectName);
     if (!maybeUri.isPresent()) {
       logger.atSevere().log("Cannot initialize project '{}'", projectName);
