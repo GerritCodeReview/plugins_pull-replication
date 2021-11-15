@@ -164,7 +164,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   }
 
   private void doInitProject(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
-      throws RestApiException, IOException {
+      throws RestApiException, IOException, PermissionBackendException {
 
     String path = httpRequest.getRequestURI();
     String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
