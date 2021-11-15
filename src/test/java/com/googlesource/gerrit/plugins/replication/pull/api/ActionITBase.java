@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.SkipProjectClone;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -170,6 +171,15 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
 
   protected HttpClientContext getAnonymousContext() {
     HttpClientContext ctx = HttpClientContext.create();
+    return ctx;
+  }
+
+  protected HttpClientContext getUserContext() {
+    HttpClientContext ctx = HttpClientContext.create();
+    CredentialsProvider adapted = new BasicCredentialsProvider();
+    adapted.setCredentials(
+            AuthScope.ANY, new UsernamePasswordCredentials(user.username(), user.httpPassword()));
+    ctx.setCredentialsProvider(adapted);
     return ctx;
   }
 

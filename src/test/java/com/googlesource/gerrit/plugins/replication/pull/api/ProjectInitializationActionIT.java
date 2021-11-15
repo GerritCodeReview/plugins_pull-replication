@@ -14,12 +14,18 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 
 import com.google.common.net.MediaType;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.restapi.Url;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.inject.Inject;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.message.BasicHeader;
@@ -28,6 +34,8 @@ import org.junit.Test;
 public class ProjectInitializationActionIT extends ActionITBase {
   public static final String INVALID_TEST_PROJECT_NAME = "\0";
   private String testProjectName = "new/Project";
+  @Inject private ProjectOperations projectOperations;
+
 
   @Test
   public void shouldReturnUnauthorizedForUserWithoutPermissions() throws Exception {
@@ -64,6 +72,41 @@ public class ProjectInitializationActionIT extends ActionITBase {
         .create(source)
         .execute(
             getNewProjectRequest, assertHttpResponseCode(HttpServletResponse.SC_OK), getContext());
+  }
+
+  @Test
+  public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilities() throws Exception {
+    httpClientFactory
+            .create(source)
+            .execute(
+                    createPutRequestWithHeaders(),
+                    assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
+                    getUserContext());
+
+    projectOperations
+            .project(allProjects)
+            .forUpdate()
+            .add(
+                    allowCapability(GlobalCapability.CREATE_PROJECT)
+                            .group(SystemGroupBackend.REGISTERED_USERS))
+            .update();
+
+    httpClientFactory
+            .create(source)
+            .execute(
+                    createPutRequestWithHeaders(),
+                    assertHttpResponseCode(HttpServletResponse.SC_OK),
+                    getUserContext());
+  }
+
+  @Test
+  public void shouldReturnForbiddenIfUserNotAuthorized() throws Exception {
+    httpClientFactory
+            .create(source)
+            .execute(
+                    createPutRequestWithHeaders(),
+                    assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
+                    getUserContext());
   }
 
   @Test
