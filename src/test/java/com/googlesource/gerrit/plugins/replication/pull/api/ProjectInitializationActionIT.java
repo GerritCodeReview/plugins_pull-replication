@@ -14,11 +14,16 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 
 import com.google.common.net.MediaType;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
@@ -27,6 +32,7 @@ import org.junit.Test;
 
 public class ProjectInitializationActionIT extends ActionITBase {
   public static final String INVALID_TEST_PROJECT_NAME = "\0";
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void shouldReturnUnauthorizedForUserWithoutPermissions() throws Exception {
@@ -61,10 +67,48 @@ public class ProjectInitializationActionIT extends ActionITBase {
 
     HttpGet getNewProjectRequest =
         new HttpGet(userRestSession.url() + "/a/projects/" + Url.encode(newProjectName));
+
     httpClientFactory
         .create(source)
         .execute(
             getNewProjectRequest, assertHttpResponseCode(HttpServletResponse.SC_OK), getContext());
+  }
+
+  @Test
+  public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilities() throws Exception {
+    String newProjectName = "new/newProjectForUserWithCapabilities";
+    url = getURL(newProjectName);
+    httpClientFactory
+        .create(source)
+        .execute(
+            createPutRequestWithHeaders(),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
+            getUserContext());
+
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(
+            allowCapability(GlobalCapability.CREATE_PROJECT)
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            createPutRequestWithHeaders(),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
+            getUserContext());
+  }
+
+  @Test
+  public void shouldReturnForbiddenIfUserNotAuthorized() throws Exception {
+    httpClientFactory
+        .create(source)
+        .execute(
+            createPutRequestWithHeaders(),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
+            getUserContext());
   }
 
   @Test
@@ -78,6 +122,46 @@ public class ProjectInitializationActionIT extends ActionITBase {
             createPutRequestWithHeaders(),
             assertHttpResponseCode(HttpServletResponse.SC_CREATED),
             getContext());
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldReturnForbiddenIfUserNotAuthorizedAndNodeIsAReplica() throws Exception {
+    httpClientFactory
+        .create(source)
+        .execute(
+            createPutRequestWithHeaders(),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
+            getUserContext());
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilitiesAndNodeIsAReplica()
+      throws Exception {
+    String newProjectName = "new/newProjectForUserWithCapabilitiesReplica";
+    url = getURL(newProjectName);
+    httpClientFactory
+        .create(source)
+        .execute(
+            createPutRequestWithHeaders(),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
+            getUserContext());
+
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(
+            allowCapability(GlobalCapability.CREATE_PROJECT)
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            createPutRequestWithHeaders(),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
+            getUserContext());
   }
 
   @Test
