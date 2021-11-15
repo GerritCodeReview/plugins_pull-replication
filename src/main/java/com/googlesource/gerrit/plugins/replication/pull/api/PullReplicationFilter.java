@@ -27,6 +27,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -51,6 +52,7 @@ import com.google.gson.stream.MalformedJsonException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
+import com.googlesource.gerrit.plugins.replication.pull.UpdateHeadAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.InitProjectException;
@@ -74,6 +76,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private FetchAction fetchAction;
   private ApplyObjectAction applyObjectAction;
   private ProjectInitializationAction projectInitializationAction;
+  private UpdateHeadAction updateHEADAction;
   private ProjectsCollection projectsCollection;
   private Gson gson;
   private Provider<CurrentUser> userProvider;
@@ -83,11 +86,13 @@ public class PullReplicationFilter extends AllRequestFilter {
       FetchAction fetchAction,
       ApplyObjectAction applyObjectAction,
       ProjectInitializationAction projectInitializationAction,
+      UpdateHeadAction updateHEADAction,
       ProjectsCollection projectsCollection,
       Provider<CurrentUser> userProvider) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.projectInitializationAction = projectInitializationAction;
+    this.updateHEADAction = updateHEADAction;
     this.projectsCollection = projectsCollection;
     this.userProvider = userProvider;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
@@ -122,6 +127,12 @@ public class PullReplicationFilter extends AllRequestFilter {
             return;
           }
           doInitProject(httpRequest, httpResponse);
+        } else {
+          httpResponse.sendError(SC_UNAUTHORIZED);
+        }
+      } else if (isUpdateHEADAction(httpRequest)) {
+        if (userProvider.get().isIdentifiedUser()) {
+          writeResponse(httpResponse, doUpdateHEAD(httpRequest));
         } else {
           httpResponse.sendError(SC_UNAUTHORIZED);
         }
@@ -176,6 +187,15 @@ public class PullReplicationFilter extends AllRequestFilter {
   }
 
   @SuppressWarnings("unchecked")
+  private Response<String> doUpdateHEAD(HttpServletRequest httpRequest) throws Exception {
+    HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class));
+    ProjectResource projectResource =
+        projectsCollection.parse(TopLevelResource.INSTANCE, getProjectName(httpRequest));
+
+    return (Response<String>) updateHEADAction.apply(projectResource, input);
+  }
+
+  @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doFetch(HttpServletRequest httpRequest)
       throws IOException, RestApiException, PermissionBackendException {
     Input input = readJson(httpRequest, TypeLiteral.get(Input.class));
@@ -185,8 +205,8 @@ public class PullReplicationFilter extends AllRequestFilter {
     return (Response<Map<String, Object>>) fetchAction.apply(projectResource, input);
   }
 
-  private void writeResponse(
-      HttpServletResponse httpResponse, Response<Map<String, Object>> response) throws IOException {
+  private <T> void writeResponse(HttpServletResponse httpResponse, Response<T> response)
+      throws IOException {
     String responseJson = gson.toJson(response);
     if (response.statusCode() == SC_OK || response.statusCode() == SC_CREATED) {
 
@@ -259,5 +279,10 @@ public class PullReplicationFilter extends AllRequestFilter {
 
   private boolean isInitProjectAction(HttpServletRequest httpRequest) {
     return httpRequest.getRequestURI().contains("pull-replication/init-project/");
+  }
+
+  private boolean isUpdateHEADAction(HttpServletRequest httpRequest) {
+    return httpRequest.getRequestURI().matches("(/a)?/projects/[^/]+/HEAD")
+        && "PUT".equals(httpRequest.getMethod());
   }
 }
