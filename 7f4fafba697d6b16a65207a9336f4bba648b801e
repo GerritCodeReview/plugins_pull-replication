@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c5ebda6_f6d1aee4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T10:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f780c5a_71cc8bdc",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fef398a5_e715992c",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04844f8e_6c3916c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T10:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fef398a5_e715992c",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b4ce49c_0bc9204a",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-11-16T09:10:35Z",
       "side": 1,
       "message": "and also on primaries right?",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d858585c_6fc94243",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T10:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b4ce49c_0bc9204a",
       "range": {
         "startLine": 10,
         "startChar": 8,
@@ -95,6 +167,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af5eb3d2_9eb64f93",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T10:37:36Z",
+      "side": 1,
+      "message": "AuthExceptions are RestApiExceptions which are NOT handled by the doPut which only handles ServletException and IOException.\n\nThe init project is the only different case from the other since we had to implement an ad hoc endpoint.",
+      "parentUuid": "6b55621a_fe2e2089",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f5e46df_c323cb9a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T10:37:36Z",
+      "side": 1,
+      "message": "AuthExceptions are RestApiExceptions which are NOT handled by the doPut which only handles ServletException and IOException.\n\nThe init project is the only different case from the other since we had to implement an ad hoc endpoint.",
+      "parentUuid": "6b55621a_fe2e2089",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9acc5d1_9eff78f1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 4
@@ -106,6 +226,30 @@
       "writtenOn": "2021-11-16T09:10:35Z",
       "side": 1,
       "message": "I wonder wether we should check for ADMINISTRATE_SERVER too?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 86
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "311a1830_318e3475",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T10:37:36Z",
+      "side": 1,
+      "message": "ADMINISTRATE_SERVER has already CREATE_PROJECT permissions",
+      "parentUuid": "e9acc5d1_9eff78f1",
       "range": {
         "startLine": 108,
         "startChar": 0,
