@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2c6cefd_fbbdf714",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T10:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33d40943_92a8efed",
+      "range": {
+        "startLine": 182,
+        "startChar": 43,
+        "endLine": 182,
+        "endChar": 56
+      },
+      "revId": "88fe0804727b00d78bc4f5ef0b5ec4b9a7dfaa42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77b063ad_882cacf7",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-16T08:55:20Z",
       "side": 1,
       "message": "This should not use project, but projectName",
+      "range": {
+        "startLine": 82,
+        "startChar": 43,
+        "endLine": 82,
+        "endChar": 56
+      },
+      "revId": "88fe0804727b00d78bc4f5ef0b5ec4b9a7dfaa42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ff870e5_38e4c695",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchActionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T10:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77b063ad_882cacf7",
       "range": {
         "startLine": 82,
         "startChar": 43,
