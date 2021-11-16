@@ -16,6 +16,24 @@
       "message": "This should go under the API namespace along with the other *Actions",
       "revId": "2161914b5f17fda7cb115ba7ab28a5e2080fdf9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df348475_e3e756fe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/UpdateHeadAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-16T09:00:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5188459_9d9838b6",
+      "revId": "2161914b5f17fda7cb115ba7ab28a5e2080fdf9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
