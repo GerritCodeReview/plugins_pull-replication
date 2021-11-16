@@ -76,6 +76,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private ApplyObjectAction applyObjectAction;
   private ProjectInitializationAction projectInitializationAction;
   private UpdateHeadAction updateHEADAction;
+  private ProjectDeletionAction projectDeletionAction;
   private ProjectsCollection projectsCollection;
   private Gson gson;
   private Provider<CurrentUser> userProvider;
@@ -86,12 +87,14 @@ public class PullReplicationFilter extends AllRequestFilter {
       ApplyObjectAction applyObjectAction,
       ProjectInitializationAction projectInitializationAction,
       UpdateHeadAction updateHEADAction,
+      ProjectDeletionAction projectDeletionAction,
       ProjectsCollection projectsCollection,
       Provider<CurrentUser> userProvider) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.projectInitializationAction = projectInitializationAction;
     this.updateHEADAction = updateHEADAction;
+    this.projectDeletionAction = projectDeletionAction;
     this.projectsCollection = projectsCollection;
     this.userProvider = userProvider;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
@@ -132,6 +135,12 @@ public class PullReplicationFilter extends AllRequestFilter {
       } else if (isUpdateHEADAction(httpRequest)) {
         if (userProvider.get().isIdentifiedUser()) {
           writeResponse(httpResponse, doUpdateHEAD(httpRequest));
+        } else {
+          httpResponse.sendError(SC_UNAUTHORIZED);
+        }
+      } else if (isDeleteProjectAction(httpRequest)) {
+        if (userProvider.get().isIdentifiedUser()) {
+          writeResponse(httpResponse, doDeleteProject(httpRequest));
         } else {
           httpResponse.sendError(SC_UNAUTHORIZED);
         }
@@ -192,6 +201,14 @@ public class PullReplicationFilter extends AllRequestFilter {
         projectsCollection.parse(TopLevelResource.INSTANCE, getProjectName(httpRequest));
 
     return (Response<String>) updateHEADAction.apply(projectResource, input);
+  }
+
+  @SuppressWarnings("unchecked")
+  private Response<String> doDeleteProject(HttpServletRequest httpRequest) throws Exception {
+    ProjectResource projectResource =
+        projectsCollection.parse(TopLevelResource.INSTANCE, getProjectName(httpRequest));
+    return (Response<String>)
+        projectDeletionAction.apply(projectResource, new ProjectDeletionAction.DeleteInput());
   }
 
   @SuppressWarnings("unchecked")
@@ -283,5 +300,10 @@ public class PullReplicationFilter extends AllRequestFilter {
   private boolean isUpdateHEADAction(HttpServletRequest httpRequest) {
     return httpRequest.getRequestURI().matches("(/a)?/projects/[^/]+/HEAD")
         && "PUT".equals(httpRequest.getMethod());
+  }
+
+  private boolean isDeleteProjectAction(HttpServletRequest httpRequest) {
+    return httpRequest.getRequestURI().matches("(/a)?/projects/[^/]+$")
+        && "DELETE".equals(httpRequest.getMethod());
   }
 }
