@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f780c5a_71cc8bdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-16T09:10:35Z",
+      "side": 1,
+      "message": "only when",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fef398a5_e715992c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-16T09:10:35Z",
+      "side": 1,
+      "message": "checked",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b4ce49c_0bc9204a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-16T09:10:35Z",
+      "side": 1,
+      "message": "and also on primaries right?",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 21
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b55621a_fe2e2089",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-16T09:10:35Z",
+      "side": 1,
+      "message": "Does this need to be caught explicitly?\nAny AuthException would result in a 403 Forbidden out of the box.\n\nThis is handled by gerrit for primaries and by PullReplicationFilter[2] for replicas.\n\nIs that not the case?\n\n[1]https://gerrit.googlesource.com/plugins/pull-replication/+/7f4fafba697d6b16a65207a9336f4bba648b801e/src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java#144",
+      "range": {
+        "startLine": 92,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9acc5d1_9eff78f1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-16T09:10:35Z",
+      "side": 1,
+      "message": "I wonder wether we should check for ADMINISTRATE_SERVER too?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 86
+      },
+      "revId": "7f4fafba697d6b16a65207a9336f4bba648b801e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
