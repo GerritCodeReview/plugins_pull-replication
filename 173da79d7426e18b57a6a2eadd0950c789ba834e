@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8e54e8f_7bced3dd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-16T11:18:42Z",
+      "side": 1,
+      "message": "Would this match a project like \"new/project\"?\n\n[1] https://regex101.com/r/ScGaz7/2",
+      "range": {
+        "startLine": 284,
+        "startChar": 48,
+        "endLine": 284,
+        "endChar": 73
+      },
+      "revId": "173da79d7426e18b57a6a2eadd0950c789ba834e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
