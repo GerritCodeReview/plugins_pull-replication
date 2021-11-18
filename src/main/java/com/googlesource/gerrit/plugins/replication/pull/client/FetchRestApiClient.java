@@ -94,46 +94,46 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
         Strings.emptyToNull(instanceLabel), "replication.instanceLabel cannot be null or empty");
   }
 
-  public HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+  public HttpResult callFetch(Project.NameKey project, String remoteProjectName, String refName, URIish targetUri)
       throws ClientProtocolException, IOException {
     String url =
         String.format(
             "%s/a/projects/%s/pull-replication~fetch",
-            targetUri.toString(), Url.encode(project.get()));
+            targetUri.toString(), Url.encode(remoteProjectName));
     Boolean callAsync = !syncRefsFilter.match(refName);
     HttpPost post = new HttpPost(url);
     post.setEntity(
         new StringEntity(
             String.format(
-                "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
-                instanceLabel, refName, callAsync),
+                "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s, \"originalProject\": \"%s\"}",
+                instanceLabel, refName, callAsync, project.get()),
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
   }
 
-  public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
+  public HttpResult initProject(String project, URIish uri) throws IOException {
     String url =
         String.format(
-            "%s/%s", uri.toString(), getProjectInitializationUrl(pluginName, project.get()));
+            "%s/%s", uri.toString(), getProjectInitializationUrl(pluginName, project));
     HttpPut put = new HttpPut(url);
     put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
     put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
     return httpClientFactory.create(source).execute(put, this, getContext(uri));
   }
 
-  public HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
+  public HttpResult deleteProject(String project, URIish apiUri) throws IOException {
     String url =
-        String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
+        String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project));
     HttpDelete delete = new HttpDelete(url);
     return httpClientFactory.create(source).execute(delete, this, getContext(apiUri));
   }
 
-  public HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri)
+  public HttpResult updateHead(String project, String newHead, URIish apiUri)
       throws IOException {
-    logger.atFine().log("Updating head of %s on %s", project.get(), newHead);
+    logger.atFine().log("Updating head of %s on %s", project, newHead);
     String url =
-        String.format("%s/%s", apiUri.toASCIIString(), getProjectUpdateHeadUrl(project.get()));
+        String.format("%s/%s", apiUri.toASCIIString(), getProjectUpdateHeadUrl(project));
     HttpPut req = new HttpPut(url);
     req.setEntity(
         new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), StandardCharsets.UTF_8));
@@ -142,7 +142,7 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   }
 
   public HttpResult callSendObject(
-      Project.NameKey project, String refName, RevisionData revisionData, URIish targetUri)
+      String project, String refName, RevisionData revisionData, URIish targetUri)
       throws ClientProtocolException, IOException {
 
     RevisionInput input = new RevisionInput(instanceLabel, refName, revisionData);
@@ -150,7 +150,7 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     String url =
         String.format(
             "%s/a/projects/%s/%s~apply-object",
-            targetUri.toString(), Url.encode(project.get()), pluginName);
+            targetUri.toString(), Url.encode(project), pluginName);
 
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));

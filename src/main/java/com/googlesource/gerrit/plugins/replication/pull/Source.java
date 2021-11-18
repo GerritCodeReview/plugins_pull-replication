@@ -14,10 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
-import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
-import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
-
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -68,6 +64,16 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.JGitFetch;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.URIish;
+import org.slf4j.Logger;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -84,15 +90,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.URIish;
-import org.slf4j.Logger;
+
+import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
 
 public class Source {
   private static final Logger repLog = PullReplicationLogger.repLog;
@@ -650,11 +651,7 @@ public class Source {
   }
 
   public URIish getURI(Project.NameKey project) {
-    if (config.getRemoteConfig().getURIs().size() != 1) {
-      throw new IllegalStateException(
-          String.format(
-              "Pull replication source %s must have only one url property.", project.get()));
-    }
+    assertOnlyOneUrl(project);
 
     URIish uri = config.getRemoteConfig().getURIs().get(0);
     Optional<String> replacedPathOpt = convertToPath(project, uri);
@@ -669,22 +666,42 @@ public class Source {
     return uri.setPath(replacedPath);
   }
 
+  public String remoteProjectName(Project.NameKey project) {
+    assertOnlyOneUrl(project);
+    String path = config.getRemoteConfig().getURIs().get(0).getPath();
+    String template = path.substring(path.lastIndexOf("/") + 1);
+    return replaceName(template, expandProjectNameTemplate(project.get()), isSingleProjectMatch());
+  }
+
+  private void assertOnlyOneUrl(Project.NameKey project) {
+    if (config.getRemoteConfig().getURIs().size() != 1) {
+      throw new IllegalStateException(
+          String.format(
+              "Pull replication source %s must have only one url property.", project.get()));
+    }
+  }
+
+  private String expandProjectNameTemplate(String projectName) {
+    String remoteNameStyle = config.getRemoteNameStyle();
+    if (remoteNameStyle.equals("dash")) {
+      return projectName.replace("/", "-");
+    } else if (remoteNameStyle.equals("underscore")) {
+      return projectName.replace("/", "_");
+    } else if (remoteNameStyle.equals("basenameOnly")) {
+      return FilenameUtils.getBaseName(projectName);
+    } else if (!remoteNameStyle.equals("slash")) {
+      repLog.debug("Unknown remoteNameStyle: {}, falling back to slash", remoteNameStyle);
+    }
+    return projectName;
+  }
+
   private Optional<String> convertToPath(Project.NameKey project, URIish uri) {
     String name = project.get();
     if (needsUrlEncoding(uri)) {
       name = encode(name);
     }
-    String remoteNameStyle = config.getRemoteNameStyle();
-    if (remoteNameStyle.equals("dash")) {
-      name = name.replace("/", "-");
-    } else if (remoteNameStyle.equals("underscore")) {
-      name = name.replace("/", "_");
-    } else if (remoteNameStyle.equals("basenameOnly")) {
-      name = FilenameUtils.getBaseName(name);
-    } else if (!remoteNameStyle.equals("slash")) {
-      repLog.debug("Unknown remoteNameStyle: {}, falling back to slash", remoteNameStyle);
-    }
-    return Optional.ofNullable(replaceName(uri.getPath(), name, isSingleProjectMatch()));
+    return Optional.ofNullable(
+        replaceName(uri.getPath(), expandProjectNameTemplate(name), isSingleProjectMatch()));
   }
 
   static boolean needsUrlEncoding(URIish uri) {

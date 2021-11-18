@@ -59,7 +59,7 @@ public class DeleteProjectTask implements Runnable {
   public void run() {
     try {
       URIish urIish = new URIish(uri);
-      HttpResult httpResult = fetchClientFactory.create(source).deleteProject(project, urIish);
+      HttpResult httpResult = fetchClientFactory.create(source).deleteProject(source.remoteProjectName(project), urIish);
       if (!httpResult.isSuccessful()) {
         throw new IOException(httpResult.getMessage().orElse("Unknown"));
       }

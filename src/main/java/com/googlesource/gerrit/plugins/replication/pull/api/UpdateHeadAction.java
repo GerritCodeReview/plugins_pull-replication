@@ -30,8 +30,9 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.LocalFS;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
-import java.util.Optional;
 import org.eclipse.jgit.transport.URIish;
+
+import java.util.Optional;
 
 public class UpdateHeadAction implements RestModifyView<ProjectResource, HeadInput> {
   private final GerritConfigOps gerritConfigOps;
@@ -57,11 +58,13 @@ public class UpdateHeadAction implements RestModifyView<ProjectResource, HeadInp
         .ref(ref)
         .check(RefPermission.SET_HEAD);
 
-    // TODO: the .git suffix should not be added here, but rather it should be
-    //  dealt with by the caller, honouring the naming style from the
-    //  replication.config (Issue 15221)
     Optional<URIish> maybeRepo =
-        gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectResource.getName()));
+        gerritConfigOps.getGitRepositoryURIIfExists(projectResource.getName());
+
+    if (!maybeRepo.isPresent()) {
+      maybeRepo =
+          gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectResource.getName()));
+    }
 
     if (maybeRepo.isPresent()) {
       if (new LocalFS(maybeRepo.get()).updateHead(projectResource.getNameKey(), ref)) {

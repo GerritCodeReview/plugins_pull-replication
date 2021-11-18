@@ -231,13 +231,13 @@ public class ReplicationQueue
           URIish uri = new URIish(apiUrl);
           FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
-          HttpResult result = fetchClient.callSendObject(project, refName, revision, uri);
+          HttpResult result = fetchClient.callSendObject(source.remoteProjectName(project), refName, revision, uri);
           if (!result.isSuccessful()
               && source.isCreateMissingRepositories()
               && result.isProjectMissing(project)) {
-            HttpResult initProjectResult = fetchClient.initProject(project, uri);
+            HttpResult initProjectResult = fetchClient.initProject(source.remoteProjectName(project), uri);
             if (initProjectResult.isSuccessful()) {
-              result = fetchClient.callFetch(project, "refs/*", uri);
+              result = fetchClient.callFetch(project, source.remoteProjectName(project), "refs/*", uri);
             } else {
               String errorMessage =
                   initProjectResult.getMessage().map(e -> " - Error: " + e).orElse("");
@@ -276,7 +276,7 @@ public class ReplicationQueue
           URIish uri = new URIish(apiUrl);
           FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
-          HttpResult result = fetchClient.callFetch(project, refName, uri);
+          HttpResult result = fetchClient.callFetch(project, source.remoteProjectName(project), refName, uri);
           if (!result.isSuccessful()) {
             stateLog.warn(
                 String.format(

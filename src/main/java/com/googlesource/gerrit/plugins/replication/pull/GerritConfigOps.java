@@ -19,27 +19,26 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.URIish;
+
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Optional;
 
 @Singleton
 public class GerritConfigOps {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final SitePaths sitePath;
-  private final Config gerritConfig;
+  private final Path basePath;
 
   @Inject
   public GerritConfigOps(@GerritServerConfig Config cfg, SitePaths sitePath) {
-    this.sitePath = sitePath;
-    this.gerritConfig = cfg;
+    this.basePath = sitePath.resolve(cfg.getString("gerrit", null, "basePath"));
   }
 
   public Optional<URIish> getGitRepositoryURI(String projectName) {
-    Path basePath = sitePath.resolve(gerritConfig.getString("gerrit", null, "basePath"));
     URIish uri;
 
     try {
@@ -49,6 +48,13 @@ public class GerritConfigOps {
       logger.atSevere().withCause(e).log("Unsupported URI for project " + projectName);
     }
 
+    return Optional.empty();
+  }
+
+  public Optional<URIish> getGitRepositoryURIIfExists(String projectName) {
+    if (Files.exists(basePath.resolve(projectName))) {
+      return getGitRepositoryURI(projectName);
+    }
     return Optional.empty();
   }
 }

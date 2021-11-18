@@ -172,7 +172,7 @@ public class FetchRestApiClientTest {
   public void shouldCallFetchEndpoint()
       throws ClientProtocolException, IOException, URISyntaxException {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), "test_repo", refName, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -191,7 +191,7 @@ public class FetchRestApiClientTest {
         new FetchRestApiClient(
             credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), "test_repo", refName, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -210,7 +210,7 @@ public class FetchRestApiClientTest {
         new FetchRestApiClient(
             credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), "test_repo", refName, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -232,12 +232,12 @@ public class FetchRestApiClientTest {
         new FetchRestApiClient(
             credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), "test_repo", refName, new URIish(api));
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), metaRefName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), "test_repo", metaRefName, new URIish(api));
     verify(httpClient, times(2)).execute(httpPostCaptor.capture(), any(), any());
     httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedMetaRefPayload);
@@ -247,7 +247,7 @@ public class FetchRestApiClientTest {
   public void shouldCallFetchEndpointWithPayload()
       throws ClientProtocolException, IOException, URISyntaxException {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), "test_repo", refName, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -259,7 +259,7 @@ public class FetchRestApiClientTest {
   public void shouldSetContentTypeHeader()
       throws ClientProtocolException, IOException, URISyntaxException {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), "test_repo", refName, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -273,7 +273,7 @@ public class FetchRestApiClientTest {
       throws ClientProtocolException, IOException, URISyntaxException {
 
     objectUnderTest.callSendObject(
-        Project.nameKey("test_repo"), refName, createSampleRevisionData(), new URIish(api));
+        "test_repo", refName, createSampleRevisionData(), new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -288,7 +288,7 @@ public class FetchRestApiClientTest {
       throws ClientProtocolException, IOException, URISyntaxException {
 
     objectUnderTest.callSendObject(
-        Project.nameKey("test_repo"), refName, createSampleRevisionData(), new URIish(api));
+        "test_repo", refName, createSampleRevisionData(), new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -300,7 +300,7 @@ public class FetchRestApiClientTest {
   public void shouldSetContentTypeHeaderForSendObjectCall()
       throws ClientProtocolException, IOException, URISyntaxException {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), "test_repo", refName, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -357,20 +357,20 @@ public class FetchRestApiClientTest {
   @Test
   public void shouldCallInitProjectEndpoint() throws IOException, URISyntaxException {
 
-    objectUnderTest.initProject(Project.nameKey("test_repo"), new URIish(api));
+    objectUnderTest.initProject("test_repo", new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any(), any());
 
     HttpPut httpPut = httpPutCaptor.getValue();
     assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpPut.getURI().getPath())
-        .isEqualTo("/a/plugins/pull-replication/init-project/test_repo.git");
+        .isEqualTo("/a/plugins/pull-replication/init-project/test_repo");
   }
 
   @Test
   public void shouldCallDeleteProjectEndpoint() throws IOException, URISyntaxException {
 
-    objectUnderTest.deleteProject(Project.nameKey("test_repo"), new URIish(api));
+    objectUnderTest.deleteProject("test_repo", new URIish(api));
 
     verify(httpClient, times(1)).execute(httpDeleteCaptor.capture(), any(), any());
 
@@ -383,7 +383,7 @@ public class FetchRestApiClientTest {
   public void shouldCallUpdateHEADEndpoint() throws IOException, URISyntaxException {
     String newHead = "newHead";
     String projectName = "aProject";
-    objectUnderTest.updateHead(Project.nameKey(projectName), newHead, new URIish(api));
+    objectUnderTest.updateHead(projectName, newHead, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any(), any());
 

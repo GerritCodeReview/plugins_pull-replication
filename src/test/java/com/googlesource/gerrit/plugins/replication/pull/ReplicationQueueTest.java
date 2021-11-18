@@ -103,7 +103,7 @@ public class ReplicationQueueTest {
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
     when(fetchRestApiClient.callSendObject(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
-    when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(httpResult);
+    when(fetchRestApiClient.callFetch(any(), anyString(), anyString(), any())).thenReturn(httpResult);
     when(httpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
 
@@ -165,7 +165,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), anyString(), any());
   }
 
   @Test
@@ -178,7 +178,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), anyString(), any());
   }
 
   @Test
@@ -194,7 +194,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), anyString(), any());
   }
 
   @Test

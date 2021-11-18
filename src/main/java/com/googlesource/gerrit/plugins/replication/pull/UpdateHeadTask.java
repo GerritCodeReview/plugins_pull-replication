@@ -60,7 +60,7 @@ public class UpdateHeadTask implements Runnable {
   public void run() {
     try {
       HttpResult httpResult =
-          fetchClientFactory.create(source).updateHead(project, newHead, apiURI);
+          fetchClientFactory.create(source).updateHead(source.remoteProjectName(project), newHead, apiURI);
       if (!httpResult.isSuccessful()) {
         throw new IOException(httpResult.getMessage().orElse("Unknown"));
       }
