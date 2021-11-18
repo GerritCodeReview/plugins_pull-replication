@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "532fe962_a500611e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-18T15:08:27Z",
+      "side": 1,
+      "message": "yes,\nprojects are URL encoded before being used as url segments.\nSee here [1]\n\n\n[1]https://gerrit.googlesource.com/plugins/pull-replication/+/0db0182620910e950d40196e25fc73813b6ac507/src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java#197",
+      "parentUuid": "6b1e5a7b_bd664eed",
+      "range": {
+        "startLine": 284,
+        "startChar": 48,
+        "endLine": 284,
+        "endChar": 73
+      },
+      "revId": "173da79d7426e18b57a6a2eadd0950c789ba834e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "874c004d_55484635",
@@ -78,6 +102,30 @@
       "writtenOn": "2021-11-17T21:32:18Z",
       "side": 1,
       "message": "Should this be a singleton?",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 29
+      },
+      "revId": "173da79d7426e18b57a6a2eadd0950c789ba834e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8becc153_e2e38163",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-18T15:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "874c004d_55484635",
       "range": {
         "startLine": 36,
         "startChar": 13,
