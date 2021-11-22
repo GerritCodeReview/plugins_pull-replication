@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32fcaa2d_895f3883",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-11-22T21:11:49Z",
+      "side": 1,
+      "message": "LGTM but I will the others to weigh in ;)",
+      "revId": "a34d06f877e51dbe6267051758b34e9817c09cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
