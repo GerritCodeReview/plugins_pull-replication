@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00992d47_423a1fb9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-22T21:08:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91a079c2_ade43bc5",
+      "revId": "f26dab5912916a87e839050ae678395a6073b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b684761_157687f3",
@@ -31,6 +49,30 @@
       "writtenOn": "2021-11-20T07:25:04Z",
       "side": 1,
       "message": "nit: can be package protected",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 7
+      },
+      "revId": "f26dab5912916a87e839050ae678395a6073b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfe5376c_cc68aacb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-22T21:08:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b684761_157687f3",
       "range": {
         "startLine": 19,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92927d03_b5130955",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-22T21:08:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6245f520_94a7b3d3",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "f26dab5912916a87e839050ae678395a6073b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "200c1417_89b13a5c",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a730809_159f9f6c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-22T21:08:43Z",
+      "side": 1,
+      "message": "I can do it in a follow-up change since the Head update handler might be impacted as well because it is using the same logic.",
+      "parentUuid": "200c1417_89b13a5c",
+      "range": {
+        "startLine": 42,
+        "startChar": 44,
+        "endLine": 42,
+        "endChar": 94
+      },
+      "revId": "f26dab5912916a87e839050ae678395a6073b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaa60544_410ade35",
@@ -100,6 +190,30 @@
       "writtenOn": "2021-11-20T07:25:04Z",
       "side": 1,
       "message": "nit: s/Created/Deleted/?",
+      "range": {
+        "startLine": 85,
+        "startChar": 62,
+        "endLine": 85,
+        "endChar": 69
+      },
+      "revId": "f26dab5912916a87e839050ae678395a6073b547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c98a865_65c6e8c4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-22T21:08:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aaa60544_410ade35",
       "range": {
         "startLine": 85,
         "startChar": 62,
