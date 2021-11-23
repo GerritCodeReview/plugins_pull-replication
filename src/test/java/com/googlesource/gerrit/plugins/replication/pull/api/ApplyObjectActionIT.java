@@ -176,9 +176,9 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Override
-  protected String getURL() {
+  protected String getURL(String projectName) {
     return String.format(
         "%s/a/projects/%s/pull-replication~apply-object",
-        adminRestSession.url(), Url.encode(project.get()));
+        adminRestSession.url(), Url.encode(projectName));
   }
 }

@@ -21,23 +21,23 @@ import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOp
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.LocalFS;
+import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.URIish;
 
 @Singleton
@@ -47,16 +47,18 @@ public class ProjectInitializationAction extends HttpServlet {
 
   public static final String PROJECT_NAME = "project-name";
 
-  private final SitePaths sitePath;
-  private final Config gerritConfig;
+  private final GerritConfigOps gerritConfigOps;
   private final Provider<CurrentUser> userProvider;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   ProjectInitializationAction(
-      @GerritServerConfig Config cfg, SitePaths sitePath, Provider<CurrentUser> userProvider) {
-    this.sitePath = sitePath;
-    this.gerritConfig = cfg;
+      GerritConfigOps gerritConfigOps,
+      Provider<CurrentUser> userProvider,
+      PermissionBackend permissionBackend) {
+    this.gerritConfigOps = gerritConfigOps;
     this.userProvider = userProvider;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -79,11 +81,19 @@ public class ProjectInitializationAction extends HttpServlet {
     String path = httpServletRequest.getRequestURI();
     String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
 
-    if (initProject(projectName)) {
+    try {
+      if (initProject(projectName)) {
+        setResponse(
+            httpServletResponse,
+            HttpServletResponse.SC_CREATED,
+            "Project " + projectName + " initialized");
+        return;
+      }
+    } catch (AuthException | PermissionBackendException e) {
       setResponse(
           httpServletResponse,
-          HttpServletResponse.SC_CREATED,
-          "Project " + projectName + " initialized");
+          HttpServletResponse.SC_FORBIDDEN,
+          "User not authorized to create project " + projectName);
       return;
     }
 
@@ -93,8 +103,11 @@ public class ProjectInitializationAction extends HttpServlet {
         "Cannot initialize project " + projectName);
   }
 
-  protected boolean initProject(String projectName) {
-    Optional<URIish> maybeUri = getGitRepositoryURI(projectName);
+  protected boolean initProject(String projectName)
+      throws AuthException, PermissionBackendException {
+    permissionBackend.user(userProvider.get()).check(GlobalPermission.CREATE_PROJECT);
+
+    Optional<URIish> maybeUri = gerritConfigOps.getGitRepositoryURI(projectName);
     if (!maybeUri.isPresent()) {
       logger.atSevere().log("Cannot initialize project '{}'", projectName);
       return false;
@@ -102,20 +115,6 @@ public class ProjectInitializationAction extends HttpServlet {
     LocalFS localFS = new LocalFS(maybeUri.get());
     Project.NameKey projectNameKey = Project.NameKey.parse(projectName);
     return localFS.createProject(projectNameKey, RefNames.HEAD);
-  }
-
-  private Optional<URIish> getGitRepositoryURI(String projectName) {
-    Path basePath = sitePath.resolve(gerritConfig.getString("gerrit", null, "basePath"));
-    URIish uri;
-
-    try {
-      uri = new URIish("file://" + basePath + "/" + projectName);
-      return Optional.of(uri);
-    } catch (URISyntaxException e) {
-      logger.atSevere().withCause(e).log("Unsupported URI for project " + projectName);
-    }
-
-    return Optional.empty();
   }
 
   public static String getProjectInitializationUrl(String pluginName, String projectName) {

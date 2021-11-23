@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.flogger.FluentLogger;
@@ -25,10 +26,25 @@ import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.HeadUpdatedListener;
+import com.google.gerrit.extensions.events.ProjectDeletedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.project.ProjectResource;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -62,14 +78,33 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
 
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
+  @Inject private DynamicSet<ProjectDeletedListener> deletedListeners;
   private Path gitPath;
   private FileBasedConfig config;
   private FileBasedConfig secureConfig;
+
+  static FakeDeleteProjectPlugin fakeDeleteProjectPlugin;
+
+  static class FakeDeleteModule extends AbstractModule {
+
+    @Override
+    public void configure() {
+      install(
+          new RestApiModule() {
+            @Override
+            public void configure() {
+              fakeDeleteProjectPlugin = new FakeDeleteProjectPlugin();
+              delete(PROJECT_KIND).toInstance(fakeDeleteProjectPlugin);
+            }
+          });
+    }
+  }
 
   @Override
   public void setUpTestPlugin() throws Exception {
     gitPath = sitePaths.site_path.resolve("git");
 
+    installPlugin("fakeDeleteProjectPlugin", FakeDeleteModule.class, null, null);
     config =
         new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
     setReplicationSource(
@@ -222,6 +257,67 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
     }
   }
 
+  @Test
+  public void shouldReplicateProjectDeletion() throws Exception {
+    String projectToDelete = project.get();
+    setReplicationSource(TEST_REPLICATION_REMOTE, "", Optional.of(projectToDelete));
+    config.save();
+    AutoReloadConfigDecorator autoReloadConfigDecorator =
+        getInstance(AutoReloadConfigDecorator.class);
+    autoReloadConfigDecorator.reload();
+
+    ProjectDeletedListener.Event event =
+        new ProjectDeletedListener.Event() {
+          @Override
+          public String getProjectName() {
+            return projectToDelete;
+          }
+
+          @Override
+          public NotifyHandling getNotify() {
+            return NotifyHandling.NONE;
+          }
+        };
+
+    for (ProjectDeletedListener l : deletedListeners) {
+      l.onProjectDeleted(event);
+    }
+
+    waitUntil(() -> fakeDeleteProjectPlugin.getDeleteEndpointCalls() == 1);
+  }
+
+  @Test
+  public void shouldReplicateHeadUpdate() throws Exception {
+    String testProjectName = project.get();
+    setReplicationSource(TEST_REPLICATION_REMOTE, "", Optional.of(testProjectName));
+    config.save();
+    AutoReloadConfigDecorator autoReloadConfigDecorator =
+        getInstance(AutoReloadConfigDecorator.class);
+    autoReloadConfigDecorator.reload();
+
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(testProjectName).branch(newBranch).create(input);
+    String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+
+    HeadUpdatedListener.Event event = new FakeHeadUpdateEvent(master, newBranch, testProjectName);
+    pullReplicationQueue.onHeadUpdated(event);
+
+    waitUntil(
+        () -> {
+          try {
+            return gApi.projects().name(testProjectName).head().equals(newBranch);
+          } catch (RestApiException e) {
+            return false;
+          }
+        });
+  }
+
   private Ref getRef(Repository repo, String branchName) throws IOException {
     return repo.getRefDatabase().exactRef(branchName);
   }
@@ -277,5 +373,25 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
 
   private Project.NameKey createTestProject(String name) throws Exception {
     return projectOperations.newProject().name(name).create();
+  }
+
+  @Singleton
+  public static class FakeDeleteProjectPlugin implements RestModifyView<ProjectResource, Input> {
+    private int deleteEndpointCalls;
+
+    FakeDeleteProjectPlugin() {
+      this.deleteEndpointCalls = 0;
+    }
+
+    @Override
+    public Response<?> apply(ProjectResource resource, Input input)
+        throws AuthException, BadRequestException, ResourceConflictException, Exception {
+      deleteEndpointCalls += 1;
+      return Response.ok();
+    }
+
+    int getDeleteEndpointCalls() {
+      return deleteEndpointCalls;
+    }
   }
 }
