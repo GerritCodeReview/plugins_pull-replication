@@ -205,4 +205,9 @@ public class SourceConfiguration implements RemoteConfiguration {
   public int getSlowLatencyThreshold() {
     return slowLatencyThreshold;
   }
+
+  @Override
+  public int getPushBatchSize() {
+    return 0;
+  }
 }
