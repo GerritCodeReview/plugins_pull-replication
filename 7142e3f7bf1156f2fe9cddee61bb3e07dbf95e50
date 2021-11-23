@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f7ba0eb_f275e963",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-23T08:29:57Z",
+      "side": 1,
+      "message": "It is a single permission. Here the signature of the constructor:\n\n    PluginPermission(String pluginName, String capability)",
+      "parentUuid": "78dc5727_46e8bcd9",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 62
+      },
+      "revId": "7142e3f7bf1156f2fe9cddee61bb3e07dbf95e50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "baae6423_fdd0d764",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 8
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-23T08:19:03Z",
       "side": 1,
       "message": "I think this regex might be too loose:\n\nit will match also:\n\n- /a/projects/foo/bar (we don\u0027t want this as project will be encoded foo%2Fbar)\n- a/projects (we don\u0027t want this becase there is no project)",
+      "range": {
+        "startLine": 306,
+        "startChar": 63,
+        "endLine": 306,
+        "endChar": 67
+      },
+      "revId": "7142e3f7bf1156f2fe9cddee61bb3e07dbf95e50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04207ff4_8308aa11",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2021-11-23T08:29:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baae6423_fdd0d764",
       "range": {
         "startLine": 306,
         "startChar": 63,
