@@ -225,8 +225,11 @@ remote.NAME.url
 	and it must be included in each URL so that Gerrit can figure
 	out where each project needs to be replicated. `${name}` may
 	only be omitted if the remote refers to a single repository
-	(i.e.: Exactly one [remote.NAME.projects][3] and that name's
+	(i.e.: Exactly one [remote.NAME.projects](3) and that name's
 	value is a single project match.).
+	The `${name}` can only be used for matching the full repository
+	name and not a part of it (e.g. `foo_${name}` or `${name}_bar`
+	are not supported).
 
 	See [git fetch][1] for details on Git URL syntax.
 
@@ -358,25 +361,8 @@ remote.NAME.authGroup
 	everything from all remotes.
 
 remote.NAME.remoteNameStyle
-:	Provides possibilities to influence the name of the source
-	repository, e.g. by replacing slashes in the `${name}`
-	placeholder.
-
-	Github and Gitorious do not permit slashes "/" in repository
-	names and will change them to dashes "-" at repository creation
-	time.
-
-	If this setting is set to "dash", slashes will be replaced with
-	dashes in the remote repository name. If set to "underscore",
-	slashes will be replaced with underscores in the repository name.
-
-	Option "basenameOnly" makes `${name}` to be only the basename
-	(the part after the last slash) of the repository path on the
-	Gerrit server, e.g. `${name}` of `foo/bar/my-repo.git` would
-	be `my-repo`.
-
-	By default, "slash", i.e. remote names will contain slashes as
-	they do in Gerrit.
+:	This option is unsupported on the @PLUGIN@ plugin and
+	ignored.
 
 <a name="remote.NAME.projects">remote.NAME.projects</a>
 :	Specifies which repositories should be replicated from the
