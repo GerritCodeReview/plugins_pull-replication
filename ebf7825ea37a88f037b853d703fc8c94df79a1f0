@@ -16,6 +16,24 @@
       "message": "Fails on CI with\n\n  plugins/pull-replication/src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java:25: error: SourceConfiguration is not abstract and does not override abstract method getPushBatchSize() in RemoteConfiguration\npublic class SourceConfiguration implements RemoteConfiguration",
       "revId": "ebf7825ea37a88f037b853d703fc8c94df79a1f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1015e7fa_13506d89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-11-26T18:49:28Z",
+      "side": 1,
+      "message": "This was fixed here[1]\n\n@ponch, I believe you just need to recreate the merge commit right?\n\n[1]https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/324651",
+      "parentUuid": "b92655d3_fe3de6ba",
+      "revId": "ebf7825ea37a88f037b853d703fc8c94df79a1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
