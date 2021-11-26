@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b92655d3_fe3de6ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2021-11-26T17:33:25Z",
+      "side": 1,
+      "message": "Fails on CI with\n\n  plugins/pull-replication/src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java:25: error: SourceConfiguration is not abstract and does not override abstract method getPushBatchSize() in RemoteConfiguration\npublic class SourceConfiguration implements RemoteConfiguration",
+      "revId": "ebf7825ea37a88f037b853d703fc8c94df79a1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
