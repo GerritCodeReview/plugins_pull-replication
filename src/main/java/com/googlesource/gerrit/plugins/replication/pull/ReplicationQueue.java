@@ -19,7 +19,9 @@ import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.WorkQueue;
@@ -51,7 +53,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ReplicationQueue
-    implements ObservableQueue, LifecycleListener, GitReferenceUpdatedListener {
+    implements ObservableQueue,
+        LifecycleListener,
+        GitReferenceUpdatedListener,
+        ProjectDeletedListener,
+        HeadUpdatedListener {
 
   static final String PULL_REPLICATION_LOG_NAME = "pull_replication_log";
   static final Logger repLog = LoggerFactory.getLogger(PULL_REPLICATION_LOG_NAME);
@@ -129,6 +135,16 @@ public class ReplicationQueue
     if (isRefToBeReplicated(event.getRefName())) {
       fire(event.getProjectName(), ObjectId.fromString(event.getNewObjectId()), event.getRefName());
     }
+  }
+
+  @Override
+  public void onProjectDeleted(ProjectDeletedListener.Event event) {
+    Project.NameKey project = Project.nameKey(event.getProjectName());
+    sources.get().getAll().stream()
+        .filter((Source s) -> s.wouldDeleteProject(project))
+        .forEach(
+            source ->
+                source.getApis().forEach(apiUrl -> source.scheduleDeleteProject(apiUrl, project)));
   }
 
   private Boolean isRefToBeReplicated(String refName) {
@@ -296,6 +312,17 @@ public class ReplicationQueue
         eventsReplayed.add(eventKey);
       }
     }
+  }
+
+  @Override
+  public void onHeadUpdated(HeadUpdatedListener.Event event) {
+    Project.NameKey p = Project.nameKey(event.getProjectName());
+    sources.get().getAll().stream()
+        .filter(s -> s.wouldFetchProject(p))
+        .forEach(
+            s ->
+                s.getApis()
+                    .forEach(apiUrl -> s.scheduleUpdateHead(apiUrl, p, event.getNewHeadName())));
   }
 
   @AutoValue

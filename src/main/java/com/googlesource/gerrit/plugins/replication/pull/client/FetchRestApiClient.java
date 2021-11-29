@@ -44,6 +44,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -121,6 +122,25 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     return httpClientFactory.create(source).execute(put, this, getContext(uri));
   }
 
+  public HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
+    String url =
+        String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
+    HttpDelete delete = new HttpDelete(url);
+    return httpClientFactory.create(source).execute(delete, this, getContext(apiUri));
+  }
+
+  public HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri)
+      throws IOException {
+    logger.atFine().log("Updating head of %s on %s", project.get(), newHead);
+    String url =
+        String.format("%s/%s", apiUri.toASCIIString(), getProjectUpdateHeadUrl(project.get()));
+    HttpPut req = new HttpPut(url);
+    req.setEntity(
+        new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), StandardCharsets.UTF_8));
+    req.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    return httpClientFactory.create(source).execute(req, this, getContext(apiUri));
+  }
+
   public HttpResult callSendObject(
       Project.NameKey project, String refName, RevisionData revisionData, URIish targetUri)
       throws ClientProtocolException, IOException {
@@ -167,5 +187,13 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
       return adapted;
     }
     return null;
+  }
+
+  String getProjectDeletionUrl(String projectName) {
+    return String.format("a/projects/%s", Url.encode(projectName));
+  }
+
+  String getProjectUpdateHeadUrl(String projectName) {
+    return String.format("a/projects/%s/HEAD", Url.encode(projectName));
   }
 }

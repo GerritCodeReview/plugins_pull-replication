@@ -354,6 +354,12 @@ remote.NAME.createMissingRepositories
 
 	By default, true.
 
+remote.NAME.replicateProjectDeletions
+:	If true, project deletions will also be replicated to the
+remote site.
+
+	By default, false, do *not* replicate project deletions.
+
 remote.NAME.authGroup
 :	Specifies the name of a group that the remote should use to
 	access the repositories. Multiple authGroups may be specified
