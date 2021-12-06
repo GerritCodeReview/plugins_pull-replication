@@ -16,6 +16,7 @@ gerrit_plugin(
     deps = [
         "//lib/commons:io",
         "//plugins/replication:replication",
+         "//plugins/delete-project:delete-project",
     ],
 )
 

@@ -26,9 +26,67 @@ import org.junit.Test;
 
 public class ProjectDeletionActionIT extends ActionITBase {
   public static final String INVALID_TEST_PROJECT_NAME = "\0";
-  public static final String DELETE_PROJECT_PERMISSION = "delete-project-deleteProject";
+  public static final String DELETE_PROJECT_PERMISSION = "pull-replication-deleteProject";
 
   @Inject private ProjectOperations projectOperations;
+
+  @Test
+  public void shouldReturnUnauthorizedForUserWithoutPermissions() throws Exception {
+    httpClientFactory
+        .create(source)
+        .execute(
+            createDeleteRequest(),
+            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED),
+            getAnonymousContext());
+  }
+
+  @Test
+  public void shouldDeleteRepositoryWhenUserHasProjectDeletionCapabilities() throws Exception {
+    String testProjectName = project.get();
+    url = getURL(testProjectName);
+    httpClientFactory
+        .create(source)
+        .execute(
+            createDeleteRequest(),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
+            getUserContext());
+
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(DELETE_PROJECT_PERMISSION).group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            createDeleteRequest(),
+            assertHttpResponseCode(HttpServletResponse.SC_OK),
+            getUserContext());
+  }
+
+  @Test
+  public void shouldReturnOKWhenProjectIsDeleted() throws Exception {
+    String testProjectName = project.get();
+    url = getURL(testProjectName);
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_OK), getContext());
+  }
+
+  @Test
+  public void shouldReturnInternalServerErrorIfProjectCannotBeDeleted() throws Exception {
+    url = getURL(INVALID_TEST_PROJECT_NAME);
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            createDeleteRequest(),
+            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR),
+            getContext());
+  }
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
@@ -96,6 +154,8 @@ public class ProjectDeletionActionIT extends ActionITBase {
 
   @Override
   protected String getURL(String projectName) {
-    return String.format("%s/a/projects/%s", adminRestSession.url(), Url.encode(projectName));
+    return String.format(
+        "%s/a/projects/%s/pull-replication~delete-project",
+        adminRestSession.url(), Url.encode(projectName));
   }
 }
