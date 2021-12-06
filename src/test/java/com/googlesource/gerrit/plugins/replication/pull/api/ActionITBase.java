@@ -66,7 +66,7 @@ import org.eclipse.jgit.util.FS;
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
 public abstract class ActionITBase extends LightweightPluginDaemonTest {
   protected static final Optional<String> ALL_PROJECTS = Optional.empty();
-  protected static final int TEST_REPLICATION_DELAY = 60;
+  protected static final int TEST_REPLICATION_DELAY = 60000;
   protected static final String TEST_REPLICATION_SUFFIX = "suffix1";
   protected static final String TEST_REPLICATION_REMOTE = "remote1";
 

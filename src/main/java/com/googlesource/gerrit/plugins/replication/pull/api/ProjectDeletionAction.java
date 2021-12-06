@@ -14,55 +14,43 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
-import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.replication.LocalFS;
-import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
-import java.util.Optional;
-import org.eclipse.jgit.transport.URIish;
+import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.deleteproject.DeletePreconditions;
+import com.googlesource.gerrit.plugins.deleteproject.DeleteProject;
 
+@Singleton
 class ProjectDeletionAction
     implements RestModifyView<ProjectResource, ProjectDeletionAction.DeleteInput> {
-  private static final PluginPermission DELETE_PROJECT =
-      new PluginPermission("delete-project", "deleteProject");
 
   static class DeleteInput {}
 
-  private final GerritConfigOps gerritConfigOps;
-  private final PermissionBackend permissionBackend;
+  private final DeleteProject deleteProject;
+  private final DeletePreconditions preConditions;
 
   @Inject
-  ProjectDeletionAction(GerritConfigOps gerritConfigOps, PermissionBackend permissionBackend) {
-    this.gerritConfigOps = gerritConfigOps;
-    this.permissionBackend = permissionBackend;
+  ProjectDeletionAction(DeleteProject deleteProject, DeletePreconditions preConditions) {
+    this.deleteProject = deleteProject;
+    this.preConditions = preConditions;
   }
 
   @Override
   public Response<?> apply(ProjectResource projectResource, DeleteInput input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
+    DeleteProject.Input deleteProjectInput = new DeleteProject.Input();
+    deleteProjectInput.force = true;
+    deleteProjectInput.preserve = false;
 
-    permissionBackend.user(projectResource.getUser()).check(DELETE_PROJECT);
+    preConditions.assertDeletePermission(projectResource);
+    preConditions.assertCanBeDeleted(projectResource, deleteProjectInput);
 
-    Optional<URIish> maybeRepoURI =
-        gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectResource.getName()));
-
-    if (maybeRepoURI.isPresent()) {
-      if (new LocalFS(maybeRepoURI.get()).deleteProject(projectResource.getNameKey())) {
-        return Response.ok();
-      }
-      throw new UnprocessableEntityException(
-          String.format("Could not delete project %s", projectResource.getName()));
-    }
-    throw new ResourceNotFoundException(
-        String.format("Could not compute URI for repo: %s", projectResource.getName()));
+    deleteProject.doDelete(projectResource, deleteProjectInput);
+    return Response.ok();
   }
 }

@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
+import static com.googlesource.gerrit.plugins.replication.pull.api.DeleteApiCapability.CALL_DELETE_ACTION;
 import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
 
 import com.google.gerrit.extensions.annotations.Exports;
@@ -36,5 +37,8 @@ public class PullReplicationApiModule extends RestApiModule {
     bind(CapabilityDefinition.class)
         .annotatedWith(Exports.named(CALL_FETCH_ACTION))
         .to(FetchApiCapability.class);
+    bind(CapabilityDefinition.class)
+        .annotatedWith(Exports.named(CALL_DELETE_ACTION))
+        .to(DeleteApiCapability.class);
   }
 }

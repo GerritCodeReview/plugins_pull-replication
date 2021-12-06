@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class ProjectDeletionActionIT extends ActionITBase {
   public static final String INVALID_TEST_PROJECT_NAME = "\0";
-  public static final String DELETE_PROJECT_PERMISSION = "delete-project-deleteProject";
+  public static final String DELETE_PROJECT_PERMISSION = "pull-replication-deleteProject";
 
   @Inject private ProjectOperations projectOperations;
 
