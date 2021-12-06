@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -261,7 +262,17 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
       l.onProjectDeleted(event);
     }
 
-    waitUntil(() -> !repoManager.list().contains(project));
+    waitUntil(
+        () -> {
+          try {
+            gApi.projects().name(projectToDelete).get();
+            return false;
+          } catch (ResourceNotFoundException e) {
+            return true;
+          } catch (RestApiException e) {
+            return false;
+          }
+        });
   }
 
   @Test
