@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cdcd0a9_9645ecde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-06T19:55:45Z",
+      "side": 1,
+      "message": "Build failed because we need delete-plugin change first",
+      "revId": "f3f3e4a04324abdc86030f726a0e67575829e1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
