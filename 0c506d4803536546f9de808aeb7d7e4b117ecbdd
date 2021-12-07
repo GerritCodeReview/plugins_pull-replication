@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7412a62_0445b85e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteApiCapability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-12-07T15:43:11Z",
+      "side": 1,
+      "message": "2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "0c506d4803536546f9de808aeb7d7e4b117ecbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7d86bbe_cec1c361",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-12-07T15:43:11Z",
+      "side": 1,
+      "message": "I don\u0027t understand why we need to change this code.\n\nThe deletion mechanism implemented in the Action already removes the project without having to refactor it to use the DeleteProject plugin.\n\nIs this refactoring necessary or is it just an enhancement?\n\nIf that\u0027s the case, then I don\u0027t think it should be done as part of this change.",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 71
+      },
+      "revId": "0c506d4803536546f9de808aeb7d7e4b117ecbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de3cd5e7_7463b580",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ActionITBase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-12-07T15:43:11Z",
+      "side": 1,
+      "message": "Is this needed?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 60
+      },
+      "revId": "0c506d4803536546f9de808aeb7d7e4b117ecbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
