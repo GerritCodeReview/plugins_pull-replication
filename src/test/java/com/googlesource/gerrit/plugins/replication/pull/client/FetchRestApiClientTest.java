@@ -395,7 +395,7 @@ public class FetchRestApiClientTest {
 
     assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpPut.getURI().getPath())
-        .isEqualTo(String.format("/a/projects/%s/HEAD", projectName));
+        .isEqualTo(String.format("/a/projects/%s/pull-replication~HEAD", projectName));
     assertThat(payload).isEqualTo(String.format("{\"ref\": \"%s\"}", newHead));
   }
 

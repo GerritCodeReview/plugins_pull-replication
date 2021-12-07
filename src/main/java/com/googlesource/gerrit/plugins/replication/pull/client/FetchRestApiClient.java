@@ -194,6 +194,6 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   }
 
   String getProjectUpdateHeadUrl(String projectName) {
-    return String.format("a/projects/%s/HEAD", Url.encode(projectName));
+    return String.format("a/projects/%s/%s~HEAD", Url.encode(projectName), pluginName);
   }
 }
