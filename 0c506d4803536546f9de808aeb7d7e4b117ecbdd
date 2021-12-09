@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "47e63282_0c49eef1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-12-09T10:28:33Z",
+      "side": 1,
+      "message": "\u003e I see tow things here:\n\u003e 1. We have to duplicate the logic instead of just reuse it\n\nDRY-ing this out would justify a refactoring, but it is not strictly related to using the pull-replication REST api endpoint.\n\n\u003e 2. I thin just removing the repository from the local drive is not enough, if you look at https://gerrit.googlesource.com/plugins/delete-project/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/deleteproject/DeleteProject.java#81\n\u003e \n\u003e If I understand it correctly it is removing changes related to this project:\n\u003e https://gerrit.googlesource.com/plugins/delete-project/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/deleteproject/database/DatabaseDeleteHandler.java#97\n\u003e \n\u003e updating the index, removing from disk, updating cache and logging to audit log.\n\nBut isn\u0027t this responsibility of multi-site / high-availability plugin?\n\nEven in the (push) replication implementation project deletion will not cause any reindexing unless the (gerrit+http protocol is used, which deprecated).\n\nIf pull-replication is replicating between primary and a replica, then there is no index to update: only the group index is available.\n\nIf pull-replication is installed between primary and primary, then you must have either multi-site / high-availability which will take care of this.\n\nI am not saying the refactoring is necessarily wrong (we might want to discuss about it), but I don\u0027t think it should be part of this change.\n\nWDYT?",
+      "parentUuid": "7dceef04_d9909485",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 71
+      },
+      "revId": "0c506d4803536546f9de808aeb7d7e4b117ecbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de3cd5e7_7463b580",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ActionITBase.java",
         "patchSetId": 2
