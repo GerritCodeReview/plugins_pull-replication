@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61d9528e_60b2464c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-10T09:38:49Z",
+      "side": 1,
+      "message": "In my opinion before this change logic was blur. For primary-primary we were using delete-project plugin logic but for primary-replica we had custom logic inside pull-replication plugin, it was hard to justify why we need two different approach to delete project. When I started this refactoring I had to decide which one to pick, in my opinion reusing delete-project plugin a is better approach because it give us guarantee that all necessary steps all executed(for example logging in audit log)",
+      "parentUuid": "47e63282_0c49eef1",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 71
+      },
+      "revId": "0c506d4803536546f9de808aeb7d7e4b117ecbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de3cd5e7_7463b580",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ActionITBase.java",
         "patchSetId": 2
