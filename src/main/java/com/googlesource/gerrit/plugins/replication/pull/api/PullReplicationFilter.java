@@ -303,7 +303,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   }
 
   private boolean isDeleteProjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().matches("(/a)?/projects/[^/]+$")
+    return httpRequest.getRequestURI().endsWith("pull-replication~delete-project")
         && "DELETE".equals(httpRequest.getMethod());
   }
 }
