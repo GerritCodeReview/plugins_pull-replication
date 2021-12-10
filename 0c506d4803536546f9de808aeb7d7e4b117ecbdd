@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94c55b6a_721c4711",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-12-10T09:53:51Z",
+      "side": 1,
+      "message": "This change now does two things:\n\n1 - Replace direct call to the delete-project plugin REST API endpoint with\nthe call to the pull-replication REST API (the commit message)\n\n2 - Rewriting the pull-replication REST API implementation by using the core one.\n\nI think step 2 is not necessarily wrong (as I said, we can discuss about it), but it not necessary to achieve what this issue is about.\n\nIf you feel strongly about this we could separate the refactoring into its own change and then base this one off it?",
+      "parentUuid": "61d9528e_60b2464c",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 71
+      },
+      "revId": "0c506d4803536546f9de808aeb7d7e4b117ecbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "de3cd5e7_7463b580",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ActionITBase.java",
         "patchSetId": 2
