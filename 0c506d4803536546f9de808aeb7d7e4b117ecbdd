@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8ec4fa3_6ea76122",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteApiCapability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-10T14:18:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7412a62_0445b85e",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "0c506d4803536546f9de808aeb7d7e4b117ecbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7d86bbe_cec1c361",
@@ -180,6 +204,30 @@
       "writtenOn": "2021-12-07T15:43:11Z",
       "side": 1,
       "message": "Is this needed?",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 60
+      },
+      "revId": "0c506d4803536546f9de808aeb7d7e4b117ecbdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "485c8cd5_3c84c71b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ActionITBase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-10T14:18:00Z",
+      "side": 1,
+      "message": "Good catch! This was just for debugging",
+      "parentUuid": "de3cd5e7_7463b580",
       "range": {
         "startLine": 69,
         "startChar": 0,
