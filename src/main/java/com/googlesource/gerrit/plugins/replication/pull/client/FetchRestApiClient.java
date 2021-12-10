@@ -190,7 +190,7 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   }
 
   String getProjectDeletionUrl(String projectName) {
-    return String.format("a/projects/%s", Url.encode(projectName));
+    return String.format("a/projects/%s/%s~delete-project", Url.encode(projectName), pluginName);
   }
 
   String getProjectUpdateHeadUrl(String projectName) {
