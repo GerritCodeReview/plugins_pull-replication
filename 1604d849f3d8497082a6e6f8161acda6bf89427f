@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f167c5dd_2f55d582",
+        "filename": "src/main/resources/Documentation/rest-api.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-13T21:45:54Z",
+      "side": 1,
+      "message": "This is redundant, as any Gerrit API would require a \u0027/a/\u0027 prefix for authenticated calls.",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 6
+      },
+      "revId": "1604d849f3d8497082a6e6f8161acda6bf89427f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "586682c8_9b9a213f",
+        "filename": "src/main/resources/Documentation/rest-api.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-13T21:45:54Z",
+      "side": 1,
+      "message": "I believe we should describe a bit more what that means.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 28
+      },
+      "revId": "1604d849f3d8497082a6e6f8161acda6bf89427f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4a98294_9d02635d",
+        "filename": "src/main/resources/Documentation/rest-api.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-13T21:45:54Z",
+      "side": 1,
+      "message": "same as above: redundant",
+      "range": {
+        "startLine": 42,
+        "startChar": 5,
+        "endLine": 42,
+        "endChar": 7
+      },
+      "revId": "1604d849f3d8497082a6e6f8161acda6bf89427f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47462ba1_ba4b8c5d",
+        "filename": "src/main/resources/Documentation/rest-api.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-13T21:45:54Z",
+      "side": 1,
+      "message": "Same as above: redundant",
+      "range": {
+        "startLine": 58,
+        "startChar": 5,
+        "endLine": 58,
+        "endChar": 7
+      },
+      "revId": "1604d849f3d8497082a6e6f8161acda6bf89427f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
