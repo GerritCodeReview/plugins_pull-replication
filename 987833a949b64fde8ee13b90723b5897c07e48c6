@@ -22,6 +22,30 @@
       },
       "revId": "987833a949b64fde8ee13b90723b5897c07e48c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2e35457_18194a52",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ActionITBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-13T09:00:15Z",
+      "side": 0,
+      "message": "Yes without that tests are not passing because we are getting 400",
+      "parentUuid": "7009776c_64bdbe34",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 74
+      },
+      "revId": "987833a949b64fde8ee13b90723b5897c07e48c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
