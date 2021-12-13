@@ -46,6 +46,30 @@
       },
       "revId": "987833a949b64fde8ee13b90723b5897c07e48c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b39fab68_703fc8ac",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ActionITBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2021-12-13T09:17:37Z",
+      "side": 0,
+      "message": "I am surprised by this.\nWhy would this content-type cause 400?",
+      "parentUuid": "d2e35457_18194a52",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 74
+      },
+      "revId": "987833a949b64fde8ee13b90723b5897c07e48c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
