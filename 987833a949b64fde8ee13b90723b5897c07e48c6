@@ -94,6 +94,23 @@
       },
       "revId": "987833a949b64fde8ee13b90723b5897c07e48c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c5ecd22_88895c21",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ActionITBase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-13T22:30:07Z",
+      "side": 0,
+      "message": "Why removing the content-type?",
+      "revId": "987833a949b64fde8ee13b90723b5897c07e48c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
