@@ -34,6 +34,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
@@ -69,34 +70,44 @@ public class RevisionReader {
 
       Long totalRefSize = 0l;
 
-      ObjectLoader commitLoader = git.open(head.getObjectId());
-      totalRefSize += commitLoader.getSize();
-      verifySize(totalRefSize, commitLoader);
+      ObjectLoader objectLoader = git.open(head.getObjectId());
+      totalRefSize += objectLoader.getSize();
+      verifySize(totalRefSize, objectLoader);
 
-      RevCommit commit = RevCommit.parse(commitLoader.getCachedBytes());
-      RevisionObjectData commitRev =
-          new RevisionObjectData(commit.getType(), commitLoader.getCachedBytes());
+      switch (objectLoader.getType()) {
+        case Constants.OBJ_COMMIT:
+          RevCommit commit = RevCommit.parse(objectLoader.getCachedBytes());
+          RevisionObjectData commitRev =
+              new RevisionObjectData(commit.getType(), objectLoader.getCachedBytes());
 
-      RevTree tree = commit.getTree();
-      ObjectLoader treeLoader = git.open(commit.getTree().toObjectId());
-      totalRefSize += treeLoader.getSize();
-      verifySize(totalRefSize, treeLoader);
+          RevTree tree = commit.getTree();
+          ObjectLoader treeLoader = git.open(commit.getTree().toObjectId());
+          totalRefSize += treeLoader.getSize();
+          verifySize(totalRefSize, treeLoader);
 
-      RevisionObjectData treeRev =
-          new RevisionObjectData(tree.getType(), treeLoader.getCachedBytes());
+          RevisionObjectData treeRev =
+              new RevisionObjectData(tree.getType(), treeLoader.getCachedBytes());
 
-      List<RevisionObjectData> blobs = Lists.newLinkedList();
-      try (TreeWalk walk = new TreeWalk(git)) {
-        if (commit.getParentCount() > 0) {
-          List<DiffEntry> diffEntries = readDiffs(git, commit, tree, walk);
-          blobs = readBlobs(git, totalRefSize, diffEntries);
-        } else {
-          walk.setRecursive(true);
-          walk.addTree(tree);
-          blobs = readBlobs(git, totalRefSize, walk);
-        }
+          List<RevisionObjectData> blobs = Lists.newLinkedList();
+          try (TreeWalk walk = new TreeWalk(git)) {
+            if (commit.getParentCount() > 0) {
+              List<DiffEntry> diffEntries = readDiffs(git, commit, tree, walk);
+              blobs = readBlobs(git, totalRefSize, diffEntries);
+            } else {
+              walk.setRecursive(true);
+              walk.addTree(tree);
+              blobs = readBlobs(git, totalRefSize, walk);
+            }
+          }
+          return Optional.of(new RevisionData(commitRev, treeRev, blobs));
+
+        default:
+          repLog.trace(
+              "Ref %s for project %s points to an object type %d",
+              refName, project, objectLoader.getType());
+          return Optional.empty();
       }
-      return Optional.of(new RevisionData(commitRev, treeRev, blobs));
+
     } catch (LargeObjectException e) {
       repLog.trace(
           "Ref %s size for project %s is greater than configured '%s'",
