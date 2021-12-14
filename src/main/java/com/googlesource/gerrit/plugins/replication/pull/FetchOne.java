@@ -41,6 +41,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -373,10 +374,25 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   private List<RefSpec> getFetchRefSpecs() {
+    List<RefSpec> configRefSpecs = config.getFetchRefSpecs();
     if (delta.isEmpty()) {
-      return config.getFetchRefSpecs();
+      return configRefSpecs;
     }
-    return delta.stream().map(ref -> new RefSpec(ref + ":" + ref)).collect(Collectors.toList());
+
+    return delta.stream()
+        .map(ref -> refToFetchRefSpec(ref, configRefSpecs))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.toList());
+  }
+
+  private Optional<RefSpec> refToFetchRefSpec(String ref, List<RefSpec> configRefSpecs) {
+    for (RefSpec refSpec : configRefSpecs) {
+      if (refSpec.matchSource(ref)) {
+        return Optional.of(refSpec.expandFromSource(ref));
+      }
+    }
+    return Optional.empty();
   }
 
   private void updateStates(List<RefUpdateState> refUpdates) throws IOException {
