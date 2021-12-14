@@ -34,6 +34,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
@@ -72,6 +73,13 @@ public class RevisionReader {
       ObjectLoader commitLoader = git.open(head.getObjectId());
       totalRefSize += commitLoader.getSize();
       verifySize(totalRefSize, commitLoader);
+
+      if (commitLoader.getType() != Constants.OBJ_COMMIT) {
+        repLog.trace(
+            "Ref %s for project %s points to an object type %d",
+            refName, project, commitLoader.getType());
+        return Optional.empty();
+      }
 
       RevCommit commit = RevCommit.parse(commitLoader.getCachedBytes());
       RevisionObjectData commitRev =
