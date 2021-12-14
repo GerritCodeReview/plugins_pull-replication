@@ -16,6 +16,24 @@
       "message": "What about UpdateHeadAction[1] an its related code?\n\nIt seems this CR is refactoring the existing implementation rather than replacing the HTTP call to the new pull-replication API.\n\nAlso, in doing the refactoring, it is not removing any existing code.\n\nAm I missing something?\n\n[1]https://gerrit.googlesource.com/plugins/pull-replication/+/e8d0a3e363feb1a596bc05bfea52a7e075ffc188/src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadAction.java",
       "revId": "e8d0a3e363feb1a596bc05bfea52a7e075ffc188",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d71a3b9c_1e6a6d65",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-14T18:45:18Z",
+      "side": 1,
+      "message": "Ok I divided that change into two and I reused the UpdateHeadAction class",
+      "parentUuid": "f1134946_4f84bfb3",
+      "revId": "e8d0a3e363feb1a596bc05bfea52a7e075ffc188",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
