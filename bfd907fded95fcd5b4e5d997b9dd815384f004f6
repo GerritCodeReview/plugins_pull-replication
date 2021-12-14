@@ -22,6 +22,30 @@
       },
       "revId": "bfd907fded95fcd5b4e5d997b9dd815384f004f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ce9967_d0f89ff6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-14T22:11:18Z",
+      "side": 1,
+      "message": "We have multiple cases, but they can be dealt with the default fetch beahviour for now, that\u0027s why the default section at L104 returns Optional.empty()",
+      "parentUuid": "2ecf5670_ae88d4ea",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "bfd907fded95fcd5b4e5d997b9dd815384f004f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
