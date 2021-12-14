@@ -61,11 +61,22 @@ public class RevisionReader {
   public Optional<RevisionData> read(Project.NameKey project, String refName)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           RepositoryNotFoundException, RefUpdateException, IOException {
+    return read(project, refName, Optional.empty());
+  }
+
+  public Optional<RevisionData> read(
+      Project.NameKey project, String refName, Optional<ObjectId> objectId)
+      throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
+          RepositoryNotFoundException, RefUpdateException, IOException {
     try (Repository git = gitRepositoryManager.openRepository(project)) {
       Ref head = git.exactRef(refName);
       if (head == null) {
         throw new RefUpdateException(
             String.format("Cannot find ref %s in project %s", refName, project.get()));
+      }
+
+      if (objectId.map(oid -> !head.getObjectId().equals(oid)).orElse(false)) {
+        return Optional.empty();
       }
 
       Long totalRefSize = 0l;
