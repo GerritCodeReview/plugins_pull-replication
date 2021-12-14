@@ -55,6 +55,7 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.message.BasicHeader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -147,7 +148,9 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
 
   protected Optional<RevisionData> createRevisionData(NameKey projectName, String refName)
       throws Exception {
-    return revisionReader.read(projectName, refName);
+    try (Repository repository = repoManager.openRepository(projectName)) {
+      return revisionReader.read(projectName, repository.exactRef(refName).getObjectId(), refName);
+    }
   }
 
   protected Object encode(byte[] content) {
