@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6419c11_3a449341",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/filter/ExcludedRefsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-14T21:14:27Z",
+      "side": 1,
+      "message": "This is changing the current logic, we always wanted to exclude those refs. Maybe this list is too long and we should remove some of them but we should always add them",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "df12ca84d04ebd779c801b276820dfa928c7c38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
