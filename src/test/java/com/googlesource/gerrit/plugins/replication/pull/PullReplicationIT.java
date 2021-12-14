@@ -15,6 +15,8 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.flogger.FluentLogger;
@@ -25,6 +27,8 @@ import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.Input;
@@ -47,10 +51,13 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -157,6 +164,65 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
       Ref targetBranchRef = getRef(repo, newBranch);
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
+    }
+  }
+
+  @Test
+  public void shouldReplicateForceUpdatedBranch() throws Exception {
+    boolean forcedPush = true;
+    String testProjectName = project + TEST_REPLICATION_SUFFIX;
+    NameKey testProjectNameKey = createTestProject(testProjectName);
+
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(testProjectName).branch(newBranch).create(input);
+    String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+    GitReferenceUpdatedListener.Event event =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            ReceiveCommand.Type.CREATE);
+    pullReplicationQueue.onGitReferenceUpdated(event);
+
+    try (Repository repo = repoManager.openRepository(project);
+        Repository sourceRepo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, newBranch) != null);
+
+      Ref targetBranchRef = getRef(repo, newBranch);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
+    }
+
+    TestRepository<InMemoryRepository> testProject = cloneProject(testProjectNameKey);
+    fetch(testProject, RefNames.REFS_HEADS + "*:" + RefNames.REFS_HEADS + "*");
+    RevCommit amendedCommit = testProject.amendRef(newBranch).message("Amended commit").create();
+    pushOne(testProject, newBranch, newBranch, false, forcedPush, Collections.emptyList());
+
+    GitReferenceUpdatedListener.Event forcedPushEvent =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            newBranch,
+            branchRevision,
+            amendedCommit.getId().getName(),
+            ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
+    pullReplicationQueue.onGitReferenceUpdated(forcedPushEvent);
+
+    try (Repository repo = repoManager.openRepository(project);
+        Repository sourceRepo = repoManager.openRepository(project)) {
+      waitUntil(
+          () ->
+              checkedGetRef(repo, newBranch) != null
+                  && checkedGetRef(repo, newBranch)
+                      .getObjectId()
+                      .getName()
+                      .equals(amendedCommit.getId().getName()));
     }
   }
 
