@@ -99,7 +99,7 @@ public class ReplicationQueueTest {
     when(source.getApis()).thenReturn(apis);
     when(sourceCollection.getAll()).thenReturn(Lists.newArrayList(source));
     when(rd.get()).thenReturn(sourceCollection);
-    when(revReader.read(any(), anyString())).thenReturn(Optional.of(revisionData));
+    when(revReader.read(any(), any(), anyString())).thenReturn(Optional.of(revisionData));
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
     when(fetchRestApiClient.callSendObject(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
@@ -161,7 +161,7 @@ public class ReplicationQueueTest {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
-    when(revReader.read(any(), anyString())).thenThrow(IOException.class);
+    when(revReader.read(any(), any(), anyString())).thenThrow(IOException.class);
 
     objectUnderTest.onGitReferenceUpdated(event);
 
@@ -174,7 +174,7 @@ public class ReplicationQueueTest {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
-    when(revReader.read(any(), anyString())).thenReturn(Optional.empty());
+    when(revReader.read(any(), any(), anyString())).thenReturn(Optional.empty());
 
     objectUnderTest.onGitReferenceUpdated(event);
 

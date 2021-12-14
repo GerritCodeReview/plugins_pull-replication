@@ -31,7 +31,6 @@ import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
@@ -189,7 +188,7 @@ public class ReplicationQueue
     try {
       fetchCallsPool = new ForkJoinPool(sources.get().getAll().size());
 
-      final Consumer<Source> callFunction = callFunction(project, refName, state);
+      final Consumer<Source> callFunction = callFunction(project, objectId, refName, state);
       fetchCallsPool
           .submit(() -> sources.get().getAll().parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
@@ -207,8 +206,9 @@ public class ReplicationQueue
     }
   }
 
-  private Consumer<Source> callFunction(NameKey project, String refName, ReplicationState state) {
-    CallFunction call = getCallFunction(project, refName, state);
+  private Consumer<Source> callFunction(
+      NameKey project, ObjectId objectId, String refName, ReplicationState state) {
+    CallFunction call = getCallFunction(project, objectId, refName, state);
 
     return (source) -> {
       try {
@@ -219,13 +219,14 @@ public class ReplicationQueue
     };
   }
 
-  private CallFunction getCallFunction(NameKey project, String refName, ReplicationState state) {
+  private CallFunction getCallFunction(
+      NameKey project, ObjectId objectId, String refName, ReplicationState state) {
     try {
-      Optional<RevisionData> revisionData = revisionReader.read(project, refName);
+      Optional<RevisionData> revisionData = revisionReader.read(project, objectId, refName);
       if (revisionData.isPresent()) {
         return ((source) -> callSendObject(source, project, refName, revisionData.get(), state));
       }
-    } catch (InvalidObjectIdException | IOException | RefUpdateException e) {
+    } catch (InvalidObjectIdException | IOException e) {
       stateLog.error(
           String.format(
               "Exception during reading ref: %s, project:%s, message: %s",
