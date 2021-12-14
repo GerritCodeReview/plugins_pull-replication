@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3586348_b9f30449",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-14T09:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f50f4683_f31f5605",
+      "range": {
+        "startLine": 11,
+        "startChar": 14,
+        "endLine": 11,
+        "endChar": 54
+      },
+      "revId": "350113fa9fce8cc03f7bc3d6950678413779aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a89135c6_e69fc483",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-12-13T22:55:36Z",
       "side": 1,
       "message": "This should be injected with the plugin name, as we do on FetchRestApiClient.java:193",
+      "range": {
+        "startLine": 306,
+        "startChar": 49,
+        "endLine": 306,
+        "endChar": 65
+      },
+      "revId": "350113fa9fce8cc03f7bc3d6950678413779aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5482108c_791dd361",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-14T09:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a89135c6_e69fc483",
       "range": {
         "startLine": 306,
         "startChar": 49,
