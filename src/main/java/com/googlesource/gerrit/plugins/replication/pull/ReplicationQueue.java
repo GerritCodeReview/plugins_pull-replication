@@ -171,7 +171,7 @@ public class ReplicationQueue
     try {
       fetchCallsPool = new ForkJoinPool(sources.get().getAll().size());
 
-      final Consumer<Source> callFunction = callFunction(project, refName, state);
+      final Consumer<Source> callFunction = callFunction(project, refName, objectId, state);
       fetchCallsPool
           .submit(() -> sources.get().getAll().parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
@@ -189,8 +189,9 @@ public class ReplicationQueue
     }
   }
 
-  private Consumer<Source> callFunction(NameKey project, String refName, ReplicationState state) {
-    CallFunction call = getCallFunction(project, refName, state);
+  private Consumer<Source> callFunction(
+      NameKey project, String refName, ObjectId objectId, ReplicationState state) {
+    CallFunction call = getCallFunction(project, refName, objectId, state);
 
     return (source) -> {
       try {
@@ -201,9 +202,11 @@ public class ReplicationQueue
     };
   }
 
-  private CallFunction getCallFunction(NameKey project, String refName, ReplicationState state) {
+  private CallFunction getCallFunction(
+      NameKey project, String refName, ObjectId objectId, ReplicationState state) {
     try {
-      Optional<RevisionData> revisionData = revisionReader.read(project, refName);
+      Optional<RevisionData> revisionData =
+          revisionReader.read(project, refName, Optional.of(objectId));
       if (revisionData.isPresent()) {
         return ((source) -> callSendObject(source, project, refName, revisionData.get(), state));
       }
