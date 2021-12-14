@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bf9272b_1a25cc7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-14T18:44:24Z",
+      "side": 1,
+      "message": "Ok, I\u0027ve split this change into two separate one to avoid confusion. Also you have a good point I missed UpdateHeadAction so I reused that one",
+      "revId": "1a1abe3ed37eccaf4e23df696180ff3c8e2dc923",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
