@@ -37,8 +37,12 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,7 +63,8 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     Result pushResult = createChange();
     String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
 
-    Optional<RevisionData> revisionDataOption = objectUnderTest.read(project, refName);
+    Optional<RevisionData> revisionDataOption =
+        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId));
 
     assertThat(revisionDataOption.isPresent()).isTrue();
     RevisionData revisionData = revisionDataOption.get();
@@ -75,6 +80,20 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     assertThat(revisionData.getBlobs()).isEmpty();
   }
 
+  private Optional<RevisionData> readRevisionFromObjectUnderTest(String refName, ObjectId objId) {
+    try {
+      return objectUnderTest.read(project, objId, refName);
+    } catch (Exception e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  protected Optional<ObjectId> refObjectId(String refName) throws IOException {
+    try (Repository repo = repoManager.openRepository(project)) {
+      return Optional.ofNullable(repo.exactRef(refName)).map(Ref::getObjectId);
+    }
+  }
+
   @Test
   public void shouldReadRefMetaObjectWithComments() throws Exception {
     Result pushResult = createChange();
@@ -87,7 +106,8 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(changeId.get()).current().review(reviewInput);
 
-    Optional<RevisionData> revisionDataOption = objectUnderTest.read(project, refName);
+    Optional<RevisionData> revisionDataOption =
+        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId));
 
     assertThat(revisionDataOption.isPresent()).isTrue();
     RevisionData revisionData = revisionDataOption.get();
@@ -109,8 +129,9 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
   @Test
   public void shouldNotReadRefsSequences() throws Exception {
     createChange().assertOkStatus();
+    String refName = RefNames.REFS_SEQUENCES + Sequences.NAME_CHANGES;
     Optional<RevisionData> revisionDataOption =
-        objectUnderTest.read(allProjects, RefNames.REFS_SEQUENCES + Sequences.NAME_CHANGES);
+        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId));
 
     Truth8.assertThat(revisionDataOption).isEmpty();
   }

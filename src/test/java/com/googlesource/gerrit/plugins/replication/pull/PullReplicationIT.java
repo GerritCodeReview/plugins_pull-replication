@@ -15,6 +15,10 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.acceptance.GitUtil.pushOne;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.flogger.FluentLogger;
@@ -24,7 +28,10 @@ import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.Input;
@@ -47,16 +54,23 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
@@ -69,7 +83,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
   private static final Optional<String> ALL_PROJECTS = Optional.empty();
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final int TEST_REPLICATION_DELAY = 60;
-  private static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2);
+  private static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2000);
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
   private static final String TEST_REPLICATION_REMOTE = "remote1";
 
@@ -157,6 +171,77 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
       Ref targetBranchRef = getRef(repo, newBranch);
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
+    }
+  }
+
+  @Test
+  @UseLocalDisk
+  public void shouldReplicateForceUpdatedBranch() throws Exception {
+    boolean forcedPush = true;
+    String testProjectName = project + TEST_REPLICATION_SUFFIX;
+    NameKey testProjectNameKey = createTestProject(testProjectName);
+
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(testProjectName).branch(newBranch).create(input);
+
+    projectOperations
+        .project(testProjectNameKey)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(newBranch).group(REGISTERED_USERS).force(true))
+        .update();
+
+    String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+    GitReferenceUpdatedListener.Event event =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            ReceiveCommand.Type.CREATE);
+    pullReplicationQueue.onGitReferenceUpdated(event);
+
+    try (Repository repo = repoManager.openRepository(project);
+        Repository sourceRepo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, newBranch) != null);
+
+      Ref targetBranchRef = getRef(repo, newBranch);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
+    }
+
+    TestRepository<InMemoryRepository> testProject = cloneProject(testProjectNameKey);
+    fetch(testProject, RefNames.REFS_HEADS + "*:" + RefNames.REFS_HEADS + "*");
+    RevCommit amendedCommit = testProject.amendRef(newBranch).message("Amended commit").create();
+    PushResult pushResult =
+        pushOne(testProject, newBranch, newBranch, false, forcedPush, Collections.emptyList());
+    Collection<RemoteRefUpdate> pushedRefs = pushResult.getRemoteUpdates();
+    assertThat(pushedRefs).hasSize(1);
+    assertThat(pushedRefs.iterator().next().getStatus()).isEqualTo(Status.OK);
+
+    GitReferenceUpdatedListener.Event forcedPushEvent =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            newBranch,
+            branchRevision,
+            amendedCommit.getId().getName(),
+            ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
+    pullReplicationQueue.onGitReferenceUpdated(forcedPushEvent);
+
+    try (Repository repo = repoManager.openRepository(project);
+        Repository sourceRepo = repoManager.openRepository(project)) {
+      waitUntil(
+          () ->
+              checkedGetRef(repo, newBranch) != null
+                  && checkedGetRef(repo, newBranch)
+                      .getObjectId()
+                      .getName()
+                      .equals(amendedCommit.getId().getName()));
     }
   }
 
