@@ -25,6 +25,7 @@ import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.Input;
@@ -133,22 +134,10 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
     createTestProject(testProjectName);
 
     String newBranch = "refs/heads/mybranch";
-    String master = "refs/heads/master";
-    BranchInput input = new BranchInput();
-    input.revision = master;
-    gApi.projects().name(testProjectName).branch(newBranch).create(input);
-    String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
+    String branchRevision =
+        createBranch(testProjectName, newBranch, RefNames.REFS_HEADS + "master");
 
-    ReplicationQueue pullReplicationQueue =
-        plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    GitReferenceUpdatedListener.Event event =
-        new FakeGitReferenceUpdatedEvent(
-            project,
-            newBranch,
-            ObjectId.zeroId().getName(),
-            branchRevision,
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitReferenceUpdated(event);
+    triggerRefReplication(newBranch, branchRevision);
 
     try (Repository repo = repoManager.openRepository(project);
         Repository sourceRepo = repoManager.openRepository(project)) {
@@ -157,6 +146,34 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
       Ref targetBranchRef = getRef(repo, newBranch);
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
+    }
+  }
+
+  @Test
+  public void shouldReplicateBranchDeletion() throws Exception {
+    String testProjectName = project + TEST_REPLICATION_SUFFIX;
+    createTestProject(testProjectName);
+
+    String newBranch = "refs/heads/mybranch";
+    String branchRevision =
+        createBranch(testProjectName, newBranch, RefNames.REFS_HEADS + "master");
+
+    triggerRefReplication(newBranch, branchRevision);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, newBranch) != null);
+
+      Ref targetBranchRef = getRef(repo, newBranch);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
+    }
+
+    gApi.projects().name(testProjectName).branch(newBranch).delete();
+
+    triggerRefReplication(
+        newBranch, branchRevision, ObjectId.zeroId().getName(), ReceiveCommand.Type.DELETE);
+    try (Repository repo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, newBranch) == null);
     }
   }
 
@@ -215,16 +232,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
     gApi.projects().name(testProjectName).branch(newBranch).create(input);
     String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
 
-    ReplicationQueue pullReplicationQueue =
-        plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    GitReferenceUpdatedListener.Event event =
-        new FakeGitReferenceUpdatedEvent(
-            project,
-            newBranch,
-            ObjectId.zeroId().getName(),
-            branchRevision,
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitReferenceUpdated(event);
+    triggerRefReplication(newBranch, branchRevision);
 
     try (Repository repo = repoManager.openRepository(project);
         Repository sourceRepo = repoManager.openRepository(project)) {
@@ -296,6 +304,20 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
         });
   }
 
+  private void triggerRefReplication(String newBranch, String newRevision) {
+    triggerRefReplication(
+        newBranch, ObjectId.zeroId().getName(), newRevision, ReceiveCommand.Type.CREATE);
+  }
+
+  private void triggerRefReplication(
+      String newBranch, String oldRevision, String newRevision, ReceiveCommand.Type type) {
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+    GitReferenceUpdatedListener.Event event =
+        new FakeGitReferenceUpdatedEvent(project, newBranch, oldRevision, newRevision, type);
+    pullReplicationQueue.onGitReferenceUpdated(event);
+  }
+
   private Ref getRef(Repository repo, String branchName) throws IOException {
     return repo.getRefDatabase().exactRef(branchName);
   }
@@ -351,6 +373,13 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
 
   private Project.NameKey createTestProject(String name) throws Exception {
     return projectOperations.newProject().name(name).create();
+  }
+
+  private String createBranch(String projectName, String branchName, String baseRevision)
+      throws RestApiException {
+    BranchInput input = new BranchInput();
+    input.revision = baseRevision;
+    return gApi.projects().name(projectName).branch(branchName).create(input).get().revision;
   }
 
   @Singleton
