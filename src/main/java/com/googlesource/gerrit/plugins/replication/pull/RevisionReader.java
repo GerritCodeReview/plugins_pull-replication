@@ -34,6 +34,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
@@ -69,13 +70,20 @@ public class RevisionReader {
 
       Long totalRefSize = 0l;
 
-      ObjectLoader commitLoader = git.open(head.getObjectId());
-      totalRefSize += commitLoader.getSize();
-      verifySize(totalRefSize, commitLoader);
+      ObjectLoader objectLoader = git.open(head.getObjectId());
+      totalRefSize += objectLoader.getSize();
+      verifySize(totalRefSize, objectLoader);
 
-      RevCommit commit = RevCommit.parse(commitLoader.getCachedBytes());
+      if (objectLoader.getType() != Constants.OBJ_COMMIT) {
+        repLog.trace(
+            "Ref %s for project %s points to an object type %d",
+            refName, project, objectLoader.getType());
+        return Optional.empty();
+      }
+
+      RevCommit commit = RevCommit.parse(objectLoader.getCachedBytes());
       RevisionObjectData commitRev =
-          new RevisionObjectData(commit.getType(), commitLoader.getCachedBytes());
+          new RevisionObjectData(commit.getType(), objectLoader.getCachedBytes());
 
       RevTree tree = commit.getTree();
       ObjectLoader treeLoader = git.open(commit.getTree().toObjectId());
