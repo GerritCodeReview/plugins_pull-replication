@@ -23,7 +23,6 @@ import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +36,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -58,19 +56,13 @@ public class RevisionReader {
             .getLong("replication", CONFIG_MAX_API_PAYLOAD_SIZE, DEFAULT_MAX_PAYLOAD_SIZE_IN_BYTES);
   }
 
-  public Optional<RevisionData> read(Project.NameKey project, String refName)
+  public Optional<RevisionData> read(Project.NameKey project, ObjectId objectId, String refName)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
-          RepositoryNotFoundException, RefUpdateException, IOException {
+          RepositoryNotFoundException, IOException {
     try (Repository git = gitRepositoryManager.openRepository(project)) {
-      Ref head = git.exactRef(refName);
-      if (head == null) {
-        throw new RefUpdateException(
-            String.format("Cannot find ref %s in project %s", refName, project.get()));
-      }
-
       Long totalRefSize = 0l;
 
-      ObjectLoader commitLoader = git.open(head.getObjectId());
+      ObjectLoader commitLoader = git.open(objectId);
       totalRefSize += commitLoader.getSize();
       verifySize(totalRefSize, commitLoader);
 

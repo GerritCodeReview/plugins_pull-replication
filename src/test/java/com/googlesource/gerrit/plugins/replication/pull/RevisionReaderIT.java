@@ -37,8 +37,10 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,7 +61,8 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     Result pushResult = createChange();
     String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
 
-    Optional<RevisionData> revisionDataOption = objectUnderTest.read(project, refName);
+    Optional<RevisionData> revisionDataOption =
+        objectUnderTest.read(project, refObjectId(refName), refName);
 
     assertThat(revisionDataOption.isPresent()).isTrue();
     RevisionData revisionData = revisionDataOption.get();
@@ -75,6 +78,11 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     assertThat(revisionData.getBlobs()).isEmpty();
   }
 
+  protected ObjectId refObjectId(String refName) throws IOException {
+    ObjectId refObjectId = testRepo.getRepository().exactRef(refName).getObjectId();
+    return refObjectId;
+  }
+
   @Test
   public void shouldReadRefMetaObjectWithComments() throws Exception {
     Result pushResult = createChange();
@@ -87,7 +95,8 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(changeId.get()).current().review(reviewInput);
 
-    Optional<RevisionData> revisionDataOption = objectUnderTest.read(project, refName);
+    Optional<RevisionData> revisionDataOption =
+        objectUnderTest.read(project, refObjectId(refName), refName);
 
     assertThat(revisionDataOption.isPresent()).isTrue();
     RevisionData revisionData = revisionDataOption.get();
@@ -109,8 +118,9 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
   @Test
   public void shouldNotReadRefsSequences() throws Exception {
     createChange().assertOkStatus();
+    String refName = RefNames.REFS_SEQUENCES + Sequences.NAME_CHANGES;
     Optional<RevisionData> revisionDataOption =
-        objectUnderTest.read(allProjects, RefNames.REFS_SEQUENCES + Sequences.NAME_CHANGES);
+        objectUnderTest.read(allProjects, refObjectId(refName), refName);
 
     Truth8.assertThat(revisionDataOption).isEmpty();
   }

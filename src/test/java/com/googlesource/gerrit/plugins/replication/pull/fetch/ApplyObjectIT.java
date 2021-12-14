@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -77,16 +78,16 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
 
     Optional<RevisionData> revisionData =
-        reader.read(Project.nameKey(testRepoProjectName), refName);
+        reader.read(
+            Project.nameKey(testRepoProjectName), pushResult.getCommit().toObjectId(), refName);
 
     RefSpec refSpec = new RefSpec(refName);
     objectUnderTest.apply(project, refSpec, revisionData.get());
-    Optional<RevisionData> newRevisionData = reader.read(project, refName);
-
-    compareObjects(revisionData.get(), newRevisionData);
-
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<Repository> testRepo = new TestRepository<>(repo); ) {
+      Optional<RevisionData> newRevisionData =
+          reader.read(project, repo.exactRef(refName).getObjectId(), refName);
+      compareObjects(revisionData.get(), newRevisionData);
       testRepo.fsck();
     }
   }
@@ -101,26 +102,30 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     String refName = RefNames.changeMetaRef(changeId);
     RefSpec refSpec = new RefSpec(refName);
 
-    Optional<RevisionData> revisionData =
-        reader.read(Project.nameKey(testRepoProjectName), refName);
-    objectUnderTest.apply(project, refSpec, revisionData.get());
+    NameKey testRepoKey = Project.nameKey(testRepoProjectName);
+    try (Repository repo = repoManager.openRepository(testRepoKey)) {
+      Optional<RevisionData> revisionData =
+          reader.read(testRepoKey, repo.exactRef(refName).getObjectId(), refName);
+      objectUnderTest.apply(project, refSpec, revisionData.get());
+    }
 
     ReviewInput reviewInput = new ReviewInput();
     CommentInput comment = createCommentInput(1, 0, 1, 1, "Test comment");
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     gApi.changes().id(changeId.get()).current().review(reviewInput);
 
-    Optional<RevisionData> revisionDataWithComment =
-        reader.read(Project.nameKey(testRepoProjectName), refName);
-
-    objectUnderTest.apply(project, refSpec, revisionDataWithComment.get());
-
-    Optional<RevisionData> newRevisionData = reader.read(project, refName);
-
-    compareObjects(revisionDataWithComment.get(), newRevisionData);
-
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
+      Optional<RevisionData> revisionDataWithComment =
+          reader.read(testRepoKey, repo.exactRef(refName).getObjectId(), refName);
+
+      objectUnderTest.apply(project, refSpec, revisionDataWithComment.get());
+
+      Optional<RevisionData> newRevisionData =
+          reader.read(project, repo.exactRef(refName).getObjectId(), refName);
+
+      compareObjects(revisionDataWithComment.get(), newRevisionData);
+
       testRepo.fsck();
     }
   }
@@ -128,24 +133,27 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
   @Test
   public void shouldThrowExceptionWhenParentCommitObjectIsMissing() throws Exception {
     String testRepoProjectName = project + TEST_REPLICATION_SUFFIX;
-    testRepo = cloneProject(createTestProject(testRepoProjectName));
+    NameKey createTestProject = createTestProject(testRepoProjectName);
+    try (Repository repo = repoManager.openRepository(createTestProject)) {
+      testRepo = cloneProject(createTestProject);
 
-    Result pushResult = createChange();
-    Change.Id changeId = pushResult.getChange().getId();
-    String refName = RefNames.changeMetaRef(changeId);
+      Result pushResult = createChange();
+      Change.Id changeId = pushResult.getChange().getId();
+      String refName = RefNames.changeMetaRef(changeId);
 
-    CommentInput comment = createCommentInput(1, 0, 1, 1, "Test comment");
-    ReviewInput reviewInput = new ReviewInput();
-    reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
-    gApi.changes().id(changeId.get()).current().review(reviewInput);
+      CommentInput comment = createCommentInput(1, 0, 1, 1, "Test comment");
+      ReviewInput reviewInput = new ReviewInput();
+      reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
+      gApi.changes().id(changeId.get()).current().review(reviewInput);
 
-    Optional<RevisionData> revisionData =
-        reader.read(Project.nameKey(testRepoProjectName), refName);
+      Optional<RevisionData> revisionData =
+          reader.read(createTestProject, repo.exactRef(refName).getObjectId(), refName);
 
-    RefSpec refSpec = new RefSpec(refName);
-    assertThrows(
-        MissingParentObjectException.class,
-        () -> objectUnderTest.apply(project, refSpec, revisionData.get()));
+      RefSpec refSpec = new RefSpec(refName);
+      assertThrows(
+          MissingParentObjectException.class,
+          () -> objectUnderTest.apply(project, refSpec, revisionData.get()));
+    }
   }
 
   private void compareObjects(RevisionData expected, Optional<RevisionData> actualOption) {
