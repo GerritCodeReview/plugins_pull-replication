@@ -22,6 +22,30 @@
       },
       "revId": "df12ca84d04ebd779c801b276820dfa928c7c38c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9005654_24f543ac",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/filter/ExcludedRefsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-14T21:17:39Z",
+      "side": 1,
+      "message": "Yes, I know. However, the logic is blocking from being able to use the plugin. Example: not replicating \u0027refs/meta/config\u0027 makes the create project replication ineffective and actually broken, because it does not replicate the \u0027refs/meta/config\u0027.\n\nThe default list is kept, so for all of those who were using it with out-of-the-box configuration it should not make any difference.",
+      "parentUuid": "c6419c11_3a449341",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "df12ca84d04ebd779c801b276820dfa928c7c38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
