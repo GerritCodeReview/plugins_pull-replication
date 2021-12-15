@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "597fe0f9_53ba70ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-15T09:45:29Z",
+      "side": 1,
+      "message": "I would do a if/then/else I got the intention but at the moment it\u0027s difficult to understand why we have this switch. And I agree having a separate REST-API is a good idea. Let\u0027s create a ticket for that",
+      "parentUuid": "417ed842_201fb7a0",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "bfd907fded95fcd5b4e5d997b9dd815384f004f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87329e74_4833ab68",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
         "patchSetId": 1
