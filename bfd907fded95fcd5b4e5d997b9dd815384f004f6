@@ -46,6 +46,53 @@
       },
       "revId": "bfd907fded95fcd5b4e5d997b9dd815384f004f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "920e649f_e8edfe9d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-15T09:38:11Z",
+      "side": 1,
+      "message": "I understand that but having switch with one case and default is a code smell because it can be replace with if(objectLoader.getType().equals( Constants.OBJ_COMMIT)) {...} else {}",
+      "parentUuid": "45ce9967_d0f89ff6",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "bfd907fded95fcd5b4e5d997b9dd815384f004f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87329e74_4833ab68",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2021-12-15T09:38:11Z",
+      "side": 1,
+      "message": "In this case we always use git fetch even if the ref is small and it could be transferred as a REST apply-object payload.\nWe can add support for that as a follow up change",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 34
+      },
+      "revId": "bfd907fded95fcd5b4e5d997b9dd815384f004f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
