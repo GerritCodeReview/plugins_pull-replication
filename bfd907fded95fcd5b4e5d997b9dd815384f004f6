@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "417ed842_201fb7a0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-15T09:42:16Z",
+      "side": 1,
+      "message": "See below: I believe we\u0027ll have to introduce a new REST-API for Constants.OBJ_BLOB as it would be trivial to be executed directly instead of triggering a git fetch operation. I could change this to if/then/else and then change it back to a switch in theory, WDYT?",
+      "parentUuid": "920e649f_e8edfe9d",
+      "range": {
+        "startLine": 77,
+        "startChar": 1,
+        "endLine": 78,
+        "endChar": 34
+      },
+      "revId": "bfd907fded95fcd5b4e5d997b9dd815384f004f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87329e74_4833ab68",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
         "patchSetId": 1
@@ -85,6 +109,30 @@
       "writtenOn": "2021-12-15T09:38:11Z",
       "side": 1,
       "message": "In this case we always use git fetch even if the ref is small and it could be transferred as a REST apply-object payload.\nWe can add support for that as a follow up change",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 34
+      },
+      "revId": "bfd907fded95fcd5b4e5d997b9dd815384f004f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b98cd46_a201a04e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-15T09:42:16Z",
+      "side": 1,
+      "message": "Yes, that\u0027s what I thought as well. We have a different REST-API as this could be completely quite easily.",
+      "parentUuid": "87329e74_4833ab68",
       "range": {
         "startLine": 108,
         "startChar": 10,
