@@ -16,6 +16,24 @@
       "message": "The master branch is broken in pull-replication: let me fix it first and then will re-merge.",
       "revId": "1480b33d3e289da76d8793a3e280744511a013b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c48f0c_6f05d2cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2021-12-29T20:15:44Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "64acb1e9_b8e1b7e0",
+      "revId": "1480b33d3e289da76d8793a3e280744511a013b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
