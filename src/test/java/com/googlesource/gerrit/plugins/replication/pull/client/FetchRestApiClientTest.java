@@ -376,7 +376,8 @@ public class FetchRestApiClientTest {
 
     HttpDelete httpDelete = httpDeleteCaptor.getValue();
     assertThat(httpDelete.getURI().getHost()).isEqualTo("gerrit-host");
-    assertThat(httpDelete.getURI().getPath()).isEqualTo("/a/projects/test_repo");
+    assertThat(httpDelete.getURI().getPath())
+        .isEqualTo("/a/projects/test_repo/pull-replication~delete-project");
   }
 
   @Test
@@ -394,7 +395,7 @@ public class FetchRestApiClientTest {
 
     assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpPut.getURI().getPath())
-        .isEqualTo(String.format("/a/projects/%s/HEAD", projectName));
+        .isEqualTo(String.format("/a/projects/%s/pull-replication~HEAD", projectName));
     assertThat(payload).isEqualTo(String.format("{\"ref\": \"%s\"}", newHead));
   }
 

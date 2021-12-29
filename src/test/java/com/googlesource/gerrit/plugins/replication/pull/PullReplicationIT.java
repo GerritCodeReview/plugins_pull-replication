@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.flogger.FluentLogger;
@@ -38,11 +37,9 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
@@ -83,28 +80,10 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
   private FileBasedConfig config;
   private FileBasedConfig secureConfig;
 
-  static FakeDeleteProjectPlugin fakeDeleteProjectPlugin;
-
-  static class FakeDeleteModule extends AbstractModule {
-
-    @Override
-    public void configure() {
-      install(
-          new RestApiModule() {
-            @Override
-            public void configure() {
-              fakeDeleteProjectPlugin = new FakeDeleteProjectPlugin();
-              delete(PROJECT_KIND).toInstance(fakeDeleteProjectPlugin);
-            }
-          });
-    }
-  }
-
   @Override
   public void setUpTestPlugin() throws Exception {
     gitPath = sitePaths.site_path.resolve("git");
 
-    installPlugin("fakeDeleteProjectPlugin", FakeDeleteModule.class, null, null);
     config =
         new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
     setReplicationSource(
@@ -278,12 +257,11 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
             return NotifyHandling.NONE;
           }
         };
-
     for (ProjectDeletedListener l : deletedListeners) {
       l.onProjectDeleted(event);
     }
 
-    waitUntil(() -> fakeDeleteProjectPlugin.getDeleteEndpointCalls() == 1);
+    waitUntil(() -> !repoManager.list().contains(project));
   }
 
   @Test

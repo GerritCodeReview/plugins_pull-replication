@@ -30,6 +30,10 @@ public class SyncRefsFilter extends RefsFilter {
 
   @Override
   protected List<String> getRefNamePatterns(Config cfg) {
-    return ImmutableList.copyOf(cfg.getStringList("replication", null, "syncRefs"));
+    String[] replicationSyncRefs = cfg.getStringList("replication", null, "syncRefs");
+    if (replicationSyncRefs.length == 0) {
+      replicationSyncRefs = new String[] {"*"};
+    }
+    return ImmutableList.copyOf(replicationSyncRefs);
   }
 }
