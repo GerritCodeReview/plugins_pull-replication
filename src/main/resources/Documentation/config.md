@@ -169,7 +169,7 @@ replication.excludeRefs
     treated as single ref matches. So `foo/bar` matches only
     the ref `foo/bar`, but no other refs.
 
-    Following refs are always excluded from the git fetch calls:
+    By default, the following refs are excluded from the git fetch calls:
     - refs/users/*
     - refs/meta/config
     - refs/sequences/*
@@ -178,8 +178,6 @@ replication.excludeRefs
     - refs/meta/group-names
     - refs/cache-automerge/*
     - refs/starred-changes/*
-
-    By default, all other refs are included.
 
     Note that if you are using @PLUGIN@ together with multi-site, you should
     explicitly exclude `refs/multi-site/version` from being replicated.

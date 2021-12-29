@@ -24,21 +24,8 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class ExcludedRefsFilter extends RefsFilter {
-  @Inject
-  public ExcludedRefsFilter(ReplicationConfig replicationConfig) {
-    super(replicationConfig);
-  }
-
-  @Override
-  protected List<String> getRefNamePatterns(Config cfg) {
-    return ImmutableList.<String>builder()
-        .addAll(getDefaultExcludeRefPatterns())
-        .addAll(ImmutableList.copyOf(cfg.getStringList("replication", null, "excludeRefs")))
-        .build();
-  }
-
-  private List<String> getDefaultExcludeRefPatterns() {
-    return ImmutableList.of(
+  public static String[] DEFAULT_REPLICATION_EXCLUDE_REFS =
+      new String[] {
         RefNames.REFS_USERS + "*",
         RefNames.REFS_CONFIG,
         RefNames.REFS_SEQUENCES + "*",
@@ -46,6 +33,20 @@ public class ExcludedRefsFilter extends RefsFilter {
         RefNames.REFS_GROUPS + "*",
         RefNames.REFS_GROUPNAMES,
         RefNames.REFS_CACHE_AUTOMERGE + "*",
-        RefNames.REFS_STARRED_CHANGES + "*");
+        RefNames.REFS_STARRED_CHANGES + "*"
+      };
+
+  @Inject
+  public ExcludedRefsFilter(ReplicationConfig replicationConfig) {
+    super(replicationConfig);
+  }
+
+  @Override
+  protected List<String> getRefNamePatterns(Config cfg) {
+    String[] replicationExcludeRefs = cfg.getStringList("replication", null, "excludeRefs");
+    if (replicationExcludeRefs.length == 0) {
+      replicationExcludeRefs = DEFAULT_REPLICATION_EXCLUDE_REFS;
+    }
+    return ImmutableList.copyOf(replicationExcludeRefs);
   }
 }
