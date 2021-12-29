@@ -34,7 +34,6 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
-import com.jcraft.jsch.JSchException;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -314,7 +313,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       stateLog.error("Cannot replicate from " + uri, e, getStatesAsArray());
     } catch (TransportException e) {
       Throwable cause = e.getCause();
-      if (cause instanceof JSchException && cause.getMessage().startsWith("UnknownHostKey:")) {
+      if (cause.getMessage().startsWith("UnknownHostKey:")) {
         repLog.error("Cannot replicate from {}: {}", uri, cause.getMessage());
       } else if (e instanceof LockFailureException) {
         lockRetryCount++;
