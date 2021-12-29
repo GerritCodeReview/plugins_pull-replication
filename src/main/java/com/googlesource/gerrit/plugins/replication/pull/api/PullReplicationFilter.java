@@ -27,6 +27,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -80,6 +81,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private ProjectsCollection projectsCollection;
   private Gson gson;
   private Provider<CurrentUser> userProvider;
+  private String pluginName;
 
   @Inject
   public PullReplicationFilter(
@@ -89,7 +91,8 @@ public class PullReplicationFilter extends AllRequestFilter {
       UpdateHeadAction updateHEADAction,
       ProjectDeletionAction projectDeletionAction,
       ProjectsCollection projectsCollection,
-      Provider<CurrentUser> userProvider) {
+      Provider<CurrentUser> userProvider,
+      @PluginName String pluginName) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.projectInitializationAction = projectInitializationAction;
@@ -97,6 +100,7 @@ public class PullReplicationFilter extends AllRequestFilter {
     this.projectDeletionAction = projectDeletionAction;
     this.projectsCollection = projectsCollection;
     this.userProvider = userProvider;
+    this.pluginName = pluginName;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
   }
 
@@ -303,7 +307,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   }
 
   private boolean isDeleteProjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().matches("(/a)?/projects/[^/]+$")
+    return httpRequest.getRequestURI().endsWith(String.format("%s~delete-project", pluginName))
         && "DELETE".equals(httpRequest.getMethod());
   }
 }
