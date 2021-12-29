@@ -127,7 +127,6 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
 
   protected HttpDelete createDeleteRequest() {
     HttpDelete delete = new HttpDelete(url);
-    delete.addHeader(new BasicHeader("Content-Type", "application/json"));
     return delete;
   }
 
