@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba4077ba_04085e90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-29T21:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae5f9234_bb75c5a6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "5ca1506ceee0fd73afa2a857cfa03bd9db8d942d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "580e6a81_e2143ddf",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-12-29T20:54:30Z",
       "side": 1,
       "message": "This should be removed because MINA wouldn\u0027t do it. See how it was fixed in replication-plugin: [1].\n\n  if (e instanceof LockFailureException) {\n  [...]\n\n[1] https://gerrit-review.googlesource.com/c/plugins/replication/+/269975/14/src/main/java/com/googlesource/gerrit/plugins/replication/PushOne.java",
+      "range": {
+        "startLine": 315,
+        "startChar": 6,
+        "endLine": 318,
+        "endChar": 7
+      },
+      "revId": "5ca1506ceee0fd73afa2a857cfa03bd9db8d942d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4e76ee4_4cb9f4c4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-29T21:35:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "580e6a81_e2143ddf",
       "range": {
         "startLine": 315,
         "startChar": 6,
