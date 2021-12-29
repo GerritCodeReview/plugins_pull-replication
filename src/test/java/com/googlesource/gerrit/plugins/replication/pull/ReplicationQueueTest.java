@@ -137,7 +137,7 @@ public class ReplicationQueueTest {
   public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
     Event event = new TestEvent("refs/changes/01/1/meta");
     when(httpResult.isSuccessful()).thenReturn(false);
-
+    when(httpResult.isProjectMissing(any())).thenReturn(true);
     when(source.isCreateMissingRepositories()).thenReturn(false);
 
     objectUnderTest.start();
