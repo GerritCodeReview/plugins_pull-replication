@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e6fa5e2_5d6043f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2021-12-31T00:08:16Z",
+      "side": 1,
+      "message": "I\u0027ve managed to reduce the impact of the change and also adding one test for it. We should be good to go 👍",
+      "revId": "df9961ac65fde4908c5ef5644e4ef3132e0bd824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
