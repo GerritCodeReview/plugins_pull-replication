@@ -39,6 +39,30 @@
       },
       "revId": "df9961ac65fde4908c5ef5644e4ef3132e0bd824",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c508ca06_438f9f2e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReaderIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-01T22:09:53Z",
+      "side": 1,
+      "message": "Cool, will change to that.",
+      "parentUuid": "942db4d7_c831a108",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 57
+      },
+      "revId": "df9961ac65fde4908c5ef5644e4ef3132e0bd824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
