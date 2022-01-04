@@ -16,6 +16,24 @@
       "message": "Ping: any progress on this?",
       "revId": "ce7cefc15bc7069786c3071de32b9668b5e70cb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26a586ef_bc6c762f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-04T07:02:18Z",
+      "side": 1,
+      "message": "I\u0027m waiting for this change to be finished:\nhttps://gerrit-review.googlesource.com/c/plugins/delete-project/+/325640",
+      "parentUuid": "443e875f_f0a153bb",
+      "revId": "ce7cefc15bc7069786c3071de32b9668b5e70cb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
