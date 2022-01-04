@@ -34,6 +34,24 @@
       "parentUuid": "697ec0b3_641e1d69",
       "revId": "89f51519d2bd3f7cfdc9b3bcb6806509d0fb91b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae0549e2_f6de237d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-04T03:24:09Z",
+      "side": 1,
+      "message": "I am trying to test a scenario where the \u0027+\u0027 should be honoured: delete branch.\nI am struggling though to make it work: it seems the delete branch is broken as use-case?",
+      "parentUuid": "3f6d3dd5_6ab9c4a3",
+      "revId": "89f51519d2bd3f7cfdc9b3bcb6806509d0fb91b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
