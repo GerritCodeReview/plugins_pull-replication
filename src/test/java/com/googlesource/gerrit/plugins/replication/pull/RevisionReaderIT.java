@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.truth.Truth8;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.TestPlugin;
@@ -29,6 +30,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Scopes;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
@@ -102,6 +104,15 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     RevisionObjectData blobObject = revisionData.getBlobs().get(0);
     assertThat(blobObject.getType()).isEqualTo(Constants.OBJ_BLOB);
     assertThat(blobObject.getContent()).isNotEmpty();
+  }
+
+  @Test
+  public void shouldNotReadRefsSequences() throws Exception {
+    createChange().assertOkStatus();
+    Optional<RevisionData> revisionDataOption =
+        objectUnderTest.read(allProjects, RefNames.REFS_SEQUENCES + Sequences.NAME_CHANGES);
+
+    Truth8.assertThat(revisionDataOption).isEmpty();
   }
 
   private CommentInput createCommentInput(
