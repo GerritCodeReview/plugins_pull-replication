@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue.CanceledWhileRunning;
 import com.google.gerrit.server.ioutil.HexFormat;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -54,7 +55,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.slf4j.MDC;
 
 /**
  * A pull from remote operation started by command-line.
@@ -65,7 +65,7 @@ import org.slf4j.MDC;
 public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final ReplicationStateListener stateLog;
   static final String ALL_REFS = "..all..";
-  static final String ID_MDC_KEY = "fetchOneId";
+  static final String ID_KEY = "fetchOneId";
 
   interface Factory {
     FetchOne create(Project.NameKey d, URIish u);
@@ -270,11 +270,16 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   private void runFetchOperation() {
+    try (TraceContext ctx = TraceContext.open().addTag(ID_KEY, HexFormat.fromInt(id))) {
+      doRunFetchOperation();
+    }
+  }
+
+  private void doRunFetchOperation() {
     // Lock the queue, and remove ourselves, so we can't be modified once
     // we start replication (instead a new instance, with the same URI, is
     // created and scheduled for a future point in time.)
     //
-    MDC.put(ID_MDC_KEY, HexFormat.fromInt(id));
     if (!pool.requestRunway(this)) {
       if (!canceled) {
         repLog.info(
