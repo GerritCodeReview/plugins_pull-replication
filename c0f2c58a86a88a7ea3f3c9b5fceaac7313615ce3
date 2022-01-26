@@ -22,6 +22,75 @@
       },
       "revId": "c0f2c58a86a88a7ea3f3c9b5fceaac7313615ce3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82223858_4e6beb8c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-26T21:50:14Z",
+      "side": 1,
+      "message": "not used",
+      "range": {
+        "startLine": 376,
+        "startChar": 11,
+        "endLine": 376,
+        "endChar": 32
+      },
+      "revId": "c0f2c58a86a88a7ea3f3c9b5fceaac7313615ce3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97321998_33e049ae",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-26T21:50:14Z",
+      "side": 1,
+      "message": "not used",
+      "range": {
+        "startLine": 402,
+        "startChar": 8,
+        "endLine": 402,
+        "endChar": 29
+      },
+      "revId": "c0f2c58a86a88a7ea3f3c9b5fceaac7313615ce3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c34c9726_48fdafb4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommandTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-26T21:50:14Z",
+      "side": 1,
+      "message": "maybe `shouldSendEventWheDeleteRef` would be more descriptive",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 44
+      },
+      "revId": "c0f2c58a86a88a7ea3f3c9b5fceaac7313615ce3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
