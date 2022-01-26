@@ -33,11 +33,16 @@ import java.util.Objects;
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
   private final ApplyObjectCommand command;
+  private final DeleteRefCommand deleteRefCommand;
   private final FetchPreconditions preConditions;
 
   @Inject
-  public ApplyObjectAction(ApplyObjectCommand command, FetchPreconditions preConditions) {
+  public ApplyObjectAction(
+      ApplyObjectCommand command,
+      DeleteRefCommand deleteRefCommand,
+      FetchPreconditions preConditions) {
     this.command = command;
+    this.deleteRefCommand = deleteRefCommand;
     this.preConditions = preConditions;
   }
 
@@ -56,7 +61,8 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
       }
 
       if (Objects.isNull(input.getRevisionData())) {
-        throw new BadRequestException("Ref-update revision data cannot be null or empty");
+        deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
+        return Response.created(input);
       }
 
       if (Objects.isNull(input.getRevisionData().getCommitObject())
