@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86994123_119c272f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-26T10:37:16Z",
+      "side": 1,
+      "message": "I would be good to add some tests for the deletion",
+      "revId": "ab9a9586f003f9530f2e7c06e698eeb3d11f8e98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
