@@ -16,6 +16,132 @@
       "message": "Started adding some initial mocked tests: I need to also add one integration test, at least. Setting this to WIP then.",
       "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7191effe_000aed64",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:39:43Z",
+      "side": 1,
+      "message": "PermissionBackendException can also be raised from `deleteSingleRef`, not necessarily when posting the event to the dispatcher, so this error message might be misleading.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 73
+      },
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65bb7e00_ed516b4f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:39:43Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this exception be thrown?",
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e4ba453_28833f5e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:39:43Z",
+      "side": 1,
+      "message": "Why adding isDelete?\nCouldn\u0027t we just infer this *is* a delete from the fact that revisionData is null?",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 23
+      },
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "532f55f5_dca14715",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:39:43Z",
+      "side": 1,
+      "message": "Should we also require that\n\n```\nrevisionData MUST be null when ref-update IS a DELETE?\n```\n\nIf not, what would it mean when `isDelete\u003dtrue` and `revisionData !\u003d null`?",
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa374cc4_f013c670",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:39:43Z",
+      "side": 1,
+      "message": "nit: consider naming this variable",
+      "range": {
+        "startLine": 276,
+        "startChar": 47,
+        "endLine": 276,
+        "endChar": 52
+      },
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c43ef6_2649a140",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:39:43Z",
+      "side": 1,
+      "message": "nit: consider naming this variable",
+      "range": {
+        "startLine": 291,
+        "startChar": 47,
+        "endLine": 291,
+        "endChar": 52
+      },
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
