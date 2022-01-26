@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.net.MediaType;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
@@ -142,9 +143,17 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   }
 
   public HttpResult callSendObject(
-      Project.NameKey project, String refName, RevisionData revisionData, URIish targetUri)
+      Project.NameKey project,
+      String refName,
+      boolean isDelete,
+      @Nullable RevisionData revisionData,
+      URIish targetUri)
       throws ClientProtocolException, IOException {
 
+    if (!isDelete) {
+      requireNonNull(
+          revisionData, "RevisionData MUST not be null when the ref-update is not a DELETE");
+    }
     RevisionInput input = new RevisionInput(instanceLabel, refName, revisionData);
 
     String url =
