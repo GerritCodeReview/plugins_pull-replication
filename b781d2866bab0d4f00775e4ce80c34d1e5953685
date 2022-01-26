@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1a4a83_938de75b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T20:56:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91029bb3_94fcd9ce",
+      "range": {
+        "startLine": 389,
+        "startChar": 2,
+        "endLine": 389,
+        "endChar": 11
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48e8d013_a605dd10",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-01-26T20:22:54Z",
       "side": 1,
       "message": "Dumb question:\n\nit it possible that more than one refSpec in the config would match this `ref`.\nIs it safe to only short-circuit to the first one we match?",
+      "range": {
+        "startLine": 392,
+        "startChar": 8,
+        "endLine": 392,
+        "endChar": 58
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b58790b_4d8d0026",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T20:56:29Z",
+      "side": 1,
+      "message": "Yes, it could match multiple times: however, if that happens, the first that matches counts.",
+      "parentUuid": "48e8d013_a605dd10",
       "range": {
         "startLine": 392,
         "startChar": 8,
@@ -89,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d6eae26_129020e2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T20:56:29Z",
+      "side": 1,
+      "message": "Yeah, good catch. Follow-up change?",
+      "parentUuid": "4c67d949_8feaddb9",
+      "range": {
+        "startLine": 71,
+        "startChar": 13,
+        "endLine": 71,
+        "endChar": 63
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a67bce4_60743f6a",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
         "patchSetId": 13
@@ -100,6 +172,30 @@
       "writtenOn": "2022-01-26T20:22:54Z",
       "side": 1,
       "message": "unrelated, but repLog takes format placeholders as \u0027{}\u0027, not \u0027%s\u0027, so this trace would not work.",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 102,
+        "endChar": 69
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4712377e_aa622790",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T20:56:29Z",
+      "side": 1,
+      "message": "Yeah, good catch. Follow-up change?",
+      "parentUuid": "4a67bce4_60743f6a",
       "range": {
         "startLine": 102,
         "startChar": 11,
