@@ -159,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ac4be81_a26ef466",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T21:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d6eae26_129020e2",
+      "range": {
+        "startLine": 71,
+        "startChar": 13,
+        "endLine": 71,
+        "endChar": 63
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a67bce4_60743f6a",
@@ -196,6 +220,30 @@
       "side": 1,
       "message": "Yeah, good catch. Follow-up change?",
       "parentUuid": "4a67bce4_60743f6a",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 102,
+        "endChar": 69
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b970eec_0fea2bb2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T21:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4712377e_aa622790",
       "range": {
         "startLine": 102,
         "startChar": 11,
