@@ -68,8 +68,10 @@ public class RevisionReader {
 
       if (commitLoader.getType() != Constants.OBJ_COMMIT) {
         repLog.trace(
-            "Ref %s for project %s points to an object type %d",
-            refName, project, commitLoader.getType());
+            "Ref {} for project {} points to an object type {}",
+            refName,
+            project,
+            commitLoader.getType());
         return Optional.empty();
       }
 
@@ -99,8 +101,10 @@ public class RevisionReader {
       return Optional.of(new RevisionData(commitRev, treeRev, blobs));
     } catch (LargeObjectException e) {
       repLog.trace(
-          "Ref %s size for project %s is greater than configured '%s'",
-          refName, project, CONFIG_MAX_API_PAYLOAD_SIZE);
+          "Ref {} size for project {} is greater than configured '{}'",
+          refName,
+          project,
+          CONFIG_MAX_API_PAYLOAD_SIZE);
       return Optional.empty();
     }
   }
