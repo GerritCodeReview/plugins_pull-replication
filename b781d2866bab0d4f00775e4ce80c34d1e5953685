@@ -16,6 +16,121 @@
       "message": "This is now ready for review",
       "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91029bb3_94fcd9ce",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:22:54Z",
+      "side": 1,
+      "message": "nit: this could be private",
+      "range": {
+        "startLine": 389,
+        "startChar": 2,
+        "endLine": 389,
+        "endChar": 11
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48e8d013_a605dd10",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:22:54Z",
+      "side": 1,
+      "message": "Dumb question:\n\nit it possible that more than one refSpec in the config would match this `ref`.\nIs it safe to only short-circuit to the first one we match?",
+      "range": {
+        "startLine": 392,
+        "startChar": 8,
+        "endLine": 392,
+        "endChar": 58
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c67d949_8feaddb9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:22:54Z",
+      "side": 1,
+      "message": "unrelated, but repLog takes format placeholders as \u0027{}\u0027, not \u0027%s\u0027, so this trace would not work.",
+      "range": {
+        "startLine": 71,
+        "startChar": 13,
+        "endLine": 71,
+        "endChar": 63
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a67bce4_60743f6a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:22:54Z",
+      "side": 1,
+      "message": "unrelated, but repLog takes format placeholders as \u0027{}\u0027, not \u0027%s\u0027, so this trace would not work.",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 102,
+        "endChar": 69
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a5f43ad_0f39f2fe",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-01-26T20:22:54Z",
+      "side": 1,
+      "message": "what\u0027s the point of opening the source repo?",
+      "range": {
+        "startLine": 210,
+        "startChar": 19,
+        "endLine": 210,
+        "endChar": 29
+      },
+      "revId": "b781d2866bab0d4f00775e4ce80c34d1e5953685",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
