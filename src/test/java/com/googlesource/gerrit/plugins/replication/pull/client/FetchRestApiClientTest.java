@@ -273,7 +273,7 @@ public class FetchRestApiClientTest {
       throws ClientProtocolException, IOException, URISyntaxException {
 
     objectUnderTest.callSendObject(
-        Project.nameKey("test_repo"), refName, createSampleRevisionData(), new URIish(api));
+        Project.nameKey("test_repo"), refName, false, createSampleRevisionData(), new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -288,7 +288,7 @@ public class FetchRestApiClientTest {
       throws ClientProtocolException, IOException, URISyntaxException {
 
     objectUnderTest.callSendObject(
-        Project.nameKey("test_repo"), refName, createSampleRevisionData(), new URIish(api));
+        Project.nameKey("test_repo"), refName, false, createSampleRevisionData(), new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
