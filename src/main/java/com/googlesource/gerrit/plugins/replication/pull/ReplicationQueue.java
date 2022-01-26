@@ -134,11 +134,12 @@ public class ReplicationQueue
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
     if (isRefToBeReplicated(event.getRefName())) {
+    	repLog.info("Ref event received: {} on project {}:{} - {} => {}", refUpdateType(event), event.getProjectName(), event.getRefName(), event.getOldObjectId(), event.getNewObjectId()); 
       fire(event.getProjectName(), ObjectId.fromString(event.getNewObjectId()), event.getRefName());
     }
   }
 
-  @Override
+@Override
   public void onProjectDeleted(ProjectDeletedListener.Event event) {
     Project.NameKey project = Project.nameKey(event.getProjectName());
     sources.get().getAll().stream()
@@ -147,6 +148,18 @@ public class ReplicationQueue
             source ->
                 source.getApis().forEach(apiUrl -> source.scheduleDeleteProject(apiUrl, project)));
   }
+
+
+private static String refUpdateType(GitReferenceUpdatedListener.Event event) {
+	String forcedPrefix = event.isNonFastForward() ? "FORCED ":" ";
+	if(event.isCreate()) {
+		return forcedPrefix + "CREATE";
+	} else if(event.isDelete()) {
+		return forcedPrefix + "DELETE";
+	} else {
+		return forcedPrefix + "UPDATE";
+	}
+}
 
   private Boolean isRefToBeReplicated(String refName) {
     return !refsFilter.match(refName);
