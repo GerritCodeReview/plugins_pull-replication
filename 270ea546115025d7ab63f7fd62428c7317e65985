@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87ccdb73_e7b5a191",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T21:30:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7191effe_000aed64",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 73
+      },
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65bb7e00_ed516b4f",
@@ -54,6 +78,24 @@
       "writtenOn": "2022-01-26T20:39:43Z",
       "side": 1,
       "message": "Shouldn\u0027t this exception be thrown?",
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6541ec75_367431d2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T21:30:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65bb7e00_ed516b4f",
       "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "095581ac_eaa6b72e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T21:30:22Z",
+      "side": 1,
+      "message": "In theory, yes. However, the fact that the RevisionData is null *AND* you are not performing a delete is something that should raise an issue rather than silently causing a ref to be deleted.\n\nThat\u0027s why I do prefer to keep them separate and not making the implicit assumption that failing to get RevisionData means that it is a delete.",
+      "parentUuid": "1e4ba453_28833f5e",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 23
+      },
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "532f55f5_dca14715",
@@ -94,6 +160,24 @@
       "writtenOn": "2022-01-26T20:39:43Z",
       "side": 1,
       "message": "Should we also require that\n\n```\nrevisionData MUST be null when ref-update IS a DELETE?\n```\n\nIf not, what would it mean when `isDelete\u003dtrue` and `revisionData !\u003d null`?",
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4a5e5ea_8b5d152c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T21:30:22Z",
+      "side": 1,
+      "message": "True, let me add that.",
+      "parentUuid": "532f55f5_dca14715",
       "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -121,6 +205,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f0af6d_2cad0653",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T21:30:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa374cc4_f013c670",
+      "range": {
+        "startLine": 276,
+        "startChar": 47,
+        "endLine": 276,
+        "endChar": 52
+      },
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68c43ef6_2649a140",
@@ -134,6 +242,30 @@
       "writtenOn": "2022-01-26T20:39:43Z",
       "side": 1,
       "message": "nit: consider naming this variable",
+      "range": {
+        "startLine": 291,
+        "startChar": 47,
+        "endLine": 291,
+        "endChar": 52
+      },
+      "revId": "270ea546115025d7ab63f7fd62428c7317e65985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f685a14_2f4ab381",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T21:30:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68c43ef6_2649a140",
       "range": {
         "startLine": 291,
         "startChar": 47,
