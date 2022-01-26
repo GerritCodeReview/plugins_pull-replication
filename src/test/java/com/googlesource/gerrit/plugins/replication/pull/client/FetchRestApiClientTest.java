@@ -64,6 +64,8 @@ import org.mockito.stubbing.Answer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FetchRestApiClientTest {
+  private static final boolean IS_REF_UPDATE = false;
+
   @Mock CredentialsProvider credentialProvider;
   @Mock CredentialsFactory credentials;
   @Mock HttpClient httpClient;
@@ -273,7 +275,11 @@ public class FetchRestApiClientTest {
       throws ClientProtocolException, IOException, URISyntaxException {
 
     objectUnderTest.callSendObject(
-        Project.nameKey("test_repo"), refName, createSampleRevisionData(), new URIish(api));
+        Project.nameKey("test_repo"),
+        refName,
+        IS_REF_UPDATE,
+        createSampleRevisionData(),
+        new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 
@@ -288,7 +294,11 @@ public class FetchRestApiClientTest {
       throws ClientProtocolException, IOException, URISyntaxException {
 
     objectUnderTest.callSendObject(
-        Project.nameKey("test_repo"), refName, createSampleRevisionData(), new URIish(api));
+        Project.nameKey("test_repo"),
+        refName,
+        IS_REF_UPDATE,
+        createSampleRevisionData(),
+        new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
 

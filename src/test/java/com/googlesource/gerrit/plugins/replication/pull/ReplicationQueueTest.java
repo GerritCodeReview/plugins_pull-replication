@@ -16,6 +16,8 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.Files.createTempDirectory;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.never;
@@ -86,7 +88,7 @@ public class ReplicationQueueTest {
   private Path pluginDataPath;
 
   @Before
-  public void setup() throws IOException, LargeObjectException, RefUpdateException {
+  public void setup() throws IOException, LargeObjectException {
     Path sitePath = createTempPath("site");
     sitePaths = new SitePaths(sitePath);
     Path pluginDataPath = createTempPath("data");
@@ -101,7 +103,7 @@ public class ReplicationQueueTest {
     when(rd.get()).thenReturn(sourceCollection);
     when(revReader.read(any(), any(), anyString())).thenReturn(Optional.of(revisionData));
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), any(), any()))
+    when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(httpResult);
     when(httpResult.isSuccessful()).thenReturn(true);
@@ -117,7 +119,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), any(), any());
+    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
   }
 
   @Test
@@ -152,7 +154,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), any(), any());
+    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
   }
 
   @Test
@@ -189,7 +191,7 @@ public class ReplicationQueueTest {
 
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isParentObjectMissing()).thenReturn(true);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), any(), any()))
+    when(fetchRestApiClient.callSendObject(any(), anyString(), eq(false), any(), any()))
         .thenReturn(httpResult);
 
     objectUnderTest.onGitReferenceUpdated(event);
@@ -362,7 +364,7 @@ public class ReplicationQueueTest {
 
     @Override
     public String getOldObjectId() {
-      return null;
+      return ObjectId.zeroId().getName();
     }
 
     @Override

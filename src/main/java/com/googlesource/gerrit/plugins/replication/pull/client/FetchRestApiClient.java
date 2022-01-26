@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.net.MediaType;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
@@ -142,9 +143,19 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
   }
 
   public HttpResult callSendObject(
-      Project.NameKey project, String refName, RevisionData revisionData, URIish targetUri)
+      Project.NameKey project,
+      String refName,
+      boolean isDelete,
+      @Nullable RevisionData revisionData,
+      URIish targetUri)
       throws ClientProtocolException, IOException {
 
+    if (!isDelete) {
+      requireNonNull(
+          revisionData, "RevisionData MUST not be null when the ref-update is not a DELETE");
+    } else {
+      requireNull(revisionData, "DELETE ref-updates cannot be associated with a RevisionData");
+    }
     RevisionInput input = new RevisionInput(instanceLabel, refName, revisionData);
 
     String url =
@@ -156,6 +167,12 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+  }
+
+  private void requireNull(Object object, String string) {
+    if (object != null) {
+      throw new IllegalArgumentException(string);
+    }
   }
 
   @Override

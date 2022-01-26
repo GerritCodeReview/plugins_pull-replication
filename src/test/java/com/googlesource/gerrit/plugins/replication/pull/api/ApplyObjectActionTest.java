@@ -72,6 +72,7 @@ public class ApplyObjectActionTest {
           + "Submitted-with: OK: Code-Review: Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac>";
 
   @Mock ApplyObjectCommand applyObjectCommand;
+  @Mock DeleteRefCommand deleteRefCommand;
   @Mock ProjectResource projectResource;
   @Mock FetchPreconditions preConditions;
 
@@ -79,7 +80,7 @@ public class ApplyObjectActionTest {
   public void setup() {
     when(preConditions.canCallFetchApi()).thenReturn(true);
 
-    applyObjectAction = new ApplyObjectAction(applyObjectCommand, preConditions);
+    applyObjectAction = new ApplyObjectAction(applyObjectCommand, deleteRefCommand, preConditions);
   }
 
   @Test
@@ -124,13 +125,6 @@ public class ApplyObjectActionTest {
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenEmptyRefName() throws Exception {
     RevisionInput inputParams = new RevisionInput(label, "", createSampleRevisionData());
-
-    applyObjectAction.apply(projectResource, inputParams);
-  }
-
-  @Test(expected = BadRequestException.class)
-  public void shouldThrowBadRequestExceptionWhenMissingRevisionData() throws Exception {
-    RevisionInput inputParams = new RevisionInput(label, refName, null);
 
     applyObjectAction.apply(projectResource, inputParams);
   }
