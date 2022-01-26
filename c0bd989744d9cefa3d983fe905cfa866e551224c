@@ -93,6 +93,30 @@
       },
       "revId": "c0bd989744d9cefa3d983fe905cfa866e551224c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed8f19ec_46726bb1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-01-26T12:19:18Z",
+      "side": 1,
+      "message": "The event does not include that information. With regards to the log, it already has a timestamp associated.",
+      "parentUuid": "646480dd_85fe6d40",
+      "range": {
+        "startLine": 137,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 18
+      },
+      "revId": "c0bd989744d9cefa3d983fe905cfa866e551224c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
