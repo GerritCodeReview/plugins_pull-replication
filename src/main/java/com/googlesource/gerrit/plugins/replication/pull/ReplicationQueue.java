@@ -31,7 +31,6 @@ import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
@@ -134,7 +133,18 @@ public class ReplicationQueue
   @Override
   public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
     if (isRefToBeReplicated(event.getRefName())) {
-      fire(event.getProjectName(), ObjectId.fromString(event.getNewObjectId()), event.getRefName());
+      repLog.info(
+          "Ref event received: {} on project {}:{} - {} => {}",
+          refUpdateType(event),
+          event.getProjectName(),
+          event.getRefName(),
+          event.getOldObjectId(),
+          event.getNewObjectId());
+      fire(
+          event.getProjectName(),
+          ObjectId.fromString(event.getNewObjectId()),
+          event.getRefName(),
+          event.isDelete());
     }
   }
 
@@ -148,30 +158,47 @@ public class ReplicationQueue
                 source.getApis().forEach(apiUrl -> source.scheduleDeleteProject(apiUrl, project)));
   }
 
+  private static String refUpdateType(GitReferenceUpdatedListener.Event event) {
+    String forcedPrefix = event.isNonFastForward() ? "FORCED " : " ";
+    if (event.isCreate()) {
+      return forcedPrefix + "CREATE";
+    } else if (event.isDelete()) {
+      return forcedPrefix + "DELETE";
+    } else {
+      return forcedPrefix + "UPDATE";
+    }
+  }
+
   private Boolean isRefToBeReplicated(String refName) {
     return !refsFilter.match(refName);
   }
 
-  private void fire(String projectName, ObjectId objectId, String refName) {
+  private void fire(String projectName, ObjectId objectId, String refName, boolean isDelete) {
     ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
-    fire(Project.nameKey(projectName), objectId, refName, state);
+    fire(Project.nameKey(projectName), objectId, refName, isDelete, state);
     state.markAllFetchTasksScheduled();
   }
 
   private void fire(
-      Project.NameKey project, ObjectId objectId, String refName, ReplicationState state) {
+      Project.NameKey project,
+      ObjectId objectId,
+      String refName,
+      boolean isDelete,
+      ReplicationState state) {
     if (!running) {
       stateLog.warn(
           "Replication plugin did not finish startup before event, event replication is postponed",
           state);
-      beforeStartupEventsQueue.add(ReferenceUpdatedEvent.create(project.get(), refName, objectId));
+      beforeStartupEventsQueue.add(
+          ReferenceUpdatedEvent.create(project.get(), refName, objectId, isDelete));
       return;
     }
     ForkJoinPool fetchCallsPool = null;
     try {
       fetchCallsPool = new ForkJoinPool(sources.get().getAll().size());
 
-      final Consumer<Source> callFunction = callFunction(project, refName, state);
+      final Consumer<Source> callFunction =
+          callFunction(project, objectId, refName, isDelete, state);
       fetchCallsPool
           .submit(() -> sources.get().getAll().parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
@@ -189,8 +216,13 @@ public class ReplicationQueue
     }
   }
 
-  private Consumer<Source> callFunction(NameKey project, String refName, ReplicationState state) {
-    CallFunction call = getCallFunction(project, refName, state);
+  private Consumer<Source> callFunction(
+      NameKey project,
+      ObjectId objectId,
+      String refName,
+      boolean isDelete,
+      ReplicationState state) {
+    CallFunction call = getCallFunction(project, objectId, refName, isDelete, state);
 
     return (source) -> {
       try {
@@ -201,13 +233,23 @@ public class ReplicationQueue
     };
   }
 
-  private CallFunction getCallFunction(NameKey project, String refName, ReplicationState state) {
+  private CallFunction getCallFunction(
+      NameKey project,
+      ObjectId objectId,
+      String refName,
+      boolean isDelete,
+      ReplicationState state) {
+    if (isDelete) {
+      return ((source) -> callSendObject(source, project, refName, isDelete, null, state));
+    }
+
     try {
-      Optional<RevisionData> revisionData = revisionReader.read(project, refName);
+      Optional<RevisionData> revisionData = revisionReader.read(project, objectId, refName);
       if (revisionData.isPresent()) {
-        return ((source) -> callSendObject(source, project, refName, revisionData.get(), state));
+        return ((source) ->
+            callSendObject(source, project, refName, isDelete, revisionData.get(), state));
       }
-    } catch (InvalidObjectIdException | IOException | RefUpdateException e) {
+    } catch (InvalidObjectIdException | IOException e) {
       stateLog.error(
           String.format(
               "Exception during reading ref: %s, project:%s, message: %s",
@@ -223,6 +265,7 @@ public class ReplicationQueue
       Source source,
       Project.NameKey project,
       String refName,
+      boolean isDelete,
       RevisionData revision,
       ReplicationState state)
       throws MissingParentObjectException {
@@ -232,7 +275,7 @@ public class ReplicationQueue
           URIish uri = new URIish(apiUrl);
           FetchRestApiClient fetchClient = fetchClientFactory.create(source);
 
-          HttpResult result = fetchClient.callSendObject(project, refName, revision, uri);
+          HttpResult result = fetchClient.callSendObject(project, refName, isDelete, revision, uri);
           if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
             result = initProject(project, uri, fetchClient, result);
           }
@@ -319,7 +362,7 @@ public class ReplicationQueue
       String eventKey = String.format("%s:%s", event.projectName(), event.refName());
       if (!eventsReplayed.contains(eventKey)) {
         repLog.info("Firing pending task {}", event);
-        fire(event.projectName(), event.objectId(), event.refName());
+        fire(event.projectName(), event.objectId(), event.refName(), event.isDelete());
         eventsReplayed.add(eventKey);
       }
     }
@@ -339,8 +382,10 @@ public class ReplicationQueue
   @AutoValue
   abstract static class ReferenceUpdatedEvent {
 
-    static ReferenceUpdatedEvent create(String projectName, String refName, ObjectId objectId) {
-      return new AutoValue_ReplicationQueue_ReferenceUpdatedEvent(projectName, refName, objectId);
+    static ReferenceUpdatedEvent create(
+        String projectName, String refName, ObjectId objectId, boolean isDelete) {
+      return new AutoValue_ReplicationQueue_ReferenceUpdatedEvent(
+          projectName, refName, objectId, isDelete);
     }
 
     public abstract String projectName();
@@ -348,6 +393,8 @@ public class ReplicationQueue
     public abstract String refName();
 
     public abstract ObjectId objectId();
+
+    public abstract boolean isDelete();
   }
 
   @FunctionalInterface

@@ -23,7 +23,6 @@ import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -34,9 +33,9 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -57,21 +56,24 @@ public class RevisionReader {
             .getLong("replication", CONFIG_MAX_API_PAYLOAD_SIZE, DEFAULT_MAX_PAYLOAD_SIZE_IN_BYTES);
   }
 
-  public Optional<RevisionData> read(Project.NameKey project, String refName)
+  public Optional<RevisionData> read(Project.NameKey project, ObjectId objectId, String refName)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
-          RepositoryNotFoundException, RefUpdateException, IOException {
+          RepositoryNotFoundException, IOException {
     try (Repository git = gitRepositoryManager.openRepository(project)) {
-      Ref head = git.exactRef(refName);
-      if (head == null) {
-        throw new RefUpdateException(
-            String.format("Cannot find ref %s in project %s", refName, project.get()));
-      }
-
       Long totalRefSize = 0l;
 
-      ObjectLoader commitLoader = git.open(head.getObjectId());
+      ObjectLoader commitLoader = git.open(objectId);
       totalRefSize += commitLoader.getSize();
       verifySize(totalRefSize, commitLoader);
+
+      if (commitLoader.getType() != Constants.OBJ_COMMIT) {
+        repLog.trace(
+            "Ref {} for project {} points to an object type {}",
+            refName,
+            project,
+            commitLoader.getType());
+        return Optional.empty();
+      }
 
       RevCommit commit = RevCommit.parse(commitLoader.getCachedBytes());
       RevisionObjectData commitRev =
@@ -99,8 +101,10 @@ public class RevisionReader {
       return Optional.of(new RevisionData(commitRev, treeRev, blobs));
     } catch (LargeObjectException e) {
       repLog.trace(
-          "Ref %s size for project %s is greater than configured '%s'",
-          refName, project, CONFIG_MAX_API_PAYLOAD_SIZE);
+          "Ref {} size for project {} is greater than configured '{}'",
+          refName,
+          project,
+          CONFIG_MAX_API_PAYLOAD_SIZE);
       return Optional.empty();
     }
   }
