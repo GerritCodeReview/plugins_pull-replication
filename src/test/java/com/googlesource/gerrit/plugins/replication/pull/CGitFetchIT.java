@@ -34,7 +34,12 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
+import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
+import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.BatchFetchClient;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.CGitFetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
@@ -270,6 +275,10 @@ public class CGitFetchIT extends LightweightPluginDaemonTest {
       try {
         RemoteConfig remoteConfig = new RemoteConfig(cf, "test_config");
         SourceConfiguration sourceConfig = new SourceConfiguration(remoteConfig, cf);
+        bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
+        bind(CredentialsFactory.class)
+            .to(AutoReloadSecureCredentialsFactoryDecorator.class)
+            .in(Scopes.SINGLETON);
 
         bind(SourceConfiguration.class).toInstance(sourceConfig);
         install(
