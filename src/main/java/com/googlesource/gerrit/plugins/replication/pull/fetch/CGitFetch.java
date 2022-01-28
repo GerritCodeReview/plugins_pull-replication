@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -95,7 +96,9 @@ public class CGitFetch implements Fetch {
     if (credentialsProvider.supports(user, pass)
         && credentialsProvider.get(uri, user, pass)
         && uri.getScheme() != null
-        && !"ssh".equalsIgnoreCase(uri.getScheme())) {
+        && !"ssh".equalsIgnoreCase(uri.getScheme())
+        && !Strings.isNullOrEmpty(user.getValue())
+        && !Strings.isNullOrEmpty(String.valueOf(pass.getValue()))) {
       return uri.setUser(user.getValue()).setPass(String.valueOf(pass.getValue()));
     }
 
