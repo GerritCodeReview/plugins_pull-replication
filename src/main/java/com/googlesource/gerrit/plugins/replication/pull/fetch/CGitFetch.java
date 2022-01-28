@@ -65,6 +65,7 @@ public class CGitFetch implements Fetch {
 
     try {
       boolean isFinished = waitForTaskToFinish(process);
+      repLog.info("Fetch references {} from {} completed!!!", refs, uri);
       if (!isFinished) {
         throw new TransportException(
             String.format("Timeout exception during the fetch from: %s, refs: %s", uri, refs));
