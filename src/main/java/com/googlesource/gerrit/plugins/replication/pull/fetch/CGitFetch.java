@@ -19,6 +19,7 @@ import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLo
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration;
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.CredentialItem;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 
@@ -40,17 +43,20 @@ public class CGitFetch implements Fetch {
   private int timeout;
 
   @Inject
-  public CGitFetch(SourceConfiguration config, @Assisted URIish uri, @Assisted Repository git) {
-
+  public CGitFetch(
+      SourceConfiguration config,
+      CredentialsFactory cpFactory,
+      @Assisted URIish uri,
+      @Assisted Repository git) {
     this.localProjectDirectory = git.getDirectory();
-    this.uri = uri;
+    this.uri = appendCredentials(uri, cpFactory.create(config.getRemoteConfig().getName()));
     this.timeout = config.getRemoteConfig().getTimeout();
   }
 
   @Override
   public List<RefUpdateState> fetch(List<RefSpec> refsSpec) throws IOException {
     List<String> refs = refsSpec.stream().map(s -> s.toString()).collect(Collectors.toList());
-    List<String> command = Lists.newArrayList("git", "fetch", uri.toASCIIString());
+    List<String> command = Lists.newArrayList("git", "fetch", uri.toPrivateASCIIString());
     command.addAll(refs);
     ProcessBuilder pb = new ProcessBuilder().command(command).directory(localProjectDirectory);
     repLog.info("Fetch references {} from {}", refs, uri);
@@ -81,6 +87,19 @@ public class CGitFetch implements Fetch {
       repLog.error("Thread interrupted during the fetch from: {}, refs: {}", uri, refs);
       throw new IllegalStateException(e);
     }
+  }
+
+  protected URIish appendCredentials(URIish uri, CredentialsProvider credentialsProvider) {
+    CredentialItem.Username user = new CredentialItem.Username();
+    CredentialItem.Password pass = new CredentialItem.Password();
+    if (credentialsProvider.supports(user, pass)
+        && credentialsProvider.get(uri, user, pass)
+        && uri.getScheme() != null
+        && !"ssh".equalsIgnoreCase(uri.getScheme())) {
+      return uri.setUser(user.getValue()).setPass(String.valueOf(pass.getValue()));
+    }
+
+    return uri;
   }
 
   public boolean waitForTaskToFinish(Process process) throws InterruptedException {
