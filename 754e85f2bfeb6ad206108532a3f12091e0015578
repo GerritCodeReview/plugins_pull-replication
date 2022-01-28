@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d69165c2_969a7377",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-28T19:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4705f554_ac8d8efd",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "754e85f2bfeb6ad206108532a3f12091e0015578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "80964037_e60562bf",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f69a4e16_9c15d77a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/CGitFetch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-28T19:58:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "345ef7ce_0de236be",
+      "revId": "754e85f2bfeb6ad206108532a3f12091e0015578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34ad2c71_00273500",
@@ -71,6 +113,30 @@
       "writtenOn": "2022-01-28T19:50:48Z",
       "side": 1,
       "message": "This would include the password in the URL, which isn\u0027t an issue for HTTPS (connection is encrypted)",
+      "range": {
+        "startLine": 60,
+        "startChar": 62,
+        "endLine": 60,
+        "endChar": 88
+      },
+      "revId": "754e85f2bfeb6ad206108532a3f12091e0015578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0815b572_c30ff057",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/CGitFetch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-01-28T19:58:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "34ad2c71_00273500",
       "range": {
         "startLine": 60,
         "startChar": 62,
