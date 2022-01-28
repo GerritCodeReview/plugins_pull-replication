@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -34,9 +35,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
-import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
@@ -52,15 +51,18 @@ import java.nio.file.Path;
 import java.time.Duration;
 import java.util.List;
 import java.util.function.Supplier;
+import org.apache.http.client.utils.URIBuilder;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.junit.Test;
 
 @SkipProjectClone
@@ -74,6 +76,7 @@ public class CGitFetchIT extends LightweightPluginDaemonTest {
 
   private static final int TEST_REPLICATION_DELAY = 60;
   private static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2);
+  private static CredentialsProvider userNameCredentialsProvider;
 
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
@@ -85,6 +88,8 @@ public class CGitFetchIT extends LightweightPluginDaemonTest {
   public void setUpTestPlugin() throws Exception {
     gitPath = sitePaths.site_path.resolve("git");
     testRepoPath = gitPath.resolve(project + TEST_REPLICATION_SUFFIX + ".git");
+    userNameCredentialsProvider =
+        new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword());
 
     super.setUpTestPlugin();
     fetchFactory = plugin.getSysInjector().getInstance(FetchFactory.class);
@@ -109,6 +114,142 @@ public class CGitFetchIT extends LightweightPluginDaemonTest {
       Ref targetBranchRef = getRef(repo, sourceRef);
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
+    }
+  }
+
+  @Test
+  public void shouldFetchRefWithAuthentication() throws Exception {
+    Project.NameKey testRepoName = createTestProject(project + TEST_REPLICATION_SUFFIX);
+    testRepo = cloneProject(testRepoName);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+
+      Result pushResult = createChange();
+      RevCommit sourceCommit = pushResult.getCommit();
+      String sourceRef = pushResult.getPatchSet().refName();
+
+      String uri = removeCredentials(admin.getHttpUrl(server)) + "/a/" + testRepoName.get();
+      Fetch objectUnderTest = fetchFactory.create(new URIish(uri), repo);
+
+      objectUnderTest.fetch(Lists.newArrayList(new RefSpec(sourceRef + ":" + sourceRef)));
+
+      waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
+
+      Ref targetBranchRef = getRef(repo, sourceRef);
+      assertThat(targetBranchRef).isNotNull();
+      assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
+    }
+  }
+
+  @Test
+  public void shouldThrowExceptionWhenUnknownUser() throws Exception {
+    Project.NameKey testRepoName = createTestProject(project + TEST_REPLICATION_SUFFIX);
+    testRepo = cloneProject(testRepoName);
+
+    userNameCredentialsProvider =
+        new UsernamePasswordCredentialsProvider("unknown_user", admin.httpPassword());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+
+      Result pushResult = createChange();
+      pushResult.getCommit();
+      String sourceRef = pushResult.getPatchSet().refName();
+
+      String uri = removeCredentials(admin.getHttpUrl(server)) + "/a/" + testRepoName.get();
+      Fetch objectUnderTest = fetchFactory.create(new URIish(uri), repo);
+
+      TransportException e =
+          assertThrows(
+              TransportException.class,
+              () ->
+                  objectUnderTest.fetch(
+                      Lists.newArrayList(new RefSpec(sourceRef + ":" + sourceRef))));
+      assertThat(e).hasMessageThat().contains("Unauthorized");
+    }
+  }
+
+  @Test
+  public void shouldThrowExceptionWhenIncorrectPassword() throws Exception {
+    Project.NameKey testRepoName = createTestProject(project + TEST_REPLICATION_SUFFIX);
+    testRepo = cloneProject(testRepoName);
+
+    userNameCredentialsProvider =
+        new UsernamePasswordCredentialsProvider(admin.username(), "incorrect_password");
+
+    try (Repository repo = repoManager.openRepository(project)) {
+
+      Result pushResult = createChange();
+      pushResult.getCommit();
+      String sourceRef = pushResult.getPatchSet().refName();
+
+      String uri = removeCredentials(admin.getHttpUrl(server)) + "/a/" + testRepoName.get();
+      Fetch objectUnderTest = fetchFactory.create(new URIish(uri), repo);
+
+      TransportException e =
+          assertThrows(
+              TransportException.class,
+              () ->
+                  objectUnderTest.fetch(
+                      Lists.newArrayList(new RefSpec(sourceRef + ":" + sourceRef))));
+      assertThat(e).hasMessageThat().contains("Unauthorized");
+    }
+  }
+
+  @Test
+  public void shouldThrowExceptionWhenUserIsMissing() throws Exception {
+    Project.NameKey testRepoName = createTestProject(project + TEST_REPLICATION_SUFFIX);
+    testRepo = cloneProject(testRepoName);
+
+    String emptyUsername = "";
+
+    userNameCredentialsProvider =
+        new UsernamePasswordCredentialsProvider(emptyUsername, admin.httpPassword());
+
+    try (Repository repo = repoManager.openRepository(project)) {
+
+      Result pushResult = createChange();
+      pushResult.getCommit();
+      String sourceRef = pushResult.getPatchSet().refName();
+
+      String uri = removeCredentials(admin.getHttpUrl(server)) + "/a/" + testRepoName.get();
+      Fetch objectUnderTest = fetchFactory.create(new URIish(uri), repo);
+
+      TransportException e =
+          assertThrows(
+              TransportException.class,
+              () ->
+                  objectUnderTest.fetch(
+                      Lists.newArrayList(new RefSpec(sourceRef + ":" + sourceRef))));
+      assertThat(e).hasMessageThat().contains("could not read Username");
+    }
+  }
+
+  @Test
+  public void shouldThrowExceptionWhenPasswordIsMissing() throws Exception {
+    Project.NameKey testRepoName = createTestProject(project + TEST_REPLICATION_SUFFIX);
+    testRepo = cloneProject(testRepoName);
+
+    String emptyPassword = "";
+
+    userNameCredentialsProvider =
+        new UsernamePasswordCredentialsProvider(admin.username(), emptyPassword);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+
+      Result pushResult = createChange();
+      pushResult.getCommit();
+      String sourceRef = pushResult.getPatchSet().refName();
+
+      String uri = removeCredentials(admin.getHttpUrl(server)) + "/a/" + testRepoName.get();
+      Fetch objectUnderTest = fetchFactory.create(new URIish(uri), repo);
+
+      TransportException e =
+          assertThrows(
+              TransportException.class,
+              () ->
+                  objectUnderTest.fetch(
+                      Lists.newArrayList(new RefSpec(sourceRef + ":" + sourceRef))));
+      assertThat(e).hasMessageThat().contains("could not read Username");
     }
   }
 
@@ -266,6 +407,15 @@ public class CGitFetchIT extends LightweightPluginDaemonTest {
     return projectOperations.newProject().name(name).create();
   }
 
+  private String removeCredentials(String uriStr) throws URISyntaxException {
+    URIish uri = new URIish(uriStr);
+    return new URIBuilder()
+        .setScheme(uri.getScheme())
+        .setHost(uri.getHost())
+        .setPort(uri.getPort())
+        .toString();
+  }
+
   @SuppressWarnings("unused")
   private static class TestModule extends FactoryModule {
     @Override
@@ -277,8 +427,14 @@ public class CGitFetchIT extends LightweightPluginDaemonTest {
         SourceConfiguration sourceConfig = new SourceConfiguration(remoteConfig, cf);
         bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
         bind(CredentialsFactory.class)
-            .to(AutoReloadSecureCredentialsFactoryDecorator.class)
-            .in(Scopes.SINGLETON);
+            .toInstance(
+                new CredentialsFactory() {
+
+                  @Override
+                  public CredentialsProvider create(String remoteName) {
+                    return userNameCredentialsProvider;
+                  }
+                });
 
         bind(SourceConfiguration.class).toInstance(sourceConfig);
         install(
