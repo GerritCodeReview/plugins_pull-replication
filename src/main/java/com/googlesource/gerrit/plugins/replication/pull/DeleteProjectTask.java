@@ -23,7 +23,7 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
-import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.client.Result;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import org.eclipse.jgit.transport.URIish;
@@ -59,9 +59,9 @@ public class DeleteProjectTask implements Runnable {
   public void run() {
     try {
       URIish urIish = new URIish(uri);
-      HttpResult httpResult = fetchClientFactory.create(source).deleteProject(project, urIish);
-      if (!httpResult.isSuccessful()) {
-        throw new IOException(httpResult.getMessage().orElse("Unknown"));
+      Result result = fetchClientFactory.create(source).deleteProject(project, urIish);
+      if (!result.isSuccessful()) {
+        throw new IOException(result.message().orElse("Unknown"));
       }
       logger.atFine().log("Successfully deleted project {} on remote {}", project.get(), uri);
     } catch (URISyntaxException | IOException e) {

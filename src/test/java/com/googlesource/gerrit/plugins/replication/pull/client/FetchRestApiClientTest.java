@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.times;
@@ -161,7 +160,12 @@ public class FetchRestApiClientTest {
     when(source.getRemoteConfigName()).thenReturn("Replication");
     when(config.getString("replication", null, "instanceLabel")).thenReturn(label);
 
-    HttpResult httpResult = new HttpResult(SC_CREATED, Optional.of("result message"));
+    Result httpResult =
+        Result.builder()
+            .setIsSuccessful(true)
+            .setIsParentObjectMissing(false)
+            .setMessage(Optional.of("result message"))
+            .build();
     when(httpClient.execute(any(HttpPost.class), any(), any())).thenReturn(httpResult);
     when(httpClientFactory.create(any())).thenReturn(httpClient);
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
