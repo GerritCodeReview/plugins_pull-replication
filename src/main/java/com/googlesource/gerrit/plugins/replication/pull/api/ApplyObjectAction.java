@@ -14,10 +14,11 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -27,22 +28,28 @@ import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
   private final ApplyObjectCommand command;
   private final DeleteRefCommand deleteRefCommand;
   private final FetchPreconditions preConditions;
+  private final FetchCommand fetchCommand;
 
   @Inject
   public ApplyObjectAction(
       ApplyObjectCommand command,
       DeleteRefCommand deleteRefCommand,
+      FetchCommand fetchCommand,
       FetchPreconditions preConditions) {
     this.command = command;
     this.deleteRefCommand = deleteRefCommand;
+    this.fetchCommand = fetchCommand;
     this.preConditions = preConditions;
   }
 
@@ -77,13 +84,25 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           || Objects.isNull(input.getRevisionData().getTreeObject().getType())) {
         throw new BadRequestException("Ref-update tree object cannot be null");
       }
-
-      command.applyObject(
-          resource.getNameKey(), input.getRefName(), input.getRevisionData(), input.getLabel());
-      return Response.created(input);
-    } catch (MissingParentObjectException e) {
-      throw new ResourceConflictException(e.getMessage(), e);
-    } catch (NumberFormatException | IOException e) {
+      try {
+        command.applyObject(
+            resource.getNameKey(), input.getRefName(), input.getRevisionData(), input.getLabel());
+        return Response.created(input);
+      } catch (MissingParentObjectException e) {
+        repLog.warn(
+            "Missing parent object. Cannot apply object from {} for project {}, ref name {}. Calling fetch command",
+            input.getLabel(),
+            resource.getNameKey().get(),
+            input.getRefName());
+        fetchCommand.fetchSync(resource.getNameKey(), input.getLabel(), input.getRefName());
+        return Response.created(input);
+      }
+    } catch (NumberFormatException
+        | IOException
+        | InterruptedException
+        | ExecutionException
+        | RemoteConfigurationMissingException
+        | TimeoutException e) {
       throw RestApiException.wrap(e.getMessage(), e);
     } catch (RefUpdateException e) {
       throw new UnprocessableEntityException(e.getMessage());
