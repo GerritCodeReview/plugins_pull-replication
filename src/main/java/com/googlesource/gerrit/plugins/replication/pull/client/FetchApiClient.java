@@ -19,25 +19,24 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
 import org.eclipse.jgit.transport.URIish;
 
-public interface FetchApiClient extends ResponseHandler<HttpResult> {
+public interface FetchApiClient {
 
   public interface Factory {
     FetchApiClient create(Source source);
   }
 
-  HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+  Result callFetch(Project.NameKey project, String refName, URIish targetUri)
       throws ClientProtocolException, IOException;
 
-  HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;
+  Result initProject(Project.NameKey project, URIish uri) throws IOException;
 
-  HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
+  Result deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
 
-  HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri) throws IOException;
+  Result updateHead(Project.NameKey project, String newHead, URIish apiUri) throws IOException;
 
-  HttpResult callSendObject(
+  Result callSendObject(
       Project.NameKey project,
       String refName,
       boolean isDelete,

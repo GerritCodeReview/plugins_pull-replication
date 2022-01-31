@@ -17,6 +17,10 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 import static java.util.Objects.requireNonNull;
+import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
+import static javax.servlet.http.HttpServletResponse.SC_CREATED;
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -44,6 +48,7 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -55,7 +60,7 @@ import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
 
-public class FetchRestApiClient implements FetchApiClient {
+public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Result> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static String GERRIT_ADMIN_PROTOCOL_PREFIX = "gerrit+";
 
@@ -94,7 +99,7 @@ public class FetchRestApiClient implements FetchApiClient {
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callFetch(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
    */
   @Override
-  public HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+  public Result callFetch(Project.NameKey project, String refName, URIish targetUri)
       throws ClientProtocolException, IOException {
     String url =
         String.format(
@@ -116,7 +121,7 @@ public class FetchRestApiClient implements FetchApiClient {
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
    */
   @Override
-  public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
+  public Result initProject(Project.NameKey project, URIish uri) throws IOException {
     String url =
         String.format(
             "%s/%s", uri.toString(), getProjectInitializationUrl(pluginName, project.get()));
@@ -130,7 +135,7 @@ public class FetchRestApiClient implements FetchApiClient {
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#deleteProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
    */
   @Override
-  public HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
+  public Result deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
     String url =
         String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
     HttpDelete delete = new HttpDelete(url);
@@ -141,7 +146,7 @@ public class FetchRestApiClient implements FetchApiClient {
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#updateHead(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
    */
   @Override
-  public HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri)
+  public Result updateHead(Project.NameKey project, String newHead, URIish apiUri)
       throws IOException {
     logger.atFine().log("Updating head of %s on %s", project.get(), newHead);
     String url =
@@ -157,7 +162,7 @@ public class FetchRestApiClient implements FetchApiClient {
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callSendObject(com.google.gerrit.entities.Project.NameKey, java.lang.String, boolean, com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData, org.eclipse.jgit.transport.URIish)
    */
   @Override
-  public HttpResult callSendObject(
+  public Result callSendObject(
       Project.NameKey project,
       String refName,
       boolean isDelete,
@@ -194,7 +199,7 @@ public class FetchRestApiClient implements FetchApiClient {
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#handleResponse(org.apache.http.HttpResponse)
    */
   @Override
-  public HttpResult handleResponse(HttpResponse response) {
+  public Result handleResponse(HttpResponse response) {
     Optional<String> responseBody = Optional.empty();
 
     try {
@@ -202,7 +207,20 @@ public class FetchRestApiClient implements FetchApiClient {
     } catch (ParseException | IOException e) {
       logger.atSevere().withCause(e).log("Unable get response body from %s", response.toString());
     }
-    return new HttpResult(response.getStatusLine().getStatusCode(), responseBody);
+    int responseCode = response.getStatusLine().getStatusCode();
+    return Result.builder()
+        .setIsParentObjectMissing(isParentObjectMissing(responseCode))
+        .setMessage(responseBody)
+        .setIsSuccessful(isSuccessful(responseCode))
+        .build();
+  }
+
+  public boolean isSuccessful(int responseCode) {
+    return responseCode == SC_CREATED || responseCode == SC_NO_CONTENT || responseCode == SC_OK;
+  }
+
+  public boolean isParentObjectMissing(int responseCode) {
+    return responseCode == SC_CONFLICT;
   }
 
   private HttpClientContext getContext(URIish targetUri) {
