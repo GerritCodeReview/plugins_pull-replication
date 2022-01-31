@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 import static java.util.Objects.requireNonNull;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
@@ -113,7 +114,20 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
                 instanceLabel, refName, callAsync),
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
-    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+
+    Result result = httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+
+    if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
+      result = initProject(project, targetUri);
+      if (result.isSuccessful()) {
+        result = callFetch(project, "refs/*", targetUri);
+      } else {
+        String errorMessage = result.message().map(e -> " - Error: " + e).orElse("");
+        repLog.error("Cannot create project " + project + errorMessage);
+      }
+    }
+
+    return result;
   }
 
   /* (non-Javadoc)
@@ -185,7 +199,21 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+    Result result = httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+    if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
+      result = initProject(project, targetUri);
+      if (result.isSuccessful()) {
+        result = callFetch(project, "refs/*", targetUri);
+      } else {
+        String errorMessage = result.message().map(e -> " - Error: " + e).orElse("");
+        repLog.error("Cannot create project " + project + errorMessage);
+      }
+    }
+    return result;
+  }
+
+  private Boolean isProjectMissing(Result result, Project.NameKey project) {
+    return !result.isSuccessful() && result.isProjectMissing(project);
   }
 
   private void requireNull(Object object, String string) {
