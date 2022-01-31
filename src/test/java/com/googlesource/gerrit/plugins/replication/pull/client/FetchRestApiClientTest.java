@@ -16,7 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static org.mockito.Mockito.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,6 +41,7 @@ import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.message.BasicHeader;
@@ -63,6 +64,12 @@ import org.mockito.stubbing.Answer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FetchRestApiClientTest {
+  private static final Result PROJECT_NOT_FOUND_RESULT =
+      Result.builder()
+          .setIsSuccessful(false)
+          .setMessage(Optional.of("Not found: test_repo"))
+          .build();
+
   private static final boolean IS_REF_UPDATE = false;
 
   @Mock CredentialsProvider credentialProvider;
@@ -74,6 +81,7 @@ public class FetchRestApiClientTest {
   @Mock Source source;
   @Captor ArgumentCaptor<HttpPost> httpPostCaptor;
   @Captor ArgumentCaptor<HttpPut> httpPutCaptor;
+  @Captor ArgumentCaptor<HttpEntityEnclosingRequestBase> httpGenericCaptor;
   @Captor ArgumentCaptor<HttpDelete> httpDeleteCaptor;
 
   String api = "http://gerrit-host";
@@ -362,6 +370,72 @@ public class FetchRestApiClientTest {
                 syncRefsFilter,
                 pluginName,
                 source));
+  }
+
+  @Test
+  public void shouldCallInitProjectWhenProjectIsMissingDuringCallFetch()
+      throws IOException, URISyntaxException {
+    when(httpClient.execute(any(), any(), any()))
+        .thenReturn(PROJECT_NOT_FOUND_RESULT, Result.builder().setIsSuccessful(true).build());
+    when(source.isCreateMissingRepositories()).thenReturn(true);
+
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+
+    verify(httpClient, times(3)).execute(httpGenericCaptor.capture(), any(), any());
+
+    HttpPut httpPut = (HttpPut) httpGenericCaptor.getAllValues().get(1);
+    assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPut.getURI().getPath())
+        .isEqualTo("/a/plugins/pull-replication/init-project/test_repo.git");
+
+    HttpPost httpPost = (HttpPost) httpGenericCaptor.getAllValues().get(2);
+    assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPost.getURI().getPath())
+        .isEqualTo("/a/projects/test_repo/pull-replication~fetch");
+  }
+
+  @Test
+  public void shouldCallInitProjectWhenProjectIsMissingDuringCallSendObject()
+      throws IOException, URISyntaxException {
+    when(httpClient.execute(any(), any(), any()))
+        .thenReturn(PROJECT_NOT_FOUND_RESULT, Result.builder().setIsSuccessful(true).build());
+    when(source.isCreateMissingRepositories()).thenReturn(true);
+
+    objectUnderTest.callSendObject(
+        Project.nameKey("test_repo"),
+        refName,
+        IS_REF_UPDATE,
+        createSampleRevisionData(),
+        new URIish(api));
+
+    verify(httpClient, times(3)).execute(httpGenericCaptor.capture(), any(), any());
+
+    HttpPut httpPut = (HttpPut) httpGenericCaptor.getAllValues().get(1);
+    assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPut.getURI().getPath())
+        .isEqualTo("/a/plugins/pull-replication/init-project/test_repo.git");
+
+    HttpPost httpPost = (HttpPost) httpGenericCaptor.getAllValues().get(2);
+    assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPost.getURI().getPath())
+        .isEqualTo("/a/projects/test_repo/pull-replication~fetch");
+  }
+
+  @Test
+  public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet()
+      throws ClientProtocolException, IOException, URISyntaxException {
+    when(httpClient.execute(any(), any(), any()))
+        .thenReturn(PROJECT_NOT_FOUND_RESULT, Result.builder().setIsSuccessful(true).build());
+    when(source.isCreateMissingRepositories()).thenReturn(false);
+
+    objectUnderTest.callSendObject(
+        Project.nameKey("test_repo"),
+        refName,
+        IS_REF_UPDATE,
+        createSampleRevisionData(),
+        new URIish(api));
+
+    verify(httpClient, times(1)).execute(any(), any(), any());
   }
 
   @Test

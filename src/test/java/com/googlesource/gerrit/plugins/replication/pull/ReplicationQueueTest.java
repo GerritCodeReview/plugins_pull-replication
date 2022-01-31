@@ -108,7 +108,6 @@ public class ReplicationQueueTest {
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(httpResult);
     when(httpResult.isSuccessful()).thenReturn(true);
-    when(httpResult.isProjectMissing(any())).thenReturn(false);
 
     objectUnderTest =
         new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
@@ -121,32 +120,6 @@ public class ReplicationQueueTest {
     objectUnderTest.onGitReferenceUpdated(event);
 
     verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
-  }
-
-  @Test
-  public void shouldCallInitProjectWhenProjectIsMissing() throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
-    when(httpResult.isSuccessful()).thenReturn(false);
-    when(httpResult.isProjectMissing(any())).thenReturn(true);
-    when(source.isCreateMissingRepositories()).thenReturn(true);
-
-    objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
-
-    verify(fetchRestApiClient).initProject(any(), any());
-  }
-
-  @Test
-  public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
-    when(httpResult.isSuccessful()).thenReturn(false);
-    when(httpResult.isProjectMissing(any())).thenReturn(true);
-    when(source.isCreateMissingRepositories()).thenReturn(false);
-
-    objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
-
-    verify(fetchRestApiClient, never()).initProject(any(), any());
   }
 
   @Test
