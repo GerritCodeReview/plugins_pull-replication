@@ -43,6 +43,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiModule;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.SourceHttpClient;
@@ -82,7 +83,10 @@ class PullReplicationModule extends AbstractModule {
             .build(SourceHttpClient.Factory.class));
 
     install(new FactoryModuleBuilder().build(Source.Factory.class));
-    install(new FactoryModuleBuilder().build(FetchRestApiClient.Factory.class));
+    install(
+        new FactoryModuleBuilder()
+            .implement(FetchApiClient.class, FetchRestApiClient.class)
+            .build(FetchApiClient.Factory.class));
 
     bind(FetchReplicationMetrics.class).in(Scopes.SINGLETON);
 
