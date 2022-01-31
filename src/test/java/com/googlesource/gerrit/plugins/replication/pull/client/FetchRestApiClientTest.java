@@ -135,7 +135,7 @@ public class FetchRestApiClientTest {
           + "  ]\n"
           + "}";
 
-  FetchRestApiClient objectUnderTest;
+  FetchApiClient objectUnderTest;
 
   @Before
   public void setup() throws ClientProtocolException, IOException {

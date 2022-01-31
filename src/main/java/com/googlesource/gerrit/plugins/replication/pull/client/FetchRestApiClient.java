@@ -44,7 +44,6 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -56,16 +55,12 @@ import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
 
-public class FetchRestApiClient implements ResponseHandler<HttpResult> {
+public class FetchRestApiClient implements FetchApiClient {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static String GERRIT_ADMIN_PROTOCOL_PREFIX = "gerrit+";
 
   private static final Gson GSON =
       new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
-
-  public interface Factory {
-    FetchRestApiClient create(Source source);
-  }
 
   private final CredentialsFactory credentials;
   private final SourceHttpClient.Factory httpClientFactory;
@@ -95,6 +90,10 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
         Strings.emptyToNull(instanceLabel), "replication.instanceLabel cannot be null or empty");
   }
 
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callFetch(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
   public HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
       throws ClientProtocolException, IOException {
     String url =
@@ -113,6 +112,10 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
   }
 
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
   public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
     String url =
         String.format(
@@ -123,6 +126,10 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     return httpClientFactory.create(source).execute(put, this, getContext(uri));
   }
 
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#deleteProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
   public HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
     String url =
         String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
@@ -130,6 +137,10 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     return httpClientFactory.create(source).execute(delete, this, getContext(apiUri));
   }
 
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#updateHead(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
   public HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri)
       throws IOException {
     logger.atFine().log("Updating head of %s on %s", project.get(), newHead);
@@ -142,6 +153,10 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     return httpClientFactory.create(source).execute(req, this, getContext(apiUri));
   }
 
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callSendObject(com.google.gerrit.entities.Project.NameKey, java.lang.String, boolean, com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
   public HttpResult callSendObject(
       Project.NameKey project,
       String refName,
@@ -175,6 +190,9 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     }
   }
 
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#handleResponse(org.apache.http.HttpResponse)
+   */
   @Override
   public HttpResult handleResponse(HttpResponse response) {
     Optional<String> responseBody = Optional.empty();
