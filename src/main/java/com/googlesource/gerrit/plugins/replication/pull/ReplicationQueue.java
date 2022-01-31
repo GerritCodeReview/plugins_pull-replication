@@ -44,7 +44,6 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
-import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
@@ -266,9 +265,6 @@ public class ReplicationQueue
           FetchApiClient fetchClient = fetchClientFactory.create(source);
 
           Result result = fetchClient.callSendObject(project, refName, isDelete, revision, uri);
-          if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
-            result = initProject(project, uri, fetchClient, result);
-          }
           if (!result.isSuccessful()) {
             repLog.warn(
                 String.format(
@@ -297,9 +293,6 @@ public class ReplicationQueue
           URIish uri = new URIish(apiUrl);
           FetchApiClient fetchClient = fetchClientFactory.create(source);
           Result result = fetchClient.callFetch(project, refName, uri);
-          if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
-            result = initProject(project, uri, fetchClient, result);
-          }
           if (!result.isSuccessful()) {
             stateLog.warn(
                 String.format(
@@ -323,23 +316,6 @@ public class ReplicationQueue
 
   public boolean retry(int attempt, int maxRetries) {
     return maxRetries == 0 || attempt < maxRetries;
-  }
-
-  private Boolean isProjectMissing(Result result, Project.NameKey project) {
-    return !result.isSuccessful() && result.isProjectMissing(project);
-  }
-
-  private Result initProject(
-      Project.NameKey project, URIish uri, FetchApiClient fetchClient, Result result)
-      throws IOException, ClientProtocolException {
-    Result initProjectResult = fetchClient.initProject(project, uri);
-    if (initProjectResult.isSuccessful()) {
-      result = fetchClient.callFetch(project, "refs/*", uri);
-    } else {
-      String errorMessage = initProjectResult.message().map(e -> " - Error: " + e).orElse("");
-      repLog.error("Cannot create project " + project + errorMessage);
-    }
-    return result;
   }
 
   private void fireBeforeStartupEvents() {

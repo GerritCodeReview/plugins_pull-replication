@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.entities.Project;
 import java.util.Optional;
 
 @AutoValue
@@ -23,11 +22,6 @@ public abstract class Result {
   public abstract Optional<String> message();
 
   public abstract boolean isSuccessful();
-
-  public boolean isProjectMissing(Project.NameKey projectName) {
-    String projectMissingMessage = String.format("Not found: %s", projectName.get());
-    return message().map(msg -> msg.contains(projectMissingMessage)).orElse(false);
-  }
 
   static Builder builder() {
     return new AutoValue_Result.Builder();
