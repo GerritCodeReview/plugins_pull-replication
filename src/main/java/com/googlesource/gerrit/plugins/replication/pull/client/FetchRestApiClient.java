@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 import static java.util.Objects.requireNonNull;
-import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
@@ -206,7 +205,6 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
     }
     int responseCode = response.getStatusLine().getStatusCode();
     return Result.builder()
-        .setIsParentObjectMissing(isParentObjectMissing(responseCode))
         .setMessage(responseBody)
         .setIsSuccessful(isSuccessful(responseCode))
         .build();
@@ -214,10 +212,6 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
 
   private boolean isSuccessful(int responseCode) {
     return responseCode == SC_CREATED || responseCode == SC_NO_CONTENT || responseCode == SC_OK;
-  }
-
-  private boolean isParentObjectMissing(int responseCode) {
-    return responseCode == SC_CONFLICT;
   }
 
   private HttpClientContext getContext(URIish targetUri) {

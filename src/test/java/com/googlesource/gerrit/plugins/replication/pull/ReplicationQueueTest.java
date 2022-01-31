@@ -185,22 +185,6 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenParentObjectIsMissing()
-      throws ClientProtocolException, IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
-    objectUnderTest.start();
-
-    when(httpResult.isSuccessful()).thenReturn(false);
-    when(httpResult.isParentObjectMissing()).thenReturn(true);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), eq(false), any(), any()))
-        .thenReturn(httpResult);
-
-    objectUnderTest.onGitReferenceUpdated(event);
-
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
-  }
-
-  @Test
   public void shouldSkipEventWhenUsersRef() {
     Event event = new TestEvent("refs/users/00/1000000");
     objectUnderTest.onGitReferenceUpdated(event);

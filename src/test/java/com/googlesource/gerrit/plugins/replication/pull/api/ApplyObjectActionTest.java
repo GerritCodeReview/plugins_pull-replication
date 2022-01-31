@@ -19,13 +19,14 @@ import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ProjectResource;
@@ -34,7 +35,10 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -73,6 +77,7 @@ public class ApplyObjectActionTest {
 
   @Mock ApplyObjectCommand applyObjectCommand;
   @Mock DeleteRefCommand deleteRefCommand;
+  @Mock FetchCommand fetchCommand;
   @Mock ProjectResource projectResource;
   @Mock FetchPreconditions preConditions;
 
@@ -80,7 +85,8 @@ public class ApplyObjectActionTest {
   public void setup() {
     when(preConditions.canCallFetchApi()).thenReturn(true);
 
-    applyObjectAction = new ApplyObjectAction(applyObjectCommand, deleteRefCommand, preConditions);
+    applyObjectAction =
+        new ApplyObjectAction(applyObjectCommand, deleteRefCommand, fetchCommand, preConditions);
   }
 
   @Test
@@ -159,18 +165,22 @@ public class ApplyObjectActionTest {
     applyObjectAction.apply(projectResource, inputParams);
   }
 
-  @Test(expected = ResourceConflictException.class)
-  public void shouldThrowResourceConflictExceptionWhenMissingParentObject()
-      throws RestApiException, IOException, RefUpdateException, MissingParentObjectException {
+  @Test
+  public void shouldCallFetchCommandWhenMissingParentObject()
+      throws RestApiException, IOException, RefUpdateException, InterruptedException,
+          ExecutionException, RemoteConfigurationMissingException, TimeoutException,
+          MissingParentObjectException {
+    Project.NameKey projectName = Project.nameKey("test_projects");
+    when(projectResource.getNameKey()).thenReturn(projectName);
+
     RevisionInput inputParams = new RevisionInput(label, refName, createSampleRevisionData());
 
-    doThrow(
-            new MissingParentObjectException(
-                Project.nameKey("test_projects"), refName, ObjectId.zeroId()))
+    doThrow(new MissingParentObjectException(projectName, refName, ObjectId.zeroId()))
         .when(applyObjectCommand)
         .applyObject(any(), anyString(), any(), anyString());
 
     applyObjectAction.apply(projectResource, inputParams);
+    verify(fetchCommand, times(1)).fetchSync(projectName, label, refName);
   }
 
   private RevisionData createSampleRevisionData() {
