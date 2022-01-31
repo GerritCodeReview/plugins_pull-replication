@@ -30,7 +30,6 @@ import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.Result;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
@@ -222,14 +221,7 @@ public class ReplicationQueue
       boolean isDelete,
       ReplicationState state) {
     CallFunction call = getCallFunction(project, objectId, refName, isDelete, state);
-
-    return (source) -> {
-      try {
-        call.call(source);
-      } catch (MissingParentObjectException e) {
-        callFetch(source, project, refName, state);
-      }
-    };
+    return (source) -> call.call(source);
   }
 
   private CallFunction getCallFunction(
@@ -266,8 +258,7 @@ public class ReplicationQueue
       String refName,
       boolean isDelete,
       RevisionData revision,
-      ReplicationState state)
-      throws MissingParentObjectException {
+      ReplicationState state) {
     if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
       for (String apiUrl : source.getApis()) {
         try {
@@ -283,10 +274,6 @@ public class ReplicationQueue
                 String.format(
                     "Pull replication apply object call failed. Endpoint url: %s, reason:%s",
                     apiUrl, result.message().orElse("unknown")));
-            if (result.isParentObjectMissing()) {
-              throw new MissingParentObjectException(
-                  project, refName, source.getRemoteConfigName());
-            }
           }
         } catch (URISyntaxException e) {
           stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
@@ -398,6 +385,6 @@ public class ReplicationQueue
 
   @FunctionalInterface
   private interface CallFunction {
-    void call(Source source) throws MissingParentObjectException;
+    void call(Source source);
   }
 }
