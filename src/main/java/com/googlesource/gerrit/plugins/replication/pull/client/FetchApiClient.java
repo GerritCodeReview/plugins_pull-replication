@@ -27,16 +27,16 @@ public interface FetchApiClient {
     FetchApiClient create(Source source);
   }
 
-  HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+  Result callFetch(Project.NameKey project, String refName, URIish targetUri)
       throws ClientProtocolException, IOException;
 
-  HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;
+  Result initProject(Project.NameKey project, URIish uri) throws IOException;
 
-  HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
+  Result deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
 
-  HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri) throws IOException;
+  Result updateHead(Project.NameKey project, String newHead, URIish apiUri) throws IOException;
 
-  HttpResult callSendObject(
+  Result callSendObject(
       Project.NameKey project,
       String refName,
       boolean isDelete,

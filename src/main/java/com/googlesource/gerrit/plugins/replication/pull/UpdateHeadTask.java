@@ -23,7 +23,7 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
-import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.client.Result;
 import java.io.IOException;
 import org.eclipse.jgit.transport.URIish;
 
@@ -59,10 +59,9 @@ public class UpdateHeadTask implements Runnable {
   @Override
   public void run() {
     try {
-      HttpResult httpResult =
-          fetchClientFactory.create(source).updateHead(project, newHead, apiURI);
-      if (!httpResult.isSuccessful()) {
-        throw new IOException(httpResult.getMessage().orElse("Unknown"));
+      Result result = fetchClientFactory.create(source).updateHead(project, newHead, apiURI);
+      if (!result.isSuccessful()) {
+        throw new IOException(result.message().orElse("Unknown"));
       }
       logger.atFine().log(
           "Successfully updated HEAD of project {} on remote {}",
