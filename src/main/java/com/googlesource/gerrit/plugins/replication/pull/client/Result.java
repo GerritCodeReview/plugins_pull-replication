@@ -22,8 +22,6 @@ import java.util.Optional;
 public abstract class Result {
   public abstract Optional<String> message();
 
-  public abstract boolean isParentObjectMissing();
-
   public abstract boolean isSuccessful();
 
   public boolean isProjectMissing(Project.NameKey projectName) {
@@ -38,8 +36,6 @@ public abstract class Result {
   @AutoValue.Builder
   abstract static class Builder {
     abstract Builder setMessage(Optional<String> message);
-
-    abstract Builder setIsParentObjectMissing(Boolean isParentObjectMissing);
 
     abstract Builder setIsSuccessful(Boolean isSuccessful);
 

@@ -161,11 +161,7 @@ public class FetchRestApiClientTest {
     when(config.getString("replication", null, "instanceLabel")).thenReturn(label);
 
     Result httpResult =
-        Result.builder()
-            .setIsSuccessful(true)
-            .setIsParentObjectMissing(false)
-            .setMessage(Optional.of("result message"))
-            .build();
+        Result.builder().setIsSuccessful(true).setMessage(Optional.of("result message")).build();
     when(httpClient.execute(any(HttpPost.class), any(), any())).thenReturn(httpResult);
     when(httpClientFactory.create(any())).thenReturn(httpClient);
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
