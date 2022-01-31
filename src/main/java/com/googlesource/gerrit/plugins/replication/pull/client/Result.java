@@ -14,37 +14,35 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
-import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
-import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
-
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Project;
 import java.util.Optional;
 
-public class HttpResult {
-  private final Optional<String> message;
-  private final int responseCode;
+@AutoValue
+public abstract class Result {
+  public abstract Optional<String> message();
 
-  HttpResult(int responseCode, Optional<String> message) {
-    this.message = message;
-    this.responseCode = responseCode;
-  }
+  public abstract boolean isParentObjectMissing();
 
-  public Optional<String> getMessage() {
-    return message;
-  }
-
-  public boolean isSuccessful() {
-    return responseCode == SC_CREATED || responseCode == SC_NO_CONTENT || responseCode == SC_OK;
-  }
+  public abstract boolean isSuccessful();
 
   public boolean isProjectMissing(Project.NameKey projectName) {
     String projectMissingMessage = String.format("Not found: %s", projectName.get());
-    return message.map(msg -> msg.contains(projectMissingMessage)).orElse(false);
+    return message().map(msg -> msg.contains(projectMissingMessage)).orElse(false);
   }
 
-  public boolean isParentObjectMissing() {
-    return responseCode == SC_CONFLICT;
+  static Builder builder() {
+    return new AutoValue_Result.Builder();
+  }
+
+  @AutoValue.Builder
+  abstract static class Builder {
+    abstract Builder setMessage(Optional<String> message);
+
+    abstract Builder setIsParentObjectMissing(Boolean isParentObjectMissing);
+
+    abstract Builder setIsSuccessful(Boolean isSuccessful);
+
+    abstract Result build();
   }
 }
