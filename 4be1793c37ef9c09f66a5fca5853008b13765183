@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d4b41bb1_f64c0a9e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T19:22:32Z",
+      "side": 1,
+      "message": "But than I can just rename handleResponse(response) to toResult(response) because there will be not much logic in handleResponse method",
+      "parentUuid": "185e9b44_7bc9549b",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 212,
+        "endChar": 17
+      },
+      "revId": "4be1793c37ef9c09f66a5fca5853008b13765183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d608529f_708c9380",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-01T09:35:27Z",
       "side": 1,
       "message": "nit: can this be private right?",
+      "range": {
+        "startLine": 215,
+        "startChar": 2,
+        "endLine": 215,
+        "endChar": 8
+      },
+      "revId": "4be1793c37ef9c09f66a5fca5853008b13765183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a5c5374_caac8b5d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T19:22:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d608529f_708c9380",
       "range": {
         "startLine": 215,
         "startChar": 2,
@@ -60,6 +108,30 @@
       "writtenOn": "2022-02-01T09:35:27Z",
       "side": 1,
       "message": "nit: can this be private right?",
+      "range": {
+        "startLine": 219,
+        "startChar": 2,
+        "endLine": 219,
+        "endChar": 8
+      },
+      "revId": "4be1793c37ef9c09f66a5fca5853008b13765183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d41e26b1_b9d6429c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T19:22:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3b747d0_1379b7b0",
       "range": {
         "startLine": 219,
         "startChar": 2,
