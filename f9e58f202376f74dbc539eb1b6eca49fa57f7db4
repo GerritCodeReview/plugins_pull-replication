@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef94fd52_f516cf25",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T20:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a73d235_ef6215f9",
+      "range": {
+        "startLine": 202,
+        "startChar": 1,
+        "endLine": 212,
+        "endChar": 18
+      },
+      "revId": "f9e58f202376f74dbc539eb1b6eca49fa57f7db4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e83cd10c_8d041b07",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-01T12:39:26Z",
       "side": 1,
       "message": "This building is done 3 times, consider creating a final static `PROJECT_NOT_FOUND_RESULT`",
+      "range": {
+        "startLine": 374,
+        "startChar": 1,
+        "endLine": 378,
+        "endChar": 60
+      },
+      "revId": "f9e58f202376f74dbc539eb1b6eca49fa57f7db4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "125cca00_c68143ab",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T20:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e83cd10c_8d041b07",
       "range": {
         "startLine": 374,
         "startChar": 1,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8b7ccef_c5ea59d2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T20:37:14Z",
+      "side": 1,
+      "message": "The first call is a fetch call which is tested already cover by other tests. Two other calls are triggered when first call response is project not found.",
+      "parentUuid": "e5a56969_1d7e2fe6",
+      "range": {
+        "startLine": 383,
+        "startChar": 23,
+        "endLine": 383,
+        "endChar": 31
+      },
+      "revId": "f9e58f202376f74dbc539eb1b6eca49fa57f7db4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "06343bd6_9f741886",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
         "patchSetId": 1
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-01T12:39:26Z",
       "side": 1,
       "message": "CallSendObject",
+      "range": {
+        "startLine": 397,
+        "startChar": 61,
+        "endLine": 397,
+        "endChar": 71
+      },
+      "revId": "f9e58f202376f74dbc539eb1b6eca49fa57f7db4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4bffd2c_108754cc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T20:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06343bd6_9f741886",
       "range": {
         "startLine": 397,
         "startChar": 61,
