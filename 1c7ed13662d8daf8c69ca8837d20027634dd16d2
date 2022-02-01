@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea83e12f_7f152af8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T19:29:43Z",
+      "side": 1,
+      "message": "Not before this change, at the moment receiving side it returning the conflict error code and then sender is sending new fetch call.",
+      "parentUuid": "67d1c960_2cd183c1",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "1c7ed13662d8daf8c69ca8837d20027634dd16d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5abb0540_6f1393c9",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "writtenOn": "2022-02-01T10:02:00Z",
       "side": 1,
       "message": "I think `call.call` is not very self explanatory of what\u0027s happening.\nConsider renaming (even as a follow up change)",
+      "range": {
+        "startLine": 224,
+        "startChar": 23,
+        "endLine": 224,
+        "endChar": 41
+      },
+      "revId": "1c7ed13662d8daf8c69ca8837d20027634dd16d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cd582bc_a73209a5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T19:29:43Z",
+      "side": 1,
+      "message": "Good point I will address it as a follow up",
+      "parentUuid": "5abb0540_6f1393c9",
       "range": {
         "startLine": 224,
         "startChar": 23,
