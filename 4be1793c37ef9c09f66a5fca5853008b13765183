@@ -163,6 +163,30 @@
       },
       "revId": "4be1793c37ef9c09f66a5fca5853008b13765183",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a0bd86d_d7e15e01",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/Result.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-02-01T19:38:05Z",
+      "side": 1,
+      "message": "not really and it\u0027s already addressed in a follow up change",
+      "parentUuid": "5637731a_b7ee1205",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 83
+      },
+      "revId": "4be1793c37ef9c09f66a5fca5853008b13765183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
