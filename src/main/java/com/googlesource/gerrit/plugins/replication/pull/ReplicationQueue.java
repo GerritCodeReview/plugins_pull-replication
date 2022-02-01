@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -31,22 +30,14 @@ import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
-import com.googlesource.gerrit.plugins.replication.pull.client.Result;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.function.Consumer;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +51,6 @@ public class ReplicationQueue
   static final String PULL_REPLICATION_LOG_NAME = "pull_replication_log";
   static final Logger repLog = LoggerFactory.getLogger(PULL_REPLICATION_LOG_NAME);
 
-  private static final Integer DEFAULT_FETCH_CALLS_TIMEOUT = 0;
   private final ReplicationStateListener stateLog;
 
   private final WorkQueue workQueue;
@@ -70,7 +60,6 @@ public class ReplicationQueue
   private volatile boolean replaying;
   private final Queue<ReferenceUpdatedEvent> beforeStartupEventsQueue;
   private FetchApiClient.Factory fetchClientFactory;
-  private Integer fetchCallsTimeout;
   private ExcludedRefsFilter refsFilter;
   private RevisionReader revisionReader;
 
@@ -97,13 +86,6 @@ public class ReplicationQueue
   public void start() {
     if (!running) {
       sources.get().startup(workQueue);
-      fetchCallsTimeout =
-          2
-              * sources.get().getAll().stream()
-                  .mapToInt(Source::getConnectionTimeout)
-                  .max()
-                  .orElse(DEFAULT_FETCH_CALLS_TIMEOUT);
-
       running = true;
       fireBeforeStartupEvents();
     }
@@ -149,11 +131,8 @@ public class ReplicationQueue
   @Override
   public void onProjectDeleted(ProjectDeletedListener.Event event) {
     Project.NameKey project = Project.nameKey(event.getProjectName());
-    sources.get().getAll().stream()
-        .filter((Source s) -> s.wouldDeleteProject(project))
-        .forEach(
-            source ->
-                source.getApis().forEach(apiUrl -> source.scheduleDeleteProject(apiUrl, project)));
+    FetchApiClient fetchClient = fetchClientFactory.create(sources.get());
+    fetchClient.deleteProject(project);
   }
 
   private static String refUpdateType(GitReferenceUpdatedListener.Event event) {
@@ -191,53 +170,17 @@ public class ReplicationQueue
           ReferenceUpdatedEvent.create(project.get(), refName, objectId, isDelete));
       return;
     }
-    ForkJoinPool fetchCallsPool = null;
-    try {
-      fetchCallsPool = new ForkJoinPool(sources.get().getAll().size());
-
-      final Consumer<Source> callFunction =
-          callFunction(project, objectId, refName, isDelete, state);
-      fetchCallsPool
-          .submit(() -> sources.get().getAll().parallelStream().forEach(callFunction))
-          .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
-    } catch (InterruptedException | ExecutionException | TimeoutException e) {
-      stateLog.error(
-          String.format(
-              "Exception during the pull replication fetch call.  Message:%s", e.getMessage()),
-          e,
-          state);
-    } finally {
-      if (fetchCallsPool != null) {
-        fetchCallsPool.shutdown();
-      }
-    }
-  }
-
-  private Consumer<Source> callFunction(
-      NameKey project,
-      ObjectId objectId,
-      String refName,
-      boolean isDelete,
-      ReplicationState state) {
-    CallFunction call = getCallFunction(project, objectId, refName, isDelete, state);
-    return (source) -> call.call(source);
-  }
-
-  private CallFunction getCallFunction(
-      NameKey project,
-      ObjectId objectId,
-      String refName,
-      boolean isDelete,
-      ReplicationState state) {
+    FetchApiClient fetchClient = fetchClientFactory.create(sources.get());
     if (isDelete) {
-      return ((source) -> callSendObject(source, project, refName, isDelete, null, state));
+      fetchClient.callSendObject(project, refName, isDelete, null);
+      return;
     }
 
     try {
       Optional<RevisionData> revisionData = revisionReader.read(project, objectId, refName);
       if (revisionData.isPresent()) {
-        return ((source) ->
-            callSendObject(source, project, refName, isDelete, revisionData.get(), state));
+        fetchClient.callSendObject(project, refName, isDelete, revisionData.get());
+        return;
       }
     } catch (InvalidObjectIdException | IOException e) {
       stateLog.error(
@@ -248,74 +191,7 @@ public class ReplicationQueue
           state);
     }
 
-    return (source) -> callFetch(source, project, refName, state);
-  }
-
-  private void callSendObject(
-      Source source,
-      Project.NameKey project,
-      String refName,
-      boolean isDelete,
-      RevisionData revision,
-      ReplicationState state) {
-    if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
-      for (String apiUrl : source.getApis()) {
-        try {
-          URIish uri = new URIish(apiUrl);
-          FetchApiClient fetchClient = fetchClientFactory.create(source);
-
-          Result result = fetchClient.callSendObject(project, refName, isDelete, revision, uri);
-          if (!result.isSuccessful()) {
-            repLog.warn(
-                String.format(
-                    "Pull replication apply object call failed. Endpoint url: %s, reason:%s",
-                    apiUrl, result.message().orElse("unknown")));
-          }
-        } catch (URISyntaxException e) {
-          stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
-        } catch (IOException e) {
-          stateLog.error(
-              String.format(
-                  "Exception during the pull replication fetch call. Endpoint url:%s, message:%s",
-                  apiUrl, e.getMessage()),
-              e,
-              state);
-        }
-      }
-    }
-  }
-
-  private void callFetch(
-      Source source, Project.NameKey project, String refName, ReplicationState state) {
-    if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
-      for (String apiUrl : source.getApis()) {
-        try {
-          URIish uri = new URIish(apiUrl);
-          FetchApiClient fetchClient = fetchClientFactory.create(source);
-          Result result = fetchClient.callFetch(project, refName, uri);
-          if (!result.isSuccessful()) {
-            stateLog.warn(
-                String.format(
-                    "Pull replication fetch call failed. Endpoint url: %s, reason:%s",
-                    apiUrl, result.message().orElse("unknown")),
-                state);
-          }
-        } catch (URISyntaxException e) {
-          stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
-        } catch (Exception e) {
-          stateLog.error(
-              String.format(
-                  "Exception during the pull replication fetch call. Endpoint url:%s, message:%s",
-                  apiUrl, e.getMessage()),
-              e,
-              state);
-        }
-      }
-    }
-  }
-
-  public boolean retry(int attempt, int maxRetries) {
-    return maxRetries == 0 || attempt < maxRetries;
+    fetchClient.callFetch(project, refName);
   }
 
   private void fireBeforeStartupEvents() {
@@ -333,12 +209,9 @@ public class ReplicationQueue
   @Override
   public void onHeadUpdated(HeadUpdatedListener.Event event) {
     Project.NameKey p = Project.nameKey(event.getProjectName());
-    sources.get().getAll().stream()
-        .filter(s -> s.wouldFetchProject(p))
-        .forEach(
-            s ->
-                s.getApis()
-                    .forEach(apiUrl -> s.scheduleUpdateHead(apiUrl, p, event.getNewHeadName())));
+
+    FetchApiClient fetchClient = fetchClientFactory.create(sources.get());
+    fetchClient.updateHead(p, event.getNewHeadName());
   }
 
   @AutoValue
@@ -357,10 +230,5 @@ public class ReplicationQueue
     public abstract ObjectId objectId();
 
     public abstract boolean isDelete();
-  }
-
-  @FunctionalInterface
-  private interface CallFunction {
-    void call(Source source);
   }
 }

@@ -27,6 +27,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.net.MediaType;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gson.Gson;
@@ -35,13 +36,23 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationStateListener;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationStateListeners;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.function.Consumer;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.auth.AuthScope;
@@ -63,16 +74,20 @@ import org.eclipse.jgit.transport.URIish;
 public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Result> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static String GERRIT_ADMIN_PROTOCOL_PREFIX = "gerrit+";
+  private static final Integer DEFAULT_FETCH_CALLS_TIMEOUT = 0;
 
   private static final Gson GSON =
       new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
 
   private final CredentialsFactory credentials;
   private final SourceHttpClient.Factory httpClientFactory;
-  private final Source source;
   private final String instanceLabel;
   private final String pluginName;
   private final SyncRefsFilter syncRefsFilter;
+  private final SourcesCollection sources;
+  private final long fetchCallsTimeout;
+  private final ReplicationStateListener stateLog;
+  private final ReplicationState state;
 
   @Inject
   FetchRestApiClient(
@@ -81,12 +96,24 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
       ReplicationConfig replicationConfig,
       SyncRefsFilter syncRefsFilter,
       @PluginName String pluginName,
-      @Assisted Source source) {
+      ReplicationStateListeners sl,
+      ReplicationState state,
+      @Assisted SourcesCollection sources) {
     this.credentials = credentials;
     this.httpClientFactory = httpClientFactory;
-    this.source = source;
+    this.sources = sources;
     this.pluginName = pluginName;
     this.syncRefsFilter = syncRefsFilter;
+    this.stateLog = sl;
+    this.state = state;
+
+    fetchCallsTimeout =
+        2
+            * sources.getAll().stream()
+                .mapToInt(Source::getConnectionTimeout)
+                .max()
+                .orElse(DEFAULT_FETCH_CALLS_TIMEOUT);
+
     this.instanceLabel =
         Strings.nullToEmpty(
                 replicationConfig.getConfig().getString("replication", null, "instanceLabel"))
@@ -95,11 +122,154 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
         Strings.emptyToNull(instanceLabel), "replication.instanceLabel cannot be null or empty");
   }
 
-  /* (non-Javadoc)
-   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callFetch(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
-   */
   @Override
-  public Result callFetch(Project.NameKey project, String refName, URIish targetUri)
+  public void callFetch(NameKey project, String refName) {
+    executeForEachSource(
+        (source) -> {
+          if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
+            for (String apiUrl : source.getApis()) {
+              try {
+                URIish uri = new URIish(apiUrl);
+                Result result = callFetch(source, project, refName, uri);
+                if (!result.isSuccessful()) {
+                  stateLog.warn(
+                      String.format(
+                          "Pull replication fetch call failed. Endpoint url: %s, reason:%s",
+                          apiUrl, result.message().orElse("unknown")),
+                      state);
+                }
+              } catch (URISyntaxException e) {
+                stateLog.error(
+                    String.format("Cannot parse pull replication api url:%s", apiUrl), state);
+              } catch (Exception e) {
+                stateLog.error(
+                    String.format(
+                        "Exception during the pull replication fetch call. Endpoint url:%s, message:%s",
+                        apiUrl, e.getMessage()),
+                    e,
+                    state);
+              }
+            }
+          }
+        });
+  }
+
+  @Override
+  public void deleteProject(NameKey project) {
+    executeForEachSource(
+        (source) -> {
+          if (source.wouldFetchProject(project)) {
+            for (String apiUrl : source.getApis()) {
+              try {
+                URIish urIish = new URIish(apiUrl);
+                Result result = deleteProject(source, project, urIish);
+                if (!result.isSuccessful()) {
+                  throw new IOException(result.message().orElse("Unknown"));
+                }
+                logger.atFine().log(
+                    "Successfully deleted project {} on remote {}", project.get(), apiUrl);
+              } catch (URISyntaxException | IOException e) {
+                String errorMessage =
+                    String.format("Cannot delete project %s on remote site %s.", project, apiUrl);
+                logger.atWarning().withCause(e).log(errorMessage);
+                repLog.warn(errorMessage);
+              }
+            }
+          }
+        });
+  }
+
+  @Override
+  public void updateHead(NameKey project, String newHead) {
+    executeForEachSource(
+        (source) -> {
+          if (source.wouldFetchProject(project)) {
+            for (String apiUrl : source.getApis()) {
+              URIish apiURI;
+              try {
+                apiURI = new URIish(apiUrl);
+              } catch (URISyntaxException e) {
+                logger.atSevere().withCause(e).log(
+                    "Could not schedule HEAD pull-replication for project {}", project.get());
+                return;
+              }
+              try {
+                Result result = updateHead(source, project, newHead, apiURI);
+                if (!result.isSuccessful()) {
+                  throw new IOException(result.message().orElse("Unknown"));
+                }
+                logger.atFine().log(
+                    "Successfully updated HEAD of project {} on remote {}",
+                    project.get(),
+                    apiURI.toASCIIString());
+              } catch (IOException e) {
+                String errorMessage =
+                    String.format(
+                        "Cannot update HEAD of project %s remote site %s",
+                        project.get(), apiURI.toASCIIString());
+                logger.atWarning().withCause(e).log(errorMessage);
+                repLog.warn(errorMessage);
+              }
+            }
+          }
+        });
+  }
+
+  @Override
+  public void callSendObject(
+      NameKey project, String refName, boolean isDelete, RevisionData revisionData) {
+    executeForEachSource(
+        (source) -> {
+          if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
+            for (String apiUrl : source.getApis()) {
+              try {
+                URIish uri = new URIish(apiUrl);
+
+                Result result =
+                    callSendObject(source, project, refName, isDelete, revisionData, uri);
+                if (!result.isSuccessful()) {
+                  repLog.warn(
+                      String.format(
+                          "Pull replication apply object call failed. Endpoint url: %s, reason:%s",
+                          apiUrl, result.message().orElse("unknown")));
+                }
+              } catch (URISyntaxException e) {
+                stateLog.error(
+                    String.format("Cannot parse pull replication api url:%s", apiUrl), state);
+              } catch (IOException e) {
+                stateLog.error(
+                    String.format(
+                        "Exception during the pull replication fetch call. Endpoint url:%s, message:%s",
+                        apiUrl, e.getMessage()),
+                    e,
+                    state);
+              }
+            }
+          }
+        });
+  }
+
+  private void executeForEachSource(Consumer<Source> callFunction) {
+    ForkJoinPool fetchCallsPool = null;
+    try {
+      fetchCallsPool = new ForkJoinPool(sources.getAll().size());
+      fetchCallsPool
+          .submit(() -> sources.getAll().parallelStream().forEach(callFunction))
+          .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
+    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+      stateLog.error(
+          String.format(
+              "Exception during the pull replication fetch call.  Message:%s", e.getMessage()),
+          e,
+          state);
+    } finally {
+      if (fetchCallsPool != null) {
+        fetchCallsPool.shutdown();
+      }
+    }
+  }
+
+  private Result callFetch(Source source, Project.NameKey project, String refName, URIish targetUri)
       throws ClientProtocolException, IOException {
     String url =
         String.format(
@@ -115,45 +285,36 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
 
-    Result result = httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+    Result result =
+        httpClientFactory.create(source).execute(post, this, getContext(source, targetUri));
 
     if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
-      result = initProjectAndFetch(project, targetUri);
+      result = initProjectAndFetch(source, project, targetUri);
     }
 
     return result;
   }
 
-  /* (non-Javadoc)
-   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
-   */
-  @Override
-  public Result initProject(Project.NameKey project, URIish uri) throws IOException {
+  private Result initProject(Source source, Project.NameKey project, URIish uri)
+      throws IOException {
     String url =
         String.format(
             "%s/%s", uri.toString(), getProjectInitializationUrl(pluginName, project.get()));
     HttpPut put = new HttpPut(url);
     put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
     put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(put, this, getContext(uri));
+    return httpClientFactory.create(source).execute(put, this, getContext(source, uri));
   }
 
-  /* (non-Javadoc)
-   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#deleteProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
-   */
-  @Override
-  public Result deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
+  private Result deleteProject(Source source, Project.NameKey project, URIish apiUri)
+      throws IOException {
     String url =
         String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
     HttpDelete delete = new HttpDelete(url);
-    return httpClientFactory.create(source).execute(delete, this, getContext(apiUri));
+    return httpClientFactory.create(source).execute(delete, this, getContext(source, apiUri));
   }
 
-  /* (non-Javadoc)
-   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#updateHead(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
-   */
-  @Override
-  public Result updateHead(Project.NameKey project, String newHead, URIish apiUri)
+  private Result updateHead(Source source, Project.NameKey project, String newHead, URIish apiUri)
       throws IOException {
     logger.atFine().log("Updating head of %s on %s", project.get(), newHead);
     String url =
@@ -162,14 +323,11 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
     req.setEntity(
         new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), StandardCharsets.UTF_8));
     req.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(req, this, getContext(apiUri));
+    return httpClientFactory.create(source).execute(req, this, getContext(source, apiUri));
   }
 
-  /* (non-Javadoc)
-   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callSendObject(com.google.gerrit.entities.Project.NameKey, java.lang.String, boolean, com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData, org.eclipse.jgit.transport.URIish)
-   */
-  @Override
-  public Result callSendObject(
+  private Result callSendObject(
+      Source source,
       Project.NameKey project,
       String refName,
       boolean isDelete,
@@ -193,18 +351,19 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
-    Result result = httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+    Result result =
+        httpClientFactory.create(source).execute(post, this, getContext(source, targetUri));
     if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
-      result = initProjectAndFetch(project, targetUri);
+      result = initProjectAndFetch(source, project, targetUri);
     }
     return result;
   }
 
-  private Result initProjectAndFetch(Project.NameKey project, URIish targetUri)
+  private Result initProjectAndFetch(Source source, Project.NameKey project, URIish targetUri)
       throws IOException, ClientProtocolException {
-    Result result = initProject(project, targetUri);
+    Result result = initProject(source, project, targetUri);
     if (result.isSuccessful()) {
-      result = callFetch(project, "refs/*", targetUri);
+      result = callFetch(source, project, "refs/*", targetUri);
     } else {
       String errorMessage = result.message().map(e -> " - Error: " + e).orElse("");
       repLog.error("Cannot create project " + project + errorMessage);
@@ -244,7 +403,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<Resul
     return responseCode == SC_CREATED || responseCode == SC_NO_CONTENT || responseCode == SC_OK;
   }
 
-  private HttpClientContext getContext(URIish targetUri) {
+  private HttpClientContext getContext(Source source, URIish targetUri) {
     HttpClientContext ctx = HttpClientContext.create();
     ctx.setCredentialsProvider(adapt(credentials.create(source.getRemoteConfigName()), targetUri));
     return ctx;

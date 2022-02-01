@@ -15,32 +15,21 @@
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import com.google.gerrit.entities.Project;
-import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
-import java.io.IOException;
-import org.apache.http.client.ClientProtocolException;
-import org.eclipse.jgit.transport.URIish;
 
 public interface FetchApiClient {
 
   public interface Factory {
-    FetchApiClient create(Source source);
+    FetchApiClient create(SourcesCollection sources);
   }
 
-  Result callFetch(Project.NameKey project, String refName, URIish targetUri)
-      throws ClientProtocolException, IOException;
+  void callFetch(Project.NameKey project, String refName);
 
-  Result initProject(Project.NameKey project, URIish uri) throws IOException;
+  void deleteProject(Project.NameKey project);
 
-  Result deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
+  void updateHead(Project.NameKey project, String newHead);
 
-  Result updateHead(Project.NameKey project, String newHead, URIish apiUri) throws IOException;
-
-  Result callSendObject(
-      Project.NameKey project,
-      String refName,
-      boolean isDelete,
-      RevisionData revisionData,
-      URIish targetUri)
-      throws ClientProtocolException, IOException;
+  void callSendObject(
+      Project.NameKey project, String refName, boolean isDelete, RevisionData revisionData);
 }
