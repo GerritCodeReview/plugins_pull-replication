@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e3ef792_020a0482",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-02T00:05:43Z",
+      "side": 1,
+      "message": "decoupled from the HTTP protocol.",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "59c7f73000cf02a37a1594572b4703b815f88bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80cdf4f3_6b84afeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-02T00:05:43Z",
+      "side": 1,
+      "message": "the introduction of",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "59c7f73000cf02a37a1594572b4703b815f88bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54d7f442_ffca7990",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-02T00:05:43Z",
+      "side": 1,
+      "message": "additional",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "59c7f73000cf02a37a1594572b4703b815f88bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8112f48_46016906",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-02-02T00:05:43Z",
+      "side": 1,
+      "message": "I am unsure of what other synchronous protocols you are planning to introduce here. \nThe pull-replication via pub-sub is an asynchronous invocation and therefore won\u0027t be able to benefit from this change anyway.",
+      "revId": "59c7f73000cf02a37a1594572b4703b815f88bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
