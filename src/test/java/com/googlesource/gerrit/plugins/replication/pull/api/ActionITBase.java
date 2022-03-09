@@ -199,7 +199,6 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
         replicaSuffixes.stream()
             .map(suffix -> gitPath.resolve("${name}" + suffix + ".git").toString())
             .collect(toList());
-    config.setString("replication", null, "instanceLabel", remoteName);
     config.setStringList("remote", remoteName, "url", replicaUrls);
     config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
     config.setString("remote", remoteName, "fetch", "+refs/tags/*:refs/tags/*");
