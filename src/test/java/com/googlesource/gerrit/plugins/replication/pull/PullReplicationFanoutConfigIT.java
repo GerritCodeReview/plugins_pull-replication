@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -95,6 +96,7 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateNewChangeRef() throws Exception {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
 
@@ -122,6 +124,7 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateNewChangeRefAfterConfigReloaded() throws Exception {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
 
@@ -157,6 +160,7 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateNewBranch() throws Exception {
     String testProjectName = project + TEST_REPLICATION_SUFFIX;
     createTestProject(testProjectName);
@@ -190,6 +194,7 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldAutoReloadConfiguration() throws Exception {
     SourcesCollection sources = getInstance(SourcesCollection.class);
     AutoReloadConfigDecorator autoReloadConfigDecorator =
@@ -202,6 +207,7 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldAutoReloadConfigurationWhenRemoteConfigAdded() throws Exception {
     FileBasedConfig newRemoteConfig =
         new FileBasedConfig(
@@ -224,6 +230,7 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldAutoReloadConfigurationWhenRemoteConfigDeleted() throws Exception {
     SourcesCollection sources = getInstance(SourcesCollection.class);
     AutoReloadConfigDecorator autoReloadConfigDecorator =
@@ -259,7 +266,6 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   private void setReplicationSource(String remoteName) throws IOException {
-    config.setString("replication", null, "instanceLabel", remoteName);
     config.setBoolean("gerrit", null, "autoReload", true);
     config.save();
   }

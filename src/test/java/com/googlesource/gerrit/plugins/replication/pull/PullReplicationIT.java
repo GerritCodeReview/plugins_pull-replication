@@ -27,6 +27,7 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
@@ -115,6 +116,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateNewChangeRef() throws Exception {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
 
@@ -142,6 +144,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateNewBranch() throws Exception {
     String testProjectName = project + TEST_REPLICATION_SUFFIX;
     createTestProject(testProjectName);
@@ -176,6 +179,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
 
   @Test
   @UseLocalDisk
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateForceUpdatedBranch() throws Exception {
     boolean forcedPush = true;
     String testProjectName = project + TEST_REPLICATION_SUFFIX;
@@ -245,6 +249,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateNewChangeRefCGitClient() throws Exception {
     AutoReloadConfigDecorator autoReloadConfigDecorator =
         getInstance(AutoReloadConfigDecorator.class);
@@ -280,6 +285,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateNewBranchCGitClient() throws Exception {
     AutoReloadConfigDecorator autoReloadConfigDecorator =
         getInstance(AutoReloadConfigDecorator.class);
@@ -321,6 +327,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateProjectDeletion() throws Exception {
     String projectToDelete = project.get();
     setReplicationSource(TEST_REPLICATION_REMOTE, "", Optional.of(projectToDelete));
@@ -349,6 +356,7 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateHeadUpdate() throws Exception {
     String testProjectName = project.get();
     setReplicationSource(TEST_REPLICATION_REMOTE, "", Optional.of(testProjectName));
@@ -407,7 +415,6 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
         replicaSuffixes.stream()
             .map(suffix -> gitPath.resolve("${name}" + suffix + ".git").toString())
             .collect(toList());
-    config.setString("replication", null, "instanceLabel", remoteName);
     config.setStringList("remote", remoteName, "url", replicaUrls);
     config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
     config.setString("remote", remoteName, "fetch", "+refs/*:refs/*");

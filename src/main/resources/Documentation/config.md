@@ -31,8 +31,13 @@ file, for example to replicate in parallel from four different hosts:</a>
     threads = 3
     authGroup = Public Mirror Group
     authGroup = Second Public Mirror Group
-  [replication]
-    instanceLabel = host-one
+```
+
+And make sure that instanceId is setup in `$site_path/etc/gerrit.config`:
+
+```
+[gerrit]
+    instanceId = host-one
 ```
 
 Then reload the replication plugin to pick up the new configuration:
@@ -120,6 +125,10 @@ replication.instanceLabel
 	servers to fetch specified ref-update object id from the url
 	provided in the remote configuration section which name is equal
 	to instanceLabel.
+
+	Deprecated: This property is kept for backward compatibility and
+	will be removed in the future release. Use [gerrit.instanceId](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#gerrit.instanceId)
+	instead.
 
 replication.maxConnectionsPerRoute
 :	Maximum number of HTTP connections per one HTTP route.
@@ -441,7 +450,6 @@ Static configuration in `$site_path/etc/replication.config`:
     autoReload = true
     replicateOnStartup = false
 [replication]
-	instanceLabel = host-one
     lockErrorMaxRetries = 5
     maxRetries = 5
 ```
@@ -477,7 +485,6 @@ Pull replication plugin resolves config files to the following configuration:
     autoReload = true
     replicateOnStartup = false
 [replication]
-    instanceLabel = host-one
     lockErrorMaxRetries = 5
     maxRetries = 5
 
