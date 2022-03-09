@@ -25,6 +25,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
@@ -66,7 +67,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   private final CredentialsFactory credentials;
   private final SourceHttpClient.Factory httpClientFactory;
   private final Source source;
-  private final String instanceLabel;
+  private final String instanceId;
   private final String pluginName;
   private final SyncRefsFilter syncRefsFilter;
 
@@ -77,18 +78,20 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
       ReplicationConfig replicationConfig,
       SyncRefsFilter syncRefsFilter,
       @PluginName String pluginName,
+      @GerritInstanceId String instanceId,
       @Assisted Source source) {
     this.credentials = credentials;
     this.httpClientFactory = httpClientFactory;
     this.source = source;
     this.pluginName = pluginName;
     this.syncRefsFilter = syncRefsFilter;
-    this.instanceLabel =
-        Strings.nullToEmpty(
+    this.instanceId =
+        Optional.ofNullable(
                 replicationConfig.getConfig().getString("replication", null, "instanceLabel"))
+            .orElse(instanceId)
             .trim();
-    requireNonNull(
-        Strings.emptyToNull(instanceLabel), "replication.instanceLabel cannot be null or empty");
+
+    requireNonNull(Strings.emptyToNull(this.instanceId), "instance id cannot be null or empty");
   }
 
   /* (non-Javadoc)
@@ -107,7 +110,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
         new StringEntity(
             String.format(
                 "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
-                instanceLabel, refName, callAsync),
+                instanceId, refName, callAsync),
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
@@ -172,7 +175,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     } else {
       requireNull(revisionData, "DELETE ref-updates cannot be associated with a RevisionData");
     }
-    RevisionInput input = new RevisionInput(instanceLabel, refName, revisionData);
+    RevisionInput input = new RevisionInput(instanceId, refName, revisionData);
 
     String url =
         String.format(

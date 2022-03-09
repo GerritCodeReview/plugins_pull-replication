@@ -121,6 +121,10 @@ replication.instanceLabel
 	provided in the remote configuration section which name is equal
 	to instanceLabel.
 
+	Deprecated: This property is kept for backward compatibility and
+	will be removed in the future release. Use [gerrit.instanceId](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#gerrit.instanceId)
+	instead.
+
 replication.maxConnectionsPerRoute
 :	Maximum number of HTTP connections per one HTTP route.
 
