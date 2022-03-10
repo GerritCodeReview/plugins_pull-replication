@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14878c5d_6ff7c773",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-03-10T07:45:28Z",
+      "side": 1,
+      "message": "I believe that pull replication setup description should be modified so that `gerrit.instanceId` is used instead of `gerrit.instanceLabel` for new applications... I guess that configuration migration description will have to be added when we finally discontinue using `gerrti.instanceLabel` ;)",
+      "revId": "8cf42ac98dbffd2e56bdecdaf1597d56c29535dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
