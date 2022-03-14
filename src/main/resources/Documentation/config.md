@@ -130,6 +130,17 @@ replication.instanceLabel
 	will be removed in the future release. Use [gerrit.instanceId](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#gerrit.instanceId)
 	instead.
 
+replication.consumeStreamEvents
+:	Use stream events to trigger pull-replication actions alongside the
+	REST approach. This mechanism is useful together with event-broker
+	and multi-site to provide backfill mechanism when a node has to
+	catch up with the events after being unreachable.
+
+	NOTE: When `consumeStreamEvents` is enabled gerrit.instanceId
+	instead of [replication.instanceLabel](https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/resources/Documentation/config.md#replication.instanceLabel) must be used.
+
+	Default: false
+
 replication.maxConnectionsPerRoute
 :	Maximum number of HTTP connections per one HTTP route.
 
