@@ -48,12 +48,14 @@ import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClien
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.SourceHttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.event.FetchRefReplicatedEventModule;
+import com.googlesource.gerrit.plugins.replication.pull.event.StreamEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -120,7 +122,8 @@ class PullReplicationModule extends AbstractModule {
 
     bind(ConfigParser.class).to(SourceConfigParser.class).in(Scopes.SINGLETON);
 
-    if (getReplicationConfig().getBoolean("gerrit", "autoReload", false)) {
+    Config replicationConfig = getReplicationConfig();
+    if (replicationConfig.getBoolean("gerrit", "autoReload", false)) {
       bind(ReplicationConfig.class)
           .annotatedWith(MainReplicationConfig.class)
           .to(getReplicationConfigClass());
@@ -130,6 +133,10 @@ class PullReplicationModule extends AbstractModule {
           .to(AutoReloadConfigDecorator.class);
     } else {
       bind(ReplicationConfig.class).to(getReplicationConfigClass()).in(Scopes.SINGLETON);
+    }
+
+    if (replicationConfig.getBoolean("replication", "consumeStreamEvents", false)) {
+      install(new StreamEventModule());
     }
 
     DynamicSet.setOf(binder(), ReplicationStateListener.class);
