@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a040328_97fe69db",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-14T08:24:17Z",
+      "side": 1,
+      "message": "this should be guice @Assisted constructor. I will refactor that in a followup change",
+      "range": {
+        "startLine": 85,
+        "startChar": 43,
+        "endLine": 85,
+        "endChar": 51
+      },
+      "revId": "ece9085289e64d607b3c810b660e591a76a2b1cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
