@@ -32,8 +32,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
-import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.FetchJob;
-import com.googlesource.gerrit.plugins.replication.pull.api.FetchCommand;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -41,20 +41,21 @@ public class StreamEventListener implements EventListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private String instanceId;
-  private FetchCommand fetchCommand;
   private WorkQueue workQueue;
   private ProjectInitializationAction projectInitializationAction;
+
+  private Factory fetchJobFactory;
 
   @Inject
   public StreamEventListener(
       @Nullable @GerritInstanceId String instanceId,
-      FetchCommand command,
       ProjectInitializationAction projectInitializationAction,
-      WorkQueue workQueue) {
+      WorkQueue workQueue,
+      FetchJob.Factory fetchJobFactory) {
     this.instanceId = instanceId;
-    this.fetchCommand = command;
     this.projectInitializationAction = projectInitializationAction;
     this.workQueue = workQueue;
+    this.fetchJobFactory = fetchJobFactory;
 
     requireNonNull(
         Strings.emptyToNull(this.instanceId), "gerrit.instanceId cannot be null or empty");
@@ -97,7 +98,7 @@ public class StreamEventListener implements EventListener {
     FetchAction.Input input = new FetchAction.Input();
     input.refName = refName;
     input.label = sourceInstanceId;
-    workQueue.getDefaultQueue().submit(new FetchJob(fetchCommand, projectNameKey, input));
+    workQueue.getDefaultQueue().submit(fetchJobFactory.create(projectNameKey, input));
   }
 
   private String getProjectRepositoryName(ProjectCreatedEvent projectCreatedEvent) {

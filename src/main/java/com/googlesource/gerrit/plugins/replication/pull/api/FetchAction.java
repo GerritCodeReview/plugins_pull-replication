@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -32,6 +31,7 @@ import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -42,17 +42,20 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private final WorkQueue workQueue;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final FetchPreconditions preConditions;
+  private final Factory fetchJobFactory;
 
   @Inject
   public FetchAction(
       FetchCommand command,
       WorkQueue workQueue,
       DynamicItem<UrlFormatter> urlFormatter,
-      FetchPreconditions preConditions) {
+      FetchPreconditions preConditions,
+      FetchJob.Factory fetchJobFactory) {
     this.command = command;
     this.workQueue = workQueue;
     this.urlFormatter = urlFormatter;
     this.preConditions = preConditions;
+    this.fetchJobFactory = fetchJobFactory;
   }
 
   public static class Input {
@@ -101,7 +104,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     @SuppressWarnings("unchecked")
     WorkQueue.Task<Void> task =
         (WorkQueue.Task<Void>)
-            workQueue.getDefaultQueue().submit(new FetchJob(command, project, input));
+            workQueue.getDefaultQueue().submit(fetchJobFactory.create(project, input));
     Optional<String> url =
         urlFormatter
             .get()
@@ -109,33 +112,5 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     // We're in a HTTP handler, so must be present.
     checkState(url.isPresent());
     return Response.accepted(url.get());
-  }
-
-  public static class FetchJob implements Runnable {
-    private static final FluentLogger log = FluentLogger.forEnclosingClass();
-
-    private FetchCommand command;
-    private Project.NameKey project;
-    private FetchAction.Input input;
-
-    public FetchJob(FetchCommand command, Project.NameKey project, FetchAction.Input input) {
-      this.command = command;
-      this.project = project;
-      this.input = input;
-    }
-
-    @Override
-    public void run() {
-      try {
-        command.fetchAsync(project, input.label, input.refName);
-      } catch (InterruptedException
-          | ExecutionException
-          | RemoteConfigurationMissingException
-          | TimeoutException e) {
-        log.atSevere().withCause(e).log(
-            "Exception during the async fetch call for project %s, label %s and ref name %s",
-            project.get(), input.label, input.refName);
-      }
-    }
   }
 }

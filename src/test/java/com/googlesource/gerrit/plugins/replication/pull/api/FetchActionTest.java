@@ -55,6 +55,8 @@ public class FetchActionTest {
   int taskId = 1234;
 
   @Mock FetchCommand fetchCommand;
+  @Mock FetchJob fetchJob;
+  @Mock FetchJob.Factory fetchJobFactory;
   @Mock ProjectResource projectResource;
   @Mock WorkQueue workQueue;
   @Mock ScheduledExecutorService exceutorService;
@@ -65,6 +67,7 @@ public class FetchActionTest {
 
   @Before
   public void setup() {
+    when(fetchJobFactory.create(any(), any())).thenReturn(fetchJob);
     when(workQueue.getDefaultQueue()).thenReturn(exceutorService);
     when(urlFormatter.getRestUrl(anyString())).thenReturn(Optional.of(location));
     when(exceutorService.submit(any(Runnable.class)))
@@ -79,7 +82,9 @@ public class FetchActionTest {
     when(task.getTaskId()).thenReturn(taskId);
     when(preConditions.canCallFetchApi()).thenReturn(true);
 
-    fetchAction = new FetchAction(fetchCommand, workQueue, urlFormatterDynamicItem, preConditions);
+    fetchAction =
+        new FetchAction(
+            fetchCommand, workQueue, urlFormatterDynamicItem, preConditions, fetchJobFactory);
   }
 
   @Test
