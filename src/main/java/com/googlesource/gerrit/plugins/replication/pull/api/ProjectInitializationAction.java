@@ -103,10 +103,10 @@ public class ProjectInitializationAction extends HttpServlet {
         "Cannot initialize project " + projectName);
   }
 
-  protected boolean initProject(String projectName)
-      throws AuthException, PermissionBackendException {
-    permissionBackend.user(userProvider.get()).check(GlobalPermission.CREATE_PROJECT);
-
+  public boolean initProject(String projectName) throws AuthException, PermissionBackendException {
+    if (!userProvider.get().isInternalUser()) {
+      permissionBackend.user(userProvider.get()).check(GlobalPermission.CREATE_PROJECT);
+    }
     Optional<URIish> maybeUri = gerritConfigOps.getGitRepositoryURI(projectName);
     if (!maybeUri.isPresent()) {
       logger.atSevere().log("Cannot initialize project '{}'", projectName);
