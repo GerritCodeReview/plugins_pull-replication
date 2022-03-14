@@ -111,7 +111,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     return Response.accepted(url.get());
   }
 
-  private static class FetchJob implements Runnable {
+  public static class FetchJob implements Runnable {
     private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
     private FetchCommand command;
