@@ -65,7 +65,7 @@ import org.eclipse.jgit.transport.URIish;
  */
 public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final ReplicationStateListener stateLog;
-  static final String ALL_REFS = "..all..";
+  public static final String ALL_REFS = "..all..";
   static final String ID_KEY = "fetchOneId";
 
   interface Factory {
