@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f30146a3_0f3eea3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-18T20:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f3ef33a_d7737a0e",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "448f11b6_d7ed708c",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-18T18:22:42Z",
       "side": 1,
       "message": "Can\u0027t we always check for permissions? Is this an optimisation?",
+      "range": {
+        "startLine": 107,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 44
+      },
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbdb9160_79efc26f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-18T20:25:31Z",
+      "side": 1,
+      "message": "When we init project from the stream events we do not have real user just internal one. If I\u0027m correct we cannot grand permissions for this user. This means that we cannot check create project permission for internal user",
+      "parentUuid": "448f11b6_d7ed708c",
       "range": {
         "startLine": 107,
         "startChar": 8,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9a83d1f_c6126ffe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-18T20:25:31Z",
+      "side": 1,
+      "message": "I think so, we do the same when we have REST API call:\nhttps://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java#122",
+      "parentUuid": "36a3b5e6_0b394bb5",
+      "range": {
+        "startLine": 88,
+        "startChar": 28,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f4491623_2662542a",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 4
@@ -83,6 +155,30 @@
       "writtenOn": "2022-03-18T18:22:42Z",
       "side": 1,
       "message": "extra space",
+      "range": {
+        "startLine": 130,
+        "startChar": 63,
+        "endLine": 130,
+        "endChar": 64
+      },
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de725764_c92ae9d8",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-18T20:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4491623_2662542a",
       "range": {
         "startLine": 130,
         "startChar": 63,
@@ -106,6 +202,24 @@
       "writtenOn": "2022-03-18T18:22:42Z",
       "side": 1,
       "message": "extra spaces",
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d1f552f_d03a4d8e",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-18T20:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d221054e_9ef8fd2b",
       "revId": "8f556724f201928d0a219a503713e8029814a095",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -156,6 +270,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "135fcc35_353e3af8",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-18T20:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48fc3f60_5a93696e",
+      "range": {
+        "startLine": 135,
+        "startChar": 24,
+        "endLine": 135,
+        "endChar": 41
+      },
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9674e363_54b7e3bb",
@@ -173,6 +311,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6276d997_3820a8c6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-18T20:25:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9674e363_54b7e3bb",
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "024570e8_4326170b",
@@ -186,6 +342,24 @@
       "writtenOn": "2022-03-18T18:22:42Z",
       "side": 1,
       "message": "Shall we also assert we are getting all the refs?",
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "532b476d_9010f79c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-18T20:25:31Z",
+      "side": 1,
+      "message": "It\u0027s difficult with this implementation, I will add that in a follow up change where I do refactoring to enable better testing",
+      "parentUuid": "024570e8_4326170b",
       "revId": "8f556724f201928d0a219a503713e8029814a095",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
