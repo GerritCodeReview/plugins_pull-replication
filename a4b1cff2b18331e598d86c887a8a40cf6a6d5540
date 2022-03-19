@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04d4299a_217e339c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-19T01:01:42Z",
+      "side": 1,
+      "message": "Not necessarily: if the ref-update is involving \u0027refs/meta/config\u0027 and the destination SHA1 is ObjectId.zeros() then it means the project was removed and therefore there is nothing to fetch.",
+      "range": {
+        "startLine": 59,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 49
+      },
+      "revId": "a4b1cff2b18331e598d86c887a8a40cf6a6d5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
