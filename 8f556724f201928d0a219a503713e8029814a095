@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42af2bbf_a390e4a5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-21T19:19:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "911b5acb_34a2fe96",
+      "range": {
+        "startLine": 107,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 44
+      },
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36a3b5e6_0b394bb5",
@@ -180,6 +204,30 @@
       "side": 1,
       "message": "I believe the project name shouldn\u0027t have the `.git`",
       "parentUuid": "e9a83d1f_c6126ffe",
+      "range": {
+        "startLine": 88,
+        "startChar": 28,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fe7f673_416a6ec1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-21T19:19:58Z",
+      "side": 1,
+      "message": "ok maybe I will rename the method but I copied logic from what we have in\nhttps://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java#122\n\nSo event.projectName is always without `.git` and before creating the repo we are adding `.git`",
+      "parentUuid": "1cf86129_cfdde8d2",
       "range": {
         "startLine": 88,
         "startChar": 28,
@@ -285,6 +333,30 @@
       "writtenOn": "2022-03-18T18:22:42Z",
       "side": 1,
       "message": "extra space",
+      "range": {
+        "startLine": 134,
+        "startChar": 62,
+        "endLine": 134,
+        "endChar": 63
+      },
+      "revId": "8f556724f201928d0a219a503713e8029814a095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f87bc052_03660374",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-21T19:19:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5069c8b5_9afdafec",
       "range": {
         "startLine": 134,
         "startChar": 62,

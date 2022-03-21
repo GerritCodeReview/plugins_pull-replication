@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ee25ffe_f2a878ff",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-21T19:19:58Z",
+      "side": 1,
+      "message": "As I mentioned in the comment in the documentation section when the consuming stream events is enabled instanceId is mandatory because we must populate event.instanceId. Plus in 3.4 instanceId is mandatory for multi-site",
+      "parentUuid": "d2464146_f0f86a77",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "a4b1cff2b18331e598d86c887a8a40cf6a6d5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f32c4b6d_792431c2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 6
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-19T15:50:23Z",
       "side": 1,
       "message": "What if instanceId is null? It would throw NPE here.",
+      "range": {
+        "startLine": 56,
+        "startChar": 9,
+        "endLine": 56,
+        "endChar": 19
+      },
+      "revId": "a4b1cff2b18331e598d86c887a8a40cf6a6d5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e95c213f_c56a998d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-21T19:19:58Z",
+      "side": 1,
+      "message": "We do not have @Nullable annotation so instanceId cannot be null",
+      "parentUuid": "f32c4b6d_792431c2",
       "range": {
         "startLine": 56,
         "startChar": 9,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfd45ab0_f42707fe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-21T19:19:58Z",
+      "side": 1,
+      "message": "Done, I will add delete project logic as a follow up",
+      "parentUuid": "04d4299a_217e339c",
+      "range": {
+        "startLine": 59,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 49
+      },
+      "revId": "a4b1cff2b18331e598d86c887a8a40cf6a6d5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e6a1ad3_0b82e544",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-03-19T15:50:23Z",
       "side": 1,
       "message": "I thought instanceLabel was used as a fallback, or are you saying that the consumption of stream events requires all Gerrit primaries to have the instanceId set?",
+      "range": {
+        "startLine": 139,
+        "startChar": 45,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "a4b1cff2b18331e598d86c887a8a40cf6a6d5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "679232b3_b3f21b92",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-21T19:19:58Z",
+      "side": 1,
+      "message": "Yes because this is what we have in event.instanceId field. My idea was that for backward compatibility we will fallback to instanceLabel *but* if someone whats to enable stream events it *must* use instanceId. I theory we can use instanceLabel but it must be indentical to instanceId so then what\u0027s the point of having both?",
+      "parentUuid": "7e6a1ad3_0b82e544",
       "range": {
         "startLine": 139,
         "startChar": 45,
