@@ -31,10 +31,12 @@ import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
+import com.googlesource.gerrit.plugins.replication.pull.api.ProjectDeletionAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.ObjectId;
@@ -60,6 +62,8 @@ public class StreamEventListenerTest {
   @Mock private ScheduledExecutorService executor;
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
+  @Mock private ProjectDeletionAction projectDeletionAction;
+  @Mock private ProjectsCollection projectsCollection;
   @Captor ArgumentCaptor<Input> inputCaptor;
 
   private StreamEventListener objectUnderTest;
@@ -70,7 +74,12 @@ public class StreamEventListenerTest {
     when(fetchJobFactory.create(any(), any())).thenReturn(fetchJob);
     objectUnderTest =
         new StreamEventListener(
-            INSTANCE_ID, projectInitializationAction, workQueue, fetchJobFactory);
+            INSTANCE_ID,
+            projectInitializationAction,
+            workQueue,
+            fetchJobFactory,
+            projectDeletionAction,
+            projectsCollection);
   }
 
   @Test
