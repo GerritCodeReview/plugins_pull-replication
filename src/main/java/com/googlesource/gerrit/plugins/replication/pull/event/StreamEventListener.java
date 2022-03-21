@@ -21,6 +21,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
@@ -28,11 +30,14 @@ import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
+import com.googlesource.gerrit.plugins.replication.pull.api.ProjectDeletionAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -45,16 +50,24 @@ public class StreamEventListener implements EventListener {
 
   private Factory fetchJobFactory;
 
+  private ProjectDeletionAction projectDeletionAction;
+
+  private ProjectsCollection projectsCollection;
+
   @Inject
   public StreamEventListener(
       @GerritInstanceId String instanceId,
       ProjectInitializationAction projectInitializationAction,
       WorkQueue workQueue,
-      FetchJob.Factory fetchJobFactory) {
+      FetchJob.Factory fetchJobFactory,
+      ProjectDeletionAction projectDeletionAction,
+      ProjectsCollection projectsCollection) {
     this.instanceId = instanceId;
     this.projectInitializationAction = projectInitializationAction;
     this.workQueue = workQueue;
     this.fetchJobFactory = fetchJobFactory;
+    this.projectDeletionAction = projectDeletionAction;
+    this.projectsCollection = projectsCollection;
 
     requireNonNull(
         Strings.emptyToNull(this.instanceId), "gerrit.instanceId cannot be null or empty");
@@ -65,7 +78,9 @@ public class StreamEventListener implements EventListener {
     if (!instanceId.equals(event.instanceId)) {
       if (event instanceof RefUpdatedEvent) {
         RefUpdatedEvent refUpdatedEvent = (RefUpdatedEvent) event;
-        if (!isProjectDelete(refUpdatedEvent)) {
+        if (isProjectDelete(refUpdatedEvent)) {
+          deleteProject(refUpdatedEvent);
+        } else {
           fetchRefs(
               refUpdatedEvent.getRefName(),
               refUpdatedEvent.instanceId,
@@ -85,6 +100,19 @@ public class StreamEventListener implements EventListener {
               "Cannot initialised project:%s", projectCreatedEvent.projectName);
         }
       }
+    }
+  }
+
+  protected void deleteProject(RefUpdatedEvent refUpdatedEvent) {
+    try {
+      ProjectResource projectResource =
+          projectsCollection.parse(
+              TopLevelResource.INSTANCE,
+              IdString.fromDecoded(refUpdatedEvent.getProjectNameKey().get()));
+      projectDeletionAction.apply(projectResource, new ProjectDeletionAction.DeleteInput());
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot delete project:%s", refUpdatedEvent.getProjectNameKey().get());
     }
   }
 
