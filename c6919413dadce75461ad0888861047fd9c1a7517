@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be349f4e_cd4da6ee",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-21T17:14:55Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "e9a26be7_9e86f8a4",
+      "revId": "c6919413dadce75461ad0888861047fd9c1a7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "73b2f75b_0d5d3f27",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-03-19T00:57:25Z",
       "side": 1,
       "message": "Is this tab intentional?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 1
+      },
+      "revId": "c6919413dadce75461ad0888861047fd9c1a7517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f55f76d_805d2514",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-21T17:14:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73b2f75b_0d5d3f27",
       "range": {
         "startLine": 40,
         "startChar": 0,
