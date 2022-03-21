@@ -30,12 +30,12 @@ import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
 import java.util.Optional;
 import org.eclipse.jgit.transport.URIish;
 
-class ProjectDeletionAction
+public class ProjectDeletionAction
     implements RestModifyView<ProjectResource, ProjectDeletionAction.DeleteInput> {
   private static final PluginPermission DELETE_PROJECT =
       new PluginPermission("delete-project", "deleteProject");
 
-  static class DeleteInput {}
+  public static class DeleteInput {}
 
   private final GerritConfigOps gerritConfigOps;
   private final PermissionBackend permissionBackend;
