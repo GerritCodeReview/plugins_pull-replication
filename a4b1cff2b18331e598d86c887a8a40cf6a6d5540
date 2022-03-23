@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aee6e4bc_a6b7c978",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-23T19:45:18Z",
+      "side": 1,
+      "message": "\u003e Pull-replication isn\u0027t used only with multi-site: you could use it also for a primary-replica setup.\n\nSure, but we still we need event.instanceId to be equal instanceLabel or gerrit.instanceId should be used\n\n\u003e Whilst that is fine for a master branch, people won\u0027t expect that in a stable branch. Can we just say that the consumption of stream events requires the GerritInstanceId instead?\n\nNo sure if I understand, we already have a note in the documentation: \n```\nNOTE: When `consumeStreamEvents` is enabled gerrit.instanceId\ninstead of replication.instanceLabel must be used.\n```\n\nIf we disable `consumeStreamEvents` pull-replication is 100% backward compatible",
+      "parentUuid": "6bd52554_f8164094",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "a4b1cff2b18331e598d86c887a8a40cf6a6d5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f32c4b6d_792431c2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 6
