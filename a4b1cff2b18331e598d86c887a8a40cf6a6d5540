@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6bd52554_f8164094",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-23T09:02:06Z",
+      "side": 1,
+      "message": "\u003e As I mentioned in the comment in the documentation section when the consuming stream events is enabled instanceId is mandatory.\n\nWhilst that is fine for a master branch, people won\u0027t expect that in a stable branch. Can we just say that the consumption of stream events requires the GerritInstanceId instead?\n\n\u003e because we must populate event.instanceId. Plus in 3.4 instanceId is mandatory for multi-site\n\nPull-replication isn\u0027t used only with multi-site: you could use it also for a primary-replica setup.",
+      "parentUuid": "5ee25ffe_f2a878ff",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "a4b1cff2b18331e598d86c887a8a40cf6a6d5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f32c4b6d_792431c2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 6
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "Yes because this is what we have in event.instanceId field. My idea was that for backward compatibility we will fallback to instanceLabel *but* if someone whats to enable stream events it *must* use instanceId. I theory we can use instanceLabel but it must be indentical to instanceId so then what\u0027s the point of having both?",
       "parentUuid": "7e6a1ad3_0b82e544",
+      "range": {
+        "startLine": 139,
+        "startChar": 45,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "a4b1cff2b18331e598d86c887a8a40cf6a6d5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98ccbef7_229d738c",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-03-23T09:02:06Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "679232b3_b3f21b92",
       "range": {
         "startLine": 139,
         "startChar": 45,
