@@ -46,6 +46,126 @@
       },
       "revId": "bbf37c5481cabaf4858e7ace8f070b8ba9e7871f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b03f5ec_6371d7d7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T13:03:43Z",
+      "side": 1,
+      "message": "nit: this can be final",
+      "revId": "bbf37c5481cabaf4858e7ace8f070b8ba9e7871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a723d74_1b16d45a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T13:03:43Z",
+      "side": 1,
+      "message": "I think making this a NameKey causes the change to be bigger than it needs to be.\nIf you leave this as a string, you can remove all the calls to `.get()` and wrap it only once in your capture.",
+      "revId": "bbf37c5481cabaf4858e7ace8f070b8ba9e7871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "355eb804_e5f27e69",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T13:03:43Z",
+      "side": 1,
+      "message": "Is this still needed?",
+      "revId": "bbf37c5481cabaf4858e7ace8f070b8ba9e7871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fd7d5d8_edd3301d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T13:03:43Z",
+      "side": 1,
+      "message": "This could match only eq(TEST_PROJECT) rather than any() right?",
+      "range": {
+        "startLine": 70,
+        "startChar": 32,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "bbf37c5481cabaf4858e7ace8f070b8ba9e7871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2651d05a_1c464e0b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T13:03:43Z",
+      "side": 1,
+      "message": "nit: unneeded",
+      "range": {
+        "startLine": 113,
+        "startChar": 26,
+        "endLine": 113,
+        "endChar": 36
+      },
+      "revId": "bbf37c5481cabaf4858e7ace8f070b8ba9e7871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66567171_b06673c5",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T13:03:43Z",
+      "side": 1,
+      "message": "nit: uneeded",
+      "range": {
+        "startLine": 143,
+        "startChar": 26,
+        "endLine": 143,
+        "endChar": 36
+      },
+      "revId": "bbf37c5481cabaf4858e7ace8f070b8ba9e7871f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
