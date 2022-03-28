@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4613209_1dc5dd0f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "Nit: as you are explaining later, this instance cannot be null",
+      "range": {
+        "startLine": 59,
+        "startChar": 72,
+        "endLine": 59,
+        "endChar": 79
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1cb9a33_d496cd9b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "I appreciate project deletions are going to be dealt with as follow up changes, but I am still trying to understand this bit.\n\nWhen a project is removed, do we only receive an event for refs/meta/config? what about all other refs, is there anything about those refs streamed on the stream events?\n\nIf we receive an event for refs/changes/xx/xx/meta for example we will delete the ref right?\n\nWhat is different about processing events related to the deletion of all other refs? Could we not do the same thing with refs/meta/config?",
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5340d0c4_8a1907ee",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "nit: initialise",
+      "range": {
+        "startLine": 84,
+        "startChar": 22,
+        "endLine": 84,
+        "endChar": 33
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f93e32ae_65c3eb42",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "This suggests that multiple refs are fetched, but this method actually just _schedules the fetching of *one* ref_.\n\nShall we name this `fetchRefAsync()` or `scheduleFetchRef` or something along these lines?",
+      "range": {
+        "startLine": 95,
+        "startChar": 17,
+        "endLine": 95,
+        "endChar": 26
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2e48188_aa190e9d",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "a node",
+      "range": {
+        "startLine": 136,
+        "startChar": 25,
+        "endLine": 136,
+        "endChar": 29
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "761bb6cb_59e6060d",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "Does this mean that this is going to work alongside the usual REST approach?\nIf so, shall we make it explicit in the documentation that REST is always functioning?",
+      "range": {
+        "startLine": 135,
+        "startChar": 56,
+        "endLine": 136,
+        "endChar": 19
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adca2f84_8b4f2705",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "nit: Consider linking to the relevant section in the documentation.",
+      "range": {
+        "startLine": 140,
+        "startChar": 24,
+        "endLine": 140,
+        "endChar": 37
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a50b9c56_1169c6d7",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "Do we need a test to ensure/document that deletion of ref updates are going to be processed?",
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4d2cb32_d82d1223",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "nit: this is redundant",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94d2dcab_a86917dc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-03-28T12:49:27Z",
+      "side": 1,
+      "message": "nit: this is redundant",
+      "range": {
+        "startLine": 124,
+        "startChar": 20,
+        "endLine": 124,
+        "endChar": 29
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
