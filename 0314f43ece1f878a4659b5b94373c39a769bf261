@@ -476,6 +476,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61adbf41_358c4412",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T23:17:49Z",
+      "side": 1,
+      "message": "You are correct times(1) is used as default",
+      "parentUuid": "ede16374_f91e697f",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94d2dcab_a86917dc",
