@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1604e478_e8666f37",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "It\u0027s the same as we have in multi-site so generic Guice injection error. But I will add nullable and validation to have a proper exception",
+      "parentUuid": "5705899a_3e921f63",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "a4b1cff2b18331e598d86c887a8a40cf6a6d5540",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f32c4b6d_792431c2",

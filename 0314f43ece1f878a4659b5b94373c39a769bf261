@@ -70,6 +70,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "909fc9a0_c57c16fe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4613209_1dc5dd0f",
+      "range": {
+        "startLine": 59,
+        "startChar": 72,
+        "endLine": 59,
+        "endChar": 79
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1cb9a33_d496cd9b",
@@ -83,6 +107,24 @@
       "writtenOn": "2022-03-28T12:49:27Z",
       "side": 1,
       "message": "I appreciate project deletions are going to be dealt with as follow up changes, but I am still trying to understand this bit.\n\nWhen a project is removed, do we only receive an event for refs/meta/config? what about all other refs, is there anything about those refs streamed on the stream events?\n\nIf we receive an event for refs/changes/xx/xx/meta for example we will delete the ref right?\n\nWhat is different about processing events related to the deletion of all other refs? Could we not do the same thing with refs/meta/config?",
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a58d2f2_7cf13a2e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "This part was suggested by @Luca in this comment:\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/332779/comments/04d4299a_217e339c",
+      "parentUuid": "e1cb9a33_d496cd9b",
       "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -110,6 +152,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3008d52_ae8af19a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5340d0c4_8a1907ee",
+      "range": {
+        "startLine": 84,
+        "startChar": 22,
+        "endLine": 84,
+        "endChar": 33
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f93e32ae_65c3eb42",
@@ -123,6 +189,30 @@
       "writtenOn": "2022-03-28T12:49:27Z",
       "side": 1,
       "message": "This suggests that multiple refs are fetched, but this method actually just _schedules the fetching of *one* ref_.\n\nShall we name this `fetchRefAsync()` or `scheduleFetchRef` or something along these lines?",
+      "range": {
+        "startLine": 95,
+        "startChar": 17,
+        "endLine": 95,
+        "endChar": 26
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9732719f_53d243d2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "Not always it\u0027s a single ref for example for project creation we are fetching all refs. But you are correct it should have Async suffix",
+      "parentUuid": "f93e32ae_65c3eb42",
       "range": {
         "startLine": 95,
         "startChar": 17,
@@ -179,6 +269,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7d5416_9cec1c21",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2e48188_aa190e9d",
+      "range": {
+        "startLine": 136,
+        "startChar": 25,
+        "endLine": 136,
+        "endChar": 29
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9f3b366_78bfc35e",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "761bb6cb_59e6060d",
+      "range": {
+        "startLine": 135,
+        "startChar": 56,
+        "endLine": 136,
+        "endChar": 19
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adca2f84_8b4f2705",
@@ -192,6 +330,30 @@
       "writtenOn": "2022-03-28T12:49:27Z",
       "side": 1,
       "message": "nit: Consider linking to the relevant section in the documentation.",
+      "range": {
+        "startLine": 140,
+        "startChar": 24,
+        "endLine": 140,
+        "endChar": 37
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcea6268_770a5c28",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adca2f84_8b4f2705",
       "range": {
         "startLine": 140,
         "startChar": 24,
@@ -242,6 +404,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ede16374_f91e697f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "not sure if I understand, I want to check if job was submitted just once. According to the documentation it should be times(1):\nhttps://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html#4",
+      "parentUuid": "d4d2cb32_d82d1223",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94d2dcab_a86917dc",
@@ -255,6 +441,30 @@
       "writtenOn": "2022-03-28T12:49:27Z",
       "side": 1,
       "message": "nit: this is redundant",
+      "range": {
+        "startLine": 124,
+        "startChar": 20,
+        "endLine": 124,
+        "endChar": 29
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47168caf_80a6aeaa",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-03-29T22:00:21Z",
+      "side": 1,
+      "message": "same as above",
+      "parentUuid": "94d2dcab_a86917dc",
       "range": {
         "startLine": 124,
         "startChar": 20,
