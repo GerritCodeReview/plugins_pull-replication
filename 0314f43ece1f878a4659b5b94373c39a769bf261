@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e9a2076_ea493fe8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-09T00:04:28Z",
+      "side": 1,
+      "message": "I believe deletion of projects is still a gap as we don\u0027t have a proper event :-(",
+      "parentUuid": "5a58d2f2_7cf13a2e",
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5340d0c4_8a1907ee",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 9
@@ -425,6 +443,24 @@
       "writtenOn": "2022-03-28T12:49:27Z",
       "side": 1,
       "message": "Do we need a test to ensure/document that deletion of ref updates are going to be processed?",
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35aa1620_4de63f5e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-09T00:04:28Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "a50b9c56_1169c6d7",
       "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
