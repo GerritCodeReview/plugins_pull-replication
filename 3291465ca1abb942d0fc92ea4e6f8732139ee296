@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c80a727_76a3b779",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-04-20T09:04:30Z",
+      "side": 1,
+      "message": "nit: add a note on project deletions and HEAD updates not covered.",
+      "revId": "3291465ca1abb942d0fc92ea4e6f8732139ee296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
