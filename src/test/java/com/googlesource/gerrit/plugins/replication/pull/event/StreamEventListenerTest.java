@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
@@ -31,10 +32,12 @@ import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
+import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -58,6 +61,7 @@ public class StreamEventListenerTest {
   @Mock private ScheduledExecutorService executor;
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
+  @Mock private DeleteRefCommand deleteRefCommand;
   @Captor ArgumentCaptor<Input> inputCaptor;
   @Mock private PullReplicationApiRequestMetrics metrics;
 
@@ -70,7 +74,12 @@ public class StreamEventListenerTest {
         .thenReturn(fetchJob);
     objectUnderTest =
         new StreamEventListener(
-            INSTANCE_ID, projectInitializationAction, workQueue, fetchJobFactory, () -> metrics);
+            INSTANCE_ID,
+            deleteRefCommand,
+            projectInitializationAction,
+            workQueue,
+            fetchJobFactory,
+            () -> metrics);
   }
 
   @Test
@@ -99,11 +108,30 @@ public class StreamEventListenerTest {
   }
 
   @Test
+  public void shouldDeleteRefForRefDeleteEvent() throws IOException, RestApiException {
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
+    refUpdate.refName = "refs/changes/01/1/1";
+    refUpdate.newRev = ObjectId.zeroId().getName();
+    refUpdate.project = TEST_PROJECT;
+
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.refUpdate = () -> refUpdate;
+
+    objectUnderTest.onEvent(event);
+
+    verify(deleteRefCommand)
+        .deleteRef(Project.nameKey(TEST_PROJECT), refUpdate.refName, REMOTE_INSTANCE_ID);
+  }
+
+  @Test
   public void shouldScheduleFetchJobForRefUpdateEvent() {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
     refUpdate.project = TEST_PROJECT;
+    refUpdate.oldRev = ObjectId.zeroId().getName();
+    refUpdate.newRev = "0000000000000000000000000000000000000001";
 
     event.instanceId = REMOTE_INSTANCE_ID;
     event.refUpdate = () -> refUpdate;
