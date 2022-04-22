@@ -22,18 +22,21 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.restapi.project.DeleteRef;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.DeleteRef;
 import java.io.IOException;
-import java.util.Optional;
 import org.eclipse.jgit.lib.RefUpdate;
 
 public class DeleteRefCommand {
@@ -43,31 +46,51 @@ public class DeleteRefCommand {
   private final DeleteRef deleteRef;
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> userProvider;
 
   @Inject
   public DeleteRefCommand(
       PullReplicationStateLogger fetchStateLog,
       ProjectCache projectCache,
       DeleteRef deleteRef,
-      DynamicItem<EventDispatcher> eventDispatcher) {
+      DynamicItem<EventDispatcher> eventDispatcher,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> userProvider) {
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
     this.deleteRef = deleteRef;
     this.eventDispatcher = eventDispatcher;
+    this.permissionBackend = permissionBackend;
+    this.userProvider = userProvider;
   }
 
   public void deleteRef(Project.NameKey name, String refName, String sourceLabel)
       throws IOException, RestApiException {
     try {
       repLog.info("Delete ref from {} for project {}, ref name {}", sourceLabel, name, refName);
-      Optional<ProjectState> projectState = projectCache.get(name);
-      if (!projectState.isPresent()) {
-        throw new ResourceNotFoundException(String.format("Project %s was not found", name));
-      }
+      ProjectState projectState =
+          projectCache
+              .get(name)
+              .orElseThrow(
+                  () ->
+                      new ResourceNotFoundException(
+                          String.format("Project %s was not found", name)));
 
       try {
         Context.setLocalEvent(true);
-        deleteRef.deleteSingleRef(projectState.get(), refName);
+        projectState.checkStatePermitsWrite();
+        // When triggered internally(for example by consuming stream events) user is not provided
+        // and internal user is returned. Reference deletion should be always allowed for internal
+        // user.
+        if (!userProvider.get().isInternalUser()) {
+          permissionBackend
+              .user(userProvider.get())
+              .project(projectState.getNameKey())
+              .ref(refName)
+              .check(RefPermission.DELETE);
+        }
+        deleteRef.deleteSingleRef(projectState, refName);
 
         eventDispatcher
             .get()
