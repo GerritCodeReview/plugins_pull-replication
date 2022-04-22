@@ -35,7 +35,6 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
-import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -60,6 +59,7 @@ public class DeleteRefCommand {
     this.projectCache = projectCache;
     this.applyObject = applyObject;
     this.eventDispatcher = eventDispatcher;
+
     this.gitManager = gitManagerProvider.get();
   }
 
@@ -67,16 +67,18 @@ public class DeleteRefCommand {
       throws IOException, RestApiException {
     try {
       repLog.info("Delete ref from {} for project {}, ref name {}", sourceLabel, name, refName);
-      Optional<ProjectState> projectState = projectCache.get(name);
-      if (!projectState.isPresent()) {
-        throw new ResourceNotFoundException(String.format("Project %s was not found", name));
-      }
+      ProjectState projectState =
+          projectCache
+              .get(name)
+              .orElseThrow(
+                  () ->
+                      new ResourceNotFoundException(
+                          String.format("Project %s was not found", name)));
 
       try {
 
         Context.setLocalEvent(true);
         deleteRef(name, refName);
-
         eventDispatcher
             .get()
             .postEvent(
