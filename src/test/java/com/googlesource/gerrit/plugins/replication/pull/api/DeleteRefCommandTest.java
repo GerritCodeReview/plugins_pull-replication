@@ -63,6 +63,7 @@ public class DeleteRefCommandTest {
   @Mock private Repository repository;
   @Mock private Ref currentRef;
   @Mock private RefDatabase refDb;
+
   @Captor ArgumentCaptor<Event> eventCaptor;
 
   private DeleteRefCommand objectUnderTest;

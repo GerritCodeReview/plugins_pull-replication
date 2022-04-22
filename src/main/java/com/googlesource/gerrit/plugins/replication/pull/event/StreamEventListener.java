@@ -22,6 +22,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
@@ -32,11 +33,13 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
+import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class StreamEventListener implements EventListener {
@@ -45,6 +48,7 @@ public class StreamEventListener implements EventListener {
   private String instanceId;
   private WorkQueue workQueue;
   private ProjectInitializationAction projectInitializationAction;
+  private DeleteRefCommand deleteCommand;
 
   private Factory fetchJobFactory;
   private final Provider<PullReplicationApiRequestMetrics> metricsProvider;
@@ -52,11 +56,13 @@ public class StreamEventListener implements EventListener {
   @Inject
   public StreamEventListener(
       @Nullable @GerritInstanceId String instanceId,
+      DeleteRefCommand deleteCommand,
       ProjectInitializationAction projectInitializationAction,
       WorkQueue workQueue,
       FetchJob.Factory fetchJobFactory,
       Provider<PullReplicationApiRequestMetrics> metricsProvider) {
     this.instanceId = instanceId;
+    this.deleteCommand = deleteCommand;
     this.projectInitializationAction = projectInitializationAction;
     this.workQueue = workQueue;
     this.fetchJobFactory = fetchJobFactory;
@@ -85,13 +91,27 @@ public class StreamEventListener implements EventListener {
       if (event instanceof RefUpdatedEvent) {
         RefUpdatedEvent refUpdatedEvent = (RefUpdatedEvent) event;
         if (!isProjectDelete(refUpdatedEvent)) {
-          fetchRefsAsync(
-              refUpdatedEvent.getRefName(),
-              refUpdatedEvent.instanceId,
-              refUpdatedEvent.getProjectNameKey(),
-              metrics);
+          if (isRefDelete(refUpdatedEvent)) {
+            try {
+              deleteCommand.deleteRef(
+                  refUpdatedEvent.getProjectNameKey(),
+                  refUpdatedEvent.getRefName(),
+                  refUpdatedEvent.instanceId);
+            } catch (IOException | RestApiException e) {
+              logger.atSevere().withCause(e).log(
+                  "Cannot delete ref %s project:%s",
+                  refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
+            }
+          } else {
+            fetchRefsAsync(
+                refUpdatedEvent.getRefName(),
+                refUpdatedEvent.instanceId,
+                refUpdatedEvent.getProjectNameKey(),
+                metrics);
+          }
         }
       }
+
       if (event instanceof ProjectCreatedEvent) {
         ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
         try {
@@ -110,9 +130,13 @@ public class StreamEventListener implements EventListener {
     }
   }
 
-  private boolean isProjectDelete(RefUpdatedEvent event) {
-    return RefNames.isConfigRef(event.getRefName())
+  private boolean isRefDelete(RefUpdatedEvent event) {
+    return !Strings.isNullOrEmpty(event.refUpdate.get().newRev)
         && ObjectId.zeroId().equals(ObjectId.fromString(event.refUpdate.get().newRev));
+  }
+
+  private boolean isProjectDelete(RefUpdatedEvent event) {
+    return RefNames.isConfigRef(event.getRefName()) && isRefDelete(event);
   }
 
   protected void fetchRefsAsync(
