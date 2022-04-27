@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecd67431_f2b0a289",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/DeleteRef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-27T06:46:05Z",
+      "side": 1,
+      "message": "nit: missing header",
+      "revId": "a24c5b736f4f1027c30fe828f5919d638ec2c4bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46f7c631_64896f4e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/DeleteRef.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2022-04-27T06:46:05Z",
+      "side": 1,
+      "message": "nit: can be package protected",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "a24c5b736f4f1027c30fe828f5919d638ec2c4bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
