@@ -43,6 +43,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
@@ -73,7 +74,7 @@ public class ReplicationQueueTest {
   @Mock private DynamicItem<EventDispatcher> dis;
   @Mock ReplicationStateListeners sl;
   @Mock FetchRestApiClient fetchRestApiClient;
-  @Mock FetchRestApiClient.Factory fetchClientFactory;
+  @Mock FetchApiClient.Factory fetchClientFactory;
   @Mock AccountInfo accountInfo;
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;

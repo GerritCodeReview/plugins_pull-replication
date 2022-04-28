@@ -79,7 +79,7 @@ public class FetchRestApiClientTest {
 
   String api = "http://gerrit-host";
   String pluginName = "pull-replication";
-  String label = "Replication";
+  String instanceId = "Replication";
   String refName = RefNames.REFS_HEADS + "master";
 
   String expectedPayload =
@@ -135,7 +135,7 @@ public class FetchRestApiClientTest {
           + "  ]\n"
           + "}";
 
-  FetchRestApiClient objectUnderTest;
+  FetchApiClient objectUnderTest;
 
   @Before
   public void setup() throws ClientProtocolException, IOException {
@@ -159,7 +159,6 @@ public class FetchRestApiClientTest {
     when(replicationConfig.getConfig()).thenReturn(config);
     when(config.getStringList("replication", null, "syncRefs")).thenReturn(new String[0]);
     when(source.getRemoteConfigName()).thenReturn("Replication");
-    when(config.getString("replication", null, "instanceLabel")).thenReturn(label);
 
     HttpResult httpResult = new HttpResult(SC_CREATED, Optional.of("result message"));
     when(httpClient.execute(any(HttpPost.class), any(), any())).thenReturn(httpResult);
@@ -167,7 +166,13 @@ public class FetchRestApiClientTest {
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
     objectUnderTest =
         new FetchRestApiClient(
-            credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
+            credentials,
+            httpClientFactory,
+            replicationConfig,
+            syncRefsFilter,
+            pluginName,
+            instanceId,
+            source);
   }
 
   @Test
@@ -191,7 +196,13 @@ public class FetchRestApiClientTest {
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
     objectUnderTest =
         new FetchRestApiClient(
-            credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
+            credentials,
+            httpClientFactory,
+            replicationConfig,
+            syncRefsFilter,
+            pluginName,
+            instanceId,
+            source);
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -210,7 +221,13 @@ public class FetchRestApiClientTest {
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
     objectUnderTest =
         new FetchRestApiClient(
-            credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
+            credentials,
+            httpClientFactory,
+            replicationConfig,
+            syncRefsFilter,
+            pluginName,
+            instanceId,
+            source);
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -232,7 +249,13 @@ public class FetchRestApiClientTest {
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
     objectUnderTest =
         new FetchRestApiClient(
-            credentials, httpClientFactory, replicationConfig, syncRefsFilter, pluginName, source);
+            credentials,
+            httpClientFactory,
+            replicationConfig,
+            syncRefsFilter,
+            pluginName,
+            instanceId,
+            source);
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
@@ -321,7 +344,6 @@ public class FetchRestApiClientTest {
 
   @Test
   public void shouldThrowExceptionWhenInstanceLabelIsNull() {
-    when(config.getString("replication", null, "instanceLabel")).thenReturn(null);
     assertThrows(
         NullPointerException.class,
         () ->
@@ -331,12 +353,12 @@ public class FetchRestApiClientTest {
                 replicationConfig,
                 syncRefsFilter,
                 pluginName,
+                null,
                 source));
   }
 
   @Test
   public void shouldTrimInstanceLabel() {
-    when(config.getString("replication", null, "instanceLabel")).thenReturn(" ");
     assertThrows(
         NullPointerException.class,
         () ->
@@ -346,12 +368,12 @@ public class FetchRestApiClientTest {
                 replicationConfig,
                 syncRefsFilter,
                 pluginName,
+                " ",
                 source));
   }
 
   @Test
   public void shouldThrowExceptionWhenInstanceLabelIsEmpty() {
-    when(config.getString("replication", null, "instanceLabel")).thenReturn("");
     assertThrows(
         NullPointerException.class,
         () ->
@@ -361,7 +383,29 @@ public class FetchRestApiClientTest {
                 replicationConfig,
                 syncRefsFilter,
                 pluginName,
+                "",
                 source));
+  }
+
+  @Test
+  public void shouldUseReplicationLabelWhenProvided()
+      throws ClientProtocolException, IOException, URISyntaxException {
+    when(config.getString("replication", null, "instanceLabel")).thenReturn(instanceId);
+    FetchRestApiClient objectUnderTest =
+        new FetchRestApiClient(
+            credentials,
+            httpClientFactory,
+            replicationConfig,
+            syncRefsFilter,
+            pluginName,
+            "",
+            source);
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
   }
 
   @Test

@@ -22,7 +22,7 @@ import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -39,11 +39,11 @@ public class DeleteProjectTask implements Runnable {
   private final Source source;
   private final String uri;
   private final Project.NameKey project;
-  private final FetchRestApiClient.Factory fetchClientFactory;
+  private final FetchApiClient.Factory fetchClientFactory;
 
   @Inject
   DeleteProjectTask(
-      FetchRestApiClient.Factory fetchClientFactory,
+      FetchApiClient.Factory fetchClientFactory,
       IdGenerator ig,
       @Assisted Source source,
       @Assisted String uri,
