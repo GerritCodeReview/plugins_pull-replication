@@ -65,9 +65,8 @@ public class UpdateHeadTask implements Runnable {
         throw new IOException(httpResult.getMessage().orElse("Unknown"));
       }
       logger.atFine().log(
-          "Successfully updated HEAD of project {} on remote {}",
-          project.get(),
-          apiURI.toASCIIString());
+          "Successfully updated HEAD of project %s on remote %s",
+          project.get(), apiURI.toASCIIString());
     } catch (IOException e) {
       String errorMessage =
           String.format(

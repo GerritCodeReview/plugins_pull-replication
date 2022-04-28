@@ -63,7 +63,7 @@ public class DeleteProjectTask implements Runnable {
       if (!httpResult.isSuccessful()) {
         throw new IOException(httpResult.getMessage().orElse("Unknown"));
       }
-      logger.atFine().log("Successfully deleted project {} on remote {}", project.get(), uri);
+      logger.atFine().log("Successfully deleted project %s on remote %s", project.get(), uri);
     } catch (URISyntaxException | IOException e) {
       String errorMessage =
           String.format("Cannot delete project %s on remote site %s.", project, uri);
