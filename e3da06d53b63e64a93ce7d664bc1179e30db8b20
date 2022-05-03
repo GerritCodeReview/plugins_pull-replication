@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e2593a2_2eaf8ab8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-05-03T14:00:09Z",
+      "side": 1,
+      "message": "nit: Added",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 3
+      },
+      "revId": "e3da06d53b63e64a93ce7d664bc1179e30db8b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00ed6c80_4a06ed0e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-05-03T14:00:09Z",
+      "side": 1,
+      "message": "Is this needed?  `ObjectId.zeroId()` will never be null, hence the `equals` should take care of the comparison.",
+      "range": {
+        "startLine": 113,
+        "startChar": 11,
+        "endLine": 113,
+        "endChar": 63
+      },
+      "revId": "e3da06d53b63e64a93ce7d664bc1179e30db8b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bcd6fc1_55ce61c6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/DeleteRef.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-05-03T14:00:09Z",
+      "side": 1,
+      "message": "nit: I don\u0027t think it is intuitive to understand that this is the way of deleting a ref. I would extract this into a `deletedRef` or similar variable. I wonder if JGit provides a constant for it. Not a big deal anyway.",
+      "range": {
+        "startLine": 45,
+        "startChar": 23,
+        "endLine": 45,
+        "endChar": 40
+      },
+      "revId": "e3da06d53b63e64a93ce7d664bc1179e30db8b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5ad4222_3a392fd9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-05-03T14:00:09Z",
+      "side": 1,
+      "message": "Missing a test where the user don\u0027t have permissions.",
+      "revId": "e3da06d53b63e64a93ce7d664bc1179e30db8b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
