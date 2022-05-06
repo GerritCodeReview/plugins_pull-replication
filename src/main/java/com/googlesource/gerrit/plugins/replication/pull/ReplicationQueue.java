@@ -31,7 +31,7 @@ import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
-import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
@@ -71,7 +71,7 @@ public class ReplicationQueue
   private volatile boolean running;
   private volatile boolean replaying;
   private final Queue<ReferenceUpdatedEvent> beforeStartupEventsQueue;
-  private FetchRestApiClient.Factory fetchClientFactory;
+  private FetchApiClient.Factory fetchClientFactory;
   private Integer fetchCallsTimeout;
   private ExcludedRefsFilter refsFilter;
   private RevisionReader revisionReader;
@@ -82,7 +82,7 @@ public class ReplicationQueue
       Provider<SourcesCollection> rd,
       DynamicItem<EventDispatcher> dis,
       ReplicationStateListeners sl,
-      FetchRestApiClient.Factory fetchClientFactory,
+      FetchApiClient.Factory fetchClientFactory,
       ExcludedRefsFilter refsFilter,
       RevisionReader revReader) {
     workQueue = wq;
@@ -273,7 +273,7 @@ public class ReplicationQueue
       for (String apiUrl : source.getApis()) {
         try {
           URIish uri = new URIish(apiUrl);
-          FetchRestApiClient fetchClient = fetchClientFactory.create(source);
+          FetchApiClient fetchClient = fetchClientFactory.create(source);
 
           HttpResult result = fetchClient.callSendObject(project, refName, isDelete, revision, uri);
           if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
@@ -309,7 +309,7 @@ public class ReplicationQueue
       for (String apiUrl : source.getApis()) {
         try {
           URIish uri = new URIish(apiUrl);
-          FetchRestApiClient fetchClient = fetchClientFactory.create(source);
+          FetchApiClient fetchClient = fetchClientFactory.create(source);
           HttpResult result = fetchClient.callFetch(project, refName, uri);
           if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
             result = initProject(project, uri, fetchClient, result);
@@ -344,7 +344,7 @@ public class ReplicationQueue
   }
 
   private HttpResult initProject(
-      Project.NameKey project, URIish uri, FetchRestApiClient fetchClient, HttpResult result)
+      Project.NameKey project, URIish uri, FetchApiClient fetchClient, HttpResult result)
       throws IOException, ClientProtocolException {
     HttpResult initProjectResult = fetchClient.initProject(project, uri);
     if (initProjectResult.isSuccessful()) {

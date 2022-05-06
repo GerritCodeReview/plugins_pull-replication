@@ -22,14 +22,14 @@ import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import java.io.IOException;
 import org.eclipse.jgit.transport.URIish;
 
 public class UpdateHeadTask implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private final FetchRestApiClient.Factory fetchClientFactory;
+  private final FetchApiClient.Factory fetchClientFactory;
   private final Source source;
   private final URIish apiURI;
   private final Project.NameKey project;
@@ -42,7 +42,7 @@ public class UpdateHeadTask implements Runnable {
 
   @Inject
   UpdateHeadTask(
-      FetchRestApiClient.Factory fetchClientFactory,
+      FetchApiClient.Factory fetchClientFactory,
       IdGenerator ig,
       @Assisted Source source,
       @Assisted URIish apiURI,
@@ -65,9 +65,8 @@ public class UpdateHeadTask implements Runnable {
         throw new IOException(httpResult.getMessage().orElse("Unknown"));
       }
       logger.atFine().log(
-          "Successfully updated HEAD of project {} on remote {}",
-          project.get(),
-          apiURI.toASCIIString());
+          "Successfully updated HEAD of project %s on remote %s",
+          project.get(), apiURI.toASCIIString());
     } catch (IOException e) {
       String errorMessage =
           String.format(

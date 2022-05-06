@@ -103,13 +103,15 @@ public class ProjectInitializationAction extends HttpServlet {
         "Cannot initialize project " + projectName);
   }
 
-  protected boolean initProject(String projectName)
-      throws AuthException, PermissionBackendException {
-    permissionBackend.user(userProvider.get()).check(GlobalPermission.CREATE_PROJECT);
-
+  public boolean initProject(String projectName) throws AuthException, PermissionBackendException {
+    // When triggered internally(for example by consuming stream events) user is not provided
+    // and internal user is returned. Project creation should be always allowed for internal user.
+    if (!userProvider.get().isInternalUser()) {
+      permissionBackend.user(userProvider.get()).check(GlobalPermission.CREATE_PROJECT);
+    }
     Optional<URIish> maybeUri = gerritConfigOps.getGitRepositoryURI(projectName);
     if (!maybeUri.isPresent()) {
-      logger.atSevere().log("Cannot initialize project '{}'", projectName);
+      logger.atSevere().log("Cannot initialize project '%s'", projectName);
       return false;
     }
     LocalFS localFS = new LocalFS(maybeUri.get());
