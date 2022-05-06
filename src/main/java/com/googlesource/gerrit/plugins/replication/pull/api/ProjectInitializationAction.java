@@ -111,7 +111,7 @@ public class ProjectInitializationAction extends HttpServlet {
     }
     Optional<URIish> maybeUri = gerritConfigOps.getGitRepositoryURI(projectName);
     if (!maybeUri.isPresent()) {
-      logger.atSevere().log("Cannot initialize project '{}'", projectName);
+      logger.atSevere().log("Cannot initialize project '%s'", projectName);
       return false;
     }
     LocalFS localFS = new LocalFS(maybeUri.get());

@@ -775,7 +775,7 @@ public class Source {
               updateHeadFactory.create(this, apiURI, project, newHead), 0, TimeUnit.SECONDS);
     } catch (URISyntaxException e) {
       logger.atSevere().withCause(e).log(
-          "Could not schedule HEAD pull-replication for project {}", project.get());
+          "Could not schedule HEAD pull-replication for project %s", project.get());
     }
   }
 
