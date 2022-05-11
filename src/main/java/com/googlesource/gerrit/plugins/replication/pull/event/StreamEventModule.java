@@ -14,14 +14,28 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.event;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.server.events.EventListener;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.inject.Scopes;
+import com.google.inject.name.Names;
+import org.eclipse.jgit.lib.Config;
 
-public class StreamEventModule extends AbstractModule {
+public class StreamEventModule extends LifecycleModule {
+  public static final String STREAM_EVENTS_TOPIC_NAME = "stream_events_topic_name";
+  public static final String STREAM_EVENTS_TOPIC_NAME_DEF = "gerrit";
+
+  private final String topicName;
+
+  public StreamEventModule(Config replicationConfig) {
+    topicName =
+        replicationConfig.getString(
+            "replication", "streamEventsTopic", STREAM_EVENTS_TOPIC_NAME_DEF);
+  }
 
   @Override
   protected void configure() {
-    DynamicSet.bind(binder(), EventListener.class).to(StreamEventListener.class);
+    bind(StreamEventListener.class).in(Scopes.SINGLETON);
+    bind(String.class).annotatedWith(Names.named(STREAM_EVENTS_TOPIC_NAME)).toInstance(topicName);
+
+    listener().to(StreamEventListener.class);
   }
 }

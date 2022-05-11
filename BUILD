@@ -15,7 +15,8 @@ gerrit_plugin(
     resources = glob(["src/main/resources/**/*"]),
     deps = [
         "//lib/commons:io",
-        "//plugins/replication:replication",
+        "//plugins/replication",
+        "@events-broker//jar",
     ],
 )
 
@@ -31,6 +32,7 @@ junit_tests(
         ":pull-replication__plugin",
         ":pull_replication_util",
         "//plugins/replication:replication",
+        "@events-broker//jar",
     ],
 )
 
