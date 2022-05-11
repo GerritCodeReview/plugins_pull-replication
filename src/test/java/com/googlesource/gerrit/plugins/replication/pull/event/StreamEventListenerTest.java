@@ -20,7 +20,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.gerritforge.gerrit.eventbroker.BrokerApi;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
@@ -50,6 +52,7 @@ public class StreamEventListenerTest {
   @Mock private ProjectInitializationAction projectInitializationAction;
   @Mock private WorkQueue workQueue;
   @Mock private ScheduledExecutorService executor;
+  @Mock private DynamicItem<BrokerApi> eventsBroker;
 
   private StreamEventListener objectUnderTest;
 
@@ -57,14 +60,20 @@ public class StreamEventListenerTest {
   public void setup() {
     when(workQueue.getDefaultQueue()).thenReturn(executor);
     objectUnderTest =
-        new StreamEventListener(INSTANCE_ID, fetchCommand, projectInitializationAction, workQueue);
+        new StreamEventListener(
+            INSTANCE_ID,
+            fetchCommand,
+            projectInitializationAction,
+            workQueue,
+            eventsBroker,
+            "events");
   }
 
   @Test
   public void shouldSkipEventsGeneratedByTheSameInstance() {
     Event event = new RefUpdatedEvent();
     event.instanceId = INSTANCE_ID;
-    objectUnderTest.onEvent(event);
+    objectUnderTest.accept(event);
 
     verify(executor, never()).submit(any(Runnable.class));
   }
@@ -80,7 +89,7 @@ public class StreamEventListenerTest {
     event.instanceId = REMOTE_INSTANCE_ID;
     event.refUpdate = () -> refUpdate;
 
-    objectUnderTest.onEvent(event);
+    objectUnderTest.accept(event);
 
     verify(executor, never()).submit(any(Runnable.class));
   }
@@ -95,7 +104,7 @@ public class StreamEventListenerTest {
     event.instanceId = REMOTE_INSTANCE_ID;
     event.refUpdate = () -> refUpdate;
 
-    objectUnderTest.onEvent(event);
+    objectUnderTest.accept(event);
 
     verify(executor).submit(any(FetchJob.class));
   }
@@ -107,7 +116,7 @@ public class StreamEventListenerTest {
     event.instanceId = REMOTE_INSTANCE_ID;
     event.projectName = TEST_PROJECT;
 
-    objectUnderTest.onEvent(event);
+    objectUnderTest.accept(event);
 
     verify(projectInitializationAction, times(1))
         .initProject(String.format("%s.git", TEST_PROJECT));
@@ -119,7 +128,7 @@ public class StreamEventListenerTest {
     event.instanceId = REMOTE_INSTANCE_ID;
     event.projectName = TEST_PROJECT;
 
-    objectUnderTest.onEvent(event);
+    objectUnderTest.accept(event);
 
     verify(executor).submit(any(FetchJob.class));
   }
