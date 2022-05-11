@@ -93,6 +93,7 @@ public class StreamEventListener implements EventListener {
         } catch (AuthException | PermissionBackendException e) {
           logger.atSevere().withCause(e).log(
               "Cannot initialise project:%s", projectCreatedEvent.projectName);
+          throw new EventRejectedException(event, e);
         }
       }
     }

@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.googlesource.gerrit.plugins.replication.StartReplicationCapability.START_REPLICATION;
+import static com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule.STREAM_EVENTS_TOPIC_NAME;
 
 import com.google.common.eventbus.EventBus;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -49,6 +50,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.SourceHttpClient;
+import com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule;
 import com.googlesource.gerrit.plugins.replication.pull.event.FetchRefReplicatedEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.event.StreamEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
@@ -141,6 +143,8 @@ class PullReplicationModule extends AbstractModule {
 
     if (replicationConfig.getBoolean("replication", "consumeStreamEvents", false)) {
       install(new StreamEventModule());
+    } else if (replicationConfig.getString("replication", null, STREAM_EVENTS_TOPIC_NAME) != null) {
+      install(new EventsBrokerConsumerModule(replicationConfig));
     }
 
     DynamicSet.setOf(binder(), ReplicationStateListener.class);
