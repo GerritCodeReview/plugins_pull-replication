@@ -50,7 +50,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClien
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.SourceHttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.event.FetchRefReplicatedEventModule;
-import com.googlesource.gerrit.plugins.replication.pull.event.StreamEventModule;
+import com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.io.File;
 import java.io.IOException;
@@ -140,7 +140,7 @@ class PullReplicationModule extends AbstractModule {
     }
 
     if (replicationConfig.getBoolean("replication", "consumeStreamEvents", false)) {
-      install(new StreamEventModule());
+      install(new EventsBrokerConsumerModule(replicationConfig));
     }
 
     DynamicSet.setOf(binder(), ReplicationStateListener.class);
