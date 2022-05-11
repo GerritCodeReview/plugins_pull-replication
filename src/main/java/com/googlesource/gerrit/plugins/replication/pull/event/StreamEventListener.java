@@ -68,6 +68,14 @@ public class StreamEventListener implements EventListener {
 
   @Override
   public void onEvent(Event event) {
+    try {
+      fetchRefsForEvent(event);
+    } catch (AuthException | PermissionBackendException e) {
+      // Nothing to do
+    }
+  }
+
+  public void fetchRefsForEvent(Event event) throws AuthException, PermissionBackendException {
     if (!instanceId.equals(event.instanceId)) {
       PullReplicationApiRequestMetrics metrics = metricsProvider.get();
       metrics.start(event);
@@ -93,6 +101,7 @@ public class StreamEventListener implements EventListener {
         } catch (AuthException | PermissionBackendException e) {
           logger.atSevere().withCause(e).log(
               "Cannot initialise project:%s", projectCreatedEvent.projectName);
+          throw e;
         }
       }
     }
