@@ -140,7 +140,7 @@ class PullReplicationModule extends AbstractModule {
     }
 
     if (replicationConfig.getBoolean("replication", "consumeStreamEvents", false)) {
-      install(new StreamEventModule());
+      install(new StreamEventModule(replicationConfig));
     }
 
     DynamicSet.setOf(binder(), ReplicationStateListener.class);
