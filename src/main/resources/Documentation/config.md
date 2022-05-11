@@ -139,7 +139,29 @@ replication.consumeStreamEvents
 	NOTE: When `consumeStreamEvents` is enabled gerrit.instanceId
 	instead of [replication.instanceLabel](https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/resources/Documentation/config.md#replication.instanceLabel) must be used.
 
+	Using pull-replication standalone with a broker is also possible. Check the replication.streamEventsTopic
+	parameter.
+
+	replication.streamEventsTopic and replication.consumeStreamEvents are mutually exclusive parameters.
+
 	Default: false
+
+replication.streamEventsTopic
+:	Topic to consumer stream events from.
+
+	Pull-replication can receive stream events and use it as notfication mechanism as alternative
+	to REST API notifications. It can work in standalone, not necessarely with the multi-site plugin
+	(check replication.consumerStreamEvents if you need to use it with multi-site). 
+	This parameter is used to define the topic to consumer stream events messages from when using
+	the pull-replication in standalone and a broker.
+
+	NOTE: Messages will stay in the broker when a fetch fails throwing an exception. This will require
+	some manual intervention to unblock the broker. Message consumption will be blocked until the fetch
+	is not succesful or removed from the broker.
+
+	replication.streamEventsTopic and replication.consumeStreamEvents are mutually exclusive parameters.
+
+	Default: "gerrit"
 
 replication.maxConnectionsPerRoute
 :	Maximum number of HTTP connections per one HTTP route.
