@@ -131,13 +131,14 @@ replication.instanceLabel
 	instead.
 
 replication.consumeStreamEvents
-:	Use stream events to trigger pull-replication actions alongside the
-	REST approach. This mechanism is useful together with event-broker
-	and multi-site to provide backfill mechanism when a node has to
-	catch up with the events after being unreachable.
+:	Use stream events to trigger pull-replication actions alongside or instead of
+	the REST approach. This mechanism requires the adoption of
+	[events-broker](https://gerrit.googlesource.com/modules/events-broker/) with one
+	broker implementation, e.g. [events-kafka](https://gerrit.googlesource.com/plugins/events-kafka)
+	on both Gerrit primary as stream-events publisher and on replica as consumer.
 
-	NOTE: When `consumeStreamEvents` is enabled gerrit.instanceId
-	instead of [replication.instanceLabel](https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/resources/Documentation/config.md#replication.instanceLabel) must be used.
+	NOTE: When `consumeStreamEvents` is enabled make sure that `gerrit.instanceId` is defined
+	in gerrit.config, which would allow to use a specific consumer group when receiving events.
 
 	Default: false
 
