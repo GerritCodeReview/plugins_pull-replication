@@ -14,14 +14,15 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.event;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.server.events.EventListener;
-import com.google.inject.AbstractModule;
+import com.google.gerrit.server.events.Event;
 
-public class StreamEventModule extends AbstractModule {
-
-  @Override
-  protected void configure() {
-    DynamicSet.bind(binder(), EventListener.class).to(StreamEventListener.class);
-  }
+public class EventRejectedException extends IllegalStateException {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3404537560735602192L;
+	
+	public EventRejectedException(Event event, Throwable cause) {
+		super(String.format("Unable to accept event %s",  event), cause);
+	}
 }
