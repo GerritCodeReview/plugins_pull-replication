@@ -30,12 +30,12 @@ import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
 import java.util.Optional;
 import org.eclipse.jgit.transport.URIish;
 
-class ProjectDeletionAction
+public class ProjectDeletionAction
     implements RestModifyView<ProjectResource, ProjectDeletionAction.DeleteInput> {
   private static final PluginPermission DELETE_PROJECT =
       new PluginPermission("delete-project", "deleteProject");
 
-  static class DeleteInput {}
+  public static class DeleteInput {}
 
   private final GerritConfigOps gerritConfigOps;
   private final PermissionBackend permissionBackend;
@@ -50,8 +50,9 @@ class ProjectDeletionAction
   public Response<?> apply(ProjectResource projectResource, DeleteInput input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
 
-    permissionBackend.user(projectResource.getUser()).check(DELETE_PROJECT);
-
+    if (!projectResource.getUser().isInternalUser()) {
+      permissionBackend.user(projectResource.getUser()).check(DELETE_PROJECT);
+    }
     Optional<URIish> maybeRepoURI =
         gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectResource.getName()));
 

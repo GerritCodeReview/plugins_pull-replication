@@ -20,7 +20,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
@@ -28,11 +27,13 @@ import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
+import com.googlesource.gerrit.plugins.deleteproject.ProjectDeletedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchCommand;
+import com.googlesource.gerrit.plugins.replication.pull.api.ProjectDeletionAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import java.util.concurrent.ScheduledExecutorService;
-import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,6 +50,8 @@ public class StreamEventListenerTest {
   @Mock private FetchCommand fetchCommand;
   @Mock private ProjectInitializationAction projectInitializationAction;
   @Mock private WorkQueue workQueue;
+  @Mock private ProjectDeletionAction projectDeletionAction;
+  @Mock private ProjectsCollection projectsCollection;
   @Mock private ScheduledExecutorService executor;
 
   private StreamEventListener objectUnderTest;
@@ -57,7 +60,13 @@ public class StreamEventListenerTest {
   public void setup() {
     when(workQueue.getDefaultQueue()).thenReturn(executor);
     objectUnderTest =
-        new StreamEventListener(INSTANCE_ID, fetchCommand, projectInitializationAction, workQueue);
+        new StreamEventListener(
+            INSTANCE_ID,
+            fetchCommand,
+            projectInitializationAction,
+            workQueue,
+            projectDeletionAction,
+            projectsCollection);
   }
 
   @Test
@@ -71,14 +80,9 @@ public class StreamEventListenerTest {
 
   @Test
   public void shouldSkipFetchForProjectDeleteEvent() {
-    RefUpdatedEvent event = new RefUpdatedEvent();
-    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
-    refUpdate.refName = RefNames.REFS_CONFIG;
-    refUpdate.newRev = ObjectId.zeroId().getName();
-    refUpdate.project = TEST_PROJECT;
-
+    ProjectDeletedEvent event = new ProjectDeletedEvent();
+    event.projectName = TEST_PROJECT;
     event.instanceId = REMOTE_INSTANCE_ID;
-    event.refUpdate = () -> refUpdate;
 
     objectUnderTest.onEvent(event);
 

@@ -31,6 +31,7 @@ junit_tests(
         ":pull-replication__plugin",
         ":pull_replication_util",
         "//plugins/replication:replication",
+        "//plugins/delete-project:delete-project",
     ],
 )
 
