@@ -20,22 +20,26 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project.NameKey;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
+import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchCommand;
+import com.googlesource.gerrit.plugins.replication.pull.api.ProjectDeletionAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
-import org.eclipse.jgit.lib.ObjectId;
 
 public class StreamEventListener implements EventListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -44,17 +48,23 @@ public class StreamEventListener implements EventListener {
   private FetchCommand fetchCommand;
   private WorkQueue workQueue;
   private ProjectInitializationAction projectInitializationAction;
+  private ProjectDeletionAction projectDeletionAction;
+  private ProjectsCollection projectsCollection;
 
   @Inject
   public StreamEventListener(
       @Nullable @GerritInstanceId String instanceId,
       FetchCommand command,
       ProjectInitializationAction projectInitializationAction,
-      WorkQueue workQueue) {
+      WorkQueue workQueue,
+      ProjectDeletionAction projectDeletionAction,
+      ProjectsCollection projectsCollection) {
     this.instanceId = instanceId;
     this.fetchCommand = command;
     this.projectInitializationAction = projectInitializationAction;
     this.workQueue = workQueue;
+    this.projectDeletionAction = projectDeletionAction;
+    this.projectsCollection = projectsCollection;
 
     requireNonNull(
         Strings.emptyToNull(this.instanceId), "gerrit.instanceId cannot be null or empty");
@@ -65,12 +75,10 @@ public class StreamEventListener implements EventListener {
     if (!instanceId.equals(event.instanceId)) {
       if (event instanceof RefUpdatedEvent) {
         RefUpdatedEvent refUpdatedEvent = (RefUpdatedEvent) event;
-        if (!isProjectDelete(refUpdatedEvent)) {
-          fetchRefsAsync(
-              refUpdatedEvent.getRefName(),
-              refUpdatedEvent.instanceId,
-              refUpdatedEvent.getProjectNameKey());
-        }
+        fetchRefsAsync(
+            refUpdatedEvent.getRefName(),
+            refUpdatedEvent.instanceId,
+            refUpdatedEvent.getProjectNameKey());
       }
       if (event instanceof ProjectCreatedEvent) {
         ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
@@ -85,12 +93,24 @@ public class StreamEventListener implements EventListener {
               "Cannot initialise project:%s", projectCreatedEvent.projectName);
         }
       }
+      if ("project-deleted".equals(event.type) && event instanceof ProjectEvent) {
+        ProjectEvent projectDeletedEvent = (ProjectEvent) event;
+        deleteProject(projectDeletedEvent);
+      }
     }
   }
 
-  private boolean isProjectDelete(RefUpdatedEvent event) {
-    return RefNames.isConfigRef(event.getRefName())
-        && ObjectId.zeroId().equals(ObjectId.fromString(event.refUpdate.get().newRev));
+  protected void deleteProject(ProjectEvent projectDeletedEvent) {
+    try {
+      ProjectResource projectResource =
+          projectsCollection.parse(
+              TopLevelResource.INSTANCE,
+              IdString.fromDecoded(projectDeletedEvent.getProjectNameKey().get()));
+      projectDeletionAction.apply(projectResource, new ProjectDeletionAction.DeleteInput());
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot delete project:%s", projectDeletedEvent.getProjectNameKey().get());
+    }
   }
 
   protected void fetchRefsAsync(String refName, String sourceInstanceId, NameKey projectNameKey) {
