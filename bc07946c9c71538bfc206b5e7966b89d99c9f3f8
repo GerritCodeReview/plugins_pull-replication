@@ -1,6 +1,98 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "264bd53d_c3fc748b",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T06:57:26Z",
+      "side": 1,
+      "message": "Remove this part as well, as you have done on line 18, here and below.",
+      "range": {
+        "startLine": 34,
+        "startChar": 30,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "737d7fa7_05a5408b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T06:57:26Z",
+      "side": 1,
+      "message": "This should be renamed now to e.g. EvengtBreakerMessageConsumer?",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 32
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5294152f_c5047e93",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T06:57:26Z",
+      "side": 1,
+      "message": "Rename to EventBrokerModule?",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 30
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a369f93_aa6038a1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2022-05-12T06:57:26Z",
+      "side": 1,
+      "message": "Should be named without stream event part and be documented.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 69
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0322ccea_e71806d5",
