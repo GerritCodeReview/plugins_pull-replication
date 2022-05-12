@@ -37,12 +37,12 @@ import java.util.Optional;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.transport.URIish;
 
-class ProjectDeletionAction
+public class ProjectDeletionAction
     implements RestModifyView<ProjectResource, ProjectDeletionAction.DeleteInput> {
   private static final PluginPermission DELETE_PROJECT =
       new PluginPermission("delete-project", "deleteProject");
 
-  static class DeleteInput {}
+  public static class DeleteInput {}
 
   private final Provider<CurrentUser> userProvider;
   private final GerritConfigOps gerritConfigOps;
@@ -68,12 +68,18 @@ class ProjectDeletionAction
   public Response<?> apply(ProjectResource projectResource, DeleteInput input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
 
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+    if (!projectResource.getUser().isInternalUser()) {
+      permissionBackend.user(projectResource.getUser()).check(DELETE_PROJECT);
+    }
+=======
     // When triggered internally(for example by consuming stream events) user is not provided
     // and internal user is returned. Project deletion should be always allowed for internal user.
     if (!userProvider.get().isInternalUser()) {
       permissionBackend.user(projectResource.getUser()).check(DELETE_PROJECT);
     }
 
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
     Optional<URIish> maybeRepoURI =
         gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectResource.getName()));
 

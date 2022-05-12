@@ -32,9 +32,14 @@ junit_tests(
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
         ":pull_replication_util",
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+        "//plugins/replication:replication",
+        "//plugins/delete-project:delete-project",
+=======
         "//plugins/delete-project",
         "//plugins/replication",
         "@events-broker//jar",
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
     ],
 )
 
