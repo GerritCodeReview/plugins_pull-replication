@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed0cdb84_5d98b45c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-05-12T13:41:27Z",
+      "side": 1,
+      "message": "Blocked by: https://gerrit-review.googlesource.com/c/plugins/delete-project/+/337115",
+      "revId": "a94333528bc1c7b091164c8709e222e0de33977d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
