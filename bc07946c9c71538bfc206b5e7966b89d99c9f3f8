@@ -112,6 +112,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b43fed07_794f2e99",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-12T08:02:20Z",
+      "side": 1,
+      "message": "The intention to reject the event here is not obvious. We could also just re-throw the caught exception. But, it would be better to have a dedicated exception for this\nuse case:\n\n  throw new EventRejectedException(...)",
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5294152f_c5047e93",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventModule.java",
         "patchSetId": 2
