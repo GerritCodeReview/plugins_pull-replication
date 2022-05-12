@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19558bf3_5bec95c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-12T07:56:06Z",
+      "side": 1,
+      "message": "The events system was never designed to care about what a receiver will do and especially if a receiver will fail to perform any action which was started when an event was received. The events system has a send and forget policy.\n\nI would rather describe that relying on events (which is a send and forget system) and translating message broker events to Gerrit events (were we loose the functionality of (non)committing events), meant that we couldn\u0027t rely on the events broker for re-delivery (and thus retry of the replication on our side) but had to implement retry on our own.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d024e4a_3d8de277",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-12T07:56:06Z",
+      "side": 1,
+      "message": "from",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e907689_9736a99c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-12T07:56:06Z",
+      "side": 1,
+      "message": "For my understanding: both pull-replication and the event-bus will be listening to the same topic, right? If now an event gets delivered to the pull-replication and the event-bus and:\n* pull-replication rejects the event (because it couldn\u0027t perform a fetch)\n* event-bus accepts the event (and sends event through the Gerrit system)\n\nthen what prevents that the event-bus receives the same event again when it gets re-delivered?",
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "264bd53d_c3fc748b",
         "filename": "BUILD",
         "patchSetId": 2
