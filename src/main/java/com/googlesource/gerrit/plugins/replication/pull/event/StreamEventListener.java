@@ -23,10 +23,20 @@ import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project.NameKey;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+<<<<<<< PATCH SET (4ccaff Use stream events to delete repositories)
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+=======
+import com.google.gerrit.extensions.restapi.RestApiException;
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
+||||||| BASE
+import com.google.gerrit.extensions.restapi.RestApiException;
+=======
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+>>>>>>> BASE      (840b65 Merge branch 'stable-3.11')
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
@@ -37,6 +47,8 @@ import com.google.gerrit.server.events.ProjectHeadUpdatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
@@ -45,20 +57,43 @@ import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.FetchJob;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchCommand;
+import com.googlesource.gerrit.plugins.replication.pull.api.ProjectDeletionAction;
+=======
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+=======
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.api.UpdateHeadCommand;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
 
 public class StreamEventListener implements EventListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String ZERO_ID_NAME = ObjectId.zeroId().name();
 
+<<<<<<< PATCH SET (4ccaff Use stream events to delete repositories)
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+  private String instanceId;
+  private FetchCommand fetchCommand;
+  private WorkQueue workQueue;
+  private ProjectInitializationAction projectInitializationAction;
+  private ProjectDeletionAction projectDeletionAction;
+  private ProjectsCollection projectsCollection;
+=======
+  private final DeleteRefCommand deleteCommand;
+||||||| BASE
+  private final DeleteRefCommand deleteCommand;
+=======
+>>>>>>> BASE      (840b65 Merge branch 'stable-3.11')
   private final ExcludedRefsFilter refsFilter;
   private final Factory fetchJobFactory;
   private final UpdateHeadCommand updateHeadCommand;
@@ -68,6 +103,7 @@ public class StreamEventListener implements EventListener {
   private final String instanceId;
   private final WorkQueue workQueue;
   private final Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache;
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
 
   @Inject
   public StreamEventListener(
@@ -75,20 +111,30 @@ public class StreamEventListener implements EventListener {
       UpdateHeadCommand updateHeadCommand,
       ProjectInitializationAction projectInitializationAction,
       WorkQueue workQueue,
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+      ProjectDeletionAction projectDeletionAction,
+      ProjectsCollection projectsCollection) {
+=======
       FetchJob.Factory fetchJobFactory,
       Provider<PullReplicationApiRequestMetrics> metricsProvider,
       SourcesCollection sources,
       ExcludedRefsFilter excludedRefsFilter,
       @Named(APPLY_OBJECTS_CACHE) Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache) {
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
     this.instanceId = instanceId;
     this.updateHeadCommand = updateHeadCommand;
     this.projectInitializationAction = projectInitializationAction;
     this.workQueue = workQueue;
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+    this.projectDeletionAction = projectDeletionAction;
+    this.projectsCollection = projectsCollection;
+=======
     this.fetchJobFactory = fetchJobFactory;
     this.metricsProvider = metricsProvider;
     this.sources = sources;
     this.refsFilter = excludedRefsFilter;
     this.refUpdatesSucceededCache = refUpdatesSucceededCache;
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
 
     requireNonNull(
         Strings.emptyToNull(this.instanceId), "gerrit.instanceId cannot be null or empty");
@@ -96,6 +142,15 @@ public class StreamEventListener implements EventListener {
 
   @Override
   public void onEvent(Event event) {
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+    if (!instanceId.equals(event.instanceId)) {
+      if (event instanceof RefUpdatedEvent) {
+        RefUpdatedEvent refUpdatedEvent = (RefUpdatedEvent) event;
+        fetchRefsAsync(
+            refUpdatedEvent.getRefName(),
+            refUpdatedEvent.instanceId,
+            refUpdatedEvent.getProjectNameKey());
+=======
     try {
       fetchRefsForEvent(event);
     } catch (AuthException
@@ -129,6 +184,7 @@ public class StreamEventListener implements EventListener {
             "Skipping excluded ref '%s' for project '%s'",
             refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
         return;
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
       }
 
       if (isApplyObjectsCacheHit(refUpdatedEvent)) {
@@ -164,6 +220,52 @@ public class StreamEventListener implements EventListener {
             "Cannot initialise project:%s", projectCreatedEvent.projectName);
         throw e;
       }
+<<<<<<< PATCH SET (4ccaff Use stream events to delete repositories)
+      if ("project-deleted".equals(event.type) && event instanceof ProjectEvent) {
+        ProjectEvent projectDeletedEvent = (ProjectEvent) event;
+        deleteProject(projectDeletedEvent);
+      }
+    }
+  }
+
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+  protected void deleteProject(ProjectEvent projectDeletedEvent) {
+    try {
+      ProjectResource projectResource =
+          projectsCollection.parse(
+              TopLevelResource.INSTANCE,
+              IdString.fromDecoded(projectDeletedEvent.getProjectNameKey().get()));
+      projectDeletionAction.apply(projectResource, new ProjectDeletionAction.DeleteInput());
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot delete project:%s", projectDeletedEvent.getProjectNameKey().get());
+=======
+  private void deleteRef(RefUpdatedEvent refUpdatedEvent) {
+    try {
+      deleteCommand.deleteRef(
+          refUpdatedEvent.getProjectNameKey(),
+          refUpdatedEvent.getRefName(),
+          refUpdatedEvent.instanceId);
+    } catch (IOException | RestApiException e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot delete ref %s project:%s",
+          refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
+||||||| BASE
+    }
+  }
+
+  private void deleteRef(RefUpdatedEvent refUpdatedEvent) {
+    try {
+      deleteCommand.deleteRef(
+          refUpdatedEvent.getProjectNameKey(),
+          refUpdatedEvent.getRefName(),
+          refUpdatedEvent.instanceId);
+    } catch (IOException | RestApiException e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot delete ref %s project:%s",
+          refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
+=======
     } else if (event instanceof ProjectHeadUpdatedEvent) {
       ProjectHeadUpdatedEvent headUpdatedEvent = (ProjectHeadUpdatedEvent) event;
       try {
@@ -173,6 +275,7 @@ public class StreamEventListener implements EventListener {
             "Failed to update HEAD on project: %s", headUpdatedEvent.projectName);
         throw e;
       }
+>>>>>>> BASE      (840b65 Merge branch 'stable-3.11')
     }
   }
 
