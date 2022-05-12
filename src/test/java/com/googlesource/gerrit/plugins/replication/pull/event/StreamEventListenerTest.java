@@ -21,28 +21,54 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+=======
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
+<<<<<<< PATCH SET (4ccaff Use stream events to delete repositories)
+import com.google.gerrit.entities.RefNames;
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+||||||| BASE
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+=======
+>>>>>>> BASE      (840b65 Merge branch 'stable-3.11')
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.ProjectHeadUpdatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
+<<<<<<< PATCH SET (4ccaff Use stream events to delete repositories)
+import com.google.gerrit.server.permissions.PermissionBackendException;
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
+import com.googlesource.gerrit.plugins.deleteproject.ProjectDeletedEvent;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.FetchJob;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchCommand;
+import com.googlesource.gerrit.plugins.replication.pull.api.ProjectDeletionAction;
+=======
+||||||| BASE
+import com.google.gerrit.server.permissions.PermissionBackendException;
+=======
+>>>>>>> BASE      (840b65 Merge branch 'stable-3.11')
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.api.UpdateHeadCommand;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.util.concurrent.ScheduledExecutorService;
-import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,6 +89,8 @@ public class StreamEventListenerTest {
 
   @Mock private ProjectInitializationAction projectInitializationAction;
   @Mock private WorkQueue workQueue;
+  @Mock private ProjectDeletionAction projectDeletionAction;
+  @Mock private ProjectsCollection projectsCollection;
   @Mock private ScheduledExecutorService executor;
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
@@ -91,7 +119,20 @@ public class StreamEventListenerTest {
     objectUnderTest =
         new StreamEventListener(
             INSTANCE_ID,
+<<<<<<< PATCH SET (4ccaff Use stream events to delete repositories)
+<<<<<<< PATCH SET (409875 Use stream events to delete repositories)
+            fetchCommand,
+            projectInitializationAction,
+            workQueue,
+            projectDeletionAction,
+            projectsCollection);
+=======
+            deleteRefCommand,
+||||||| BASE
+            deleteRefCommand,
+=======
             updateHeadCommand,
+>>>>>>> BASE      (840b65 Merge branch 'stable-3.11')
             projectInitializationAction,
             workQueue,
             fetchJobFactory,
@@ -99,6 +140,7 @@ public class StreamEventListenerTest {
             sources,
             refsFilter,
             cache);
+>>>>>>> BASE      (300d0b Merge branch 'stable-3.8')
   }
 
   @Test
@@ -112,6 +154,37 @@ public class StreamEventListenerTest {
   }
 
   @Test
+<<<<<<< PATCH SET (4ccaff Use stream events to delete repositories)
+  public void shouldSkipFetchForProjectDeleteEvent() {
+    ProjectDeletedEvent event = new ProjectDeletedEvent();
+    event.projectName = TEST_PROJECT;
+    event.instanceId = REMOTE_INSTANCE_ID;
+
+    objectUnderTest.onEvent(event);
+
+    verify(executor, never()).submit(any(Runnable.class));
+  }
+
+  @Test
+||||||| BASE
+  public void shouldSkipFetchForProjectDeleteEvent() {
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
+    refUpdate.refName = RefNames.REFS_CONFIG;
+    refUpdate.newRev = ObjectId.zeroId().getName();
+    refUpdate.project = TEST_PROJECT;
+
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.refUpdate = () -> refUpdate;
+
+    objectUnderTest.onEvent(event);
+
+    verify(executor, never()).submit(any(Runnable.class));
+  }
+
+  @Test
+=======
+>>>>>>> BASE      (840b65 Merge branch 'stable-3.11')
   public void shouldSkipEventWhenNotOnAllowedProjectsList() {
     when(source.wouldFetchProject(any())).thenReturn(false);
 
