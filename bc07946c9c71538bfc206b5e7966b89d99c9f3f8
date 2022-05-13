@@ -129,6 +129,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "946bba83_90465678",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-13T09:25:04Z",
+      "side": 1,
+      "message": "If we receive all events using via a single topic then when we reject an event E1 (due to a failure to fetch) then, based on my limited knowledge how the offset works, we cannot process follow-up events until we succeed to process the event E1. This means that if we have issues processing one event, this blocks processing of the follow-up events, from the same topic and from the same consumer.\n\nAm I wrong here?\n\nShall we rather have one topic for each repository? Can we control topics when we use events-broker API?\nOr, shall we have a single topic and multiple consumers, in order to limit effects of a failure and redelivery of events.\n\nCan someone elaborate more here? Marcin?",
+      "range": {
+        "startLine": 121,
+        "startChar": 36,
+        "endLine": 121,
+        "endChar": 51
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5294152f_c5047e93",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventModule.java",
         "patchSetId": 2
