@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f11cf37a_e34d3bef",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/JGitFetch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-05-19T18:35:01Z",
+      "side": 1,
+      "message": "in line 67 we are applying the configuration so maybe its better to change the default to NO_TAGS and still respect the replication.config?",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 42
+      },
+      "revId": "38a1fffc26abce6b9aead58513e97c7c162180e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
