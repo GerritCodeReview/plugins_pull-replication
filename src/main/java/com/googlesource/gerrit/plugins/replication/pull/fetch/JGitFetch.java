@@ -23,12 +23,14 @@ import com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.TagOpt;
 import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 
@@ -64,8 +66,16 @@ public class JGitFetch implements Fetch {
   private FetchResult fetchVia(Transport tn, List<RefSpec> fetchRefSpecs) throws IOException {
     tn.applyConfig(config);
     tn.setCredentialsProvider(credentialsProvider);
+    if (!shouldFetchTags(fetchRefSpecs)) {
+      tn.setTagOpt(TagOpt.NO_TAGS);
+    }
 
     repLog.info("Fetch references {} from {}", fetchRefSpecs, uri);
     return tn.fetch(NullProgressMonitor.INSTANCE, fetchRefSpecs);
+  }
+
+  private boolean shouldFetchTags(List<RefSpec> fetchRefSpecs) {
+    return fetchRefSpecs.stream()
+        .anyMatch(refSpec -> refSpec.getSource().startsWith(Constants.R_TAGS));
   }
 }
