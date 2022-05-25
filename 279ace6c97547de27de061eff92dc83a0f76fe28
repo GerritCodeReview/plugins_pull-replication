@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f817e209_2d1821c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2022-05-25T09:42:08Z",
+      "side": 1,
+      "message": "Links to some resource I used during the writing of this document:\n\nhttps://evgeniy-khyst.com/spring-kafka-non-blocking-retries-and-dlt/\nhttps://blog.pragmatists.com/retrying-consumer-architecture-in-the-apache-kafka-939ac4cb851a\nhttps://www.confluent.io/blog/error-handling-patterns-in-kafka/",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
