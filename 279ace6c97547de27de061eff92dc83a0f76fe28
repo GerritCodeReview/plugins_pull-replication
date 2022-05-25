@@ -16,6 +16,281 @@
       "message": "Links to some resource I used during the writing of this document:\n\nhttps://evgeniy-khyst.com/spring-kafka-non-blocking-retries-and-dlt/\nhttps://blog.pragmatists.com/retrying-consumer-architecture-in-the-apache-kafka-939ac4cb851a\nhttps://www.confluent.io/blog/error-handling-patterns-in-kafka/",
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d150270_9dc878dd",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "To",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "411b1f5f_84ffea35",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "the range of several minutes",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fd13f8b_cf4cfb48",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "very complex",
+      "range": {
+        "startLine": 23,
+        "startChar": 3,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2598f74d_2427dbdf",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3cca3d5_b9a80fcb",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2ba12e3_0fad6663",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "to notify each receiving site individually",
+      "range": {
+        "startLine": 63,
+        "startChar": 38,
+        "endLine": 63,
+        "endChar": 67
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8406d680_01921cf7",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "but sending the event to the pub-sub system after the corresponding ref-update transaction was committed still has a small race since the ref-update could succeed but sending the event to the pub-sub system could fail e.g. if the gerrit server is shutdown in between",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af6c97d3_7c510605",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "retrying that task in case of errors",
+      "range": {
+        "startLine": 66,
+        "startChar": 24,
+        "endLine": 66,
+        "endChar": 49
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cf41f0e_ac4eaa37",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "after a fetch-task has completed successfully",
+      "range": {
+        "startLine": 74,
+        "startChar": 49,
+        "endLine": 74,
+        "endChar": 80
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a22a5ce2_ad8f5e0f",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "remove duplicate word ?",
+      "range": {
+        "startLine": 82,
+        "startChar": 63,
+        "endLine": 82,
+        "endChar": 71
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9af61760_61d3a355",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "remove duplicate word ?",
+      "range": {
+        "startLine": 88,
+        "startChar": 26,
+        "endLine": 88,
+        "endChar": 34
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed2f315b_d311889a",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "cascaded retry topics",
+      "range": {
+        "startLine": 117,
+        "startChar": 86,
+        "endLine": 117,
+        "endChar": 98
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23c9e863_cfde643d",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-05-25T09:57:35Z",
+      "side": 1,
+      "message": "E.g. if there are 3 cascaded retry topics, the first one could be processed every 10 minutes, the second one every hour, the third one once a day, tasks still failing in the third retry tier would be moved to a failed topic for human inspection.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
