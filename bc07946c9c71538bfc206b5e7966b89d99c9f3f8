@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "43ef1afe_47434a4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:38:25Z",
+      "side": 1,
+      "message": "\u003e The events system was never designed to care about what a receiver will do and especially if a receiver will fail to perform any action which was started when an event was received. The events system has a send and forget policy.\n\nCorrect and that is a gap that we have on Gerrit in general, causing many troubles as stale indexes (or worse !) when a remote user cancels a push.\n\n\u003e I would rather describe that relying on events (which is a send and forget system) and translating message broker events to Gerrit events (were we loose the functionality of (non)committing events), meant that we couldn\u0027t rely on the events broker for re-delivery (and thus retry of the replication on our side) but had to implement retry on our own.\n\nAck.",
+      "parentUuid": "19558bf3_5bec95c2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d024e4a_3d8de277",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-12T07:56:06Z",
       "side": 1,
       "message": "from",
+      "range": {
+        "startLine": 13,
+        "startChar": 45,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a13a4c2a_4f92797d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:38:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d024e4a_3d8de277",
       "range": {
         "startLine": 13,
         "startChar": 45,
@@ -66,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f39f4077_a9809aae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:38:25Z",
+      "side": 1,
+      "message": "\u003e For my understanding: both pull-replication and the event-bus will be listening to the same topic, right? If now an event gets delivered to the pull-replication and the event-bus and:\n\u003e * pull-replication rejects the event (because it couldn\u0027t perform a fetch)\n\u003e * event-bus accepts the event (and sends event through the Gerrit system)\n\u003e \n\u003e then what prevents that the event-bus receives the same event again when it gets re-delivered?\n\nKafka stores an offset on a per-consumer basis: using different consumers groups they can have different offsets persisted.",
+      "parentUuid": "0e907689_9736a99c",
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "264bd53d_c3fc748b",
         "filename": "BUILD",
         "patchSetId": 2
@@ -77,6 +143,30 @@
       "writtenOn": "2022-05-12T06:57:26Z",
       "side": 1,
       "message": "Remove this part as well, as you have done on line 18, here and below.",
+      "range": {
+        "startLine": 34,
+        "startChar": 30,
+        "endLine": 34,
+        "endChar": 42
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9119ba3f_0c17a112",
+        "filename": "BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:38:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "264bd53d_c3fc748b",
       "range": {
         "startLine": 34,
         "startChar": 30,
@@ -129,6 +219,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "87a5f01b_5150504f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:38:25Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "b43fed07_794f2e99",
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "946bba83_90465678",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 2
@@ -140,6 +248,30 @@
       "writtenOn": "2022-05-13T09:25:04Z",
       "side": 1,
       "message": "If we receive all events using via a single topic then when we reject an event E1 (due to a failure to fetch) then, based on my limited knowledge how the offset works, we cannot process follow-up events until we succeed to process the event E1. This means that if we have issues processing one event, this blocks processing of the follow-up events, from the same topic and from the same consumer.\n\nAm I wrong here?\n\nShall we rather have one topic for each repository? Can we control topics when we use events-broker API?\nOr, shall we have a single topic and multiple consumers, in order to limit effects of a failure and redelivery of events.\n\nCan someone elaborate more here? Marcin?",
+      "range": {
+        "startLine": 121,
+        "startChar": 36,
+        "endLine": 121,
+        "endChar": 51
+      },
+      "revId": "bc07946c9c71538bfc206b5e7966b89d99c9f3f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c976af54_e487e240",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-05-31T07:38:25Z",
+      "side": 1,
+      "message": "\u003e If we receive all events using via a single topic then when we reject an event E1 (due to a failure to fetch) then, based on my limited knowledge how the offset works, we cannot process follow-up events until we succeed to process the event E1. This means that if we have issues processing one event, this blocks processing of the follow-up events, from the same topic and from the same consumer.\n\nYes, you are correct. Until you successfully process *that* message, you won\u0027t be able to continue processing the others.\n\n\u003e Shall we rather have one topic for each repository? Can we control topics when we use events-broker API?\n\nRather than exploding the number of topics, it would make sense to work on parallelising the consumption using multiple consumers in the same consumer group for the same topic. The way to increase parallelism is introducing a partition key.\n\nI\u0027d say that the partition key should be instance-id/repository.\n\nIf you have two consumers receiving pull replication events from instance-1/foo and instance-2/foo, the failure of processing of pulls from instance-1/foo won\u0027t block further processing of pulls from instance-2/foo.\n\n\u003e Or, shall we have a single topic and multiple consumers, in order to limit effects of a failure and redelivery of events.\n\nYes, that\u0027s the correct approach.",
+      "parentUuid": "946bba83_90465678",
       "range": {
         "startLine": 121,
         "startChar": 36,
