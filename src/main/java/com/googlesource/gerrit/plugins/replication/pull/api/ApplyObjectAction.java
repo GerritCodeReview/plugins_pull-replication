@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -48,10 +50,10 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
 
   @Override
   public Response<?> apply(ProjectResource resource, RevisionInput input) throws RestApiException {
-
     if (!preConditions.canCallFetchApi()) {
       throw new AuthException("not allowed to call fetch command");
     }
+
     try {
       if (Strings.isNullOrEmpty(input.getLabel())) {
         throw new BadRequestException("Source label cannot be null or empty");
@@ -60,25 +62,68 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
         throw new BadRequestException("Ref-update refname cannot be null or empty");
       }
 
+      repLog.info(
+          "Apply object API from {} for {}:{} - {}",
+          resource.getNameKey(),
+          input.getLabel(),
+          input.getRefName(),
+          input.getRevisionData());
+
       if (Objects.isNull(input.getRevisionData())) {
         deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
+        repLog.info(
+            "Apply object API - REF DELETED - from {} for {}:{} - {}",
+            resource.getNameKey(),
+            input.getLabel(),
+            input.getRefName(),
+            input.getRevisionData());
         return Response.created(input);
       }
 
       try {
         input.validate();
       } catch (IllegalArgumentException e) {
-        throw new BadRequestException("Ref-update with invalid input: " + e.getMessage(), e);
+        BadRequestException bre =
+            new BadRequestException("Ref-update with invalid input: " + e.getMessage(), e);
+        repLog.error(
+            "Apply object API - *FAILED* - from {} for {}:{} - {}",
+            resource.getNameKey(),
+            input.getLabel(),
+            input.getRefName(),
+            input.getRevisionData(),
+            bre);
+        throw bre;
       }
 
       command.applyObject(
           resource.getNameKey(), input.getRefName(), input.getRevisionData(), input.getLabel());
       return Response.created(input);
     } catch (MissingParentObjectException e) {
+      repLog.error(
+          "Apply object API - *FAILED* - from {} for {}:{} - {}",
+          resource.getNameKey(),
+          input.getLabel(),
+          input.getRefName(),
+          input.getRevisionData(),
+          e);
       throw new ResourceConflictException(e.getMessage(), e);
     } catch (NumberFormatException | IOException e) {
+      repLog.error(
+          "Apply object API - *FAILED* - from {} for {}:{} - {}",
+          resource.getNameKey(),
+          input.getLabel(),
+          input.getRefName(),
+          input.getRevisionData(),
+          e);
       throw RestApiException.wrap(e.getMessage(), e);
     } catch (RefUpdateException e) {
+      repLog.error(
+          "Apply object API - *FAILED* - from {} for {}:{} - {}",
+          resource.getNameKey(),
+          input.getLabel(),
+          input.getRefName(),
+          input.getRevisionData(),
+          e);
       throw new UnprocessableEntityException(e.getMessage());
     }
   }
