@@ -281,20 +281,39 @@ public class ReplicationQueue
           }
           if (!result.isSuccessful()) {
             repLog.warn(
-                String.format(
-                    "Pull replication rest api apply object call failed. Endpoint url: %s, reason:%s",
-                    apiUrl, result.getMessage().orElse("unknown")));
+                "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}, HTTP Result:"
+                    + " {}",
+                apiUrl,
+                project,
+                refName,
+                revision,
+                result);
             if (result.isParentObjectMissing()) {
               throw new MissingParentObjectException(
                   project, refName, source.getRemoteConfigName());
             }
           }
         } catch (URISyntaxException e) {
+          repLog.warn(
+              "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
+              apiUrl,
+              project,
+              refName,
+              revision,
+              e);
           stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
         } catch (IOException e) {
+          repLog.warn(
+              "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
+              apiUrl,
+              project,
+              refName,
+              revision,
+              e);
           stateLog.error(
               String.format(
-                  "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
+                  "Exception during the pull replication fetch rest api call. Endpoint url:%s,"
+                      + " message:%s",
                   apiUrl, e.getMessage()),
               e,
               state);
@@ -326,7 +345,8 @@ public class ReplicationQueue
         } catch (Exception e) {
           stateLog.error(
               String.format(
-                  "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
+                  "Exception during the pull replication fetch rest api call. Endpoint url:%s,"
+                      + " message:%s",
                   apiUrl, e.getMessage()),
               e,
               state);

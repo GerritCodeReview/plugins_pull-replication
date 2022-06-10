@@ -47,4 +47,9 @@ public class HttpResult {
   public boolean isParentObjectMissing() {
     return responseCode == SC_CONFLICT;
   }
+
+  @Override
+  public String toString() {
+    return isSuccessful() ? "OK" : "FAILED" + ", status=" + responseCode + " '" + message + "'";
+  }
 }
