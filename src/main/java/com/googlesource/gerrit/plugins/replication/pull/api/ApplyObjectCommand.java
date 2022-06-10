@@ -73,7 +73,7 @@ public class ApplyObjectCommand {
       Project.NameKey name, String refName, RevisionData revisionData, String sourceLabel)
       throws IOException, RefUpdateException, MissingParentObjectException {
 
-    repLog.info("Apply object from {} for project {}, ref name {}", sourceLabel, name, refName);
+    repLog.info("Apply object from {} for {}:{} - {}", sourceLabel, name, refName, revisionData);
     Timer1.Context<String> context = metrics.start(sourceLabel);
     RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionData);
     long elapsed = NANOSECONDS.toMillis(context.stop());
