@@ -245,6 +245,12 @@ public class ReplicationQueue
 
     try {
       Optional<RevisionData> revisionData = revisionReader.read(project, objectId, refName);
+      repLog.info(
+          "RevisionData is {} for {}:{}",
+          revisionData.map(RevisionData::toString).orElse("ABSENT"),
+          project,
+          refName);
+
       if (revisionData.isPresent()) {
         return ((source) ->
             callSendObject(source, project, refName, isDelete, revisionData.get(), state));
@@ -274,27 +280,52 @@ public class ReplicationQueue
         try {
           URIish uri = new URIish(apiUrl);
           FetchApiClient fetchClient = fetchClientFactory.create(source);
-
+          repLog.info(
+              "Pull replication REST API apply object to {} for {}:{} - {}" + " {}",
+              apiUrl,
+              project,
+              refName,
+              revision);
           HttpResult result = fetchClient.callSendObject(project, refName, isDelete, revision, uri);
           if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
             result = initProject(project, uri, fetchClient, result);
           }
+
+          repLog.info(
+              "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
+                  + " {}",
+              apiUrl,
+              project,
+              refName,
+              revision);
+
           if (!result.isSuccessful()) {
-            repLog.warn(
-                String.format(
-                    "Pull replication rest api apply object call failed. Endpoint url: %s, reason:%s",
-                    apiUrl, result.getMessage().orElse("unknown")));
             if (result.isParentObjectMissing()) {
               throw new MissingParentObjectException(
                   project, refName, source.getRemoteConfigName());
             }
           }
         } catch (URISyntaxException e) {
+          repLog.warn(
+              "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
+              apiUrl,
+              project,
+              refName,
+              revision,
+              e);
           stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
         } catch (IOException e) {
+          repLog.warn(
+              "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
+              apiUrl,
+              project,
+              refName,
+              revision,
+              e);
           stateLog.error(
               String.format(
-                  "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
+                  "Exception during the pull replication fetch rest api call. Endpoint url:%s,"
+                      + " message:%s",
                   apiUrl, e.getMessage()),
               e,
               state);
@@ -326,7 +357,8 @@ public class ReplicationQueue
         } catch (Exception e) {
           stateLog.error(
               String.format(
-                  "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
+                  "Exception during the pull replication fetch rest api call. Endpoint url:%s,"
+                      + " message:%s",
                   apiUrl, e.getMessage()),
               e,
               state);
