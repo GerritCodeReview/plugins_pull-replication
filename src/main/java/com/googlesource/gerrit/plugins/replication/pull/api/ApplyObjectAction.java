@@ -65,17 +65,10 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
         return Response.created(input);
       }
 
-      if (Objects.isNull(input.getRevisionData().getCommitObject())
-          || Objects.isNull(input.getRevisionData().getCommitObject().getContent())
-          || input.getRevisionData().getCommitObject().getContent().length == 0
-          || Objects.isNull(input.getRevisionData().getCommitObject().getType())) {
-        throw new BadRequestException("Ref-update commit object cannot be null or empty");
-      }
-
-      if (Objects.isNull(input.getRevisionData().getTreeObject())
-          || Objects.isNull(input.getRevisionData().getTreeObject().getContent())
-          || Objects.isNull(input.getRevisionData().getTreeObject().getType())) {
-        throw new BadRequestException("Ref-update tree object cannot be null");
+      try {
+        input.validate();
+      } catch (IllegalArgumentException e) {
+        throw new BadRequestException("Ref-update with invalid input: " + e.getMessage(), e);
       }
 
       command.applyObject(
