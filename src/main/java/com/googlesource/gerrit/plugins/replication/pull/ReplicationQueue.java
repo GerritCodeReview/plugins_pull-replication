@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.Stopwatch;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
@@ -24,6 +23,7 @@ import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.metrics.Timer1.Context;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
@@ -76,6 +76,7 @@ public class ReplicationQueue
   private Integer fetchCallsTimeout;
   private ExcludedRefsFilter refsFilter;
   private RevisionReader revisionReader;
+  private final ApplyObjectMetrics applyObjectMetrics;
 
   @Inject
   ReplicationQueue(
@@ -85,7 +86,8 @@ public class ReplicationQueue
       ReplicationStateListeners sl,
       FetchApiClient.Factory fetchClientFactory,
       ExcludedRefsFilter refsFilter,
-      RevisionReader revReader) {
+      RevisionReader revReader,
+      ApplyObjectMetrics applyObjectMetrics) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -94,6 +96,7 @@ public class ReplicationQueue
     this.fetchClientFactory = fetchClientFactory;
     this.refsFilter = refsFilter;
     this.revisionReader = revReader;
+    this.applyObjectMetrics = applyObjectMetrics;
   }
 
   @Override
@@ -287,7 +290,7 @@ public class ReplicationQueue
               project,
               refName,
               revision);
-          Stopwatch apiTimer = Stopwatch.createStarted();
+          Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
           HttpResult result = fetchClient.callSendObject(project, refName, isDelete, revision, uri);
           repLog.info(
               "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
@@ -297,7 +300,7 @@ public class ReplicationQueue
               refName,
               revision,
               result,
-              apiTimer.elapsed(TimeUnit.MILLISECONDS));
+              apiTimer.stop() / 1000000.0);
 
           if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
             result = initProject(project, uri, fetchClient, result);
