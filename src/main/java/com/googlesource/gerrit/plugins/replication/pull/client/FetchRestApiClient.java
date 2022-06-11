@@ -32,6 +32,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
@@ -95,7 +96,8 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callFetch(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
    */
   @Override
-  public HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+  public HttpResult callFetch(
+      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
       throws ClientProtocolException, IOException {
     String url =
         String.format(
@@ -110,6 +112,9 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
                 instanceLabel, refName, callAsync),
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
+    post.addHeader(
+        PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
+        Long.toString(startTimeNanos));
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
   }
 
