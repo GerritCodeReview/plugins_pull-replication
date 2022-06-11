@@ -77,6 +77,7 @@ public class ReplicationQueue
   private ExcludedRefsFilter refsFilter;
   private RevisionReader revisionReader;
   private final ApplyObjectMetrics applyObjectMetrics;
+  private final FetchReplicationMetrics fetchMetrics;
 
   @Inject
   ReplicationQueue(
@@ -87,7 +88,8 @@ public class ReplicationQueue
       FetchApiClient.Factory fetchClientFactory,
       ExcludedRefsFilter refsFilter,
       RevisionReader revReader,
-      ApplyObjectMetrics applyObjectMetrics) {
+      ApplyObjectMetrics applyObjectMetrics,
+      FetchReplicationMetrics fetchMetrics) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -97,6 +99,7 @@ public class ReplicationQueue
     this.refsFilter = refsFilter;
     this.revisionReader = revReader;
     this.applyObjectMetrics = applyObjectMetrics;
+    this.fetchMetrics = fetchMetrics;
   }
 
   @Override
@@ -349,7 +352,17 @@ public class ReplicationQueue
         try {
           URIish uri = new URIish(apiUrl);
           FetchApiClient fetchClient = fetchClientFactory.create(source);
-          HttpResult result = fetchClient.callFetch(project, refName, uri);
+          repLog.info("Pull replication REST API fetch to {} for {}:{}", apiUrl, project, refName);
+          Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
+          HttpResult result = fetchClient.callFetch(project, refName, uri, timer.getStartTime());
+          repLog.info(
+              "Pull replication REST API fetch to {} COMPLETED for {}:{}, HTTP Result:"
+                  + " {} - time:{} ms",
+              apiUrl,
+              project,
+              refName,
+              result,
+              timer.stop() / 1000000);
           if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
             result = initProject(project, uri, fetchClient, result);
           }
@@ -388,7 +401,7 @@ public class ReplicationQueue
       throws IOException, ClientProtocolException {
     HttpResult initProjectResult = fetchClient.initProject(project, uri);
     if (initProjectResult.isSuccessful()) {
-      result = fetchClient.callFetch(project, "refs/*", uri);
+      result = fetchClient.callFetch(project, "refs/*", uri, System.nanoTime());
     } else {
       String errorMessage = initProjectResult.getMessage().map(e -> " - Error: " + e).orElse("");
       repLog.error("Cannot create project " + project + errorMessage);
