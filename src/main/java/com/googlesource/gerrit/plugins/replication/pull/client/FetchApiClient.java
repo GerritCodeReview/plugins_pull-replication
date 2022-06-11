@@ -27,8 +27,14 @@ public interface FetchApiClient {
     FetchApiClient create(Source source);
   }
 
-  HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+  HttpResult callFetch(
+      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
       throws ClientProtocolException, IOException;
+
+  default HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+      throws ClientProtocolException, IOException {
+    return callFetch(project, refName, targetUri, System.nanoTime());
+  }
 
   HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;
 
