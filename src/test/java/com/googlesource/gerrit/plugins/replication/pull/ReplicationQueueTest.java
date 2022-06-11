@@ -19,6 +19,7 @@ import static java.nio.file.Files.createTempDirectory;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -81,6 +82,7 @@ public class ReplicationQueueTest {
   @Mock RevisionData revisionData;
   @Mock HttpResult httpResult;
   ApplyObjectMetrics applyObjectMetrics;
+  FetchReplicationMetrics fetchMetrics;
 
   @Captor ArgumentCaptor<String> stringCaptor;
   @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
@@ -108,15 +110,24 @@ public class ReplicationQueueTest {
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
     when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
         .thenReturn(httpResult);
-    when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(httpResult);
+    when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong())).thenReturn(httpResult);
     when(httpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
+    fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
 
     objectUnderTest =
         new ReplicationQueue(
-            wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader, applyObjectMetrics);
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
   }
 
   @Test
@@ -173,7 +184,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
   }
 
   @Test
@@ -186,7 +197,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
   }
 
   @Test
@@ -202,7 +213,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
   }
 
   @Test
@@ -248,7 +259,15 @@ public class ReplicationQueueTest {
 
     objectUnderTest =
         new ReplicationQueue(
-            wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader, applyObjectMetrics);
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onGitReferenceUpdated(event);
 
