@@ -81,6 +81,7 @@ public class ReplicationQueueTest {
   @Mock RevisionData revisionData;
   @Mock HttpResult httpResult;
   ApplyObjectMetrics applyObjectMetrics;
+  FetchReplicationMetrics fetchMetrics;
 
   @Captor ArgumentCaptor<String> stringCaptor;
   @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
@@ -113,10 +114,19 @@ public class ReplicationQueueTest {
     when(httpResult.isProjectMissing(any())).thenReturn(false);
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
+    fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
 
     objectUnderTest =
         new ReplicationQueue(
-            wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader, applyObjectMetrics);
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
   }
 
   @Test
@@ -248,7 +258,15 @@ public class ReplicationQueueTest {
 
     objectUnderTest =
         new ReplicationQueue(
-            wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader, applyObjectMetrics);
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onGitReferenceUpdated(event);
 

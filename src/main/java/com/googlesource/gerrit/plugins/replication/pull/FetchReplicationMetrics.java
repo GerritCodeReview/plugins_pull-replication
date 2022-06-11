@@ -27,6 +27,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class FetchReplicationMetrics {
   private final Timer1<String> executionTime;
+  private final Timer1<String> end2EndExecutionTime;
   private final Histogram1<String> executionDelay;
   private final Histogram1<String> executionRetries;
 
@@ -34,17 +35,25 @@ public class FetchReplicationMetrics {
   FetchReplicationMetrics(@PluginName String pluginName, MetricMaker metricMaker) {
     Field<String> SOURCE_FIELD =
         Field.ofString(
-                "source",
+                "pull_replication",
                 (metadataBuilder, fieldValue) ->
                     metadataBuilder
                         .pluginName(pluginName)
-                        .addPluginMetadata(PluginMetadata.create("source", fieldValue)))
+                        .addPluginMetadata(PluginMetadata.create("pull_replication", fieldValue)))
             .build();
 
     executionTime =
         metricMaker.newTimer(
             "replication_latency",
             new Description("Time spent fetching from remote source.")
+                .setCumulative()
+                .setUnit(Description.Units.MILLISECONDS),
+            SOURCE_FIELD);
+
+    end2EndExecutionTime =
+        metricMaker.newTimer(
+            "replication_end_2_end_latency",
+            new Description("Time spent end-2-end fetching from remote source.")
                 .setCumulative()
                 .setUnit(Description.Units.MILLISECONDS),
             SOURCE_FIELD);
@@ -74,6 +83,16 @@ public class FetchReplicationMetrics {
    */
   public Timer1.Context<String> start(String name) {
     return executionTime.start(name);
+  }
+
+  /**
+   * Start the end-to-end replication latency timer from a source.
+   *
+   * @param name the source name.
+   * @return the timer context.
+   */
+  public Timer1.Context<String> startEnd2End(String name) {
+    return end2EndExecutionTime.start(name);
   }
 
   /**
