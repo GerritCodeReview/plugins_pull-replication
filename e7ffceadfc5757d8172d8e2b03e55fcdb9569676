@@ -168,6 +168,24 @@
       "parentUuid": "b6801658_89b278e6",
       "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e7b512d_7693620b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-06-14T21:12:51Z",
+      "side": 1,
+      "message": "Apply Object writes data directly to the repository and it skips git protocol. By checking if repo is not corrupted after writing data from apply object we make sure that the code responsible for writes is not causing any issues.",
+      "parentUuid": "8d9c1075_91d5c475",
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
