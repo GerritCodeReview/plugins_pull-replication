@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "014ebd74_cc26fea9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-06-14T10:35:22Z",
+      "side": 1,
+      "message": "Sorry I meant `Issue` number.\nPlease ignore if there isn\u0027t one",
+      "parentUuid": "24cf7421_73aff5cb",
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "979b098f_2f3c8bb9",
