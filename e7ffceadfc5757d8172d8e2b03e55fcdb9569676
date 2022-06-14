@@ -186,6 +186,24 @@
       "parentUuid": "8d9c1075_91d5c475",
       "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab77fff0_05fe20e2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-06-14T21:51:16Z",
+      "side": 1,
+      "message": "oh I see, so if `fsck()`. throws an exception your test will fail.\n\nMakes sense, thanks for explaining.",
+      "parentUuid": "0e7b512d_7693620b",
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
