@@ -150,6 +150,24 @@
       "parentUuid": "5610ecc2_5613f012",
       "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d9c1075_91d5c475",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-06-14T20:09:10Z",
+      "side": 1,
+      "message": "I am not sure I follow.\nWhy would the repo be corrupted?\nif it was, why would it matter? since the test is over the repo is not used anymore",
+      "parentUuid": "b6801658_89b278e6",
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
