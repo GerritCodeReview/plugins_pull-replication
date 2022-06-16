@@ -31,6 +31,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingPar
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
 import java.util.Objects;
+import javax.servlet.http.HttpServletResponse;
 
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
@@ -77,7 +78,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
             input.getLabel(),
             input.getRefName(),
             input.getRevisionData());
-        return Response.created(input);
+        return Response.withStatusCode(HttpServletResponse.SC_NO_CONTENT, "");
       }
 
       try {
