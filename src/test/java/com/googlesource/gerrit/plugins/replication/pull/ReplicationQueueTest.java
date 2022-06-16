@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener.Event;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.WorkQueue;
@@ -79,6 +80,8 @@ public class ReplicationQueueTest {
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
   @Mock HttpResult httpResult;
+  ApplyObjectMetrics applyObjectMetrics;
+  FetchReplicationMetrics fetchMetrics;
 
   @Captor ArgumentCaptor<String> stringCaptor;
   @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
@@ -110,8 +113,20 @@ public class ReplicationQueueTest {
     when(httpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
 
+    applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
+    fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
+
     objectUnderTest =
-        new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
+        new ReplicationQueue(
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
   }
 
   @Test
@@ -242,7 +257,16 @@ public class ReplicationQueueTest {
     refsFilter = new ExcludedRefsFilter(replicationConfig);
 
     objectUnderTest =
-        new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
+        new ReplicationQueue(
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onGitReferenceUpdated(event);
 

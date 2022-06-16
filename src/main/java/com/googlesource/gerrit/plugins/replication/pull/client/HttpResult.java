@@ -36,7 +36,7 @@ public class HttpResult {
   }
 
   public boolean isSuccessful() {
-    return responseCode == SC_CREATED || responseCode == SC_NO_CONTENT || responseCode == SC_OK;
+    return responseCode / 100 == 2; // Any 2xx response code is a success
   }
 
   public boolean isProjectMissing(Project.NameKey projectName) {
@@ -46,5 +46,12 @@ public class HttpResult {
 
   public boolean isParentObjectMissing() {
     return responseCode == SC_CONFLICT;
+  }
+
+  @Override
+  public String toString() {
+    return isSuccessful()
+        ? "OK"
+        : "FAILED" + ", status=" + responseCode + message.map(s -> " '" + s + "'").orElse("");
   }
 }
