@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bcbb9970_b290c5c7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-16T19:19:31Z",
+      "side": 1,
+      "message": "Not really, because it just means isn\u0027t anything we can do with applyObject, but it can be done through fetch.",
+      "parentUuid": "979b098f_2f3c8bb9",
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "876a1258_fae3dc19",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
         "patchSetId": 1
@@ -96,6 +114,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9cd03455_90f2c835",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-16T19:19:31Z",
+      "side": 1,
+      "message": "An apply object with only BLOBs and no commit or tree needs to be treated differently. BLOBs are always there, so if we check getBlobs() we\u0027ll miss this special use-case.",
+      "parentUuid": "876a1258_fae3dc19",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 58
+      },
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4544b426_2118273a",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
         "patchSetId": 1
@@ -107,6 +149,30 @@
       "writtenOn": "2022-06-13T21:32:51Z",
       "side": 1,
       "message": "Do we need to be this defensive? How could this ever happen?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 7
+      },
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ef8fbd3_83d810cf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-16T19:19:31Z",
+      "side": 1,
+      "message": "It *should not* happen, but if it does, we want to find out.",
+      "parentUuid": "4544b426_2118273a",
       "range": {
         "startLine": 59,
         "startChar": 0,
@@ -202,6 +268,24 @@
       "side": 1,
       "message": "oh I see, so if `fsck()`. throws an exception your test will fail.\n\nMakes sense, thanks for explaining.",
       "parentUuid": "0e7b512d_7693620b",
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb4f6c51_d8177b13",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-16T19:19:31Z",
+      "side": 1,
+      "message": "I believe Marcin wants to fail the test if the repository is corrupted. We\u0027re missing an assertion there?",
+      "parentUuid": "8d9c1075_91d5c475",
       "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
