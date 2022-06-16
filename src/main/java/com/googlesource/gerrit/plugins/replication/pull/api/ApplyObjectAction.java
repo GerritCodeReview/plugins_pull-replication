@@ -32,6 +32,8 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import java.io.IOException;
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletResponse;
+
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
   private final ApplyObjectCommand command;
@@ -77,7 +79,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
             input.getLabel(),
             input.getRefName(),
             input.getRevisionData());
-        return Response.created(input);
+        return Response.withStatusCode(HttpServletResponse.SC_NO_CONTENT, "");
       }
 
       try {
