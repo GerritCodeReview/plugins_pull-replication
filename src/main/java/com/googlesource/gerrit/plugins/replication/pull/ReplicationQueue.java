@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.metrics.Timer1.Context;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
@@ -75,6 +76,8 @@ public class ReplicationQueue
   private Integer fetchCallsTimeout;
   private ExcludedRefsFilter refsFilter;
   private RevisionReader revisionReader;
+  private final ApplyObjectMetrics applyObjectMetrics;
+  private final FetchReplicationMetrics fetchMetrics;
 
   @Inject
   ReplicationQueue(
@@ -84,7 +87,9 @@ public class ReplicationQueue
       ReplicationStateListeners sl,
       FetchApiClient.Factory fetchClientFactory,
       ExcludedRefsFilter refsFilter,
-      RevisionReader revReader) {
+      RevisionReader revReader,
+      ApplyObjectMetrics applyObjectMetrics,
+      FetchReplicationMetrics fetchMetrics) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -93,6 +98,8 @@ public class ReplicationQueue
     this.fetchClientFactory = fetchClientFactory;
     this.refsFilter = refsFilter;
     this.revisionReader = revReader;
+    this.applyObjectMetrics = applyObjectMetrics;
+    this.fetchMetrics = fetchMetrics;
   }
 
   @Override
@@ -245,6 +252,12 @@ public class ReplicationQueue
 
     try {
       Optional<RevisionData> revisionData = revisionReader.read(project, objectId, refName);
+      repLog.info(
+          "RevisionData is {} for {}:{}",
+          revisionData.map(RevisionData::toString).orElse("ABSENT"),
+          project,
+          refName);
+
       if (revisionData.isPresent()) {
         return ((source) ->
             callSendObject(source, project, refName, isDelete, revisionData.get(), state));
@@ -274,27 +287,56 @@ public class ReplicationQueue
         try {
           URIish uri = new URIish(apiUrl);
           FetchApiClient fetchClient = fetchClientFactory.create(source);
-
+          repLog.info(
+              "Pull replication REST API apply object to {} for {}:{} - {}",
+              apiUrl,
+              project,
+              refName,
+              revision);
+          Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
           HttpResult result = fetchClient.callSendObject(project, refName, isDelete, revision, uri);
+          repLog.info(
+              "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
+                  + " {} - time:{} ms",
+              apiUrl,
+              project,
+              refName,
+              revision,
+              result,
+              apiTimer.stop() / 1000000.0);
+
           if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
             result = initProject(project, uri, fetchClient, result);
+            repLog.info("Missing project {} created, HTTP Result:{}", project, result);
           }
+
           if (!result.isSuccessful()) {
-            repLog.warn(
-                String.format(
-                    "Pull replication rest api apply object call failed. Endpoint url: %s, reason:%s",
-                    apiUrl, result.getMessage().orElse("unknown")));
             if (result.isParentObjectMissing()) {
               throw new MissingParentObjectException(
                   project, refName, source.getRemoteConfigName());
             }
           }
         } catch (URISyntaxException e) {
+          repLog.warn(
+              "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
+              apiUrl,
+              project,
+              refName,
+              revision,
+              e);
           stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
         } catch (IOException e) {
+          repLog.warn(
+              "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
+              apiUrl,
+              project,
+              refName,
+              revision,
+              e);
           stateLog.error(
               String.format(
-                  "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
+                  "Exception during the pull replication fetch rest api call. Endpoint url:%s,"
+                      + " message:%s",
                   apiUrl, e.getMessage()),
               e,
               state);
@@ -310,7 +352,17 @@ public class ReplicationQueue
         try {
           URIish uri = new URIish(apiUrl);
           FetchApiClient fetchClient = fetchClientFactory.create(source);
-          HttpResult result = fetchClient.callFetch(project, refName, uri);
+          repLog.info("Pull replication REST API fetch to {} for {}:{}", apiUrl, project, refName);
+          Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
+          HttpResult result = fetchClient.callFetch(project, refName, uri, timer.getStartTime());
+          repLog.info(
+              "Pull replication REST API fetch to {} COMPLETED for {}:{}, HTTP Result:"
+                  + " {} - time:{} ms",
+              apiUrl,
+              project,
+              refName,
+              result,
+              timer.stop() / 1000000);
           if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
             result = initProject(project, uri, fetchClient, result);
           }
@@ -326,7 +378,8 @@ public class ReplicationQueue
         } catch (Exception e) {
           stateLog.error(
               String.format(
-                  "Exception during the pull replication fetch rest api call. Endpoint url:%s, message:%s",
+                  "Exception during the pull replication fetch rest api call. Endpoint url:%s,"
+                      + " message:%s",
                   apiUrl, e.getMessage()),
               e,
               state);
@@ -348,7 +401,7 @@ public class ReplicationQueue
       throws IOException, ClientProtocolException {
     HttpResult initProjectResult = fetchClient.initProject(project, uri);
     if (initProjectResult.isSuccessful()) {
-      result = fetchClient.callFetch(project, "refs/*", uri);
+      result = fetchClient.callFetch(project, "refs/*", uri, System.nanoTime());
     } else {
       String errorMessage = initProjectResult.getMessage().map(e -> " - Error: " + e).orElse("");
       repLog.error("Cannot create project " + project + errorMessage);

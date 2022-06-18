@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
@@ -24,6 +25,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -36,6 +38,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -56,15 +59,38 @@ public class RevisionReader {
             .getLong("replication", CONFIG_MAX_API_PAYLOAD_SIZE, DEFAULT_MAX_PAYLOAD_SIZE_IN_BYTES);
   }
 
-  public Optional<RevisionData> read(Project.NameKey project, ObjectId objectId, String refName)
+  public Optional<RevisionData> read(Project.NameKey project, String refName)
+      throws RepositoryNotFoundException, MissingObjectException, IncorrectObjectTypeException,
+          CorruptObjectException, IOException {
+    return read(project, null, refName);
+  }
+
+  public Optional<RevisionData> read(
+      Project.NameKey project, @Nullable ObjectId refObjectId, String refName)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           RepositoryNotFoundException, IOException {
     try (Repository git = gitRepositoryManager.openRepository(project)) {
       Long totalRefSize = 0l;
 
+      Ref ref = git.exactRef(refName);
+      if (ref == null) {
+        return Optional.empty();
+      }
+
+      ObjectId objectId = refObjectId == null ? ref.getObjectId() : refObjectId;
+
       ObjectLoader commitLoader = git.open(objectId);
       totalRefSize += commitLoader.getSize();
       verifySize(totalRefSize, commitLoader);
+
+      if (commitLoader.getType() == Constants.OBJ_BLOB) {
+        return Optional.of(
+            new RevisionData(
+                null,
+                null,
+                Arrays.asList(
+                    new RevisionObjectData(Constants.OBJ_BLOB, commitLoader.getCachedBytes()))));
+      }
 
       if (commitLoader.getType() != Constants.OBJ_COMMIT) {
         repLog.trace(

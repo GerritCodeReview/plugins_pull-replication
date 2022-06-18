@@ -34,6 +34,7 @@ import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
+import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -57,6 +58,7 @@ public class StreamEventListenerTest {
   @Mock private ScheduledExecutorService executor;
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
+  @Mock private PullReplicationApiRequestMetrics metrics;
   @Captor ArgumentCaptor<Input> inputCaptor;
 
   private StreamEventListener objectUnderTest;
@@ -64,10 +66,11 @@ public class StreamEventListenerTest {
   @Before
   public void setup() {
     when(workQueue.getDefaultQueue()).thenReturn(executor);
-    when(fetchJobFactory.create(eq(Project.nameKey(TEST_PROJECT)), any())).thenReturn(fetchJob);
+    when(fetchJobFactory.create(eq(Project.nameKey(TEST_PROJECT)), any(), any()))
+        .thenReturn(fetchJob);
     objectUnderTest =
         new StreamEventListener(
-            INSTANCE_ID, projectInitializationAction, workQueue, fetchJobFactory);
+            INSTANCE_ID, projectInitializationAction, workQueue, fetchJobFactory, () -> metrics);
   }
 
   @Test
@@ -107,7 +110,7 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture());
+    verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), any());
 
     Input input = inputCaptor.getValue();
     assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
@@ -136,7 +139,7 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture());
+    verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), any());
 
     Input input = inputCaptor.getValue();
     assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
