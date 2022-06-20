@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2f89bb2_6d063f17",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-20T07:59:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bcbb9970_b290c5c7",
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "876a1258_fae3dc19",
@@ -126,6 +144,30 @@
       "side": 1,
       "message": "An apply object with only BLOBs and no commit or tree needs to be treated differently. BLOBs are always there, so if we check getBlobs() we\u0027ll miss this special use-case.",
       "parentUuid": "876a1258_fae3dc19",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 58
+      },
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90a892c2_0057a028",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-20T07:59:16Z",
+      "side": 1,
+      "message": "Marking this as resolved, unless @Tony has more feedback on it.",
+      "parentUuid": "9cd03455_90f2c835",
       "range": {
         "startLine": 49,
         "startChar": 0,
