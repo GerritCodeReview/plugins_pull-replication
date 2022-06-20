@@ -330,6 +330,24 @@
       "parentUuid": "8d9c1075_91d5c475",
       "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08618b73_a712ccd1",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-06-20T08:00:28Z",
+      "side": 1,
+      "message": "I checked the `fsck()` and it already asserts its completion and throw an exception if not consistent.",
+      "parentUuid": "cb4f6c51_d8177b13",
+      "revId": "e7ffceadfc5757d8172d8e2b03e55fcdb9569676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
