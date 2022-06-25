@@ -81,7 +81,7 @@ public class RevisionReader {
 
       ObjectLoader commitLoader = git.open(objectId);
       totalRefSize += commitLoader.getSize();
-      verifySize(totalRefSize, commitLoader);
+      verifySize(project, refName, objectId, totalRefSize, commitLoader);
 
       if (commitLoader.getType() == Constants.OBJ_BLOB) {
         return Optional.of(
@@ -108,7 +108,7 @@ public class RevisionReader {
       RevTree tree = commit.getTree();
       ObjectLoader treeLoader = git.open(commit.getTree().toObjectId());
       totalRefSize += treeLoader.getSize();
-      verifySize(totalRefSize, treeLoader);
+      verifySize(project, refName, commit.getTree().toObjectId(), totalRefSize, treeLoader);
 
       RevisionObjectData treeRev =
           new RevisionObjectData(tree.getType(), treeLoader.getCachedBytes());
@@ -117,11 +117,11 @@ public class RevisionReader {
       try (TreeWalk walk = new TreeWalk(git)) {
         if (commit.getParentCount() > 0) {
           List<DiffEntry> diffEntries = readDiffs(git, commit, tree, walk);
-          blobs = readBlobs(git, totalRefSize, diffEntries);
+          blobs = readBlobs(project, refName, git, totalRefSize, diffEntries);
         } else {
           walk.setRecursive(true);
           walk.addTree(tree);
-          blobs = readBlobs(git, totalRefSize, walk);
+          blobs = readBlobs(project, refName, git, totalRefSize, walk);
         }
       }
       return Optional.of(new RevisionData(commitRev, treeRev, blobs));
@@ -143,7 +143,8 @@ public class RevisionReader {
     return DiffEntry.scan(walk, true);
   }
 
-  private List<RevisionObjectData> readBlobs(Repository git, Long totalRefSize, TreeWalk walk)
+  private List<RevisionObjectData> readBlobs(
+      Project.NameKey projectName, String refName, Repository git, Long totalRefSize, TreeWalk walk)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           IOException {
     List<RevisionObjectData> blobs = Lists.newLinkedList();
@@ -151,7 +152,7 @@ public class RevisionReader {
       ObjectId objectId = walk.getObjectId(0);
       ObjectLoader objectLoader = git.open(objectId);
       totalRefSize += objectLoader.getSize();
-      verifySize(totalRefSize, objectLoader);
+      verifySize(projectName, refName, objectId, totalRefSize, objectLoader);
 
       RevisionObjectData rev =
           new RevisionObjectData(objectLoader.getType(), objectLoader.getCachedBytes());
@@ -161,14 +162,19 @@ public class RevisionReader {
   }
 
   private List<RevisionObjectData> readBlobs(
-      Repository git, Long totalRefSize, List<DiffEntry> diffEntries)
+      Project.NameKey projectName,
+      String refName,
+      Repository git,
+      Long totalRefSize,
+      List<DiffEntry> diffEntries)
       throws MissingObjectException, IOException {
     List<RevisionObjectData> blobs = Lists.newLinkedList();
     for (DiffEntry diffEntry : diffEntries) {
       if (!ChangeType.DELETE.equals(diffEntry.getChangeType())) {
         ObjectLoader objectLoader = git.open(diffEntry.getNewId().toObjectId());
         totalRefSize += objectLoader.getSize();
-        verifySize(totalRefSize, objectLoader);
+        verifySize(
+            projectName, refName, diffEntry.getNewId().toObjectId(), totalRefSize, objectLoader);
         RevisionObjectData rev =
             new RevisionObjectData(objectLoader.getType(), objectLoader.getCachedBytes());
         blobs.add(rev);
@@ -185,9 +191,40 @@ public class RevisionReader {
     return parentCommit.getTree();
   }
 
-  private void verifySize(Long totalRefSize, ObjectLoader loader) throws LargeObjectException {
-    if (loader.isLarge() || totalRefSize > maxRefSize) {
-      throw new LargeObjectException();
+  private void verifySize(
+      Project.NameKey projectName,
+      String refName,
+      ObjectId objectId,
+      Long totalRefSize,
+      ObjectLoader loader)
+      throws LargeObjectException {
+    if (loader.isLarge()) {
+      repLog.warn(
+          "Objects associated with {}:{} ({}) are too big to fit into the object loader's memory",
+          projectName,
+          refName,
+          objectTypeToString(loader.getType()));
+      throw new LargeObjectException(objectId);
+    }
+
+    if (totalRefSize > maxRefSize) {
+      repLog.warn(
+          "Objects associated with %s:%s (%s) use %d bytes, over the maximum limit of %d bytes",
+          projectName, refName, objectTypeToString(loader.getType()), totalRefSize, maxRefSize);
+      throw new LargeObjectException(objectId);
+    }
+  }
+
+  private static String objectTypeToString(int type) {
+    switch (type) {
+      case Constants.OBJ_BLOB:
+        return "BLOB";
+      case Constants.OBJ_COMMIT:
+        return "COMMIT";
+      case Constants.OBJ_TREE:
+        return "TREE";
+      default:
+        return "type:" + type;
     }
   }
 }
