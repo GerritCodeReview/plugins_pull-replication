@@ -232,9 +232,19 @@ public class ReplicationQueue
     CallFunction call = getCallFunction(project, objectId, refName, isDelete, state);
 
     return (source) -> {
+      boolean callSuccessful;
       try {
-        call.call(source);
-      } catch (MissingParentObjectException e) {
+        callSuccessful = call.call(source);
+      } catch (Exception e) {
+        repLog.warn(
+            String.format(
+                "Failed to apply object %s on project %s:%s, falling back to git fetch",
+                objectId.name(), project, refName),
+            e);
+        callSuccessful = false;
+      }
+
+      if (!callSuccessful) {
         callFetch(source, project, refName, state);
       }
     };
@@ -274,7 +284,7 @@ public class ReplicationQueue
     return (source) -> callFetch(source, project, refName, state);
   }
 
-  private void callSendObject(
+  private boolean callSendObject(
       Source source,
       Project.NameKey project,
       String refName,
@@ -282,6 +292,7 @@ public class ReplicationQueue
       RevisionData revision,
       ReplicationState state)
       throws MissingParentObjectException {
+    boolean resultIsSuccessful = true;
     if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
       for (String apiUrl : source.getApis()) {
         try {
@@ -316,6 +327,8 @@ public class ReplicationQueue
                   project, refName, source.getRemoteConfigName());
             }
           }
+
+          resultIsSuccessful &= result.isSuccessful();
         } catch (URISyntaxException e) {
           repLog.warn(
               "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
@@ -325,6 +338,7 @@ public class ReplicationQueue
               revision,
               e);
           stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
+          resultIsSuccessful = false;
         } catch (IOException e) {
           repLog.warn(
               "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
@@ -340,13 +354,17 @@ public class ReplicationQueue
                   apiUrl, e.getMessage()),
               e,
               state);
+          resultIsSuccessful = false;
         }
       }
     }
+
+    return resultIsSuccessful;
   }
 
-  private void callFetch(
+  private boolean callFetch(
       Source source, Project.NameKey project, String refName, ReplicationState state) {
+    boolean resultIsSuccessful = true;
     if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
       for (String apiUrl : source.getApis()) {
         try {
@@ -374,8 +392,11 @@ public class ReplicationQueue
                     apiUrl, result.getMessage().orElse("unknown")),
                 state);
           }
+
+          resultIsSuccessful &= result.isSuccessful();
         } catch (URISyntaxException e) {
           stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
+          resultIsSuccessful = false;
         } catch (Exception e) {
           stateLog.error(
               String.format(
@@ -384,9 +405,12 @@ public class ReplicationQueue
                   apiUrl, e.getMessage()),
               e,
               state);
+          resultIsSuccessful = false;
         }
       }
     }
+
+    return resultIsSuccessful;
   }
 
   public boolean retry(int attempt, int maxRetries) {
@@ -453,6 +477,6 @@ public class ReplicationQueue
 
   @FunctionalInterface
   private interface CallFunction {
-    void call(Source source) throws MissingParentObjectException;
+    boolean call(Source source) throws MissingParentObjectException;
   }
 }
