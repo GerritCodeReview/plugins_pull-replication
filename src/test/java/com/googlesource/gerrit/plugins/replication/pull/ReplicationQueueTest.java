@@ -80,6 +80,8 @@ public class ReplicationQueueTest {
   @Mock AccountInfo accountInfo;
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
+  @Mock HttpResult successfulHttpResult;
+  @Mock HttpResult fetchHttpResult;
   @Mock HttpResult httpResult;
   ApplyObjectMetrics applyObjectMetrics;
   FetchReplicationMetrics fetchMetrics;
@@ -110,8 +112,12 @@ public class ReplicationQueueTest {
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
     when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
         .thenReturn(httpResult);
-    when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong())).thenReturn(httpResult);
+    when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong()))
+        .thenReturn(fetchHttpResult);
+    when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
+    when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
+    when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
