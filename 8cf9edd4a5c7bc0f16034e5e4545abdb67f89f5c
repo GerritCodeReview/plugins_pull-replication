@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92593a1b_38b67bf1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchReplicationMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-06-29T22:16:04Z",
+      "side": 1,
+      "message": "I\u0027m getting: java.lang.IllegalArgumentException: timer delta must be  \u003e\u003d0",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 73
+      },
+      "revId": "8cf9edd4a5c7bc0f16034e5e4545abdb67f89f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
