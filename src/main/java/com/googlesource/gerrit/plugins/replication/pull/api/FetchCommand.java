@@ -54,19 +54,28 @@ public class FetchCommand implements Command {
     this.eventDispatcher = eventDispatcher;
   }
 
-  public void fetchAsync(Project.NameKey name, String label, String refName)
+  public void fetchAsync(
+      Project.NameKey name,
+      String label,
+      String refName,
+      PullReplicationApiRequestMetrics apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    fetch(name, label, refName, ASYNC);
+    fetch(name, label, refName, ASYNC, Optional.of(apiRequestMetrics));
   }
 
   public void fetchSync(Project.NameKey name, String label, String refName)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    fetch(name, label, refName, SYNC);
+    fetch(name, label, refName, SYNC, Optional.empty());
   }
 
-  private void fetch(Project.NameKey name, String label, String refName, ReplicationType fetchType)
+  private void fetch(
+      Project.NameKey name,
+      String label,
+      String refName,
+      ReplicationType fetchType,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
     ReplicationState state =
@@ -82,7 +91,7 @@ public class FetchCommand implements Command {
 
     try {
       state.markAllFetchTasksScheduled();
-      Future<?> future = source.get().schedule(name, refName, state, fetchType);
+      Future<?> future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
       future.get(source.get().getTimeout(), TimeUnit.SECONDS);
     } catch (ExecutionException
         | IllegalStateException

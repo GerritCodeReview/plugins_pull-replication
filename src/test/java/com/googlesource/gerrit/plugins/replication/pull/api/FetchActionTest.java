@@ -67,7 +67,7 @@ public class FetchActionTest {
 
   @Before
   public void setup() {
-    when(fetchJobFactory.create(any(), any())).thenReturn(fetchJob);
+    when(fetchJobFactory.create(any(), any(), any())).thenReturn(fetchJob);
     when(workQueue.getDefaultQueue()).thenReturn(exceutorService);
     when(urlFormatter.getRestUrl(anyString())).thenReturn(Optional.of(location));
     when(exceutorService.submit(any(Runnable.class)))

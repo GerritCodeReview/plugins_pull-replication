@@ -21,6 +21,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.ReplicationFilter;
+import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.transport.URIish;
@@ -91,7 +92,7 @@ public class FetchAll implements Runnable {
     for (Source cfg : sources.getAll()) {
       if (cfg.wouldFetchProject(project)) {
         for (URIish uri : cfg.getURIs(project, urlMatch)) {
-          cfg.schedule(project, FetchOne.ALL_REFS, uri, state, replicationType);
+          cfg.schedule(project, FetchOne.ALL_REFS, uri, state, replicationType, Optional.empty());
         }
       }
     }
