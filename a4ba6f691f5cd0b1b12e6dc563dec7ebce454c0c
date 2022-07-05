@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "545b5d4e_e0f79a18",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionsInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-07-05T19:41:41Z",
+      "side": 1,
+      "message": "Add to string method to improve logging",
+      "revId": "a4ba6f691f5cd0b1b12e6dc563dec7ebce454c0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
