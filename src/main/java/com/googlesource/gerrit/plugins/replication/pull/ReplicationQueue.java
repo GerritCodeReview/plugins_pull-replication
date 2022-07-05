@@ -15,9 +15,11 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -37,7 +39,10 @@ import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
@@ -47,7 +52,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import org.apache.http.client.ClientProtocolException;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
@@ -75,7 +84,7 @@ public class ReplicationQueue
   private FetchApiClient.Factory fetchClientFactory;
   private Integer fetchCallsTimeout;
   private ExcludedRefsFilter refsFilter;
-  private RevisionReader revisionReader;
+  private Provider<RevisionReader> revReaderProvider;
   private final ApplyObjectMetrics applyObjectMetrics;
   private final FetchReplicationMetrics fetchMetrics;
 
@@ -87,7 +96,7 @@ public class ReplicationQueue
       ReplicationStateListeners sl,
       FetchApiClient.Factory fetchClientFactory,
       ExcludedRefsFilter refsFilter,
-      RevisionReader revReader,
+      Provider<RevisionReader> revReaderProvider,
       ApplyObjectMetrics applyObjectMetrics,
       FetchReplicationMetrics fetchMetrics) {
     workQueue = wq;
@@ -97,7 +106,7 @@ public class ReplicationQueue
     beforeStartupEventsQueue = Queues.newConcurrentLinkedQueue();
     this.fetchClientFactory = fetchClientFactory;
     this.refsFilter = refsFilter;
-    this.revisionReader = revReader;
+    this.revReaderProvider = revReaderProvider;
     this.applyObjectMetrics = applyObjectMetrics;
     this.fetchMetrics = fetchMetrics;
   }
@@ -261,7 +270,8 @@ public class ReplicationQueue
     }
 
     try {
-      Optional<RevisionData> revisionData = revisionReader.read(project, objectId, refName);
+      Optional<RevisionData> revisionData =
+          revReaderProvider.get().read(project, objectId, refName, 0);
       repLog.info(
           "RevisionData is {} for {}:{}",
           revisionData.map(RevisionData::toString).orElse("ABSENT"),
@@ -270,7 +280,8 @@ public class ReplicationQueue
 
       if (revisionData.isPresent()) {
         return ((source) ->
-            callSendObject(source, project, refName, isDelete, revisionData.get(), state));
+            callSendObject(
+                source, project, refName, isDelete, Arrays.asList(revisionData.get()), state));
       }
     } catch (InvalidObjectIdException | IOException e) {
       stateLog.error(
@@ -289,7 +300,7 @@ public class ReplicationQueue
       Project.NameKey project,
       String refName,
       boolean isDelete,
-      RevisionData revision,
+      List<RevisionData> revision,
       ReplicationState state)
       throws MissingParentObjectException {
     boolean resultIsSuccessful = true;
@@ -305,7 +316,11 @@ public class ReplicationQueue
               refName,
               revision);
           Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
-          HttpResult result = fetchClient.callSendObject(project, refName, isDelete, revision, uri);
+          HttpResult result =
+              isDelete
+                  ? fetchClient.callSendObject(project, refName, isDelete, null, uri)
+                  : fetchClient.callSendObjects(project, refName, revision, uri);
+          boolean resultSuccessful = result.isSuccessful();
           repLog.info(
               "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
                   + " {} - time:{} ms",
@@ -316,19 +331,35 @@ public class ReplicationQueue
               result,
               apiTimer.stop() / 1000000.0);
 
-          if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
+          if (!resultSuccessful
+              && result.isProjectMissing(project)
+              && source.isCreateMissingRepositories()) {
             result = initProject(project, uri, fetchClient, result);
             repLog.info("Missing project {} created, HTTP Result:{}", project, result);
           }
 
-          if (!result.isSuccessful()) {
+          if (!resultSuccessful) {
             if (result.isParentObjectMissing()) {
+
+              List<RevisionData> allRevisions =
+                  fetchWholeMetaHistory(project, refName, revision.get(0));
+
+              if (RefNames.isNoteDbMetaRef(refName) && revision.size() == 1) {
+                repLog.info(
+                    "Pull replication REST API apply object to {} for {}:{} - {}",
+                    apiUrl,
+                    project,
+                    refName,
+                    allRevisions);
+                return callSendObject(source, project, refName, isDelete, allRevisions, state);
+              }
+
               throw new MissingParentObjectException(
                   project, refName, source.getRemoteConfigName());
             }
           }
 
-          resultIsSuccessful &= result.isSuccessful();
+          resultIsSuccessful &= resultSuccessful;
         } catch (URISyntaxException e) {
           repLog.warn(
               "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
@@ -362,6 +393,28 @@ public class ReplicationQueue
     return resultIsSuccessful;
   }
 
+  private List<RevisionData> fetchWholeMetaHistory(
+      NameKey project, String refName, RevisionData revision)
+      throws RepositoryNotFoundException, MissingObjectException, IncorrectObjectTypeException,
+          CorruptObjectException, IOException {
+    RevisionReader revisionReader = revReaderProvider.get();
+    Optional<RevisionData> revisionDataWithParents =
+        revisionReader.read(project, refName, Integer.MAX_VALUE);
+
+    ImmutableList.Builder<RevisionData> revisionDataBuilder = ImmutableList.builder();
+    List<ObjectId> parentObjectIds =
+        revisionDataWithParents
+            .map(RevisionData::getParentObjetIds)
+            .orElse(Collections.emptyList());
+    for (ObjectId parentObjectId : parentObjectIds) {
+      revisionReader.read(project, parentObjectId, refName, 0).ifPresent(revisionDataBuilder::add);
+    }
+
+    revisionDataBuilder.add(revision);
+
+    return revisionDataBuilder.build();
+  }
+
   private boolean callFetch(
       Source source, Project.NameKey project, String refName, ReplicationState state) {
     boolean resultIsSuccessful = true;
@@ -374,6 +427,7 @@ public class ReplicationQueue
           Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
           HttpResult result = fetchClient.callFetch(project, refName, uri, timer.getStartTime());
           long elapsedMs = TimeUnit.NANOSECONDS.toMillis(timer.stop());
+          boolean resultSuccessful = result.isSuccessful();
           repLog.info(
               "Pull replication REST API fetch to {} COMPLETED for {}:{}, HTTP Result:"
                   + " {} - time:{} ms",
@@ -382,10 +436,12 @@ public class ReplicationQueue
               refName,
               result,
               elapsedMs);
-          if (isProjectMissing(result, project) && source.isCreateMissingRepositories()) {
+          if (!resultSuccessful
+              && result.isProjectMissing(project)
+              && source.isCreateMissingRepositories()) {
             result = initProject(project, uri, fetchClient, result);
           }
-          if (!result.isSuccessful()) {
+          if (!resultSuccessful) {
             stateLog.warn(
                 String.format(
                     "Pull replication rest api fetch call failed. Endpoint url: %s, reason:%s",
@@ -415,10 +471,6 @@ public class ReplicationQueue
 
   public boolean retry(int attempt, int maxRetries) {
     return maxRetries == 0 || attempt < maxRetries;
-  }
-
-  private Boolean isProjectMissing(HttpResult result, Project.NameKey project) {
-    return !result.isSuccessful() && result.isProjectMissing(project);
   }
 
   private HttpResult initProject(
