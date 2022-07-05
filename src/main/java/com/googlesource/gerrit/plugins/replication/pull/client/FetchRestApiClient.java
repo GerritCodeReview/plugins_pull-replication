@@ -23,6 +23,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.net.MediaType;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gson.Gson;
@@ -35,9 +36,11 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Optional;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -179,15 +182,39 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     }
     RevisionInput input = new RevisionInput(instanceLabel, refName, revisionData);
 
-    String url =
-        String.format(
-            "%s/a/projects/%s/%s~apply-object",
-            targetUri.toString(), Url.encode(project.get()), pluginName);
+    String url = formatUrl(project, targetUri, "apply-object");
 
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+  }
+
+  @Override
+  public HttpResult callSendObjects(
+      NameKey project, String refName, List<RevisionData> revisionData, URIish targetUri)
+      throws ClientProtocolException, IOException {
+    if (revisionData.size() == 1) {
+      return callSendObject(project, refName, false, revisionData.get(0), targetUri);
+    }
+
+    RevisionData[] inputData = new RevisionData[revisionData.size()];
+    RevisionsInput input =
+        new RevisionsInput(instanceLabel, refName, revisionData.toArray(inputData));
+
+    String url = formatUrl(project, targetUri, "apply-objects");
+    HttpPost post = new HttpPost(url);
+    post.setEntity(new StringEntity(GSON.toJson(input)));
+    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+  }
+
+  private String formatUrl(Project.NameKey project, URIish targetUri, String api) {
+    String url =
+        String.format(
+            "%s/a/projects/%s/%s~%s",
+            targetUri.toString(), Url.encode(project.get()), pluginName, api);
+    return url;
   }
 
   private void requireNull(Object object, String string) {
