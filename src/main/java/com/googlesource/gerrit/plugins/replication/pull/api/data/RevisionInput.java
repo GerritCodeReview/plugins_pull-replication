@@ -44,6 +44,10 @@ public class RevisionInput {
   }
 
   public void validate() {
+    validate(refName, revisionData);
+  }
+
+  static void validate(String refName, RevisionData revisionData) {
     // Non-heads refs can point to non-commit objects
     if (!refName.startsWith(Constants.R_HEADS)
         && Objects.isNull(revisionData.getCommitObject())
