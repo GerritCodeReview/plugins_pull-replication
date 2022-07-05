@@ -37,6 +37,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -55,8 +56,14 @@ public class ApplyObjectActionTest {
   String location = "http://gerrit-host/a/config/server/tasks/08d173e9";
   int taskId = 1234;
 
+  private String sampleCommitObjectId = "9f8d52853089a3cf00c02ff7bd0817bd4353a95a";
+  private String sampleTreeObjectId = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
+  private String sampleBlobObjectId = "b5d7bcf1d1c5b0f0726d10a16c8315f06f900bfb";
+
   private String sampleCommitContent =
-      "tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904\n"
+      "tree "
+          + sampleTreeObjectId
+          + "\n"
           + "parent 20eb48d28be86dc88fb4bef747f08de0fbefe12d\n"
           + "author Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac> 1610471611 +0100\n"
           + "committer Gerrit Code Review <root@maczech-XPS-15> 1610471611 +0100\n"
@@ -102,7 +109,8 @@ public class ApplyObjectActionTest {
         new RevisionInput(
             label,
             refMetaName,
-            createSampleRevisionDataBlob(new RevisionObjectData(Constants.OBJ_BLOB, blobData)));
+            createSampleRevisionDataBlob(
+                new RevisionObjectData(sampleBlobObjectId, Constants.OBJ_BLOB, blobData)));
 
     Response<?> response = applyObjectAction.apply(projectResource, inputParams);
 
@@ -148,8 +156,10 @@ public class ApplyObjectActionTest {
 
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenMissingCommitObjectData() throws Exception {
-    RevisionObjectData commitData = new RevisionObjectData(Constants.OBJ_COMMIT, null);
-    RevisionObjectData treeData = new RevisionObjectData(Constants.OBJ_TREE, new byte[] {});
+    RevisionObjectData commitData =
+        new RevisionObjectData(sampleCommitObjectId, Constants.OBJ_COMMIT, null);
+    RevisionObjectData treeData =
+        new RevisionObjectData(sampleTreeObjectId, Constants.OBJ_TREE, new byte[] {});
     RevisionInput inputParams =
         new RevisionInput(label, refName, createSampleRevisionData(commitData, treeData));
 
@@ -159,7 +169,8 @@ public class ApplyObjectActionTest {
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenMissingTreeObject() throws Exception {
     RevisionObjectData commitData =
-        new RevisionObjectData(Constants.OBJ_COMMIT, sampleCommitContent.getBytes());
+        new RevisionObjectData(
+            sampleCommitObjectId, Constants.OBJ_COMMIT, sampleCommitContent.getBytes());
     RevisionInput inputParams =
         new RevisionInput(label, refName, createSampleRevisionData(commitData, null));
 
@@ -192,17 +203,19 @@ public class ApplyObjectActionTest {
 
   private RevisionData createSampleRevisionData() {
     RevisionObjectData commitData =
-        new RevisionObjectData(Constants.OBJ_COMMIT, sampleCommitContent.getBytes());
-    RevisionObjectData treeData = new RevisionObjectData(Constants.OBJ_TREE, new byte[] {});
+        new RevisionObjectData(
+            sampleCommitObjectId, Constants.OBJ_COMMIT, sampleCommitContent.getBytes());
+    RevisionObjectData treeData =
+        new RevisionObjectData(sampleTreeObjectId, Constants.OBJ_TREE, new byte[] {});
     return createSampleRevisionData(commitData, treeData);
   }
 
   private RevisionData createSampleRevisionData(
       RevisionObjectData commitData, RevisionObjectData treeData) {
-    return new RevisionData(commitData, treeData, Lists.newArrayList());
+    return new RevisionData(Collections.emptyList(), commitData, treeData, Lists.newArrayList());
   }
 
   private RevisionData createSampleRevisionDataBlob(RevisionObjectData blob) {
-    return new RevisionData(null, null, Arrays.asList(blob));
+    return new RevisionData(Collections.emptyList(), null, null, Arrays.asList(blob));
   }
 }

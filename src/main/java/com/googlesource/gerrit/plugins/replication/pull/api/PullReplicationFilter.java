@@ -55,6 +55,7 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.InitProjectException;
 import java.io.BufferedReader;
 import java.io.EOFException;
@@ -75,6 +76,7 @@ public class PullReplicationFilter extends AllRequestFilter {
 
   private FetchAction fetchAction;
   private ApplyObjectAction applyObjectAction;
+  private ApplyObjectsAction applyObjectsAction;
   private ProjectInitializationAction projectInitializationAction;
   private UpdateHeadAction updateHEADAction;
   private ProjectDeletionAction projectDeletionAction;
@@ -87,6 +89,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   public PullReplicationFilter(
       FetchAction fetchAction,
       ApplyObjectAction applyObjectAction,
+      ApplyObjectsAction applyObjectsAction,
       ProjectInitializationAction projectInitializationAction,
       UpdateHeadAction updateHEADAction,
       ProjectDeletionAction projectDeletionAction,
@@ -95,6 +98,7 @@ public class PullReplicationFilter extends AllRequestFilter {
       @PluginName String pluginName) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
+    this.applyObjectsAction = applyObjectsAction;
     this.projectInitializationAction = projectInitializationAction;
     this.updateHEADAction = updateHEADAction;
     this.projectDeletionAction = projectDeletionAction;
@@ -124,6 +128,12 @@ public class PullReplicationFilter extends AllRequestFilter {
       } else if (isApplyObjectAction(httpRequest)) {
         if (userProvider.get().isIdentifiedUser()) {
           writeResponse(httpResponse, doApplyObject(httpRequest));
+        } else {
+          httpResponse.sendError(SC_UNAUTHORIZED);
+        }
+      } else if (isApplyObjectsAction(httpRequest)) {
+        if (userProvider.get().isIdentifiedUser()) {
+          writeResponse(httpResponse, doApplyObjects(httpRequest));
         } else {
           httpResponse.sendError(SC_UNAUTHORIZED);
         }
@@ -196,6 +206,16 @@ public class PullReplicationFilter extends AllRequestFilter {
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
     return (Response<Map<String, Object>>) applyObjectAction.apply(projectResource, input);
+  }
+
+  @SuppressWarnings("unchecked")
+  private Response<Map<String, Object>> doApplyObjects(HttpServletRequest httpRequest)
+      throws RestApiException, IOException, PermissionBackendException {
+    RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class));
+    IdString id = getProjectName(httpRequest);
+    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
+
+    return (Response<Map<String, Object>>) applyObjectsAction.apply(projectResource, input);
   }
 
   @SuppressWarnings("unchecked")
@@ -291,6 +311,10 @@ public class PullReplicationFilter extends AllRequestFilter {
 
   private boolean isApplyObjectAction(HttpServletRequest httpRequest) {
     return httpRequest.getRequestURI().endsWith("pull-replication~apply-object");
+  }
+
+  private boolean isApplyObjectsAction(HttpServletRequest httpRequest) {
+    return httpRequest.getRequestURI().endsWith("pull-replication~apply-objects");
   }
 
   private boolean isFetchAction(HttpServletRequest httpRequest) {

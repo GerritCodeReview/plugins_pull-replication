@@ -149,7 +149,8 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   protected Optional<RevisionData> createRevisionData(NameKey projectName, String refName)
       throws Exception {
     try (Repository repository = repoManager.openRepository(projectName)) {
-      return revisionReader.read(projectName, repository.exactRef(refName).getObjectId(), refName);
+      return revisionReader.read(
+          projectName, repository.exactRef(refName).getObjectId(), refName, 0);
     }
   }
 
