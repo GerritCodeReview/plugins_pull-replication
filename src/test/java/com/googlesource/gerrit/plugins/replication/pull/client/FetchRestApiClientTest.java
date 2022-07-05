@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
+import java.util.Collections;
 import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
@@ -463,6 +464,7 @@ public class FetchRestApiClientTest {
         new RevisionObjectData(Constants.OBJ_COMMIT, commitObject.getBytes());
     RevisionObjectData treeData = new RevisionObjectData(Constants.OBJ_TREE, treeObject.getBytes());
     RevisionObjectData blobData = new RevisionObjectData(Constants.OBJ_BLOB, blobObject.getBytes());
-    return new RevisionData(commitData, treeData, Lists.newArrayList(blobData));
+    return new RevisionData(
+        Collections.emptyList(), commitData, treeData, Lists.newArrayList(blobData));
   }
 }

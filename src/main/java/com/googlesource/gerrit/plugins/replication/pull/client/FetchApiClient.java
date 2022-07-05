@@ -18,6 +18,7 @@ import com.google.gerrit.entities.Project;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
+import java.util.List;
 import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.transport.URIish;
 
@@ -48,5 +49,9 @@ public interface FetchApiClient {
       boolean isDelete,
       RevisionData revisionData,
       URIish targetUri)
+      throws ClientProtocolException, IOException;
+
+  HttpResult callSendObjects(
+      Project.NameKey project, String refName, List<RevisionData> revisionData, URIish targetUri)
       throws ClientProtocolException, IOException;
 }
