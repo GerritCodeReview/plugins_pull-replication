@@ -38,6 +38,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.Collections;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.Before;
@@ -54,6 +55,10 @@ public class ApplyObjectCommandTest {
   private static final String TEST_REF_NAME = "refs/changes/01/1/1";
   private static final NameKey TEST_PROJECT_NAME = Project.nameKey("test-project");
   private static final String TEST_REMOTE_NAME = "test-remote-name";
+
+  private String sampleCommitObjectId = "9f8d52853089a3cf00c02ff7bd0817bd4353a95a";
+  private String sampleTreeObjectId = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
+  private String sampleBlobObjectId = "b5d7bcf1d1c5b0f0726d10a16c8315f06f900bfb";
 
   @Mock private PullReplicationStateLogger fetchStateLog;
   @Mock private ApplyObject applyObject;
@@ -93,8 +98,10 @@ public class ApplyObjectCommandTest {
   }
 
   private RevisionData createSampleRevisionData() {
-    RevisionObjectData commitData = new RevisionObjectData(Constants.OBJ_COMMIT, new byte[] {});
-    RevisionObjectData treeData = new RevisionObjectData(Constants.OBJ_TREE, new byte[] {});
-    return new RevisionData(commitData, treeData, Lists.newArrayList());
+    RevisionObjectData commitData =
+        new RevisionObjectData(sampleCommitObjectId, Constants.OBJ_COMMIT, new byte[] {});
+    RevisionObjectData treeData =
+        new RevisionObjectData(sampleTreeObjectId, Constants.OBJ_TREE, new byte[] {});
+    return new RevisionData(Collections.emptyList(), commitData, treeData, Lists.newArrayList());
   }
 }
