@@ -185,7 +185,7 @@ public class ApplyObjectActionTest {
             new MissingParentObjectException(
                 Project.nameKey("test_projects"), refName, ObjectId.zeroId()))
         .when(applyObjectCommand)
-        .applyObject(any(), anyString(), any(), anyString());
+        .applyObjects(any(), anyString(), any(), anyString());
 
     applyObjectAction.apply(projectResource, inputParams);
   }

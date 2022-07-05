@@ -15,8 +15,11 @@
 package com.googlesource.gerrit.plugins.replication.pull.api.data;
 
 import java.util.List;
+import org.eclipse.jgit.lib.ObjectId;
 
 public class RevisionData {
+  private List<ObjectId> parentObjectIds;
+
   private RevisionObjectData commitObject;
 
   private RevisionObjectData treeObject;
@@ -30,6 +33,10 @@ public class RevisionData {
     this.commitObject = commitObject;
     this.treeObject = treeObject;
     this.blobs = blobs;
+  }
+
+  public List<ObjectId> getParentObjetIds() {
+    return parentObjectIds;
   }
 
   public RevisionObjectData getCommitObject() {

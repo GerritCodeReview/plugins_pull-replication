@@ -17,10 +17,10 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.Files.createTempDirectory;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -108,7 +108,11 @@ public class ReplicationQueueTest {
     when(rd.get()).thenReturn(sourceCollection);
     when(revReader.read(any(), any(), anyString())).thenReturn(Optional.of(revisionData));
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
+    lenient()
+        .when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
+        .thenReturn(httpResult);
+    lenient()
+        .when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong())).thenReturn(httpResult);
     when(httpResult.isSuccessful()).thenReturn(true);
@@ -136,7 +140,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
+    verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
 
   @Test
@@ -171,7 +175,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
+    verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
 
   @Test
@@ -203,12 +207,12 @@ public class ReplicationQueueTest {
   @Test
   public void shouldFallbackToCallFetchWhenParentObjectIsMissing()
       throws ClientProtocolException, IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isParentObjectMissing()).thenReturn(true);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), eq(false), any(), any()))
+    when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
 
     objectUnderTest.onGitReferenceUpdated(event);
