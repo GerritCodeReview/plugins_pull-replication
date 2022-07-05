@@ -82,7 +82,7 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
 
   private Optional<RevisionData> readRevisionFromObjectUnderTest(String refName, ObjectId objId) {
     try {
-      return objectUnderTest.read(project, objId, refName);
+      return objectUnderTest.read(project, objId, refName, 0);
     } catch (Exception e) {
       throw new IllegalStateException(e);
     }

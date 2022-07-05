@@ -38,6 +38,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.Collections;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.Before;
@@ -95,6 +96,6 @@ public class ApplyObjectCommandTest {
   private RevisionData createSampleRevisionData() {
     RevisionObjectData commitData = new RevisionObjectData(Constants.OBJ_COMMIT, new byte[] {});
     RevisionObjectData treeData = new RevisionObjectData(Constants.OBJ_TREE, new byte[] {});
-    return new RevisionData(commitData, treeData, Lists.newArrayList());
+    return new RevisionData(Collections.emptyList(), commitData, treeData, Lists.newArrayList());
   }
 }

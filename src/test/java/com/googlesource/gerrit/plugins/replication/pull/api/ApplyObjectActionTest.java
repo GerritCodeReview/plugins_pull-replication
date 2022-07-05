@@ -37,6 +37,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -199,10 +200,10 @@ public class ApplyObjectActionTest {
 
   private RevisionData createSampleRevisionData(
       RevisionObjectData commitData, RevisionObjectData treeData) {
-    return new RevisionData(commitData, treeData, Lists.newArrayList());
+    return new RevisionData(Collections.emptyList(), commitData, treeData, Lists.newArrayList());
   }
 
   private RevisionData createSampleRevisionDataBlob(RevisionObjectData blob) {
-    return new RevisionData(null, null, Arrays.asList(blob));
+    return new RevisionData(Collections.emptyList(), null, null, Arrays.asList(blob));
   }
 }
