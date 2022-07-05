@@ -17,10 +17,10 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.Files.createTempDirectory;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -51,6 +51,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -86,6 +87,7 @@ public class ReplicationQueueTest {
 
   @Captor ArgumentCaptor<String> stringCaptor;
   @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
+  @Captor ArgumentCaptor<List<RevisionData>> revisionsDataCaptor;
 
   private ExcludedRefsFilter refsFilter;
   private ReplicationQueue objectUnderTest;
@@ -108,7 +110,11 @@ public class ReplicationQueueTest {
     when(rd.get()).thenReturn(sourceCollection);
     when(revReader.read(any(), any(), anyString())).thenReturn(Optional.of(revisionData));
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
+    lenient()
+        .when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
+        .thenReturn(httpResult);
+    lenient()
+        .when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong())).thenReturn(httpResult);
     when(httpResult.isSuccessful()).thenReturn(true);
@@ -136,7 +142,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
+    verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
 
   @Test
@@ -171,7 +177,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
+    verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
 
   @Test
@@ -203,17 +209,42 @@ public class ReplicationQueueTest {
   @Test
   public void shouldFallbackToCallFetchWhenParentObjectIsMissing()
       throws ClientProtocolException, IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isParentObjectMissing()).thenReturn(true);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), eq(false), any(), any()))
+    when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
 
     objectUnderTest.onGitReferenceUpdated(event);
 
     verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
+  }
+
+  @Test
+  public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnMetaRef()
+      throws ClientProtocolException, IOException {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    objectUnderTest.start();
+
+    when(httpResult.isSuccessful()).thenReturn(false, true);
+    when(httpResult.isParentObjectMissing()).thenReturn(true, false);
+    when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
+        .thenReturn(httpResult);
+
+    objectUnderTest.onGitReferenceUpdated(event);
+
+    verify(fetchRestApiClient, times(2))
+        .callSendObjects(any(), anyString(), revisionsDataCaptor.capture(), any());
+    List<List<RevisionData>> revisionsDataValues = revisionsDataCaptor.getAllValues();
+    assertThat(revisionsDataValues).hasSize(2);
+
+    List<RevisionData> firstRevisionsValues = revisionsDataValues.get(0);
+    assertThat(firstRevisionsValues).hasSize(1);
+
+    List<RevisionData> secondRevisionsValues = revisionsDataValues.get(1);
+    assertThat(secondRevisionsValues).hasSize(2);
   }
 
   @Test

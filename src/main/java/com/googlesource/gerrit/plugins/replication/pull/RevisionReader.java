@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
@@ -26,6 +27,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -48,8 +50,11 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 public class RevisionReader {
   private static final String CONFIG_MAX_API_PAYLOAD_SIZE = "maxApiPayloadSize";
   private static final Long DEFAULT_MAX_PAYLOAD_SIZE_IN_BYTES = 10000L;
+  private static final String CONFIG_MAX_API_HISTORY_DEPTH = "maxApiHistoryDepth";
+  private static final int DEFAULT_MAX_API_HISTORY_DEPTH = 128;
   private GitRepositoryManager gitRepositoryManager;
   private Long maxRefSize;
+  private final long maxDepth;
 
   @Inject
   public RevisionReader(GitRepositoryManager gitRepositoryManager, ReplicationConfig cfg) {
@@ -57,6 +62,9 @@ public class RevisionReader {
     this.maxRefSize =
         cfg.getConfig()
             .getLong("replication", CONFIG_MAX_API_PAYLOAD_SIZE, DEFAULT_MAX_PAYLOAD_SIZE_IN_BYTES);
+    this.maxDepth =
+        cfg.getConfig()
+            .getLong("replication", CONFIG_MAX_API_HISTORY_DEPTH, DEFAULT_MAX_API_HISTORY_DEPTH);
   }
 
   public Optional<RevisionData> read(Project.NameKey project, String refName)
@@ -86,6 +94,7 @@ public class RevisionReader {
       if (commitLoader.getType() == Constants.OBJ_BLOB) {
         return Optional.of(
             new RevisionData(
+                Collections.emptyList(),
                 null,
                 null,
                 Arrays.asList(
@@ -124,7 +133,10 @@ public class RevisionReader {
           blobs = readBlobs(project, refName, git, totalRefSize, walk);
         }
       }
-      return Optional.of(new RevisionData(commitRev, treeRev, blobs));
+
+      List<ObjectId> parentObjectIds = getParentObjectIds(commit.getParents(), 0);
+
+      return Optional.of(new RevisionData(parentObjectIds, commitRev, treeRev, blobs));
     } catch (LargeObjectException e) {
       repLog.trace(
           "Ref {} size for project {} is greater than configured '{}'",
@@ -133,6 +145,20 @@ public class RevisionReader {
           CONFIG_MAX_API_PAYLOAD_SIZE);
       return Optional.empty();
     }
+  }
+
+  private List<ObjectId> getParentObjectIds(RevCommit[] commit, int parentsDepth) {
+    ImmutableList.Builder<ObjectId> parentObjectIdsBuilder = ImmutableList.builder();
+    for (RevCommit revCommit : commit) {
+      if (parentsDepth < maxDepth) {
+        parentObjectIdsBuilder.add(revCommit.getId());
+        parentsDepth++;
+        parentObjectIdsBuilder.addAll(getParentObjectIds(revCommit.getParents(), parentsDepth));
+        parentsDepth++;
+      }
+    }
+
+    return parentObjectIdsBuilder.build();
   }
 
   private List<DiffEntry> readDiffs(Repository git, RevCommit commit, RevTree tree, TreeWalk walk)

@@ -82,7 +82,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
             Project.nameKey(testRepoProjectName), pushResult.getCommit().toObjectId(), refName);
 
     RefSpec refSpec = new RefSpec(refName);
-    objectUnderTest.apply(project, refSpec, revisionData.get());
+    objectUnderTest.apply(project, refSpec, toArray(revisionData));
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<Repository> testRepo = new TestRepository<>(repo); ) {
       Optional<RevisionData> newRevisionData =
@@ -103,7 +103,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     Optional<RevisionData> revisionData = reader.read(allProjects, seqChangesRef);
 
     RefSpec refSpec = new RefSpec(seqChangesRef);
-    objectUnderTest.apply(project, refSpec, revisionData.get());
+    objectUnderTest.apply(project, refSpec, toArray(revisionData));
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<Repository> testRepo = new TestRepository<>(repo); ) {
 
@@ -128,7 +128,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     try (Repository repo = repoManager.openRepository(testRepoKey)) {
       Optional<RevisionData> revisionData =
           reader.read(testRepoKey, repo.exactRef(refName).getObjectId(), refName);
-      objectUnderTest.apply(project, refSpec, revisionData.get());
+      objectUnderTest.apply(project, refSpec, toArray(revisionData));
     }
 
     ReviewInput reviewInput = new ReviewInput();
@@ -141,7 +141,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
       Optional<RevisionData> revisionDataWithComment =
           reader.read(testRepoKey, repo.exactRef(refName).getObjectId(), refName);
 
-      objectUnderTest.apply(project, refSpec, revisionDataWithComment.get());
+      objectUnderTest.apply(project, refSpec, toArray(revisionDataWithComment));
 
       Optional<RevisionData> newRevisionData =
           reader.read(project, repo.exactRef(refName).getObjectId(), refName);
@@ -174,7 +174,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
       RefSpec refSpec = new RefSpec(refName);
       assertThrows(
           MissingParentObjectException.class,
-          () -> objectUnderTest.apply(project, refSpec, revisionData.get()));
+          () -> objectUnderTest.apply(project, refSpec, toArray(revisionData)));
     }
   }
 
@@ -229,5 +229,11 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
       bind(RevisionReader.class).in(Scopes.SINGLETON);
       bind(ApplyObject.class);
     }
+  }
+
+  private RevisionData[] toArray(Optional<RevisionData> optional) {
+    ImmutableList.Builder<RevisionData> listBuilder = ImmutableList.builder();
+    optional.ifPresent(listBuilder::add);
+    return listBuilder.build().toArray(new RevisionData[1]);
   }
 }
