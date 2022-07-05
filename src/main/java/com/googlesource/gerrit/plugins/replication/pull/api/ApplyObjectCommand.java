@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
@@ -70,12 +71,25 @@ public class ApplyObjectCommand {
   }
 
   public void applyObject(
-      Project.NameKey name, String refName, RevisionData revisionData, String sourceLabel)
+      Project.NameKey name, String refName, RevisionData revisionsData, String sourceLabel)
+      throws IOException, RefUpdateException, MissingParentObjectException {
+    applyObjects(name, refName, new RevisionData[] {revisionsData}, sourceLabel);
+  }
+
+  public void applyObjects(
+      Project.NameKey name, String refName, RevisionData[] revisionsData, String sourceLabel)
       throws IOException, RefUpdateException, MissingParentObjectException {
 
-    repLog.info("Apply object from {} for {}:{} - {}", sourceLabel, name, refName, revisionData);
+    repLog.info(
+        "Apply object from {} for {}:{} - {}",
+        sourceLabel,
+        name,
+        refName,
+        ImmutableList.of(revisionsData));
     Timer1.Context<String> context = metrics.start(sourceLabel);
-    RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionData);
+
+    RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionsData);
+
     long elapsed = NANOSECONDS.toMillis(context.stop());
 
     try {
