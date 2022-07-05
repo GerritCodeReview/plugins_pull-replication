@@ -15,9 +15,11 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -38,6 +40,7 @@ import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilte
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
@@ -47,7 +50,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import org.apache.http.client.ClientProtocolException;
+import org.eclipse.jgit.errors.CorruptObjectException;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
@@ -265,7 +272,7 @@ public class ReplicationQueue
 
       if (revisionData.isPresent()) {
         return ((source) ->
-            callSendObject(source, project, refName, isDelete, revisionData.get(), state));
+            callSendObject(source, project, refName, isDelete, List.of(revisionData.get()), state));
       }
     } catch (InvalidObjectIdException | IOException e) {
       stateLog.error(
@@ -284,7 +291,7 @@ public class ReplicationQueue
       Project.NameKey project,
       String refName,
       boolean isDelete,
-      RevisionData revision,
+      List<RevisionData> revision,
       ReplicationState state)
       throws MissingParentObjectException {
     boolean resultIsSuccessFul = true;
@@ -300,7 +307,10 @@ public class ReplicationQueue
               refName,
               revision);
           Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
-          HttpResult result = fetchClient.callSendObject(project, refName, isDelete, revision, uri);
+          HttpResult result =
+              isDelete
+                  ? fetchClient.callSendObject(project, refName, isDelete, null, uri)
+                  : fetchClient.callSendObjects(project, refName, revision, uri);
           repLog.info(
               "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
                   + " {} - time:{} ms",
@@ -318,6 +328,20 @@ public class ReplicationQueue
 
           if (!result.isSuccessful()) {
             if (result.isParentObjectMissing()) {
+
+              List<RevisionData> allRevisions =
+                  fetchWholeMetaHistory(project, refName, revision.get(0));
+
+              if (RefNames.isNoteDbMetaRef(refName) && revision.size() == 1) {
+                repLog.info(
+                    "Pull replication REST API apply object to {} for {}:{} - {}",
+                    apiUrl,
+                    project,
+                    refName,
+                    allRevisions);
+                return callSendObject(source, project, refName, isDelete, allRevisions, state);
+              }
+
               throw new MissingParentObjectException(
                   project, refName, source.getRemoteConfigName());
             }
@@ -355,6 +379,21 @@ public class ReplicationQueue
     }
 
     return resultIsSuccessFul;
+  }
+
+  private List<RevisionData> fetchWholeMetaHistory(
+      NameKey project, String refName, RevisionData revision)
+      throws RepositoryNotFoundException, MissingObjectException, IncorrectObjectTypeException,
+          CorruptObjectException, IOException {
+    ImmutableList.Builder<RevisionData> revisionDataBuilder = ImmutableList.builder();
+    List<ObjectId> parentObjectIds = revision.getParentObjetIds();
+    for (ObjectId parentObjectId : parentObjectIds) {
+      revisionReader.read(project, parentObjectId, refName).ifPresent(revisionDataBuilder::add);
+    }
+
+    revisionDataBuilder.add(revision);
+
+    return revisionDataBuilder.build();
   }
 
   private boolean callFetch(
