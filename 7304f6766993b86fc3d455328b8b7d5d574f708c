@@ -22,6 +22,30 @@
       },
       "revId": "7304f6766993b86fc3d455328b8b7d5d574f708c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "432f24ad_3fe288b0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-06T16:30:34Z",
+      "side": 1,
+      "message": "Ah, right, I need to use the {} placeholders. Done.",
+      "parentUuid": "63ef2783_ba8f9ebf",
+      "range": {
+        "startLine": 203,
+        "startChar": 10,
+        "endLine": 203,
+        "endChar": 97
+      },
+      "revId": "7304f6766993b86fc3d455328b8b7d5d574f708c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
