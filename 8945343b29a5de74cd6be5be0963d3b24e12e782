@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2794d980_01fb5976",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-06T16:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ade259c_e8b8bba9",
+      "revId": "8945343b29a5de74cd6be5be0963d3b24e12e782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9bf8f3fc_3e0665b6",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a73bdd2c_f1f7efe0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-06T16:10:17Z",
+      "side": 1,
+      "message": "I don\u0027t think so, but better safe than sorry :-). Done.",
+      "parentUuid": "9bf8f3fc_3e0665b6",
+      "range": {
+        "startLine": 49,
+        "startChar": 34,
+        "endLine": 49,
+        "endChar": 51
+      },
+      "revId": "8945343b29a5de74cd6be5be0963d3b24e12e782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c75d85c_d95f7434",
@@ -54,6 +96,30 @@
       "writtenOn": "2022-06-28T18:50:19Z",
       "side": 1,
       "message": "should toString include also content as well?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 3
+      },
+      "revId": "8945343b29a5de74cd6be5be0963d3b24e12e782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70600366_f4dbcc51",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionObjectData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-06T16:10:17Z",
+      "side": 1,
+      "message": "That\u0027s not a good idea, as it could be either significant or sensitive.",
+      "parentUuid": "5c75d85c_d95f7434",
       "range": {
         "startLine": 38,
         "startChar": 0,
