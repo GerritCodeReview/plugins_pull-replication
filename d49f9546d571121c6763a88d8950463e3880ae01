@@ -39,6 +39,30 @@
       },
       "revId": "d49f9546d571121c6763a88d8950463e3880ae01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5508f23b_9fb6f5b6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-07T08:33:56Z",
+      "side": 1,
+      "message": "Not really, I just reduced the time for the test to fail for speeding up my local development. Let me revert this change for L87-L88",
+      "parentUuid": "d3124aa3_5ea19d5e",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 94
+      },
+      "revId": "d49f9546d571121c6763a88d8950463e3880ae01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
