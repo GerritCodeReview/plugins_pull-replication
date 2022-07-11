@@ -78,8 +78,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
 
     Optional<RevisionData> revisionData =
-        reader.read(
-            Project.nameKey(testRepoProjectName), pushResult.getCommit().toObjectId(), refName);
+        reader.read(Project.nameKey(testRepoProjectName), refName);
 
     RefSpec refSpec = new RefSpec(refName);
     objectUnderTest.apply(project, refSpec, revisionData.get());
