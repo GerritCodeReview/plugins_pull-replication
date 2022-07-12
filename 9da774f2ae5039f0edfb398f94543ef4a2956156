@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22301c73_1505ba83",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-12T18:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65c1afc3_a1bea360",
+      "range": {
+        "startLine": 87,
+        "startChar": 52,
+        "endLine": 87,
+        "endChar": 53
+      },
+      "revId": "9da774f2ae5039f0edfb398f94543ef4a2956156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2633407_ec614f41",
@@ -84,6 +108,30 @@
       "writtenOn": "2022-07-08T23:04:01Z",
       "side": 1,
       "message": "This can be actually stay at 2000 as it was before.",
+      "range": {
+        "startLine": 88,
+        "startChar": 91,
+        "endLine": 88,
+        "endChar": 92
+      },
+      "revId": "9da774f2ae5039f0edfb398f94543ef4a2956156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01258b06_350da413",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-12T18:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2633407_ec614f41",
       "range": {
         "startLine": 88,
         "startChar": 91,
