@@ -104,7 +104,10 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     @SuppressWarnings("unchecked")
     WorkQueue.Task<Void> task =
         (WorkQueue.Task<Void>)
-            workQueue.getDefaultQueue().submit(fetchJobFactory.create(project, input));
+            workQueue
+                .getDefaultQueue()
+                .submit(
+                    fetchJobFactory.create(project, input, PullReplicationApiRequestMetrics.get()));
     Optional<String> url =
         urlFormatter
             .get()

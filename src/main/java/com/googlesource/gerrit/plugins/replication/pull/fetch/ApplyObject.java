@@ -46,27 +46,39 @@ public class ApplyObject {
     try (Repository git = gitManager.openRepository(name)) {
 
       ObjectId newObjectID = null;
-      try (ObjectInserter oi = git.newObjectInserter()) {
-        RevisionObjectData commitObject = revisionData.getCommitObject();
-        RevCommit commit = RevCommit.parse(commitObject.getContent());
-        for (RevCommit parent : commit.getParents()) {
-          if (!git.getObjectDatabase().has(parent.getId())) {
-            throw new MissingParentObjectException(name, refSpec.getSource(), parent.getId());
-          }
-        }
-        newObjectID = oi.insert(commitObject.getType(), commitObject.getContent());
+      RevisionObjectData commitObject = revisionData.getCommitObject();
 
-        RevisionObjectData treeObject = revisionData.getTreeObject();
-        oi.insert(treeObject.getType(), treeObject.getContent());
+      try (ObjectInserter oi = git.newObjectInserter()) {
+        if (commitObject != null) {
+          RevCommit commit = RevCommit.parse(commitObject.getContent());
+          for (RevCommit parent : commit.getParents()) {
+            if (!git.getObjectDatabase().has(parent.getId())) {
+              throw new MissingParentObjectException(name, refSpec.getSource(), parent.getId());
+            }
+          }
+          newObjectID = oi.insert(commitObject.getType(), commitObject.getContent());
+
+          RevisionObjectData treeObject = revisionData.getTreeObject();
+          oi.insert(treeObject.getType(), treeObject.getContent());
+        }
 
         for (RevisionObjectData rev : revisionData.getBlobs()) {
-          oi.insert(rev.getType(), rev.getContent());
+          ObjectId blobObjectId = oi.insert(rev.getType(), rev.getContent());
+          if (newObjectID == null) {
+            newObjectID = blobObjectId;
+          }
         }
 
         oi.flush();
       }
       RefUpdate ru = git.updateRef(refSpec.getSource());
       ru.setNewObjectId(newObjectID);
+
+      if (commitObject == null) {
+        // Non-commits must be forced as they do not have a graph associated
+        ru.setForceUpdate(true);
+      }
+
       RefUpdate.Result result = ru.update();
 
       return new RefUpdateState(refSpec.getSource(), result);
