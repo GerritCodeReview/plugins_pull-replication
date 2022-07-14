@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a216872b_9cd2bd36",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchAll.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-14T14:43:36Z",
+      "side": 1,
+      "message": "Isn\u0027t still interesting to have metrics when fetching all the refs?",
+      "range": {
+        "startLine": 95,
+        "startChar": 80,
+        "endLine": 95,
+        "endChar": 97
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2593009d_9ba4ea8a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-14T14:43:36Z",
+      "side": 1,
+      "message": "We could use the default `callFetch` method defined in the API, so we won\u0027t need to pass the extra parameter.",
+      "range": {
+        "startLine": 404,
+        "startChar": 61,
+        "endLine": 404,
+        "endChar": 78
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c46578d_43622a8d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-14T14:43:36Z",
+      "side": 1,
+      "message": "nit: `apiRequestMetrics` for consistency with the other parameters?",
+      "range": {
+        "startLine": 129,
+        "startChar": 41,
+        "endLine": 129,
+        "endChar": 48
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39aa393f_769befc2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiRequestMetrics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-14T14:43:36Z",
+      "side": 1,
+      "message": "maybe rename `apiRequestMetrics` -\u003e `apiRequestMetricsThread`?",
+      "range": {
+        "startLine": 24,
+        "startChar": 69,
+        "endLine": 24,
+        "endChar": 86
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "764ddc8f_05083055",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-14T14:43:36Z",
+      "side": 1,
+      "message": "nit: `Long.toString(startTimeNanos)`",
+      "range": {
+        "startLine": 116,
+        "startChar": 73,
+        "endLine": 116,
+        "endChar": 92
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
