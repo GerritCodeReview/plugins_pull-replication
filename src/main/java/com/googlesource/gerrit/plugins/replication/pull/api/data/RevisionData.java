@@ -43,4 +43,15 @@ public class RevisionData {
   public List<RevisionObjectData> getBlobs() {
     return blobs;
   }
+
+  @Override
+  public String toString() {
+    return "{"
+        + (commitObject != null ? "commitObject=" + commitObject : "")
+        + " "
+        + (treeObject != null ? "treeObject=" + treeObject : "")
+        + " "
+        + (blobs != null && !blobs.isEmpty() ? "blobs=" + blobs : "")
+        + "}";
+  }
 }

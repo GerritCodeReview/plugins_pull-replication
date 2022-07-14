@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.api.data;
 
 import java.util.Base64;
+import org.eclipse.jgit.lib.Constants;
 
 public class RevisionObjectData {
   private final Integer type;
@@ -31,5 +32,19 @@ public class RevisionObjectData {
 
   public byte[] getContent() {
     return Base64.getDecoder().decode(content);
+  }
+
+  @Override
+  public String toString() {
+    switch (type) {
+      case Constants.OBJ_BLOB:
+        return "BLOB";
+      case Constants.OBJ_COMMIT:
+        return "COMMIT";
+      case Constants.OBJ_TREE:
+        return "TREE";
+      default:
+        return "type:" + type;
+    }
   }
 }

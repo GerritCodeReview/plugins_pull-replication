@@ -19,6 +19,7 @@ import static java.nio.file.Files.createTempDirectory;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -35,6 +36,7 @@ import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener.Event;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.WorkQueue;
@@ -78,7 +80,11 @@ public class ReplicationQueueTest {
   @Mock AccountInfo accountInfo;
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
+  @Mock HttpResult successfulHttpResult;
+  @Mock HttpResult fetchHttpResult;
   @Mock HttpResult httpResult;
+  ApplyObjectMetrics applyObjectMetrics;
+  FetchReplicationMetrics fetchMetrics;
 
   @Captor ArgumentCaptor<String> stringCaptor;
   @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
@@ -106,12 +112,28 @@ public class ReplicationQueueTest {
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
     when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
         .thenReturn(httpResult);
-    when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(httpResult);
+    when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong()))
+        .thenReturn(fetchHttpResult);
+    when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
+    when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
+    when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
 
+    applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
+    fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
+
     objectUnderTest =
-        new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
+        new ReplicationQueue(
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
   }
 
   @Test
@@ -168,7 +190,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
   }
 
   @Test
@@ -181,7 +203,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
   }
 
   @Test
@@ -197,7 +219,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
   }
 
   @Test
@@ -242,7 +264,16 @@ public class ReplicationQueueTest {
     refsFilter = new ExcludedRefsFilter(replicationConfig);
 
     objectUnderTest =
-        new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
+        new ReplicationQueue(
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onGitReferenceUpdated(event);
 
