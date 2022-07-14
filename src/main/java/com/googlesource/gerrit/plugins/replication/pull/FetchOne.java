@@ -32,6 +32,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
@@ -69,7 +70,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   static final String ID_KEY = "fetchOneId";
 
   interface Factory {
-    FetchOne create(Project.NameKey d, URIish u);
+    FetchOne create(
+        Project.NameKey d, URIish u, Optional<PullReplicationApiRequestMetrics> apiRequestMetrics);
   }
 
   private final GitRepositoryManager gitManager;
@@ -94,6 +96,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final FetchReplicationMetrics metrics;
   private final AtomicBoolean canceledWhileRunning;
   private final FetchFactory fetchFactory;
+  private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
 
   @Inject
   FetchOne(
@@ -106,7 +109,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       FetchReplicationMetrics m,
       FetchFactory fetchFactory,
       @Assisted Project.NameKey d,
-      @Assisted URIish u) {
+      @Assisted URIish u,
+      @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
     gitManager = grm;
     pool = s;
     config = c.getRemoteConfig();
@@ -122,6 +126,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     canceledWhileRunning = new AtomicBoolean(false);
     this.fetchFactory = fetchFactory;
     maxRetries = s.getMaxRetries();
+    this.apiRequestMetrics = apiRequestMetrics;
   }
 
   @Override
@@ -299,12 +304,17 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       git = gitManager.openRepository(projectName);
       runImpl();
       long elapsed = NANOSECONDS.toMillis(context.stop());
+      Optional<Long> elapsedEnd2End =
+          apiRequestMetrics
+              .flatMap(metrics -> metrics.stop(config.getName()))
+              .map(NANOSECONDS::toMillis);
       repLog.info(
-          "Replication from {} completed in {}ms, {}ms delay, {} retries",
+          "Replication from {} completed in {}ms, {}ms delay, {} retries{}",
           uri,
           elapsed,
           delay,
-          retryCount);
+          retryCount,
+          elapsedEnd2End.map(el -> String.format(", E2E %dms", el)).orElse(""));
     } catch (RepositoryNotFoundException e) {
       stateLog.error(
           "Cannot replicate " + projectName + "; Local repository error: " + e.getMessage(),

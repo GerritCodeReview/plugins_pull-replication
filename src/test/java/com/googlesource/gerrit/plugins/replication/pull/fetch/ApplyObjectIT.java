@@ -78,8 +78,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
 
     Optional<RevisionData> revisionData =
-        reader.read(
-            Project.nameKey(testRepoProjectName), pushResult.getCommit().toObjectId(), refName);
+        reader.read(Project.nameKey(testRepoProjectName), refName);
 
     RefSpec refSpec = new RefSpec(refName);
     objectUnderTest.apply(project, refSpec, revisionData.get());
@@ -87,6 +86,28 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
         TestRepository<Repository> testRepo = new TestRepository<>(repo); ) {
       Optional<RevisionData> newRevisionData =
           reader.read(project, repo.exactRef(refName).getObjectId(), refName);
+      compareObjects(revisionData.get(), newRevisionData);
+      testRepo.fsck();
+    }
+  }
+
+  @Test
+  public void shouldApplyRefSequencesChanges() throws Exception {
+    String testRepoProjectName = project + TEST_REPLICATION_SUFFIX;
+    testRepo = cloneProject(createTestProject(testRepoProjectName));
+
+    createChange();
+    String seqChangesRef = RefNames.REFS_SEQUENCES + "changes";
+
+    Optional<RevisionData> revisionData = reader.read(allProjects, seqChangesRef);
+
+    RefSpec refSpec = new RefSpec(seqChangesRef);
+    objectUnderTest.apply(project, refSpec, revisionData.get());
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> testRepo = new TestRepository<>(repo); ) {
+
+      Optional<RevisionData> newRevisionData =
+          reader.read(project, repo.exactRef(seqChangesRef).getObjectId(), seqChangesRef);
       compareObjects(revisionData.get(), newRevisionData);
       testRepo.fsck();
     }
@@ -173,6 +194,9 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
   }
 
   private void compareContent(RevisionObjectData expected, RevisionObjectData actual) {
+    if (expected == actual) {
+      return;
+    }
     assertThat(actual.getType()).isEqualTo(expected.getType());
     assertThat(Bytes.asList(actual.getContent()))
         .containsExactlyElementsIn(Bytes.asList(expected.getContent()))
