@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ff561ca_2d2b8967",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-14T15:55:08Z",
+      "side": 1,
+      "message": "Might be worth adding a test for this, even in a follow up change.",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 78
+      },
+      "revId": "f28a1bdb8fd2b2d6077fe27028362ed6d710c56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
