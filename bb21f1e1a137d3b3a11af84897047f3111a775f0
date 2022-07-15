@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ab41a7c_23081b1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T14:40:33Z",
+      "side": 1,
+      "message": "It might be useful to explain when this is the case, i.e.: since the ordering of objects replication is not guaranteed, we could encounter cases where the child object is propagated before the parent.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0a15dee_f7633321",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T14:40:33Z",
+      "side": 1,
+      "message": "Would it be clear if we add something like: \"the negotiation phase during the Git fetch could be avoided altogether. In fact, in this case, the negotiation phase is sub optimal, since all the refs would be transfer with the network overhead of of client and server trying to find out the common ancestor.\" \n\nNot sure if it makes more clear :/",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 35
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74c8f8c4_5a29e1c8",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
         "patchSetId": 14
