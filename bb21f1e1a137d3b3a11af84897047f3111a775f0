@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c8f8c4_5a29e1c8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "any reason why 128 ?",
+      "range": {
+        "startLine": 54,
+        "startChar": 59,
+        "endLine": 54,
+        "endChar": 62
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cfcbffa_26f3675c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "Shall we rename it `applyObjectCommand` for consistency with the `deleteRefCommand`?",
+      "range": {
+        "startLine": 45,
+        "startChar": 25,
+        "endLine": 45,
+        "endChar": 32
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1389277_f042cad8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "nit: capital N",
+      "range": {
+        "startLine": 56,
+        "startChar": 31,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db90f1cf_6efde588",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "These tow `if`s can go outside the try block, right?",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 0
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97933fd3_b4bed833",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "Is the `deleteRef` sync? I think it calls `deleteSingleRef` which is async, but I might be wrong. If it is async I think we should return a 202 here since the action hasn\u0027t happened yet.",
+      "range": {
+        "startLine": 81,
+        "startChar": 39,
+        "endLine": 81,
+        "endChar": 72
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe877069_7ca07cc2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "Why not doing this at the very beginning just after we checked we have permission to call the API?",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 7
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7323cbaa_5eaf10bf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "In a follow up change, we could move this check outside the `if..else` chain, so we won\u0027t have to repeat it for all the cases.",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 52
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d262d790_55264746",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "Might be worth adding unit tests for these 2 methods",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d302c90a_e3d61bd4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReaderIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "Is this needed here? It is already specified at test suite level",
+      "range": {
+        "startLine": 86,
+        "startChar": 3,
+        "endLine": 86,
+        "endChar": 15
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6696fbb1_3aed1a75",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReaderIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-07-15T11:54:11Z",
+      "side": 1,
+      "message": "We should probably also tests that if `CONFIG_MAX_API_HISTORY_DEPTH`  \u003c `numberOfParents`, we don\u0027t get back all the parents.",
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
