@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c31248f3_9dd0ba9d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-07-17T10:58:46Z",
+      "side": 1,
+      "message": "`warn` accepts a throwable as last argument only for the \n\n```\n    void warn(String var1, Throwable var2);\n```\n\nimplementation.\n\nIn this call we are passing 4 arguments to populate only 3 placeholders.",
+      "revId": "1d89947be6cf70174279ebbe6abf6859e2a45319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58ace06b_fb5600bb",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 5
