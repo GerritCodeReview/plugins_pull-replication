@@ -26,6 +26,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3d3486a7_7aeca523",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchAll.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-07-19T22:02:21Z",
+      "side": 1,
+      "message": "Having metric when fetching all refs will impact the metric values. So I\u0027m not sure that it should be a part of the same metric",
+      "parentUuid": "a216872b_9cd2bd36",
+      "range": {
+        "startLine": 95,
+        "startChar": 80,
+        "endLine": 95,
+        "endChar": 97
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c8221e4_812628a1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-07-19T22:02:21Z",
+      "side": 1,
+      "message": "use NANOSECONDS.toMillis",
+      "range": {
+        "startLine": 365,
+        "startChar": 14,
+        "endLine": 365,
+        "endChar": 36
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2593009d_9ba4ea8a",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 8
@@ -106,6 +153,30 @@
       "writtenOn": "2022-07-14T14:43:36Z",
       "side": 1,
       "message": "nit: `Long.toString(startTimeNanos)`",
+      "range": {
+        "startLine": 116,
+        "startChar": 73,
+        "endLine": 116,
+        "endChar": 92
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efaddd46_fb19defc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-07-19T22:02:21Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "764ddc8f_05083055",
       "range": {
         "startLine": 116,
         "startChar": 73,
