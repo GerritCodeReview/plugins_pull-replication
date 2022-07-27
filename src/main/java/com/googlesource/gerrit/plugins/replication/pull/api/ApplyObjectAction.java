@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
+
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -33,11 +35,16 @@ import java.util.Objects;
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
   private final ApplyObjectCommand command;
+  private final DeleteRefCommand deleteRefCommand;
   private final FetchPreconditions preConditions;
 
   @Inject
-  public ApplyObjectAction(ApplyObjectCommand command, FetchPreconditions preConditions) {
+  public ApplyObjectAction(
+      ApplyObjectCommand command,
+      DeleteRefCommand deleteRefCommand,
+      FetchPreconditions preConditions) {
     this.command = command;
+    this.deleteRefCommand = deleteRefCommand;
     this.preConditions = preConditions;
   }
 
@@ -55,31 +62,68 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
         throw new BadRequestException("Ref-update refname cannot be null or empty");
       }
 
+      repLog.info(
+          "Apply object API from {} for {}:{} - {}",
+          resource.getNameKey(),
+          input.getLabel(),
+          input.getRefName(),
+          input.getRevisionData());
+
       if (Objects.isNull(input.getRevisionData())) {
-        throw new BadRequestException("Ref-update revision data cannot be null or empty");
+        deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
+        repLog.info(
+            "Apply object API - REF DELETED - from {} for {}:{} - {}",
+            resource.getNameKey(),
+            input.getLabel(),
+            input.getRefName(),
+            input.getRevisionData());
+        return Response.created(input);
       }
 
-      if (Objects.isNull(input.getRevisionData().getCommitObject())
-          || Objects.isNull(input.getRevisionData().getCommitObject().getContent())
-          || input.getRevisionData().getCommitObject().getContent().length == 0
-          || Objects.isNull(input.getRevisionData().getCommitObject().getType())) {
-        throw new BadRequestException("Ref-update commit object cannot be null or empty");
-      }
-
-      if (Objects.isNull(input.getRevisionData().getTreeObject())
-          || Objects.isNull(input.getRevisionData().getTreeObject().getContent())
-          || Objects.isNull(input.getRevisionData().getTreeObject().getType())) {
-        throw new BadRequestException("Ref-update tree object cannot be null");
+      try {
+        input.validate();
+      } catch (IllegalArgumentException e) {
+        BadRequestException bre =
+            new BadRequestException("Ref-update with invalid input: " + e.getMessage(), e);
+        repLog.error(
+            "Apply object API *FAILED* from {} for {}:{} - {}",
+            input.getLabel(),
+            resource.getNameKey(),
+            input.getRefName(),
+            input.getRevisionData(),
+            bre);
+        throw bre;
       }
 
       command.applyObject(
           resource.getNameKey(), input.getRefName(), input.getRevisionData(), input.getLabel());
       return Response.created(input);
     } catch (MissingParentObjectException e) {
+      repLog.error(
+          "Apply object API *FAILED* from {} for {}:{} - {}",
+          input.getLabel(),
+          resource.getNameKey(),
+          input.getRefName(),
+          input.getRevisionData(),
+          e);
       throw new ResourceConflictException(e.getMessage(), e);
     } catch (NumberFormatException | IOException e) {
+      repLog.error(
+          "Apply object API *FAILED* from {} for {}:{} - {}",
+          input.getLabel(),
+          resource.getNameKey(),
+          input.getRefName(),
+          input.getRevisionData(),
+          e);
       throw RestApiException.wrap(e.getMessage(), e);
     } catch (RefUpdateException e) {
+      repLog.error(
+          "Apply object API *FAILED* from {} for {}:{} - {}",
+          input.getLabel(),
+          resource.getNameKey(),
+          input.getRefName(),
+          input.getRevisionData(),
+          e);
       throw new UnprocessableEntityException(e.getMessage());
     }
   }

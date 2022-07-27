@@ -70,6 +70,7 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.JGitFetch;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -80,6 +81,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import org.apache.commons.io.FilenameUtils;
@@ -101,6 +103,7 @@ public class Source {
   }
 
   private final ReplicationStateListener stateLog;
+  private final UpdateHeadTask.Factory updateHeadFactory;
   private final Object stateLock = new Object();
   private final Map<URIish, FetchOne> pending = new HashMap<>();
   private final Map<URIish, FetchOne> inFlight = new HashMap<>();
@@ -114,6 +117,7 @@ public class Source {
   private final SourceConfiguration config;
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private CloseableHttpClient httpClient;
+  private final DeleteProjectTask.Factory deleteProjectFactory;
 
   protected enum RetryReason {
     TRANSPORT_ERROR,
@@ -180,6 +184,7 @@ public class Source {
                 bind(Source.class).toInstance(Source.this);
                 bind(SourceConfiguration.class).toInstance(config);
                 install(new FactoryModuleBuilder().build(FetchOne.Factory.class));
+                install(new FactoryModuleBuilder().build(DeleteProjectTask.Factory.class));
                 Class<? extends Fetch> clientClass =
                     cfg.useCGitClient() ? CGitFetch.class : JGitFetch.class;
                 install(
@@ -187,6 +192,7 @@ public class Source {
                         .implement(Fetch.class, BatchFetchClient.class)
                         .implement(Fetch.class, FetchClientImplementation.class, clientClass)
                         .build(FetchFactory.class));
+                factory(UpdateHeadTask.Factory.class);
               }
 
               @Provides
@@ -210,6 +216,8 @@ public class Source {
     child.getBinding(FetchFactory.class).acceptTargetVisitor(new CGitFetchValidator());
     opFactory = child.getInstance(FetchOne.Factory.class);
     threadScoper = child.getInstance(PerThreadRequestScope.Scoper.class);
+    deleteProjectFactory = child.getInstance(DeleteProjectTask.Factory.class);
+    updateHeadFactory = child.getInstance(UpdateHeadTask.Factory.class);
   }
 
   public synchronized CloseableHttpClient memoize(
@@ -445,6 +453,12 @@ public class Source {
     }
   }
 
+  void scheduleDeleteProject(String uri, Project.NameKey project) {
+    @SuppressWarnings("unused")
+    ScheduledFuture<?> ignored =
+        pool.schedule(deleteProjectFactory.create(this, uri, project), 0, TimeUnit.SECONDS);
+  }
+
   void fetchWasCanceled(FetchOne fetchOp) {
     synchronized (stateLock) {
       URIish uri = fetchOp.getURI();
@@ -592,11 +606,22 @@ public class Source {
     return false;
   }
 
+  public boolean wouldDeleteProject(Project.NameKey project) {
+    if (isReplicateProjectDeletions()) {
+      return configSettingsAllowReplication(project);
+    }
+    return false;
+  }
+
   public boolean wouldFetchProject(Project.NameKey project) {
     if (!shouldReplicate(project)) {
       return false;
     }
 
+    return configSettingsAllowReplication(project);
+  }
+
+  private boolean configSettingsAllowReplication(Project.NameKey project) {
     // by default fetch all projects
     List<String> projects = config.getProjects();
     if (projects.isEmpty()) {
@@ -731,6 +756,27 @@ public class Source {
 
   public int getMaxRetries() {
     return config.getMaxRetries();
+  }
+
+  public boolean isCreateMissingRepositories() {
+    return config.createMissingRepositories();
+  }
+
+  public boolean isReplicateProjectDeletions() {
+    return config.replicateProjectDeletions();
+  }
+
+  void scheduleUpdateHead(String apiUrl, Project.NameKey project, String newHead) {
+    try {
+      URIish apiURI = new URIish(apiUrl);
+      @SuppressWarnings("unused")
+      ScheduledFuture<?> ignored =
+          pool.schedule(
+              updateHeadFactory.create(this, apiURI, project, newHead), 0, TimeUnit.SECONDS);
+    } catch (URISyntaxException e) {
+      logger.atSevere().withCause(e).log(
+          "Could not schedule HEAD pull-replication for project %s", project.get());
+    }
   }
 
   private static boolean matches(URIish uri, String urlMatch) {

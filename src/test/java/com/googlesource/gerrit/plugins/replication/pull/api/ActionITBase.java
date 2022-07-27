@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.SkipProjectClone;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -47,11 +48,14 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.message.BasicHeader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -79,7 +83,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   SourceHttpClient.Factory httpClientFactory;
   String url;
 
-  protected abstract String getURL();
+  protected abstract String getURL(String projectName);
 
   @Override
   public void setUpTestPlugin() throws Exception {
@@ -105,7 +109,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     revisionReader = plugin.getSysInjector().getInstance(RevisionReader.class);
     source = plugin.getSysInjector().getInstance(SourcesCollection.class).getAll().get(0);
 
-    url = getURL();
+    url = getURL(project.get());
   }
 
   protected HttpPost createRequest(String sendObjectPayload) {
@@ -113,6 +117,18 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     post.setEntity(new StringEntity(sendObjectPayload, StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
     return post;
+  }
+
+  protected HttpPut createPutRequest(String sendObjectPayload) {
+    HttpPut put = new HttpPut(url);
+    put.setEntity(new StringEntity(sendObjectPayload, StandardCharsets.UTF_8));
+    put.addHeader(new BasicHeader("Content-Type", "application/json"));
+    return put;
+  }
+
+  protected HttpDelete createDeleteRequest() {
+    HttpDelete delete = new HttpDelete(url);
+    return delete;
   }
 
   protected String createRef() throws Exception {
@@ -132,7 +148,9 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
 
   protected Optional<RevisionData> createRevisionData(NameKey projectName, String refName)
       throws Exception {
-    return revisionReader.read(projectName, refName);
+    try (Repository repository = repoManager.openRepository(projectName)) {
+      return revisionReader.read(projectName, repository.exactRef(refName).getObjectId(), refName);
+    }
   }
 
   protected Object encode(byte[] content) {
@@ -152,12 +170,11 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   }
 
   protected HttpClientContext getContext() {
-    HttpClientContext ctx = HttpClientContext.create();
-    CredentialsProvider adapted = new BasicCredentialsProvider();
-    adapted.setCredentials(
-        AuthScope.ANY, new UsernamePasswordCredentials(admin.username(), admin.httpPassword()));
-    ctx.setCredentialsProvider(adapted);
-    return ctx;
+    return getContextForAccount(admin);
+  }
+
+  protected HttpClientContext getUserContext() {
+    return getContextForAccount(user);
   }
 
   protected HttpClientContext getAnonymousContext() {
@@ -198,5 +215,14 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     secureConfig.setString("remote", remoteName, "username", username);
     secureConfig.setString("remote", remoteName, "password", password);
     secureConfig.save();
+  }
+
+  private HttpClientContext getContextForAccount(TestAccount account) {
+    HttpClientContext ctx = HttpClientContext.create();
+    CredentialsProvider adapted = new BasicCredentialsProvider();
+    adapted.setCredentials(
+        AuthScope.ANY, new UsernamePasswordCredentials(account.username(), account.httpPassword()));
+    ctx.setCredentialsProvider(adapted);
+    return ctx;
   }
 }

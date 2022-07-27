@@ -14,20 +14,28 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.Files.createTempDirectory;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener.Event;
+import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.WorkQueue;
@@ -36,6 +44,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
@@ -50,6 +59,8 @@ import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -64,11 +75,15 @@ public class ReplicationQueueTest {
   @Mock private DynamicItem<EventDispatcher> dis;
   @Mock ReplicationStateListeners sl;
   @Mock FetchRestApiClient fetchRestApiClient;
-  @Mock FetchRestApiClient.Factory fetchClientFactory;
+  @Mock FetchApiClient.Factory fetchClientFactory;
   @Mock AccountInfo accountInfo;
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
   @Mock HttpResult httpResult;
+  ApplyObjectMetrics applyObjectMetrics;
+
+  @Captor ArgumentCaptor<String> stringCaptor;
+  @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
 
   private ExcludedRefsFilter refsFilter;
   private ReplicationQueue objectUnderTest;
@@ -76,7 +91,7 @@ public class ReplicationQueueTest {
   private Path pluginDataPath;
 
   @Before
-  public void setup() throws IOException, LargeObjectException, RefUpdateException {
+  public void setup() throws IOException, LargeObjectException {
     Path sitePath = createTempPath("site");
     sitePaths = new SitePaths(sitePath);
     Path pluginDataPath = createTempPath("data");
@@ -89,15 +104,19 @@ public class ReplicationQueueTest {
     when(source.getApis()).thenReturn(apis);
     when(sourceCollection.getAll()).thenReturn(Lists.newArrayList(source));
     when(rd.get()).thenReturn(sourceCollection);
-    when(revReader.read(any(), anyString())).thenReturn(Optional.of(revisionData));
+    when(revReader.read(any(), any(), anyString())).thenReturn(Optional.of(revisionData));
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), any(), any()))
+    when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(httpResult);
     when(httpResult.isSuccessful()).thenReturn(true);
+    when(httpResult.isProjectMissing(any())).thenReturn(false);
+
+    applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
 
     objectUnderTest =
-        new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
+        new ReplicationQueue(
+            wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader, applyObjectMetrics);
   }
 
   @Test
@@ -106,7 +125,33 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), any(), any());
+    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
+  }
+
+  @Test
+  public void shouldCallInitProjectWhenProjectIsMissing() throws IOException {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    when(httpResult.isSuccessful()).thenReturn(false);
+    when(httpResult.isProjectMissing(any())).thenReturn(true);
+    when(source.isCreateMissingRepositories()).thenReturn(true);
+
+    objectUnderTest.start();
+    objectUnderTest.onGitReferenceUpdated(event);
+
+    verify(fetchRestApiClient).initProject(any(), any());
+  }
+
+  @Test
+  public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    when(httpResult.isSuccessful()).thenReturn(false);
+    when(httpResult.isProjectMissing(any())).thenReturn(true);
+    when(source.isCreateMissingRepositories()).thenReturn(false);
+
+    objectUnderTest.start();
+    objectUnderTest.onGitReferenceUpdated(event);
+
+    verify(fetchRestApiClient, never()).initProject(any(), any());
   }
 
   @Test
@@ -115,7 +160,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), any(), any());
+    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
   }
 
   @Test
@@ -124,7 +169,7 @@ public class ReplicationQueueTest {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
-    when(revReader.read(any(), anyString())).thenThrow(IOException.class);
+    when(revReader.read(any(), any(), anyString())).thenThrow(IOException.class);
 
     objectUnderTest.onGitReferenceUpdated(event);
 
@@ -137,7 +182,7 @@ public class ReplicationQueueTest {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
-    when(revReader.read(any(), anyString())).thenReturn(Optional.empty());
+    when(revReader.read(any(), any(), anyString())).thenReturn(Optional.empty());
 
     objectUnderTest.onGitReferenceUpdated(event);
 
@@ -152,7 +197,7 @@ public class ReplicationQueueTest {
 
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isParentObjectMissing()).thenReturn(true);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), any(), any()))
+    when(fetchRestApiClient.callSendObject(any(), anyString(), eq(false), any(), any()))
         .thenReturn(httpResult);
 
     objectUnderTest.onGitReferenceUpdated(event);
@@ -202,7 +247,8 @@ public class ReplicationQueueTest {
     refsFilter = new ExcludedRefsFilter(replicationConfig);
 
     objectUnderTest =
-        new ReplicationQueue(wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader);
+        new ReplicationQueue(
+            wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader, applyObjectMetrics);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onGitReferenceUpdated(event);
 
@@ -231,6 +277,62 @@ public class ReplicationQueueTest {
     objectUnderTest.onGitReferenceUpdated(event);
 
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
+  }
+
+  @Test
+  public void shouldCallDeleteWhenReplicateProjectDeletionsTrue() throws IOException {
+    when(source.wouldDeleteProject(any())).thenReturn(true);
+
+    String projectName = "testProject";
+    FakeProjectDeletedEvent event = new FakeProjectDeletedEvent(projectName);
+
+    objectUnderTest.start();
+    objectUnderTest.onProjectDeleted(event);
+
+    verify(source, times(1))
+        .scheduleDeleteProject(stringCaptor.capture(), projectNameKeyCaptor.capture());
+    assertThat(stringCaptor.getValue()).isEqualTo(source.getApis().get(0));
+    assertThat(projectNameKeyCaptor.getValue()).isEqualTo(Project.NameKey.parse(projectName));
+  }
+
+  @Test
+  public void shouldNotCallDeleteWhenProjectNotToDelete() throws IOException {
+    when(source.wouldDeleteProject(any())).thenReturn(false);
+
+    FakeProjectDeletedEvent event = new FakeProjectDeletedEvent("testProject");
+
+    objectUnderTest.start();
+    objectUnderTest.onProjectDeleted(event);
+
+    verify(source, never()).scheduleDeleteProject(any(), any());
+  }
+
+  @Test
+  public void shouldScheduleUpdateHeadWhenWouldFetchProject() throws IOException {
+    when(source.wouldFetchProject(any())).thenReturn(true);
+
+    String projectName = "aProject";
+    String newHEAD = "newHEAD";
+
+    objectUnderTest.start();
+    objectUnderTest.onHeadUpdated(new FakeHeadUpdateEvent("oldHead", newHEAD, projectName));
+    verify(source, times(1))
+        .scheduleUpdateHead(any(), projectNameKeyCaptor.capture(), stringCaptor.capture());
+
+    assertThat(stringCaptor.getValue()).isEqualTo(newHEAD);
+    assertThat(projectNameKeyCaptor.getValue()).isEqualTo(Project.NameKey.parse(projectName));
+  }
+
+  @Test
+  public void shouldNotScheduleUpdateHeadWhenNotWouldFetchProject() throws IOException {
+    when(source.wouldFetchProject(any())).thenReturn(false);
+
+    String projectName = "aProject";
+    String newHEAD = "newHEAD";
+
+    objectUnderTest.start();
+    objectUnderTest.onHeadUpdated(new FakeHeadUpdateEvent("oldHead", newHEAD, projectName));
+    verify(source, never()).scheduleUpdateHead(any(), any(), any());
   }
 
   protected static Path createTempPath(String prefix) throws IOException {
@@ -269,7 +371,7 @@ public class ReplicationQueueTest {
 
     @Override
     public String getOldObjectId() {
-      return null;
+      return ObjectId.zeroId().getName();
     }
 
     @Override
@@ -295,6 +397,24 @@ public class ReplicationQueueTest {
     @Override
     public AccountInfo getUpdater() {
       return null;
+    }
+  }
+
+  private class FakeProjectDeletedEvent implements ProjectDeletedListener.Event {
+    private String projectName;
+
+    public FakeProjectDeletedEvent(String projectName) {
+      this.projectName = projectName;
+    }
+
+    @Override
+    public NotifyHandling getNotify() {
+      return null;
+    }
+
+    @Override
+    public String getProjectName() {
+      return projectName;
     }
   }
 }

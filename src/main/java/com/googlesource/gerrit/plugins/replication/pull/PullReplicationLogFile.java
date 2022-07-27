@@ -28,6 +28,6 @@ public class PullReplicationLogFile extends PluginLogFile {
         systemLog,
         serverInfo,
         PullReplicationLogger.PULL_REPLICATION_LOG_NAME,
-        new PatternLayout("[%d] [%X{" + FetchOne.ID_MDC_KEY + "}] %m%n"));
+        new PatternLayout("[%d] %m%n"));
   }
 }

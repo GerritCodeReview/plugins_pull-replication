@@ -35,6 +35,8 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectD
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -49,6 +51,7 @@ public class ApplyObjectActionTest {
   String label = "instance-2-label";
   String url = "file:///gerrit-host/instance-1/git/${name}.git";
   String refName = "refs/heads/master";
+  String refMetaName = "refs/meta/version";
   String location = "http://gerrit-host/a/config/server/tasks/08d173e9";
   int taskId = 1234;
 
@@ -72,6 +75,7 @@ public class ApplyObjectActionTest {
           + "Submitted-with: OK: Code-Review: Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac>";
 
   @Mock ApplyObjectCommand applyObjectCommand;
+  @Mock DeleteRefCommand deleteRefCommand;
   @Mock ProjectResource projectResource;
   @Mock FetchPreconditions preConditions;
 
@@ -79,12 +83,26 @@ public class ApplyObjectActionTest {
   public void setup() {
     when(preConditions.canCallFetchApi()).thenReturn(true);
 
-    applyObjectAction = new ApplyObjectAction(applyObjectCommand, preConditions);
+    applyObjectAction = new ApplyObjectAction(applyObjectCommand, deleteRefCommand, preConditions);
   }
 
   @Test
   public void shouldReturnCreatedResponseCode() throws RestApiException {
     RevisionInput inputParams = new RevisionInput(label, refName, createSampleRevisionData());
+
+    Response<?> response = applyObjectAction.apply(projectResource, inputParams);
+
+    assertThat(response.statusCode()).isEqualTo(SC_CREATED);
+  }
+
+  @Test
+  public void shouldReturnCreatedResponseCodeForBlob() throws RestApiException {
+    byte[] blobData = "foo".getBytes(StandardCharsets.UTF_8);
+    RevisionInput inputParams =
+        new RevisionInput(
+            label,
+            refMetaName,
+            createSampleRevisionDataBlob(new RevisionObjectData(Constants.OBJ_BLOB, blobData)));
 
     Response<?> response = applyObjectAction.apply(projectResource, inputParams);
 
@@ -124,13 +142,6 @@ public class ApplyObjectActionTest {
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenEmptyRefName() throws Exception {
     RevisionInput inputParams = new RevisionInput(label, "", createSampleRevisionData());
-
-    applyObjectAction.apply(projectResource, inputParams);
-  }
-
-  @Test(expected = BadRequestException.class)
-  public void shouldThrowBadRequestExceptionWhenMissingRevisionData() throws Exception {
-    RevisionInput inputParams = new RevisionInput(label, refName, null);
 
     applyObjectAction.apply(projectResource, inputParams);
   }
@@ -189,5 +200,9 @@ public class ApplyObjectActionTest {
   private RevisionData createSampleRevisionData(
       RevisionObjectData commitData, RevisionObjectData treeData) {
     return new RevisionData(commitData, treeData, Lists.newArrayList());
+  }
+
+  private RevisionData createSampleRevisionDataBlob(RevisionObjectData blob) {
+    return new RevisionData(null, null, Arrays.asList(blob));
   }
 }

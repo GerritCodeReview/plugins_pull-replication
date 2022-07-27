@@ -48,9 +48,6 @@ public abstract class RefsFilter {
       throw new IllegalArgumentException(
           String.format("Ref name cannot be null or empty, but was %s", refName));
     }
-    if (refsPatterns.isEmpty()) {
-      return true;
-    }
 
     for (String pattern : refsPatterns) {
       if (matchesPattern(refName, pattern)) {

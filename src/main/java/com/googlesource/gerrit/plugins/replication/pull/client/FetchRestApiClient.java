@@ -15,11 +15,13 @@
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.net.MediaType;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
@@ -43,7 +45,9 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -52,16 +56,12 @@ import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
 
-public class FetchRestApiClient implements ResponseHandler<HttpResult> {
+public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpResult> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static String GERRIT_ADMIN_PROTOCOL_PREFIX = "gerrit+";
 
   private static final Gson GSON =
       new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
-
-  public interface Factory {
-    FetchRestApiClient create(Source source);
-  }
 
   private final CredentialsFactory credentials;
   private final SourceHttpClient.Factory httpClientFactory;
@@ -91,6 +91,10 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
         Strings.emptyToNull(instanceLabel), "replication.instanceLabel cannot be null or empty");
   }
 
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callFetch(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
   public HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
       throws ClientProtocolException, IOException {
     String url =
@@ -109,10 +113,65 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
   }
 
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
+  public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
+    String url =
+        String.format(
+            "%s/%s", uri.toString(), getProjectInitializationUrl(pluginName, project.get()));
+    HttpPut put = new HttpPut(url);
+    put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
+    put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
+    return httpClientFactory.create(source).execute(put, this, getContext(uri));
+  }
+
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#deleteProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
+  public HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
+    String url =
+        String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
+    HttpDelete delete = new HttpDelete(url);
+    return httpClientFactory.create(source).execute(delete, this, getContext(apiUri));
+  }
+
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#updateHead(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
+  public HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri)
+      throws IOException {
+    logger.atFine().log("Updating head of %s on %s", project.get(), newHead);
+    String url =
+        String.format("%s/%s", apiUri.toASCIIString(), getProjectUpdateHeadUrl(project.get()));
+    HttpPut req = new HttpPut(url);
+    req.setEntity(
+        new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), StandardCharsets.UTF_8));
+    req.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    return httpClientFactory.create(source).execute(req, this, getContext(apiUri));
+  }
+
+  /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callSendObject(com.google.gerrit.entities.Project.NameKey, java.lang.String, boolean, com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData, org.eclipse.jgit.transport.URIish)
+   */
+  @Override
   public HttpResult callSendObject(
-      Project.NameKey project, String refName, RevisionData revisionData, URIish targetUri)
+      Project.NameKey project,
+      String refName,
+      boolean isDelete,
+      @Nullable RevisionData revisionData,
+      URIish targetUri)
       throws ClientProtocolException, IOException {
 
+    if (!isDelete) {
+      requireNonNull(
+          revisionData, "RevisionData MUST not be null when the ref-update is not a DELETE");
+    } else {
+      requireNull(revisionData, "DELETE ref-updates cannot be associated with a RevisionData");
+    }
     RevisionInput input = new RevisionInput(instanceLabel, refName, revisionData);
 
     String url =
@@ -124,6 +183,12 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
     return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+  }
+
+  private void requireNull(Object object, String string) {
+    if (object != null) {
+      throw new IllegalArgumentException(string);
+    }
   }
 
   @Override
@@ -155,5 +220,13 @@ public class FetchRestApiClient implements ResponseHandler<HttpResult> {
       return adapted;
     }
     return null;
+  }
+
+  String getProjectDeletionUrl(String projectName) {
+    return String.format("a/projects/%s/%s~delete-project", Url.encode(projectName), pluginName);
+  }
+
+  String getProjectUpdateHeadUrl(String projectName) {
+    return String.format("a/projects/%s/%s~HEAD", Url.encode(projectName), pluginName);
   }
 }

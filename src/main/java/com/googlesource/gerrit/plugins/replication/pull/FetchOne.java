@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue.CanceledWhileRunning;
 import com.google.gerrit.server.ioutil.HexFormat;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -40,6 +41,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -54,7 +56,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
-import org.slf4j.MDC;
 
 /**
  * A pull from remote operation started by command-line.
@@ -65,7 +66,7 @@ import org.slf4j.MDC;
 public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final ReplicationStateListener stateLog;
   static final String ALL_REFS = "..all..";
-  static final String ID_MDC_KEY = "fetchOneId";
+  static final String ID_KEY = "fetchOneId";
 
   interface Factory {
     FetchOne create(Project.NameKey d, URIish u);
@@ -270,11 +271,16 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   private void runFetchOperation() {
+    try (TraceContext ctx = TraceContext.open().addTag(ID_KEY, HexFormat.fromInt(id))) {
+      doRunFetchOperation();
+    }
+  }
+
+  private void doRunFetchOperation() {
     // Lock the queue, and remove ourselves, so we can't be modified once
     // we start replication (instead a new instance, with the same URI, is
     // created and scheduled for a future point in time.)
     //
-    MDC.put(ID_MDC_KEY, HexFormat.fromInt(id));
     if (!pool.requestRunway(this)) {
       if (!canceled) {
         repLog.info(
@@ -368,10 +374,25 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   private List<RefSpec> getFetchRefSpecs() {
+    List<RefSpec> configRefSpecs = config.getFetchRefSpecs();
     if (delta.isEmpty()) {
-      return config.getFetchRefSpecs();
+      return configRefSpecs;
     }
-    return delta.stream().map(ref -> new RefSpec(ref + ":" + ref)).collect(Collectors.toList());
+
+    return delta.stream()
+        .map(ref -> refToFetchRefSpec(ref, configRefSpecs))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(Collectors.toList());
+  }
+
+  private Optional<RefSpec> refToFetchRefSpec(String ref, List<RefSpec> configRefSpecs) {
+    for (RefSpec refSpec : configRefSpecs) {
+      if (refSpec.matchSource(ref)) {
+        return Optional.of(refSpec.expandFromSource(ref));
+      }
+    }
+    return Optional.empty();
   }
 
   private void updateStates(List<RefUpdateState> refUpdates) throws IOException {
