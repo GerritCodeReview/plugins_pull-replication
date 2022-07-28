@@ -37,6 +37,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Set;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.RefSpec;
@@ -70,12 +71,25 @@ public class ApplyObjectCommand {
   }
 
   public void applyObject(
-      Project.NameKey name, String refName, RevisionData revisionData, String sourceLabel)
+      Project.NameKey name, String refName, RevisionData revisionsData, String sourceLabel)
+      throws IOException, RefUpdateException, MissingParentObjectException {
+    applyObjects(name, refName, new RevisionData[] {revisionsData}, sourceLabel);
+  }
+
+  public void applyObjects(
+      Project.NameKey name, String refName, RevisionData[] revisionsData, String sourceLabel)
       throws IOException, RefUpdateException, MissingParentObjectException {
 
-    repLog.info("Apply object from {} for project {}, ref name {}", sourceLabel, name, refName);
+    repLog.info(
+        "Apply object from {} for {}:{} - {}",
+        sourceLabel,
+        name,
+        refName,
+        Arrays.toString(revisionsData));
     Timer1.Context<String> context = metrics.start(sourceLabel);
-    RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionData);
+
+    RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionsData);
+
     long elapsed = NANOSECONDS.toMillis(context.stop());
 
     try {

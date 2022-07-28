@@ -26,25 +26,31 @@ public class FetchJob implements Runnable {
   private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    FetchJob create(Project.NameKey project, FetchAction.Input input);
+    FetchJob create(
+        Project.NameKey project, FetchAction.Input input, PullReplicationApiRequestMetrics metrics);
   }
 
   private FetchCommand command;
   private Project.NameKey project;
   private FetchAction.Input input;
+  private final PullReplicationApiRequestMetrics metrics;
 
   @Inject
   public FetchJob(
-      FetchCommand command, @Assisted Project.NameKey project, @Assisted FetchAction.Input input) {
+      FetchCommand command,
+      @Assisted Project.NameKey project,
+      @Assisted FetchAction.Input input,
+      @Assisted PullReplicationApiRequestMetrics metrics) {
     this.command = command;
     this.project = project;
     this.input = input;
+    this.metrics = metrics;
   }
 
   @Override
   public void run() {
     try {
-      command.fetchAsync(project, input.label, input.refName);
+      command.fetchAsync(project, input.label, input.refName, metrics);
     } catch (InterruptedException
         | ExecutionException
         | RemoteConfigurationMissingException

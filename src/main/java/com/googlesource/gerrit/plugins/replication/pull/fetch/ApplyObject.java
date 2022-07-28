@@ -41,35 +41,51 @@ public class ApplyObject {
     this.gitManager = gitManager;
   }
 
-  public RefUpdateState apply(Project.NameKey name, RefSpec refSpec, RevisionData revisionData)
+  public RefUpdateState apply(Project.NameKey name, RefSpec refSpec, RevisionData[] revisionsData)
       throws MissingParentObjectException, IOException {
     try (Repository git = gitManager.openRepository(name)) {
 
-      ObjectId newObjectID = null;
+      ObjectId refHead = null;
+      RefUpdate ru = git.updateRef(refSpec.getSource());
       try (ObjectInserter oi = git.newObjectInserter()) {
-        RevisionObjectData commitObject = revisionData.getCommitObject();
-        RevCommit commit = RevCommit.parse(commitObject.getContent());
-        for (RevCommit parent : commit.getParents()) {
-          if (!git.getObjectDatabase().has(parent.getId())) {
-            throw new MissingParentObjectException(name, refSpec.getSource(), parent.getId());
+        for (RevisionData revisionData : revisionsData) {
+
+          ObjectId newObjectID = null;
+          RevisionObjectData commitObject = revisionData.getCommitObject();
+
+          if (commitObject != null) {
+            RevCommit commit = RevCommit.parse(commitObject.getContent());
+            for (RevCommit parent : commit.getParents()) {
+              if (!git.getObjectDatabase().has(parent.getId())) {
+                throw new MissingParentObjectException(name, refSpec.getSource(), parent.getId());
+              }
+            }
+            refHead = newObjectID = oi.insert(commitObject.getType(), commitObject.getContent());
+
+            RevisionObjectData treeObject = revisionData.getTreeObject();
+            oi.insert(treeObject.getType(), treeObject.getContent());
+          }
+
+          for (RevisionObjectData rev : revisionData.getBlobs()) {
+            ObjectId blobObjectId = oi.insert(rev.getType(), rev.getContent());
+            if (newObjectID == null) {
+              newObjectID = blobObjectId;
+            }
+            refHead = newObjectID;
+          }
+
+          oi.flush();
+
+          if (commitObject == null) {
+            // Non-commits must be forced as they do not have a graph associated
+            ru.setForceUpdate(true);
           }
         }
-        newObjectID = oi.insert(commitObject.getType(), commitObject.getContent());
 
-        RevisionObjectData treeObject = revisionData.getTreeObject();
-        oi.insert(treeObject.getType(), treeObject.getContent());
-
-        for (RevisionObjectData rev : revisionData.getBlobs()) {
-          oi.insert(rev.getType(), rev.getContent());
-        }
-
-        oi.flush();
+        ru.setNewObjectId(refHead);
+        RefUpdate.Result result = ru.update();
+        return new RefUpdateState(refSpec.getSource(), result);
       }
-      RefUpdate ru = git.updateRef(refSpec.getSource());
-      ru.setNewObjectId(newObjectID);
-      RefUpdate.Result result = ru.update();
-
-      return new RefUpdateState(refSpec.getSource(), result);
     }
   }
 }
