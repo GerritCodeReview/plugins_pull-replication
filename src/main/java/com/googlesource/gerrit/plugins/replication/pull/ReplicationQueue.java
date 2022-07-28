@@ -402,7 +402,7 @@ public class ReplicationQueue
       throws IOException, ClientProtocolException {
     HttpResult initProjectResult = fetchClient.initProject(project, uri);
     if (initProjectResult.isSuccessful()) {
-      result = fetchClient.callFetch(project, "refs/*", uri);
+      result = fetchClient.callFetch(project, FetchOne.ALL_REFS, uri);
     } else {
       String errorMessage = initProjectResult.getMessage().map(e -> " - Error: " + e).orElse("");
       repLog.error("Cannot create project " + project + errorMessage);
