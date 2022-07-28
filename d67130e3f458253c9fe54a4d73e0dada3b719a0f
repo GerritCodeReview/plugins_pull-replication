@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef0b2afd_53bfd161",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-07-28T20:12:06Z",
+      "side": 1,
+      "message": "We have to remove corresponding tests as well",
+      "revId": "d67130e3f458253c9fe54a4d73e0dada3b719a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
