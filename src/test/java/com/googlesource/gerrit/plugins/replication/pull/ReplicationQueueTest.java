@@ -275,38 +275,6 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldSkipEventWhenUsersRef() {
-    Event event = new TestEvent("refs/users/00/1000000");
-    objectUnderTest.onGitReferenceUpdated(event);
-
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
-  }
-
-  @Test
-  public void shouldSkipEventWhenGroupsRef() {
-    Event event = new TestEvent("refs/groups/a1/a16d5b33cc789d60b682c654f03f9cc2feb12975");
-    objectUnderTest.onGitReferenceUpdated(event);
-
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
-  }
-
-  @Test
-  public void shouldSkipEventWhenGroupNamesRef() {
-    Event event = new TestEvent("refs/meta/group-names");
-    objectUnderTest.onGitReferenceUpdated(event);
-
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
-  }
-
-  @Test
-  public void shouldSkipEventWhenMultiSequenceRef() {
-    Event event = new TestEvent("refs/sequences/changes");
-    objectUnderTest.onGitReferenceUpdated(event);
-
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
-  }
-
-  @Test
   public void shouldSkipEventWhenMultiSiteVersionRef() throws IOException {
     FileBasedConfig fileConfig =
         new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
@@ -335,22 +303,6 @@ public class ReplicationQueueTest {
   @Test
   public void shouldSkipEventWhenStarredChangesRef() {
     Event event = new TestEvent("refs/starred-changes/41/2941/1000000");
-    objectUnderTest.onGitReferenceUpdated(event);
-
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
-  }
-
-  @Test
-  public void shouldSkipEventWhenConfigRef() {
-    Event event = new TestEvent("refs/meta/config");
-    objectUnderTest.onGitReferenceUpdated(event);
-
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
-  }
-
-  @Test
-  public void shouldSkipEventWhenExternalIdsRef() {
-    Event event = new TestEvent("refs/meta/external-ids");
     objectUnderTest.onGitReferenceUpdated(event);
 
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
