@@ -28,7 +28,7 @@ import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.entities.Permission;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
@@ -50,6 +50,7 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -78,11 +79,12 @@ import org.junit.Test;
 @UseLocalDisk
 @TestPlugin(
     name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule")
+    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
+    httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
 public class PullReplicationIT extends LightweightPluginDaemonTest {
   private static final Optional<String> ALL_PROJECTS = Optional.empty();
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final int TEST_REPLICATION_DELAY = 60;
+  private static final int TEST_REPLICATION_DELAY = 1;
   private static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2000);
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
   private static final String TEST_REPLICATION_REMOTE = "remote1";
@@ -96,10 +98,17 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
 
   @Override
   public void setUpTestPlugin() throws Exception {
+    setUpTestPlugin(false);
+  }
+
+  protected void setUpTestPlugin(boolean loadExisting) throws Exception {
     gitPath = sitePaths.site_path.resolve("git");
 
-    config =
-        new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
+    File configFile = sitePaths.etc_dir.resolve("replication.config").toFile();
+    config = new FileBasedConfig(configFile, FS.DETECTED);
+    if (loadExisting && configFile.exists()) {
+      config.load();
+    }
     setReplicationSource(
         TEST_REPLICATION_REMOTE,
         TEST_REPLICATION_SUFFIX,

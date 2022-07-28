@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2022 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,21 +26,22 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 
-public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
+public class ApplyObjectsAction implements RestModifyView<ProjectResource, RevisionsInput> {
 
   private final ApplyObjectCommand command;
   private final DeleteRefCommand deleteRefCommand;
   private final FetchPreconditions preConditions;
 
   @Inject
-  public ApplyObjectAction(
+  public ApplyObjectsAction(
       ApplyObjectCommand command,
       DeleteRefCommand deleteRefCommand,
       FetchPreconditions preConditions) {
@@ -50,11 +51,11 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
   }
 
   @Override
-  public Response<?> apply(ProjectResource resource, RevisionInput input) throws RestApiException {
-
+  public Response<?> apply(ProjectResource resource, RevisionsInput input) throws RestApiException {
     if (!preConditions.canCallFetchApi()) {
       throw new AuthException("not allowed to call fetch command");
     }
+
     try {
       if (Strings.isNullOrEmpty(input.getLabel())) {
         throw new BadRequestException("Source label cannot be null or empty");
@@ -68,16 +69,15 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           resource.getNameKey(),
           input.getLabel(),
           input.getRefName(),
-          input.getRevisionData());
+          Arrays.toString(input.getRevisionsData()));
 
-      if (Objects.isNull(input.getRevisionData())) {
+      if (Objects.isNull(input.getRevisionsData())) {
         deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
         repLog.info(
-            "Apply object API - REF DELETED - from {} for {}:{} - {}",
+            "Apply object API - REF DELETED - from {} for {}:{}",
             resource.getNameKey(),
             input.getLabel(),
-            input.getRefName(),
-            input.getRevisionData());
+            input.getRefName());
         return Response.withStatusCode(HttpServletResponse.SC_NO_CONTENT, "");
       }
 
@@ -91,13 +91,13 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
             input.getLabel(),
             resource.getNameKey(),
             input.getRefName(),
-            input.getRevisionData(),
+            Arrays.toString(input.getRevisionsData()),
             bre);
         throw bre;
       }
 
-      command.applyObject(
-          resource.getNameKey(), input.getRefName(), input.getRevisionData(), input.getLabel());
+      command.applyObjects(
+          resource.getNameKey(), input.getRefName(), input.getRevisionsData(), input.getLabel());
       return Response.created(input);
     } catch (MissingParentObjectException e) {
       repLog.error(
@@ -105,7 +105,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           input.getLabel(),
           resource.getNameKey(),
           input.getRefName(),
-          input.getRevisionData(),
+          Arrays.toString(input.getRevisionsData()),
           e);
       throw new ResourceConflictException(e.getMessage(), e);
     } catch (NumberFormatException | IOException e) {
@@ -114,7 +114,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           input.getLabel(),
           resource.getNameKey(),
           input.getRefName(),
-          input.getRevisionData(),
+          Arrays.toString(input.getRevisionsData()),
           e);
       throw RestApiException.wrap(e.getMessage(), e);
     } catch (RefUpdateException e) {
@@ -123,7 +123,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           input.getLabel(),
           resource.getNameKey(),
           input.getRefName(),
-          input.getRevisionData(),
+          Arrays.toString(input.getRevisionsData()),
           e);
       throw new UnprocessableEntityException(e.getMessage());
     }

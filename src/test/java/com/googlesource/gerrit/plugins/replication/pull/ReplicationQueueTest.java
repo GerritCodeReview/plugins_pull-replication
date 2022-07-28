@@ -17,9 +17,12 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.Files.createTempDirectory;
 import static org.mockito.ArgumentMatchers.anyBoolean;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -50,6 +53,8 @@ import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -79,11 +84,17 @@ public class ReplicationQueueTest {
   @Mock AccountInfo accountInfo;
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
+  @Mock HttpResult successfulHttpResult;
+  @Mock HttpResult fetchHttpResult;
+  @Mock RevisionData revisionDataWithParents;
+  List<ObjectId> revisionDataParentObjectIds;
   @Mock HttpResult httpResult;
   ApplyObjectMetrics applyObjectMetrics;
+  FetchReplicationMetrics fetchMetrics;
 
   @Captor ArgumentCaptor<String> stringCaptor;
   @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
+  @Captor ArgumentCaptor<List<RevisionData>> revisionsDataCaptor;
 
   private ExcludedRefsFilter refsFilter;
   private ReplicationQueue objectUnderTest;
@@ -104,19 +115,51 @@ public class ReplicationQueueTest {
     when(source.getApis()).thenReturn(apis);
     when(sourceCollection.getAll()).thenReturn(Lists.newArrayList(source));
     when(rd.get()).thenReturn(sourceCollection);
-    when(revReader.read(any(), any(), anyString())).thenReturn(Optional.of(revisionData));
+    lenient()
+        .when(revReader.read(any(), any(), anyString(), eq(0)))
+        .thenReturn(Optional.of(revisionData));
+    lenient().when(revReader.read(any(), anyString(), eq(0))).thenReturn(Optional.of(revisionData));
+    lenient()
+        .when(revReader.read(any(), any(), anyString(), eq(Integer.MAX_VALUE)))
+        .thenReturn(Optional.of(revisionDataWithParents));
+    lenient()
+        .when(revReader.read(any(), anyString(), eq(Integer.MAX_VALUE)))
+        .thenReturn(Optional.of(revisionDataWithParents));
+    revisionDataParentObjectIds =
+        Arrays.asList(
+            ObjectId.fromString("9f8d52853089a3cf00c02ff7bd0817bd4353a95a"),
+            ObjectId.fromString("b5d7bcf1d1c5b0f0726d10a16c8315f06f900bfb"));
+    when(revisionDataWithParents.getParentObjetIds()).thenReturn(revisionDataParentObjectIds);
+
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
+    lenient()
+        .when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
         .thenReturn(httpResult);
-    when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(httpResult);
+    lenient()
+        .when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
+        .thenReturn(httpResult);
+    when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong()))
+        .thenReturn(fetchHttpResult);
+    when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
+    when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
+    when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
+    fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
 
     objectUnderTest =
         new ReplicationQueue(
-            wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader, applyObjectMetrics);
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
   }
 
   @Test
@@ -125,7 +168,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
+    verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
 
   @Test
@@ -160,7 +203,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callSendObject(any(), anyString(), eq(false), any(), any());
+    verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
 
   @Test
@@ -169,11 +212,11 @@ public class ReplicationQueueTest {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
-    when(revReader.read(any(), any(), anyString())).thenThrow(IOException.class);
+    when(revReader.read(any(), any(), anyString(), anyInt())).thenThrow(IOException.class);
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
   }
 
   @Test
@@ -182,27 +225,53 @@ public class ReplicationQueueTest {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
-    when(revReader.read(any(), any(), anyString())).thenReturn(Optional.empty());
+    when(revReader.read(any(), any(), anyString(), anyInt())).thenReturn(Optional.empty());
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
   }
 
   @Test
   public void shouldFallbackToCallFetchWhenParentObjectIsMissing()
       throws ClientProtocolException, IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isParentObjectMissing()).thenReturn(true);
-    when(fetchRestApiClient.callSendObject(any(), anyString(), eq(false), any(), any()))
+    when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
+  }
+
+  @Test
+  public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnMetaRef()
+      throws ClientProtocolException, IOException {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    objectUnderTest.start();
+
+    when(httpResult.isSuccessful()).thenReturn(false, true);
+    when(httpResult.isParentObjectMissing()).thenReturn(true, false);
+    when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
+        .thenReturn(httpResult);
+
+    objectUnderTest.onGitReferenceUpdated(event);
+
+    verify(fetchRestApiClient, times(2))
+        .callSendObjects(any(), anyString(), revisionsDataCaptor.capture(), any());
+    List<List<RevisionData>> revisionsDataValues = revisionsDataCaptor.getAllValues();
+    assertThat(revisionsDataValues).hasSize(2);
+
+    List<RevisionData> firstRevisionsValues = revisionsDataValues.get(0);
+    assertThat(firstRevisionsValues).hasSize(1);
+    assertThat(firstRevisionsValues).contains(revisionData);
+
+    List<RevisionData> secondRevisionsValues = revisionsDataValues.get(1);
+    assertThat(secondRevisionsValues).hasSize(1 + revisionDataParentObjectIds.size());
   }
 
   @Test
@@ -248,7 +317,15 @@ public class ReplicationQueueTest {
 
     objectUnderTest =
         new ReplicationQueue(
-            wq, rd, dis, sl, fetchClientFactory, refsFilter, revReader, applyObjectMetrics);
+            wq,
+            rd,
+            dis,
+            sl,
+            fetchClientFactory,
+            refsFilter,
+            revReader,
+            applyObjectMetrics,
+            fetchMetrics);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onGitReferenceUpdated(event);
 
