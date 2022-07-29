@@ -228,13 +228,20 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
 
   @Override
   public HttpResult handleResponse(HttpResponse response) {
-    Optional<String> responseBody = Optional.empty();
 
-    try {
-      responseBody = Optional.ofNullable(EntityUtils.toString(response.getEntity()));
-    } catch (ParseException | IOException e) {
-      logger.atSevere().withCause(e).log("Unable get response body from %s", response.toString());
-    }
+    Optional<String> responseBody =
+        Optional.ofNullable(response.getEntity())
+            .flatMap(
+                body -> {
+                  try {
+                    return Optional.of(EntityUtils.toString(body));
+                  } catch (ParseException | IOException e) {
+                    logger.atSevere().withCause(e).log(
+                        "Unable get response body from %s", response.toString());
+                    return Optional.empty();
+                  }
+                });
+
     return new HttpResult(response.getStatusLine().getStatusCode(), responseBody);
   }
 

@@ -88,4 +88,18 @@ public class ApplyObject {
       }
     }
   }
+
+  public RefUpdateState deleteRef(Project.NameKey name, RefSpec refSpec) throws IOException {
+
+    try (Repository repository = gitManager.openRepository(name)) {
+      RefUpdate.Result result;
+      RefUpdate u = repository.updateRef(refSpec.getSource());
+      u.setExpectedOldObjectId(repository.exactRef(refSpec.getSource()).getObjectId());
+      u.setNewObjectId(ObjectId.zeroId());
+      u.setForceUpdate(true);
+
+      result = u.delete();
+      return new RefUpdateState(refSpec.getSource(), result);
+    }
+  }
 }
