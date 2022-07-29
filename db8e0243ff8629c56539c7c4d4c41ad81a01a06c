@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98bcf0ca_6fdaeee2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T23:01:55Z",
+      "side": 1,
+      "message": "Unrelated: this is buggy as we may be missing the updates to the caching layer, when using the cached-refdb. Also, this is broken when using the MultiBaseLocalDiskRepositoryManager when there is more than one git repository path specified in gerrit.config.\n\nIt should be fixed in a separate change though.",
+      "range": {
+        "startLine": 40,
+        "startChar": 21,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "db8e0243ff8629c56539c7c4d4c41ad81a01a06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2370ae0c_edab3fe0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T23:01:55Z",
+      "side": 1,
+      "message": "This doesn\u0027t look to be the right place: the ApplyObject is supposed to add BLOBs to the repository, not providing a low-level delete-ref functionality.\n\nWe should move it to the DeleteRefCommand class and inject the LocalDiskRepositoryManager there.",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 3
+      },
+      "revId": "db8e0243ff8629c56539c7c4d4c41ad81a01a06c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
