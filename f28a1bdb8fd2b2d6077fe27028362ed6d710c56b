@@ -22,6 +22,30 @@
       },
       "revId": "f28a1bdb8fd2b2d6077fe27028362ed6d710c56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88a88c94_fb5f58c1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T23:41:03Z",
+      "side": 1,
+      "message": "True, but we should first make a change to cover the test case, which isn\u0027t at the moment.",
+      "parentUuid": "2ff561ca_2d2b8967",
+      "range": {
+        "startLine": 81,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 78
+      },
+      "revId": "f28a1bdb8fd2b2d6077fe27028362ed6d710c56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
