@@ -19,41 +19,46 @@ import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLo
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.restapi.project.DeleteRef;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.transport.RefSpec;
 
 public class DeleteRefCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PullReplicationStateLogger fetchStateLog;
-  private final DeleteRef deleteRef;
+  private final ApplyObject applyObject;
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   public DeleteRefCommand(
       PullReplicationStateLogger fetchStateLog,
       ProjectCache projectCache,
-      DeleteRef deleteRef,
+      ApplyObject applyObject,
+      PermissionBackend permissionBackend,
       DynamicItem<EventDispatcher> eventDispatcher) {
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
-    this.deleteRef = deleteRef;
+    this.applyObject = applyObject;
     this.eventDispatcher = eventDispatcher;
+    this.permissionBackend = permissionBackend;
   }
 
   public void deleteRef(Project.NameKey name, String refName, String sourceLabel)
@@ -66,8 +71,15 @@ public class DeleteRefCommand {
       }
 
       try {
+        projectState.get().checkStatePermitsWrite();
+        permissionBackend
+            .currentUser()
+            .project(projectState.get().getNameKey())
+            .ref(refName)
+            .check(RefPermission.DELETE);
+
         Context.setLocalEvent(true);
-        deleteRef.deleteSingleRef(projectState.get(), refName);
+        applyObject.deleteRef(name, new RefSpec(refName));
 
         eventDispatcher
             .get()
@@ -83,7 +95,7 @@ public class DeleteRefCommand {
             "Unexpected error while trying to delete ref '%s' on project %s and notifying it",
             refName, name);
         throw RestApiException.wrap(e.getMessage(), e);
-      } catch (ResourceConflictException e) {
+      } catch (IOException e) {
         eventDispatcher
             .get()
             .postEvent(

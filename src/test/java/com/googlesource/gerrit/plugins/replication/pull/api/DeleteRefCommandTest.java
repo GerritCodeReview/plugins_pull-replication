@@ -24,11 +24,15 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
+import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
+import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.restapi.project.DeleteRef;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,8 +52,12 @@ public class DeleteRefCommandTest {
   @Mock private DynamicItem<EventDispatcher> eventDispatcherDataItem;
   @Mock private EventDispatcher eventDispatcher;
   @Mock private ProjectCache projectCache;
-  @Mock private DeleteRef deleteRef;
+  @Mock private ApplyObject applyObject;
   @Mock private ProjectState projectState;
+  @Mock private PermissionBackend permissionBackend;
+  @Mock private WithUser currentUser;
+  @Mock private ForProject forProject;
+  @Mock private ForRef forRef;
   @Captor ArgumentCaptor<Event> eventCaptor;
 
   private DeleteRefCommand objectUnderTest;
@@ -58,9 +66,13 @@ public class DeleteRefCommandTest {
   public void setup() {
     when(eventDispatcherDataItem.get()).thenReturn(eventDispatcher);
     when(projectCache.get(any())).thenReturn(Optional.of(projectState));
+    when(permissionBackend.currentUser()).thenReturn(currentUser);
+    when(currentUser.project(any())).thenReturn(forProject);
+    when(forProject.ref(any())).thenReturn(forRef);
 
     objectUnderTest =
-        new DeleteRefCommand(fetchStateLog, projectCache, deleteRef, eventDispatcherDataItem);
+        new DeleteRefCommand(
+            fetchStateLog, projectCache, applyObject, permissionBackend, eventDispatcherDataItem);
   }
 
   @Test
