@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75a588e5_33251462",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchAll.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T23:36:00Z",
+      "side": 1,
+      "message": "Agreed, is should be a separate metric IMHO.",
+      "parentUuid": "3d3486a7_7aeca523",
+      "range": {
+        "startLine": 95,
+        "startChar": 80,
+        "endLine": 95,
+        "endChar": 97
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c8221e4_812628a1",
@@ -61,6 +85,30 @@
       "writtenOn": "2022-07-19T22:02:21Z",
       "side": 1,
       "message": "use NANOSECONDS.toMillis",
+      "range": {
+        "startLine": 365,
+        "startChar": 14,
+        "endLine": 365,
+        "endChar": 36
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cde93335_161a1237",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T23:36:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c8221e4_812628a1",
       "range": {
         "startLine": 365,
         "startChar": 14,
@@ -94,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "706e5361_c7a3b86b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T23:36:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2593009d_9ba4ea8a",
+      "range": {
+        "startLine": 404,
+        "startChar": 61,
+        "endLine": 404,
+        "endChar": 78
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c46578d_43622a8d",
@@ -117,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d993f4f_6ed98733",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T23:36:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c46578d_43622a8d",
+      "range": {
+        "startLine": 129,
+        "startChar": 41,
+        "endLine": 129,
+        "endChar": 48
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39aa393f_769befc2",
@@ -130,6 +226,30 @@
       "writtenOn": "2022-07-14T14:43:36Z",
       "side": 1,
       "message": "maybe rename `apiRequestMetrics` -\u003e `apiRequestMetricsThread`?",
+      "range": {
+        "startLine": 24,
+        "startChar": 69,
+        "endLine": 24,
+        "endChar": 86
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4065fb15_1dd9d013",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiRequestMetrics.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T23:36:00Z",
+      "side": 1,
+      "message": "It is a thread-local storage and not a thread. I can rename it localApiRequestMetrics.",
+      "parentUuid": "39aa393f_769befc2",
       "range": {
         "startLine": 24,
         "startChar": 69,
@@ -177,6 +297,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "764ddc8f_05083055",
+      "range": {
+        "startLine": 116,
+        "startChar": 73,
+        "endLine": 116,
+        "endChar": 92
+      },
+      "revId": "004d9de1cf23da8e4fabbfe63905efc0daf78c01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1df0051_5d000196",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T23:36:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efaddd46_fb19defc",
       "range": {
         "startLine": 116,
         "startChar": 73,
