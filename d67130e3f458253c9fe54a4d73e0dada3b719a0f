@@ -16,6 +16,29 @@
       "message": "We have to remove corresponding tests as well",
       "revId": "d67130e3f458253c9fe54a4d73e0dada3b719a0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad81d31a_b1427d9e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/filter/ExcludedRefsFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-29T22:08:36Z",
+      "side": 1,
+      "message": "I believe also `RefNames.REFS_SEQUENCES` should be removed from the excludes\u0027 list.",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 38
+      },
+      "revId": "d67130e3f458253c9fe54a4d73e0dada3b719a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
