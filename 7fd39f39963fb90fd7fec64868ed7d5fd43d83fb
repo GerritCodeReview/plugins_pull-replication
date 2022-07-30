@@ -63,6 +63,24 @@
       "message": "This should be easy to unit test.",
       "revId": "7fd39f39963fb90fd7fec64868ed7d5fd43d83fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cb643be_ef20aba9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-07-30T23:03:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fc47533_bb5dbbc3",
+      "revId": "7fd39f39963fb90fd7fec64868ed7d5fd43d83fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
