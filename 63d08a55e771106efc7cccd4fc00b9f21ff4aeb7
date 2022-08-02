@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d46ddeb1_bb0a4dcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-08-02T07:15:51Z",
+      "side": 1,
+      "message": "This is only true in the context where the global-refdb is used (i.e. multi-site), but it is not always the case, right?\n\nConsider rephrasing this comment so that it is clear that DeleteRef _might_ do the wrong (or unnecessary) thing.",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "63d08a55e771106efc7cccd4fc00b9f21ff4aeb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96adc049_620e7ab0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-08-02T07:15:51Z",
+      "side": 1,
+      "message": "This refactoring seems to be unrelated to the `deleteRef` issue.\nShould this be a separate change?",
+      "revId": "63d08a55e771106efc7cccd4fc00b9f21ff4aeb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
