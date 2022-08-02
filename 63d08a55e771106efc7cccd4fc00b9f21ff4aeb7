@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b14b5585_5ee14590",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-08-02T19:34:16Z",
+      "side": 1,
+      "message": "Shall we create another change for this? It seems unrelated from the DeleteRef issue",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 61
+      },
+      "revId": "63d08a55e771106efc7cccd4fc00b9f21ff4aeb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "96adc049_620e7ab0",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
         "patchSetId": 4
