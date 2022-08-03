@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b01b679_504ebd98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-03T22:04:05Z",
+      "side": 1,
+      "message": "Thanks, Marcin. @Ponch can you +2?",
+      "revId": "89ccfce15519991b3ee34177ae25d17a8611388c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
