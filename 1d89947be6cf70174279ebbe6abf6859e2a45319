@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a251932_b1bfb11c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-03T22:26:08Z",
+      "side": 1,
+      "message": "I am not happy in making public a private implementation detail just for the sake of unit testing. We already test the ReplicationQueue at API level, why would you like to make further unit-testing here?",
+      "parentUuid": "8f793713_a3cf9c76",
+      "revId": "1d89947be6cf70174279ebbe6abf6859e2a45319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c31248f3_9dd0ba9d",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2022-07-17T10:58:46Z",
       "side": 1,
       "message": "`warn` accepts a throwable as last argument only for the \n\n```\n    void warn(String var1, Throwable var2);\n```\n\nimplementation.\n\nIn this call we are passing 4 arguments to populate only 3 placeholders.",
+      "revId": "1d89947be6cf70174279ebbe6abf6859e2a45319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd101c31_715d3377",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-03T22:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c31248f3_9dd0ba9d",
       "revId": "1d89947be6cf70174279ebbe6abf6859e2a45319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7797df69_9a668b77",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-03T22:26:08Z",
+      "side": 1,
+      "message": "I believe `resultIsSuccessful` is the correct name: `callSuccessful` would make you think that you were able or not to make the call, whilst `resultIsSuccessful` is saying what was the result of the call (successful or not).",
+      "parentUuid": "58ace06b_fb5600bb",
+      "range": {
+        "startLine": 296,
+        "startChar": 12,
+        "endLine": 296,
+        "endChar": 30
+      },
+      "revId": "1d89947be6cf70174279ebbe6abf6859e2a45319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "112accc1_a604a1d6",
@@ -71,6 +131,30 @@
       "writtenOn": "2022-07-19T22:17:00Z",
       "side": 1,
       "message": "typo `resultIsSuccessul` -\u003e `resultIsSuccessful`",
+      "range": {
+        "startLine": 368,
+        "startChar": 12,
+        "endLine": 368,
+        "endChar": 29
+      },
+      "revId": "1d89947be6cf70174279ebbe6abf6859e2a45319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35a4df07_d12ba59c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-03T22:26:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "112accc1_a604a1d6",
       "range": {
         "startLine": 368,
         "startChar": 12,
