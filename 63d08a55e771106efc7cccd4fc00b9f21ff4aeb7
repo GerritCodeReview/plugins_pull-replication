@@ -128,6 +128,24 @@
       "parentUuid": "96adc049_620e7ab0",
       "revId": "63d08a55e771106efc7cccd4fc00b9f21ff4aeb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d58f98ab_ca463cad",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T20:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cab245d_5256d37f",
+      "revId": "63d08a55e771106efc7cccd4fc00b9f21ff4aeb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
