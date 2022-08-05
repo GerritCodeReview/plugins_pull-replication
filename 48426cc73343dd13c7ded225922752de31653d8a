@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a74e963_e511da5b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-08-05T22:18:58Z",
+      "side": 1,
+      "message": "should we fetchWholeMetaHistory after checking if this is meta ref? So somewhere around L348",
+      "range": {
+        "startLine": 344,
+        "startChar": 13,
+        "endLine": 345,
+        "endChar": 75
+      },
+      "revId": "48426cc73343dd13c7ded225922752de31653d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7faebdc5_e09b00bf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-08-05T22:18:58Z",
+      "side": 1,
+      "message": "nit: should we pass some more reasonable limit?",
+      "range": {
+        "startLine": 402,
+        "startChar": 46,
+        "endLine": 402,
+        "endChar": 63
+      },
+      "revId": "48426cc73343dd13c7ded225922752de31653d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d16ee5ef_9c433731",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-08-05T22:18:58Z",
+      "side": 1,
+      "message": "do we need maxParentObjectIds if we have maxDepth?",
+      "range": {
+        "startLine": 144,
+        "startChar": 58,
+        "endLine": 144,
+        "endChar": 96
+      },
+      "revId": "48426cc73343dd13c7ded225922752de31653d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
