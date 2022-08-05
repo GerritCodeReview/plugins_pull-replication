@@ -166,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28d6fc26_c8ed936f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T21:35:38Z",
+      "side": 1,
+      "message": "Nope, just an arbitrary default. Bear in mind that this would cover the case where there are 128 missing replication events for the same \u0027/meta\u0027 ref, which is a very high max limit as a default.",
+      "parentUuid": "74c8f8c4_5a29e1c8",
+      "range": {
+        "startLine": 54,
+        "startChar": 59,
+        "endLine": 54,
+        "endChar": 62
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3cfcbffa_26f3675c",
@@ -507,6 +531,24 @@
       "writtenOn": "2022-07-15T11:54:11Z",
       "side": 1,
       "message": "We should probably also tests that if `CONFIG_MAX_API_HISTORY_DEPTH`  \u003c `numberOfParents`, we don\u0027t get back all the parents.",
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96944510_23c80818",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReaderIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T21:35:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6696fbb1_3aed1a75",
       "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
