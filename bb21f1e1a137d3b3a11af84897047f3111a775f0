@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "952d5483_093c9318",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T20:33:15Z",
+      "side": 1,
+      "message": "Well, it isn\u0027t just the ordering but *any* replication event is not guaranteed.",
+      "parentUuid": "3ab41a7c_23081b1b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0a15dee_f7633321",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-15T14:40:33Z",
       "side": 1,
       "message": "Would it be clear if we add something like: \"the negotiation phase during the Git fetch could be avoided altogether. In fact, in this case, the negotiation phase is sub optimal, since all the refs would be transfer with the network overhead of of client and server trying to find out the common ancestor.\" \n\nNot sure if it makes more clear :/",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 35
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce8120e2_3de651e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T20:33:15Z",
+      "side": 1,
+      "message": "Sure, will add more context.",
+      "parentUuid": "b0a15dee_f7633321",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -93,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "954de6de_8b397077",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T20:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cfcbffa_26f3675c",
+      "range": {
+        "startLine": 45,
+        "startChar": 25,
+        "endLine": 45,
+        "endChar": 32
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1389277_f042cad8",
@@ -106,6 +178,30 @@
       "writtenOn": "2022-07-15T11:54:11Z",
       "side": 1,
       "message": "nit: capital N",
+      "range": {
+        "startLine": 56,
+        "startChar": 31,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c541c0e_2abb1343",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T20:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1389277_f042cad8",
       "range": {
         "startLine": 56,
         "startChar": 31,
@@ -139,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cf945ff_2c325621",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T20:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db90f1cf_6efde588",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 0
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97933fd3_b4bed833",
@@ -162,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bff1ef8_00e53698",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T20:33:15Z",
+      "side": 1,
+      "message": "The delete refs are always sync AFAIK.",
+      "parentUuid": "97933fd3_b4bed833",
+      "range": {
+        "startLine": 81,
+        "startChar": 39,
+        "endLine": 81,
+        "endChar": 72
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe877069_7ca07cc2",
@@ -175,6 +319,30 @@
       "writtenOn": "2022-07-15T11:54:11Z",
       "side": 1,
       "message": "Why not doing this at the very beginning just after we checked we have permission to call the API?",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 97,
+        "endChar": 7
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e54b6348_9bf4de48",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T20:33:15Z",
+      "side": 1,
+      "message": "The `input.validate()` is a valid method call only if the command isn\u0027t a delete ref, hence it should be done *after* having executed the delete ref logic.",
+      "parentUuid": "fe877069_7ca07cc2",
       "range": {
         "startLine": 84,
         "startChar": 6,
@@ -244,6 +412,30 @@
       "writtenOn": "2022-07-15T11:54:11Z",
       "side": 1,
       "message": "Is this needed here? It is already specified at test suite level",
+      "range": {
+        "startLine": 86,
+        "startChar": 3,
+        "endLine": 86,
+        "endChar": 15
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6408e5d9_92f427db",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReaderIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T20:33:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d302c90a_e3d61bd4",
       "range": {
         "startLine": 86,
         "startChar": 3,
