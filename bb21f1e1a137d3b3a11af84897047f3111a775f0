@@ -448,6 +448,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10dbad0d_548760db",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T21:37:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7323cbaa_5eaf10bf",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 52
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d262d790_55264746",
@@ -461,6 +485,30 @@
       "writtenOn": "2022-07-15T11:54:11Z",
       "side": 1,
       "message": "Might be worth adding unit tests for these 2 methods",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "bb21f1e1a137d3b3a11af84897047f3111a775f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdb9e74f_112e07dd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T21:37:07Z",
+      "side": 1,
+      "message": "Sure, but it would be best in a separate change, as there isn\u0027t a RevisionInputTest class yet.",
+      "parentUuid": "d262d790_55264746",
       "range": {
         "startLine": 46,
         "startChar": 0,
