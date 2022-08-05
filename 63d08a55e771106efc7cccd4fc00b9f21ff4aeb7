@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d683b48_fe874b13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T19:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d46ddeb1_bb0a4dcf",
+      "range": {
+        "startLine": 10,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "63d08a55e771106efc7cccd4fc00b9f21ff4aeb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b14b5585_5ee14590",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11a47429_07bdd720",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T19:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b14b5585_5ee14590",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 61
+      },
+      "revId": "63d08a55e771106efc7cccd4fc00b9f21ff4aeb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96adc049_620e7ab0",
@@ -60,6 +108,24 @@
       "writtenOn": "2022-08-02T07:15:51Z",
       "side": 1,
       "message": "This refactoring seems to be unrelated to the `deleteRef` issue.\nShould this be a separate change?",
+      "revId": "63d08a55e771106efc7cccd4fc00b9f21ff4aeb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cab245d_5256d37f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-05T19:50:01Z",
+      "side": 1,
+      "message": "This was associated with the correct management of responses with an empty body. I\u0027ll move to a separate change.",
+      "parentUuid": "96adc049_620e7ab0",
       "revId": "63d08a55e771106efc7cccd4fc00b9f21ff4aeb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
