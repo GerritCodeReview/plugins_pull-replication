@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25edc807_cfcf1c12",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-06T21:29:34Z",
+      "side": 1,
+      "message": "Good idea, done.",
+      "parentUuid": "9a74e963_e511da5b",
+      "range": {
+        "startLine": 344,
+        "startChar": 13,
+        "endLine": 345,
+        "endChar": 75
+      },
+      "revId": "48426cc73343dd13c7ded225922752de31653d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7faebdc5_e09b00bf",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "20cac521_bc2e1712",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-06T21:29:34Z",
+      "side": 1,
+      "message": "Actually, Integer.MAX_VALUE *is* the reasonable value because it means that maxDepth should take always precedence.",
+      "parentUuid": "7faebdc5_e09b00bf",
+      "range": {
+        "startLine": 402,
+        "startChar": 46,
+        "endLine": 402,
+        "endChar": 63
+      },
+      "revId": "48426cc73343dd13c7ded225922752de31653d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d16ee5ef_9c433731",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-08-05T22:18:58Z",
       "side": 1,
       "message": "do we need maxParentObjectIds if we have maxDepth?",
+      "range": {
+        "startLine": 144,
+        "startChar": 58,
+        "endLine": 144,
+        "endChar": 96
+      },
+      "revId": "48426cc73343dd13c7ded225922752de31653d8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97aeb478_6008edd8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-06T21:29:34Z",
+      "side": 1,
+      "message": "Yes, because we use the minimum between maxDepth and maxParentObjectIds. In some invocations, maxParentObjectIds is zero, taking precedence over maxDepth.",
+      "parentUuid": "d16ee5ef_9c433731",
       "range": {
         "startLine": 144,
         "startChar": 58,
