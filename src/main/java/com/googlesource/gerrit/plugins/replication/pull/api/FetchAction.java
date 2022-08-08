@@ -101,7 +101,10 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     @SuppressWarnings("unchecked")
     WorkQueue.Task<Void> task =
         (WorkQueue.Task<Void>)
-            workQueue.getDefaultQueue().submit(new FetchJob(command, project, input));
+            workQueue
+                .getDefaultQueue()
+                .submit(
+                    new FetchJob(command, project, input, PullReplicationApiRequestMetrics.get()));
     Optional<String> url =
         urlFormatter
             .get()
@@ -117,17 +120,23 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     private FetchCommand command;
     private Project.NameKey project;
     private FetchAction.Input input;
+    private final PullReplicationApiRequestMetrics apiRequestMetrics;
 
-    public FetchJob(FetchCommand command, Project.NameKey project, FetchAction.Input input) {
+    public FetchJob(
+        FetchCommand command,
+        Project.NameKey project,
+        FetchAction.Input input,
+        PullReplicationApiRequestMetrics apiRequestMetrics) {
       this.command = command;
       this.project = project;
       this.input = input;
+      this.apiRequestMetrics = apiRequestMetrics;
     }
 
     @Override
     public void run() {
       try {
-        command.fetchAsync(project, input.label, input.refName);
+        command.fetchAsync(project, input.label, input.refName, apiRequestMetrics);
       } catch (InterruptedException
           | ExecutionException
           | RemoteConfigurationMissingException
