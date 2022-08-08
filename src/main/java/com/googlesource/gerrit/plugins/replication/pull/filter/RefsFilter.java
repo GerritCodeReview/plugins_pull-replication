@@ -15,7 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.filter;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.entities.AccessSection;
+import com.google.gerrit.common.data.AccessSection;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
