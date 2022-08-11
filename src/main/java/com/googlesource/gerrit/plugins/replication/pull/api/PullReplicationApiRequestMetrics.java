@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.FetchReplicationMetrics;
 import java.util.Optional;
@@ -51,18 +53,22 @@ public class PullReplicationApiRequestMetrics {
     startTimeNanos =
         Optional.ofNullable(req.getHeader(HTTP_HEADER_X_START_TIME_NANOS))
             .map(Long::parseLong)
-            /* Adjust with System.nanoTime() for preventing negative execution times
+            /* Adjust with the system's nanotime for preventing negative execution times
              * due to a clock skew between the client and the server timestamp.
              */
-            .map(nanoTime -> Math.min(System.nanoTime(), nanoTime));
+            .map(nanoTime -> Math.min(currentTimeNanos(), nanoTime));
   }
 
   public Optional<Long> stop(String replicationSourceName) {
     return startTimeNanos.map(
         start -> {
-          long elapsed = System.nanoTime() - start;
+          long elapsed = currentTimeNanos() - start;
           metrics.recordEnd2End(replicationSourceName, elapsed);
           return elapsed;
         });
+  }
+
+  private long currentTimeNanos() {
+    return MILLISECONDS.toNanos(System.currentTimeMillis());
   }
 }

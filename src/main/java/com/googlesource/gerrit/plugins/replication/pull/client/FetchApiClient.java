@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import com.google.gerrit.entities.Project;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
@@ -34,7 +36,7 @@ public interface FetchApiClient {
 
   default HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
       throws ClientProtocolException, IOException {
-    return callFetch(project, refName, targetUri, System.nanoTime());
+    return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
 
   HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;
