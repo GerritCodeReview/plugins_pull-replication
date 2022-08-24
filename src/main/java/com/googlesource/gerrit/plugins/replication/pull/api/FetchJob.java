@@ -40,7 +40,7 @@ public class FetchJob implements Runnable {
       FetchCommand command,
       @Assisted Project.NameKey project,
       @Assisted FetchAction.Input input,
-      PullReplicationApiRequestMetrics metrics) {
+      @Assisted PullReplicationApiRequestMetrics metrics) {
     this.command = command;
     this.project = project;
     this.input = input;
