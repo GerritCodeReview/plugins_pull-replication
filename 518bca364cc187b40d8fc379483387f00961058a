@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baf73eef_997fbe90",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-08-24T23:56:38Z",
+      "side": 0,
+      "message": "The associated mock expectation needs to be amended in the ReplicationQueueTest",
+      "range": {
+        "startLine": 427,
+        "startChar": 73,
+        "endLine": 427,
+        "endChar": 95
+      },
+      "revId": "518bca364cc187b40d8fc379483387f00961058a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
