@@ -424,7 +424,7 @@ public class ReplicationQueue
           FetchApiClient fetchClient = fetchClientFactory.create(source);
           repLog.info("Pull replication REST API fetch to {} for {}:{}", apiUrl, project, refName);
           Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
-          HttpResult result = fetchClient.callFetch(project, refName, uri, timer.getStartTime());
+          HttpResult result = fetchClient.callFetch(project, refName, uri);
           long elapsedMs = TimeUnit.NANOSECONDS.toMillis(timer.stop());
           boolean resultSuccessful = result.isSuccessful();
           repLog.info(
