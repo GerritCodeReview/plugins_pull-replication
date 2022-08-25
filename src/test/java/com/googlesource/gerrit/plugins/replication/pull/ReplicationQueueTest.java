@@ -19,7 +19,6 @@ import static java.nio.file.Files.createTempDirectory;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.lenient;
@@ -138,8 +137,7 @@ public class ReplicationQueueTest {
     lenient()
         .when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
-    when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong()))
-        .thenReturn(fetchHttpResult);
+    when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
     when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
     when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
@@ -216,7 +214,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
 
   @Test
@@ -229,7 +227,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
 
   @Test
@@ -245,7 +243,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onGitReferenceUpdated(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any(), anyLong());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
 
   @Test
