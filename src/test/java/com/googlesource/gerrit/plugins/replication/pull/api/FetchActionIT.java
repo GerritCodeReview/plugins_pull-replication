@@ -21,10 +21,13 @@ import com.google.gerrit.extensions.restapi.Url;
 import org.junit.Test;
 
 public class FetchActionIT extends ActionITBase {
+    // TODO add it test where fetch client sends a request
+    // with bearer token and the server loads bearer token from the config ... multiple cases
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldFetchRefWhenNodeIsAReplica() throws Exception {
+      System.out.println("this is a test");
     String refName = createRef();
     String sendObjectPayload =
         "{\"label\":\""

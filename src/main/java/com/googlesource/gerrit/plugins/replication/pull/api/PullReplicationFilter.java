@@ -120,7 +120,9 @@ public class PullReplicationFilter extends AllRequestFilter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     try {
       if (isFetchAction(httpRequest)) {
+          // TODO interesting place, this is the place to add the logic.
         if (userProvider.get().isIdentifiedUser()) {
+          System.out.println("investigation: I am in the filter");
           writeResponse(httpResponse, doFetch(httpRequest));
         } else {
           httpResponse.sendError(SC_UNAUTHORIZED);
@@ -317,7 +319,7 @@ public class PullReplicationFilter extends AllRequestFilter {
     return httpRequest.getRequestURI().endsWith("pull-replication~apply-objects");
   }
 
-  private boolean isFetchAction(HttpServletRequest httpRequest) {
+  private boolean isFetchAction(HttpServletRequest httpRequest) { // TODO interesting place
     return httpRequest.getRequestURI().endsWith("pull-replication~fetch");
   }
 
