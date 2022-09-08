@@ -37,7 +37,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-public class FetchAction implements RestModifyView<ProjectResource, Input> {
+public class FetchAction implements RestModifyView<ProjectResource, Input> { // TODO interesting
   private final FetchCommand command;
   private final WorkQueue workQueue;
   private final DynamicItem<UrlFormatter> urlFormatter;
