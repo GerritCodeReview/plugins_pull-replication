@@ -14,10 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
-import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
-import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
-import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
-
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -32,16 +28,21 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.LocalFS;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
-import java.io.IOException;
-import java.util.Optional;
+import org.eclipse.jgit.transport.URIish;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jgit.transport.URIish;
+import java.io.IOException;
+import java.util.Optional;
+
+import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
+import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
+import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
 
 @Singleton
-public class ProjectInitializationAction extends HttpServlet {
+public class ProjectInitializationAction extends HttpServlet { // TODO interesting point
   private static final long serialVersionUID = 1L;
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -119,8 +120,13 @@ public class ProjectInitializationAction extends HttpServlet {
     return localFS.createProject(projectNameKey, RefNames.HEAD);
   }
 
-  public static String getProjectInitializationUrl(String pluginName, String projectName) {
-    return String.format(
-        "a/plugins/%s/init-project/%s", pluginName, Url.encode(projectName) + ".git");
+  public static String getProjectInitializationUrl(
+      String pluginName, String projectName, Boolean isBasicAuthEnabled) {
+    if (isBasicAuthEnabled)
+      return String.format(
+          "a/plugins/%s/init-project/%s", pluginName, Url.encode(projectName) + ".git");
+    else
+      return String.format(
+          "plugins/%s/init-project/%s", pluginName, Url.encode(projectName) + ".git");
   }
 }

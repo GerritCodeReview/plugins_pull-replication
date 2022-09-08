@@ -204,7 +204,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   protected String getURL(String projectName) {
     return userRestSession.url()
         + "/"
-        + getProjectInitializationUrl("pull-replication", Url.encode(projectName));
+        + getProjectInitializationUrl("pull-replication", Url.encode(projectName), true);
   }
 
   protected HttpPut createPutRequestWithHeaders() {
