@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.inject.Scopes;
 
-public class PullReplicationApiModule extends RestApiModule {
+public class PullReplicationApiModule extends RestApiModule { // TOOD interesting
   @Override
   protected void configure() {
     bind(FetchAction.class).in(Scopes.SINGLETON);

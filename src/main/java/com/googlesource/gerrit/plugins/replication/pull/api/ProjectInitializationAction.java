@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.transport.URIish;
 
 @Singleton
-public class ProjectInitializationAction extends HttpServlet {
+public class ProjectInitializationAction extends HttpServlet { // TODO interesting point
   private static final long serialVersionUID = 1L;
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
