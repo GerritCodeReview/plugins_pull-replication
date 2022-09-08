@@ -32,6 +32,7 @@ public class HttpModule extends ServletModule {
   @Override
   protected void configureServlets() {
     if (isReplica) {
+        // TODO this filter should be applied with or without replica
       DynamicSet.bind(binder(), AllRequestFilter.class)
           .to(PullReplicationFilter.class)
           .in(Scopes.SINGLETON);
