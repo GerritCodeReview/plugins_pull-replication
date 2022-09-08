@@ -33,8 +33,13 @@ public class HttpModule extends ServletModule {
   protected void configureServlets() {
     if (isReplica) {
       DynamicSet.bind(binder(), AllRequestFilter.class)
+          .to(BearerTokenAuthenticationFilter.class)
+          .in(Scopes.SINGLETON);
+
+      DynamicSet.bind(binder(), AllRequestFilter.class)
           .to(PullReplicationFilter.class)
           .in(Scopes.SINGLETON);
+
     } else {
       serveRegex("/init-project/.*$").with(ProjectInitializationAction.class);
     }
