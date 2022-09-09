@@ -119,10 +119,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   public HttpResult callFetch(
       Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
       throws ClientProtocolException, IOException {
-    String url =
-        String.format(
-            "%s/a/projects/%s/pull-replication~fetch",
-            targetUri.toString(), Url.encode(project.get()));
+    String url = formatUrl(project, targetUri.toString(), "fetch");
     Boolean callAsync = !syncRefsFilter.match(refName);
     HttpPost post = new HttpPost(url);
     post.setEntity(
@@ -157,8 +154,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
    */
   @Override
   public HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
-    String url =
-        String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
+    String url = formatUrl(project, apiUri.toASCIIString(), "delete-project");
     HttpDelete delete = new HttpDelete(url);
     return executeHttpReqWithAuthentication(delete, bearerToken, apiUri);
   }
@@ -170,8 +166,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   public HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri)
       throws IOException {
     logger.atFine().log("Updating head of %s on %s", project.get(), newHead);
-    String url =
-        String.format("%s/%s", apiUri.toASCIIString(), getProjectUpdateHeadUrl(project.get()));
+    String url = formatUrl(project, apiUri.toASCIIString(), "HEAD");
     HttpPut put = new HttpPut(url);
     put.setEntity(
         new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), StandardCharsets.UTF_8));
@@ -199,7 +194,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     }
     RevisionInput input = new RevisionInput(instanceId, refName, revisionData);
 
-    String url = formatUrl(project, targetUri, "apply-object");
+    String url = formatUrl(project, targetUri.toString(), "apply-object");
 
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
@@ -218,19 +213,16 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     RevisionData[] inputData = new RevisionData[revisionData.size()];
     RevisionsInput input = new RevisionsInput(instanceId, refName, revisionData.toArray(inputData));
 
-    String url = formatUrl(project, targetUri, "apply-objects");
+    String url = formatUrl(project, targetUri.toString(), "apply-objects");
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString()));
     return executeHttpReqWithAuthentication(post, bearerToken, targetUri);
   }
 
-  private String formatUrl(Project.NameKey project, URIish targetUri, String api) {
-    String url =
-        String.format(
-            "%s/a/projects/%s/%s~%s",
-            targetUri.toString(), Url.encode(project.get()), pluginName, api);
-    return url;
+  private String formatUrl(Project.NameKey project, String targetUri, String api) {
+    return String.format(
+        "%s/a/projects/%s/%s~%s", targetUri, Url.encode(project.get()), pluginName, api);
   }
 
   private void requireNull(Object object, String string) {
@@ -289,13 +281,5 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     } else {
       return httpClientFactory.create(source).execute(httpRequest, this, getContext(targetUri));
     }
-  }
-
-  String getProjectDeletionUrl(String projectName) {
-    return String.format("a/projects/%s/%s~delete-project", Url.encode(projectName), pluginName);
-  }
-
-  String getProjectUpdateHeadUrl(String projectName) {
-    return String.format("a/projects/%s/%s~HEAD", Url.encode(projectName), pluginName);
   }
 }
