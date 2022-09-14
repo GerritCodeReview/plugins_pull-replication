@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9bb2e468_aa637da7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-09-14T18:57:29Z",
+      "side": 1,
+      "message": "Good catch! Basically this code was based on the logic from RestApiServlet:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.4/java/com/google/gerrit/httpd/restapi/RestApiServlet.java#1623",
+      "revId": "983d9bec7f53e37a63d4ffba489ec59c5476b33f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "cdab4aab_f0f5596c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 1
