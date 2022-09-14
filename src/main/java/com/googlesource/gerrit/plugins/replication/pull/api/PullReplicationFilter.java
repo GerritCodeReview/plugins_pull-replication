@@ -25,7 +25,6 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.projects.HeadInput;
@@ -38,7 +37,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.json.OutputFormat;
@@ -61,9 +59,11 @@ import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -73,6 +73,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class PullReplicationFilter extends AllRequestFilter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final Pattern projectNameInGerritUrl = Pattern.compile(".*/projects/([^/]+)/.*");
+  private static final Pattern projectNameInitProjectUrl =
+      Pattern.compile(".*/init-project/([^/]+.git)");
 
   private FetchAction fetchAction;
   private ApplyObjectAction applyObjectAction;
@@ -180,6 +184,9 @@ public class PullReplicationFilter extends AllRequestFilter {
     } catch (InitProjectException | ResourceNotFoundException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_INTERNAL_SERVER_ERROR, e.getMessage(), e.caching(), e);
+    } catch (NoSuchElementException e) {
+      RestApiServlet.replyError(
+          httpRequest, httpResponse, SC_BAD_REQUEST, "Project name not present in the url", e);
     } catch (Exception e) {
       throw new ServletException(e);
     }
@@ -188,8 +195,8 @@ public class PullReplicationFilter extends AllRequestFilter {
   private void doInitProject(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
       throws RestApiException, IOException, PermissionBackendException {
 
-    String path = httpRequest.getRequestURI();
-    String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
+    IdString id = getInitProjectName(httpRequest).get();
+    String projectName = id.get();
     if (projectInitializationAction.initProject(projectName)) {
       setResponse(
           httpResponse, HttpServletResponse.SC_CREATED, "Project " + projectName + " initialized");
@@ -202,7 +209,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private Response<Map<String, Object>> doApplyObject(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
     RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class));
-    IdString id = getProjectName(httpRequest);
+    IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
     return (Response<Map<String, Object>>) applyObjectAction.apply(projectResource, input);
@@ -212,7 +219,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private Response<Map<String, Object>> doApplyObjects(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
     RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class));
-    IdString id = getProjectName(httpRequest);
+    IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
     return (Response<Map<String, Object>>) applyObjectsAction.apply(projectResource, input);
@@ -221,16 +228,16 @@ public class PullReplicationFilter extends AllRequestFilter {
   @SuppressWarnings("unchecked")
   private Response<String> doUpdateHEAD(HttpServletRequest httpRequest) throws Exception {
     HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class));
-    ProjectResource projectResource =
-        projectsCollection.parse(TopLevelResource.INSTANCE, getProjectName(httpRequest));
+    IdString id = getProjectName(httpRequest).get();
+    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
     return (Response<String>) updateHEADAction.apply(projectResource, input);
   }
 
   @SuppressWarnings("unchecked")
   private Response<String> doDeleteProject(HttpServletRequest httpRequest) throws Exception {
-    ProjectResource projectResource =
-        projectsCollection.parse(TopLevelResource.INSTANCE, getProjectName(httpRequest));
+    IdString id = getProjectName(httpRequest).get();
+    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
     return (Response<String>)
         projectDeletionAction.apply(projectResource, new ProjectDeletionAction.DeleteInput());
   }
@@ -239,7 +246,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private Response<Map<String, Object>> doFetch(HttpServletRequest httpRequest)
       throws IOException, RestApiException, PermissionBackendException {
     Input input = readJson(httpRequest, TypeLiteral.get(Input.class));
-    IdString id = getProjectName(httpRequest);
+    IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
     return (Response<Map<String, Object>>) fetchAction.apply(projectResource, input);
@@ -296,42 +303,48 @@ public class PullReplicationFilter extends AllRequestFilter {
    * @param req
    * @return project name
    */
-  private IdString getProjectName(HttpServletRequest req) {
-    String path = req.getRequestURI();
+  private Optional<IdString> getInitProjectName(HttpServletRequest req) {
+    return extractProjectName(req, projectNameInitProjectUrl);
+  }
 
-    List<IdString> out = new ArrayList<>();
-    for (String p : Splitter.on('/').split(path)) {
-      out.add(IdString.fromUrl(p));
+  private Optional<IdString> getProjectName(HttpServletRequest req) {
+    return extractProjectName(req, projectNameInGerritUrl);
+  }
+
+  private Optional<IdString> extractProjectName(HttpServletRequest req, Pattern urlPattern) {
+    String path = req.getRequestURI();
+    Matcher projectGroupMatcher = urlPattern.matcher(path);
+
+    if (projectGroupMatcher.find()) {
+      return Optional.of(IdString.fromUrl(projectGroupMatcher.group(1)));
     }
-    if (!out.isEmpty() && out.get(out.size() - 1).isEmpty()) {
-      out.remove(out.size() - 1);
-    }
-    return out.get(3);
+
+    return Optional.empty();
   }
 
   private boolean isApplyObjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith("pull-replication~apply-object");
+    return httpRequest.getRequestURI().endsWith(String.format("/%s~apply-object", pluginName));
   }
 
   private boolean isApplyObjectsAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith("pull-replication~apply-objects");
+    return httpRequest.getRequestURI().endsWith(String.format("/%s~apply-objects", pluginName));
   }
 
   private boolean isFetchAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith("pull-replication~fetch");
+    return httpRequest.getRequestURI().endsWith(String.format("/%s~fetch", pluginName));
   }
 
   private boolean isInitProjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().contains("pull-replication/init-project/");
+    return httpRequest.getRequestURI().contains(String.format("/%s/init-project/", pluginName));
   }
 
   private boolean isUpdateHEADAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().matches("(/a)?/projects/[^/]+/HEAD")
+    return httpRequest.getRequestURI().matches(".*/projects/[^/]+/HEAD")
         && "PUT".equals(httpRequest.getMethod());
   }
 
   private boolean isDeleteProjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith(String.format("%s~delete-project", pluginName))
+    return httpRequest.getRequestURI().endsWith(String.format("/%s~delete-project", pluginName))
         && "DELETE".equals(httpRequest.getMethod());
   }
 }
