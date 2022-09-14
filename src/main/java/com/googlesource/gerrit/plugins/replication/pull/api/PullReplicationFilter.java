@@ -64,6 +64,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -73,6 +76,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class PullReplicationFilter extends AllRequestFilter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final Pattern projectNameInGerritUrl = Pattern.compile(".*/projects/([^/]+)/.*");
 
   private FetchAction fetchAction;
   private ApplyObjectAction applyObjectAction;
@@ -202,7 +207,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private Response<Map<String, Object>> doApplyObject(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
     RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class));
-    IdString id = getProjectName(httpRequest);
+    IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
     return (Response<Map<String, Object>>) applyObjectAction.apply(projectResource, input);
@@ -212,7 +217,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private Response<Map<String, Object>> doApplyObjects(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
     RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class));
-    IdString id = getProjectName(httpRequest);
+    IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
     return (Response<Map<String, Object>>) applyObjectsAction.apply(projectResource, input);
@@ -222,7 +227,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private Response<String> doUpdateHEAD(HttpServletRequest httpRequest) throws Exception {
     HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class));
     ProjectResource projectResource =
-        projectsCollection.parse(TopLevelResource.INSTANCE, getProjectName(httpRequest));
+        projectsCollection.parse(TopLevelResource.INSTANCE, getProjectName(httpRequest).get());
 
     return (Response<String>) updateHEADAction.apply(projectResource, input);
   }
@@ -230,7 +235,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   @SuppressWarnings("unchecked")
   private Response<String> doDeleteProject(HttpServletRequest httpRequest) throws Exception {
     ProjectResource projectResource =
-        projectsCollection.parse(TopLevelResource.INSTANCE, getProjectName(httpRequest));
+        projectsCollection.parse(TopLevelResource.INSTANCE, getProjectName(httpRequest).get());
     return (Response<String>)
         projectDeletionAction.apply(projectResource, new ProjectDeletionAction.DeleteInput());
   }
@@ -239,7 +244,7 @@ public class PullReplicationFilter extends AllRequestFilter {
   private Response<Map<String, Object>> doFetch(HttpServletRequest httpRequest)
       throws IOException, RestApiException, PermissionBackendException {
     Input input = readJson(httpRequest, TypeLiteral.get(Input.class));
-    IdString id = getProjectName(httpRequest);
+    IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
     return (Response<Map<String, Object>>) fetchAction.apply(projectResource, input);
@@ -296,17 +301,15 @@ public class PullReplicationFilter extends AllRequestFilter {
    * @param req
    * @return project name
    */
-  private IdString getProjectName(HttpServletRequest req) {
+  private Optional<IdString> getProjectName(HttpServletRequest req) {
     String path = req.getRequestURI();
+    Matcher projectGroupMatcher = projectNameInGerritUrl.matcher(path);
 
-    List<IdString> out = new ArrayList<>();
-    for (String p : Splitter.on('/').split(path)) {
-      out.add(IdString.fromUrl(p));
+    if(projectGroupMatcher.find()) {
+      return Optional.of(IdString.fromUrl(projectGroupMatcher.group(1)));
     }
-    if (!out.isEmpty() && out.get(out.size() - 1).isEmpty()) {
-      out.remove(out.size() - 1);
-    }
-    return out.get(3);
+
+    return Optional.empty();
   }
 
   private boolean isApplyObjectAction(HttpServletRequest httpRequest) {
