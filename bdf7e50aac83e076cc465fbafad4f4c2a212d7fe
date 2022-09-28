@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38a0c8e9_66f7a41d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T12:12:04Z",
+      "side": 1,
+      "message": "I have added the logic (and a test) when the extraction of the project name fails returning 400 Bad Request.\n\nI reverted the changes in the checking of the URI\u0027s. we dont do match anymore because the performance concerns",
+      "revId": "bdf7e50aac83e076cc465fbafad4f4c2a212d7fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
