@@ -412,6 +412,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd187b1_1f6e4e1e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:28:19Z",
+      "side": 1,
+      "message": "If there is  performance issue I can build the regular expression in the constructor.",
+      "parentUuid": "35d2d996_83aeb29e",
+      "range": {
+        "startLine": 304,
+        "startChar": 8,
+        "endLine": 304,
+        "endChar": 81
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81616061_1f560a23",
@@ -425,6 +449,30 @@
       "writtenOn": "2022-09-27T23:34:19Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 310,
+        "startChar": 8,
+        "endLine": 310,
+        "endChar": 82
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a76e954_2905bc3a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:28:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "81616061_1f560a23",
       "range": {
         "startLine": 310,
         "startChar": 8,
@@ -458,6 +506,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95fcab47_f1b0e5e1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:28:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b18868c6_557dde8d",
+      "range": {
+        "startLine": 316,
+        "startChar": 8,
+        "endLine": 316,
+        "endChar": 74
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5689cf9c_a88779c7",
@@ -481,6 +553,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b082d3d_b7d8416d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:28:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5689cf9c_a88779c7",
+      "range": {
+        "startLine": 322,
+        "startChar": 8,
+        "endLine": 322,
+        "endChar": 76
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42428801_17bf9b52",
@@ -494,6 +590,30 @@
       "writtenOn": "2022-09-27T23:34:19Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 333,
+        "startChar": 12,
+        "endLine": 333,
+        "endChar": 86
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a74296_4e5a01fe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:28:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "42428801_17bf9b52",
       "range": {
         "startLine": 333,
         "startChar": 12,
