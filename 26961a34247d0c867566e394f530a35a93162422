@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d50b633a_37bde71e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-09-28T10:45:25Z",
+      "side": 1,
+      "message": "not valid anymore",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f6ea56a_bb1a4400",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-09-28T10:45:25Z",
+      "side": 1,
+      "message": "do not use tabs in the commit message",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff52ece2_89114405",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -425,6 +471,30 @@
       "writtenOn": "2022-09-28T09:28:19Z",
       "side": 1,
       "message": "If there is  performance issue I can build the regular expression in the constructor.",
+      "parentUuid": "35d2d996_83aeb29e",
+      "range": {
+        "startLine": 304,
+        "startChar": 8,
+        "endLine": 304,
+        "endChar": 81
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d622225_37a80d1b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-09-28T10:45:25Z",
+      "side": 1,
+      "message": "Normally I wouldn\u0027t mind but in pull-replication plugin we are focusing on the performance. For example now for large repos apply object takes around 50ms so adding even a few millis for compiling the regex pattern will impact the performance.\nSo we have two options:\n1. Add plugin name to the string and do endsWith:\n`.endsWith(String.format(\"%s~apply-object\", pluginName));`\n2. Precompile the regex patterns and use them instead of String.matches\n\nI prefer first option because I\u0027m not sure if we will have url which ends `pull-replication~apply-object` and it\u0027s not related to apply object action",
       "parentUuid": "35d2d996_83aeb29e",
       "range": {
         "startLine": 304,
