@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e7fce05_b6b3ad5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "ff52ece2_89114405",
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96e24498_4a79b316",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-09-27T23:34:19Z",
       "side": 1,
       "message": "could we add getInitProjectName(httpRequest)  to improve the readability",
+      "range": {
+        "startLine": 180,
+        "startChar": 18,
+        "endLine": 180,
+        "endChar": 32
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb0e0072_e16abcde",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "96e24498_4a79b316",
       "range": {
         "startLine": 180,
         "startChar": 18,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78443952_6c3bf100",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "I will revert it",
+      "parentUuid": "900862d2_a4171331",
+      "range": {
+        "startLine": 186,
+        "startChar": 10,
+        "endLine": 186,
+        "endChar": 62
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44eb439d_049e870d",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-09-27T23:34:19Z",
       "side": 1,
       "message": "could we add getProjectName(httpRequest) so we don\u0027t have to think which pattern matcher we want to pass.",
+      "range": {
+        "startLine": 196,
+        "startChar": 18,
+        "endLine": 196,
+        "endChar": 32
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b671a46_44b1cb78",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "44eb439d_049e870d",
       "range": {
         "startLine": 196,
         "startChar": 18,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4b2b123_dde3182a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "62f5d678_83e512f5",
+      "range": {
+        "startLine": 206,
+        "startChar": 18,
+        "endLine": 206,
+        "endChar": 75
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13906520_4cfd8b9c",
@@ -123,6 +237,30 @@
       "writtenOn": "2022-09-27T23:34:19Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 215,
+        "startChar": 18,
+        "endLine": 215,
+        "endChar": 75
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a0a2c76_c12ec402",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "13906520_4cfd8b9c",
       "range": {
         "startLine": 215,
         "startChar": 18,
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "515a69d5_6a593866",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "d195812c_a27aa7f8",
+      "range": {
+        "startLine": 223,
+        "startChar": 18,
+        "endLine": 223,
+        "endChar": 75
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32f20a92_811a1ed2",
@@ -179,6 +341,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97d0ffff_bb39d544",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "32f20a92_811a1ed2",
+      "range": {
+        "startLine": 233,
+        "startChar": 18,
+        "endLine": 233,
+        "endChar": 75
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa470b44_682ac4f5",
@@ -192,6 +378,30 @@
       "writtenOn": "2022-09-27T23:34:19Z",
       "side": 1,
       "message": "why we need regex matching if we do not extract the project name and we just want to check if url ends with certain string?\nAlso I believe it will be less efficient because you will compile the regex pattern for every request",
+      "range": {
+        "startLine": 304,
+        "startChar": 8,
+        "endLine": 304,
+        "endChar": 81
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d2d996_83aeb29e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "The idea behind the regular expressions is to make more accurate the checking of URI. Actually I think that plugin name should me parameterised.\nHappy to have a discussion about that",
+      "parentUuid": "aa470b44_682ac4f5",
       "range": {
         "startLine": 304,
         "startChar": 8,
@@ -307,6 +517,30 @@
       "writtenOn": "2022-09-27T23:34:19Z",
       "side": 1,
       "message": "what this magic number 2 means? If I understand correctly that\u0027s the number of the request.getRequestURI() calls. But if we hardcode that information in the tests and we change the order of if statements in the  `PullReplicationFilter.doFilter` all tests will fail",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 24
+      },
+      "revId": "26961a34247d0c867566e394f530a35a93162422",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3bb0951_737a0381",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 1,
+      "message": "Yes, the test will fail. I think that there is a no a huge value of checking how many times that method has been called. Maybe verifying just that has been called is enough.",
+      "parentUuid": "9ef4c58f_9039b26a",
       "range": {
         "startLine": 104,
         "startChar": 4,

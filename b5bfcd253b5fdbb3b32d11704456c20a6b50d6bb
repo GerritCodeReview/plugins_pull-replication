@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b17e5cd_7b5f18e1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 0,
+      "message": "I will follow the current standards",
+      "parentUuid": "640fa48c_ca06776c",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 69
+      },
+      "revId": "b5bfcd253b5fdbb3b32d11704456c20a6b50d6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65f97ef7_9ae26ad2",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-27T23:34:19Z",
       "side": 0,
       "message": "same as above, unrelated change",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 47
+      },
+      "revId": "b5bfcd253b5fdbb3b32d11704456c20a6b50d6bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ed8a2e_805ae76b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-09-28T09:01:57Z",
+      "side": 0,
+      "message": "Agree with you",
+      "parentUuid": "65f97ef7_9ae26ad2",
       "range": {
         "startLine": 32,
         "startChar": 0,
