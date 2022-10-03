@@ -23,7 +23,6 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -124,44 +123,20 @@ public class PullReplicationFilter extends AllRequestFilter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     try {
       if (isFetchAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doFetch(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doFetch(httpRequest));
       } else if (isApplyObjectAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doApplyObject(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doApplyObject(httpRequest));
       } else if (isApplyObjectsAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doApplyObjects(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doApplyObjects(httpRequest));
       } else if (isInitProjectAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          if (!checkAcceptHeader(httpRequest, httpResponse)) {
-            return;
-          }
-          doInitProject(httpRequest, httpResponse);
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
+        if (!checkAcceptHeader(httpRequest, httpResponse)) {
+          return;
         }
+        doInitProject(httpRequest, httpResponse);
       } else if (isUpdateHEADAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doUpdateHEAD(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doUpdateHEAD(httpRequest));
       } else if (isDeleteProjectAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doDeleteProject(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doDeleteProject(httpRequest));
       } else {
         chain.doFilter(request, response);
       }

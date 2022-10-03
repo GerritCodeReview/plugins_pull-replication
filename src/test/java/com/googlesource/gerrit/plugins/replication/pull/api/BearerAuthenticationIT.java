@@ -23,7 +23,6 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.message.BasicHeader;
-import org.junit.Ignore;
 import org.junit.Test;
 
 @SkipProjectClone
@@ -37,7 +36,6 @@ public class BearerAuthenticationIT extends ActionITBase {
   @Test
   @GerritConfig(name = "container.replica", value = "true")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
-  @Ignore
   public void shouldFetchRef() throws Exception {
     String refName = createRef();
     String sendObjectPayload =
