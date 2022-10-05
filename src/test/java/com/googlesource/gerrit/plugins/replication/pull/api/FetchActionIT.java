@@ -42,6 +42,24 @@ public class FetchActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
+  public void shouldFetchRefAsyncWhenNodeIsAReplica() throws Exception {
+    String refName = createRef();
+    String sendObjectPayload =
+            "{\"label\":\""
+                    + TEST_REPLICATION_REMOTE
+                    + "\", \"ref_name\": \""
+                    + refName
+                    + "\", \"async\":true}";
+
+    httpClientFactory
+            .create(source)
+            .execute(
+                    withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+                    assertHttpResponseCode(202));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
   public void shouldFetchRefWhenNodeIsAReplicaAndProjectNameContainsSlash() throws Exception {
     NameKey projectName = Project.nameKey("test/repo");
     String refName = createRef(projectName);
