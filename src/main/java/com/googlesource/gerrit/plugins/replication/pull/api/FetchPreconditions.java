@@ -14,8 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
-import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
-
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.server.CurrentUser;
@@ -23,6 +21,8 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+
+import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
 
 public class FetchPreconditions {
   private final String pluginName;
@@ -40,8 +40,10 @@ public class FetchPreconditions {
   }
 
   public Boolean canCallFetchApi() {
-    PermissionBackend.WithUser userPermission = permissionBackend.user(userProvider.get());
-    return userPermission.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER)
-        || userPermission.testOrFalse(new PluginPermission(pluginName, CALL_FETCH_ACTION));
+    CurrentUser currentUser = userProvider.get();
+    PermissionBackend.WithUser userPermission = permissionBackend.user(currentUser);
+    return currentUser.isInternalUser()
+            || userPermission.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER)
+            || userPermission.testOrFalse(new PluginPermission(pluginName, CALL_FETCH_ACTION));
   }
 }

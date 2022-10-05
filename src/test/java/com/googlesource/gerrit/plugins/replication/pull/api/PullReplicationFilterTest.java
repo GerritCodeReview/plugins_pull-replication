@@ -40,8 +40,6 @@ public class PullReplicationFilterTest {
   @Mock private UpdateHeadAction updateHEADAction;
   @Mock private ProjectDeletionAction projectDeletionAction;
   @Mock private ProjectsCollection projectsCollection;
-  @Mock private CurrentUser currentUser;
-  @Mock private Provider<CurrentUser> userProvider;
   @Mock private ProjectResource projectResource;
   @Mock private ServletOutputStream outputStream;
   @Mock private PrintWriter printWriter;
@@ -71,14 +69,11 @@ public class PullReplicationFilterTest {
         updateHEADAction,
         projectDeletionAction,
         projectsCollection,
-        userProvider,
         PLUGIN_NAME);
   }
 
   private void defineBehaviours(byte[] payload, String uri) throws Exception {
     when(request.getRequestURI()).thenReturn(uri);
-    when(userProvider.get()).thenReturn(currentUser);
-    when(currentUser.isIdentifiedUser()).thenReturn(true);
     InputStream is = new ByteArrayInputStream(payload);
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
     when(request.getReader()).thenReturn(bufferedReader);
@@ -89,8 +84,6 @@ public class PullReplicationFilterTest {
 
   private void verifyBehaviours() throws Exception {
     verify(request, atLeastOnce()).getRequestURI();
-    verify(userProvider).get();
-    verify(currentUser).isIdentifiedUser();
     verify(request).getReader();
     verify(projectsCollection).parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME));
     verify(response).getWriter();
@@ -168,8 +161,6 @@ public class PullReplicationFilterTest {
 
     when(request.getRequestURI()).thenReturn(INIT_PROJECT_URI);
     when(request.getHeader(ACCEPT)).thenReturn(MediaType.PLAIN_TEXT_UTF_8.toString());
-    when(userProvider.get()).thenReturn(currentUser);
-    when(currentUser.isIdentifiedUser()).thenReturn(true);
     when(projectInitializationAction.initProject(PROJECT_NAME_GIT)).thenReturn(true);
     when(response.getWriter()).thenReturn(printWriter);
 
@@ -177,8 +168,6 @@ public class PullReplicationFilterTest {
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verify(request, times(5)).getRequestURI();
-    verify(userProvider).get();
-    verify(currentUser).isIdentifiedUser();
     verify(projectInitializationAction).initProject(eq(PROJECT_NAME_GIT));
     verify(response).getWriter();
   }
@@ -202,8 +191,6 @@ public class PullReplicationFilterTest {
   public void shouldFilterProjectDeletionAction() throws Exception {
     when(request.getRequestURI()).thenReturn(DELETE_PROJECT_URI);
     when(request.getMethod()).thenReturn("DELETE");
-    when(userProvider.get()).thenReturn(currentUser);
-    when(currentUser.isIdentifiedUser()).thenReturn(true);
     when(projectsCollection.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME)))
         .thenReturn(projectResource);
     when(projectDeletionAction.apply(any(), any())).thenReturn(OK_RESPONSE);
@@ -213,8 +200,6 @@ public class PullReplicationFilterTest {
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verify(request, times(7)).getRequestURI();
-    verify(userProvider).get();
-    verify(currentUser).isIdentifiedUser();
     verify(projectsCollection).parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME));
     verify(projectDeletionAction).apply(eq(projectResource), any());
     verify(response).getWriter();
@@ -237,8 +222,6 @@ public class PullReplicationFilterTest {
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
     when(request.getRequestURI()).thenReturn(FETCH_URI);
     when(request.getReader()).thenReturn(bufferedReader);
-    when(userProvider.get()).thenReturn(currentUser);
-    when(currentUser.isIdentifiedUser()).thenReturn(true);
     when(response.getOutputStream()).thenReturn(outputStream);
 
     PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
@@ -251,8 +234,6 @@ public class PullReplicationFilterTest {
   public void shouldBe500WhenProjectCannotBeInitiated() throws Exception {
     when(request.getRequestURI()).thenReturn(INIT_PROJECT_URI);
     when(request.getHeader(ACCEPT)).thenReturn(MediaType.PLAIN_TEXT_UTF_8.toString());
-    when(userProvider.get()).thenReturn(currentUser);
-    when(currentUser.isIdentifiedUser()).thenReturn(true);
     when(projectInitializationAction.initProject(PROJECT_NAME_GIT)).thenReturn(false);
     when(response.getOutputStream()).thenReturn(outputStream);
 
@@ -266,8 +247,6 @@ public class PullReplicationFilterTest {
   public void shouldBe500WhenResourceNotFound() throws Exception {
     when(request.getRequestURI()).thenReturn(DELETE_PROJECT_URI);
     when(request.getMethod()).thenReturn("DELETE");
-    when(userProvider.get()).thenReturn(currentUser);
-    when(currentUser.isIdentifiedUser()).thenReturn(true);
     when(projectsCollection.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME)))
         .thenReturn(projectResource);
     when(projectDeletionAction.apply(any(), any()))
@@ -326,8 +305,6 @@ public class PullReplicationFilterTest {
   public void shouldBe409WhenThereIsResourceConflict() throws Exception {
     when(request.getRequestURI()).thenReturn(DELETE_PROJECT_URI);
     when(request.getMethod()).thenReturn("DELETE");
-    when(userProvider.get()).thenReturn(currentUser);
-    when(currentUser.isIdentifiedUser()).thenReturn(true);
     when(projectsCollection.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME)))
         .thenReturn(projectResource);
 
@@ -346,8 +323,6 @@ public class PullReplicationFilterTest {
     when(request.getRequestURI())
         .thenReturn(String.format("any-prefix/projects/%s~delete-project", PLUGIN_NAME));
     when(request.getMethod()).thenReturn("DELETE");
-    when(userProvider.get()).thenReturn(currentUser);
-    when(currentUser.isIdentifiedUser()).thenReturn(true);
     when(response.getOutputStream()).thenReturn(outputStream);
 
     PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();

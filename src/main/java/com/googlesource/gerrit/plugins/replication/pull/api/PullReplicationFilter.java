@@ -14,29 +14,10 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
-import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
-import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
-import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
-import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
-import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
-
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.projects.HeadInput;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.restapi.*;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.json.OutputFormat;
@@ -55,6 +36,13 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.InitProjectException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
@@ -64,12 +52,11 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
+import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
+import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
+import static javax.servlet.http.HttpServletResponse.*;
 
 public class PullReplicationFilter extends AllRequestFilter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -86,7 +73,6 @@ public class PullReplicationFilter extends AllRequestFilter {
   private ProjectDeletionAction projectDeletionAction;
   private ProjectsCollection projectsCollection;
   private Gson gson;
-  private Provider<CurrentUser> userProvider;
   private String pluginName;
 
   @Inject
@@ -98,7 +84,6 @@ public class PullReplicationFilter extends AllRequestFilter {
       UpdateHeadAction updateHEADAction,
       ProjectDeletionAction projectDeletionAction,
       ProjectsCollection projectsCollection,
-      Provider<CurrentUser> userProvider,
       @PluginName String pluginName) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
@@ -107,7 +92,6 @@ public class PullReplicationFilter extends AllRequestFilter {
     this.updateHEADAction = updateHEADAction;
     this.projectDeletionAction = projectDeletionAction;
     this.projectsCollection = projectsCollection;
-    this.userProvider = userProvider;
     this.pluginName = pluginName;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
   }
@@ -124,44 +108,20 @@ public class PullReplicationFilter extends AllRequestFilter {
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     try {
       if (isFetchAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doFetch(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doFetch(httpRequest));
       } else if (isApplyObjectAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doApplyObject(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doApplyObject(httpRequest));
       } else if (isApplyObjectsAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doApplyObjects(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doApplyObjects(httpRequest));
       } else if (isInitProjectAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          if (!checkAcceptHeader(httpRequest, httpResponse)) {
-            return;
-          }
-          doInitProject(httpRequest, httpResponse);
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
+        if (!checkAcceptHeader(httpRequest, httpResponse)) {
+          return;
         }
+        doInitProject(httpRequest, httpResponse);
       } else if (isUpdateHEADAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doUpdateHEAD(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doUpdateHEAD(httpRequest));
       } else if (isDeleteProjectAction(httpRequest)) {
-        if (userProvider.get().isIdentifiedUser()) {
-          writeResponse(httpResponse, doDeleteProject(httpRequest));
-        } else {
-          httpResponse.sendError(SC_UNAUTHORIZED);
-        }
+        writeResponse(httpResponse, doDeleteProject(httpRequest));
       } else {
         chain.doFilter(request, response);
       }
