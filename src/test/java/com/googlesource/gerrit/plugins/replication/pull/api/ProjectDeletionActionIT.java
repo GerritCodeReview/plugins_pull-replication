@@ -87,11 +87,10 @@ public class ProjectDeletionActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnUnauthorizedForUserWithoutPermissionsOnReplica() throws Exception {
+  public void shouldReturnForbiddenForUserWithoutPermissionsOnReplica() throws Exception {
     httpClientFactory
         .create(source)
-        .execute(
-            createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
+        .execute(createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
   }
 
   @Test

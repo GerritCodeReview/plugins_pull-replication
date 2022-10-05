@@ -64,7 +64,7 @@ public class FetchActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnUnauthorizedWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
+  public void shouldReturnForbiddenWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
     String refName = createRef();
     String sendObjectPayload =
         "{\"label\":\""
@@ -75,7 +75,7 @@ public class FetchActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(401));
+        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(403));
   }
 
   @Override

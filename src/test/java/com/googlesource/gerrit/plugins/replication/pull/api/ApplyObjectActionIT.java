@@ -120,7 +120,7 @@ public class ApplyObjectActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnUnauthorizedWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
+  public void shouldReturnForbiddenWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
@@ -136,7 +136,7 @@ public class ApplyObjectActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(401));
+        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(403));
   }
 
   @Test
