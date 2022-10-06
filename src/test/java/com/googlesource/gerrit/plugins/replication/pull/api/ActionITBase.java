@@ -43,17 +43,16 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -170,17 +169,22 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     };
   }
 
-  protected HttpClientContext getContext() {
-    return getContextForAccount(admin);
+  protected HttpRequestBase withBasicAuthenticationAsAdmin(HttpRequestBase httpRequest)
+      throws AuthenticationException {
+    return withBasicAuthentication(httpRequest, admin);
   }
 
-  protected HttpClientContext getUserContext() {
-    return getContextForAccount(user);
+  protected HttpRequestBase withBasicAuthenticationAsUser(HttpRequestBase httpRequest)
+      throws AuthenticationException {
+    return withBasicAuthentication(httpRequest, user);
   }
 
-  protected HttpClientContext getAnonymousContext() {
-    HttpClientContext ctx = HttpClientContext.create();
-    return ctx;
+  private HttpRequestBase withBasicAuthentication(HttpRequestBase httpRequest, TestAccount account)
+      throws AuthenticationException {
+    UsernamePasswordCredentials creds =
+        new UsernamePasswordCredentials(account.username(), account.httpPassword());
+    httpRequest.addHeader(new BasicScheme().authenticate(creds, httpRequest, null));
+    return httpRequest;
   }
 
   private Project.NameKey createTestProject(String name) throws Exception {
@@ -215,14 +219,5 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     secureConfig.setString("remote", remoteName, "username", username);
     secureConfig.setString("remote", remoteName, "password", password);
     secureConfig.save();
-  }
-
-  private HttpClientContext getContextForAccount(TestAccount account) {
-    HttpClientContext ctx = HttpClientContext.create();
-    CredentialsProvider adapted = new BasicCredentialsProvider();
-    adapted.setCredentials(
-        AuthScope.ANY, new UsernamePasswordCredentials(account.username(), account.httpPassword()));
-    ctx.setCredentialsProvider(adapted);
-    return ctx;
   }
 }

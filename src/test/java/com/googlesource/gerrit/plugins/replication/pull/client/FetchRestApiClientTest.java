@@ -174,7 +174,7 @@ public class FetchRestApiClientTest {
     when(source.getRemoteConfigName()).thenReturn("Replication");
 
     HttpResult httpResult = new HttpResult(SC_CREATED, Optional.of("result message"));
-    when(httpClient.execute(any(HttpPost.class), any(), any())).thenReturn(httpResult);
+    when(httpClient.execute(any(HttpPost.class), any())).thenReturn(httpResult);
     when(httpClientFactory.create(any())).thenReturn(httpClient);
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
     objectUnderTest =
@@ -194,7 +194,7 @@ public class FetchRestApiClientTest {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
@@ -219,7 +219,7 @@ public class FetchRestApiClientTest {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
@@ -244,7 +244,7 @@ public class FetchRestApiClientTest {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
@@ -271,12 +271,12 @@ public class FetchRestApiClientTest {
             source);
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), metaRefName, new URIish(api));
-    verify(httpClient, times(2)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(2)).execute(httpPostCaptor.capture(), any());
     httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedMetaRefPayload);
   }
@@ -287,7 +287,7 @@ public class FetchRestApiClientTest {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
@@ -299,7 +299,7 @@ public class FetchRestApiClientTest {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(httpPost.getLastHeader("Content-Type").getValue())
@@ -317,7 +317,7 @@ public class FetchRestApiClientTest {
         createSampleRevisionData(),
         new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
@@ -336,7 +336,7 @@ public class FetchRestApiClientTest {
         createSampleRevisionData(),
         new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedSendObjectPayload);
@@ -348,7 +348,7 @@ public class FetchRestApiClientTest {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(httpPost.getLastHeader("Content-Type").getValue())
@@ -415,7 +415,7 @@ public class FetchRestApiClientTest {
             source);
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
@@ -426,7 +426,7 @@ public class FetchRestApiClientTest {
 
     objectUnderTest.initProject(Project.nameKey("test_repo"), new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any());
 
     HttpPut httpPut = httpPutCaptor.getValue();
     assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
@@ -439,7 +439,7 @@ public class FetchRestApiClientTest {
 
     objectUnderTest.deleteProject(Project.nameKey("test_repo"), new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpDeleteCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpDeleteCaptor.capture(), any());
 
     HttpDelete httpDelete = httpDeleteCaptor.getValue();
     assertThat(httpDelete.getURI().getHost()).isEqualTo("gerrit-host");
@@ -453,7 +453,7 @@ public class FetchRestApiClientTest {
     String projectName = "aProject";
     objectUnderTest.updateHead(Project.nameKey(projectName), newHead, new URIish(api));
 
-    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any(), any());
+    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any());
 
     HttpPut httpPut = httpPutCaptor.getValue();
     String payload =
