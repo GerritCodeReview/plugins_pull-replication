@@ -45,17 +45,16 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
-import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.eclipse.jgit.transport.CredentialItem;
@@ -123,7 +122,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     post.addHeader(
         PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
         Long.toString(startTimeNanos));
-    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+    return httpClientFactory.create(source).execute(withBasicAuthentication(targetUri, post), this);
   }
 
   /* (non-Javadoc)
@@ -137,7 +136,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     HttpPut put = new HttpPut(url);
     put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
     put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(put, this, getContext(uri));
+    return httpClientFactory.create(source).execute(withBasicAuthentication(uri, put), this);
   }
 
   /* (non-Javadoc)
@@ -148,7 +147,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     String url =
         String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
     HttpDelete delete = new HttpDelete(url);
-    return httpClientFactory.create(source).execute(delete, this, getContext(apiUri));
+    return httpClientFactory.create(source).execute(withBasicAuthentication(apiUri, delete), this);
   }
 
   /* (non-Javadoc)
@@ -164,7 +163,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     req.setEntity(
         new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), StandardCharsets.UTF_8));
     req.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(req, this, getContext(apiUri));
+    return httpClientFactory.create(source).execute(withBasicAuthentication(apiUri, req), this);
   }
 
   /* (non-Javadoc)
@@ -192,7 +191,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+    return httpClientFactory.create(source).execute(withBasicAuthentication(targetUri, post), this);
   }
 
   @Override
@@ -210,7 +209,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(post, this, getContext(targetUri));
+    return httpClientFactory.create(source).execute(withBasicAuthentication(targetUri, post), this);
   }
 
   private String formatUrl(Project.NameKey project, URIish targetUri, String api) {
@@ -246,23 +245,21 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     return new HttpResult(response.getStatusLine().getStatusCode(), responseBody);
   }
 
-  private HttpClientContext getContext(URIish targetUri) {
-    HttpClientContext ctx = HttpClientContext.create();
-    ctx.setCredentialsProvider(adapt(credentials.create(source.getRemoteConfigName()), targetUri));
-    return ctx;
-  }
-
-  private CredentialsProvider adapt(org.eclipse.jgit.transport.CredentialsProvider cp, URIish uri) {
+  private HttpRequestBase withBasicAuthentication(URIish targetUri, HttpRequestBase req) {
+    org.eclipse.jgit.transport.CredentialsProvider cp =
+        credentials.create(source.getRemoteConfigName());
     CredentialItem.Username user = new CredentialItem.Username();
     CredentialItem.Password pass = new CredentialItem.Password();
-    if (cp.supports(user, pass) && cp.get(uri, user, pass)) {
-      CredentialsProvider adapted = new BasicCredentialsProvider();
-      adapted.setCredentials(
-          AuthScope.ANY,
-          new UsernamePasswordCredentials(user.getValue(), new String(pass.getValue())));
-      return adapted;
+    if (cp.supports(user, pass) && cp.get(targetUri, user, pass)) {
+      UsernamePasswordCredentials creds =
+          new UsernamePasswordCredentials(user.getValue(), new String(pass.getValue()));
+      try {
+        req.addHeader(new BasicScheme().authenticate(creds, req, null));
+      } catch (AuthenticationException e) {
+        logger.atFine().log(String.format("Anonymous Basic Authentication for uri: %s", targetUri));
+      }
     }
-    return null;
+    return req;
   }
 
   String getProjectDeletionUrl(String projectName) {
