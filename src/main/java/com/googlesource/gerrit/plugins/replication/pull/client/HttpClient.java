@@ -24,8 +24,6 @@ import org.apache.http.protocol.HttpContext;
 public interface HttpClient {
 
   public <T> T execute(
-      final HttpUriRequest request,
-      final ResponseHandler<? extends T> responseHandler,
-      final HttpContext context)
+      final HttpUriRequest request, final ResponseHandler<? extends T> responseHandler)
       throws ClientProtocolException, IOException;
 }

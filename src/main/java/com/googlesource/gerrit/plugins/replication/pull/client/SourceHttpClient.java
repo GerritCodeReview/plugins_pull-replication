@@ -41,8 +41,7 @@ public class SourceHttpClient implements HttpClient {
   }
 
   @Override
-  public <T> T execute(
-      HttpUriRequest request, ResponseHandler<? extends T> responseHandler, HttpContext context)
+  public <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler)
       throws ClientProtocolException, IOException {
     return source
         .memoize(
@@ -51,7 +50,7 @@ public class SourceHttpClient implements HttpClient {
                     .setConnectionManager(customConnectionManager(source))
                     .setDefaultRequestConfig(customRequestConfig(source))
                     .build())
-        .execute(request, responseHandler, context);
+        .execute(request, responseHandler);
   }
 
   private static RequestConfig customRequestConfig(Source source) {
