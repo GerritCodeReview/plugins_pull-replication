@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b17c98b_c99a9cfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-06T15:06:06Z",
+      "side": 1,
+      "message": "Hi, \nPlease, have a look at the change and let me know if you want me to change something.\n\nThanks on advance",
+      "revId": "6e02ca9ac17e5a2ce19fdd91a8eafbb594f90a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
