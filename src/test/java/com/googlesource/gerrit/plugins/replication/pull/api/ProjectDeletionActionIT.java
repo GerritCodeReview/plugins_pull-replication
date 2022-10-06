@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.junit.Test;
 
 public class ProjectDeletionActionIT extends ActionITBase {
@@ -35,9 +36,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createDeleteRequest(),
-            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED),
-            getAnonymousContext());
+            createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Test
@@ -47,9 +46,8 @@ public class ProjectDeletionActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createDeleteRequest(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+            withBasicAuthenticationAsUser(createDeleteRequest()),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
 
     projectOperations
         .project(allProjects)
@@ -60,9 +58,8 @@ public class ProjectDeletionActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createDeleteRequest(),
-            assertHttpResponseCode(HttpServletResponse.SC_OK),
-            getUserContext());
+            withBasicAuthenticationAsUser(createDeleteRequest()),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
   }
 
   @Test
@@ -73,7 +70,8 @@ public class ProjectDeletionActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_OK), getContext());
+            withBasicAuthenticationAsAdmin(createDeleteRequest()),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
   }
 
   @Test
@@ -83,9 +81,8 @@ public class ProjectDeletionActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createDeleteRequest(),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR),
-            getContext());
+            withBasicAuthenticationAsAdmin(createDeleteRequest()),
+            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
   }
 
   @Test
@@ -94,9 +91,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createDeleteRequest(),
-            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED),
-            getAnonymousContext());
+            createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Test
@@ -108,7 +103,8 @@ public class ProjectDeletionActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_OK), getContext());
+            withBasicAuthenticationAsAdmin(createDeleteRequest()),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
   }
 
   @Test
@@ -117,12 +113,11 @@ public class ProjectDeletionActionIT extends ActionITBase {
       throws Exception {
     String testProjectName = project.get();
     url = getURL(testProjectName);
+    HttpRequestBase deleteRequest = withBasicAuthenticationAsUser(createDeleteRequest());
+
     httpClientFactory
         .create(source)
-        .execute(
-            createDeleteRequest(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+        .execute(deleteRequest, assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
 
     projectOperations
         .project(allProjects)
@@ -132,10 +127,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(
-            createDeleteRequest(),
-            assertHttpResponseCode(HttpServletResponse.SC_OK),
-            getUserContext());
+        .execute(deleteRequest, assertHttpResponseCode(HttpServletResponse.SC_OK));
   }
 
   @Test
@@ -147,9 +139,8 @@ public class ProjectDeletionActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createDeleteRequest(),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR),
-            getContext());
+            withBasicAuthenticationAsAdmin(createDeleteRequest()),
+            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
   }
 
   @Override
