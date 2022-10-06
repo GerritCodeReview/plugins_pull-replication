@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicHeader;
 import org.junit.Test;
 
@@ -40,8 +41,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
         .create(source)
         .execute(
             createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED),
-            getAnonymousContext());
+            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Test
@@ -49,9 +49,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithoutHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithoutHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
@@ -61,28 +60,26 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED));
 
-    HttpGet getNewProjectRequest =
-        new HttpGet(userRestSession.url() + "/a/projects/" + Url.encode(newProjectName));
+    HttpRequestBase getNewProjectRequest =
+        withBasicAuthenticationAsAdmin(
+            new HttpGet(userRestSession.url() + "/a/projects/" + Url.encode(newProjectName)));
+
     httpClientFactory
         .create(source)
-        .execute(
-            getNewProjectRequest, assertHttpResponseCode(HttpServletResponse.SC_OK), getContext());
+        .execute(getNewProjectRequest, assertHttpResponseCode(HttpServletResponse.SC_OK));
   }
 
   @Test
   public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilities() throws Exception {
     String newProjectName = "new/newProjectForUserWithCapabilities";
     url = getURL(newProjectName);
+    HttpRequestBase put = withBasicAuthenticationAsUser(createPutRequestWithHeaders());
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
 
     projectOperations
         .project(allProjects)
@@ -94,10 +91,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_CREATED));
   }
 
   @Test
@@ -105,9 +99,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+            withBasicAuthenticationAsUser(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
   }
 
   @Test
@@ -118,9 +111,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED));
   }
 
   @Test
@@ -129,9 +121,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+            withBasicAuthenticationAsUser(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
   }
 
   @Test
@@ -140,12 +131,10 @@ public class ProjectInitializationActionIT extends ActionITBase {
       throws Exception {
     String newProjectName = "new/newProjectForUserWithCapabilitiesReplica";
     url = getURL(newProjectName);
+    HttpRequestBase put = withBasicAuthenticationAsUser(createPutRequestWithHeaders());
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
 
     projectOperations
         .project(allProjects)
@@ -157,10 +146,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_CREATED));
   }
 
   @Test
@@ -168,13 +154,11 @@ public class ProjectInitializationActionIT extends ActionITBase {
   public void shouldReturnInternalServerErrorIfProjectCannotBeCreatedWhenNodeIsAReplica()
       throws Exception {
     url = getURL(INVALID_TEST_PROJECT_NAME);
-
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
   }
 
   @Test
@@ -183,9 +167,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithoutHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithoutHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
@@ -196,8 +179,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
         .create(source)
         .execute(
             createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED),
-            getAnonymousContext());
+            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Override

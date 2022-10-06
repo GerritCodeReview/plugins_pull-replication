@@ -18,14 +18,11 @@ import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.protocol.HttpContext;
 
 /** HTTP client for executing URI requests to a remote site */
 public interface HttpClient {
 
   public <T> T execute(
-      final HttpUriRequest request,
-      final ResponseHandler<? extends T> responseHandler,
-      final HttpContext context)
+      final HttpUriRequest request, final ResponseHandler<? extends T> responseHandler)
       throws ClientProtocolException, IOException;
 }
