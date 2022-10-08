@@ -14,10 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
-import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
-import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
-import static java.util.Objects.requireNonNull;
-
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.net.MediaType;
@@ -27,6 +23,7 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.config.GerritInstanceId;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
@@ -39,10 +36,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Optional;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.auth.AuthenticationException;
@@ -57,8 +51,17 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Optional;
+
+import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
+import static java.util.Objects.requireNonNull;
 
 public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpResult> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -73,6 +76,8 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   private final String instanceId;
   private final String pluginName;
   private final SyncRefsFilter syncRefsFilter;
+  private final Optional<String> bearerToken;
+  private final String authenticationPathPrefix;
 
   @Inject
   FetchRestApiClient(
@@ -82,7 +87,8 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
       SyncRefsFilter syncRefsFilter,
       @PluginName String pluginName,
       @Nullable @GerritInstanceId String instanceId,
-      @Assisted Source source) {
+      @Assisted Source source,
+      @GerritServerConfig Config gerritConfig) {
     this.credentials = credentials;
     this.httpClientFactory = httpClientFactory;
     this.source = source;
@@ -97,6 +103,9 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     requireNonNull(
         Strings.emptyToNull(this.instanceId),
         "gerrit.instanceId or replication.instanceLabel must be set");
+
+    this.bearerToken = Optional.ofNullable(gerritConfig.getString("auth", null, "bearerToken"));
+    this.authenticationPathPrefix = bearerToken.map(br -> "").orElse("a/");
   }
 
   /* (non-Javadoc)
@@ -105,11 +114,8 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   @Override
   public HttpResult callFetch(
       Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
-      throws ClientProtocolException, IOException {
-    String url =
-        String.format(
-            "%s/a/projects/%s/pull-replication~fetch",
-            targetUri.toString(), Url.encode(project.get()));
+      throws IOException {
+    String url = formatUrl(targetUri.toString(), project, "fetch");
     Boolean callAsync = !syncRefsFilter.match(refName);
     HttpPost post = new HttpPost(url);
     post.setEntity(
@@ -122,7 +128,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     post.addHeader(
         PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
         Long.toString(startTimeNanos));
-    return httpClientFactory.create(source).execute(withBasicAuthentication(targetUri, post), this);
+    return executeRequest(post, bearerToken, targetUri);
   }
 
   /* (non-Javadoc)
@@ -130,13 +136,11 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
    */
   @Override
   public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
-    String url =
-        String.format(
-            "%s/%s", uri.toString(), getProjectInitializationUrl(pluginName, project.get()));
+    String url = formatInitProjectUrl(uri.toString(), project);
     HttpPut put = new HttpPut(url);
     put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
     put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(withBasicAuthentication(uri, put), this);
+    return executeRequest(put, bearerToken, uri);
   }
 
   /* (non-Javadoc)
@@ -144,10 +148,9 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
    */
   @Override
   public HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException {
-    String url =
-        String.format("%s/%s", apiUri.toASCIIString(), getProjectDeletionUrl(project.get()));
+    String url = formatUrl(apiUri.toASCIIString(), project, "delete-project");
     HttpDelete delete = new HttpDelete(url);
-    return httpClientFactory.create(source).execute(withBasicAuthentication(apiUri, delete), this);
+    return executeRequest(delete, bearerToken, apiUri);
   }
 
   /* (non-Javadoc)
@@ -157,13 +160,12 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   public HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri)
       throws IOException {
     logger.atFine().log("Updating head of %s on %s", project.get(), newHead);
-    String url =
-        String.format("%s/%s", apiUri.toASCIIString(), getProjectUpdateHeadUrl(project.get()));
+    String url = formatUrl(apiUri.toASCIIString(), project, "HEAD");
     HttpPut req = new HttpPut(url);
     req.setEntity(
         new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), StandardCharsets.UTF_8));
     req.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(withBasicAuthentication(apiUri, req), this);
+    return executeRequest(req, bearerToken, apiUri);
   }
 
   /* (non-Javadoc)
@@ -186,12 +188,12 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     }
     RevisionInput input = new RevisionInput(instanceId, refName, revisionData);
 
-    String url = formatUrl(project, targetUri, "apply-object");
+    String url = formatUrl(targetUri.toString(), project, "apply-object");
 
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(withBasicAuthentication(targetUri, post), this);
+    return executeRequest(post, bearerToken, targetUri);
   }
 
   @Override
@@ -205,19 +207,23 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     RevisionData[] inputData = new RevisionData[revisionData.size()];
     RevisionsInput input = new RevisionsInput(instanceId, refName, revisionData.toArray(inputData));
 
-    String url = formatUrl(project, targetUri, "apply-objects");
+    String url = formatUrl(targetUri.toString(), project, "apply-objects");
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
-    return httpClientFactory.create(source).execute(withBasicAuthentication(targetUri, post), this);
+    return executeRequest(post, bearerToken, targetUri);
   }
 
-  private String formatUrl(Project.NameKey project, URIish targetUri, String api) {
-    String url =
-        String.format(
-            "%s/a/projects/%s/%s~%s",
-            targetUri.toString(), Url.encode(project.get()), pluginName, api);
-    return url;
+  private String formatUrl(String targetUri, Project.NameKey project, String api) {
+    return String.format(
+        "%s/%sprojects/%s/%s~%s",
+        targetUri, authenticationPathPrefix, Url.encode(project.get()), pluginName, api);
+  }
+
+  private String formatInitProjectUrl(String targetUri, Project.NameKey project) {
+    return String.format(
+        "%s/%splugins/%s/init-project/%s.git",
+        targetUri, authenticationPathPrefix, pluginName, Url.encode(project.get()));
   }
 
   private void requireNull(Object object, String string) {
@@ -245,6 +251,12 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     return new HttpResult(response.getStatusLine().getStatusCode(), responseBody);
   }
 
+  private HttpResult executeRequest(HttpRequestBase httpRequest, Optional<String> bearerToken, URIish targetUri) throws IOException {
+    return httpClientFactory
+            .create(source)
+            .execute(withAuthentication(httpRequest, bearerToken, targetUri), this);
+  }
+
   private HttpRequestBase withBasicAuthentication(URIish targetUri, HttpRequestBase req) {
     org.eclipse.jgit.transport.CredentialsProvider cp =
         credentials.create(source.getRemoteConfigName());
@@ -262,11 +274,17 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     return req;
   }
 
-  String getProjectDeletionUrl(String projectName) {
-    return String.format("a/projects/%s/%s~delete-project", Url.encode(projectName), pluginName);
+  private HttpRequestBase withBearerTokenAuthentication(HttpRequestBase req) {
+    req.addHeader(new BasicHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken.get()));
+    return req;
   }
 
-  String getProjectUpdateHeadUrl(String projectName) {
-    return String.format("a/projects/%s/%s~HEAD", Url.encode(projectName), pluginName);
+  private HttpRequestBase withAuthentication(
+      HttpRequestBase httpRequest, Optional<String> bearerToken, URIish targetUri) {
+    if (bearerToken.isPresent()) {
+      return withBearerTokenAuthentication(httpRequest);
+    } else {
+      return withBasicAuthentication(targetUri, httpRequest);
+    }
   }
 }
