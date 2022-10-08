@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class UpdateHeadActionIT extends ActionITBase {
@@ -140,6 +141,50 @@ public class UpdateHeadActionIT extends ActionITBase {
             assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
   }
 
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  @Ignore("Waiting for resolving: Issue 16332: Not able to update the HEAD from internal user")
+  public void shouldReturnOKWhenHeadIsUpdatedInReplicaWithBearerToken() throws Exception {
+    String testProjectName = project.get();
+    url = getURLWithoutAuthenticationPrefix(testProjectName);
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(testProjectName).branch(newBranch).create(input);
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(
+                createPutRequest(headInput(newBranch)), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
+
+    assertThat(gApi.projects().name(testProjectName).head()).isEqualTo(newBranch);
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "false")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  @Ignore("Waiting for resolving: Issue 16332: Not able to update the HEAD from internal user")
+  public void shouldReturnOKWhenHeadIsUpdatedInPrimaryWithBearerToken() throws Exception {
+    String testProjectName = project.get();
+    url = getURLWithoutAuthenticationPrefix(testProjectName);
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(testProjectName).branch(newBranch).create(input);
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(
+                createPutRequest(headInput(newBranch)), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
+
+    assertThat(gApi.projects().name(testProjectName).head()).isEqualTo(newBranch);
+  }
+
   private String headInput(String ref) {
     HeadInput headInput = new HeadInput();
     headInput.ref = ref;
@@ -147,7 +192,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Override
-  protected String getURL(String projectName) {
+  protected String getURLWithAuthenticationPrefix(String projectName) {
     return String.format("%s/a/projects/%s/HEAD", adminRestSession.url(), projectName);
   }
 }
