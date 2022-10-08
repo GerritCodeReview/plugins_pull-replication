@@ -23,6 +23,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ProjectDeletionActionIT extends ActionITBase {
@@ -42,7 +43,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   @Test
   public void shouldDeleteRepositoryWhenUserHasProjectDeletionCapabilities() throws Exception {
     String testProjectName = project.get();
-    url = getURL(testProjectName);
+    url = getURLWithAuthInfix(testProjectName);
     httpClientFactory
         .create(source)
         .execute(
@@ -65,7 +66,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   @Test
   public void shouldReturnOKWhenProjectIsDeleted() throws Exception {
     String testProjectName = project.get();
-    url = getURL(testProjectName);
+    url = getURLWithAuthInfix(testProjectName);
 
     httpClientFactory
         .create(source)
@@ -76,7 +77,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
 
   @Test
   public void shouldReturnInternalServerErrorIfProjectCannotBeDeleted() throws Exception {
-    url = getURL(INVALID_TEST_PROJECT_NAME);
+    url = getURLWithAuthInfix(INVALID_TEST_PROJECT_NAME);
 
     httpClientFactory
         .create(source)
@@ -97,7 +98,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnOKWhenProjectIsDeletedOnReplica() throws Exception {
     String testProjectName = project.get();
-    url = getURL(testProjectName);
+    url = getURLWithAuthInfix(testProjectName);
 
     httpClientFactory
         .create(source)
@@ -111,7 +112,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   public void shouldDeleteRepositoryWhenUserHasProjectDeletionCapabilitiesAndNodeIsAReplica()
       throws Exception {
     String testProjectName = project.get();
-    url = getURL(testProjectName);
+    url = getURLWithAuthInfix(testProjectName);
     HttpRequestBase deleteRequest = withBasicAuthenticationAsUser(createDeleteRequest());
 
     httpClientFactory
@@ -133,7 +134,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnInternalServerErrorIfProjectCannotBeDeletedWhenNodeIsAReplica()
       throws Exception {
-    url = getURL(INVALID_TEST_PROJECT_NAME);
+    url = getURLWithAuthInfix(INVALID_TEST_PROJECT_NAME);
 
     httpClientFactory
         .create(source)
@@ -142,8 +143,38 @@ public class ProjectDeletionActionIT extends ActionITBase {
             assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
   }
 
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  @Ignore
+  public void shouldReturnOKWhenProjectIsDeletedOnReplicaWithBearerToken() throws Exception {
+    String testProjectName = project.get();
+    url = getURLWithoutAuthInfix(testProjectName);
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerToken(createDeleteRequest(), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "false")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  @Ignore
+  public void shouldReturnOKWhenProjectIsDeletedOnPrimaryWithBearerToken() throws Exception {
+    String testProjectName = project.get();
+    url = getURLWithoutAuthInfix(testProjectName);
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerToken(createDeleteRequest(), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
+  }
+
   @Override
-  protected String getURL(String projectName) {
+  protected String getURLWithAuthInfix(String projectName) {
     return String.format(
         "%s/a/projects/%s/pull-replication~delete-project",
         adminRestSession.url(), Url.encode(projectName));
