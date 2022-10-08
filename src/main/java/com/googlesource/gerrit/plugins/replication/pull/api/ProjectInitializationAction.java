@@ -109,9 +109,4 @@ public class ProjectInitializationAction extends HttpServlet {
     Project.NameKey projectNameKey = Project.NameKey.parse(projectName);
     return localFS.createProject(projectNameKey, RefNames.HEAD);
   }
-
-  public static String getProjectInitializationUrl(String pluginName, String projectName) {
-    return String.format(
-        "a/plugins/%s/init-project/%s", pluginName, Url.encode(projectName) + ".git");
-  }
 }
