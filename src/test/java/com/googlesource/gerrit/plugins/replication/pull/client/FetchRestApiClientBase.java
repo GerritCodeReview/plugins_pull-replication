@@ -16,12 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
@@ -39,32 +34,26 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
-import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicHeader;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.Answer;
 
-@RunWith(MockitoJUnitRunner.class)
-public class FetchRestApiClientTest {
+public abstract class FetchRestApiClientBase {
   private static final boolean IS_REF_UPDATE = false;
 
   @Mock CredentialsProvider credentialProvider;
@@ -74,10 +63,10 @@ public class FetchRestApiClientTest {
   @Mock FileBasedConfig config;
   @Mock ReplicationFileBasedConfig replicationConfig;
   @Mock Source source;
+  @Mock Config gerritConfig;
   @Captor ArgumentCaptor<HttpPost> httpPostCaptor;
   @Captor ArgumentCaptor<HttpPut> httpPutCaptor;
   @Captor ArgumentCaptor<HttpDelete> httpDeleteCaptor;
-
   String api = "http://gerrit-host";
   String pluginName = "pull-replication";
   String instanceId = "Replication";
@@ -150,43 +139,9 @@ public class FetchRestApiClientTest {
 
   FetchApiClient objectUnderTest;
 
-  @Before
-  public void setup() throws ClientProtocolException, IOException {
-    when(credentialProvider.supports(any()))
-        .thenAnswer(
-            new Answer<Boolean>() {
+  protected abstract String authenticationPathPrefix();
 
-              @Override
-              public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                CredentialItem.Username user = (CredentialItem.Username) invocation.getArgument(0);
-                CredentialItem.Password password =
-                    (CredentialItem.Password) invocation.getArgument(1);
-                user.setValue("admin");
-                password.setValue("secret".toCharArray());
-                return true;
-              }
-            });
-
-    when(credentialProvider.get(any(), any(CredentialItem.class))).thenReturn(true);
-    when(credentials.create(anyString())).thenReturn(credentialProvider);
-    when(replicationConfig.getConfig()).thenReturn(config);
-    when(config.getStringList("replication", null, "syncRefs")).thenReturn(new String[0]);
-    when(source.getRemoteConfigName()).thenReturn("Replication");
-
-    HttpResult httpResult = new HttpResult(SC_CREATED, Optional.of("result message"));
-    when(httpClient.execute(any(HttpPost.class), any())).thenReturn(httpResult);
-    when(httpClientFactory.create(any())).thenReturn(httpClient);
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
-    objectUnderTest =
-        new FetchRestApiClient(
-            credentials,
-            httpClientFactory,
-            replicationConfig,
-            syncRefsFilter,
-            pluginName,
-            instanceId,
-            source);
-  }
+  protected abstract void assertAuthentication(HttpRequestBase httpRequest);
 
   @Test
   public void shouldCallFetchEndpoint()
@@ -199,23 +154,15 @@ public class FetchRestApiClientTest {
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpPost.getURI().getPath())
-        .isEqualTo("/a/projects/test_repo/pull-replication~fetch");
+        .isEqualTo(
+            String.format(
+                "%s/projects/test_repo/pull-replication~fetch", authenticationPathPrefix()));
+    assertAuthentication(httpPost);
   }
 
   @Test
   public void shouldByDefaultCallSyncFetchForAllRefs()
       throws ClientProtocolException, IOException, URISyntaxException {
-
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
-    objectUnderTest =
-        new FetchRestApiClient(
-            credentials,
-            httpClientFactory,
-            replicationConfig,
-            syncRefsFilter,
-            pluginName,
-            instanceId,
-            source);
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -240,7 +187,8 @@ public class FetchRestApiClientTest {
             syncRefsFilter,
             pluginName,
             instanceId,
-            source);
+            source,
+            gerritConfig);
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -268,7 +216,8 @@ public class FetchRestApiClientTest {
             syncRefsFilter,
             pluginName,
             instanceId,
-            source);
+            source,
+            gerritConfig);
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
@@ -322,7 +271,10 @@ public class FetchRestApiClientTest {
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpPost.getURI().getPath())
-        .isEqualTo("/a/projects/test_repo/pull-replication~apply-object");
+        .isEqualTo(
+            String.format(
+                "%s/projects/test_repo/pull-replication~apply-object", authenticationPathPrefix()));
+    assertAuthentication(httpPost);
   }
 
   @Test
@@ -367,7 +319,8 @@ public class FetchRestApiClientTest {
                 syncRefsFilter,
                 pluginName,
                 null,
-                source));
+                source,
+                gerritConfig));
   }
 
   @Test
@@ -382,7 +335,8 @@ public class FetchRestApiClientTest {
                 syncRefsFilter,
                 pluginName,
                 " ",
-                source));
+                source,
+                gerritConfig));
   }
 
   @Test
@@ -397,7 +351,8 @@ public class FetchRestApiClientTest {
                 syncRefsFilter,
                 pluginName,
                 "",
-                source));
+                source,
+                gerritConfig));
   }
 
   @Test
@@ -412,7 +367,8 @@ public class FetchRestApiClientTest {
             syncRefsFilter,
             pluginName,
             "",
-            source);
+            source,
+            gerritConfig);
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
@@ -431,7 +387,11 @@ public class FetchRestApiClientTest {
     HttpPut httpPut = httpPutCaptor.getValue();
     assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpPut.getURI().getPath())
-        .isEqualTo("/a/plugins/pull-replication/init-project/test_repo.git");
+        .isEqualTo(
+            String.format(
+                "%s/plugins/pull-replication/init-project/test_repo.git",
+                authenticationPathPrefix()));
+    assertAuthentication(httpPut);
   }
 
   @Test
@@ -444,7 +404,11 @@ public class FetchRestApiClientTest {
     HttpDelete httpDelete = httpDeleteCaptor.getValue();
     assertThat(httpDelete.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpDelete.getURI().getPath())
-        .isEqualTo("/a/projects/test_repo/pull-replication~delete-project");
+        .isEqualTo(
+            String.format(
+                "%s/projects/test_repo/pull-replication~delete-project",
+                authenticationPathPrefix()));
+    assertAuthentication(httpDelete);
   }
 
   @Test
@@ -462,8 +426,11 @@ public class FetchRestApiClientTest {
 
     assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
     assertThat(httpPut.getURI().getPath())
-        .isEqualTo(String.format("/a/projects/%s/pull-replication~HEAD", projectName));
+        .isEqualTo(
+            String.format(
+                "%s/projects/%s/pull-replication~HEAD", authenticationPathPrefix(), projectName));
     assertThat(payload).isEqualTo(String.format("{\"ref\": \"%s\"}", newHead));
+    assertAuthentication(httpPut);
   }
 
   public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {

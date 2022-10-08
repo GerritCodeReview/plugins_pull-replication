@@ -17,12 +17,8 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
-import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
+import com.google.gerrit.acceptance.*;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
-import com.google.gerrit.acceptance.SkipProjectClone;
-import com.google.gerrit.acceptance.TestAccount;
-import com.google.gerrit.acceptance.TestPlugin;
-import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
