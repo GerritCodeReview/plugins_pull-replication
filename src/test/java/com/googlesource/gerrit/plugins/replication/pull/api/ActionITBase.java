@@ -42,6 +42,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -82,7 +83,11 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   SourceHttpClient.Factory httpClientFactory;
   String url;
 
-  protected abstract String getURL(String projectName);
+  protected abstract String getURLWithAuthInfix(String projectName);
+
+  protected String getURLWithoutAuthInfix(String projectName) {
+    return getURLWithAuthInfix(projectName).replace("a/", "");
+  }
 
   @Override
   public void setUpTestPlugin() throws Exception {
@@ -108,7 +113,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     revisionReader = plugin.getSysInjector().getInstance(RevisionReader.class);
     source = plugin.getSysInjector().getInstance(SourcesCollection.class).getAll().get(0);
 
-    url = getURL(project.get());
+    url = getURLWithAuthInfix(project.get());
   }
 
   protected HttpPost createRequest(String sendObjectPayload) {
@@ -167,6 +172,12 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
         return null;
       }
     };
+  }
+
+  protected HttpRequestBase withBearerTokenAuthentication(
+      HttpRequestBase httpRequest, String bearerToken) {
+    httpRequest.addHeader(new BasicHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken));
+    return httpRequest;
   }
 
   protected HttpRequestBase withBasicAuthenticationAsAdmin(HttpRequestBase httpRequest)
