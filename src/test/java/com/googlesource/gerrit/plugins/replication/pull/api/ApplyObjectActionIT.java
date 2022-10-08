@@ -180,6 +180,56 @@ public class ApplyObjectActionIT extends ActionITBase {
             assertHttpResponseCode(400));
   }
 
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldAcceptPayloadWhenNodeIsAReplicaWithBearerToken() throws Exception {
+    url = getURLWithoutAuthenticationPrefix(project.get());
+    String payloadWithoutAsyncFieldTemplate =
+        "{\"label\":\""
+            + TEST_REPLICATION_REMOTE
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+
+    String refName = createRef();
+    Optional<RevisionData> revisionDataOption = createRevisionData(refName);
+    assertThat(revisionDataOption.isPresent()).isTrue();
+
+    RevisionData revisionData = revisionDataOption.get();
+    String sendObjectPayload =
+        createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(createRequest(sendObjectPayload), "some-bearer-token"),
+            assertHttpResponseCode(201));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "false")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldAcceptPayloadWhenNodeIsAPrimaryWithBearerToken() throws Exception {
+    url = getURLWithoutAuthenticationPrefix(project.get());
+    String payloadWithoutAsyncFieldTemplate =
+        "{\"label\":\""
+            + TEST_REPLICATION_REMOTE
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+
+    String refName = createRef();
+    Optional<RevisionData> revisionDataOption = createRevisionData(refName);
+    assertThat(revisionDataOption.isPresent()).isTrue();
+
+    RevisionData revisionData = revisionDataOption.get();
+    String sendObjectPayload =
+        createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(createRequest(sendObjectPayload), "some-bearer-token"),
+            assertHttpResponseCode(201));
+  }
+
   private String createPayload(
       String wrongPayloadTemplate, String refName, RevisionData revisionData) {
     String sendObjectPayload =
@@ -192,7 +242,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Override
-  protected String getURL(String projectName) {
+  protected String getURLWithAuthenticationPrefix(String projectName) {
     return String.format(
         "%s/a/projects/%s/pull-replication~apply-object",
         adminRestSession.url(), Url.encode(projectName));
