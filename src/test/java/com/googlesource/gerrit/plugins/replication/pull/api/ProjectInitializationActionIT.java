@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
-import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 
 import com.google.common.net.MediaType;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -56,7 +55,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @Test
   public void shouldCreateRepository() throws Exception {
     String newProjectName = "new/newProjectForPrimary";
-    url = getURL(newProjectName);
+    url = getURLWithAuthenticationPrefix(newProjectName);
     httpClientFactory
         .create(source)
         .execute(
@@ -75,7 +74,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @Test
   public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilities() throws Exception {
     String newProjectName = "new/newProjectForUserWithCapabilities";
-    url = getURL(newProjectName);
+    url = getURLWithAuthenticationPrefix(newProjectName);
     HttpRequestBase put = withBasicAuthenticationAsUser(createPutRequestWithHeaders());
     httpClientFactory
         .create(source)
@@ -107,7 +106,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldCreateRepositoryWhenNodeIsAReplica() throws Exception {
     String newProjectName = "new/newProjectForReplica";
-    url = getURL(newProjectName);
+    url = getURLWithAuthenticationPrefix(newProjectName);
     httpClientFactory
         .create(source)
         .execute(
@@ -130,7 +129,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilitiesAndNodeIsAReplica()
       throws Exception {
     String newProjectName = "new/newProjectForUserWithCapabilitiesReplica";
-    url = getURL(newProjectName);
+    url = getURLWithAuthenticationPrefix(newProjectName);
     HttpRequestBase put = withBasicAuthenticationAsUser(createPutRequestWithHeaders());
     httpClientFactory
         .create(source)
@@ -153,7 +152,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnInternalServerErrorIfProjectCannotBeCreatedWhenNodeIsAReplica()
       throws Exception {
-    url = getURL(INVALID_TEST_PROJECT_NAME);
+    url = getURLWithAuthenticationPrefix(INVALID_TEST_PROJECT_NAME);
     httpClientFactory
         .create(source)
         .execute(
@@ -181,11 +180,36 @@ public class ProjectInitializationActionIT extends ActionITBase {
             assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
   }
 
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldCreateRepositoryWhenNodeIsAReplicaWithBearerToken() throws Exception {
+    String newProjectName = "new/newProjectForReplica";
+    url = getURLWithoutAuthenticationPrefix(newProjectName);
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(createPutRequestWithHeaders(), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "false")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldCreateRepositoryWhenNodeIsAPrimaryWithBearerToken() throws Exception {
+    String newProjectName = "new/newProjectForReplica";
+    url = getURLWithoutAuthenticationPrefix(newProjectName);
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(createPutRequestWithHeaders(), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED));
+  }
+
   @Override
-  protected String getURL(String projectName) {
+  protected String getURLWithAuthenticationPrefix(String projectName) {
     return userRestSession.url()
-        + "/"
-        + getProjectInitializationUrl("pull-replication", Url.encode(projectName));
+        + String.format("/a/plugins/pull-replication/init-project/%s.git", Url.encode(projectName));
   }
 
   protected HttpPut createPutRequestWithHeaders() {
