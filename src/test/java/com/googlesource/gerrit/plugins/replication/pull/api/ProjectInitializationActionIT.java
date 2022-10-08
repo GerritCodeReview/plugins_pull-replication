@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
-import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 
 import com.google.common.net.MediaType;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -184,8 +183,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @Override
   protected String getURL(String projectName) {
     return userRestSession.url()
-        + "/"
-        + getProjectInitializationUrl("pull-replication", Url.encode(projectName));
+        + String.format("/a/plugins/pull-replication/init-project/%s.git", Url.encode(projectName));
   }
 
   protected HttpPut createPutRequestWithHeaders() {
