@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "577cb3d8_ea027dda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-08T09:47:35Z",
+      "side": 1,
+      "message": "Please, can you abandon this issue. I have created another one assigned to me",
+      "revId": "f3681ae8b155efed63ed8cc5f6d188cad17148d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
