@@ -17,16 +17,22 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.server.config.GerritIsReplica;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
+import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
+import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 
 public class HttpModule extends ServletModule {
   private boolean isReplica;
+  private final Optional<String> bearerToken;
 
   @Inject
-  public HttpModule(@GerritIsReplica Boolean isReplica) {
+  public HttpModule(@GerritIsReplica Boolean isReplica, @GerritServerConfig Config gerritConfig) {
     this.isReplica = isReplica;
+    this.bearerToken = Optional.ofNullable(gerritConfig.getString("auth", null, "bearerToken"));
   }
 
   @Override
@@ -34,6 +40,14 @@ public class HttpModule extends ServletModule {
     DynamicSet.bind(binder(), AllRequestFilter.class)
         .to(PullReplicationApiMetricsFilter.class)
         .in(Scopes.SINGLETON);
+
+    bearerToken.ifPresent(
+        bt -> {
+          bind(String.class).annotatedWith(Names.named("BearerToken")).toInstance(bt);
+          DynamicSet.bind(binder(), AllRequestFilter.class)
+              .to(BearerAuthenticationFilter.class)
+              .in(Scopes.SINGLETON);
+        });
 
     if (isReplica) {
       DynamicSet.bind(binder(), AllRequestFilter.class)
