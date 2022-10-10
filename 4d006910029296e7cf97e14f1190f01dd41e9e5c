@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9eaa63a4_5873d1e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-10T20:13:49Z",
+      "side": 1,
+      "message": "I have updated the description. Please, let me know what you think.",
+      "parentUuid": "1386b7fd_ce12b906",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 78
+      },
+      "revId": "4d006910029296e7cf97e14f1190f01dd41e9e5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b31f0968_cc8931fa",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
