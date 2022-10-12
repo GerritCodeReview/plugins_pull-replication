@@ -14,7 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
-import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
 
@@ -70,17 +69,8 @@ public class ProjectInitializationAction extends HttpServlet {
       return;
     }
 
-    if (!userProvider.get().isIdentifiedUser()) {
-      setResponse(
-          httpServletResponse,
-          HttpServletResponse.SC_UNAUTHORIZED,
-          "Unauthorized user. '" + CALL_FETCH_ACTION + "' capability needed.");
-      return;
-    }
-
     String path = httpServletRequest.getRequestURI();
     String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
-
     try {
       if (initProject(projectName)) {
         setResponse(
