@@ -6,12 +6,12 @@
       "updated": "2022-10-13T09:30:59Z"
     },
     "gerritforge:pull-replication-format-3852e64366bb37d13b8baf8af9b15cfd38eb9227": {
-      "state": "RUNNING",
+      "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/plugin-pull-replication-verifier/job/55%252F348155%252F7/2/console",
       "started": "2022-10-13T09:38:38Z",
-      "finished": "2022-10-13T09:07:34Z",
+      "finished": "2022-10-13T09:38:47Z",
       "created": "2022-10-13T09:07:26Z",
-      "updated": "2022-10-13T09:38:38Z"
+      "updated": "2022-10-13T09:38:47Z"
     }
   }
 }
