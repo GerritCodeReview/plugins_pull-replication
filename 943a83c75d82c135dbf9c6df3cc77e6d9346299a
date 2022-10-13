@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca2be932_6109315c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-13T17:55:10Z",
+      "side": 1,
+      "message": "Until I dont see more stability in stable-3.4 I prefer not to merge anything",
+      "revId": "943a83c75d82c135dbf9c6df3cc77e6d9346299a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
