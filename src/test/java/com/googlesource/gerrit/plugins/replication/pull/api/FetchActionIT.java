@@ -18,6 +18,7 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.restapi.Url;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class FetchActionIT extends ActionITBase {
@@ -42,6 +43,7 @@ public class FetchActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
+  @Ignore
   public void shouldFetchRefAsyncWhenNodeIsAReplica() throws Exception {
     String refName = createRef();
     String sendObjectPayload =
