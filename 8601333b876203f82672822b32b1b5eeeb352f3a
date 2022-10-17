@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98f692da_be0ee729",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-17T07:15:10Z",
+      "side": 1,
+      "message": "In the bearer token\u0027s issue I will add the test.",
+      "revId": "8601333b876203f82672822b32b1b5eeeb352f3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
