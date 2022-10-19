@@ -25,16 +25,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class ExcludedRefsFilter extends RefsFilter {
   public static String[] DEFAULT_REPLICATION_EXCLUDE_REFS =
-      new String[] {
-        RefNames.REFS_USERS + "*",
-        RefNames.REFS_CONFIG,
-        RefNames.REFS_SEQUENCES + "*",
-        RefNames.REFS_EXTERNAL_IDS,
-        RefNames.REFS_GROUPS + "*",
-        RefNames.REFS_GROUPNAMES,
-        RefNames.REFS_CACHE_AUTOMERGE + "*",
-        RefNames.REFS_STARRED_CHANGES + "*"
-      };
+      new String[] {RefNames.REFS_CACHE_AUTOMERGE + "*", RefNames.REFS_STARRED_CHANGES + "*"};
 
   @Inject
   public ExcludedRefsFilter(ReplicationConfig replicationConfig) {
