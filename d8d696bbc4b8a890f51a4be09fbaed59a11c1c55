@@ -393,6 +393,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e162771a_aa4d60bc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-10-21T07:58:02Z",
+      "side": 1,
+      "message": "I believe is for update project head but we should confirm that",
+      "parentUuid": "d046bc12_bd3c69bb",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "828a816d_133aadb6",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 47

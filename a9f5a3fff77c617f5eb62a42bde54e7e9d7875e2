@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4288f0f6_219c74e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 49
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-10-21T07:58:02Z",
+      "side": 1,
+      "message": "why instead. it\u0027s more like both now are supported so users can decide which one they can use",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21665c88_be54f414",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-10-21T07:58:02Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10044429_e6c65321",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-10-21T07:58:02Z",
+      "side": 1,
+      "message": "just out of curiosity, why we need that context?",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 96
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b307b95_da568331",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-10-21T07:58:02Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 15
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df5bb8c8_104daa45",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-10-21T07:58:02Z",
+      "side": 1,
+      "message": "can we replace with this::extractBearerToken?",
+      "range": {
+        "startLine": 105,
+        "startChar": 17,
+        "endLine": 105,
+        "endChar": 45
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e78066e_c13c8f45",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-10-21T07:58:02Z",
+      "side": 1,
+      "message": "why we are not injecting bearerToken?",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 96
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eaa0fab_d7eb434b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-10-21T07:58:02Z",
+      "side": 1,
+      "message": "why we replaced com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl; with this method?",
+      "range": {
+        "startLine": 222,
+        "startChar": 2,
+        "endLine": 226,
+        "endChar": 3
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
