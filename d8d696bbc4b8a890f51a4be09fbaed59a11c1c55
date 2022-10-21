@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edd70288_8bdc3e43",
+        "filename": ".gitignore",
+        "patchSetId": 47
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Ok, I will move it to another change.",
+      "parentUuid": "206e6ad8_dfa3c165",
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa90a915_55d5374e",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-10-19T21:58:28Z",
       "side": 1,
       "message": "Wrap long line",
+      "range": {
+        "startLine": 7,
+        "startChar": 68,
+        "endLine": 7,
+        "endChar": 85
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d6b47b6_dc3f1656",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "aa90a915_55d5374e",
       "range": {
         "startLine": 7,
         "startChar": 68,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "463e7d1f_5812c2b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "51f1de00_052ad5d1",
+      "range": {
+        "startLine": 9,
+        "startChar": 67,
+        "endLine": 9,
+        "endChar": 81
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d78381bd_52f7ae55",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-10-19T21:58:28Z",
       "side": 1,
       "message": "Wrap long line.",
+      "range": {
+        "startLine": 11,
+        "startChar": 69,
+        "endLine": 11,
+        "endChar": 108
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "604c85c6_68c10144",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d78381bd_52f7ae55",
       "range": {
         "startLine": 11,
         "startChar": 69,
@@ -106,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82a6054f_3dcbe747",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "What do you think?:\n\"Use of Bearer Token Authentication to allow authentication in the case of primary/primary or primary/replica rest communication\"",
+      "parentUuid": "8a57cf9a_e3268191",
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c95951a_ed9fa684",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 47
@@ -117,6 +225,24 @@
       "writtenOn": "2022-10-19T21:58:28Z",
       "side": 1,
       "message": "Copyright missing",
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f6f21f9_0d3206ed",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Actually it is missing in all the new files. I will add it to all of them.",
+      "parentUuid": "8c95951a_ed9fa684",
       "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -134,6 +260,30 @@
       "writtenOn": "2022-10-19T21:58:28Z",
       "side": 1,
       "message": "Not needed",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 9
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13f0be0b_ea182be4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "I am happy to do it but why is it not needed? Should we not try to avoid mutability \n(it is true that with `final` we can only guarantee that the reference cannot be updated but not the state of the object)? \n\nBecause i come from scala i try to add final to absolutely everything.",
+      "parentUuid": "4e7a5b02_9fcb9542",
       "range": {
         "startLine": 64,
         "startChar": 4,
@@ -213,6 +363,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd98c0c7_52b7461a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "59df0559_b0f12133",
+      "range": {
+        "startLine": 70,
+        "startChar": 32,
+        "endLine": 70,
+        "endChar": 35
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfb84518_4c6baf59",
@@ -259,6 +433,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "999eefc3_8f9fa724",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Good one.",
+      "parentUuid": "5b3b0ac7_d5845f18",
+      "range": {
+        "startLine": 74,
+        "startChar": 30,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74d10ea8_c9843eb6",
@@ -272,6 +470,30 @@
       "writtenOn": "2022-10-19T21:58:28Z",
       "side": 1,
       "message": "Security errors should never tell the caller what was the reason of the permission denied.",
+      "range": {
+        "startLine": 77,
+        "startChar": 13,
+        "endLine": 77,
+        "endChar": 68
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc504daa_40ffa8bb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Good observation. I think the code will be even much simpler.",
+      "parentUuid": "74d10ea8_c9843eb6",
       "range": {
         "startLine": 77,
         "startChar": 13,
@@ -305,6 +527,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ea4d765_df0d5d8d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ba74491c_fa9e8c13",
+      "range": {
+        "startLine": 85,
+        "startChar": 71,
+        "endLine": 85,
+        "endChar": 93
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4267a35_4c34de75",
@@ -318,6 +564,30 @@
       "writtenOn": "2022-10-19T21:58:28Z",
       "side": 1,
       "message": "isBearerTokenAuthenticated",
+      "range": {
+        "startLine": 91,
+        "startChar": 18,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e912e9c_4d2a70e5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a4267a35_4c34de75",
       "range": {
         "startLine": 91,
         "startChar": 18,
@@ -351,6 +621,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0dc2ec5_80f2947d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "good call, i will change it.",
+      "parentUuid": "09ea6573_f9a55d8c",
+      "range": {
+        "startLine": 99,
+        "startChar": 22,
+        "endLine": 99,
+        "endChar": 30
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "98200e6c_a29bfdda",
@@ -364,6 +658,24 @@
       "writtenOn": "2022-10-19T21:58:28Z",
       "side": 1,
       "message": "I\u0027d put also a shortcut condition at the beginning like:\n`requestURI.contains(pluginName) \u0026\u0026`\n\nThe above would allow to avoid processing all the boolean conditions if the request doesn\u0027t even contain the plugin name in it.",
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e253b3d_f5f03389",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "I like it.",
+      "parentUuid": "98200e6c_a29bfdda",
       "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -415,6 +727,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a200bb5f_8a16ea81",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "One of the actions provided in the Pull replication plugin is \"update HEAD\".\nthis checking is the same one as PullReplicationFilter.java / line 312",
+      "parentUuid": "d046bc12_bd3c69bb",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "828a816d_133aadb6",
@@ -438,6 +774,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dcc26f4_2d120b40",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "you are right, sometimes I am too defensive.",
+      "parentUuid": "828a816d_133aadb6",
+      "range": {
+        "startLine": 115,
+        "startChar": 22,
+        "endLine": 115,
+        "endChar": 32
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0f76688_f15d830b",
@@ -451,6 +811,30 @@
       "writtenOn": "2022-10-19T21:58:28Z",
       "side": 1,
       "message": "This should be extracted as constant",
+      "range": {
+        "startLine": 46,
+        "startChar": 43,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e43f5c46_f05fd22b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "I am happy to do it but out of curiosity is it because readability? it is only used in one place and that part of the code is invoked just once when HttpModule is loaded.\n\nI am in the opinion of creating a constant when it is used multiple times in that class or even outside (as static).",
+      "parentUuid": "d0f76688_f15d830b",
       "range": {
         "startLine": 46,
         "startChar": 43,

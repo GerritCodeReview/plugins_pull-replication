@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35738c51_4bc7fc97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 49
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "I think you are right. I will change it.",
+      "parentUuid": "4288f0f6_219c74e6",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "21665c88_be54f414",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 49
@@ -37,6 +61,30 @@
       "writtenOn": "2022-10-21T07:58:02Z",
       "side": 1,
       "message": "2022",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3f7495a_683492c1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "21665c88_be54f414",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c69ceb5c_fbb1b2ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "We need a mechanism to inject the \"plugin user/ internal user\" in the context of the request. Therefore when the authorisation is done downstream the userProvider will provide a plugin user. If we do not use the context, the userProvider will  provide anonymous user and the authorisation will fail.\n\nI am not quite sure if my explanation is good enough. I guess that @luca.milanesio@gmail.com can provide better explanation.",
+      "parentUuid": "10044429_e6c65321",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 96
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b307b95_da568331",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-10-21T07:58:02Z",
       "side": 1,
       "message": "not needed",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 15
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3bbc4ba_28e3ddc9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "I asked the same to @luca.milanesio@gmail.com. Is this not a good pattern?",
+      "parentUuid": "0b307b95_da568331",
       "range": {
         "startLine": 91,
         "startChar": 10,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a40e9b_1f7e1e88",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "Yes, it works. Thank you so much.",
+      "parentUuid": "df5bb8c8_104daa45",
+      "range": {
+        "startLine": 105,
+        "startChar": 17,
+        "endLine": 105,
+        "endChar": 45
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e78066e_c13c8f45",
@@ -129,6 +249,30 @@
       "writtenOn": "2022-10-21T07:58:02Z",
       "side": 1,
       "message": "why we are not injecting bearerToken?",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 96
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f608fc92_2207d75e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 1,
+      "message": "let me play with that.",
+      "parentUuid": "9e78066e_c13c8f45",
       "range": {
         "startLine": 105,
         "startChar": 0,

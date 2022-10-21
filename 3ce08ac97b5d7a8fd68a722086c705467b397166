@@ -46,6 +46,30 @@
       },
       "revId": "3ce08ac97b5d7a8fd68a722086c705467b397166",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8846a033_801d34d8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T17:38:39Z",
+      "side": 0,
+      "message": "That method was used in FetchRestApiClient and ProjectInitializationActionIT and I removed for the following reasons (personal opinions):\n\n1. FetchRestApiClient should be responsible to build the urls (fetch, applyObject, applyObjects, delete project, init project and update Head) and should be decoupled from the server prod code (ProjectInitializationAction)\n\n2. I personally think that test code should just reference prod code that is under test i.e someAPi.doSomething. I think that ProjectInitializationActionIT should build the url itself and not \"cheat\" in the test using prod utilities functions.\n\n3. Now with the bearer token functionality that method as it is makes no sense.\n\nI hope it helps.",
+      "parentUuid": "82110867_60eb9508",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 3
+      },
+      "revId": "3ce08ac97b5d7a8fd68a722086c705467b397166",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
