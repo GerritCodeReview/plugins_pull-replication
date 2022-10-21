@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1cab7b1_f771215f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 51
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T18:00:50Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com @maczech@gmail.com I have replied to some of your questions.",
+      "revId": "eddb7eb34e60b2c03721d39c0762beb8cfa63622",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

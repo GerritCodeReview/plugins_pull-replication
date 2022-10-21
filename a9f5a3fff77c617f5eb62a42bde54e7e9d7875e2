@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5490a1c8_631971c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 49
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T18:00:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "35738c51_4bc7fc97",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21665c88_be54f414",
@@ -296,6 +320,30 @@
       "writtenOn": "2022-10-21T07:58:02Z",
       "side": 1,
       "message": "why we replaced com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl; with this method?",
+      "range": {
+        "startLine": 222,
+        "startChar": 2,
+        "endLine": 226,
+        "endChar": 3
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47ddd4fc_2c5a9f13",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-21T18:00:50Z",
+      "side": 1,
+      "message": "The idea that I had was to give to FetchRestApiClient.java the responsibility of building the urls that is going to use (fetch, apply object, apply objects, delete, update head and init) and avoid coupling with ProjectInitializationAction.\n\nI think that if we leave the responsibility of building the init project url to ProjectInitializationAction, we should do the smae thing with the others urls in order to follow the same pattern across the Pull Replication Plugin. \n\nI am happy to have a call and discuss it.",
+      "parentUuid": "6eaa0fab_d7eb434b",
       "range": {
         "startLine": 222,
         "startChar": 2,
