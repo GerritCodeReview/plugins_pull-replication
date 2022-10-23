@@ -307,6 +307,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e07f732d_3af6a65b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 49
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-23T18:48:54Z",
+      "side": 1,
+      "message": "Not all the instances will have defined the bearer token so this might be null: \nI guess that I could define something like:\n@Named(\"BearerToken\") @Nullable String bearerToken. I need to play with this, I am not very fluent with guice",
+      "parentUuid": "f608fc92_2207d75e",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 96
+      },
+      "revId": "a9f5a3fff77c617f5eb62a42bde54e7e9d7875e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6eaa0fab_d7eb434b",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83f357e0_49374c9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 53
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-23T18:48:54Z",
+      "side": 1,
+      "message": "@maczech@gmail.com I have introduced the class BearerTokenProvider. Please, have a look at it and let me know.",
+      "revId": "4df6889e94c4e01a306dacad12d41e4a2d5c6c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
