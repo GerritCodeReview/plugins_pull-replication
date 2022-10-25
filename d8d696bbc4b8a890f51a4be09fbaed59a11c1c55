@@ -232,6 +232,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca18e4d4_d00e324a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "Basically, the main reason is the replication of the All-Users.git repository which contains the accounts.\n\nThe bearer token resolves the chicken \u0026 egg situation: without the bearer token you would need an account for replicating, but you cannot have an account if you haven\u0027t replicated the All-Users.git repository first.",
+      "parentUuid": "9b2025c2_10867cb3",
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c95951a_ed9fa684",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 47
@@ -302,6 +320,30 @@
       "side": 1,
       "message": "I am happy to do it but why is it not needed? Should we not try to avoid mutability \n(it is true that with `final` we can only guarantee that the reference cannot be updated but not the state of the object)? \n\nBecause i come from scala i try to add final to absolutely everything.",
       "parentUuid": "4e7a5b02_9fcb9542",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 9
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3748051_a211b4ba",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "I know but in Java the `final` is added automatically by the compiler when the variable isn\u0027t mutated.\n\nI\u0027d love Java to introduce the `val` like in Lombok 😊",
+      "parentUuid": "13f0be0b_ea182be4",
       "range": {
         "startLine": 64,
         "startChar": 4,
@@ -843,6 +885,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1d252c8_7d384bd3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "Gotcha, but would you convince Gerrit to accept the bearer token authentication for updating the HEAD?\n\nI\u0027d start addressing the pull-replication REST-API here and leave for now outside the Gerrit REST-API.",
+      "parentUuid": "a200bb5f_8a16ea81",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "828a816d_133aadb6",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 47
@@ -925,6 +991,30 @@
       "side": 1,
       "message": "I am happy to do it but out of curiosity is it because readability? it is only used in one place and that part of the code is invoked just once when HttpModule is loaded.\n\nI am in the opinion of creating a constant when it is used multiple times in that class or even outside (as static).",
       "parentUuid": "d0f76688_f15d830b",
+      "range": {
+        "startLine": 46,
+        "startChar": 43,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59db58bb_e30f429c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "Just readability and for where to expect magic values (at the top as constants, even if they are private)",
+      "parentUuid": "e43f5c46_f05fd22b",
       "range": {
         "startLine": 46,
         "startChar": 43,

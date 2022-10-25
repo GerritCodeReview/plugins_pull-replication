@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cc12933_7a14567c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 54
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "The headline should be a single line.\n\nSee the guidelines on how to write the commit message at:\nhttps://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 70
+      },
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37182425_2da32bd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 54
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "Can you also add a couple of sentences on why we need to introduce the bearer token?",
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28d14c93_bb39a624",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/BearerTokenProvider.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "Missing copyright",
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b4bfdf0_bb17686c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "As code-style for Guice injected fields: we tend to leave the @Assisted at the end of the list.",
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47ac4b03_f605d3f0",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d37d542e_a3469486",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-25T23:04:56Z",
+      "side": 1,
+      "message": "Use the HttpServletResponse\u0027s constant SC_UNAUTHORIZED",
+      "range": {
+        "startLine": 128,
+        "startChar": 42,
+        "endLine": 128,
+        "endChar": 45
+      },
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
