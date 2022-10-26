@@ -31,6 +31,10 @@ public class HttpModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
+    DynamicSet.bind(binder(), AllRequestFilter.class)
+        .to(PullReplicationApiMetricsFilter.class)
+        .in(Scopes.SINGLETON);
+
     if (isReplica) {
       DynamicSet.bind(binder(), AllRequestFilter.class)
           .to(PullReplicationFilter.class)

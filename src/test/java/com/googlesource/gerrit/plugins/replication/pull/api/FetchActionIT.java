@@ -35,7 +35,9 @@ public class FetchActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(201), getContext());
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(201));
   }
 
   @Test
@@ -55,12 +57,14 @@ public class FetchActionIT extends ActionITBase {
             adminRestSession.url(), Url.encode(projectName.get()));
     httpClientFactory
         .create(source)
-        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(201), getContext());
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(201));
   }
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnUnauthorizedWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
+  public void shouldReturnForbiddenWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
     String refName = createRef();
     String sendObjectPayload =
         "{\"label\":\""
@@ -71,8 +75,7 @@ public class FetchActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(
-            createRequest(sendObjectPayload), assertHttpResponseCode(401), getAnonymousContext());
+        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(403));
   }
 
   @Override

@@ -25,7 +25,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.protocol.HttpContext;
 
 /** Apache HTTP client implementation based on Source-specific parameters */
 public class SourceHttpClient implements HttpClient {
@@ -41,8 +40,7 @@ public class SourceHttpClient implements HttpClient {
   }
 
   @Override
-  public <T> T execute(
-      HttpUriRequest request, ResponseHandler<? extends T> responseHandler, HttpContext context)
+  public <T> T execute(HttpUriRequest request, ResponseHandler<? extends T> responseHandler)
       throws ClientProtocolException, IOException {
     return source
         .memoize(
@@ -51,7 +49,7 @@ public class SourceHttpClient implements HttpClient {
                     .setConnectionManager(customConnectionManager(source))
                     .setDefaultRequestConfig(customRequestConfig(source))
                     .build())
-        .execute(request, responseHandler, context);
+        .execute(request, responseHandler);
   }
 
   private static RequestConfig customRequestConfig(Source source) {

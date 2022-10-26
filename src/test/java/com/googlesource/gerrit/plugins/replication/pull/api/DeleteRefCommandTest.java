@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -24,16 +25,30 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
+import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
+import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.restapi.project.DeleteRef;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
+<<<<<<< HEAD
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import java.net.URISyntaxException;
 import java.util.Optional;
 import org.eclipse.jgit.transport.URIish;
+=======
+import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import java.util.Optional;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
+import org.eclipse.jgit.lib.Repository;
+>>>>>>> stable-3.4
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,15 +68,28 @@ public class DeleteRefCommandTest {
   @Mock private DynamicItem<EventDispatcher> eventDispatcherDataItem;
   @Mock private EventDispatcher eventDispatcher;
   @Mock private ProjectCache projectCache;
-  @Mock private DeleteRef deleteRef;
+  @Mock private ApplyObject applyObject;
   @Mock private ProjectState projectState;
+<<<<<<< HEAD
   @Mock private SourcesCollection sourceCollection;
   @Mock private Source source;
+=======
+  @Mock private PermissionBackend permissionBackend;
+  @Mock private WithUser currentUser;
+  @Mock private ForProject forProject;
+  @Mock private ForRef forRef;
+  @Mock private LocalDiskRepositoryManager gitManager;
+  @Mock private RefUpdate refUpdate;
+  @Mock private Repository repository;
+  @Mock private Ref currentRef;
+  @Mock private RefDatabase refDb;
+>>>>>>> stable-3.4
   @Captor ArgumentCaptor<Event> eventCaptor;
 
   private DeleteRefCommand objectUnderTest;
 
   @Before
+<<<<<<< HEAD
   public void setup() throws URISyntaxException {
     when(eventDispatcherDataItem.get()).thenReturn(eventDispatcher);
     when(projectCache.get(any())).thenReturn(Optional.of(projectState));
@@ -72,6 +100,28 @@ public class DeleteRefCommandTest {
     objectUnderTest =
         new DeleteRefCommand(
             fetchStateLog, projectCache, deleteRef, eventDispatcherDataItem, sourceCollection);
+=======
+  public void setup() throws Exception {
+    when(eventDispatcherDataItem.get()).thenReturn(eventDispatcher);
+    when(projectCache.get(any())).thenReturn(Optional.of(projectState));
+    when(permissionBackend.currentUser()).thenReturn(currentUser);
+    when(currentUser.project(any())).thenReturn(forProject);
+    when(forProject.ref(any())).thenReturn(forRef);
+    when(gitManager.openRepository(any())).thenReturn(repository);
+    when(repository.updateRef(any())).thenReturn(refUpdate);
+    when(repository.getRefDatabase()).thenReturn(refDb);
+    when(refDb.exactRef(anyString())).thenReturn(currentRef);
+    when(refUpdate.delete()).thenReturn(Result.FORCED);
+
+    objectUnderTest =
+        new DeleteRefCommand(
+            fetchStateLog,
+            projectCache,
+            applyObject,
+            permissionBackend,
+            eventDispatcherDataItem,
+            gitManager);
+>>>>>>> stable-3.4
   }
 
   @Test

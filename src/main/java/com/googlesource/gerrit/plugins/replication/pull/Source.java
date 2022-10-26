@@ -60,6 +60,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.servlet.RequestScoped;
 import com.googlesource.gerrit.plugins.replication.RemoteSiteUser;
 import com.googlesource.gerrit.plugins.replication.ReplicationFilter;
+import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.BatchFetchClient;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.CGitFetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.CGitFetchValidator;
@@ -391,9 +392,10 @@ public class Source {
       Project.NameKey project,
       String ref,
       ReplicationState state,
-      ReplicationType replicationType) {
+      ReplicationType replicationType,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
     URIish uri = getURI(project);
-    return schedule(project, ref, uri, state, replicationType);
+    return schedule(project, ref, uri, state, replicationType, apiRequestMetrics);
   }
 
   public Future<?> schedule(
@@ -401,7 +403,8 @@ public class Source {
       String ref,
       URIish uri,
       ReplicationState state,
-      ReplicationType replicationType) {
+      ReplicationType replicationType,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
 
     repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
     if (!shouldReplicate(project, ref, state)) {
@@ -437,7 +440,7 @@ public class Source {
       FetchOne e = pending.get(uri);
       Future<?> f = CompletableFuture.completedFuture(null);
       if (e == null) {
-        e = opFactory.create(project, uri);
+        e = opFactory.create(project, uri, apiRequestMetrics);
         addRef(e, ref);
         e.addState(ref, state);
         pending.put(uri, e);

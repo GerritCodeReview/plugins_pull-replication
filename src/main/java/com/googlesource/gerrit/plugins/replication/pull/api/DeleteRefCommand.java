@@ -19,47 +19,75 @@ import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLo
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.restapi.project.DeleteRef;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+<<<<<<< HEAD
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
+=======
+import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
+>>>>>>> stable-3.4
 import java.io.IOException;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
+<<<<<<< HEAD
 import org.eclipse.jgit.transport.URIish;
+=======
+import org.eclipse.jgit.lib.Repository;
+>>>>>>> stable-3.4
 
 public class DeleteRefCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PullReplicationStateLogger fetchStateLog;
-  private final DeleteRef deleteRef;
+  private final ApplyObject applyObject;
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
+<<<<<<< HEAD
   private final SourcesCollection sourcesCollection;
+=======
+  private final PermissionBackend permissionBackend;
+  private final LocalDiskRepositoryManager gitManager;
+>>>>>>> stable-3.4
 
   @Inject
   public DeleteRefCommand(
       PullReplicationStateLogger fetchStateLog,
       ProjectCache projectCache,
+<<<<<<< HEAD
       DeleteRef deleteRef,
       DynamicItem<EventDispatcher> eventDispatcher,
       SourcesCollection sourcesCollection) {
+=======
+      ApplyObject applyObject,
+      PermissionBackend permissionBackend,
+      DynamicItem<EventDispatcher> eventDispatcher,
+      LocalDiskRepositoryManager gitManager) {
+>>>>>>> stable-3.4
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
-    this.deleteRef = deleteRef;
+    this.applyObject = applyObject;
     this.eventDispatcher = eventDispatcher;
+<<<<<<< HEAD
     this.sourcesCollection = sourcesCollection;
+=======
+    this.permissionBackend = permissionBackend;
+    this.gitManager = gitManager;
+>>>>>>> stable-3.4
   }
 
   public void deleteRef(Project.NameKey name, String refName, String sourceLabel)
@@ -81,8 +109,15 @@ public class DeleteRefCommand {
       URIish sourceUri = source.getURI(name);
 
       try {
+        projectState.get().checkStatePermitsWrite();
+        permissionBackend
+            .currentUser()
+            .project(projectState.get().getNameKey())
+            .ref(refName)
+            .check(RefPermission.DELETE);
+
         Context.setLocalEvent(true);
-        deleteRef.deleteSingleRef(projectState.get(), refName);
+        deleteRef(name, refName);
 
         eventDispatcher
             .get()
@@ -98,7 +133,7 @@ public class DeleteRefCommand {
             "Unexpected error while trying to delete ref '%s' on project %s and notifying it",
             refName, name);
         throw RestApiException.wrap(e.getMessage(), e);
-      } catch (ResourceConflictException e) {
+      } catch (IOException e) {
         eventDispatcher
             .get()
             .postEvent(
@@ -123,6 +158,20 @@ public class DeleteRefCommand {
           "Delete ref from {} for project {}, ref name {} completed", sourceLabel, name, refName);
     } catch (PermissionBackendException e) {
       throw RestApiException.wrap(e.getMessage(), e);
+    }
+  }
+
+  private RefUpdateState deleteRef(Project.NameKey name, String refName) throws IOException {
+
+    try (Repository repository = gitManager.openRepository(name)) {
+      RefUpdate.Result result;
+      RefUpdate u = repository.updateRef(refName);
+      u.setExpectedOldObjectId(repository.exactRef(refName).getObjectId());
+      u.setNewObjectId(ObjectId.zeroId());
+      u.setForceUpdate(true);
+
+      result = u.delete();
+      return new RefUpdateState(refName, result);
     }
   }
 }

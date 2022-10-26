@@ -40,8 +40,10 @@ public class FetchPreconditions {
   }
 
   public Boolean canCallFetchApi() {
-    PermissionBackend.WithUser userPermission = permissionBackend.user(userProvider.get());
-    return userPermission.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER)
+    CurrentUser currentUser = userProvider.get();
+    PermissionBackend.WithUser userPermission = permissionBackend.user(currentUser);
+    return currentUser.isInternalUser()
+        || userPermission.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER)
         || userPermission.testOrFalse(new PluginPermission(pluginName, CALL_FETCH_ACTION));
   }
 }

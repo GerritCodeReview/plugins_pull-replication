@@ -35,6 +35,7 @@ public class SourceConfigParser implements ConfigParser {
   /* (non-Javadoc)
    * @see com.googlesource.gerrit.plugins.replication.ConfigParser#parseRemotes(org.eclipse.jgit.lib.Config)
    */
+  @Override
   public List<RemoteConfiguration> parseRemotes(Config config) throws ConfigInvalidException {
 
     if (config.getSections().isEmpty()) {
