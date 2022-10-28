@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "731df05c_b26e20d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 54
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4cc12933_7a14567c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 70
+      },
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37182425_2da32bd3",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-10-25T23:04:56Z",
       "side": 1,
       "message": "Can you also add a couple of sentences on why we need to introduce the bearer token?",
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c7d2146_05998093",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 54
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "37182425_2da32bd3",
       "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "996ddb38_1e3c97d9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/BearerTokenProvider.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "I will add it, thank you",
+      "parentUuid": "28d14c93_bb39a624",
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b4bfdf0_bb17686c",
@@ -71,6 +131,24 @@
       "writtenOn": "2022-10-25T23:04:56Z",
       "side": 1,
       "message": "As code-style for Guice injected fields: we tend to leave the @Assisted at the end of the list.",
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "637e24e4_ae957aa7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "good to know it. thank you",
+      "parentUuid": "4b4bfdf0_bb17686c",
       "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d341ee_5059ca8d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "tx, i will change it",
+      "parentUuid": "47ac4b03_f605d3f0",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d37d542e_a3469486",
@@ -111,6 +213,30 @@
       "writtenOn": "2022-10-25T23:04:56Z",
       "side": 1,
       "message": "Use the HttpServletResponse\u0027s constant SC_UNAUTHORIZED",
+      "range": {
+        "startLine": 128,
+        "startChar": 42,
+        "endLine": 128,
+        "endChar": 45
+      },
+      "revId": "efcba79a1c381d20f771ff0226ce3a301122a121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ddf3031_65face95",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 54
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "I have used that in other tests, I will do it.",
+      "parentUuid": "d37d542e_a3469486",
       "range": {
         "startLine": 128,
         "startChar": 42,

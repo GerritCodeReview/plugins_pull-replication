@@ -248,6 +248,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0c16869_b6debd82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ca18e4d4_d00e324a",
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c95951a_ed9fa684",
@@ -344,6 +362,30 @@
       "side": 1,
       "message": "I know but in Java the `final` is added automatically by the compiler when the variable isn\u0027t mutated.\n\nI\u0027d love Java to introduce the `val` like in Lombok 😊",
       "parentUuid": "13f0be0b_ea182be4",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 9
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96acbf8f_30bc4355",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "thank you for sharing knowledge. I have removed them.",
+      "parentUuid": "f3748051_a211b4ba",
       "range": {
         "startLine": 64,
         "startChar": 4,
@@ -907,6 +949,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "606b541d_8a185fc1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a1d252c8_7d384bd3",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "828a816d_133aadb6",
@@ -1015,6 +1081,30 @@
       "side": 1,
       "message": "Just readability and for where to expect magic values (at the top as constants, even if they are private)",
       "parentUuid": "e43f5c46_f05fd22b",
+      "range": {
+        "startLine": 46,
+        "startChar": 43,
+        "endLine": 46,
+        "endChar": 69
+      },
+      "revId": "d8d696bbc4b8a890f51a4be09fbaed59a11c1c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c301dbef_f5912117",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpModule.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-10-28T08:11:38Z",
+      "side": 1,
+      "message": "I am sorry for the confusion, do you want \"BearerToken\" or Names.named(\"BearerToken\") ?",
+      "parentUuid": "59db58bb_e30f429c",
       "range": {
         "startLine": 46,
         "startChar": 43,
