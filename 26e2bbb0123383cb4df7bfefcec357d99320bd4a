@@ -16,6 +16,23 @@
       "message": "Please, can you review the change again?",
       "revId": "26e2bbb0123383cb4df7bfefcec357d99320bd4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "638e9367_92f653cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 56
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-10-28T08:18:15Z",
+      "side": 1,
+      "message": "Thanks @alvaro.vilaplana@gmail.com cool stuff.",
+      "revId": "26e2bbb0123383cb4df7bfefcec357d99320bd4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
