@@ -24,12 +24,14 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Id;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Scopes;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
@@ -38,11 +40,13 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,9 +57,12 @@ import org.junit.Test;
 public class RevisionReaderIT extends LightweightPluginDaemonTest {
   RevisionReader objectUnderTest;
 
+  ReplicationFileBasedConfig replicationConfig;
+
   @Before
   public void setup() {
     objectUnderTest = plugin.getSysInjector().getInstance(RevisionReader.class);
+    replicationConfig = plugin.getSysInjector().getInstance(ReplicationFileBasedConfig.class);
   }
 
   @Test
@@ -64,7 +71,7 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
 
     Optional<RevisionData> revisionDataOption =
-        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId));
+        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId, 0));
 
     assertThat(revisionDataOption.isPresent()).isTrue();
     RevisionData revisionData = revisionDataOption.get();
@@ -80,9 +87,65 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     assertThat(revisionData.getBlobs()).isEmpty();
   }
 
-  private Optional<RevisionData> readRevisionFromObjectUnderTest(String refName, ObjectId objId) {
+  @Test
+  public void shouldReadRefMetaObjectWithMaxNumberOfParents() throws Exception {
+    int numberOfParents = 3;
+    setReplicationConfig(numberOfParents);
+    Result pushResult = createChange();
+    Id changeId = pushResult.getChange().getId();
+    String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
+
+    addMultipleComments(numberOfParents, changeId);
+
+    Optional<RevisionData> revisionDataOption =
+        refObjectId(refName)
+            .flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId, numberOfParents));
+
+    assertThat(revisionDataOption.isPresent()).isTrue();
+    List<ObjectId> parentObjectIds = revisionDataOption.get().getParentObjetIds();
+    assertThat(parentObjectIds).hasSize(numberOfParents);
+  }
+
+  @Test
+  public void shouldReadRefMetaObjectLimitedToMaxNumberOfParents() throws Exception {
+    int numberOfParents = 3;
+    setReplicationConfig(numberOfParents);
+    Result pushResult = createChange();
+    Id changeId = pushResult.getChange().getId();
+    String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
+
+    addMultipleComments(numberOfParents + 1, changeId);
+
+    Optional<RevisionData> revisionDataOption =
+        refObjectId(refName)
+            .flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId, numberOfParents));
+
+    assertThat(revisionDataOption.isPresent()).isTrue();
+    List<ObjectId> parentObjectIds = revisionDataOption.get().getParentObjetIds();
+    assertThat(parentObjectIds).hasSize(numberOfParents);
+  }
+
+  private void addMultipleComments(int numberOfParents, Id changeId) throws RestApiException {
+    for (int i = 0; i < numberOfParents; i++) {
+      addComment(changeId);
+    }
+  }
+
+  private void setReplicationConfig(int numberOfParents) throws IOException {
+    FileBasedConfig config = (FileBasedConfig) replicationConfig.getConfig();
+    config.setInt(
+        "replication", null, RevisionReader.CONFIG_MAX_API_HISTORY_DEPTH, numberOfParents);
+    config.save();
+  }
+
+  private void addComment(Id changeId) throws RestApiException {
+    gApi.changes().id(changeId.get()).current().review(new ReviewInput().message("foo"));
+  }
+
+  private Optional<RevisionData> readRevisionFromObjectUnderTest(
+      String refName, ObjectId objId, int maxParentsDepth) {
     try {
-      return objectUnderTest.read(project, objId, refName);
+      return objectUnderTest.read(project, objId, refName, maxParentsDepth);
     } catch (Exception e) {
       throw new IllegalStateException(e);
     }
@@ -107,7 +170,7 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     gApi.changes().id(changeId.get()).current().review(reviewInput);
 
     Optional<RevisionData> revisionDataOption =
-        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId));
+        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId, 0));
 
     assertThat(revisionDataOption.isPresent()).isTrue();
     RevisionData revisionData = revisionDataOption.get();
@@ -131,7 +194,7 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     createChange().assertOkStatus();
     String refName = RefNames.REFS_SEQUENCES + Sequences.NAME_CHANGES;
     Optional<RevisionData> revisionDataOption =
-        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId));
+        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId, 0));
 
     Truth8.assertThat(revisionDataOption).isEmpty();
   }

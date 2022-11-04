@@ -22,7 +22,6 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.restapi.Url;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.util.Optional;
-import org.apache.http.client.methods.HttpPost;
 import org.junit.Test;
 
 public class ApplyObjectActionIT extends ActionITBase {
@@ -41,8 +40,11 @@ public class ApplyObjectActionIT extends ActionITBase {
     RevisionData revisionData = revisionDataOption.get();
     String sendObjectPayload = createPayload(payloadWithAsyncFieldTemplate, refName, revisionData);
 
-    HttpPost post = createRequest(sendObjectPayload);
-    httpClientFactory.create(source).execute(post, assertHttpResponseCode(201), getContext());
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(201));
   }
 
   @Test
@@ -60,8 +62,11 @@ public class ApplyObjectActionIT extends ActionITBase {
     String sendObjectPayload =
         createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
 
-    HttpPost post = createRequest(sendObjectPayload);
-    httpClientFactory.create(source).execute(post, assertHttpResponseCode(201), getContext());
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(201));
   }
 
   @Test
@@ -80,8 +85,11 @@ public class ApplyObjectActionIT extends ActionITBase {
     String sendObjectPayload =
         createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
 
-    HttpPost post = createRequest(sendObjectPayload);
-    httpClientFactory.create(source).execute(post, assertHttpResponseCode(201), getContext());
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(201));
   }
 
   @Test
@@ -103,13 +111,16 @@ public class ApplyObjectActionIT extends ActionITBase {
         String.format(
             "%s/a/projects/%s/pull-replication~apply-object",
             adminRestSession.url(), Url.encode(projectName.get()));
-    HttpPost post = createRequest(sendObjectPayload);
-    httpClientFactory.create(source).execute(post, assertHttpResponseCode(201), getContext());
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(201));
   }
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnUnauthorizedWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
+  public void shouldReturnForbiddenWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
@@ -123,10 +134,9 @@ public class ApplyObjectActionIT extends ActionITBase {
     String sendObjectPayload =
         createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
 
-    HttpPost post = createRequest(sendObjectPayload);
     httpClientFactory
         .create(source)
-        .execute(post, assertHttpResponseCode(401), getAnonymousContext());
+        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(403));
   }
 
   @Test
@@ -142,8 +152,11 @@ public class ApplyObjectActionIT extends ActionITBase {
     String sendObjectPayload =
         createPayload(payloadWithoutLabelFieldTemplate, refName, revisionData);
 
-    HttpPost post = createRequest(sendObjectPayload);
-    httpClientFactory.create(source).execute(post, assertHttpResponseCode(400), getContext());
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(400));
   }
 
   @Test
@@ -160,8 +173,61 @@ public class ApplyObjectActionIT extends ActionITBase {
     RevisionData revisionData = revisionDataOption.get();
     String sendObjectPayload = createPayload(wrongPayloadTemplate, refName, revisionData);
 
-    HttpPost post = createRequest(sendObjectPayload);
-    httpClientFactory.create(source).execute(post, assertHttpResponseCode(400), getContext());
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(400));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldAcceptPayloadWhenNodeIsAReplicaWithBearerToken() throws Exception {
+    url = getURLWithoutAuthenticationPrefix(project.get());
+    String payloadWithoutAsyncFieldTemplate =
+        "{\"label\":\""
+            + TEST_REPLICATION_REMOTE
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+
+    String refName = createRef();
+    Optional<RevisionData> revisionDataOption = createRevisionData(refName);
+    assertThat(revisionDataOption.isPresent()).isTrue();
+
+    RevisionData revisionData = revisionDataOption.get();
+    String sendObjectPayload =
+        createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(createRequest(sendObjectPayload), "some-bearer-token"),
+            assertHttpResponseCode(201));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "false")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldAcceptPayloadWhenNodeIsAPrimaryWithBearerToken() throws Exception {
+    url = getURLWithoutAuthenticationPrefix(project.get());
+    String payloadWithoutAsyncFieldTemplate =
+        "{\"label\":\""
+            + TEST_REPLICATION_REMOTE
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+
+    String refName = createRef();
+    Optional<RevisionData> revisionDataOption = createRevisionData(refName);
+    assertThat(revisionDataOption.isPresent()).isTrue();
+
+    RevisionData revisionData = revisionDataOption.get();
+    String sendObjectPayload =
+        createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(createRequest(sendObjectPayload), "some-bearer-token"),
+            assertHttpResponseCode(201));
   }
 
   private String createPayload(
@@ -176,7 +242,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Override
-  protected String getURL(String projectName) {
+  protected String getURLWithAuthenticationPrefix(String projectName) {
     return String.format(
         "%s/a/projects/%s/pull-replication~apply-object",
         adminRestSession.url(), Url.encode(projectName));

@@ -42,18 +42,18 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -83,7 +83,11 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   SourceHttpClient.Factory httpClientFactory;
   String url;
 
-  protected abstract String getURL(String projectName);
+  protected abstract String getURLWithAuthenticationPrefix(String projectName);
+
+  protected String getURLWithoutAuthenticationPrefix(String projectName) {
+    return getURLWithAuthenticationPrefix(projectName).replace("a/", "");
+  }
 
   @Override
   public void setUpTestPlugin() throws Exception {
@@ -109,7 +113,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     revisionReader = plugin.getSysInjector().getInstance(RevisionReader.class);
     source = plugin.getSysInjector().getInstance(SourcesCollection.class).getAll().get(0);
 
-    url = getURL(project.get());
+    url = getURLWithAuthenticationPrefix(project.get());
   }
 
   protected HttpPost createRequest(String sendObjectPayload) {
@@ -149,7 +153,8 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   protected Optional<RevisionData> createRevisionData(NameKey projectName, String refName)
       throws Exception {
     try (Repository repository = repoManager.openRepository(projectName)) {
-      return revisionReader.read(projectName, repository.exactRef(refName).getObjectId(), refName);
+      return revisionReader.read(
+          projectName, repository.exactRef(refName).getObjectId(), refName, 0);
     }
   }
 
@@ -169,17 +174,28 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     };
   }
 
-  protected HttpClientContext getContext() {
-    return getContextForAccount(admin);
+  protected HttpRequestBase withBearerTokenAuthentication(
+      HttpRequestBase httpRequest, String bearerToken) {
+    httpRequest.addHeader(new BasicHeader(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken));
+    return httpRequest;
   }
 
-  protected HttpClientContext getUserContext() {
-    return getContextForAccount(user);
+  protected HttpRequestBase withBasicAuthenticationAsAdmin(HttpRequestBase httpRequest)
+      throws AuthenticationException {
+    return withBasicAuthentication(httpRequest, admin);
   }
 
-  protected HttpClientContext getAnonymousContext() {
-    HttpClientContext ctx = HttpClientContext.create();
-    return ctx;
+  protected HttpRequestBase withBasicAuthenticationAsUser(HttpRequestBase httpRequest)
+      throws AuthenticationException {
+    return withBasicAuthentication(httpRequest, user);
+  }
+
+  private HttpRequestBase withBasicAuthentication(HttpRequestBase httpRequest, TestAccount account)
+      throws AuthenticationException {
+    UsernamePasswordCredentials creds =
+        new UsernamePasswordCredentials(account.username(), account.httpPassword());
+    httpRequest.addHeader(new BasicScheme().authenticate(creds, httpRequest, null));
+    return httpRequest;
   }
 
   private Project.NameKey createTestProject(String name) throws Exception {
@@ -214,14 +230,5 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     secureConfig.setString("remote", remoteName, "username", username);
     secureConfig.setString("remote", remoteName, "password", password);
     secureConfig.save();
-  }
-
-  private HttpClientContext getContextForAccount(TestAccount account) {
-    HttpClientContext ctx = HttpClientContext.create();
-    CredentialsProvider adapted = new BasicCredentialsProvider();
-    adapted.setCredentials(
-        AuthScope.ANY, new UsernamePasswordCredentials(account.username(), account.httpPassword()));
-    ctx.setCredentialsProvider(adapted);
-    return ctx;
   }
 }
