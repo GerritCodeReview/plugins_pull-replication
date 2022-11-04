@@ -26,25 +26,33 @@ import com.google.inject.Singleton;
 @Singleton
 public class ApplyObjectMetrics {
   private final Timer1<String> executionTime;
+  private final Timer1<String> end2EndTime;
 
   @Inject
   ApplyObjectMetrics(@PluginName String pluginName, MetricMaker metricMaker) {
-    Field<String> SOURCE_FIELD =
+    Field<String> field =
         Field.ofString(
-                "source",
+                "pull_replication",
                 (metadataBuilder, fieldValue) ->
                     metadataBuilder
                         .pluginName(pluginName)
-                        .addPluginMetadata(PluginMetadata.create("source", fieldValue)))
+                        .addPluginMetadata(PluginMetadata.create("pull_replication", fieldValue)))
             .build();
-
     executionTime =
         metricMaker.newTimer(
             "apply_object_latency",
             new Description("Time spent applying object from remote source.")
                 .setCumulative()
                 .setUnit(Description.Units.MILLISECONDS),
-            SOURCE_FIELD);
+            field);
+
+    end2EndTime =
+        metricMaker.newTimer(
+            "apply_object_end_2_end_latency",
+            new Description("Time spent for e2e replication with the apply object REST API")
+                .setCumulative()
+                .setUnit(Description.Units.MILLISECONDS),
+            field);
   }
 
   /**
@@ -55,5 +63,15 @@ public class ApplyObjectMetrics {
    */
   public Timer1.Context<String> start(String name) {
     return executionTime.start(name);
+  }
+
+  /**
+   * Start the replication latency timer from a source.
+   *
+   * @param name the source name.
+   * @return the timer context.
+   */
+  public Timer1.Context<String> startEnd2End(String name) {
+    return end2EndTime.start(name);
   }
 }

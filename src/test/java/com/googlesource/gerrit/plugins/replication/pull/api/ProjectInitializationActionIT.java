@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
-import static com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction.getProjectInitializationUrl;
 
 import com.google.common.net.MediaType;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -27,6 +26,7 @@ import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicHeader;
 import org.junit.Test;
 
@@ -40,8 +40,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
         .create(source)
         .execute(
             createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED),
-            getAnonymousContext());
+            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Test
@@ -49,40 +48,37 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithoutHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithoutHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
   public void shouldCreateRepository() throws Exception {
     String newProjectName = "new/newProjectForPrimary";
-    url = getURL(newProjectName);
+    url = getURLWithAuthenticationPrefix(newProjectName);
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED));
 
-    HttpGet getNewProjectRequest =
-        new HttpGet(userRestSession.url() + "/a/projects/" + Url.encode(newProjectName));
+    HttpRequestBase getNewProjectRequest =
+        withBasicAuthenticationAsAdmin(
+            new HttpGet(userRestSession.url() + "/a/projects/" + Url.encode(newProjectName)));
+
     httpClientFactory
         .create(source)
-        .execute(
-            getNewProjectRequest, assertHttpResponseCode(HttpServletResponse.SC_OK), getContext());
+        .execute(getNewProjectRequest, assertHttpResponseCode(HttpServletResponse.SC_OK));
   }
 
   @Test
   public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilities() throws Exception {
     String newProjectName = "new/newProjectForUserWithCapabilities";
-    url = getURL(newProjectName);
+    url = getURLWithAuthenticationPrefix(newProjectName);
+    HttpRequestBase put = withBasicAuthenticationAsUser(createPutRequestWithHeaders());
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
 
     projectOperations
         .project(allProjects)
@@ -94,10 +90,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_CREATED));
   }
 
   @Test
@@ -105,22 +98,20 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+            withBasicAuthenticationAsUser(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
   }
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldCreateRepositoryWhenNodeIsAReplica() throws Exception {
     String newProjectName = "new/newProjectForReplica";
-    url = getURL(newProjectName);
+    url = getURLWithAuthenticationPrefix(newProjectName);
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED));
   }
 
   @Test
@@ -129,9 +120,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+            withBasicAuthenticationAsUser(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
   }
 
   @Test
@@ -139,13 +129,11 @@ public class ProjectInitializationActionIT extends ActionITBase {
   public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilitiesAndNodeIsAReplica()
       throws Exception {
     String newProjectName = "new/newProjectForUserWithCapabilitiesReplica";
-    url = getURL(newProjectName);
+    url = getURLWithAuthenticationPrefix(newProjectName);
+    HttpRequestBase put = withBasicAuthenticationAsUser(createPutRequestWithHeaders());
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
 
     projectOperations
         .project(allProjects)
@@ -157,24 +145,19 @@ public class ProjectInitializationActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_CREATED),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_CREATED));
   }
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnInternalServerErrorIfProjectCannotBeCreatedWhenNodeIsAReplica()
       throws Exception {
-    url = getURL(INVALID_TEST_PROJECT_NAME);
-
+    url = getURLWithAuthenticationPrefix(INVALID_TEST_PROJECT_NAME);
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
   }
 
   @Test
@@ -183,28 +166,50 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequestWithoutHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequestWithoutHeaders()),
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnUnauthorizedForUserWithoutPermissionsWhenNodeIsAReplica()
-      throws Exception {
+  public void shouldReturnForbiddenForUserWithoutPermissionsWhenNodeIsAReplica() throws Exception {
     httpClientFactory
         .create(source)
         .execute(
             createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED),
-            getAnonymousContext());
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldCreateRepositoryWhenNodeIsAReplicaWithBearerToken() throws Exception {
+    String newProjectName = "new/newProjectForReplica";
+    url = getURLWithoutAuthenticationPrefix(newProjectName);
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(createPutRequestWithHeaders(), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "false")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldCreateRepositoryWhenNodeIsAPrimaryWithBearerToken() throws Exception {
+    String newProjectName = "new/newProjectForReplica";
+    url = getURLWithoutAuthenticationPrefix(newProjectName);
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(createPutRequestWithHeaders(), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_CREATED));
   }
 
   @Override
-  protected String getURL(String projectName) {
+  protected String getURLWithAuthenticationPrefix(String projectName) {
     return userRestSession.url()
-        + "/"
-        + getProjectInitializationUrl("pull-replication", Url.encode(projectName));
+        + String.format("/a/plugins/pull-replication/init-project/%s.git", Url.encode(projectName));
   }
 
   protected HttpPut createPutRequestWithHeaders() {

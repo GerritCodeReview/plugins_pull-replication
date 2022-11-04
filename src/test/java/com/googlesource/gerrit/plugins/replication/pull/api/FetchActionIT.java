@@ -35,7 +35,9 @@ public class FetchActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(201), getContext());
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(201));
   }
 
   @Test
@@ -55,12 +57,14 @@ public class FetchActionIT extends ActionITBase {
             adminRestSession.url(), Url.encode(projectName.get()));
     httpClientFactory
         .create(source)
-        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(201), getContext());
+        .execute(
+            withBasicAuthenticationAsAdmin(createRequest(sendObjectPayload)),
+            assertHttpResponseCode(201));
   }
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnUnauthorizedWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
+  public void shouldReturnForbiddenWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
     String refName = createRef();
     String sendObjectPayload =
         "{\"label\":\""
@@ -71,12 +75,51 @@ public class FetchActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
+        .execute(createRequest(sendObjectPayload), assertHttpResponseCode(403));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldFetchRefWhenNodeIsAReplicaWithBearerToken() throws Exception {
+    String refName = createRef();
+    url = getURLWithoutAuthenticationPrefix(project.get());
+    String sendObjectPayload =
+        "{\"label\":\""
+            + TEST_REPLICATION_REMOTE
+            + "\", \"ref_name\": \""
+            + refName
+            + "\", \"async\":false}";
+
+    httpClientFactory
+        .create(source)
         .execute(
-            createRequest(sendObjectPayload), assertHttpResponseCode(401), getAnonymousContext());
+            withBearerTokenAuthentication(createRequest(sendObjectPayload), "some-bearer-token"),
+            assertHttpResponseCode(201));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "false")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  public void shouldFetchRefWhenNodeIsAPrimaryWithBearerToken() throws Exception {
+    String refName = createRef();
+    url = getURLWithoutAuthenticationPrefix(project.get());
+    String sendObjectPayload =
+        "{\"label\":\""
+            + TEST_REPLICATION_REMOTE
+            + "\", \"ref_name\": \""
+            + refName
+            + "\", \"async\":false}";
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(createRequest(sendObjectPayload), "some-bearer-token"),
+            assertHttpResponseCode(201));
   }
 
   @Override
-  protected String getURL(String projectName) {
+  protected String getURLWithAuthenticationPrefix(String projectName) {
     return String.format(
         "%s/a/projects/%s/pull-replication~fetch", adminRestSession.url(), Url.encode(projectName));
   }
