@@ -67,7 +67,7 @@ public class DeleteProjectTask implements Runnable {
     } catch (URISyntaxException | IOException e) {
       String errorMessage =
           String.format("Cannot delete project %s on remote site %s.", project, uri);
-      logger.atWarning().withCause(e).log(errorMessage);
+      logger.atWarning().withCause(e).log("%s", errorMessage);
       repLog.warn(errorMessage);
     }
   }

@@ -19,18 +19,36 @@ import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.server.config.GerritIsReplica;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
+import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
+import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 
 public class HttpModule extends ServletModule {
   private boolean isReplica;
+  private final BearerTokenProvider bearerTokenProvider;
 
   @Inject
-  public HttpModule(@GerritIsReplica Boolean isReplica) {
+  public HttpModule(@GerritIsReplica Boolean isReplica, BearerTokenProvider bearerTokenProvider) {
     this.isReplica = isReplica;
+    this.bearerTokenProvider = bearerTokenProvider;
   }
 
   @Override
   protected void configureServlets() {
+    DynamicSet.bind(binder(), AllRequestFilter.class)
+        .to(PullReplicationApiMetricsFilter.class)
+        .in(Scopes.SINGLETON);
+
+    bearerTokenProvider
+        .get()
+        .ifPresent(
+            bt -> {
+              bind(String.class).annotatedWith(Names.named("BearerToken")).toInstance(bt);
+              DynamicSet.bind(binder(), AllRequestFilter.class)
+                  .to(BearerAuthenticationFilter.class)
+                  .in(Scopes.SINGLETON);
+            });
+
     if (isReplica) {
       DynamicSet.bind(binder(), AllRequestFilter.class)
           .to(PullReplicationFilter.class)

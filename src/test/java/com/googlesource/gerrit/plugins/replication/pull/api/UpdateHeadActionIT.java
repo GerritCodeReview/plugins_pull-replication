@@ -26,6 +26,8 @@ import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class UpdateHeadActionIT extends ActionITBase {
@@ -39,8 +41,7 @@ public class UpdateHeadActionIT extends ActionITBase {
         .create(source)
         .execute(
             createPutRequest(headInput("some/branch")),
-            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED),
-            getAnonymousContext());
+            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Test
@@ -48,9 +49,8 @@ public class UpdateHeadActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequest(headInput("")),
-            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequest(headInput(""))),
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
@@ -61,13 +61,11 @@ public class UpdateHeadActionIT extends ActionITBase {
     BranchInput input = new BranchInput();
     input.revision = master;
     gApi.projects().name(testProjectName).branch(newBranch).create(input);
-
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequest(headInput(newBranch)),
-            assertHttpResponseCode(HttpServletResponse.SC_OK),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequest(headInput(newBranch))),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
 
     assertThat(gApi.projects().name(testProjectName).head()).isEqualTo(newBranch);
   }
@@ -78,9 +76,8 @@ public class UpdateHeadActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequest(headInput("")),
-            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequest(headInput(""))),
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
@@ -92,13 +89,11 @@ public class UpdateHeadActionIT extends ActionITBase {
     BranchInput input = new BranchInput();
     input.revision = master;
     gApi.projects().name(testProjectName).branch(newBranch).create(input);
-
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequest(headInput(newBranch)),
-            assertHttpResponseCode(HttpServletResponse.SC_OK),
-            getContext());
+            withBasicAuthenticationAsAdmin(createPutRequest(headInput(newBranch))),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
 
     assertThat(gApi.projects().name(testProjectName).head()).isEqualTo(newBranch);
   }
@@ -108,9 +103,8 @@ public class UpdateHeadActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequest(headInput("some/new/head")),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+            withBasicAuthenticationAsUser(createPutRequest(headInput("some/new/head"))),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
   }
 
   @Test
@@ -121,13 +115,10 @@ public class UpdateHeadActionIT extends ActionITBase {
     BranchInput input = new BranchInput();
     input.revision = master;
     gApi.projects().name(testProjectName).branch(newBranch).create(input);
-
+    HttpRequestBase put = withBasicAuthenticationAsUser(createPutRequest(headInput(newBranch)));
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequest(headInput(newBranch)),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
 
     projectOperations
         .project(project)
@@ -137,10 +128,7 @@ public class UpdateHeadActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(
-            createPutRequest(headInput(newBranch)),
-            assertHttpResponseCode(HttpServletResponse.SC_OK),
-            getUserContext());
+        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_OK));
   }
 
   @Test
@@ -149,9 +137,52 @@ public class UpdateHeadActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(
-            createPutRequest(headInput("some/new/head")),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN),
-            getUserContext());
+            withBasicAuthenticationAsUser(createPutRequest(headInput("some/new/head"))),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  @Ignore("Waiting for resolving: Issue 16332: Not able to update the HEAD from internal user")
+  public void shouldReturnOKWhenHeadIsUpdatedInReplicaWithBearerToken() throws Exception {
+    String testProjectName = project.get();
+    url = getURLWithoutAuthenticationPrefix(testProjectName);
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(testProjectName).branch(newBranch).create(input);
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(
+                createPutRequest(headInput(newBranch)), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
+
+    assertThat(gApi.projects().name(testProjectName).head()).isEqualTo(newBranch);
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "false")
+  @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  @Ignore("Waiting for resolving: Issue 16332: Not able to update the HEAD from internal user")
+  public void shouldReturnOKWhenHeadIsUpdatedInPrimaryWithBearerToken() throws Exception {
+    String testProjectName = project.get();
+    url = getURLWithoutAuthenticationPrefix(testProjectName);
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(testProjectName).branch(newBranch).create(input);
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBearerTokenAuthentication(
+                createPutRequest(headInput(newBranch)), "some-bearer-token"),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
+
+    assertThat(gApi.projects().name(testProjectName).head()).isEqualTo(newBranch);
   }
 
   private String headInput(String ref) {
@@ -161,7 +192,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Override
-  protected String getURL(String projectName) {
+  protected String getURLWithAuthenticationPrefix(String projectName) {
     return String.format("%s/a/projects/%s/HEAD", adminRestSession.url(), projectName);
   }
 }

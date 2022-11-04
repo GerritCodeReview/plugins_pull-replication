@@ -22,9 +22,11 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.LocalFS;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
 import java.util.Optional;
@@ -37,20 +39,29 @@ class ProjectDeletionAction
 
   static class DeleteInput {}
 
+  private final Provider<CurrentUser> userProvider;
   private final GerritConfigOps gerritConfigOps;
   private final PermissionBackend permissionBackend;
 
   @Inject
-  ProjectDeletionAction(GerritConfigOps gerritConfigOps, PermissionBackend permissionBackend) {
+  ProjectDeletionAction(
+      GerritConfigOps gerritConfigOps,
+      PermissionBackend permissionBackend,
+      Provider<CurrentUser> userProvider) {
     this.gerritConfigOps = gerritConfigOps;
     this.permissionBackend = permissionBackend;
+    this.userProvider = userProvider;
   }
 
   @Override
   public Response<?> apply(ProjectResource projectResource, DeleteInput input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
 
-    permissionBackend.user(projectResource.getUser()).check(DELETE_PROJECT);
+    // When triggered internally(for example by consuming stream events) user is not provided
+    // and internal user is returned. Project deletion should be always allowed for internal user.
+    if (!userProvider.get().isInternalUser()) {
+      permissionBackend.user(projectResource.getUser()).check(DELETE_PROJECT);
+    }
 
     Optional<URIish> maybeRepoURI =
         gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectResource.getName()));
