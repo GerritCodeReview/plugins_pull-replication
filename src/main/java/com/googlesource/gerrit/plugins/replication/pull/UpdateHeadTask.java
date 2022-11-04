@@ -72,7 +72,7 @@ public class UpdateHeadTask implements Runnable {
           String.format(
               "Cannot update HEAD of project %s remote site %s",
               project.get(), apiURI.toASCIIString());
-      logger.atWarning().withCause(e).log(errorMessage);
+      logger.atWarning().withCause(e).log("%s", errorMessage);
       repLog.warn(errorMessage);
     }
   }

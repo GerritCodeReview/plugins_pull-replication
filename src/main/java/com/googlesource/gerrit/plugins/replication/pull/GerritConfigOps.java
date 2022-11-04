@@ -46,7 +46,7 @@ public class GerritConfigOps {
       uri = new URIish("file://" + basePath + "/" + projectName);
       return Optional.of(uri);
     } catch (URISyntaxException e) {
-      logger.atSevere().withCause(e).log("Unsupported URI for project " + projectName);
+      logger.atSevere().withCause(e).log("Unsupported URI for project %s", projectName);
     }
 
     return Optional.empty();
