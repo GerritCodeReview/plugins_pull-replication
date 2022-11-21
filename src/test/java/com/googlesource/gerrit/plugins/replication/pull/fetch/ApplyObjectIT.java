@@ -35,11 +35,15 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
+import com.google.inject.name.Names;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.RevisionReader;
+import com.googlesource.gerrit.plugins.replication.pull.api.GlobalRefDbConstants;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
@@ -61,12 +65,13 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
 
   @Inject private ProjectOperations projectOperations;
-  @Inject ApplyObject objectUnderTest;
+  ApplyObject objectUnderTest;
   RevisionReader reader;
 
   @Before
   public void setup() {
     reader = plugin.getSysInjector().getInstance(RevisionReader.class);
+    objectUnderTest = plugin.getSysInjector().getInstance(ApplyObject.class);
   }
 
   @Test
@@ -225,6 +230,9 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
   private static class TestModule extends FactoryModule {
     @Override
     protected void configure() {
+      bind(GitRepositoryManager.class)
+          .annotatedWith(Names.named(GlobalRefDbConstants.LOCAL_DISK_REPOSITORY_MANAGER))
+          .to(LocalDiskRepositoryManager.class);
       bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
       bind(RevisionReader.class).in(Scopes.SINGLETON);
       bind(ApplyObject.class);
