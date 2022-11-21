@@ -26,12 +26,16 @@ import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventTypes;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
@@ -43,6 +47,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
+import com.googlesource.gerrit.plugins.replication.pull.api.GlobalRefDbConstants;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiModule;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
@@ -63,6 +68,14 @@ import org.eclipse.jgit.util.FS;
 class PullReplicationModule extends AbstractModule {
   private final SitePaths site;
   private final Path cfgPath;
+  private boolean localDiskRepositoryManagerBound;
+
+  @Inject(optional = true)
+  public void setLocalDiskRepositoryManager(
+      @Named(GlobalRefDbConstants.LOCAL_DISK_REPOSITORY_MANAGER)
+          GitRepositoryManager localDiskRepositoryManager) {
+    this.localDiskRepositoryManagerBound = true;
+  }
 
   @Inject
   public PullReplicationModule(SitePaths site) {
@@ -72,6 +85,11 @@ class PullReplicationModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    if (!localDiskRepositoryManagerBound) {
+      bind(GitRepositoryManager.class)
+          .annotatedWith(Names.named(GlobalRefDbConstants.LOCAL_DISK_REPOSITORY_MANAGER))
+          .to(LocalDiskRepositoryManager.class);
+    }
 
     bind(BearerTokenProvider.class).in(Scopes.SINGLETON);
     bind(RevisionReader.class).in(Scopes.SINGLETON);

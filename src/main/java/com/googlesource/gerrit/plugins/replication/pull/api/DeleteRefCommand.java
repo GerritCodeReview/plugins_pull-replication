@@ -22,13 +22,14 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.EventDispatcher;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
@@ -49,7 +50,7 @@ public class DeleteRefCommand {
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-  private final LocalDiskRepositoryManager gitManager;
+  private final GitRepositoryManager gitManager;
 
   @Inject
   public DeleteRefCommand(
@@ -58,7 +59,7 @@ public class DeleteRefCommand {
       ApplyObject applyObject,
       PermissionBackend permissionBackend,
       DynamicItem<EventDispatcher> eventDispatcher,
-      LocalDiskRepositoryManager gitManager) {
+      @Named(GlobalRefDbConstants.LOCAL_DISK_REPOSITORY_MANAGER) GitRepositoryManager gitManager) {
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
     this.applyObject = applyObject;
