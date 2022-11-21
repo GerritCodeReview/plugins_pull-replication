@@ -32,10 +32,14 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Scopes;
+import com.google.inject.name.Names;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.pull.api.GlobalRefDbConstants;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
@@ -216,6 +220,9 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
   private static class TestModule extends FactoryModule {
     @Override
     protected void configure() {
+      bind(GitRepositoryManager.class)
+          .annotatedWith(Names.named(GlobalRefDbConstants.LOCAL_DISK_REPOSITORY_MANAGER))
+          .to(LocalDiskRepositoryManager.class);
       bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
       bind(RevisionReader.class).in(Scopes.SINGLETON);
       bind(ApplyObject.class);
