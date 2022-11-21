@@ -33,6 +33,24 @@
       "message": "Put a comment on *why* we are having this interface with a named annotation defined in the global-refdb.",
       "revId": "b86377218881a1d02275037fe4bd0ce666dacb26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab2d3872_475f0cd6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/GlobalRefDbConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-21T23:31:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85b711a1_6c49e672",
+      "revId": "b86377218881a1d02275037fe4bd0ce666dacb26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
