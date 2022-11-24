@@ -79,10 +79,9 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
     HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
     HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
     String requestURI = httpRequest.getRequestURI();
-
     if (isBasicAuthenticationRequest(requestURI)) {
       filterChain.doFilter(servletRequest, servletResponse);
-    } else if (isPullReplicationApiRequest(requestURI)) {
+    } else if (isPullReplicationApiRequest(requestURI) || isGitUploadPackRequest(httpRequest)) {
       Optional<String> authorizationHeader =
           Optional.ofNullable(httpRequest.getHeader("Authorization"));
 
@@ -98,6 +97,13 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
     } else {
       filterChain.doFilter(servletRequest, servletResponse);
     }
+  }
+
+  private boolean isGitUploadPackRequest(HttpServletRequest requestURI) {
+    return requestURI.getRequestURI().contains("git-upload-pack")
+        || Optional.ofNullable(requestURI.getQueryString())
+            .map(q -> q.contains("git-upload-pack"))
+            .orElse(false);
   }
 
   private boolean isBearerTokenAuthenticated(
