@@ -30,6 +30,7 @@ import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.TransportHttpWithBearerToken;
 import org.eclipse.jgit.transport.URIish;
 
 public class JGitFetch implements Fetch {
@@ -53,7 +54,12 @@ public class JGitFetch implements Fetch {
   @Override
   public List<RefUpdateState> fetch(List<RefSpec> refs) throws IOException {
     FetchResult res;
-    try (Transport tn = Transport.open(git, uri)) {
+    //    try (Transport tn = Transport.open(git, uri)) {
+    /**
+     * TODO: open method sets also: tn.prePush = Hooks.prePush(local, tn.hookOutRedirect);
+     * tn.prePush.setRemoteLocation(uri.toString()); tn.prePush.setRemoteName(remoteName);
+     */
+    try (TransportHttpWithBearerToken tn = new TransportHttpWithBearerToken(git, uri, "secret")) {
       res = fetchVia(tn, refs);
     }
     return res.getTrackingRefUpdates().stream()
