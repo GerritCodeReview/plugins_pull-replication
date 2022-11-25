@@ -46,6 +46,6 @@ java_library(
     ),
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
-         "//plugins/replication:replication",
+        "//plugins/replication:replication",
     ],
 )

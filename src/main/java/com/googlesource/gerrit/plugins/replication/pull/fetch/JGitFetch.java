@@ -18,34 +18,22 @@ import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLo
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.FetchResult;
-import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.Transport;
-import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.*;
 
 public class JGitFetch implements Fetch {
-  private final RemoteConfig config;
-  private final CredentialsProvider credentialsProvider;
   URIish uri;
   Repository git;
+  private final TransportProvider transportProvider;
 
   @Inject
   public JGitFetch(
-      SourceConfiguration sourceConfig,
-      CredentialsFactory cpFactory,
-      @Assisted URIish uri,
-      @Assisted Repository git) {
-    this.config = sourceConfig.getRemoteConfig();
-    this.credentialsProvider = cpFactory.create(config.getName());
+      TransportProvider transportProvider, @Assisted URIish uri, @Assisted Repository git) {
+    this.transportProvider = transportProvider;
     this.uri = uri;
     this.git = git;
   }
@@ -53,7 +41,7 @@ public class JGitFetch implements Fetch {
   @Override
   public List<RefUpdateState> fetch(List<RefSpec> refs) throws IOException {
     FetchResult res;
-    try (Transport tn = Transport.open(git, uri)) {
+    try (Transport tn = transportProvider.open(git, uri)) {
       res = fetchVia(tn, refs);
     }
     return res.getTrackingRefUpdates().stream()
@@ -62,9 +50,6 @@ public class JGitFetch implements Fetch {
   }
 
   private FetchResult fetchVia(Transport tn, List<RefSpec> fetchRefSpecs) throws IOException {
-    tn.applyConfig(config);
-    tn.setCredentialsProvider(credentialsProvider);
-
     repLog.info("Fetch references {} from {}", fetchRefSpecs, uri);
     return tn.fetch(NullProgressMonitor.INSTANCE, fetchRefSpecs);
   }
