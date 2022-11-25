@@ -3,6 +3,218 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e54763ec_bd2272d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 9,
+        "startChar": 71,
+        "endLine": 9,
+        "endChar": 135
+      },
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7459df05_7cb0e828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "We should also explain why we are using this hack of extending the TransportHttp in the same JGit package.",
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad55d23d_b285023d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "nit: missing ending `.`",
+      "range": {
+        "startLine": 11,
+        "startChar": 62,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4a8ac7c_8015d074",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 13,
+        "startChar": 71,
+        "endLine": 13,
+        "endChar": 84
+      },
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "121f62ad_a28182d4",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "These cleanup should be done in a separate change",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 32
+      },
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7873b6c8_3d5ce837",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "You can just make a single change where you run `buildifier` and fix the formatting of the build files in a separate change.",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "349bbfb9_a6fa0b95",
+        "filename": "src/main/java/org/eclipse/jgit/transport/TransportHttpWithBearerToken.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ec48777_6ae6b8be",
+        "filename": "src/main/java/org/eclipse/jgit/transport/TransportHttpWithBearerToken.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "Missing JavaDoc: we should give an overview of what is the purpose of this class",
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e05560bc_e6b39259",
+        "filename": "src/main/java/org/eclipse/jgit/transport/TransportHttpWithBearerToken.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 15,
+        "startChar": 2,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4da3a001_2c11a01f",
+        "filename": "src/main/java/org/eclipse/jgit/transport/TransportHttpWithBearerToken.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-11-25T19:47:50Z",
+      "side": 1,
+      "message": "Use `Strings.isNullOrEmpty`",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 47
+      },
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b0a473b_229e9f5f",
         "filename": "src/main/java/org/eclipse/jgit/transport/TransportProvider.java",
         "patchSetId": 3
