@@ -82,46 +82,16 @@ import org.junit.Test;
     name = "pull-replication",
     sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
-public class PullReplicationIT extends LightweightPluginDaemonTest {
-  private static final Optional<String> ALL_PROJECTS = Optional.empty();
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final int TEST_REPLICATION_DELAY = 1;
-  private static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2000);
-  private static final String TEST_REPLICATION_SUFFIX = "suffix1";
-  private static final String TEST_REPLICATION_REMOTE = "remote1";
+public class PullReplicationIT extends PullReplicationSetupIT {
 
-  @Inject private SitePaths sitePaths;
-  @Inject private ProjectOperations projectOperations;
-  @Inject private DynamicSet<ProjectDeletedListener> deletedListeners;
-  private Path gitPath;
-  private FileBasedConfig config;
-  private FileBasedConfig secureConfig;
+  @Override
+  protected GitTransportProtocol getGitTransportProtocol() {
+    return GitTransportProtocol.FILE;
+  }
 
   @Override
   public void setUpTestPlugin() throws Exception {
     setUpTestPlugin(false);
-  }
-
-  protected void setUpTestPlugin(boolean loadExisting) throws Exception {
-    gitPath = sitePaths.site_path.resolve("git");
-
-    File configFile = sitePaths.etc_dir.resolve("replication.config").toFile();
-    config = new FileBasedConfig(configFile, FS.DETECTED);
-    if (loadExisting && configFile.exists()) {
-      config.load();
-    }
-    setReplicationSource(
-        TEST_REPLICATION_REMOTE,
-        TEST_REPLICATION_SUFFIX,
-        ALL_PROJECTS); // Simulates a full replication.config initialization
-    config.save();
-
-    secureConfig =
-        new FileBasedConfig(sitePaths.etc_dir.resolve("secure.config").toFile(), FS.DETECTED);
-    setReplicationCredentials(TEST_REPLICATION_REMOTE, admin.username(), admin.httpPassword());
-    secureConfig.save();
-
-    super.setUpTestPlugin();
   }
 
   @Test
@@ -423,82 +393,6 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
       Ref targetBranchRef = getRef(repo, sourceRef);
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
-    }
-  }
-
-  private Ref getRef(Repository repo, String branchName) throws IOException {
-    return repo.getRefDatabase().exactRef(branchName);
-  }
-
-  private Ref checkedGetRef(Repository repo, String branchName) {
-    try {
-      return repo.getRefDatabase().exactRef(branchName);
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log("failed to get ref %s in repo %s", branchName, repo);
-      return null;
-    }
-  }
-
-  private void setReplicationSource(
-      String remoteName, String replicaSuffix, Optional<String> project)
-      throws IOException, ConfigInvalidException {
-    setReplicationSource(remoteName, Arrays.asList(replicaSuffix), project);
-  }
-
-  private void setReplicationSource(
-      String remoteName, List<String> replicaSuffixes, Optional<String> project)
-      throws IOException, ConfigInvalidException {
-
-    List<String> replicaUrls =
-        replicaSuffixes.stream()
-            .map(suffix -> gitPath.resolve("${name}" + suffix + ".git").toString())
-            .collect(toList());
-    config.setStringList("remote", remoteName, "url", replicaUrls);
-    config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
-    config.setString("remote", remoteName, "fetch", "+refs/*:refs/*");
-    config.setInt("remote", remoteName, "timeout", 600);
-    config.setInt("remote", remoteName, "replicationDelay", TEST_REPLICATION_DELAY);
-    project.ifPresent(prj -> config.setString("remote", remoteName, "projects", prj));
-    config.setBoolean("gerrit", null, "autoReload", true);
-    config.save();
-  }
-
-  private void setReplicationCredentials(String remoteName, String username, String password)
-      throws IOException {
-    secureConfig.setString("remote", remoteName, "username", username);
-    secureConfig.setString("remote", remoteName, "password", password);
-    secureConfig.save();
-  }
-
-  private void waitUntil(Supplier<Boolean> waitCondition) throws InterruptedException {
-    WaitUtil.waitUntil(waitCondition, TEST_TIMEOUT);
-  }
-
-  private <T> T getInstance(Class<T> classObj) {
-    return plugin.getSysInjector().getInstance(classObj);
-  }
-
-  private Project.NameKey createTestProject(String name) throws Exception {
-    return projectOperations.newProject().name(name).create();
-  }
-
-  @Singleton
-  public static class FakeDeleteProjectPlugin implements RestModifyView<ProjectResource, Input> {
-    private int deleteEndpointCalls;
-
-    FakeDeleteProjectPlugin() {
-      this.deleteEndpointCalls = 0;
-    }
-
-    @Override
-    public Response<?> apply(ProjectResource resource, Input input)
-        throws AuthException, BadRequestException, ResourceConflictException, Exception {
-      deleteEndpointCalls += 1;
-      return Response.ok();
-    }
-
-    int getDeleteEndpointCalls() {
-      return deleteEndpointCalls;
     }
   }
 }
