@@ -25,6 +25,7 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class BearerAuthenticationFilterTest {
 
+  private final Optional<String> NO_QUERY_PARAMETERS = Optional.empty();
+  private final Optional<String> GIT_UPLOAD_PACK_QUERY_PARAMETER =
+      Optional.of("service=git-upload-pack");
   @Mock private DynamicItem<WebSession> session;
   @Mock private WebSession webSession;
   @Mock private Provider<PluginUser> pluginUserProvider;
@@ -48,9 +52,11 @@ public class BearerAuthenticationFilterTest {
   @Mock private FilterChain filterChain;
   private final String pluginName = "pull-replication";
 
-  private void authenticateWithURI(String uri) throws ServletException, IOException {
+  private void authenticateAndFilter(String uri, Optional<String> queryString)
+      throws ServletException, IOException {
     final String bearerToken = "some-bearer-token";
     when(httpServletRequest.getRequestURI()).thenReturn(uri);
+    queryString.ifPresent(qs -> when(httpServletRequest.getQueryString()).thenReturn(qs));
     when(httpServletRequest.getHeader("Authorization"))
         .thenReturn(String.format("Bearer %s", bearerToken));
     when(pluginUserProvider.get()).thenReturn(pluginUser);
@@ -66,6 +72,7 @@ public class BearerAuthenticationFilterTest {
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
 
     verify(httpServletRequest).getRequestURI();
+    queryString.ifPresent(qs -> verify(httpServletRequest).getQueryString());
     verify(httpServletRequest).getHeader("Authorization");
     verify(pluginUserProvider).get();
     verify(threadLocalRequestContextProvider).get();
@@ -75,38 +82,45 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenFetch() throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication~fetch");
+  public void shouldAuthenticateWhenFetch() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~fetch", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenApplyObject()
-      throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication~apply-object");
+  public void shouldAuthenticateWhenApplyObject() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~apply-object", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenApplyObjects()
-      throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication~apply-objects");
+  public void shouldAuthenticateWhenApplyObjects() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~apply-objects", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenDeleteProject()
-      throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication~delete-project");
+  public void shouldAuthenticateWhenDeleteProject() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~delete-project", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenUpdateHead()
-      throws ServletException, IOException {
-    authenticateWithURI("any-prefix/projects/my-project/HEAD");
+  public void shouldAuthenticateWhenUpdateHead() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/projects/my-project/HEAD", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenInitProject()
+  public void shouldAuthenticateWhenInitProject() throws ServletException, IOException {
+    authenticateAndFilter(
+        "any-prefix/pull-replication/init-project/my-project.git", NO_QUERY_PARAMETERS);
+  }
+
+  @Test
+  public void shouldAuthenticateWhenGitUploadPacket() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/git-upload-pack", NO_QUERY_PARAMETERS);
+  }
+
+  @Test
+  public void shouldAuthenticateWhenGitUploadPacketInQueryParameter()
       throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication/init-project/my-project.git");
+    authenticateAndFilter("any-prefix", GIT_UPLOAD_PACK_QUERY_PARAMETER);
   }
 
   @Test
