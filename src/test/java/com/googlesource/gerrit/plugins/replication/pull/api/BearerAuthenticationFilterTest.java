@@ -21,9 +21,9 @@ import static org.mockito.Mockito.when;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
-import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Provider;
+import com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationInternalUser;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -39,9 +39,8 @@ public class BearerAuthenticationFilterTest {
 
   @Mock private DynamicItem<WebSession> session;
   @Mock private WebSession webSession;
-  @Mock private Provider<PluginUser> pluginUserProvider;
   @Mock private Provider<ThreadLocalRequestContext> threadLocalRequestContextProvider;
-  @Mock private PluginUser pluginUser;
+  @Mock private PullReplicationInternalUser pluginUser;
   @Mock private ThreadLocalRequestContext threadLocalRequestContext;
   @Mock private HttpServletRequest httpServletRequest;
   @Mock private HttpServletResponse httpServletResponse;
@@ -53,21 +52,15 @@ public class BearerAuthenticationFilterTest {
     when(httpServletRequest.getRequestURI()).thenReturn(uri);
     when(httpServletRequest.getHeader("Authorization"))
         .thenReturn(String.format("Bearer %s", bearerToken));
-    when(pluginUserProvider.get()).thenReturn(pluginUser);
     when(threadLocalRequestContextProvider.get()).thenReturn(threadLocalRequestContext);
     when(session.get()).thenReturn(webSession);
     final BearerAuthenticationFilter filter =
         new BearerAuthenticationFilter(
-            session,
-            pluginName,
-            pluginUserProvider,
-            threadLocalRequestContextProvider,
-            bearerToken);
+            session, pluginName, pluginUser, threadLocalRequestContextProvider, bearerToken);
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
 
     verify(httpServletRequest).getRequestURI();
     verify(httpServletRequest).getHeader("Authorization");
-    verify(pluginUserProvider).get();
     verify(threadLocalRequestContextProvider).get();
     verify(session).get();
     verify(webSession).setAccessPathOk(AccessPath.REST_API, true);
@@ -119,7 +112,7 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
@@ -138,7 +131,7 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
@@ -156,7 +149,7 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
@@ -173,7 +166,7 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
@@ -192,7 +185,7 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);

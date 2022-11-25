@@ -44,6 +44,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiModule;
+import com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationGroupModule;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpClient;
@@ -73,6 +74,7 @@ class PullReplicationModule extends AbstractModule {
   @Override
   protected void configure() {
 
+    install(new PullReplicationGroupModule());
     bind(BearerTokenProvider.class).in(Scopes.SINGLETON);
     bind(RevisionReader.class).in(Scopes.SINGLETON);
     bind(ApplyObject.class);
