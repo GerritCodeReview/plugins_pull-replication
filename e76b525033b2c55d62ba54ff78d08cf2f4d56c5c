@@ -18,6 +18,40 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05649893_d89eba0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-11-26T12:38:50Z",
+      "side": 1,
+      "message": "I added a comment regarding the BearerAuthenticationFilter.java",
+      "revId": "e76b525033b2c55d62ba54ff78d08cf2f4d56c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ab96645_f2f3ea7c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-11-26T12:38:50Z",
+      "side": 1,
+      "message": "git requests need to be filtered, i.e: Marcin suggested something like:\n\n private boolean isGitUploadPackRequest(HttpServletRequest requestURI) {\n    return requestURI.getRequestURI().contains(\"git-upload-pack\")\n        || Optional.ofNullable(requestURI.getQueryString())\n            .map(q -\u003e q.contains(\"git-upload-pack\"))\n            .orElse(false);\n  }\n  \nAnd we need a test in BearerAuthenticationFilterTest to cover this scenario.",
+      "revId": "e76b525033b2c55d62ba54ff78d08cf2f4d56c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdacaffc_0d2f6e20",
