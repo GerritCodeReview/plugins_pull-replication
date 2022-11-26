@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d583df5_3fa46b59",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-11-26T12:43:01Z",
+      "side": 1,
+      "message": "Probably this should not be part of this change.",
+      "parentUuid": "6ab96645_f2f3ea7c",
+      "revId": "e76b525033b2c55d62ba54ff78d08cf2f4d56c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdacaffc_0d2f6e20",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/auth/PullReplicationGroupBackend.java",
         "patchSetId": 5
