@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.EventDispatcher;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
+import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
@@ -49,7 +50,7 @@ public class DeleteRefCommand {
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-  private final LocalDiskRepositoryManager gitManager;
+  private final GitRepositoryManager gitManager;
 
   @Inject
   public DeleteRefCommand(
@@ -58,13 +59,13 @@ public class DeleteRefCommand {
       ApplyObject applyObject,
       PermissionBackend permissionBackend,
       DynamicItem<EventDispatcher> eventDispatcher,
-      LocalDiskRepositoryManager gitManager) {
+      LocalGitRepositoryManagerProvider gitManagerProvider) {
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
     this.applyObject = applyObject;
     this.eventDispatcher = eventDispatcher;
     this.permissionBackend = permissionBackend;
-    this.gitManager = gitManager;
+    this.gitManager = gitManagerProvider.get();
   }
 
   public void deleteRef(Project.NameKey name, String refName, String sourceLabel)
