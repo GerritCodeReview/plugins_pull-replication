@@ -26,12 +26,15 @@ import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventTypes;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
+import com.google.inject.name.Names;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
@@ -60,7 +63,11 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
-class PullReplicationModule extends AbstractModule {
+public class PullReplicationModule extends AbstractModule {
+  public static final String LOCAL_DISK_REPOSITORY_MANAGER = "local_disk_repository_manager";
+  public static final String LOCAL_DISK_REPOSITORY_MANAGER_CLASS =
+      "localDiskRepositoryManagerClass";
+
   private final SitePaths site;
   private final Path cfgPath;
 
@@ -72,6 +79,15 @@ class PullReplicationModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    Config replicationConfig = getReplicationConfig();
+
+    try {
+      bind(GitRepositoryManager.class)
+          .annotatedWith(Names.named(LOCAL_DISK_REPOSITORY_MANAGER))
+          .to(getLocalRepositoryManager(replicationConfig));
+    } catch (ClassNotFoundException e) {
+      throw new ProvisionException("Unable to instantiate the local repository manager", e);
+    }
 
     bind(BearerTokenProvider.class).in(Scopes.SINGLETON);
     bind(RevisionReader.class).in(Scopes.SINGLETON);
@@ -124,7 +140,6 @@ class PullReplicationModule extends AbstractModule {
 
     bind(ConfigParser.class).to(SourceConfigParser.class).in(Scopes.SINGLETON);
 
-    Config replicationConfig = getReplicationConfig();
     if (replicationConfig.getBoolean("gerrit", "autoReload", false)) {
       bind(ReplicationConfig.class)
           .annotatedWith(MainReplicationConfig.class)
@@ -146,6 +161,19 @@ class PullReplicationModule extends AbstractModule {
     EventTypes.register(FetchRefReplicatedEvent.TYPE, FetchRefReplicatedEvent.class);
     EventTypes.register(FetchRefReplicationDoneEvent.TYPE, FetchRefReplicationDoneEvent.class);
     EventTypes.register(FetchReplicationScheduledEvent.TYPE, FetchReplicationScheduledEvent.class);
+  }
+
+  @SuppressWarnings("unchecked")
+  private Class<? extends GitRepositoryManager> getLocalRepositoryManager(Config replicationConfig)
+      throws ClassNotFoundException {
+    String localDiskRepositoryManagerClassName =
+        replicationConfig.getString("gerrit", null, LOCAL_DISK_REPOSITORY_MANAGER_CLASS);
+    if (localDiskRepositoryManagerClassName != null) {
+      return (Class<? extends GitRepositoryManager>)
+          Class.forName(localDiskRepositoryManagerClassName);
+    }
+
+    return LocalDiskRepositoryManager.class;
   }
 
   private FileBasedConfig getReplicationConfig() {

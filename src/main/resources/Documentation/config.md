@@ -75,6 +75,11 @@ gerrit.replicateOnStartup
 :	If true, replicates from all remotes on startup to ensure they
 	are in-sync with this server.  By default, false.
 
+gerrit.localDiskRepositoryManagerClass
+:	Class name of the GitRepositoryManager responsible for reading and
+    writing data to disk.
+    By default, com.google.gerrit.server.git.LocalDiskRepositoryManager.
+
 gerrit.autoReload
 :	If true, automatically reloads replication sources and settings
 	after `replication.config` file is updated, without the need to restart
