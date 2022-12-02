@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "964095b7_a62e5cb8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-02T11:48:01Z",
+      "side": 1,
+      "message": "Hi, please, review the code whenever you have a bit of time.\nMarcin there is a comment from Luca that maybe you can help me with that because you started with this.",
+      "revId": "948e8f66a3d8b52c549a7e1f0802949f040f890c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
