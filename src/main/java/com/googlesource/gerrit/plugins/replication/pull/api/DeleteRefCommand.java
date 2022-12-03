@@ -35,7 +35,6 @@ import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogg
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
-import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
 import java.util.Optional;
@@ -48,7 +47,6 @@ public class DeleteRefCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PullReplicationStateLogger fetchStateLog;
-  private final ApplyObject applyObject;
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
   private final SourcesCollection sourcesCollection;
@@ -61,12 +59,10 @@ public class DeleteRefCommand {
       ProjectCache projectCache,
       DynamicItem<EventDispatcher> eventDispatcher,
       SourcesCollection sourcesCollection,
-      ApplyObject applyObject,
       PermissionBackend permissionBackend,
       LocalDiskRepositoryManager gitManager) {
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
-    this.applyObject = applyObject;
     this.eventDispatcher = eventDispatcher;
     this.sourcesCollection = sourcesCollection;
     this.permissionBackend = permissionBackend;
