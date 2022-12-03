@@ -47,8 +47,7 @@ public class FetchGitUpdateProcessingTest {
   }
 
   @Test
-  public void headRefReplicatedInGitUpdateProcessing()
-      throws URISyntaxException, PermissionBackendException {
+  public void headRefReplicatedInGitUpdateProcessing() throws PermissionBackendException {
     FetchRefReplicatedEvent expectedEvent =
         new FetchRefReplicatedEvent(
             "someProject",
