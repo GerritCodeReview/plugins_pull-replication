@@ -378,7 +378,6 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
     BranchInput input = new BranchInput();
     input.revision = master;
     gApi.projects().name(testProjectName).branch(newBranch).create(input);
-    String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
