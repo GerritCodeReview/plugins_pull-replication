@@ -211,12 +211,18 @@ public class ReplicationQueue
     }
     ForkJoinPool fetchCallsPool = null;
     try {
-      fetchCallsPool = new ForkJoinPool(sources.get().getAll().size());
+      List<Source> allSources = sources.get().getAll();
+      int numSources = allSources.size();
+      if (numSources == 0) {
+        repLog.debug("No replication sources configured -> skipping fetch");
+        return;
+      }
+      fetchCallsPool = new ForkJoinPool(numSources);
 
       final Consumer<Source> callFunction =
           callFunction(project, objectId, refName, isDelete, state);
       fetchCallsPool
-          .submit(() -> sources.get().getAll().parallelStream().forEach(callFunction))
+          .submit(() -> allSources.parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       stateLog.error(
