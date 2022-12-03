@@ -35,7 +35,7 @@ public class CGitFetchValidator extends DefaultBindingTargetVisitor<FetchFactory
 
   @Override
   public Void visit(AssistedInjectBinding<? extends FetchFactory> binding) {
-    TypeLiteral<CGitFetch> nativeGitFetchType = new TypeLiteral<CGitFetch>() {};
+    TypeLiteral<CGitFetch> nativeGitFetchType = new TypeLiteral<>() {};
     for (AssistedMethod method : binding.getAssistedMethods()) {
       if (method.getImplementationType().equals(nativeGitFetchType)) {
         String[] command = new String[] {"git", "--version"};
