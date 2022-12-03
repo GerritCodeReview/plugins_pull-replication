@@ -163,7 +163,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   }
 
   public ResponseHandler<Object> assertHttpResponseCode(int responseCode) {
-    return new ResponseHandler<Object>() {
+    return new ResponseHandler<>() {
 
       @Override
       public Object handleResponse(HttpResponse response)
