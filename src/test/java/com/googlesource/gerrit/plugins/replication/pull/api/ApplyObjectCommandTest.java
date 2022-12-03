@@ -64,7 +64,6 @@ public class ApplyObjectCommandTest {
 
   private String sampleCommitObjectId = "9f8d52853089a3cf00c02ff7bd0817bd4353a95a";
   private String sampleTreeObjectId = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
-  private String sampleBlobObjectId = "b5d7bcf1d1c5b0f0726d10a16c8315f06f900bfb";
 
   @Mock private PullReplicationStateLogger fetchStateLog;
   @Mock private ApplyObject applyObject;
