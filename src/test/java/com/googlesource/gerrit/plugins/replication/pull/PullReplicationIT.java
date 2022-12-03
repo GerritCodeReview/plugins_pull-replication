@@ -61,7 +61,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -440,14 +439,13 @@ public class PullReplicationIT extends LightweightPluginDaemonTest {
   }
 
   private void setReplicationSource(
-      String remoteName, String replicaSuffix, Optional<String> project)
-      throws IOException, ConfigInvalidException {
+      String remoteName, String replicaSuffix, Optional<String> project) throws IOException {
     setReplicationSource(remoteName, Arrays.asList(replicaSuffix), project);
   }
 
   private void setReplicationSource(
       String remoteName, List<String> replicaSuffixes, Optional<String> project)
-      throws IOException, ConfigInvalidException {
+      throws IOException {
 
     List<String> replicaUrls =
         replicaSuffixes.stream()
