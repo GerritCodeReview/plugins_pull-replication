@@ -102,7 +102,6 @@ public class DeleteRefCommandTest {
             projectCache,
             eventDispatcherDataItem,
             sourceCollection,
-            applyObject,
             permissionBackend,
             gitManager);
   }
