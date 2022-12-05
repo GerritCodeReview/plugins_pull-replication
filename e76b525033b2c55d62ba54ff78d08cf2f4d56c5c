@@ -105,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a4e39d_628a7cc9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-05T15:05:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2d583df5_3fa46b59",
+      "revId": "e76b525033b2c55d62ba54ff78d08cf2f4d56c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdacaffc_0d2f6e20",
@@ -188,6 +206,24 @@
       "writtenOn": "2022-12-01T18:18:57Z",
       "side": 1,
       "message": "This is just suggestion, so any substring will match and then the user will chose the correct one.",
+      "parentUuid": "36282496_513ef335",
+      "revId": "e76b525033b2c55d62ba54ff78d08cf2f4d56c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b79acf24_0405456c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/auth/PullReplicationGroupBackend.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-05T15:05:43Z",
+      "side": 1,
+      "message": "Ack",
       "parentUuid": "36282496_513ef335",
       "revId": "e76b525033b2c55d62ba54ff78d08cf2f4d56c5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
