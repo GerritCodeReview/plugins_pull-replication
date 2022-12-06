@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4144ef20_032fd9a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-06T00:25:32Z",
+      "side": 1,
+      "message": "really good stuff! just minor comments",
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08c3f713_91a7ead5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-06T00:25:32Z",
+      "side": 1,
+      "message": "nit: we could pass here httpServerRequest and get requestURI and queryString inside the method",
+      "range": {
+        "startLine": 104,
+        "startChar": 40,
+        "endLine": 104,
+        "endChar": 88
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5161738d_d16e2add",
+        "filename": "src/main/java/org/eclipse/jgit/transport/TransportProvider.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-06T00:25:32Z",
+      "side": 1,
+      "message": "we do not need to assign to a variable, we can do return here",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 25
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "222d79b6_dbdbc218",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationSetupBase.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-06T00:25:32Z",
+      "side": 1,
+      "message": "could we avoid the feature flag? maybe we can mark this one as private and create two new methods:\n*setUpTestPluginBasedOnExistingCOnfig()\n*setUpTestPlugin()",
+      "range": {
+        "startLine": 64,
+        "startChar": 41,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8529160_fac0c77b",
+        "filename": "src/test/java/org/eclipse/jgit/transport/TransportHttpWithBearerTokenTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-06T00:25:32Z",
+      "side": 1,
+      "message": "should we also add tests for `httpOpen` to check if bearer token is set properly and a http header?",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 45
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
