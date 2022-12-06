@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "894205d9_67de8ceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-06T00:07:53Z",
+      "side": 1,
+      "message": "LGTM but @alvaro wants to run e2e tests",
+      "revId": "406fc0bfb02e28036ae80f5ea45e64fe5f77c564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
