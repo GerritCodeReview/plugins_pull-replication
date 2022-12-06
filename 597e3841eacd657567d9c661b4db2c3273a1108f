@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e45a9f8f_c4460cba",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-06T20:48:01Z",
+      "side": 1,
+      "message": "\u003e  we could pass here httpServerRequest and get requestURI \n\nActually that was your first version but because in line 81 we have:\nString requestURI \u003d httpRequest.getRequestURI();\nI thought that was good idea to reuse it.\n\n\u003e get requestURI and queryString inside the method\n\nAs I said that was your first version. For me it looks more clear as a parameter of the method `isGitUploadPackRequest`.\n\nI dont have strong opinion, if you want me to do it as it was I am happy to do it.",
+      "parentUuid": "08c3f713_91a7ead5",
+      "range": {
+        "startLine": 104,
+        "startChar": 40,
+        "endLine": 104,
+        "endChar": 88
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5161738d_d16e2add",
         "filename": "src/main/java/org/eclipse/jgit/transport/TransportProvider.java",
         "patchSetId": 19
@@ -54,6 +78,30 @@
       "writtenOn": "2022-12-06T00:25:32Z",
       "side": 1,
       "message": "we do not need to assign to a variable, we can do return here",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 25
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdfc0540_81280a10",
+        "filename": "src/main/java/org/eclipse/jgit/transport/TransportProvider.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-06T20:48:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5161738d_d16e2add",
       "range": {
         "startLine": 50,
         "startChar": 4,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bc73e33_ce2e06ec",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationSetupBase.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-06T20:48:01Z",
+      "side": 1,
+      "message": "I have removed the feature flag and I added an abstract method in `PullReplicationSetupBase.java`  to be implemented for the concrete implementations.\n\nPlease, let me know your thoughts.",
+      "parentUuid": "222d79b6_dbdbc218",
+      "range": {
+        "startLine": 64,
+        "startChar": 41,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8529160_fac0c77b",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-12-06T00:25:32Z",
       "side": 1,
       "message": "should we also add tests for `httpOpen` to check if bearer token is set properly and a http header?",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 45
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48246cfd_b5c17bd5",
+        "filename": "src/test/java/org/eclipse/jgit/transport/TransportHttpWithBearerTokenTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-06T20:48:01Z",
+      "side": 1,
+      "message": "I tried but I could not make it. \nThe reason is because the concrete class of the `org.eclipse.jgit.transport.http.HttpConnection.java` is `org.eclipse.jgit.transport.http.JDKHttpConnection.java` that decorates `HttpURLConnection wrappedUrlConnection` which contains the Bearer Token Authorization header.  \nUnfortunately `wrappedUrlConnection` is not accessible.",
+      "parentUuid": "e8529160_fac0c77b",
       "range": {
         "startLine": 22,
         "startChar": 13,

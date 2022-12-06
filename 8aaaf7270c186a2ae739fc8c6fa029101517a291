@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fab6b16_f6d83ae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-06T20:48:01Z",
+      "side": 1,
+      "message": "Hi, First of all thank you so much for your feedback. I have addressed all the comments but the one Luca raised related with the BUILD. That initial changed was made by Marcin and even seems something trivial maybe Marcin can help me with that.",
+      "revId": "8aaaf7270c186a2ae739fc8c6fa029101517a291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
