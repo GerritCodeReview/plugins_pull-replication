@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0725050_3ab7a3ee",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-07T16:56:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e45a9f8f_c4460cba",
+      "range": {
+        "startLine": 104,
+        "startChar": 40,
+        "endLine": 104,
+        "endChar": 88
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5161738d_d16e2add",
