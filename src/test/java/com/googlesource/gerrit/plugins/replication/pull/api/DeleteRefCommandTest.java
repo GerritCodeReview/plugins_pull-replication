@@ -33,6 +33,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
+import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
@@ -104,7 +105,7 @@ public class DeleteRefCommandTest {
             sourceCollection,
             applyObject,
             permissionBackend,
-            gitManager);
+            new LocalGitRepositoryManagerProvider(gitManager));
   }
 
   @Test
