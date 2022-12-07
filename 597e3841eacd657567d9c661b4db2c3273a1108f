@@ -183,6 +183,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e95e556_66cdca63",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationSetupBase.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-07T01:20:53Z",
+      "side": 1,
+      "message": "yep even better solution!",
+      "parentUuid": "9bc73e33_ce2e06ec",
+      "range": {
+        "startLine": 64,
+        "startChar": 41,
+        "endLine": 64,
+        "endChar": 53
+      },
+      "revId": "597e3841eacd657567d9c661b4db2c3273a1108f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8529160_fac0c77b",
