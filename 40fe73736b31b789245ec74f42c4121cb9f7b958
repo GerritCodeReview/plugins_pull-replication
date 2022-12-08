@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e41fb31_606c56a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-08T13:05:31Z",
+      "side": 1,
+      "message": "Hi, I have update the documentation with the bearer token configuration",
+      "revId": "40fe73736b31b789245ec74f42c4121cb9f7b958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
