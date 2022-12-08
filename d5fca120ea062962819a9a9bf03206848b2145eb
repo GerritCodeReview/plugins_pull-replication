@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4389740_4714d29b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-08T08:20:27Z",
+      "side": 1,
+      "message": "Ready to go.\n\nI will raise another change with the update of the documentation.",
+      "revId": "d5fca120ea062962819a9a9bf03206848b2145eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

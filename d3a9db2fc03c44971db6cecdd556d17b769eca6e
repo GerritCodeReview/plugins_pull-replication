@@ -330,6 +330,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc388467_de08c49a",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-08T08:20:27Z",
+      "side": 1,
+      "message": "Removed and will be addressed in a followup change.",
+      "parentUuid": "dcf58eaa_f2b45f32",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 44
+      },
+      "revId": "d3a9db2fc03c44971db6cecdd556d17b769eca6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "349bbfb9_a6fa0b95",
