@@ -518,8 +518,15 @@ File `secure.config`
 
 The optional file `$site_path/secure.config` is a Git-style config
 file that provides secure values that should not be world-readable,
-such as passwords. Passwords for HTTP remotes can be obtained from
-this file.
+such as passwords. The HTTP authentication can be configured in 2 
+different flavours:
+
+*HTTP Bearer Token Authentication*
+
+auth.bearerToken
+: plain text token to be defined in all the gerrit instances. 
+
+*HTTP Basic Authentication*
 
 remote.NAME.username
 :	Username to use for HTTP authentication on this remote, if not
