@@ -1,0 +1,35 @@
+version: '3'
+services:
+  gerrit1:
+    image: gerritcodereview/gerrit:${GERRIT_IMAGE}
+    volumes:
+      - "gerrit1_git:/var/gerrit/git"
+      - "gerrit2_git:/var/gerrit/git-instance2"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/config/server/healthcheck~status"]
+      start_period: 60s
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "8080:8080"
+      - "29418:29418"
+
+  gerrit2:
+    image: gerritcodereview/gerrit:${GERRIT_IMAGE}
+    volumes:
+      - "gerrit2_git:/var/gerrit/git"
+      - "gerrit1_git:/var/gerrit/git-instance1"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/config/server/healthcheck~status"]
+      start_period: 60s
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "8081:8080"
+      - "29419:29418"
+
+volumes:
+  gerrit1_git:
+  gerrit2_git:
