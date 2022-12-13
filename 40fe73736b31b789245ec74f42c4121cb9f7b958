@@ -16,6 +16,75 @@
       "message": "Hi, I have update the documentation with the bearer token configuration",
       "revId": "40fe73736b31b789245ec74f42c4121cb9f7b958",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73002b4a_c8cd19ab",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-13T08:51:17Z",
+      "side": 1,
+      "message": "configured on all replication endpoints",
+      "range": {
+        "startLine": 527,
+        "startChar": 25,
+        "endLine": 527,
+        "endChar": 60
+      },
+      "revId": "40fe73736b31b789245ec74f42c4121cb9f7b958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dbf766b_95ed3b0a",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-13T08:51:17Z",
+      "side": 1,
+      "message": "nit: tab instead of space",
+      "range": {
+        "startLine": 527,
+        "startChar": 1,
+        "endLine": 527,
+        "endChar": 2
+      },
+      "revId": "40fe73736b31b789245ec74f42c4121cb9f7b958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8f9fdc8_60db1fb0",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-13T08:51:17Z",
+      "side": 1,
+      "message": "Better to say `shared secret`",
+      "range": {
+        "startLine": 527,
+        "startChar": 2,
+        "endLine": 527,
+        "endChar": 18
+      },
+      "revId": "40fe73736b31b789245ec74f42c4121cb9f7b958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
