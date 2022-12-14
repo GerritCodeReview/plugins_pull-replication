@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a22b5372_aeac4028",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-14T10:25:55Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com and @ponch78@gmail.com I have addressed your comments.\n\nThank you so much for the feedback.",
+      "revId": "60c3ea4186828832b85fa17e44acf51423c98aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
