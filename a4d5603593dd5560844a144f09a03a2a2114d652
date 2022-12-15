@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1400410d_466f68f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-15T13:39:48Z",
+      "side": 1,
+      "message": "I build and run the tests in 3.5 and it works fine. I am going to test it manually.",
+      "revId": "a4d5603593dd5560844a144f09a03a2a2114d652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
