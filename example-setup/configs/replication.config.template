@@ -1,0 +1,10 @@
+[gerrit]
+    autoReload = true
+    replicateOnStartup = false
+[replication]
+    lockErrorMaxRetries = 5
+    maxRetries = 5
+    useCGitClient = false
+    consumeStreamEvents = false
+    syncRefs="ALL REFS ASYNC"
+    maxApiPayloadSize=1

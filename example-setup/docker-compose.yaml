@@ -1,10 +1,11 @@
 version: '3'
 services:
   gerrit1:
-    image: gerritcodereview/gerrit:${GERRIT_IMAGE}
-    volumes:
-      - "gerrit1_git:/var/gerrit/git"
-      - "gerrit2_git:/var/gerrit/git-instance2"
+    build: .
+    environment:
+      - API_URL=replica-1
+      - INSTANCE_ID=primary
+      - REPLICA=false
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/config/server/healthcheck~status"]
       start_period: 60s
@@ -14,22 +15,24 @@ services:
     ports:
       - "8080:8080"
       - "29418:29418"
-
   gerrit2:
-    image: gerritcodereview/gerrit:${GERRIT_IMAGE}
-    volumes:
-      - "gerrit2_git:/var/gerrit/git"
-      - "gerrit1_git:/var/gerrit/git-instance1"
+    build: .
+    environment:
+      - API_URL=primary
+      - INSTANCE_ID=replica-1
+      - REPLICA=true
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/config/server/healthcheck~status"]
-      start_period: 60s
+      start_period: 120s
       interval: 5s
       timeout: 5s
       retries: 5
     ports:
       - "8081:8080"
       - "29419:29418"
+    depends_on:
+      - gerrit1
 
-volumes:
-  gerrit1_git:
-  gerrit2_git:
+# volumes:
+#   gerrit1_git:
+#   gerrit2_git:
