@@ -1,0 +1,24 @@
+version: '3'
+services:
+  gerrit1:
+    build: .
+    environment:
+      - INSTANCE_ID=primary
+      - REPLICA=false
+      - REMOTE=replica-1
+      - REMOTE_URL=gerrit2
+    ports:
+      - "8080:8080"
+      - "29418:29418"
+  gerrit2:
+    build: .
+    environment:
+      - INSTANCE_ID=replica-1
+      - REPLICA=true
+      - REMOTE=primary
+      - REMOTE_URL=gerrit1
+    ports:
+      - "8081:8080"
+      - "29419:29418"
+    depends_on:
+      - gerrit1
