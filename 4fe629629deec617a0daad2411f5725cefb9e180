@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4d1c6c7_a19fd60d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-16T10:47:28Z",
+      "side": 1,
+      "message": "Minor comments. Good work",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21dbf8e3_88308060",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-16T10:47:28Z",
+      "side": 1,
+      "message": "do we need to be root? Cannot be gerrit?",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36f56305_cc5252b3",
+        "filename": "example-setup/configs/gerrit.config.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-16T10:47:28Z",
+      "side": 1,
+      "message": "I wonder if we should rename this as IS_REPLICA to give more context that is a boolean. wdyt?",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67c13d2d_5889f109",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-16T10:47:28Z",
+      "side": 1,
+      "message": "IS_REPLICA?",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca5da9ac_0677c283",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-16T10:47:28Z",
+      "side": 1,
+      "message": "IS_REPLICA?",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bd94a00_ec1abda8",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-16T10:47:28Z",
+      "side": 1,
+      "message": "Do we need these comments?",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
