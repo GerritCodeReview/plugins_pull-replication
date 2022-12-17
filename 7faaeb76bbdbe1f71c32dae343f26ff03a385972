@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df28f42d_44ab3245",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154962
+      },
+      "writtenOn": "2022-12-17T17:14:41Z",
+      "side": 1,
+      "message": "Include submit records in etag calculation\n\nSubmit button and status label are calculated based on submit records\nbut submit records are not included in etag calculation so after\nre-indexing etag is not changed and UI is not reloaded. Which is causing\ninconsistent state.\n\nBug: Issue 11207\nChange-Id: I4a3bd314711f08a14c4bb641b976356485af8902",
+      "revId": "7faaeb76bbdbe1f71c32dae343f26ff03a385972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
