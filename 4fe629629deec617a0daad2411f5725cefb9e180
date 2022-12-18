@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cefd5b48_1411690e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-18T09:05:24Z",
+      "side": 1,
+      "message": "I wonder if maybe it would make sense if we can create a specific repo for that. where we can extend to other topologies regardless if we use pull-replication.",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21dbf8e3_88308060",
