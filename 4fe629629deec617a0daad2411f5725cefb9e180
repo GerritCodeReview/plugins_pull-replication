@@ -54,6 +54,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4a7fb0af_09636c58",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-21T22:22:11Z",
+      "side": 1,
+      "message": "This is not needed",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 14
+      },
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36f56305_cc5252b3",
         "filename": "example-setup/configs/gerrit.config.template",
         "patchSetId": 2
