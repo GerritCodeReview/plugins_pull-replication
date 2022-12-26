@@ -70,6 +70,29 @@
       },
       "revId": "72b0860efbc2f72fc41679a24a271ddf42a55340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a1aa4d_b4988d41",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationActionIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-26T23:21:04Z",
+      "side": 1,
+      "message": "This should be SC_BAD_REQUEST",
+      "range": {
+        "startLine": 91,
+        "startChar": 55,
+        "endLine": 91,
+        "endChar": 79
+      },
+      "revId": "72b0860efbc2f72fc41679a24a271ddf42a55340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
