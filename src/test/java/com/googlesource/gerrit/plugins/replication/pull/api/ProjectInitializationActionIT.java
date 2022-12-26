@@ -165,7 +165,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnInternalServerErrorIfProjectCannotBeCreatedWhenNodeIsAReplica()
+  public void shouldReturnBadRequestIfProjectNameIsInvalidAndCannotBeCreatedWhenNodeIsAReplica()
       throws Exception {
     url = getURL(INVALID_TEST_PROJECT_NAME);
 
@@ -173,7 +173,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
         .create(source)
         .execute(
             createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR),
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST),
             getContext());
   }
 

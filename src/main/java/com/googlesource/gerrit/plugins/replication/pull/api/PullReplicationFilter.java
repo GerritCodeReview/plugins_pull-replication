@@ -61,6 +61,7 @@ import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.InvalidPathException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -181,7 +182,12 @@ public class PullReplicationFilter extends AllRequestFilter {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_INTERNAL_SERVER_ERROR, e.getMessage(), e.caching(), e);
     } catch (Exception e) {
-      throw new ServletException(e);
+      if (e instanceof InvalidPathException || e.getCause() instanceof InvalidPathException) {
+        RestApiServlet.replyError(
+            httpRequest, httpResponse, SC_BAD_REQUEST, "Invalid repository path in request", e);
+      } else {
+        throw new ServletException(e);
+      }
     }
   }
 
