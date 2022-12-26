@@ -15,8 +15,9 @@
 package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.git.LocalDiskRepositoryManager;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
@@ -30,15 +31,15 @@ import org.eclipse.jgit.transport.RefSpec;
 
 public class ApplyObject {
 
-  private final LocalDiskRepositoryManager gitManager;
+  private final GitRepositoryManager gitManager;
 
-  // NOTE: We do need specifically the LocalDiskRepositoryManager to make sure
+  // NOTE: We do need specifically the local GitRepositoryManager to make sure
   // to be able to write onto the directly physical repository without any wrapper.
   // Using for instance the multi-site wrapper injected by Guice would result
   // in a split-brain because of the misalignment of local vs. global refs values.
   @Inject
-  public ApplyObject(LocalDiskRepositoryManager gitManager) {
-    this.gitManager = gitManager;
+  public ApplyObject(LocalGitRepositoryManagerProvider gitManagerProvider) {
+    this.gitManager = gitManagerProvider.get();
   }
 
   public RefUpdateState apply(Project.NameKey name, RefSpec refSpec, RevisionData[] revisionsData)
