@@ -140,15 +140,14 @@ public class ProjectDeletionActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnInternalServerErrorIfProjectCannotBeDeletedWhenNodeIsAReplica()
-      throws Exception {
+  public void shouldReturnBadRequestIfProjectNameIsInvalidWhenNodeIsAReplica() throws Exception {
     url = getURL(INVALID_TEST_PROJECT_NAME);
 
     httpClientFactory
         .create(source)
         .execute(
             createDeleteRequest(),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR),
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST),
             getContext());
   }
 
