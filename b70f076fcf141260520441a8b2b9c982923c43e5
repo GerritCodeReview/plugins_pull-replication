@@ -22,6 +22,30 @@
       },
       "revId": "b70f076fcf141260520441a8b2b9c982923c43e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d167a00_7836dbe8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-26T22:26:01Z",
+      "side": 1,
+      "message": "Fixed with If48e2b5c36230",
+      "parentUuid": "b093ea26_8c82e109",
+      "range": {
+        "startLine": 80,
+        "startChar": 14,
+        "endLine": 80,
+        "endChar": 69
+      },
+      "revId": "b70f076fcf141260520441a8b2b9c982923c43e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
