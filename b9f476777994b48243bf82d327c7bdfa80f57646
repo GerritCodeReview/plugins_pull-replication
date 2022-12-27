@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5348498c_f0529c7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2022-12-27T15:58:23Z",
+      "side": 1,
+      "message": "Why is the relation chain not show for predecessors of this merge commit ?\nMerge stable-3.3 to stable-3.4 to this merge ...",
+      "revId": "b9f476777994b48243bf82d327c7bdfa80f57646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
