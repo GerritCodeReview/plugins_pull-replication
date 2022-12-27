@@ -23,6 +23,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ProjectDeletionActionIT extends ActionITBase {
@@ -75,14 +76,15 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
-  public void shouldReturnInternalServerErrorIfProjectCannotBeDeleted() throws Exception {
+  @Ignore("Failing in RestApiServlet: to be enabled again once that is fixed in core")
+  public void shouldReturnBadRequestWhenDeletingAnInvalidProjectName() throws Exception {
     url = getURLWithAuthenticationPrefix(INVALID_TEST_PROJECT_NAME);
 
     httpClientFactory
         .create(source)
         .execute(
             withBasicAuthenticationAsAdmin(createDeleteRequest()),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
@@ -131,7 +133,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnInternalServerErrorIfProjectCannotBeDeletedWhenNodeIsAReplica()
+  public void shouldReturnBadRequestWhenDeletingAnInvalidProjectNameWhenNodeIsAReplica()
       throws Exception {
     url = getURLWithAuthenticationPrefix(INVALID_TEST_PROJECT_NAME);
 
@@ -139,7 +141,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
         .create(source)
         .execute(
             withBasicAuthenticationAsAdmin(createDeleteRequest()),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
