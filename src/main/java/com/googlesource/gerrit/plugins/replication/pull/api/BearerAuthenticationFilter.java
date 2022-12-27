@@ -79,13 +79,13 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
     HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
     HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
     String requestURI = httpRequest.getRequestURI();
+    Optional<String> authorizationHeader =
+        Optional.ofNullable(httpRequest.getHeader("Authorization"));
 
     if (isBasicAuthenticationRequest(requestURI)) {
       filterChain.doFilter(servletRequest, servletResponse);
-    } else if (isPullReplicationApiRequest(requestURI) || isGitUploadPackRequest(httpRequest)) {
-      Optional<String> authorizationHeader =
-          Optional.ofNullable(httpRequest.getHeader("Authorization"));
-
+    } else if (isPullReplicationApiRequest(requestURI)
+        || isGitUploadPackRequestFromPlugin(httpRequest, authorizationHeader.isPresent())) {
       if (isBearerTokenAuthenticated(authorizationHeader, bearerToken))
         try (ManualRequestContext ctx =
             new ManualRequestContext(pluginUser, threadLocalRequestContext.get())) {
@@ -100,11 +100,13 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
     }
   }
 
-  private boolean isGitUploadPackRequest(HttpServletRequest requestURI) {
-    return requestURI.getRequestURI().contains("git-upload-pack")
-        || Optional.ofNullable(requestURI.getQueryString())
-            .map(q -> q.contains("git-upload-pack"))
-            .orElse(false);
+  private boolean isGitUploadPackRequestFromPlugin(
+      HttpServletRequest requestURI, boolean isAuthorizationHeader) {
+    return (requestURI.getRequestURI().contains("git-upload-pack")
+            || Optional.ofNullable(requestURI.getQueryString())
+                .map(q -> q.contains("git-upload-pack"))
+                .orElse(false))
+        && isAuthorizationHeader;
   }
 
   private boolean isBearerTokenAuthenticated(
