@@ -216,4 +216,9 @@ public class SourceConfiguration implements RemoteConfiguration {
   public int getPushBatchSize() {
     return 0;
   }
+
+  @Override
+  public boolean replicateNoteDbMetaRefs() {
+    return true;
+  }
 }

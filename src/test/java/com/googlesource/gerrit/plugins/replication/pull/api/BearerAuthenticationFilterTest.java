@@ -15,16 +15,19 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static org.mockito.Mockito.atMost;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
-import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Provider;
+import com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationInternalUser;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,37 +40,36 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class BearerAuthenticationFilterTest {
 
+  private final Optional<String> NO_QUERY_PARAMETERS = Optional.empty();
+  private final Optional<String> GIT_UPLOAD_PACK_QUERY_PARAMETER =
+      Optional.of("service=git-upload-pack");
   @Mock private DynamicItem<WebSession> session;
   @Mock private WebSession webSession;
-  @Mock private Provider<PluginUser> pluginUserProvider;
   @Mock private Provider<ThreadLocalRequestContext> threadLocalRequestContextProvider;
-  @Mock private PluginUser pluginUser;
+  @Mock private PullReplicationInternalUser pluginUser;
   @Mock private ThreadLocalRequestContext threadLocalRequestContext;
   @Mock private HttpServletRequest httpServletRequest;
   @Mock private HttpServletResponse httpServletResponse;
   @Mock private FilterChain filterChain;
   private final String pluginName = "pull-replication";
 
-  private void authenticateWithURI(String uri) throws ServletException, IOException {
+  private void authenticateAndFilter(String uri, Optional<String> queryStringMaybe)
+      throws ServletException, IOException {
     final String bearerToken = "some-bearer-token";
     when(httpServletRequest.getRequestURI()).thenReturn(uri);
+    queryStringMaybe.ifPresent(qs -> when(httpServletRequest.getQueryString()).thenReturn(qs));
     when(httpServletRequest.getHeader("Authorization"))
         .thenReturn(String.format("Bearer %s", bearerToken));
-    when(pluginUserProvider.get()).thenReturn(pluginUser);
     when(threadLocalRequestContextProvider.get()).thenReturn(threadLocalRequestContext);
     when(session.get()).thenReturn(webSession);
     final BearerAuthenticationFilter filter =
         new BearerAuthenticationFilter(
-            session,
-            pluginName,
-            pluginUserProvider,
-            threadLocalRequestContextProvider,
-            bearerToken);
+            session, pluginName, pluginUser, threadLocalRequestContextProvider, bearerToken);
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
 
-    verify(httpServletRequest).getRequestURI();
+    verify(httpServletRequest, atMost(2)).getRequestURI();
+    verify(httpServletRequest, atMost(1)).getQueryString();
     verify(httpServletRequest).getHeader("Authorization");
-    verify(pluginUserProvider).get();
     verify(threadLocalRequestContextProvider).get();
     verify(session).get();
     verify(webSession).setAccessPathOk(AccessPath.REST_API, true);
@@ -75,38 +77,45 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenFetch() throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication~fetch");
+  public void shouldAuthenticateWhenFetch() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~fetch", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenApplyObject()
-      throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication~apply-object");
+  public void shouldAuthenticateWhenApplyObject() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~apply-object", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenApplyObjects()
-      throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication~apply-objects");
+  public void shouldAuthenticateWhenApplyObjects() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~apply-objects", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenDeleteProject()
-      throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication~delete-project");
+  public void shouldAuthenticateWhenDeleteProject() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~delete-project", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenUpdateHead()
-      throws ServletException, IOException {
-    authenticateWithURI("any-prefix/projects/my-project/HEAD");
+  public void shouldAuthenticateWhenUpdateHead() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/projects/my-project/HEAD", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWithBearerTokenWhenInitProject()
+  public void shouldAuthenticateWhenInitProject() throws ServletException, IOException {
+    authenticateAndFilter(
+        "any-prefix/pull-replication/init-project/my-project.git", NO_QUERY_PARAMETERS);
+  }
+
+  @Test
+  public void shouldAuthenticateWhenGitUploadPacket() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/git-upload-pack", NO_QUERY_PARAMETERS);
+  }
+
+  @Test
+  public void shouldAuthenticateWhenGitUploadPacketInQueryParameter()
       throws ServletException, IOException {
-    authenticateWithURI("any-prefix/pull-replication/init-project/my-project.git");
+    authenticateAndFilter("any-prefix", GIT_UPLOAD_PACK_QUERY_PARAMETER);
   }
 
   @Test
@@ -119,7 +128,7 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
@@ -138,7 +147,7 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
@@ -156,7 +165,7 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
@@ -173,12 +182,12 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
 
-    verify(httpServletRequest).getRequestURI();
+    verify(httpServletRequest, times(2)).getRequestURI();
     verify(filterChain).doFilter(httpServletRequest, httpServletResponse);
   }
 
@@ -192,7 +201,7 @@ public class BearerAuthenticationFilterTest {
         new BearerAuthenticationFilter(
             session,
             pluginName,
-            pluginUserProvider,
+            pluginUser,
             threadLocalRequestContextProvider,
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);

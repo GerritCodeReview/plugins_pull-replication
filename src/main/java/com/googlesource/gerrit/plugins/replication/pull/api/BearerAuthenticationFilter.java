@@ -19,12 +19,12 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.AccessPath;
-import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
+import com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationInternalUser;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -46,7 +46,7 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
   private static final String BEARER_TOKEN = "BearerToken";
   private final DynamicItem<WebSession> session;
   private final String pluginName;
-  private final Provider<PluginUser> pluginUserProvider;
+  private final PullReplicationInternalUser pluginUser;
   private final Provider<ThreadLocalRequestContext> threadLocalRequestContext;
   private final String bearerToken;
   private final Pattern bearerTokenRegex = Pattern.compile("^Bearer\\s(.+)$");
@@ -55,12 +55,12 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
   BearerAuthenticationFilter(
       DynamicItem<WebSession> session,
       @PluginName String pluginName,
-      Provider<PluginUser> pluginUserProvider,
+      PullReplicationInternalUser pluginUser,
       Provider<ThreadLocalRequestContext> threadLocalRequestContext,
       @Named(BEARER_TOKEN) String bearerToken) {
     this.session = session;
     this.pluginName = pluginName;
-    this.pluginUserProvider = pluginUserProvider;
+    this.pluginUser = pluginUser;
     this.threadLocalRequestContext = threadLocalRequestContext;
     this.bearerToken = bearerToken;
   }
@@ -82,13 +82,13 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
 
     if (isBasicAuthenticationRequest(requestURI)) {
       filterChain.doFilter(servletRequest, servletResponse);
-    } else if (isPullReplicationApiRequest(requestURI)) {
+    } else if (isPullReplicationApiRequest(requestURI) || isGitUploadPackRequest(httpRequest)) {
       Optional<String> authorizationHeader =
           Optional.ofNullable(httpRequest.getHeader("Authorization"));
 
       if (isBearerTokenAuthenticated(authorizationHeader, bearerToken))
         try (ManualRequestContext ctx =
-            new ManualRequestContext(pluginUserProvider.get(), threadLocalRequestContext.get())) {
+            new ManualRequestContext(pluginUser, threadLocalRequestContext.get())) {
           WebSession ws = session.get();
           ws.setAccessPathOk(AccessPath.REST_API, true);
           filterChain.doFilter(servletRequest, servletResponse);
@@ -98,6 +98,13 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
     } else {
       filterChain.doFilter(servletRequest, servletResponse);
     }
+  }
+
+  private boolean isGitUploadPackRequest(HttpServletRequest requestURI) {
+    return requestURI.getRequestURI().contains("git-upload-pack")
+        || Optional.ofNullable(requestURI.getQueryString())
+            .map(q -> q.contains("git-upload-pack"))
+            .orElse(false);
   }
 
   private boolean isBearerTokenAuthenticated(
