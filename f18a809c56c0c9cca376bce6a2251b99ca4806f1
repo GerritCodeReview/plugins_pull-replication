@@ -161,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3f7e431_a67734a6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T23:15:29Z",
+      "side": 1,
+      "message": "\u003e What exactly needs to be fixed in Gerrit? Do we have an issue we can link to?\n\nI think Tony\u0027s comment got lost. Do we have a ticket for the issue?",
+      "parentUuid": "2d321046_7fc70b0f",
+      "revId": "f18a809c56c0c9cca376bce6a2251b99ca4806f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fcabbd2_0bee2584",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
         "patchSetId": 3
