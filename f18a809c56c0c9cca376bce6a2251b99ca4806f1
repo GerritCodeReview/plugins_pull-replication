@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e12d48a6_41478f37",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-27T11:55:33Z",
+      "side": 1,
+      "message": "my comment above was an example that i did in the past. It needs to be adapted.",
+      "parentUuid": "b55f10cd_9d8464a8",
+      "revId": "f18a809c56c0c9cca376bce6a2251b99ca4806f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fcabbd2_0bee2584",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
         "patchSetId": 3
