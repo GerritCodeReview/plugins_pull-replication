@@ -43,6 +43,7 @@ public class TransportProviderTest {
   @Mock private Repository repository;
   @Mock private StoredConfig storedConfig;
   @Mock private org.eclipse.jgit.transport.TransferConfig transferConfig;
+  private final String pluginName = "pull-replication";
 
   @Before
   public void setup() {
@@ -64,7 +65,7 @@ public class TransportProviderTest {
     when(bearerTokenProvider.get()).thenReturn(Optional.of("some-bearer-token"));
 
     TransportProvider transportProvider =
-        new TransportProvider(sourceConfig, cpFactory, bearerTokenProvider);
+        new TransportProvider(sourceConfig, cpFactory, bearerTokenProvider, pluginName);
     verifyConstructor();
 
     URIish urIish = new URIish("http://some-host/some-path");
@@ -79,7 +80,7 @@ public class TransportProviderTest {
     when(bearerTokenProvider.get()).thenReturn(Optional.empty());
 
     TransportProvider transportProvider =
-        new TransportProvider(sourceConfig, cpFactory, bearerTokenProvider);
+        new TransportProvider(sourceConfig, cpFactory, bearerTokenProvider, pluginName);
     verifyConstructor();
 
     URIish urIish = new URIish("ssh://some-host/some-path");
@@ -93,7 +94,7 @@ public class TransportProviderTest {
     when(bearerTokenProvider.get()).thenReturn(Optional.of("some-bearer-token"));
 
     TransportProvider transportProvider =
-        new TransportProvider(sourceConfig, cpFactory, bearerTokenProvider);
+        new TransportProvider(sourceConfig, cpFactory, bearerTokenProvider, pluginName);
     verifyConstructor();
 
     URIish urIish = new URIish("ssh://some-host/some-path");

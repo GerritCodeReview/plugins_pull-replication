@@ -58,6 +58,7 @@ public class BearerAuthenticationFilterTest {
     final String bearerToken = "some-bearer-token";
     when(httpServletRequest.getRequestURI()).thenReturn(uri);
     queryStringMaybe.ifPresent(qs -> when(httpServletRequest.getQueryString()).thenReturn(qs));
+    when(httpServletRequest.getHeader("Plugin")).thenReturn(pluginName);
     when(httpServletRequest.getHeader("Authorization"))
         .thenReturn(String.format("Bearer %s", bearerToken));
     when(threadLocalRequestContextProvider.get()).thenReturn(threadLocalRequestContext);
@@ -70,6 +71,7 @@ public class BearerAuthenticationFilterTest {
     verify(httpServletRequest, atMost(2)).getRequestURI();
     verify(httpServletRequest, atMost(1)).getQueryString();
     verify(httpServletRequest).getHeader("Authorization");
+    verify(httpServletRequest, atMost(1)).getHeader("Plugin");
     verify(threadLocalRequestContextProvider).get();
     verify(session).get();
     verify(webSession).setAccessPathOk(AccessPath.REST_API, true);
@@ -108,14 +110,33 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldAuthenticateWhenGitUploadPacket() throws ServletException, IOException {
+  public void shouldAuthenticateWhenGitUploadPacketFromPlugin()
+      throws ServletException, IOException {
     authenticateAndFilter("any-prefix/git-upload-pack", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWhenGitUploadPacketInQueryParameter()
+  public void shouldAuthenticateWhenGitUploadPacketInQueryParameterFromPlugin()
       throws ServletException, IOException {
     authenticateAndFilter("any-prefix", GIT_UPLOAD_PACK_QUERY_PARAMETER);
+  }
+
+  @Test
+  public void shouldGoNextInChainWhenGitUploadPacketNotFromPlugin()
+      throws ServletException, IOException {
+    when(httpServletRequest.getRequestURI()).thenReturn("any-prefix/git-upload-pack");
+
+    final BearerAuthenticationFilter filter =
+        new BearerAuthenticationFilter(
+            session,
+            pluginName,
+            pluginUser,
+            threadLocalRequestContextProvider,
+            "some-bearer-token");
+    filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
+
+    verify(httpServletRequest, times(2)).getRequestURI();
+    verify(filterChain).doFilter(httpServletRequest, httpServletResponse);
   }
 
   @Test
