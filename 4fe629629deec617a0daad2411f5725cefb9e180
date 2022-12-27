@@ -69,6 +69,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5642eea9_3d261d7f",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "I switched to gerrit before executing the `entrypoint.sh`",
+      "parentUuid": "21dbf8e3_88308060",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a7fb0af_09636c58",
@@ -82,6 +100,30 @@
       "writtenOn": "2022-12-21T22:22:11Z",
       "side": 1,
       "message": "This is not needed",
+      "range": {
+        "startLine": 5,
+        "startChar": 4,
+        "endLine": 5,
+        "endChar": 14
+      },
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d41a2606_b69ca86b",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a7fb0af_09636c58",
       "range": {
         "startLine": 5,
         "startChar": 4,
@@ -127,6 +169,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d49fe450_00f946d2",
+        "filename": "example-setup/configs/gerrit.config.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd261744_f7cd9b2a",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67c13d2d_5889f109",
@@ -140,6 +200,24 @@
       "writtenOn": "2022-12-16T10:47:28Z",
       "side": 1,
       "message": "IS_REPLICA?",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cdc3966_726365ef",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67c13d2d_5889f109",
       "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -161,6 +239,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e150f3e_ff6dab0d",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "664d7b9f_895b61be",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16f97b85_931c767b",
@@ -174,6 +270,24 @@
       "writtenOn": "2022-12-23T12:42:53Z",
       "side": 1,
       "message": "you could add\n```\n      - \"5005\":\"5505\"\n```\nto allow debugging",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "901fb654_6ed0f6f8",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16f97b85_931c767b",
       "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -195,6 +309,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "632482a2_ed0b8060",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca5da9ac_0677c283",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "456c19ad_d5aa8ef9",
@@ -208,6 +340,24 @@
       "writtenOn": "2022-12-23T12:42:53Z",
       "side": 1,
       "message": "you could add\n```\n      - DEBUG_PORT\u003d5006\n```\nto allow debugging",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39915bf8_1990c29b",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "456c19ad_d5aa8ef9",
       "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -229,6 +379,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd754ff5_78b283b5",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d6efb9d_fdb124ab",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bd94a00_ec1abda8",
@@ -242,6 +410,24 @@
       "writtenOn": "2022-12-16T10:47:28Z",
       "side": 1,
       "message": "Do we need these comments?",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c447acf9_9c8ca430",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-27T15:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bd94a00_ec1abda8",
       "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
