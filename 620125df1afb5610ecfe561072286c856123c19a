@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebc34bc4_d3f1d423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-27T08:46:46Z",
+      "side": 1,
+      "message": "`ReferenceUpdatedEvent`, because you don\u0027t really pass the original event.",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "620125df1afb5610ecfe561072286c856123c19a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a526070f_ab8176ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-27T08:46:46Z",
+      "side": 1,
+      "message": "Just a small nit on the commit message. Feel free to merge once you\u0027re done with it :-)",
+      "revId": "620125df1afb5610ecfe561072286c856123c19a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
