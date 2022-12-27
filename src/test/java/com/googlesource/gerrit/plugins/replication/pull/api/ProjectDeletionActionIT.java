@@ -75,14 +75,14 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
-  public void shouldReturnInternalServerErrorIfProjectCannotBeDeleted() throws Exception {
+  public void shouldReturnBadRequestWhenDeletingAnInvalidProjectName() throws Exception {
     url = getURLWithAuthenticationPrefix(INVALID_TEST_PROJECT_NAME);
 
     httpClientFactory
         .create(source)
         .execute(
             withBasicAuthenticationAsAdmin(createDeleteRequest()),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
@@ -131,7 +131,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnInternalServerErrorIfProjectCannotBeDeletedWhenNodeIsAReplica()
+  public void shouldReturnBadRequestWhenDeletingAnInvalidProjectNameWhenNodeIsAReplica()
       throws Exception {
     url = getURLWithAuthenticationPrefix(INVALID_TEST_PROJECT_NAME);
 
@@ -139,7 +139,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
         .create(source)
         .execute(
             withBasicAuthenticationAsAdmin(createDeleteRequest()),
-            assertHttpResponseCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
