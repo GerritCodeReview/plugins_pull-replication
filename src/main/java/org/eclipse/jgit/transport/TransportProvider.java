@@ -14,6 +14,7 @@
 
 package org.eclipse.jgit.transport;
 
+import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
@@ -33,15 +34,18 @@ public class TransportProvider {
   private final RemoteConfig remoteConfig;
   private final CredentialsProvider credentialsProvider;
   private final Optional<String> bearerToken;
+  private final String pluginName;
 
   @Inject
   public TransportProvider(
       SourceConfiguration sourceConfig,
       CredentialsFactory cpFactory,
-      BearerTokenProvider bearerTokenProvider) {
+      BearerTokenProvider bearerTokenProvider,
+      @PluginName String pluginName) {
     this.remoteConfig = sourceConfig.getRemoteConfig();
     this.credentialsProvider = cpFactory.create(remoteConfig.getName());
     this.bearerToken = bearerTokenProvider.get();
+    this.pluginName = pluginName;
   }
 
   public Transport open(Repository local, URIish uri)
@@ -53,7 +57,7 @@ public class TransportProvider {
 
   private Transport provideTransportHttpWithBearerToken(Repository local, URIish uri)
       throws NotSupportedException {
-    Transport tn = new TransportHttpWithBearerToken(local, uri, bearerToken.get());
+    Transport tn = new TransportHttpWithBearerToken(local, uri, bearerToken.get(), pluginName);
     tn.applyConfig(remoteConfig);
     return tn;
   }
