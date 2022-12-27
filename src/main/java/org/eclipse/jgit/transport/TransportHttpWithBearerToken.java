@@ -46,18 +46,22 @@ public class TransportHttpWithBearerToken extends TransportHttp {
   private static final String SCHEME_HTTP = "http";
   private static final String SCHEME_HTTPS = "https";
   private static final Set<String> SCHEMES_ALLOWED = ImmutableSet.of(SCHEME_HTTP, SCHEME_HTTPS);
+  private static final String PLUGIN_HTTP_HEADER = "Plugin";
   private final String bearerToken;
+  private final String pluginName;
 
-  public TransportHttpWithBearerToken(Repository local, URIish uri, String bearerToken)
+  public TransportHttpWithBearerToken(Repository local, URIish uri, String bearerToken, String pluginName)
       throws NotSupportedException {
     super(local, uri);
     this.bearerToken = bearerToken;
+    this.pluginName = pluginName;
   }
 
   protected HttpConnection httpOpen(String method, URL u, AcceptEncoding acceptEncoding)
       throws IOException {
     HttpConnection conn = super.httpOpen(method, u, acceptEncoding);
     conn.setRequestProperty(HDR_AUTHORIZATION, "Bearer " + bearerToken); // $NON-NLS-1$
+    conn.setRequestProperty(PLUGIN_HTTP_HEADER, pluginName);
     return conn;
   }
 
