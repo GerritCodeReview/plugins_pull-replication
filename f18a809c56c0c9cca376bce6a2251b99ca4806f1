@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f9ff93_131cf0ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-27T10:54:34Z",
+      "side": 1,
+      "message": "The code looks good to me. Please can you create an issue to solve the problem in `RestApiServlet`",
+      "revId": "f18a809c56c0c9cca376bce6a2251b99ca4806f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06f64b40_7451e54a",
@@ -20,6 +37,58 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b99d565_84ac66cc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-27T10:54:34Z",
+      "side": 1,
+      "message": "Tony, just to let you know that in Pull replication depending on if you are primary or replica the flow changes a bit.\n\nIf you are primary the flow is (a bit simplify) through `RestApiServlet` \u003d\u003e `PullReplicationApiModule` \u003d\u003e i.e `FetchAction` \n\nIf you are replica the flow is (a bit simplify) `PullReplicationFilter` \u003d\u003e `FetchAction` \n\nI hope this helps.",
+      "revId": "f18a809c56c0c9cca376bce6a2251b99ca4806f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b55f10cd_9d8464a8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-27T10:54:34Z",
+      "side": 1,
+      "message": "Maybe we could add something like\n```\n@Ignore(\"Waiting for resolving: Issue 16332: Not able to update the HEAD from internal user\")\n```",
+      "revId": "f18a809c56c0c9cca376bce6a2251b99ca4806f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95153314_12048d77",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-27T10:54:34Z",
+      "side": 1,
+      "message": "Can we add in the description of the test that is covering the `delete` use case?",
+      "parentUuid": "06f64b40_7451e54a",
+      "revId": "f18a809c56c0c9cca376bce6a2251b99ca4806f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4fcabbd2_0bee2584",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
         "patchSetId": 3
@@ -31,6 +100,30 @@
       "writtenOn": "2022-12-27T10:28:23Z",
       "side": 1,
       "message": "the name of the test should be descriptive of the fact that this is covering \u0027deletes\u0027",
+      "range": {
+        "startLine": 145,
+        "startChar": 14,
+        "endLine": 145,
+        "endChar": 76
+      },
+      "revId": "f18a809c56c0c9cca376bce6a2251b99ca4806f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2424571_a409e4fa",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-27T10:54:34Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "4fcabbd2_0bee2584",
       "range": {
         "startLine": 145,
         "startChar": 14,
