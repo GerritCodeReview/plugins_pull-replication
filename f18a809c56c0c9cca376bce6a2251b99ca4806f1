@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06f64b40_7451e54a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-12-27T10:28:23Z",
+      "side": 1,
+      "message": "What exactly needs to be fixed in Gerrit? Do we have an issue we can link to?",
+      "revId": "f18a809c56c0c9cca376bce6a2251b99ca4806f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fcabbd2_0bee2584",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2022-12-27T10:28:23Z",
+      "side": 1,
+      "message": "the name of the test should be descriptive of the fact that this is covering \u0027deletes\u0027",
+      "range": {
+        "startLine": 145,
+        "startChar": 14,
+        "endLine": 145,
+        "endChar": 76
+      },
+      "revId": "f18a809c56c0c9cca376bce6a2251b99ca4806f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
