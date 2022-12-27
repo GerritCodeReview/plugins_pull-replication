@@ -44,6 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BearerAuthenticationFilter extends AllRequestFilter {
 
   private static final String BEARER_TOKEN = "BearerToken";
+  private static final String BEARER_TOKEN_PREFIX = "Bearer";
   private final DynamicItem<WebSession> session;
   private final String pluginName;
   private final PullReplicationInternalUser pluginUser;
@@ -79,13 +80,14 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
     HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
     HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
     String requestURI = httpRequest.getRequestURI();
+    Optional<String> authorizationHeader =
+        Optional.ofNullable(httpRequest.getHeader("Authorization"));
 
     if (isBasicAuthenticationRequest(requestURI)) {
       filterChain.doFilter(servletRequest, servletResponse);
-    } else if (isPullReplicationApiRequest(requestURI) || isGitUploadPackRequest(httpRequest)) {
-      Optional<String> authorizationHeader =
-          Optional.ofNullable(httpRequest.getHeader("Authorization"));
-
+    } else if (isPullReplicationApiRequest(requestURI)
+        || (isGitUploadPackRequest(httpRequest)
+            && isAuthenticationHeaderWithBearerToken(authorizationHeader))) {
       if (isBearerTokenAuthenticated(authorizationHeader, bearerToken))
         try (ManualRequestContext ctx =
             new ManualRequestContext(pluginUser, threadLocalRequestContext.get())) {
@@ -101,10 +103,10 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
   }
 
   private boolean isGitUploadPackRequest(HttpServletRequest requestURI) {
-    return requestURI.getRequestURI().contains("git-upload-pack")
+    return (requestURI.getRequestURI().contains("git-upload-pack")
         || Optional.ofNullable(requestURI.getQueryString())
             .map(q -> q.contains("git-upload-pack"))
-            .orElse(false);
+            .orElse(false));
   }
 
   private boolean isBearerTokenAuthenticated(
@@ -136,5 +138,9 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
       return Optional.of(projectGroupMatcher.group(1));
     }
     return Optional.empty();
+  }
+
+  private boolean isAuthenticationHeaderWithBearerToken(Optional<String> authorizationHeader) {
+    return authorizationHeader.map(h -> h.startsWith(BEARER_TOKEN_PREFIX)).orElse(false);
   }
 }
