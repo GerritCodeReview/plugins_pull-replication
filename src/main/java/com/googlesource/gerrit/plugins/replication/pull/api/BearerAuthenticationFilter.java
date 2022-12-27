@@ -44,6 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BearerAuthenticationFilter extends AllRequestFilter {
 
   private static final String BEARER_TOKEN = "BearerToken";
+  private static final String PLUGIN_HTTP_HEADER = "Plugin";
   private final DynamicItem<WebSession> session;
   private final String pluginName;
   private final PullReplicationInternalUser pluginUser;
@@ -82,7 +83,8 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
 
     if (isBasicAuthenticationRequest(requestURI)) {
       filterChain.doFilter(servletRequest, servletResponse);
-    } else if (isPullReplicationApiRequest(requestURI) || isGitUploadPackRequest(httpRequest)) {
+    } else if (isPullReplicationApiRequest(requestURI)
+        || (isGitUploadPackRequest(httpRequest) && isPluginRequest(httpRequest))) {
       Optional<String> authorizationHeader =
           Optional.ofNullable(httpRequest.getHeader("Authorization"));
 
@@ -105,6 +107,12 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
         || Optional.ofNullable(requestURI.getQueryString())
             .map(q -> q.contains("git-upload-pack"))
             .orElse(false);
+  }
+
+  private boolean isPluginRequest(HttpServletRequest requestURI) {
+    return Optional.ofNullable(requestURI.getHeader(PLUGIN_HTTP_HEADER))
+        .map(q -> q.equals(pluginName))
+        .orElse(false);
   }
 
   private boolean isBearerTokenAuthenticated(
