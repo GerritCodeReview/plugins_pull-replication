@@ -102,7 +102,6 @@ public class DeleteRefCommandTest {
             fetchStateLog,
             projectCache,
             sourceCollection,
-            applyObject,
             permissionBackend,
             eventDispatcherDataItem,
             new LocalGitRepositoryManagerProvider(gitManager));
