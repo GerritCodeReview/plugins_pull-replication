@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42cc7c82_310f5198",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T14:11:26Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com is this change still needed? If so it needs to be rebased",
+      "revId": "bc2aecb10fbf27e5fa7fcf2173de360afe2a03bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
