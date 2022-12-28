@@ -191,6 +191,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83351997_2113288d",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-28T08:21:05Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "15101a5d_9a07d229",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 211
+      },
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36f56305_cc5252b3",
