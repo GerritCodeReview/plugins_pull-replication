@@ -45,7 +45,6 @@ import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
@@ -206,7 +205,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallFetchWhenIOException()
-      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+      throws ClientProtocolException, IOException, LargeObjectException {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
@@ -219,7 +218,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallFetchWhenLargeRef()
-      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+      throws ClientProtocolException, IOException, LargeObjectException {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
@@ -307,7 +306,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallDeleteWhenReplicateProjectDeletionsTrue() throws IOException {
+  public void shouldCallDeleteWhenReplicateProjectDeletionsTrue() {
     when(source.wouldDeleteProject(any())).thenReturn(true);
 
     String projectName = "testProject";
@@ -323,7 +322,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldNotCallDeleteWhenProjectNotToDelete() throws IOException {
+  public void shouldNotCallDeleteWhenProjectNotToDelete() {
     when(source.wouldDeleteProject(any())).thenReturn(false);
 
     FakeProjectDeletedEvent event = new FakeProjectDeletedEvent("testProject");
@@ -335,7 +334,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldScheduleUpdateHeadWhenWouldFetchProject() throws IOException {
+  public void shouldScheduleUpdateHeadWhenWouldFetchProject() {
     when(source.wouldFetchProject(any())).thenReturn(true);
 
     String projectName = "aProject";
@@ -351,7 +350,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldNotScheduleUpdateHeadWhenNotWouldFetchProject() throws IOException {
+  public void shouldNotScheduleUpdateHeadWhenNotWouldFetchProject() {
     when(source.wouldFetchProject(any())).thenReturn(false);
 
     String projectName = "aProject";
