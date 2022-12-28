@@ -282,6 +282,30 @@
       },
       "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c530c5f_18e4b54d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T17:53:20Z",
+      "side": 1,
+      "message": "Yep, makes sense to me",
+      "parentUuid": "5e9fa230_1b6ca135",
+      "range": {
+        "startLine": 138,
+        "startChar": 37,
+        "endLine": 138,
+        "endChar": 38
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
