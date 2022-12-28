@@ -234,6 +234,30 @@
       },
       "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13d69e1e_84cc43d8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T15:51:51Z",
+      "side": 1,
+      "message": "I see. I wonder if it makes sense to do that assertion at all. I believe the assertion at L#139 might be enough.\n\nImagine if we were to add another check in the code calling the `getRequestURI`. The test would fail even if the behaviour is still ok, i.e.: we are still calling the filter downstream.  WDYT?",
+      "parentUuid": "49e409a5_9d9e1d4e",
+      "range": {
+        "startLine": 138,
+        "startChar": 37,
+        "endLine": 138,
+        "endChar": 38
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
