@@ -86,6 +86,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b74ea9bb_cd87a17f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T11:45:01Z",
+      "side": 1,
+      "message": "Sorry guys I made a bit of a mess with the changes.\n\nI moved the right change here [1]\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/355675",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21dbf8e3_88308060",
@@ -285,6 +302,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "441f3cf7_fce19ea2",
+        "filename": "example-setup/configs/replication.config.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T11:45:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cf659ee_f9ffb6fe",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67c13d2d_5889f109",
@@ -368,6 +403,30 @@
       "writtenOn": "2022-12-28T00:03:10Z",
       "side": 1,
       "message": "This looks too much IMHO: this isn\u0027t an HA setup and testing the healthcheck plugin isn\u0027t really the purpose of this environment.\n\nFetching the gerrit version should be good enough.",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 90
+      },
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8329d0cf_a20ec6ae",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T11:45:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0519438_601b94b1",
       "range": {
         "startLine": 11,
         "startChar": 35,
