@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d82b355b_5d079baf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T13:19:13Z",
+      "side": 1,
+      "message": "nit: I\u0027d call it `isPluginRequest` to stick with the convention used to name the other methods.",
+      "range": {
+        "startLine": 87,
+        "startChar": 51,
+        "endLine": 87,
+        "endChar": 68
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c52c03d_4e166b46",
+        "filename": "src/main/java/org/eclipse/jgit/transport/TransportHttpWithBearerToken.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T13:19:13Z",
+      "side": 1,
+      "message": "Why not use injection here as well? As you did for the `TransportProvider`?",
+      "range": {
+        "startLine": 54,
+        "startChar": 56,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed605c24_4c4bbaac",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T13:19:13Z",
+      "side": 1,
+      "message": "Packet -\u003e Pack",
+      "range": {
+        "startLine": 113,
+        "startChar": 46,
+        "endLine": 113,
+        "endChar": 51
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d215a432_0128628e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T13:19:13Z",
+      "side": 1,
+      "message": "Packet -\u003e Pack",
+      "range": {
+        "startLine": 125,
+        "startChar": 46,
+        "endLine": 125,
+        "endChar": 52
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d255eafb_bc8a8e1f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T13:19:13Z",
+      "side": 1,
+      "message": "Why `2` ? It might be worth adding a comment about why we are expecting 2 calls.",
+      "range": {
+        "startLine": 138,
+        "startChar": 37,
+        "endLine": 138,
+        "endChar": 38
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
