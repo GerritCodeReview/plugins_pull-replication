@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8497f9f8_8b1f581c",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T13:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd6c9e22_1a1c8228",
+      "revId": "943c27a0026fc55709beb68fde80b98ec0900e67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d13bd688_1e32e7de",
@@ -48,6 +66,24 @@
       "writtenOn": "2022-12-28T12:04:25Z",
       "side": 1,
       "message": "I would say `$GERRIT_HOME/bazel-bin/plugins/pull-replication/pull-replication.jar` instead of `\u003cpath_to_your_plugin_version\u003e/pull-replication.jar`",
+      "revId": "943c27a0026fc55709beb68fde80b98ec0900e67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe2da7fa_8e88b96a",
+        "filename": "example-setup/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-28T13:01:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d13bd688_1e32e7de",
       "revId": "943c27a0026fc55709beb68fde80b98ec0900e67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
