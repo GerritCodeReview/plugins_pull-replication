@@ -69,6 +69,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6eea26e5_1e81a67f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-28T00:03:10Z",
+      "side": 1,
+      "message": "Good stuff @ponch78@gmail.com",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21dbf8e3_88308060",
@@ -153,6 +170,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15101a5d_9a07d229",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-28T00:03:10Z",
+      "side": 1,
+      "message": "It would be best to use the pull-replication.jar plugin produced by this build",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 211
+      },
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36f56305_cc5252b3",
         "filename": "example-setup/configs/gerrit.config.template",
         "patchSetId": 2
@@ -200,6 +240,23 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "cd261744_f7cd9b2a",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cf659ee_f9ffb6fe",
+        "filename": "example-setup/configs/replication.config.template",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-28T00:03:10Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this include the `/a/` prefix?",
       "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -270,6 +327,29 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "664d7b9f_895b61be",
+      "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0519438_601b94b1",
+        "filename": "example-setup/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-28T00:03:10Z",
+      "side": 1,
+      "message": "This looks too much IMHO: this isn\u0027t an HA setup and testing the healthcheck plugin isn\u0027t really the purpose of this environment.\n\nFetching the gerrit version should be good enough.",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 90
+      },
       "revId": "4fe629629deec617a0daad2411f5725cefb9e180",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
