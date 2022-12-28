@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "002e3d32_d8f90e9f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-28T14:45:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d82b355b_5d079baf",
+      "range": {
+        "startLine": 87,
+        "startChar": 51,
+        "endLine": 87,
+        "endChar": 68
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c52c03d_4e166b46",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-12-28T13:19:13Z",
       "side": 1,
       "message": "Why not use injection here as well? As you did for the `TransportProvider`?",
+      "range": {
+        "startLine": 54,
+        "startChar": 56,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbaf3cb3_0546cf74",
+        "filename": "src/main/java/org/eclipse/jgit/transport/TransportHttpWithBearerToken.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-28T14:45:18Z",
+      "side": 1,
+      "message": "Makes sense, let me see how to do it because the instance of `TransportHttpWithBearerToken` is created in the TransportProvided with `new`.",
+      "parentUuid": "5c52c03d_4e166b46",
       "range": {
         "startLine": 54,
         "startChar": 56,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c3d3500_9f9062bb",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-28T14:45:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ed605c24_4c4bbaac",
+      "range": {
+        "startLine": 113,
+        "startChar": 46,
+        "endLine": 113,
+        "endChar": 51
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d215a432_0128628e",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7cdf90a_be6e4a7e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-28T14:45:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d215a432_0128628e",
+      "range": {
+        "startLine": 125,
+        "startChar": 46,
+        "endLine": 125,
+        "endChar": 52
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d255eafb_bc8a8e1f",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-12-28T13:19:13Z",
       "side": 1,
       "message": "Why `2` ? It might be worth adding a comment about why we are expecting 2 calls.",
+      "range": {
+        "startLine": 138,
+        "startChar": 37,
+        "endLine": 138,
+        "endChar": 38
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49e409a5_9d9e1d4e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-28T14:45:18Z",
+      "side": 1,
+      "message": "The code calls `getRequestURI()` 2:\n1.- at the beginning of the class L82 to help checking if the url is isBasicAuthenticationRequest or isPullReplicationApiRequest\n2. In isGitUploadPackRequest L106 to check if the request is upload-pack. \n\nIt was convenience for readability to call `getRequestURI()` once.\n\nI dont think that is worth to add a comment in the test for this. The fact of using mocks and verify them sometimes make the code not clear enough.",
+      "parentUuid": "d255eafb_bc8a8e1f",
       "range": {
         "startLine": 138,
         "startChar": 37,
