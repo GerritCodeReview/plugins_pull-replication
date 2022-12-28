@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21c89f31_62686d13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-28T12:04:25Z",
+      "side": 1,
+      "message": "Minor comments. Good work",
+      "revId": "943c27a0026fc55709beb68fde80b98ec0900e67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd6c9e22_1a1c8228",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-28T12:04:25Z",
+      "side": 1,
+      "message": "You need to add this:\n```\nCOPY --chown\u003dgerrit:gerrit pull-replication.jar /var/gerrit/lib/pull-replication.jar\n```",
+      "revId": "943c27a0026fc55709beb68fde80b98ec0900e67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d13bd688_1e32e7de",
+        "filename": "example-setup/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-28T12:04:25Z",
+      "side": 1,
+      "message": "I would say `$GERRIT_HOME/bazel-bin/plugins/pull-replication/pull-replication.jar` instead of `\u003cpath_to_your_plugin_version\u003e/pull-replication.jar`",
+      "revId": "943c27a0026fc55709beb68fde80b98ec0900e67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
