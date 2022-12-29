@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09fb3a3d_fc6fca9f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T15:07:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "74e9213e_c3d5f9a2",
+      "range": {
+        "startLine": 88,
+        "startChar": 64,
+        "endLine": 88,
+        "endChar": 95
+      },
+      "revId": "0e90055cef23da42b7cb74a2a9afa8c8766461a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f184bf75_10c4acca",
@@ -88,6 +112,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a71000e_91d977f3",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T15:07:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "f184bf75_10c4acca",
+      "range": {
+        "startLine": 110,
+        "startChar": 49,
+        "endLine": 110,
+        "endChar": 59
+      },
+      "revId": "0e90055cef23da42b7cb74a2a9afa8c8766461a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fa8c8f7_513e0cbe",
@@ -101,6 +149,30 @@
       "writtenOn": "2022-12-29T13:34:34Z",
       "side": 1,
       "message": "Same as above.",
+      "range": {
+        "startLine": 115,
+        "startChar": 65,
+        "endLine": 115,
+        "endChar": 75
+      },
+      "revId": "0e90055cef23da42b7cb74a2a9afa8c8766461a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c20a864_c98e54b7",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilterTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T15:07:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "3fa8c8f7_513e0cbe",
       "range": {
         "startLine": 115,
         "startChar": 65,
