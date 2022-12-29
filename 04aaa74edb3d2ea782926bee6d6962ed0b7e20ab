@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd810adf_64354ba5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-29T15:14:55Z",
+      "side": 1,
+      "message": "Good job @alvaro.vilaplana@gmail.com",
+      "revId": "04aaa74edb3d2ea782926bee6d6962ed0b7e20ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
