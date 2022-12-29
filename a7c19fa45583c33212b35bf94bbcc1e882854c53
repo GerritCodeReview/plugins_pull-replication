@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63e60cd0_979b0612",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-29T13:37:58Z",
+      "side": 1,
+      "message": "Also can you wrap the message?",
+      "parentUuid": "466d854f_15ebc1ce",
+      "range": {
+        "startLine": 9,
+        "startChar": 89,
+        "endLine": 9,
+        "endChar": 125
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e392579_6931045d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -220,6 +244,30 @@
       "side": 1,
       "message": "we should preserve the current behaviour. Check what is going to happen if you make a clone with anonymous url but with basic authentication header(you can put some invalid credentials) if clone pass we have to have the same functionality here",
       "parentUuid": "494fad05_f1863921",
+      "range": {
+        "startLine": 88,
+        "startChar": 11,
+        "endLine": 88,
+        "endChar": 90
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3fabb62_091061ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2022-12-29T13:37:58Z",
+      "side": 1,
+      "message": "Well, if the client has the bearer token, we *must* check for it. It is pretty much like having the `/a/` and we provide the wrong credentials: Gerrit will fail if the credentials are incorrect.\n\nThe same apply here: the client *sends* the Bearer token and then *expects* to be authenticated. If the credentials do not match, we should fail, regardless of what the resource is.",
+      "parentUuid": "a3f6bc34_7731d3e0",
       "range": {
         "startLine": 88,
         "startChar": 11,
