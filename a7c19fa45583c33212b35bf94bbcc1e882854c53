@@ -328,6 +328,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "532aba5f_ff6fe1a4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T14:00:45Z",
+      "side": 1,
+      "message": "\u003e Exactly, but what if we have Authorization header but it\u0027s not bearer token?\n\nif you have an authorization header and is not bearer token it should be basic authentication and it should have `/a` in the url.",
+      "parentUuid": "7c052758_94b8f291",
+      "range": {
+        "startLine": 88,
+        "startChar": 11,
+        "endLine": 88,
+        "endChar": 90
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4e58d85_835063ee",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 9
