@@ -352,6 +352,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e9d0636_4584438c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-29T14:00:47Z",
+      "side": 1,
+      "message": "It\u0027s not about opinion but about how Gerrit works without pull-replication.\nTry:\n1. git clone \"https://maczech:fake_password@review.gerrithub.io/GerritForge/aws-gerrit\" \u003c- this will work\n2. git clone \"https://maczech:fake_password@review.gerrithub.io/a/GerritForge/aws-gerrit\" \u003c- this will fail\n3. git clone \"https://maczech:real_password@review.gerrithub.io/a/GerritForge/aws-gerrit\" \u003c- this will work\n\nWith pull-replication and bearerToken point number one will fail",
+      "parentUuid": "7c052758_94b8f291",
+      "range": {
+        "startLine": 88,
+        "startChar": 11,
+        "endLine": 88,
+        "endChar": 90
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4e58d85_835063ee",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 9
