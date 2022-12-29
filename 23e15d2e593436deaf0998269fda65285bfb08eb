@@ -16,6 +16,24 @@
       "message": "I am confused: why do we need yet another header? We have already the bearer token in the HTTP headers telling us that this is coming from the pull-replication plugin, isn\u0027t it?",
       "revId": "23e15d2e593436deaf0998269fda65285bfb08eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cf5919c_c9ba130c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T08:51:40Z",
+      "side": 1,
+      "message": "I think you are right. The code needs some refactoring but is a fair point.",
+      "parentUuid": "829a149c_fbce3ed8",
+      "revId": "23e15d2e593436deaf0998269fda65285bfb08eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
