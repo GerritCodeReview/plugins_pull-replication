@@ -304,6 +304,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c052758_94b8f291",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T13:51:11Z",
+      "side": 1,
+      "message": "The way that i see this is:\n1 if the url has `/a` then `Authentication header` (Basic authentication) is expected\n2  if the url has NO `/a` then can be one of these:\n    2.1 `Authentication header` (Bearer token)\n    2.2 No `Authentication header` \u003d\u003e anonymous\n    \nThe case that you mean is 2.1\n\nTo you example I would expect `SC_UNAUTHORIZED`\n\nIt seems that we have different opinions.",
+      "parentUuid": "a3f6bc34_7731d3e0",
+      "range": {
+        "startLine": 88,
+        "startChar": 11,
+        "endLine": 88,
+        "endChar": 90
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4e58d85_835063ee",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 9
