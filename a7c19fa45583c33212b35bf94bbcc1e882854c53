@@ -49,6 +49,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "466d854f_15ebc1ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T13:04:47Z",
+      "side": 1,
+      "message": "I did not know it but i appreciate it. Let  me know if you want me to update the comment.",
+      "parentUuid": "bbe77317_03fd47ab",
+      "range": {
+        "startLine": 9,
+        "startChar": 89,
+        "endLine": 9,
+        "endChar": 125
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3c704c8_8b34c8de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T13:04:47Z",
+      "side": 1,
+      "message": "good one.",
+      "parentUuid": "d941c1eb_78886825",
+      "range": {
+        "startLine": 9,
+        "startChar": 363,
+        "endLine": 9,
+        "endChar": 370
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e392579_6931045d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -60,6 +108,30 @@
       "writtenOn": "2022-12-29T12:08:15Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 11,
+        "startChar": 158,
+        "endLine": 11,
+        "endChar": 165
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac2a00ad_4d034226",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T13:04:47Z",
+      "side": 1,
+      "message": "good one",
+      "parentUuid": "1e392579_6931045d",
       "range": {
         "startLine": 11,
         "startChar": 158,
@@ -112,6 +184,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "494fad05_f1863921",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T13:04:47Z",
+      "side": 1,
+      "message": "Are not they mutual exclusive? or you are anonymous or you are not. If there is an anonymous clone with basic authentication, IMO there is a bug in the client.\n\nwdyt?",
+      "parentUuid": "1fe3c340_3744c94d",
+      "range": {
+        "startLine": 88,
+        "startChar": 11,
+        "endLine": 88,
+        "endChar": 90
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4e58d85_835063ee",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 9
@@ -123,6 +219,30 @@
       "writtenOn": "2022-12-29T12:08:15Z",
       "side": 1,
       "message": "maybe isGitUploadPackRequestWithAuthorization because I can pass bearer token from git client as well",
+      "range": {
+        "startLine": 103,
+        "startChar": 18,
+        "endLine": 103,
+        "endChar": 50
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0abb38b_753fa250",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T13:04:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4e58d85_835063ee",
       "range": {
         "startLine": 103,
         "startChar": 18,
