@@ -280,6 +280,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d60b3b2b_099f8519",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-29T13:41:36Z",
+      "side": 1,
+      "message": "Exactly, but what if we have `Authorization` header but it\u0027s not bearer token?",
+      "parentUuid": "a3fabb62_091061ec",
+      "range": {
+        "startLine": 88,
+        "startChar": 11,
+        "endLine": 88,
+        "endChar": 90
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4e58d85_835063ee",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 9
