@@ -208,6 +208,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3f6bc34_7731d3e0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2022-12-29T13:12:54Z",
+      "side": 1,
+      "message": "we should preserve the current behaviour. Check what is going to happen if you make a clone with anonymous url but with basic authentication header(you can put some invalid credentials) if clone pass we have to have the same functionality here",
+      "parentUuid": "494fad05_f1863921",
+      "range": {
+        "startLine": 88,
+        "startChar": 11,
+        "endLine": 88,
+        "endChar": 90
+      },
+      "revId": "a7c19fa45583c33212b35bf94bbcc1e882854c53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4e58d85_835063ee",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BearerAuthenticationFilter.java",
         "patchSetId": 9
