@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77e25457_4f1fbc13",
+        "filename": "src/main/java/org/eclipse/jgit/transport/TransportHttpWithBearerToken.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2022-12-29T09:55:12Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "fbaf3cb3_0546cf74",
+      "range": {
+        "startLine": 54,
+        "startChar": 56,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "638789163beeab0cb51e68891b71e7ee189dc28d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed605c24_4c4bbaac",
