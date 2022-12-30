@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a087c6a_fad89e67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2022-12-30T10:11:25Z",
+      "side": 1,
+      "message": "@maczech@gmail.com this can be abandoned , right ?",
+      "revId": "933e6fa1cf1d59207fbf3bfb7fcf869dfb446285",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
