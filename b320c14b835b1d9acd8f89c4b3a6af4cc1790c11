@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1e61513_c1331368",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-04T16:50:17Z",
+      "side": 1,
+      "message": "LGTM, just one nit.",
+      "revId": "b320c14b835b1d9acd8f89c4b3a6af4cc1790c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0ede71d_2c6d0774",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/auth/PullReplicationGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-04T16:50:17Z",
+      "side": 1,
+      "message": "nit: this can be omitted",
+      "range": {
+        "startLine": 88,
+        "startChar": 23,
+        "endLine": 88,
+        "endChar": 37
+      },
+      "revId": "b320c14b835b1d9acd8f89c4b3a6af4cc1790c11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
