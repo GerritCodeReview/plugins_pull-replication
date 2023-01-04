@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4c8b538_cb114d11",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-04T17:27:51Z",
+      "side": 1,
+      "message": "Unrelated: why are those needed? The init \u0026 reindex should be done at startup and not at build time.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "5ef648505cfb21cc30d98bd1f6599a70eb400b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60a64532_d095f687",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-04T17:27:51Z",
+      "side": 1,
+      "message": "Unrelated: if you make the file executable in the local box (and check in to the repo) then you won\u0027t need to run the chmod in the Dockerfile.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 31
+      },
+      "revId": "5ef648505cfb21cc30d98bd1f6599a70eb400b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
