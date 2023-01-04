@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "515a4a1a_50b0db63",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-04T17:53:47Z",
+      "side": 1,
+      "message": "It was just a trick to have master and replica git repositories synced when they startup. I can address it in a followup if it is a concern",
+      "parentUuid": "e4c8b538_cb114d11",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "5ef648505cfb21cc30d98bd1f6599a70eb400b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60a64532_d095f687",
         "filename": "example-setup/Dockerfile",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-04T17:27:51Z",
       "side": 1,
       "message": "Unrelated: if you make the file executable in the local box (and check in to the repo) then you won\u0027t need to run the chmod in the Dockerfile.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 31
+      },
+      "revId": "5ef648505cfb21cc30d98bd1f6599a70eb400b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a487b94_bc8ff316",
+        "filename": "example-setup/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-04T17:53:47Z",
+      "side": 1,
+      "message": "Addressed in [1]\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/355905",
+      "parentUuid": "60a64532_d095f687",
       "range": {
         "startLine": 17,
         "startChar": 0,
