@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c725a741_ae1ac8b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-04T19:01:48Z",
+      "side": 1,
+      "message": "I have created this change [1] to build it against stable-3.6\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/355908",
+      "revId": "8d6f74d2d4b1aa0d7dec03e8a38df0accd37d92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
