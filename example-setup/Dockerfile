@@ -5,8 +5,6 @@ USER root
 RUN yum install -y gettext
 
 ARG JAVA_OPTS='--add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED'
-ARG GERRIT_BRANCH=stable-3.4
-ARG LAST_BUILD=lastSuccessfulBuild/artifact/bazel-bin/plugins
 
 RUN  java $JAVA_OPTS -jar /var/gerrit/bin/gerrit.war init --batch --install-all-plugins -d /var/gerrit && \
     java $JAVA_OPTS -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit
