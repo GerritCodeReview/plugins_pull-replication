@@ -1,0 +1,58 @@
+version: '3'
+services:
+  gerrit1:
+    build: .
+    environment:
+      - INSTANCE_ID=primary
+      - REPLICA=false
+      - REMOTE=replica-1
+      - REMOTE_URL=gerrit2
+      - DEBUG_PORT=5005
+      - BROKER_HOST=broker
+      - BROKER_PORT=9092
+    ports:
+      - "8080:8080"
+      - "29418:29418"
+      - "5005:5005"
+    depends_on:
+      - broker
+  gerrit2:
+    build: .
+    environment:
+      - INSTANCE_ID=replica-1
+      - REPLICA=true
+      - REMOTE=primary
+      - REMOTE_URL=gerrit1
+      - DEBUG_PORT=5006
+      - BROKER_HOST=broker
+      - BROKER_PORT=9092
+    ports:
+      - "8081:8080"
+      - "29419:29418"
+      - "5006:5006"
+    depends_on:
+      - broker
+      - gerrit1
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  broker:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: broker
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
