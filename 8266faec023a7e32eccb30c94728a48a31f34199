@@ -118,6 +118,30 @@
       },
       "revId": "8266faec023a7e32eccb30c94728a48a31f34199",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3450f4f9_008817cb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-04T22:48:10Z",
+      "side": 0,
+      "message": "OK, so this is the problem:\n- The method *is needed* on master.\n- The stable-3.6 was pointing to master, whilst it cannot point there because that method does not exist.\n- The stable-3.7 branch does not exist yet: it should be created.\n\nI\u0027d suggest to hold on this merge, and instead:\n- Fix the stable-3.6 branch, removing this method\n- Create the stable-3.7 branch on top of stable-3.6\n- merge stable-3.6 and stable-3.7 into master, keeping that method\n\nLet me prepare the above and then you can re-merge on stable-3.6",
+      "parentUuid": "e348a8cd_efef8878",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 3
+      },
+      "revId": "8266faec023a7e32eccb30c94728a48a31f34199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
