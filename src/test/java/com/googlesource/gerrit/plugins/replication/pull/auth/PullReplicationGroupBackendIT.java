@@ -58,6 +58,13 @@ public class PullReplicationGroupBackendIT extends LightweightPluginDaemonTest {
   }
 
   @Test
+  public void shouldSuggestEmptyListIfNameNotMatched() {
+    Collection<GroupReference> groups = groupBackend.suggest("nonMatchablePrefix", null);
+
+    assertThat(groups).isEmpty();
+  }
+
+  @Test
   public void pullReplicationInternalUserShouldHaveMembershipOfInternalGroupAndAnonymousUsers() {
     assertMemberOfInternalAndAnonymousUsers(
         groupBackend.membershipsOf(getPullReplicationInternalUser()));
