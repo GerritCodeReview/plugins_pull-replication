@@ -14,7 +14,6 @@ RUN git config -f /var/gerrit/etc/secure.config --add auth.bearerToken "theSecre
 COPY --chown=gerrit:gerrit pull-replication.jar /var/gerrit/plugins/pull-replication.jar
 COPY --chown=gerrit:gerrit pull-replication.jar /var/gerrit/lib/pull-replication.jar
 COPY --chown=gerrit:gerrit entrypoint.sh /tmp/
-RUN chmod +x /tmp/entrypoint.sh
 COPY --chown=gerrit:gerrit configs/replication.config.template /var/gerrit/etc/
 COPY --chown=gerrit:gerrit configs/gerrit.config.template /var/gerrit/etc/
 
