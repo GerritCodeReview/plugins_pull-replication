@@ -2,8 +2,7 @@ FROM gerritcodereview/gerrit:3.5.4-almalinux8
 
 USER root
 
-RUN yum update -y &&\
-    yum install -y gettext
+RUN yum install -y gettext
 
 ARG JAVA_OPTS='--add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED'
 ARG GERRIT_BRANCH=stable-3.5
