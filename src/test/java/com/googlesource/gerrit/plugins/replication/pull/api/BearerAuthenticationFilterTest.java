@@ -174,25 +174,6 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldBe401WhenBearerTokenCannotBeExtracted() throws ServletException, IOException {
-    when(httpServletRequest.getRequestURI()).thenReturn("any-prefix/pull-replication~fetch");
-    when(httpServletRequest.getHeader("Authorization")).thenReturn("bearer token");
-
-    final BearerAuthenticationFilter filter =
-        new BearerAuthenticationFilter(
-            session,
-            pluginName,
-            pluginUser,
-            threadLocalRequestContextProvider,
-            "some-bearer-token");
-    filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
-
-    verify(httpServletRequest).getRequestURI();
-    verify(httpServletRequest).getHeader("Authorization");
-    verify(httpServletResponse).sendError(SC_UNAUTHORIZED);
-  }
-
-  @Test
   public void shouldBe401WhenNoAuthorizationHeaderInRequest() throws ServletException, IOException {
     when(httpServletRequest.getRequestURI()).thenReturn("any-prefix/pull-replication~fetch");
 

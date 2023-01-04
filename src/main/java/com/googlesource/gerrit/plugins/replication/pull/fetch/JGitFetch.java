@@ -23,7 +23,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.*;
+import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.TransportProvider;
+import org.eclipse.jgit.transport.URIish;
 
 public class JGitFetch implements Fetch {
   URIish uri;

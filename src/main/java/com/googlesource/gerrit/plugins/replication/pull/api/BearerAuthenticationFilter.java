@@ -83,11 +83,8 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
     Optional<String> authorizationHeader =
         Optional.ofNullable(httpRequest.getHeader("Authorization"));
 
-    if (isBasicAuthenticationRequest(requestURI)) {
-      filterChain.doFilter(servletRequest, servletResponse);
-    } else if (isPullReplicationApiRequest(requestURI)
-        || (isGitUploadPackRequest(httpRequest)
-            && isAuthenticationHeaderWithBearerToken(authorizationHeader))) {
+    if (isAuthenticationHeaderWithBearerToken(authorizationHeader)
+        && (isPullReplicationApiRequest(requestURI) || isGitUploadPackRequest(httpRequest))) {
       if (isBearerTokenAuthenticated(authorizationHeader, bearerToken))
         try (ManualRequestContext ctx =
             new ManualRequestContext(pluginUser, threadLocalRequestContext.get())) {
@@ -96,7 +93,9 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
           filterChain.doFilter(servletRequest, servletResponse);
         }
       else httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-
+    } else if (isPullReplicationApiRequest(requestURI)
+        && !isBasicAuthenticationRequest(requestURI)) {
+      httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     } else {
       filterChain.doFilter(servletRequest, servletResponse);
     }
