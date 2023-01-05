@@ -140,7 +140,7 @@ public class PullReplicationFilter extends AllRequestFilter {
     } catch (AuthException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_FORBIDDEN, e.getMessage(), e.caching(), e);
-    } catch (MalformedJsonException | JsonParseException e) {
+    } catch (MalformedJsonException | JsonParseException | IllegalArgumentException e) {
       logger.atFine().withCause(e).log("REST call failed on JSON parsing");
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_BAD_REQUEST, "Invalid json in request", e);
