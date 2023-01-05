@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import static org.mockito.Mockito.atMost;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -108,14 +107,50 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldAuthenticateWhenGitUploadPacket() throws ServletException, IOException {
+  public void shouldAuthenticateWhenGitUploadPack() throws ServletException, IOException {
     authenticateAndFilter("any-prefix/git-upload-pack", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWhenGitUploadPacketInQueryParameter()
+  public void shouldAuthenticateWhenGitUploadPackInQueryParameter()
       throws ServletException, IOException {
     authenticateAndFilter("any-prefix", GIT_UPLOAD_PACK_QUERY_PARAMETER);
+  }
+
+  @Test
+  public void shouldGoNextInChainWhenGitUploadPackWithoutAuthenticationHeader()
+      throws ServletException, IOException {
+    when(httpServletRequest.getRequestURI()).thenReturn("any-prefix/git-upload-pack");
+
+    final BearerAuthenticationFilter filter =
+        new BearerAuthenticationFilter(
+            session,
+            pluginName,
+            pluginUser,
+            threadLocalRequestContextProvider,
+            "some-bearer-token");
+    filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
+
+    verify(httpServletRequest).getHeader("Authorization");
+    verify(filterChain).doFilter(httpServletRequest, httpServletResponse);
+  }
+
+  @Test
+  public void shouldGoNextInChainWhenGitUploadPackWithAuthenticationHeaderDifferentThanBearer()
+      throws ServletException, IOException {
+    when(httpServletRequest.getRequestURI()).thenReturn("any-prefix/git-upload-pack");
+    when(httpServletRequest.getHeader("Authorization")).thenReturn("some-authorization");
+    final BearerAuthenticationFilter filter =
+        new BearerAuthenticationFilter(
+            session,
+            pluginName,
+            pluginUser,
+            threadLocalRequestContextProvider,
+            "some-bearer-token");
+    filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
+
+    verify(httpServletRequest).getHeader("Authorization");
+    verify(filterChain).doFilter(httpServletRequest, httpServletResponse);
   }
 
   @Test
@@ -171,6 +206,7 @@ public class BearerAuthenticationFilterTest {
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
 
     verify(httpServletRequest).getRequestURI();
+    verify(httpServletRequest).getHeader("Authorization");
     verify(httpServletResponse).sendError(SC_UNAUTHORIZED);
   }
 
@@ -187,7 +223,7 @@ public class BearerAuthenticationFilterTest {
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
 
-    verify(httpServletRequest, times(2)).getRequestURI();
+    verify(httpServletRequest).getHeader("Authorization");
     verify(filterChain).doFilter(httpServletRequest, httpServletResponse);
   }
 
@@ -206,7 +242,7 @@ public class BearerAuthenticationFilterTest {
             "some-bearer-token");
     filter.doFilter(httpServletRequest, httpServletResponse, filterChain);
 
-    verify(httpServletRequest).getRequestURI();
+    verify(httpServletRequest).getHeader("Authorization");
     verify(filterChain).doFilter(httpServletRequest, httpServletResponse);
   }
 }
