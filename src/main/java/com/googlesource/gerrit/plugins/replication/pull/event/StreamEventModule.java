@@ -22,6 +22,7 @@ public class StreamEventModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    bind(StreamEventListener.class);
     DynamicSet.bind(binder(), EventListener.class).to(StreamEventListener.class);
   }
 }
