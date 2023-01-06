@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c0790eb_bf02e9ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T15:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee780e19_5c5009e2",
+      "range": {
+        "startLine": 22,
+        "startChar": 68,
+        "endLine": 22,
+        "endChar": 76
+      },
+      "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33cad77f_1c0bcd33",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-06T13:11:50Z",
       "side": 1,
       "message": "`streamEvents` is now misleading, why not just saying `eventBrokerTopic` instead?\n\nI guess this is going to be an alternative to `consumeStreamEvents`?",
+      "range": {
+        "startLine": 23,
+        "startChar": 50,
+        "endLine": 23,
+        "endChar": 67
+      },
+      "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6da7ef7c_60842d7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T15:08:58Z",
+      "side": 1,
+      "message": "\u003e `streamEvents` is now misleading, why not just saying `eventBrokerTopic` instead?\n\nTrue, done\n \n\u003e I guess this is going to be an alternative to `consumeStreamEvents`?\n\nYep, let me add a comment in the message",
+      "parentUuid": "33cad77f_1c0bcd33",
       "range": {
         "startLine": 23,
         "startChar": 50,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "897a696e_a38c17ea",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T15:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a18d58f3_6a13d20d",
+      "range": {
+        "startLine": 96,
+        "startChar": 10,
+        "endLine": 96,
+        "endChar": 53
+      },
+      "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6ab7606_668c9ccd",
@@ -100,6 +172,24 @@
       "writtenOn": "2023-01-06T13:11:50Z",
       "side": 1,
       "message": "Do we still need the `instanceId` in `gerrit.config` or not? We should check and specify here.",
+      "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "299e6925_746f836c",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T15:08:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6ab7606_668c9ccd",
       "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
