@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "552712db_100bcee2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T21:59:36Z",
+      "side": 1,
+      "message": "Fails for me with:\n1) unnecessary Mockito stubbings(com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerMessageConsumerTest)\norg.mockito.exceptions.misusing.UnnecessaryStubbingException:\nUnnecessary stubbings detected in test class: EventsBrokerMessageConsumerTest\nClean \u0026 maintainable test code requires zero unnecessary code.\nFollowing stubbings are unnecessary (click to navigate to relevant line of code):\n  1. -\u003e at com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerMessageConsumerTest.setup(EventsBrokerMessageConsumerTest.java:59)\n  2. -\u003e at com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerMessageConsumerTest.setup(EventsBrokerMessageConsumerTest.java:60)\nPlease remove unnecessary stubbings or use \u0027lenient\u0027 strictness. More info: javadoc for UnnecessaryStubbingException class.",
+      "revId": "0fc8f1576d6e94217adff132f2ef0a52485b8aea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
