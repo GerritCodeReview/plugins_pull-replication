@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c1b72d9d_b5cce7ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-01-06T09:00:16Z",
+      "side": 1,
+      "message": "But how we can setup different groupId if it used together with multi-site?",
+      "parentUuid": "a96f1e5f_7a299855",
+      "revId": "3a3a3da7f21e7b383afc30e155b2c6f90681267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c01ce94b_ab6b57e0",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumerTest.java",
         "patchSetId": 4
