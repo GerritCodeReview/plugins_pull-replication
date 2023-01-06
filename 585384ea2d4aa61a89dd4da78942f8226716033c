@@ -110,6 +110,24 @@
       "message": "Can you also add one positive test?",
       "revId": "585384ea2d4aa61a89dd4da78942f8226716033c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1f718e2_91b9d2d4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumerTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T22:20:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada0c6c0_026a614f",
+      "revId": "585384ea2d4aa61a89dd4da78942f8226716033c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
