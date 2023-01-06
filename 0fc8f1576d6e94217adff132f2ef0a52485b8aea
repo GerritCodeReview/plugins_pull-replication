@@ -39,6 +39,30 @@
       },
       "revId": "0fc8f1576d6e94217adff132f2ef0a52485b8aea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "894ee24a_abc58dd8",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T22:23:05Z",
+      "side": 1,
+      "message": "You are right, once it is dequeued from the broker...that\u0027s it.",
+      "parentUuid": "8ce105dc_aa64d0ce",
+      "range": {
+        "startLine": 162,
+        "startChar": 10,
+        "endLine": 162,
+        "endChar": 52
+      },
+      "revId": "0fc8f1576d6e94217adff132f2ef0a52485b8aea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
