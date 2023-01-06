@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad6941c6_dcd584e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-01-06T08:58:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this solution will work with multi-site. events-kafka plugin registers consumers with consumer group equals instance id. This means that we will have to consumer in a single consumer group(one from pull-replication and one from multi-site) this means that event will be delivered with roundrobin to both consumers",
+      "revId": "863a27a27530d3bda9091fa8f0abd37234c7292f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02e774df_1b4a1ef9",
