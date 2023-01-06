@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b82a1e0_291aad3e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T16:34:04Z",
+      "side": 1,
+      "message": "Can you explain why?\n\nSomething like _this is the event handler of Gerrit\u0027s event-bus, which isn\u0027t supposed to throw any exception, otherwise the other handlers won\u0027t be executed_",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 22
+      },
+      "revId": "585384ea2d4aa61a89dd4da78942f8226716033c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4067e7aa_2131aa46",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T16:34:04Z",
+      "side": 1,
+      "message": "unset",
+      "range": {
+        "startLine": 170,
+        "startChar": 10,
+        "endLine": 170,
+        "endChar": 13
+      },
+      "revId": "585384ea2d4aa61a89dd4da78942f8226716033c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ada0c6c0_026a614f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumerTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T16:34:04Z",
+      "side": 1,
+      "message": "Can you also add one positive test?",
+      "revId": "585384ea2d4aa61a89dd4da78942f8226716033c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
