@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1766ed48_34d026b8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T22:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d35ba0c3_ab28601d",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 66
+      },
+      "revId": "676ffdde3fc498f0ebfa59bcabcbfaa1c943d5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eca4c1f9_43bcae95",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "884fc8ed_cc84681b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T22:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eca4c1f9_43bcae95",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 34
+      },
+      "revId": "676ffdde3fc498f0ebfa59bcabcbfaa1c943d5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "695f6d41_af580d0a",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-01-06T22:41:22Z",
       "side": 1,
       "message": "Is this used anywhere?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 75
+      },
+      "revId": "676ffdde3fc498f0ebfa59bcabcbfaa1c943d5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf59fd2d_63069ae0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T22:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "695f6d41_af580d0a",
       "range": {
         "startLine": 49,
         "startChar": 0,
