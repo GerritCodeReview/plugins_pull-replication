@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "baf1347d_8249b2cb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventRejectedException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T11:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02e774df_1b4a1ef9",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 8
+      },
+      "revId": "863a27a27530d3bda9091fa8f0abd37234c7292f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5290a2c_42b01d5c",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-01-06T08:25:16Z",
       "side": 1,
       "message": "This can be private, isn\u0027t it?",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 8
+      },
+      "revId": "863a27a27530d3bda9091fa8f0abd37234c7292f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5ad27c3_8cd406cb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerConsumerModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T11:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5290a2c_42b01d5c",
       "range": {
         "startLine": 24,
         "startChar": 2,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bb347e4_e8d0662c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T11:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da8e3c33_9902eb4a",
+      "revId": "863a27a27530d3bda9091fa8f0abd37234c7292f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fab0e61_55f8b0ce",
@@ -94,6 +160,24 @@
       "writtenOn": "2023-01-06T08:25:16Z",
       "side": 1,
       "message": "We should probably add a note saying something like:\n\nWhen used with the multi-site plugin the pull-replication and multi-site consumers \n should NOT consumer from the same topic/stream. For example, in kafka-events the `groupId` will need to be set [1], or the `applicationName` in ecents-aws-kinesis [2]\n \n [1]: https://gerrit.googlesource.com/plugins/events-kafka/+/refs/heads/master/src/main/resources/Documentation/config.md#additional-properties  \n \n [2]: https://gerrit.googlesource.com/plugins/events-aws-kinesis/+/refs/heads/master/src/main/resources/Documentation/Config.md",
+      "revId": "863a27a27530d3bda9091fa8f0abd37234c7292f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "412a6105_f1ccbd25",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T11:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fab0e61_55f8b0ce",
       "revId": "863a27a27530d3bda9091fa8f0abd37234c7292f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
