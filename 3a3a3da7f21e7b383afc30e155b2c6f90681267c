@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc9aabbc_4a369d18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-06T09:05:49Z",
+      "side": 1,
+      "message": "mmm...true the `groupId` is set on the events-kafka, not on the pull-replication/multi-site.\n\nWe would probably need to allow somehow the final consumers to inject a prefix/suffix to the `groupId` or the corresponding parameter of the other broker implementations.",
+      "parentUuid": "c1b72d9d_b5cce7ec",
+      "revId": "3a3a3da7f21e7b383afc30e155b2c6f90681267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c01ce94b_ab6b57e0",
