@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee780e19_5c5009e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T13:11:50Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 22,
+        "startChar": 68,
+        "endLine": 22,
+        "endChar": 76
+      },
+      "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33cad77f_1c0bcd33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T13:11:50Z",
+      "side": 1,
+      "message": "`streamEvents` is now misleading, why not just saying `eventBrokerTopic` instead?\n\nI guess this is going to be an alternative to `consumeStreamEvents`?",
+      "range": {
+        "startLine": 23,
+        "startChar": 50,
+        "endLine": 23,
+        "endChar": 67
+      },
+      "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7917142_55d4db38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T13:11:50Z",
+      "side": 1,
+      "message": "We are missing now the tests of the EventsBroker reception use-case.",
+      "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a18d58f3_6a13d20d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T13:11:50Z",
+      "side": 1,
+      "message": "This should be done only when receiving an event from the broker: if it is coming from the Gerrit EventBus, we *must* NOT throw exceptions otherwise we will disrupt the entire notification chain.\n\nGerrit EventBus must be a *fire-and-forget* always.",
+      "range": {
+        "startLine": 96,
+        "startChar": 10,
+        "endLine": 96,
+        "endChar": 53
+      },
+      "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6ab7606_668c9ccd",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-06T13:11:50Z",
+      "side": 1,
+      "message": "Do we still need the `instanceId` in `gerrit.config` or not? We should check and specify here.",
+      "revId": "7c38b1c9fd7de53a6647d7f7735e6d579d4c045c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
