@@ -1,5 +1,98 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f96a33d7_32962479",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-07T13:50:22Z",
+      "side": 1,
+      "message": "Typo: notification",
+      "range": {
+        "startLine": 151,
+        "startChar": 1,
+        "endLine": 151,
+        "endChar": 12
+      },
+      "revId": "e0f0ce389e2c575fce96385104b9a06574753a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7664baf_a58583b4",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-07T13:50:22Z",
+      "side": 1,
+      "message": "Typo: necessarily",
+      "range": {
+        "startLine": 152,
+        "startChar": 32,
+        "endLine": 152,
+        "endChar": 43
+      },
+      "revId": "e0f0ce389e2c575fce96385104b9a06574753a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b4081ec_982b92e2",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-07T13:50:22Z",
+      "side": 1,
+      "message": "`consume`, perhaps?",
+      "range": {
+        "startLine": 154,
+        "startChar": 60,
+        "endLine": 154,
+        "endChar": 68
+      },
+      "revId": "e0f0ce389e2c575fce96385104b9a06574753a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4f0b173_3c1659cb",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-07T13:50:22Z",
+      "side": 1,
+      "message": "This isn\u0027t quite clear to me... do we mean as a broker or with a broker?",
+      "range": {
+        "startLine": 155,
+        "startChar": 24,
+        "endLine": 156,
+        "endChar": 24
+      },
+      "revId": "e0f0ce389e2c575fce96385104b9a06574753a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
