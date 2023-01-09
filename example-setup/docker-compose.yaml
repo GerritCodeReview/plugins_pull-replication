@@ -8,6 +8,9 @@ services:
       - REMOTE=replica-1
       - REMOTE_URL=gerrit2
       - DEBUG_PORT=5005
+      - REPLICATION_ON_STARTUP=false
+    volumes:
+      - ./git-replica:/tmp/git-replica:rw
     ports:
       - "8080:8080"
       - "29418:29418"
@@ -20,6 +23,9 @@ services:
       - REMOTE=primary
       - REMOTE_URL=gerrit1
       - DEBUG_PORT=5006
+      - REPLICATION_ON_STARTUP=true
+    volumes:
+      - ./git-replica:/var/gerrit/git:rw
     ports:
       - "8081:8080"
       - "29419:29418"
