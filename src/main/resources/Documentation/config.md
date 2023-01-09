@@ -148,12 +148,12 @@ replication.eventBrokerTopic
 :	Topic to consumer stream events from.
 
 	Pull-replication can receive stream events and use it as
-	notfication mechanism as alternative to REST API notifications.
-	It can work in standalone, not necessarely with the multi-site plugin
+	notification mechanism as alternative to REST API notifications.
+	It can work in standalone, not necessarily with the multi-site plugin
 	(check replication.consumerStreamEvents if you need to use it with
-	multi-site). This parameter is used to define the topic to consumer
+	multi-site). This parameter is used to define the topic to consume
 	stream events messages from when using the pull-replication in
-	standalone and a broker.
+	standalone with a broker.
 
 	When `eventBrokerTopic` is enabled gerrit.instanceId
 	instead of [replication.instanceLabel](https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/resources/Documentation/config.md#replication.instanceLabel)
