@@ -2,10 +2,17 @@
 
 function setup_replication_config {
 
-  echo "Replacing variables for file /var/gerrit/etc/replication.config.template"
-  cat /var/gerrit/etc/replication.config.template | envsubst | sed 's/#{name}#/${name}/g' > /var/gerrit/etc/replication.config
+  if $REPLICA;
+  then
+    echo "Replacing variables for file /var/gerrit/etc/replication.config.template"
+    cat /var/gerrit/etc/replication-replica.config.template | envsubst | sed 's/#{name}#/${name}/g' > /var/gerrit/etc/replication.config
+    cat /var/gerrit/etc/replication.config
+  else
+    echo "Replacing variables for file /var/gerrit/etc/replication.config.template"
+    cat /var/gerrit/etc/replication-primary.config.template | envsubst | sed 's/#{name}#/${name}/g' > /var/gerrit/etc/replication.config
+    cat /var/gerrit/etc/replication.config
+  fi
 
-  cat /var/gerrit/etc/replication.config
 }
 
 function setup_gerrit_config {
@@ -15,6 +22,9 @@ function setup_gerrit_config {
 
 setup_replication_config
 setup_gerrit_config
+
+echo "Init phase..."
+java -jar /var/gerrit/bin/gerrit.war init --no-auto-start --batch --install-all-plugins -d /var/gerrit
 
 echo "Running Gerrit ..."
 exec /var/gerrit/bin/gerrit.sh run
