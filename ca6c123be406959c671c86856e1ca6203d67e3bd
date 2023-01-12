@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "311e2c83_c06102fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-12T21:00:40Z",
+      "side": 1,
+      "message": "LGTM, just one nit.",
+      "revId": "ca6c123be406959c671c86856e1ca6203d67e3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c52da4c_f4fc4ec6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-12T21:00:40Z",
+      "side": 1,
+      "message": "I\u0027d just say _all refs_, because also other refs were hidden, outside the `meta` namespace.",
+      "range": {
+        "startLine": 562,
+        "startChar": 29,
+        "endLine": 562,
+        "endChar": 38
+      },
+      "revId": "ca6c123be406959c671c86856e1ca6203d67e3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
