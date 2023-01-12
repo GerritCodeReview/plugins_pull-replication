@@ -558,6 +558,14 @@ remote.NAME.username
 remote.NAME.password
 :	Password to use for HTTP authentication on this remote.
 
+In both cases, the Global Capability `Access Database` [1] needs to be allowed in
+order to permit `All-Users`' meta refs to be replicated. When _basic auth_ is
+used, the capability must be assigned to the `remote.NAME.username` used in
+configuration, whilst for _bearer token_, it needs to be assigned to
+the `Pull-replication Internal User` user.
+
+[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_accessDatabase
+
 File `~/.ssh/config`
 --------------------
 
