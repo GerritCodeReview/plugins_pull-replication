@@ -30,7 +30,7 @@ import java.util.Collection;
 
 /** Backend to expose the pull-replication internal user group membership. */
 @Singleton
-class PullReplicationGroupBackend extends AbstractGroupBackend {
+public class PullReplicationGroupBackend extends AbstractGroupBackend {
   public static final AccountGroup.UUID INTERNAL_GROUP_UUID =
       AccountGroup.uuid("pullreplication:internal-user");
   public static final String INTERNAL_GROUP_NAME = "Pull-replication Internal User";
