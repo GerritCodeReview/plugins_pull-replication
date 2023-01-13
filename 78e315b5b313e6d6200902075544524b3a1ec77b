@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a017a796_7adfa345",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-13T19:53:04Z",
+      "side": 1,
+      "message": "unfortunately, I don\u0027t think init steps are programmatically testable.\nWe could perhaps try to write an IT test, but I am not sure we can explicitly bind all the guice bindings normally done by the `initInjector`.\n\nAlso, it would not be a good test because the init steps are executed _before_ gerrit runs.\n\nUsually, init steps are manually tested. This is true for all init steps in gerrit core and all existing plugins.\n\n@luca.milanesio@gmail.com, is there a way of providing this or do we have to stick to manual testing for now?",
+      "parentUuid": "fa1e8099_c2275afb",
+      "revId": "78e315b5b313e6d6200902075544524b3a1ec77b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0af52534_ea905602",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
         "patchSetId": 3
@@ -31,6 +49,24 @@
       "writtenOn": "2023-01-13T18:00:54Z",
       "side": 1,
       "message": "this message means that \"Granting global capability....\"?\nIt is a bit confusing.",
+      "revId": "78e315b5b313e6d6200902075544524b3a1ec77b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "803c9187_a242b9e6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-13T19:53:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0af52534_ea905602",
       "revId": "78e315b5b313e6d6200902075544524b3a1ec77b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
