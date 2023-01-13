@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa1e8099_c2275afb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-13T18:00:54Z",
+      "side": 1,
+      "message": "I like it but I miss a test.",
+      "revId": "78e315b5b313e6d6200902075544524b3a1ec77b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0af52534_ea905602",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-13T18:00:54Z",
+      "side": 1,
+      "message": "this message means that \"Granting global capability....\"?\nIt is a bit confusing.",
+      "revId": "78e315b5b313e6d6200902075544524b3a1ec77b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
