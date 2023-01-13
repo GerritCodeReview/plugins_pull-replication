@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef448985_1baf05ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-13T21:21:44Z",
+      "side": 1,
+      "message": "I would specify \"using notification via broker\"",
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "47eb0434_d882f3c7",
@@ -14,6 +31,46 @@
       "writtenOn": "2023-01-06T22:04:37Z",
       "side": 1,
       "message": "This has been verified for standalone pull-replication with a pull-replication jar that is yet to be merged to a mainline branch [1]. This jar has not been tested against a setup with Gerrit config running pull-replication with multi-site, so it\u0027s liable to change.\n\n[1] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/355970",
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22eb9058_748fe3e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-13T21:21:44Z",
+      "side": 1,
+      "message": "I would move it to 3.4. When you started the change there were no examples in 3.4.\n\nNow the HTTP examples have been cherry-picked to 3.4. It probably makes sense to move this there as well.",
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffc8689e_f9566d53",
+        "filename": "example-setup/kafka/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-13T21:21:44Z",
+      "side": 1,
+      "message": "I think this might be a bit misleading. I would rather say something like: \"with broker notification\".\n\nMaybe also mention something like: \"You could also find and example with HTTP notification [here](link_to_ther_example)\"",
+      "range": {
+        "startLine": 3,
+        "startChar": 77,
+        "endLine": 4,
+        "endChar": 21
+      },
       "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
