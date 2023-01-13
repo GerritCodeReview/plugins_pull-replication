@@ -40,6 +40,30 @@
       },
       "revId": "0f3e116fd2d1a87c04f2025906d61a87dac5bcf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6e3bed5_a61e300f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-13T20:34:38Z",
+      "side": 1,
+      "message": "I am not so much in favour of this to be honest.\n\nA correct configuration of the bearer token would require having the _same_ token on both ends though, whilst doing this through an init (if it was run on both sides) would generate two _different bearer tokens, which might cause an unintended misconfiguration.\n\nAlso, I think since pull-replication supports both types of authentication we should not arbitrarily decide for a specific one; using a basic auth with a user with the global accessDatabase capability is also a correct configuration.",
+      "parentUuid": "f836735f_a9254a13",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "0f3e116fd2d1a87c04f2025906d61a87dac5bcf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
