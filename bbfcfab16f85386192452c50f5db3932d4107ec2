@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2d184e9_6fd3bd7b",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-14T09:40:16Z",
+      "side": 1,
+      "message": "I can see we have a `v3.6.0-rc5` tag too - any reason we\u0027re not using that?",
+      "revId": "bbfcfab16f85386192452c50f5db3932d4107ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
