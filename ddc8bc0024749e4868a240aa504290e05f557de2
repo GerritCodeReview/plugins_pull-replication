@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d76d34fa_f34747ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-14T09:56:33Z",
+      "side": 1,
+      "message": "Same as other comment - happy to clarify that it\u0027s the notification and not the replication that happens over kafka, but should I remove `kafka` from the commit summary too?",
+      "parentUuid": "ef448985_1baf05ed",
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "47eb0434_d882f3c7",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2038601b_48aca63f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-14T09:56:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22eb9058_748fe3e2",
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffc8689e_f9566d53",
@@ -65,6 +101,30 @@
       "writtenOn": "2023-01-13T21:21:44Z",
       "side": 1,
       "message": "I think this might be a bit misleading. I would rather say something like: \"with broker notification\".\n\nMaybe also mention something like: \"You could also find and example with HTTP notification [here](link_to_ther_example)\"",
+      "range": {
+        "startLine": 3,
+        "startChar": 77,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81d72652_25834a75",
+        "filename": "example-setup/kafka/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-14T09:56:33Z",
+      "side": 1,
+      "message": "Just to clarify - I understand that you mean it\u0027s the notifications that go over kafka, and I agree it\u0027s misleading. But you are also implying that I should drop kafka from the description. You also suggest this in the comment above.\n\nIf you notice the director as well it\u0027s called `kafka` - are you saying we should drop all references to `kafka`, other than it\u0027s an implementation detail and we should replace that with broker?",
+      "parentUuid": "ffc8689e_f9566d53",
       "range": {
         "startLine": 3,
         "startChar": 77,
