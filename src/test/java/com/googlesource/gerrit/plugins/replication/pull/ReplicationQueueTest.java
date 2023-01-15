@@ -21,6 +21,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -33,8 +34,8 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener.Event;
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener.UpdatedRef;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -54,6 +55,8 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -64,6 +67,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -161,57 +165,74 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldCallSendObjectWhenMetaRef() throws ClientProtocolException, IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    TestEvent event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
 
   @Test
   public void shouldCallInitProjectWhenProjectIsMissing() throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    TestEvent event = new TestEvent("refs/changes/01/1/meta");
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isProjectMissing(any())).thenReturn(true);
     when(source.isCreateMissingRepositories()).thenReturn(true);
 
     objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verify(fetchRestApiClient).initProject(any(), any());
   }
 
   @Test
   public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    TestEvent event = new TestEvent("refs/changes/01/1/meta");
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isProjectMissing(any())).thenReturn(true);
     when(source.isCreateMissingRepositories()).thenReturn(false);
 
     objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verify(fetchRestApiClient, never()).initProject(any(), any());
   }
 
   @Test
   public void shouldCallSendObjectWhenPatchSetRef() throws ClientProtocolException, IOException {
-    Event event = new TestEvent("refs/changes/01/1/1");
+    TestEvent event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
 
   @Test
+  public void shouldCallSendObjectReorderingRefsHavingMetaAtTheEnd()
+      throws ClientProtocolException, IOException {
+    TestEvent event = new TestEvent("refs/changes/01/1/meta", "refs/changes/01/1/1");
+    objectUnderTest.start();
+    objectUnderTest.onGitBatchRefUpdate(event);
+
+    InOrder inOrder = inOrder(fetchRestApiClient);
+
+    inOrder
+        .verify(fetchRestApiClient)
+        .callSendObjects(any(), eq("refs/changes/01/1/1"), any(), any());
+    inOrder
+        .verify(fetchRestApiClient)
+        .callSendObjects(any(), eq("refs/changes/01/1/meta"), any(), any());
+  }
+
+  @Test
   public void shouldFallbackToCallFetchWhenIOException()
       throws ClientProtocolException, IOException, LargeObjectException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    TestEvent event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenThrow(IOException.class);
 
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
@@ -219,12 +240,12 @@ public class ReplicationQueueTest {
   @Test
   public void shouldFallbackToCallFetchWhenLargeRef()
       throws ClientProtocolException, IOException, LargeObjectException {
-    Event event = new TestEvent("refs/changes/01/1/1");
+    TestEvent event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenReturn(Optional.empty());
 
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
@@ -232,7 +253,7 @@ public class ReplicationQueueTest {
   @Test
   public void shouldFallbackToCallFetchWhenParentObjectIsMissing()
       throws ClientProtocolException, IOException {
-    Event event = new TestEvent("refs/changes/01/1/1");
+    TestEvent event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(httpResult.isSuccessful()).thenReturn(false);
@@ -240,7 +261,7 @@ public class ReplicationQueueTest {
     when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
 
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
@@ -248,7 +269,7 @@ public class ReplicationQueueTest {
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnMetaRef()
       throws ClientProtocolException, IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    TestEvent event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
     when(httpResult.isSuccessful()).thenReturn(false, true);
@@ -256,7 +277,7 @@ public class ReplicationQueueTest {
     when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
 
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verify(fetchRestApiClient, times(2))
         .callSendObjects(any(), anyString(), revisionsDataCaptor.capture(), any());
@@ -291,16 +312,16 @@ public class ReplicationQueueTest {
             () -> revReader,
             applyObjectMetrics,
             fetchMetrics);
-    Event event = new TestEvent("refs/multi-site/version");
-    objectUnderTest.onGitReferenceUpdated(event);
+    TestEvent event = new TestEvent("refs/multi-site/version");
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
   }
 
   @Test
   public void shouldSkipEventWhenStarredChangesRef() {
-    Event event = new TestEvent("refs/starred-changes/41/2941/1000000");
-    objectUnderTest.onGitReferenceUpdated(event);
+    TestEvent event = new TestEvent("refs/starred-changes/41/2941/1000000");
+    objectUnderTest.onGitBatchRefUpdate(event);
 
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
   }
@@ -365,24 +386,22 @@ public class ReplicationQueueTest {
     return createTempDirectory(prefix);
   }
 
-  private class TestEvent implements GitReferenceUpdatedListener.Event {
+  private static class TestEvent implements GitBatchRefUpdateListener.Event {
     private String refName;
     private String projectName;
-    private ObjectId newObjectId;
+    private List<UpdatedRef> refs;
 
-    public TestEvent(String refName) {
-      this(refName, "defaultProject", ObjectId.zeroId());
+    public TestEvent(String... refNames) {
+      this(
+          "defaultProject",
+          Arrays.stream(refNames)
+              .map(refName -> updateRef(refName, ObjectId.zeroId()))
+              .collect(Collectors.toUnmodifiableList()));
     }
 
-    public TestEvent(String refName, String projectName, ObjectId newObjectId) {
-      this.refName = refName;
+    public TestEvent(String projectName, List<UpdatedRef> refs) {
       this.projectName = projectName;
-      this.newObjectId = newObjectId;
-    }
-
-    @Override
-    public String getRefName() {
-      return refName;
+      this.refs = refs;
     }
 
     @Override
@@ -396,33 +415,54 @@ public class ReplicationQueueTest {
     }
 
     @Override
-    public String getOldObjectId() {
-      return ObjectId.zeroId().getName();
-    }
-
-    @Override
-    public String getNewObjectId() {
-      return newObjectId.getName();
-    }
-
-    @Override
-    public boolean isCreate() {
-      return false;
-    }
-
-    @Override
-    public boolean isDelete() {
-      return false;
-    }
-
-    @Override
-    public boolean isNonFastForward() {
-      return false;
-    }
-
-    @Override
     public AccountInfo getUpdater() {
       return null;
+    }
+
+    @Override
+    public Set<UpdatedRef> getUpdatedRefs() {
+      return refs.stream().collect(Collectors.toSet());
+    }
+
+    private static final GitBatchRefUpdateListener.UpdatedRef updateRef(
+        String refName, ObjectId refObjectId) {
+      return new GitBatchRefUpdateListener.UpdatedRef() {
+
+        @Override
+        public String getRefName() {
+          return refName;
+        }
+
+        @Override
+        public String getOldObjectId() {
+          return ObjectId.zeroId().getName();
+        }
+
+        @Override
+        public String getNewObjectId() {
+          return refObjectId.getName();
+        }
+
+        @Override
+        public boolean isCreate() {
+          return false;
+        }
+
+        @Override
+        public boolean isDelete() {
+          return false;
+        }
+
+        @Override
+        public boolean isNonFastForward() {
+          return false;
+        }
+      };
+    }
+
+    @Override
+    public Set<String> getRefNames() {
+      return Set.of(refName);
     }
   }
 
