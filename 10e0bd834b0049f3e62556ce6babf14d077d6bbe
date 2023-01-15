@@ -22,6 +22,30 @@
       },
       "revId": "10e0bd834b0049f3e62556ce6babf14d077d6bbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b434860c_2bcc1cb7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-15T09:49:15Z",
+      "side": 1,
+      "message": "it is not adding this capability unconditionally, the code is written in such a way that will only add it if its not already there.\n\nI named the name `upsert`, to emphasise this behavior.\n\nwhen I tested this I verified this is the behavior, let me know if you find this is not the case.",
+      "parentUuid": "36ee7686_16919067",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 23
+      },
+      "revId": "10e0bd834b0049f3e62556ce6babf14d077d6bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
