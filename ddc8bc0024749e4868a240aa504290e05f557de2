@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "39c7e42b_e1a05ead",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-15T09:26:07Z",
+      "side": 1,
+      "message": "I\u0027d still mention kafka in the commit message, something like: \".. using notification via broker (Kafka)\"\n\nIn the commit description you could mention that this particular example uses Kafka as broker implementation.",
+      "parentUuid": "d76d34fa_f34747ce",
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "47eb0434_d882f3c7",
@@ -125,6 +143,30 @@
       "side": 1,
       "message": "Just to clarify - I understand that you mean it\u0027s the notifications that go over kafka, and I agree it\u0027s misleading. But you are also implying that I should drop kafka from the description. You also suggest this in the comment above.\n\nIf you notice the director as well it\u0027s called `kafka` - are you saying we should drop all references to `kafka`, other than it\u0027s an implementation detail and we should replace that with broker?",
       "parentUuid": "ffc8689e_f9566d53",
+      "range": {
+        "startLine": 3,
+        "startChar": 77,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaad17c7_0cf70519",
+        "filename": "example-setup/kafka/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-15T09:26:07Z",
+      "side": 1,
+      "message": "Maybe we could rename the directory to `broker` and in the README explain that this is an example using a broker for the events notification. In this specific case, we are using Kafka as broker implementation.",
+      "parentUuid": "81d72652_25834a75",
       "range": {
         "startLine": 3,
         "startChar": 77,
