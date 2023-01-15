@@ -34,6 +34,24 @@
       "parentUuid": "a2d184e9_6fd3bd7b",
       "revId": "bbfcfab16f85386192452c50f5db3932d4107ec2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "135fdff6_8f7f43ba",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-15T19:56:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7fa57cb0_348310a9",
+      "revId": "bbfcfab16f85386192452c50f5db3932d4107ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
