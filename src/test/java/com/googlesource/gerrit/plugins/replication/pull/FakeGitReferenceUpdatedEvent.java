@@ -17,10 +17,13 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener.UpdatedRef;
+import java.util.Set;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class FakeGitReferenceUpdatedEvent implements GitReferenceUpdatedListener.Event {
+public class FakeGitReferenceUpdatedEvent implements GitBatchRefUpdateListener.Event {
   private final String projectName;
   private final String ref;
   private final String oldObjectId;
@@ -46,36 +49,6 @@ public class FakeGitReferenceUpdatedEvent implements GitReferenceUpdatedListener
   }
 
   @Override
-  public String getRefName() {
-    return ref;
-  }
-
-  @Override
-  public String getOldObjectId() {
-    return oldObjectId;
-  }
-
-  @Override
-  public String getNewObjectId() {
-    return newObjectId;
-  }
-
-  @Override
-  public boolean isCreate() {
-    return type == ReceiveCommand.Type.CREATE;
-  }
-
-  @Override
-  public boolean isDelete() {
-    return type == ReceiveCommand.Type.DELETE;
-  }
-
-  @Override
-  public boolean isNonFastForward() {
-    return type == ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
-  }
-
-  @Override
   public AccountInfo getUpdater() {
     return null;
   }
@@ -90,5 +63,47 @@ public class FakeGitReferenceUpdatedEvent implements GitReferenceUpdatedListener
   @Override
   public NotifyHandling getNotify() {
     return NotifyHandling.ALL;
+  }
+
+  @Override
+  public Set<UpdatedRef> getUpdatedRefs() {
+    return Set.of(
+        new GitBatchRefUpdateListener.UpdatedRef() {
+
+          @Override
+          public String getRefName() {
+            return ref;
+          }
+
+          @Override
+          public String getOldObjectId() {
+            return ObjectId.zeroId().getName();
+          }
+
+          @Override
+          public String getNewObjectId() {
+            return newObjectId;
+          }
+
+          @Override
+          public boolean isCreate() {
+            return type == ReceiveCommand.Type.CREATE;
+          }
+
+          @Override
+          public boolean isDelete() {
+            return type == ReceiveCommand.Type.DELETE;
+          }
+
+          @Override
+          public boolean isNonFastForward() {
+            return type == ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
+          }
+        });
+  }
+
+  @Override
+  public Set<String> getRefNames() {
+    return Set.of(ref);
   }
 }
