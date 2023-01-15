@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36ee7686_16919067",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-15T09:35:34Z",
+      "side": 1,
+      "message": "AFAIU it keeps adding this capability unconditionally on each `init` run. How about checking if it was granted to the group in question already?",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 23
+      },
+      "revId": "10e0bd834b0049f3e62556ce6babf14d077d6bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
