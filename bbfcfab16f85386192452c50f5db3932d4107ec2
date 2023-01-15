@@ -16,6 +16,24 @@
       "message": "I can see we have a `v3.6.0-rc5` tag too - any reason we\u0027re not using that?",
       "revId": "bbfcfab16f85386192452c50f5db3932d4107ec2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fa57cb0_348310a9",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-15T09:29:34Z",
+      "side": 1,
+      "message": "I am using the same version used from `events-kafka` to make sure it works.\n\nOn a side note, we should probably make sure that all the brokers are aligned in terms of library used 😐",
+      "parentUuid": "a2d184e9_6fd3bd7b",
+      "revId": "bbfcfab16f85386192452c50f5db3932d4107ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
