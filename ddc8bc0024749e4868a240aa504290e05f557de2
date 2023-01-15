@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ab83067f_010cf6ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-15T19:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39c7e42b_e1a05ead",
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "47eb0434_d882f3c7",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -167,6 +185,30 @@
       "side": 1,
       "message": "Maybe we could rename the directory to `broker` and in the README explain that this is an example using a broker for the events notification. In this specific case, we are using Kafka as broker implementation.",
       "parentUuid": "81d72652_25834a75",
+      "range": {
+        "startLine": 3,
+        "startChar": 77,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "ddc8bc0024749e4868a240aa504290e05f557de2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58cd982e_eb6f7410",
+        "filename": "example-setup/kafka/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-01-15T19:55:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaad17c7_0cf70519",
       "range": {
         "startLine": 3,
         "startChar": 77,
