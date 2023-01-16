@@ -46,6 +46,30 @@
       },
       "revId": "10e0bd834b0049f3e62556ce6babf14d077d6bbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "804f7147_2030f4ca",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-16T07:45:39Z",
+      "side": 1,
+      "message": "That is generally true ;) but try granting `Access Database` to another group and call `init` again. It will restore the `Access Database` to be granted to `pull-replication` only... AFAIU the same will happen if this capability is granted to some group prior running the `pull-replication` init...",
+      "parentUuid": "b434860c_2bcc1cb7",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 23
+      },
+      "revId": "10e0bd834b0049f3e62556ce6babf14d077d6bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
