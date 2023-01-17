@@ -70,6 +70,30 @@
       },
       "revId": "10e0bd834b0049f3e62556ce6babf14d077d6bbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a70a3c2_d1595a63",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-17T08:09:32Z",
+      "side": 1,
+      "message": "oh I see, you make a really good point @geminica.programs@gmail.com\nThis is indeed the case.\nWe should be preserving _other_ groups that have already been assigned the capability.\n\nThanks for pointing this out!",
+      "parentUuid": "804f7147_2030f4ca",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 23
+      },
+      "revId": "10e0bd834b0049f3e62556ce6babf14d077d6bbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
