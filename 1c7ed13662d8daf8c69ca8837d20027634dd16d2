@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b04d35f_3ebfd26e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155298
+      },
+      "writtenOn": "2023-01-19T11:51:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ea83e12f_7f152af8",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "1c7ed13662d8daf8c69ca8837d20027634dd16d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5abb0540_6f1393c9",

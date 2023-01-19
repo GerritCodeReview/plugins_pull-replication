@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7348758_c2bbe85c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1155298
+      },
+      "writtenOn": "2023-01-19T11:51:51Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "4cc65c8b_9b9d863c",
+      "range": {
+        "startLine": 209,
+        "startChar": 8,
+        "endLine": 209,
+        "endChar": 70
+      },
+      "revId": "4be1793c37ef9c09f66a5fca5853008b13765183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e83a21e_634cb1cb",
@@ -85,6 +109,30 @@
       "side": 0,
       "message": "same as above receiver is not returning conflict code anymore because it is triggering fetch command when parent object is missing",
       "parentUuid": "4e83a21e_634cb1cb",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 3
+      },
+      "revId": "4be1793c37ef9c09f66a5fca5853008b13765183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f0497e4_44514b12",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1155298
+      },
+      "writtenOn": "2023-01-19T11:51:51Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "901ca2e8_4335d1a9",
       "range": {
         "startLine": 219,
         "startChar": 0,
