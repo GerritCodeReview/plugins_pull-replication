@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d93c53b_50dbff7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-19T06:00:04Z",
+      "side": 1,
+      "message": "Tony feel free to either address or ignore the nit that I have raised ;)",
+      "revId": "21a3ffe15e8d9887d2cfb33b3b7204beaac019d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "913fd8b5_9d47bf42",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-01-19T06:00:04Z",
+      "side": 1,
+      "message": "nit: considering that\n```\nArrays.stream(groupsWithAccessDatabase).collect(Collectors.toList())\n```\nproduces the mutable list one could rewrite it to\n```\n      List\u003cString\u003e groups \u003d Arrays.stream(groupsWithAccessDatabase).collect(Collectors.toList());\n      groups.add(pullReplicationGroup);\n      cfg.setStringList(CAPABILITY_SECTION, null, GlobalCapability.ACCESS_DATABASE, groups);\n```\nwhich is not a one-liner but still shorter than what you have 😄 WDYT?",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 45
+      },
+      "revId": "21a3ffe15e8d9887d2cfb33b3b7204beaac019d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
