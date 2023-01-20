@@ -26,10 +26,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
-import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
-import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
@@ -62,10 +58,6 @@ public class DeleteRefCommandTest {
   @Mock private ProjectCache projectCache;
   @Mock private ApplyObject applyObject;
   @Mock private ProjectState projectState;
-  @Mock private PermissionBackend permissionBackend;
-  @Mock private WithUser currentUser;
-  @Mock private ForProject forProject;
-  @Mock private ForRef forRef;
   @Mock private LocalDiskRepositoryManager gitManager;
   @Mock private RefUpdate refUpdate;
   @Mock private Repository repository;
@@ -79,9 +71,6 @@ public class DeleteRefCommandTest {
   public void setup() throws Exception {
     when(eventDispatcherDataItem.get()).thenReturn(eventDispatcher);
     when(projectCache.get(any())).thenReturn(Optional.of(projectState));
-    when(permissionBackend.currentUser()).thenReturn(currentUser);
-    when(currentUser.project(any())).thenReturn(forProject);
-    when(forProject.ref(any())).thenReturn(forRef);
     when(gitManager.openRepository(any())).thenReturn(repository);
     when(repository.updateRef(any())).thenReturn(refUpdate);
     when(repository.getRefDatabase()).thenReturn(refDb);
@@ -93,7 +82,6 @@ public class DeleteRefCommandTest {
             fetchStateLog,
             projectCache,
             applyObject,
-            permissionBackend,
             eventDispatcherDataItem,
             new LocalGitRepositoryManagerProvider(gitManager));
   }
