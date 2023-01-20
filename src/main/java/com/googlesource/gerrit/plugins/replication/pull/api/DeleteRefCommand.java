@@ -49,7 +49,6 @@ public class DeleteRefCommand {
   private final ApplyObject applyObject;
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
-  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager gitManager;
 
   @Inject
@@ -57,14 +56,12 @@ public class DeleteRefCommand {
       PullReplicationStateLogger fetchStateLog,
       ProjectCache projectCache,
       ApplyObject applyObject,
-      PermissionBackend permissionBackend,
       DynamicItem<EventDispatcher> eventDispatcher,
       LocalGitRepositoryManagerProvider gitManagerProvider) {
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
     this.applyObject = applyObject;
     this.eventDispatcher = eventDispatcher;
-    this.permissionBackend = permissionBackend;
     this.gitManager = gitManagerProvider.get();
   }
 
@@ -78,12 +75,12 @@ public class DeleteRefCommand {
       }
 
       try {
-        projectState.get().checkStatePermitsWrite();
-        permissionBackend
-            .currentUser()
-            .project(projectState.get().getNameKey())
-            .ref(refName)
-            .check(RefPermission.DELETE);
+//        projectState.get().checkStatePermitsWrite();
+//        permissionBackend
+//            .currentUser()
+//            .project(projectState.get().getNameKey())
+//            .ref(refName)
+//            .check(RefPermission.DELETE);
 
         Context.setLocalEvent(true);
         deleteRef(name, refName);

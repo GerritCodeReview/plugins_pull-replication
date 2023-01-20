@@ -14,18 +14,13 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.acceptance.GitUtil.fetch;
-import static com.google.gerrit.acceptance.GitUtil.pushOne;
-import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -40,6 +35,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -51,6 +48,11 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Test;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.acceptance.GitUtil.pushOne;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 @SkipProjectClone
 @UseLocalDisk
@@ -381,5 +383,65 @@ public class PullReplicationIT extends PullReplicationSetupBase {
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
     }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldReplicateDeleteBranch() throws Exception {
+    // test start with a original project created
+
+    // create second project
+    String testProjectName = project + TEST_REPLICATION_SUFFIX;
+    createTestProject(testProjectName);
+
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+
+    //create branch in the second project
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(testProjectName).branch(newBranch).create(input);
+    String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+
+    // create event: create branch in the original project
+    GitReferenceUpdatedListener.Event createRefEvent =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            ReceiveCommand.Type.CREATE);
+    pullReplicationQueue.onGitReferenceUpdated(createRefEvent);
+
+    // check new branch in the original project
+    try (Repository repo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, newBranch) != null);
+    }
+
+    // delete branch in the second project
+    gApi.projects().name(testProjectName).branch(newBranch).delete();
+
+    // create event: delete branch in the original project
+    GitReferenceUpdatedListener.Event deleteRefEvent =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            ReceiveCommand.Type.DELETE);
+    pullReplicationQueue.onGitReferenceUpdated(deleteRefEvent);
+
+    // check branch deleted in the original project
+    try (Repository repo = repoManager.openRepository(project)) {
+            waitUntil(() -> checkedGetRef(repo, newBranch) == null);
+            Ref targetBranchRef = getRef(repo, newBranch);
+            assertThat(targetBranchRef).isNull();
+    }
+
+    TimeUnit.SECONDS.sleep(1); // WHY with this work? and without it does not when PullReplicationAsyncIT
   }
 }
