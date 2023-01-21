@@ -9,6 +9,7 @@ gerrit_plugin(
         "Implementation-URL: https://gerrit-review.googlesource.com/#/admin/projects/plugins/pull-replication",
         "Gerrit-PluginName: pull-replication",
         "Gerrit-Module: com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
+        "Gerrit-InitStep: com.googlesource.gerrit.plugins.replication.pull.InitPlugin",
         "Gerrit-SshModule: com.googlesource.gerrit.plugins.replication.pull.SshModule",
         "Gerrit-HttpModule: com.googlesource.gerrit.plugins.replication.pull.api.HttpModule",
     ],
