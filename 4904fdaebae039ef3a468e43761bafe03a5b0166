@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90ad133c_fa7ef243",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-21T11:39:49Z",
+      "side": 1,
+      "message": "please, let me test stable-3.5 in aws-gerrit before you submit",
+      "revId": "4904fdaebae039ef3a468e43761bafe03a5b0166",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
