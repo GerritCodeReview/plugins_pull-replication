@@ -16,5 +16,8 @@ function setup_gerrit_config {
 setup_replication_config
 setup_gerrit_config
 
+echo "Init phase..."
+java -jar /var/gerrit/bin/gerrit.war init --no-auto-start --batch --install-all-plugins -d /var/gerrit
+
 echo "Running Gerrit ..."
 exec /var/gerrit/bin/gerrit.sh run
