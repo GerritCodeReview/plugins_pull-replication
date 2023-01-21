@@ -39,6 +39,30 @@
       },
       "revId": "21a3ffe15e8d9887d2cfb33b3b7204beaac019d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7237882_fb9cc026",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/InitPlugin.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-21T10:34:34Z",
+      "side": 1,
+      "message": "Sorry, it took me so long to reply to this @geminica.programs@gmail.com.\n\nIt\u0027s a nice suggestion, especially because we could drop the `ArrayUtils` import.\nWhat I don\u0027t like about it, however, is that it cannot inlined, since `List.add` returns a boolean and does not mutate the list itself.\n\ngiven this is a nit, I\u0027ll stick to the current implementation.\nThanks for reviewing!",
+      "parentUuid": "913fd8b5_9d47bf42",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 45
+      },
+      "revId": "21a3ffe15e8d9887d2cfb33b3b7204beaac019d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
