@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e98f536_b8bbd891",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-23T13:38:15Z",
+      "side": 1,
+      "message": "I am sorry i did not see that. Looking the Dockerfile, how can we run the init before lines:\n\n```\nCOPY --chown\u003dgerrit:gerrit pull-replication.jar /var/gerrit/plugins/pull-replication.jar\nCOPY --chown\u003dgerrit:gerrit pull-replication.jar /var/gerrit/lib/pull-replication.jar\n```",
+      "parentUuid": "e2a9f0cb_0579c423",
+      "revId": "5882ad6e4c40477d52c624a4ab30f5e81904e0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cea4810_1c93053a",
