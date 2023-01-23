@@ -52,7 +52,10 @@ public class InitPlugin implements InitStep {
   }
 
   @Override
-  public void run() throws Exception {
+  public void run() {}
+
+  @Override
+  public void postRun() throws Exception {
     ui.header("%s initialization", pluginName);
 
     if (!bearerTokenProvider.get().isPresent()) {
