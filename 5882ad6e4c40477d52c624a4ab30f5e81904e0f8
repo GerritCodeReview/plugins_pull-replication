@@ -33,6 +33,23 @@
       "message": "If we add the init in the entrypoint, I think we would have to remove it from the Dockerfile [1].\n\n[1]: https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/example-setup/http/Dockerfile#9",
       "revId": "5882ad6e4c40477d52c624a4ab30f5e81904e0f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cea4810_1c93053a",
+        "filename": "example-setup/entrypoint.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-23T13:11:52Z",
+      "side": 1,
+      "message": "I guess the All-* repositories will be in sync at some point even if we run a sync on both nodes.\n\nHowever, I think you will have to add a reindex at startup for the replica indexes.\nReplicas only have \"group indexes\", but they still have some.",
+      "revId": "5882ad6e4c40477d52c624a4ab30f5e81904e0f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
