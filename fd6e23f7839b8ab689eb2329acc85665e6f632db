@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e41d0627_2b9380b0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-01-24T09:00:51Z",
+      "side": 1,
+      "message": "Could we have the situation that we have create and delete ref in the same batch event? If yes, how we handle that?",
+      "revId": "fd6e23f7839b8ab689eb2329acc85665e6f632db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
