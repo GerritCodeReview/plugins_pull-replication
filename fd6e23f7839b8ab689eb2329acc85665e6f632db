@@ -16,6 +16,52 @@
       "message": "Could we have the situation that we have create and delete ref in the same batch event? If yes, how we handle that?",
       "revId": "fd6e23f7839b8ab689eb2329acc85665e6f632db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdbbbdbe_bc953d2b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-24T10:41:38Z",
+      "side": 1,
+      "message": "Is it ok to totally discard the `GitReferenceUpdated` events?\n\nIs there any case where we will send a `GitReferenceUpdated` and NOT a `GitBatchRefUpdate` one?",
+      "range": {
+        "startLine": 126,
+        "startChar": 30,
+        "endLine": 126,
+        "endChar": 55
+      },
+      "revId": "fd6e23f7839b8ab689eb2329acc85665e6f632db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1be9f7bc_2d4549a4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-24T10:41:38Z",
+      "side": 1,
+      "message": "Why not sorting on the `eventCreatedOn` field? Or a combination of `eventCreatedOn` + `refName`?",
+      "range": {
+        "startLine": 152,
+        "startChar": 9,
+        "endLine": 152,
+        "endChar": 75
+      },
+      "revId": "fd6e23f7839b8ab689eb2329acc85665e6f632db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
