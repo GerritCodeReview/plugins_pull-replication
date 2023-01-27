@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eea4d8f3_4e62ffcf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-27T08:46:10Z",
+      "side": 1,
+      "message": "You *do not have* to manage both, otherwise you\u0027ll process the same events twice.",
+      "parentUuid": "bdbbbdbe_bc953d2b",
+      "range": {
+        "startLine": 126,
+        "startChar": 30,
+        "endLine": 126,
+        "endChar": 55
+      },
+      "revId": "fd6e23f7839b8ab689eb2329acc85665e6f632db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1be9f7bc_2d4549a4",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-01-24T10:41:38Z",
       "side": 1,
       "message": "Why not sorting on the `eventCreatedOn` field? Or a combination of `eventCreatedOn` + `refName`?",
+      "range": {
+        "startLine": 152,
+        "startChar": 9,
+        "endLine": 152,
+        "endChar": 75
+      },
+      "revId": "fd6e23f7839b8ab689eb2329acc85665e6f632db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7def5f7_145fe8dd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-01-27T08:46:10Z",
+      "side": 1,
+      "message": "Let me check.",
+      "parentUuid": "1be9f7bc_2d4549a4",
       "range": {
         "startLine": 152,
         "startChar": 9,
