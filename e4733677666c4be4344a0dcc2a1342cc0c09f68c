@@ -93,6 +93,30 @@
       },
       "revId": "e4733677666c4be4344a0dcc2a1342cc0c09f68c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2d132ce_2eafd06a",
+        "filename": "example-setup/broker/docker-compose.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-27T16:53:28Z",
+      "side": 1,
+      "message": "Are you sure this is working as expected?\n\nas far as I know the `depends_on` only ensures dependency run order, but not _build order_.\n\nI believe gerrit2 will depend on the _previous_ version of `pull-replication-broker` when one exists and it will fail if the image does not exist yet.\n\nIf I ensure no `gerrit-pull-replication-broker` exists, I get:\n\n```\n[+] Running 0/2\n ⠿ gerrit2 Error                                                                                                                                                                                                                                                                                                                                                       1.8s\n ⠿ gerrit1 Error                                                                                                                                                                                                                                                                                                                                                       1.8s\nError response from daemon: pull access denied for gerrit-pull-replication, repository does not exist or may require \u0027docker login\u0027: denied: requested access to the resource is denied\n```",
+      "parentUuid": "ff5a6eab_3836cd1c",
+      "range": {
+        "startLine": 23,
+        "startChar": 11,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "e4733677666c4be4344a0dcc2a1342cc0c09f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
