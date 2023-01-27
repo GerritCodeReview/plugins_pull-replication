@@ -1,6 +1,6 @@
 [gerrit]
     autoReload = true
-    replicateOnStartup = false
+    replicateOnStartup = $REPLICA_ON_STARTUP
 [replication]
     excludeRefs = ^refs/users/\\d\\d/\\d+/edit-\\d+/\\d+$
     lockErrorMaxRetries = 5
