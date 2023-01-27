@@ -1,7 +1,9 @@
 version: '3'
 services:
   gerrit1:
-    build: .
+    image: gerrit-pull-replication-broker
+    build:
+      context: .
     environment:
       - INSTANCE_ID=primary
       - REPLICA=false
@@ -17,7 +19,7 @@ services:
     depends_on:
       - broker
   gerrit2:
-    build: .
+    image: gerrit-pull-replication-broker
     environment:
       - INSTANCE_ID=replica-1
       - REPLICA=true
