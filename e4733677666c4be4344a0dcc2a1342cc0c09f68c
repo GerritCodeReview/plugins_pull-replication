@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eed2d49_7de85104",
+        "filename": "example-setup/broker/configs/replication.config.template",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-27T16:39:05Z",
+      "side": 1,
+      "message": "nit: should this be named REPLICATE_ON_STARTUP, accordingly?",
+      "range": {
+        "startLine": 3,
+        "startChar": 26,
+        "endLine": 3,
+        "endChar": 44
+      },
+      "revId": "e4733677666c4be4344a0dcc2a1342cc0c09f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18237b96_8f8a09f5",
+        "filename": "example-setup/broker/docker-compose.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-01-27T16:39:05Z",
+      "side": 1,
+      "message": "where is this image being generated?",
+      "range": {
+        "startLine": 23,
+        "startChar": 11,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "e4733677666c4be4344a0dcc2a1342cc0c09f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
