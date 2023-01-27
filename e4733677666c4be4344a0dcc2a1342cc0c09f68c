@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc7305ea_8f75c4c7",
+        "filename": "example-setup/broker/configs/replication.config.template",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-27T16:41:57Z",
+      "side": 1,
+      "message": "i will, thanks",
+      "parentUuid": "8eed2d49_7de85104",
+      "range": {
+        "startLine": 3,
+        "startChar": 26,
+        "endLine": 3,
+        "endChar": 44
+      },
+      "revId": "e4733677666c4be4344a0dcc2a1342cc0c09f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "18237b96_8f8a09f5",
         "filename": "example-setup/broker/docker-compose.yaml",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2023-01-27T16:39:05Z",
       "side": 1,
       "message": "where is this image being generated?",
+      "range": {
+        "startLine": 23,
+        "startChar": 11,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "e4733677666c4be4344a0dcc2a1342cc0c09f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff5a6eab_3836cd1c",
+        "filename": "example-setup/broker/docker-compose.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-27T16:41:57Z",
+      "side": 1,
+      "message": "this image is generated above by the section:\n```\n    image: gerrit-pull-replication-broker\n    build:\n      context: .\n```\nThe point here is to build only one image and use it.",
+      "parentUuid": "18237b96_8f8a09f5",
       "range": {
         "startLine": 23,
         "startChar": 11,
