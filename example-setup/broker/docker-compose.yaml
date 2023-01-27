@@ -1,7 +1,9 @@
 version: '3'
 services:
   gerrit1:
-    build: .
+    image: gerrit-pull-replication-broker
+    build:
+      context: .
     environment:
       - INSTANCE_ID=primary
       - REPLICA=false
@@ -10,6 +12,7 @@ services:
       - DEBUG_PORT=5005
       - BROKER_HOST=broker
       - BROKER_PORT=9092
+      - REPLICATE_ON_STARTUP=false
     ports:
       - "8080:8080"
       - "29418:29418"
@@ -17,7 +20,7 @@ services:
     depends_on:
       - broker
   gerrit2:
-    build: .
+    image: gerrit-pull-replication-broker
     environment:
       - INSTANCE_ID=replica-1
       - REPLICA=true
@@ -26,6 +29,7 @@ services:
       - DEBUG_PORT=5006
       - BROKER_HOST=broker
       - BROKER_PORT=9092
+      - REPLICATE_ON_STARTUP=true
     ports:
       - "8081:8080"
       - "29419:29418"
