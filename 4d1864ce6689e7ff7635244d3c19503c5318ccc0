@@ -16,6 +16,46 @@
       "message": "This is now ready for review.",
       "revId": "4d1864ce6689e7ff7635244d3c19503c5318ccc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1561a704_89ab1eb8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-30T18:14:14Z",
+      "side": 1,
+      "message": "What about using `Boolean.comapare` instead of `int`?\n\n```\n.sorted((a,b) -\u003e Boolean.compare(RefNames.isNoteDbMetaRef(a.getRefName()), RefNames.isNoteDbMetaRef(b.getRefName())))\n```",
+      "range": {
+        "startLine": 152,
+        "startChar": 16,
+        "endLine": 152,
+        "endChar": 53
+      },
+      "revId": "4d1864ce6689e7ff7635244d3c19503c5318ccc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4595f4b8_28e755c8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-30T18:14:14Z",
+      "side": 1,
+      "message": "Might be worth adding a test where TestEvent is like: `new TestEvent(\"refs/changes/01/1/1\", \"refs/changes/01/1/meta\");`",
+      "revId": "4d1864ce6689e7ff7635244d3c19503c5318ccc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
