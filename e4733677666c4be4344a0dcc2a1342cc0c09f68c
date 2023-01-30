@@ -165,6 +165,30 @@
       },
       "revId": "e4733677666c4be4344a0dcc2a1342cc0c09f68c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2db2c9c6_8d785328",
+        "filename": "example-setup/broker/docker-compose.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-30T08:34:26Z",
+      "side": 1,
+      "message": "@syntonyze@gmail.com I have reverted the changes related with this conversation. Maybe it is worth to do another change and not block the rest of the changes.",
+      "parentUuid": "beb2b577_23424d65",
+      "range": {
+        "startLine": 23,
+        "startChar": 11,
+        "endLine": 23,
+        "endChar": 41
+      },
+      "revId": "e4733677666c4be4344a0dcc2a1342cc0c09f68c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
