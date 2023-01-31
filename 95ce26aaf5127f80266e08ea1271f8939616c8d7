@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a45989a_88cc55ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-31T08:17:49Z",
+      "side": 1,
+      "message": "I\u0027d keep this in a separate change.",
+      "revId": "95ce26aaf5127f80266e08ea1271f8939616c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e07f2b0d_1e43225f",
@@ -14,6 +31,57 @@
       "writtenOn": "2023-01-30T08:34:26Z",
       "side": 1,
       "message": "Please, review this again.",
+      "revId": "95ce26aaf5127f80266e08ea1271f8939616c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "408c61e6_749459d1",
+        "filename": "example-setup/broker/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-31T08:17:49Z",
+      "side": 1,
+      "message": "I would keep this in a separate change.",
+      "revId": "95ce26aaf5127f80266e08ea1271f8939616c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efbad142_8e561009",
+        "filename": "example-setup/broker/docker-compose.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-31T08:17:49Z",
+      "side": 1,
+      "message": "nit: It might be clearer adding a separate service just to build the base image.\n\n```\nservices:\n  base:\n    image: gerrit-pull-replication-broker\n    build:\n      context: .\n  gerrit1:\n   depends_on:\n     - base\n  gerrit2:\n   depends_on:\n     - base\n\n```\n\nAs it is at the moment `gerrit2` relies on an image built by `gerrit1`. I don\u0027t think it is a big deal in this case since the docker-compose won\u0027t grow that much.",
+      "revId": "95ce26aaf5127f80266e08ea1271f8939616c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31065419_17858d63",
+        "filename": "example-setup/http/docker-compose.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-01-31T08:17:49Z",
+      "side": 1,
+      "message": "Why are we using a different pattern to build the image compared to the `broker` version?",
       "revId": "95ce26aaf5127f80266e08ea1271f8939616c8d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
