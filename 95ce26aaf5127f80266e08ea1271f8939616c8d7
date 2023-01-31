@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05f53dfd_7ea1c419",
+        "filename": "example-setup/broker/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-31T08:26:16Z",
+      "side": 1,
+      "message": "I disagree because this is not prod code and is just for testing but i am fine to take it out from the change.",
+      "parentUuid": "408c61e6_749459d1",
+      "revId": "95ce26aaf5127f80266e08ea1271f8939616c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "efbad142_8e561009",
         "filename": "example-setup/broker/docker-compose.yaml",
         "patchSetId": 6
@@ -71,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2b8517b5_bf1abe7d",
+        "filename": "example-setup/broker/docker-compose.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-31T08:26:16Z",
+      "side": 1,
+      "message": "I tried to leave it as it was before,\nmaybe with the rush I made a mistske.",
+      "parentUuid": "efbad142_8e561009",
+      "revId": "95ce26aaf5127f80266e08ea1271f8939616c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31065419_17858d63",
         "filename": "example-setup/http/docker-compose.yaml",
         "patchSetId": 6
@@ -82,6 +118,24 @@
       "writtenOn": "2023-01-31T08:17:49Z",
       "side": 1,
       "message": "Why are we using a different pattern to build the image compared to the `broker` version?",
+      "revId": "95ce26aaf5127f80266e08ea1271f8939616c8d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c20fe117_ef034cba",
+        "filename": "example-setup/http/docker-compose.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-01-31T08:26:16Z",
+      "side": 1,
+      "message": "Probably I screwed out because the rush. the intention is leave everything as it was",
+      "parentUuid": "31065419_17858d63",
       "revId": "95ce26aaf5127f80266e08ea1271f8939616c8d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
