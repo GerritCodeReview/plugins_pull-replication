@@ -20,7 +20,7 @@ import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
@@ -65,7 +65,7 @@ import org.slf4j.LoggerFactory;
 public class ReplicationQueue
     implements ObservableQueue,
         LifecycleListener,
-        GitReferenceUpdatedListener,
+        GitBatchRefUpdateListener,
         ProjectDeletedListener,
         HeadUpdatedListener {
 
@@ -147,17 +147,24 @@ public class ReplicationQueue
   }
 
   @Override
-  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
-    if (isRefToBeReplicated(event.getRefName())) {
-      repLog.info(
-          "Ref event received: {} on project {}:{} - {} => {}",
-          refUpdateType(event),
-          event.getProjectName(),
-          event.getRefName(),
-          event.getOldObjectId(),
-          event.getNewObjectId());
-      fire(ReferenceUpdatedEvent.from(event));
-    }
+  public void onGitBatchRefUpdate(GitBatchRefUpdateListener.Event event) {
+    event.getUpdatedRefs().stream()
+        .sorted(ReplicationQueue::sortByMetaRefAsLast)
+        .forEachOrdered(
+            updateRef -> {
+              String refName = updateRef.getRefName();
+
+              if (isRefToBeReplicated(refName)) {
+                repLog.info(
+                    "Ref event received: {} on project {}:{} - {} => {}",
+                    refUpdateType(updateRef),
+                    event.getProjectName(),
+                    refName,
+                    updateRef.getOldObjectId(),
+                    updateRef.getNewObjectId());
+                fire(ReferenceUpdatedEvent.from(event.getProjectName(), updateRef));
+              }
+            });
   }
 
   @Override
@@ -170,11 +177,17 @@ public class ReplicationQueue
                 source.getApis().forEach(apiUrl -> source.scheduleDeleteProject(apiUrl, project)));
   }
 
-  private static String refUpdateType(GitReferenceUpdatedListener.Event event) {
-    String forcedPrefix = event.isNonFastForward() ? "FORCED " : " ";
-    if (event.isCreate()) {
+  private static int sortByMetaRefAsLast(UpdatedRef a, @SuppressWarnings("unused") UpdatedRef b) {
+    repLog.info("sortByMetaRefAsLast(" + a.getRefName() + " <=> " + b.getRefName());
+    return Boolean.compare(
+        RefNames.isNoteDbMetaRef(a.getRefName()), RefNames.isNoteDbMetaRef(b.getRefName()));
+  }
+
+  private static String refUpdateType(UpdatedRef updateRef) {
+    String forcedPrefix = updateRef.isNonFastForward() ? "FORCED " : " ";
+    if (updateRef.isCreate()) {
       return forcedPrefix + "CREATE";
-    } else if (event.isDelete()) {
+    } else if (updateRef.isDelete()) {
       return forcedPrefix + "DELETE";
     } else {
       return forcedPrefix + "UPDATE";
@@ -518,12 +531,12 @@ public class ReplicationQueue
           projectName, refName, objectId, isDelete);
     }
 
-    static ReferenceUpdatedEvent from(GitReferenceUpdatedListener.Event event) {
+    static ReferenceUpdatedEvent from(String projectName, UpdatedRef updateRef) {
       return ReferenceUpdatedEvent.create(
-          event.getProjectName(),
-          event.getRefName(),
-          ObjectId.fromString(event.getNewObjectId()),
-          event.isDelete());
+          projectName,
+          updateRef.getRefName(),
+          ObjectId.fromString(updateRef.getNewObjectId()),
+          updateRef.isDelete());
     }
 
     public abstract String projectName();
