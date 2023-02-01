@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a518032_104ee946",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-02-01T09:30:56Z",
+      "side": 1,
+      "message": "\u003e I would still keep the function with a meaningful name though, as it would be more self-documenting what is supposed to do.\n\nTotally, makes sense.",
+      "parentUuid": "29d39d8d_a1b6eadb",
+      "range": {
+        "startLine": 152,
+        "startChar": 16,
+        "endLine": 152,
+        "endChar": 53
+      },
+      "revId": "4d1864ce6689e7ff7635244d3c19503c5318ccc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4595f4b8_28e755c8",
@@ -78,6 +102,24 @@
       "writtenOn": "2023-01-30T18:14:14Z",
       "side": 1,
       "message": "Might be worth adding a test where TestEvent is like: `new TestEvent(\"refs/changes/01/1/1\", \"refs/changes/01/1/meta\");`",
+      "revId": "4d1864ce6689e7ff7635244d3c19503c5318ccc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acb67b9b_2af74b2f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-02-01T09:30:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4595f4b8_28e755c8",
       "revId": "4d1864ce6689e7ff7635244d3c19503c5318ccc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
