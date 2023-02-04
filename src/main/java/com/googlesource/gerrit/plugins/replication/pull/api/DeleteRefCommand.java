@@ -23,9 +23,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -36,7 +34,6 @@ import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogg
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
-import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
 import java.util.Optional;
@@ -49,11 +46,9 @@ public class DeleteRefCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PullReplicationStateLogger fetchStateLog;
-  private final ApplyObject applyObject;
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
   private final SourcesCollection sourcesCollection;
-  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager gitManager;
 
   @Inject
@@ -61,16 +56,12 @@ public class DeleteRefCommand {
       PullReplicationStateLogger fetchStateLog,
       ProjectCache projectCache,
       SourcesCollection sourcesCollection,
-      ApplyObject applyObject,
-      PermissionBackend permissionBackend,
       DynamicItem<EventDispatcher> eventDispatcher,
       LocalGitRepositoryManagerProvider gitManagerProvider) {
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
-    this.applyObject = applyObject;
     this.eventDispatcher = eventDispatcher;
     this.sourcesCollection = sourcesCollection;
-    this.permissionBackend = permissionBackend;
     this.gitManager = gitManagerProvider.get();
   }
 
@@ -93,12 +84,6 @@ public class DeleteRefCommand {
       URIish sourceUri = source.getURI(name);
 
       try {
-        projectState.get().checkStatePermitsWrite();
-        permissionBackend
-            .currentUser()
-            .project(projectState.get().getNameKey())
-            .ref(refName)
-            .check(RefPermission.DELETE);
 
         Context.setLocalEvent(true);
         deleteRef(name, refName);

@@ -15,8 +15,8 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
@@ -68,7 +67,6 @@ public class DeleteRefCommandTest {
   @Mock private ProjectState projectState;
   @Mock private SourcesCollection sourceCollection;
   @Mock private Source source;
-  @Mock private PermissionBackend permissionBackend;
   @Mock private WithUser currentUser;
   @Mock private ForProject forProject;
   @Mock private ForRef forRef;
@@ -88,9 +86,6 @@ public class DeleteRefCommandTest {
     when(sourceCollection.getByRemoteName(TEST_SOURCE_LABEL)).thenReturn(Optional.of(source));
     TEST_REMOTE_URI = new URIish("git://some.remote.uri");
     when(source.getURI(TEST_PROJECT_NAME)).thenReturn(TEST_REMOTE_URI);
-    when(permissionBackend.currentUser()).thenReturn(currentUser);
-    when(currentUser.project(any())).thenReturn(forProject);
-    when(forProject.ref(any())).thenReturn(forRef);
     when(gitManager.openRepository(any())).thenReturn(repository);
     when(repository.updateRef(any())).thenReturn(refUpdate);
     when(repository.getRefDatabase()).thenReturn(refDb);
@@ -102,8 +97,6 @@ public class DeleteRefCommandTest {
             fetchStateLog,
             projectCache,
             sourceCollection,
-            applyObject,
-            permissionBackend,
             eventDispatcherDataItem,
             new LocalGitRepositoryManagerProvider(gitManager));
   }
