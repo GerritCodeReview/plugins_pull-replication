@@ -23,7 +23,6 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Arrays;
 import java.util.Collection;
@@ -60,16 +59,9 @@ public class PullReplicationGroupBackend extends AbstractGroupBackend {
           return null;
         }
       };
-  private final PullReplicationInternalUser internalUser;
-
   static final ListGroupMembership INTERNAL_GROUP_MEMBERSHIP =
       new ListGroupMembership(
           Arrays.asList(INTERNAL_GROUP_UUID, SystemGroupBackend.ANONYMOUS_USERS));
-
-  @Inject
-  public PullReplicationGroupBackend(PullReplicationInternalUser internalUser) {
-    this.internalUser = internalUser;
-  }
 
   @Override
   public boolean handles(AccountGroup.UUID uuid) {
@@ -90,7 +82,7 @@ public class PullReplicationGroupBackend extends AbstractGroupBackend {
 
   @Override
   public GroupMembership membershipsOf(CurrentUser user) {
-    if (user.equals(internalUser)) {
+    if (user instanceof PullReplicationInternalUser) {
       return INTERNAL_GROUP_MEMBERSHIP;
     }
 
