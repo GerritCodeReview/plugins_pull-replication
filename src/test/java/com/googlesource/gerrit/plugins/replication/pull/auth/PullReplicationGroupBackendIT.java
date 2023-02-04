@@ -23,12 +23,16 @@ import static com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicat
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
+import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.Collection;
+import java.util.Set;
 import org.junit.Test;
 
 @SkipProjectClone
@@ -73,6 +77,32 @@ public class PullReplicationGroupBackendIT extends LightweightPluginDaemonTest {
   @Test
   public void pullReplicationInternalUserShouldHaveEffectiveGroups() {
     assertMemberOfInternalAndAnonymousUsers(getPullReplicationInternalUser().getEffectiveGroups());
+  }
+
+  @Test
+  public void pullReplicationInternalUserShouldBePartOfNestedGroups() throws RestApiException {
+    String parentGroupName = "parentGroupName";
+    createGroup(parentGroupName);
+
+    GroupMembership userMembership = groupBackend.membershipsOf(getPullReplicationInternalUser());
+    assertThat(userMembership.contains(groupUuid(parentGroupName))).isTrue();
+  }
+
+  @Test
+  public void pullReplicationInternalUserEffectiveGroupsShouldIncludeNestedGroups()
+      throws RestApiException {
+    String parentGroupName = "parentGroupName";
+    createGroup(parentGroupName);
+
+    Set<UUID> internalUserEffectiveGroups =
+        getPullReplicationInternalUser().getEffectiveGroups().getKnownGroups();
+
+    assertThat(internalUserEffectiveGroups).contains(groupUuid(parentGroupName));
+  }
+
+  private void createGroup(String groupName) throws RestApiException {
+    GroupInfo groupInfo = gApi.groups().create(groupName).get();
+    gApi.groups().id(groupInfo.id).addGroups(INTERNAL_GROUP_UUID.get());
   }
 
   private CurrentUser getPullReplicationInternalUser() {

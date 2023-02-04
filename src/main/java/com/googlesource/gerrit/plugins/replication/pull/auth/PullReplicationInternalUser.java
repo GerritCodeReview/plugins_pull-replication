@@ -14,22 +14,47 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.auth;
 
+import static com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationGroupBackend.INTERNAL_GROUP_MEMBERSHIP;
+
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.IncludingGroupMembership;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class PullReplicationInternalUser extends PluginUser {
 
+  private final boolean expandGroups;
+  private final String pluginName;
+  private final IncludingGroupMembership.Factory includingGroupMembership;
+
   @Inject
-  protected PullReplicationInternalUser(@PluginName String pluginName) {
+  protected PullReplicationInternalUser(
+      @PluginName String pluginName, IncludingGroupMembership.Factory includingGroupMembership) {
+    this(pluginName, includingGroupMembership, true);
+  }
+
+  private PullReplicationInternalUser(
+      @PluginName String pluginName,
+      IncludingGroupMembership.Factory includingGroupMembership,
+      boolean expandGroups) {
     super(pluginName);
+    this.pluginName = pluginName;
+    this.includingGroupMembership = includingGroupMembership;
+    this.expandGroups = expandGroups;
   }
 
   @Override
   public GroupMembership getEffectiveGroups() {
-    return PullReplicationGroupBackend.INTERNAL_GROUP_MEMBERSHIP;
+    if (expandGroups) {
+      return new GroupMembershipUnion(
+          INTERNAL_GROUP_MEMBERSHIP,
+          includingGroupMembership.create(
+              new PullReplicationInternalUser(pluginName, includingGroupMembership, false)));
+    }
+
+    return INTERNAL_GROUP_MEMBERSHIP;
   }
 }
