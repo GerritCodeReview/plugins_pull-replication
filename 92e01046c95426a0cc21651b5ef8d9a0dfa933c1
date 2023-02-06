@@ -39,6 +39,23 @@
       "message": "I have verified it and it looks like it is working fine.",
       "revId": "92e01046c95426a0cc21651b5ef8d9a0dfa933c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27c82f0b_26c58757",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-02-06T19:47:01Z",
+      "side": 1,
+      "message": "It is working fine for me, but I don\u0027t fully understand the logic of the fix. I will dig into the code to get a better understanding of the GroupBackend.",
+      "revId": "92e01046c95426a0cc21651b5ef8d9a0dfa933c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
