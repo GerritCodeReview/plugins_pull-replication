@@ -13,9 +13,6 @@ function setup_gerrit_config {
   cat /var/gerrit/etc/gerrit.config.template | envsubst > /var/gerrit/etc/gerrit.config
 }
 
-setup_replication_config
-setup_gerrit_config
-
 ARG JAVA_OPTS='--add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED'
 
 echo "Init phase ..."
@@ -23,6 +20,9 @@ java $JAVA_OPTS -jar /var/gerrit/bin/gerrit.war init --batch --install-all-plugi
 
 echo "Reindexing phase ..."
 java $JAVA_OPTS -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit
+
+setup_replication_config
+setup_gerrit_config
 
 echo "Running Gerrit ..."
 exec /var/gerrit/bin/gerrit.sh run
