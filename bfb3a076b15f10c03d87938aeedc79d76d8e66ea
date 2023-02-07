@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aac34fe5_3873612d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-02-07T10:07:27Z",
+      "side": 1,
+      "message": "is this for this special use case? I guess that in a prod environment some init steps might required data from the templated config files.",
+      "revId": "bfb3a076b15f10c03d87938aeedc79d76d8e66ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
