@@ -16,6 +16,24 @@
       "message": "is this for this special use case? I guess that in a prod environment some init steps might required data from the templated config files.",
       "revId": "bfb3a076b15f10c03d87938aeedc79d76d8e66ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f68e3ebd_5a481464",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-02-07T10:18:07Z",
+      "side": 1,
+      "message": "In a prod environment, you would do something similar, as in, you would have the final configuration being applied in a predictable way, i.e.: no init steps should get in the way.",
+      "parentUuid": "aac34fe5_3873612d",
+      "revId": "bfb3a076b15f10c03d87938aeedc79d76d8e66ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
