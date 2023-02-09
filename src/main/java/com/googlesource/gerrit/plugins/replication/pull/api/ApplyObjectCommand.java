@@ -71,13 +71,13 @@ public class ApplyObjectCommand {
   }
 
   public void applyObject(
-      Project.NameKey name, String refName, RevisionData revisionsData, String sourceLabel)
+      Project.NameKey name, String refName, RevisionData revisionsData, String sourceLabel, boolean isForced)
       throws IOException, RefUpdateException, MissingParentObjectException {
-    applyObjects(name, refName, new RevisionData[] {revisionsData}, sourceLabel);
+    applyObjects(name, refName, new RevisionData[] {revisionsData}, sourceLabel, isForced);
   }
 
   public void applyObjects(
-      Project.NameKey name, String refName, RevisionData[] revisionsData, String sourceLabel)
+      Project.NameKey name, String refName, RevisionData[] revisionsData, String sourceLabel, boolean isForced)
       throws IOException, RefUpdateException, MissingParentObjectException {
 
     repLog.info(
@@ -88,7 +88,7 @@ public class ApplyObjectCommand {
         Arrays.toString(revisionsData));
     Timer1.Context<String> context = metrics.start(sourceLabel);
 
-    RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionsData);
+    RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), isForced, revisionsData);
 
     long elapsed = NANOSECONDS.toMillis(context.stop());
 

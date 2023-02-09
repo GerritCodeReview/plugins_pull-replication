@@ -25,10 +25,13 @@ public class RevisionInput {
 
   private RevisionData revisionData;
 
-  public RevisionInput(String label, String refName, RevisionData revisionData) {
+  private boolean isForced;
+
+  public RevisionInput(String label, String refName, RevisionData revisionData, boolean isForced) {
     this.label = label;
     this.refName = refName;
     this.revisionData = revisionData;
+    this.isForced = isForced;
   }
 
   public String getLabel() {
@@ -42,6 +45,8 @@ public class RevisionInput {
   public RevisionData getRevisionData() {
     return revisionData;
   }
+
+  public Boolean isForced() {return isForced;}
 
   public void validate() {
     validate(refName, revisionData);

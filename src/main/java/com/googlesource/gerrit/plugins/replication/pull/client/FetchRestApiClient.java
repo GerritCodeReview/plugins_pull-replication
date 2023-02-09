@@ -174,6 +174,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
       Project.NameKey project,
       String refName,
       boolean isDelete,
+      boolean isForced,
       @Nullable RevisionData revisionData,
       URIish targetUri)
       throws ClientProtocolException, IOException {
@@ -184,7 +185,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     } else {
       requireNull(revisionData, "DELETE ref-updates cannot be associated with a RevisionData");
     }
-    RevisionInput input = new RevisionInput(instanceId, refName, revisionData);
+    RevisionInput input = new RevisionInput(instanceId, refName, revisionData, isForced);
 
     String url = formatUrl(targetUri.toString(), project, "apply-object");
 
@@ -196,10 +197,10 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
 
   @Override
   public HttpResult callSendObjects(
-      NameKey project, String refName, List<RevisionData> revisionData, URIish targetUri)
+      NameKey project, String refName, boolean isForced, List<RevisionData> revisionData, URIish targetUri)
       throws ClientProtocolException, IOException {
     if (revisionData.size() == 1) {
-      return callSendObject(project, refName, false, revisionData.get(0), targetUri);
+      return callSendObject(project, refName, false, isForced, revisionData.get(0), targetUri);
     }
 
     RevisionData[] inputData = new RevisionData[revisionData.size()];
