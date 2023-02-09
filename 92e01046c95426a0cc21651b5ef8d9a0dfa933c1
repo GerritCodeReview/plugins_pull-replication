@@ -56,6 +56,23 @@
       "message": "It is working fine for me, but I don\u0027t fully understand the logic of the fix. I will dig into the code to get a better understanding of the GroupBackend.",
       "revId": "92e01046c95426a0cc21651b5ef8d9a0dfa933c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cf37d34_20176ab3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/auth/PullReplicationGroupBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-02-09T09:29:48Z",
+      "side": 1,
+      "message": "This could possibly be a different change.",
+      "revId": "92e01046c95426a0cc21651b5ef8d9a0dfa933c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
