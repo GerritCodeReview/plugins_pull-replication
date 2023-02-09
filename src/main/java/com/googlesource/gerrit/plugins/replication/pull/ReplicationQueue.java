@@ -160,7 +160,8 @@ public class ReplicationQueue
           event.getProjectName(),
           ObjectId.fromString(event.getNewObjectId()),
           event.getRefName(),
-          event.isDelete());
+          event.isDelete(),
+          event.isNonFastForward());
     }
   }
 
@@ -189,9 +190,10 @@ public class ReplicationQueue
     return !refsFilter.match(refName);
   }
 
-  private void fire(String projectName, ObjectId objectId, String refName, boolean isDelete) {
+  private void fire(
+      String projectName, ObjectId objectId, String refName, boolean isDelete, boolean isForced) {
     ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
-    fire(Project.nameKey(projectName), objectId, refName, isDelete, state);
+    fire(Project.nameKey(projectName), objectId, refName, isDelete, isForced, state);
     state.markAllFetchTasksScheduled();
   }
 
@@ -200,13 +202,14 @@ public class ReplicationQueue
       ObjectId objectId,
       String refName,
       boolean isDelete,
+      boolean isForced,
       ReplicationState state) {
     if (!running) {
       stateLog.warn(
           "Replication plugin did not finish startup before event, event replication is postponed",
           state);
       beforeStartupEventsQueue.add(
-          ReferenceUpdatedEvent.create(project.get(), refName, objectId, isDelete));
+          ReferenceUpdatedEvent.create(project.get(), refName, objectId, isDelete, isForced));
       return;
     }
     ForkJoinPool fetchCallsPool = null;
@@ -214,7 +217,7 @@ public class ReplicationQueue
       fetchCallsPool = new ForkJoinPool(sources.get().getAll().size());
 
       final Consumer<Source> callFunction =
-          callFunction(project, objectId, refName, isDelete, state);
+          callFunction(project, objectId, refName, isDelete, isForced, state);
       fetchCallsPool
           .submit(() -> sources.get().getAll().parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
@@ -237,8 +240,9 @@ public class ReplicationQueue
       ObjectId objectId,
       String refName,
       boolean isDelete,
+      boolean isForced,
       ReplicationState state) {
-    CallFunction call = getCallFunction(project, objectId, refName, isDelete, state);
+    CallFunction call = getCallFunction(project, objectId, refName, isDelete, isForced, state);
 
     return (source) -> {
       boolean callSuccessful;
@@ -264,9 +268,11 @@ public class ReplicationQueue
       ObjectId objectId,
       String refName,
       boolean isDelete,
+      boolean isForced,
       ReplicationState state) {
     if (isDelete) {
-      return ((source) -> callSendObject(source, project, refName, isDelete, null, state));
+      return ((source) ->
+          callSendObject(source, project, refName, isDelete, isForced, null, state));
     }
 
     try {
@@ -281,7 +287,13 @@ public class ReplicationQueue
       if (revisionData.isPresent()) {
         return ((source) ->
             callSendObject(
-                source, project, refName, isDelete, Arrays.asList(revisionData.get()), state));
+                source,
+                project,
+                refName,
+                isDelete,
+                isForced,
+                Arrays.asList(revisionData.get()),
+                state));
       }
     } catch (InvalidObjectIdException | IOException e) {
       stateLog.error(
@@ -300,6 +312,7 @@ public class ReplicationQueue
       Project.NameKey project,
       String refName,
       boolean isDelete,
+      boolean isForced,
       List<RevisionData> revision,
       ReplicationState state)
       throws MissingParentObjectException {
@@ -318,8 +331,8 @@ public class ReplicationQueue
           Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
           HttpResult result =
               isDelete
-                  ? fetchClient.callSendObject(project, refName, isDelete, null, uri)
-                  : fetchClient.callSendObjects(project, refName, revision, uri);
+                  ? fetchClient.callSendObject(project, refName, isDelete, isForced, null, uri)
+                  : fetchClient.callSendObjects(project, refName, isForced, revision, uri);
           boolean resultSuccessful = result.isSuccessful();
           repLog.info(
               "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
@@ -350,7 +363,8 @@ public class ReplicationQueue
                     project,
                     refName,
                     allRevisions);
-                return callSendObject(source, project, refName, isDelete, allRevisions, state);
+                return callSendObject(
+                    source, project, refName, isDelete, isForced, allRevisions, state);
               }
 
               throw new MissingParentObjectException(
@@ -491,7 +505,12 @@ public class ReplicationQueue
       String eventKey = String.format("%s:%s", event.projectName(), event.refName());
       if (!eventsReplayed.contains(eventKey)) {
         repLog.info("Firing pending task {}", event);
-        fire(event.projectName(), event.objectId(), event.refName(), event.isDelete());
+        fire(
+            event.projectName(),
+            event.objectId(),
+            event.refName(),
+            event.isDelete(),
+            event.isForced());
         eventsReplayed.add(eventKey);
       }
     }
@@ -512,9 +531,9 @@ public class ReplicationQueue
   abstract static class ReferenceUpdatedEvent {
 
     static ReferenceUpdatedEvent create(
-        String projectName, String refName, ObjectId objectId, boolean isDelete) {
+        String projectName, String refName, ObjectId objectId, boolean isDelete, boolean isForced) {
       return new AutoValue_ReplicationQueue_ReferenceUpdatedEvent(
-          projectName, refName, objectId, isDelete);
+          projectName, refName, objectId, isDelete, isForced);
     }
 
     public abstract String projectName();
@@ -524,6 +543,8 @@ public class ReplicationQueue
     public abstract ObjectId objectId();
 
     public abstract boolean isDelete();
+
+    public abstract boolean isForced();
   }
 
   @FunctionalInterface

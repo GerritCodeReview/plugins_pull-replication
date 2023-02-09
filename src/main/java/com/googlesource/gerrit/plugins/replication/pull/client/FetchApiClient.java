@@ -49,11 +49,16 @@ public interface FetchApiClient {
       Project.NameKey project,
       String refName,
       boolean isDelete,
+      boolean isForced,
       RevisionData revisionData,
       URIish targetUri)
       throws ClientProtocolException, IOException;
 
   HttpResult callSendObjects(
-      Project.NameKey project, String refName, List<RevisionData> revisionData, URIish targetUri)
+      Project.NameKey project,
+      String refName,
+      boolean isForced,
+      List<RevisionData> revisionData,
+      URIish targetUri)
       throws ClientProtocolException, IOException;
 }

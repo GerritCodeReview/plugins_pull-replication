@@ -42,7 +42,8 @@ public class ApplyObject {
     this.gitManager = gitManagerProvider.get();
   }
 
-  public RefUpdateState apply(Project.NameKey name, RefSpec refSpec, RevisionData[] revisionsData)
+  public RefUpdateState apply(
+      Project.NameKey name, RefSpec refSpec, boolean isForced, RevisionData[] revisionsData)
       throws MissingParentObjectException, IOException {
     try (Repository git = gitManager.openRepository(name)) {
 
@@ -77,7 +78,7 @@ public class ApplyObject {
 
           oi.flush();
 
-          if (commitObject == null) {
+          if (commitObject == null || isForced) {
             // Non-commits must be forced as they do not have a graph associated
             ru.setForceUpdate(true);
           }
