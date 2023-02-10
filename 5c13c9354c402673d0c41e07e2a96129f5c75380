@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f021efa_e4dd2a35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-10T16:26:24Z",
+      "side": 1,
+      "message": "Doesn\u0027t compile for me (but then I see the test fails on the same issue too).",
+      "revId": "5c13c9354c402673d0c41e07e2a96129f5c75380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "882c2d67_f963717d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/RevisionInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-02-10T16:26:24Z",
+      "side": 1,
+      "message": "Why the boolean object not the primitive?",
+      "revId": "5c13c9354c402673d0c41e07e2a96129f5c75380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
