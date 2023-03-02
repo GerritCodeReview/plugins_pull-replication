@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdbb177c_f627e709",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-03-02T10:25:07Z",
+      "side": 1,
+      "message": "Marcin, please, in order to et more context could you add more information in the commit description, i.e the motivation to do this?",
+      "revId": "5c13c9354c402673d0c41e07e2a96129f5c75380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "882c2d67_f963717d",
