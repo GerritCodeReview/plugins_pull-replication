@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "260462a5_5fe7826c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-06T00:45:30Z",
+      "side": 1,
+      "message": "In theory they should be excluded by this line:\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/332779/12/src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java#93",
+      "parentUuid": "6b501160_a79e3867",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "3291465ca1abb942d0fc92ea4e6f8732139ee296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "462171f1_6c4746a0",
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52c404ff_fdd135bf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-06T00:45:30Z",
+      "side": 1,
+      "message": "I agree but if this line is correct:\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/332779/12/src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java#93\n\nWe should skip fetch for the ref deletion",
+      "parentUuid": "aa8eb298_2f3696e5",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "3291465ca1abb942d0fc92ea4e6f8732139ee296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c80a727_76a3b779",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 12
@@ -77,6 +125,24 @@
       "writtenOn": "2022-04-20T09:04:30Z",
       "side": 1,
       "message": "nit: add a note on project deletions and HEAD updates not covered.",
+      "revId": "3291465ca1abb942d0fc92ea4e6f8732139ee296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "399e97a7_522cbf4b",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 12
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-06T00:45:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c80a727_76a3b779",
       "revId": "3291465ca1abb942d0fc92ea4e6f8732139ee296",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
