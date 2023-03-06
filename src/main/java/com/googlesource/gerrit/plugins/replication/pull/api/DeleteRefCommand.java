@@ -35,8 +35,10 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 
@@ -86,6 +88,8 @@ public class DeleteRefCommand {
                     sourceLabel,
                     ReplicationState.RefFetchResult.SUCCEEDED,
                     RefUpdate.Result.FORCED));
+      } catch (RefNotFoundException e) {
+        throw new ResourceNotFoundException(e.getMessage());
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log(
             "Unexpected error while trying to delete ref '%s' on project %s and notifying it",
@@ -119,17 +123,36 @@ public class DeleteRefCommand {
     }
   }
 
-  private RefUpdateState deleteRef(Project.NameKey name, String refName) throws IOException {
+  private Optional<Ref> getRef(Project.NameKey repo, String refName) throws IOException {
+    try (Repository repository = gitManager.openRepository(repo)) {
+      Ref ref = repository.exactRef(refName);
+      return Objects.isNull(ref) ? Optional.empty() : Optional.of(ref);
+    }
+  }
 
+  private RefUpdateState deleteRef(Project.NameKey name, String refName) throws IOException {
     try (Repository repository = gitManager.openRepository(name)) {
+
+      Ref ref = repository.exactRef(refName);
+      if (Objects.isNull(ref)) {
+        throw new RefNotFoundException(name.get(), refName);
+      }
       RefUpdate.Result result;
-      RefUpdate u = repository.updateRef(refName);
-      u.setExpectedOldObjectId(repository.exactRef(refName).getObjectId());
+      RefUpdate u = repository.updateRef(ref.getName());
+      u.setExpectedOldObjectId(ref.getObjectId());
       u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
 
       result = u.delete();
-      return new RefUpdateState(refName, result);
+      return new RefUpdateState(ref.getName(), result);
+    }
+  }
+
+  static class RefNotFoundException extends IllegalStateException {
+    private static final long serialVersionUID = 1L;
+
+    RefNotFoundException(String projectName, String refName) {
+      super(String.format("Unable to find ref %s in project %s", refName, projectName));
     }
   }
 }
