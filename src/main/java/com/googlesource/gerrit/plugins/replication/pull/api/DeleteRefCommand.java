@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
+import static org.eclipse.jgit.lib.RefUpdate.Result.REJECTED_MISSING_OBJECT;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
@@ -32,11 +33,14 @@ import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 
@@ -75,17 +79,18 @@ public class DeleteRefCommand {
       try {
 
         Context.setLocalEvent(true);
-        deleteRef(name, refName);
+        RefUpdate.Result result = deleteRef(name, refName).getResult();
+
+        ReplicationState.RefFetchResult refFetchResult =
+            result.equals(REJECTED_MISSING_OBJECT)
+                ? RefFetchResult.NOT_ATTEMPTED
+                : ReplicationState.RefFetchResult.SUCCEEDED;
 
         eventDispatcher
             .get()
             .postEvent(
                 new FetchRefReplicatedEvent(
-                    name.get(),
-                    refName,
-                    sourceLabel,
-                    ReplicationState.RefFetchResult.SUCCEEDED,
-                    RefUpdate.Result.FORCED));
+                    name.get(), refName, sourceLabel, refFetchResult, result));
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log(
             "Unexpected error while trying to delete ref '%s' on project %s and notifying it",
@@ -122,9 +127,17 @@ public class DeleteRefCommand {
   private RefUpdateState deleteRef(Project.NameKey name, String refName) throws IOException {
 
     try (Repository repository = gitManager.openRepository(name)) {
+
+      Ref ref = repository.exactRef(refName);
+      if (Objects.isNull(ref)) {
+        logger.atWarning().log(
+            "Ref %s doesn't exist for project %s. Deletion failed.", refName, name);
+        return new RefUpdateState(refName, REJECTED_MISSING_OBJECT);
+      }
+
       RefUpdate.Result result;
       RefUpdate u = repository.updateRef(refName);
-      u.setExpectedOldObjectId(repository.exactRef(refName).getObjectId());
+      u.setExpectedOldObjectId(ref.getObjectId());
       u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
 
