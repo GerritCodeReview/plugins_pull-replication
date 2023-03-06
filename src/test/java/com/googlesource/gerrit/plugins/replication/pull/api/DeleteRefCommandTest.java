@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -50,6 +51,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class DeleteRefCommandTest {
   private static final String TEST_SOURCE_LABEL = "test-source-label";
   private static final String TEST_REF_NAME = "refs/changes/01/1/1";
+
+  private static final String NON_EXISTING_REF_NAME = "refs/changes/01/11101/1";
   private static final NameKey TEST_PROJECT_NAME = Project.nameKey("test-project");
 
   @Mock private PullReplicationStateLogger fetchStateLog;
@@ -96,5 +99,14 @@ public class DeleteRefCommandTest {
     FetchRefReplicatedEvent fetchEvent = (FetchRefReplicatedEvent) sentEvent;
     assertThat(fetchEvent.getProjectNameKey()).isEqualTo(TEST_PROJECT_NAME);
     assertThat(fetchEvent.getRefName()).isEqualTo(TEST_REF_NAME);
+  }
+
+  @Test
+  public void shouldHandleNonExistingRef() throws Exception {
+    when(refDb.exactRef(anyString())).thenReturn(null);
+
+    objectUnderTest.deleteRef(TEST_PROJECT_NAME, NON_EXISTING_REF_NAME, TEST_SOURCE_LABEL);
+
+    verify(eventDispatcher, never()).postEvent(any());
   }
 }
