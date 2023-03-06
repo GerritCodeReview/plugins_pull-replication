@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Ref;
@@ -50,6 +51,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class DeleteRefCommandTest {
   private static final String TEST_SOURCE_LABEL = "test-source-label";
   private static final String TEST_REF_NAME = "refs/changes/01/1/1";
+
+  private static final String NON_EXISTING_REF_NAME = "refs/changes/01/11101/1";
   private static final NameKey TEST_PROJECT_NAME = Project.nameKey("test-project");
 
   @Mock private PullReplicationStateLogger fetchStateLog;
@@ -97,5 +100,20 @@ public class DeleteRefCommandTest {
     FetchRefReplicatedEvent fetchEvent = (FetchRefReplicatedEvent) sentEvent;
     assertThat(fetchEvent.getProjectNameKey()).isEqualTo(TEST_PROJECT_NAME);
     assertThat(fetchEvent.getRefName()).isEqualTo(TEST_REF_NAME);
+  }
+
+  @Test
+  public void shouldNotThrowNPEWhenDeletingNonExistingRef() throws Exception {
+    when(refDb.exactRef(anyString())).thenReturn(null);
+
+    objectUnderTest.deleteRef(TEST_PROJECT_NAME, NON_EXISTING_REF_NAME, TEST_SOURCE_LABEL);
+
+    verify(eventDispatcher).postEvent(eventCaptor.capture());
+    Event sentEvent = eventCaptor.getValue();
+    assertThat(sentEvent).isInstanceOf(FetchRefReplicatedEvent.class);
+    FetchRefReplicatedEvent fetchEvent = (FetchRefReplicatedEvent) sentEvent;
+    assertThat(fetchEvent.getProjectNameKey()).isEqualTo(TEST_PROJECT_NAME);
+    assertThat(fetchEvent.getRefName()).isEqualTo(NON_EXISTING_REF_NAME);
+    assertThat(fetchEvent.getStatus()).isEqualTo(RefFetchResult.NOT_ATTEMPTED.toString());
   }
 }

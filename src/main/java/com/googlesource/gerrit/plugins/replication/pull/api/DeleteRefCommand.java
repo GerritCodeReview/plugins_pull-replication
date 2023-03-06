@@ -32,11 +32,15 @@ import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.Objects;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 
 public class DeleteRefCommand {
@@ -88,6 +92,17 @@ public class DeleteRefCommand {
                     sourceLabel,
                     ReplicationState.RefFetchResult.SUCCEEDED,
                     RefUpdate.Result.FORCED));
+      } catch (IllegalStateException e) {
+        eventDispatcher
+            .get()
+            .postEvent(
+                new FetchRefReplicatedEvent(
+                    name.get(),
+                    refName,
+                    sourceLabel,
+                    RefFetchResult.NOT_ATTEMPTED,
+                    Result.REJECTED_MISSING_OBJECT));
+        logger.atWarning().withCause(e).log(e.getMessage());
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log(
             "Unexpected error while trying to delete ref '%s' on project %s and notifying it",
@@ -124,9 +139,16 @@ public class DeleteRefCommand {
   private RefUpdateState deleteRef(Project.NameKey name, String refName) throws IOException {
 
     try (Repository repository = gitManager.openRepository(name)) {
+
+      Ref ref = repository.exactRef(refName);
+      if (Objects.isNull(ref)) {
+        throw new IllegalStateException(
+            String.format("Unable to find ref %s in project %s", refName, name.get()));
+      }
+
       RefUpdate.Result result;
       RefUpdate u = repository.updateRef(refName);
-      u.setExpectedOldObjectId(repository.exactRef(refName).getObjectId());
+      u.setExpectedOldObjectId(ref.getObjectId());
       u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
 
