@@ -18,6 +18,40 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7033c91e_166dff64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-06T15:09:26Z",
+      "side": 1,
+      "message": "Few minors. Main one os the binary file",
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca51f917_dfe53d8b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-06T15:09:26Z",
+      "side": 1,
+      "message": "nit: Extra space",
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20a075d9_950a3599",
@@ -31,6 +65,29 @@
       "writtenOn": "2023-03-06T08:16:09Z",
       "side": 1,
       "message": "This is a good improvement, but believe it\u0027s unrelated? Happy for it to go in with this change, was just pointing it out.",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19d46084_5f0ae512",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-06T15:09:26Z",
+      "side": 1,
+      "message": "Is this related to this change?",
       "range": {
         "startLine": 70,
         "startChar": 6,
