@@ -35,8 +35,10 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 
@@ -72,10 +74,16 @@ public class DeleteRefCommand {
         throw new ResourceNotFoundException(String.format("Project %s was not found", name));
       }
 
+      Optional<Ref> ref = getRef(name, refName);
+      if (!ref.isPresent()) {
+        logger.atFine().log("Ref %s was not found in project %s", refName, name);
+        return;
+      }
+
       try {
 
         Context.setLocalEvent(true);
-        deleteRef(name, refName);
+        deleteRef(name, ref.get());
 
         eventDispatcher
             .get()
@@ -119,17 +127,24 @@ public class DeleteRefCommand {
     }
   }
 
-  private RefUpdateState deleteRef(Project.NameKey name, String refName) throws IOException {
+  private Optional<Ref> getRef(Project.NameKey repo, String refName) throws IOException {
+    try (Repository repository = gitManager.openRepository(repo)) {
+      Ref ref = repository.exactRef(refName);
+      return Objects.isNull(ref) ? Optional.empty() : Optional.of(ref);
+    }
+  }
 
+  private RefUpdateState deleteRef(Project.NameKey name, Ref ref) throws IOException {
     try (Repository repository = gitManager.openRepository(name)) {
+
       RefUpdate.Result result;
-      RefUpdate u = repository.updateRef(refName);
-      u.setExpectedOldObjectId(repository.exactRef(refName).getObjectId());
+      RefUpdate u = repository.updateRef(ref.getName());
+      u.setExpectedOldObjectId(ref.getObjectId());
       u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
 
       result = u.delete();
-      return new RefUpdateState(refName, result);
+      return new RefUpdateState(ref.getName(), result);
     }
   }
 }
