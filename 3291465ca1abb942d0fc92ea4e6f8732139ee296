@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "462171f1_6c4746a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-06T00:15:42Z",
+      "side": 1,
+      "message": "Post-merge -1, I\u0027ve missed an important point about ref deletions.",
+      "revId": "3291465ca1abb942d0fc92ea4e6f8732139ee296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa8eb298_2f3696e5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-06T00:15:42Z",
+      "side": 1,
+      "message": "If the ref was deleted, this would create a replication event that would always fail 😞\n\nWhat is worse is that the replication event will then __attract__ all other replication from the same source and will make all of them fail altogether.\n\n*IF* a ref was deleted, we need to check if we have that ref locally and then remove it.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "3291465ca1abb942d0fc92ea4e6f8732139ee296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c80a727_76a3b779",
