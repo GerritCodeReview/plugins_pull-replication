@@ -25,7 +25,6 @@ import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -93,12 +92,6 @@ public class DeleteRefCommand {
       URIish sourceUri = source.getURI(name);
 
       try {
-        projectState.get().checkStatePermitsWrite();
-        permissionBackend
-            .currentUser()
-            .project(projectState.get().getNameKey())
-            .ref(refName)
-            .check(RefPermission.DELETE);
 
         Context.setLocalEvent(true);
         deleteRef(name, refName);
