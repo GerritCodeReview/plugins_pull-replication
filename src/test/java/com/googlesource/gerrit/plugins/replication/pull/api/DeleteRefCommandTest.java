@@ -26,10 +26,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
-import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
-import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
@@ -103,7 +99,6 @@ public class DeleteRefCommandTest {
             projectCache,
             sourceCollection,
             applyObject,
-            permissionBackend,
             eventDispatcherDataItem,
             new LocalGitRepositoryManagerProvider(gitManager));
   }
