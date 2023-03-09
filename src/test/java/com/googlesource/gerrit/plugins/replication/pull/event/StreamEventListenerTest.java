@@ -40,6 +40,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.ObjectId;
@@ -70,6 +71,7 @@ public class StreamEventListenerTest {
   @Mock private PullReplicationApiRequestMetrics metrics;
   @Mock private SourcesCollection sources;
   @Mock private Source source;
+  @Mock private ExcludedRefsFilter refsFilter;
 
   private StreamEventListener objectUnderTest;
 
@@ -81,6 +83,7 @@ public class StreamEventListenerTest {
     when(sources.getAll()).thenReturn(Lists.newArrayList(source));
     when(source.wouldFetchProject(any())).thenReturn(true);
     when(source.getRemoteConfigName()).thenReturn(REMOTE_INSTANCE_ID);
+    when(refsFilter.match(any())).thenReturn(false);
     objectUnderTest =
         new StreamEventListener(
             INSTANCE_ID,
@@ -89,7 +92,8 @@ public class StreamEventListenerTest {
             workQueue,
             fetchJobFactory,
             () -> metrics,
-            sources);
+            sources,
+            refsFilter);
   }
 
   @Test
@@ -175,6 +179,24 @@ public class StreamEventListenerTest {
     assertThat(input.refName).isEqualTo(TEST_REF_NAME);
 
     verify(executor).submit(any(FetchJob.class));
+  }
+
+  @Test
+  public void shouldSkipRefUpdateEventForExcludedRef() {
+    when(refsFilter.match(any())).thenReturn(true);
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
+    refUpdate.refName = TEST_REF_NAME;
+    refUpdate.project = TEST_PROJECT;
+    refUpdate.oldRev = ObjectId.zeroId().getName();
+    refUpdate.newRev = "0000000000000000000000000000000000000001";
+
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.refUpdate = () -> refUpdate;
+
+    objectUnderTest.onEvent(event);
+
+    verify(executor, never()).submit(any(Runnable.class));
   }
 
   @Test
