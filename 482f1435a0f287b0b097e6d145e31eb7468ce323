@@ -235,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cdc3173_c194f5ef",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T20:15:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a668d006_3c6efe44",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 87
+      },
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea1f2647_7f2611a1",
