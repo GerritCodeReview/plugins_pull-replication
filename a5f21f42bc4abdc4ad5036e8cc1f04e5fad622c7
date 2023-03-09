@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b8b4e62_3afe427c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2049702_c81f738d",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "a5f21f42bc4abdc4ad5036e8cc1f04e5fad622c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f2daa08_8de32428",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f8acafb_c1e383d2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8e50a3a_955026f7",
+      "range": {
+        "startLine": 105,
+        "startChar": 46,
+        "endLine": 105,
+        "endChar": 56
+      },
+      "revId": "a5f21f42bc4abdc4ad5036e8cc1f04e5fad622c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64d37cd6_465a2f41",
@@ -84,6 +132,30 @@
       "writtenOn": "2023-03-07T07:46:25Z",
       "side": 1,
       "message": "nit: `ref \u003d\u003d null` is what is done behind the scene ;)",
+      "range": {
+        "startLine": 144,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 29
+      },
+      "revId": "a5f21f42bc4abdc4ad5036e8cc1f04e5fad622c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca14015e_8654af22",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:26Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "64d37cd6_465a2f41",
       "range": {
         "startLine": 144,
         "startChar": 10,
