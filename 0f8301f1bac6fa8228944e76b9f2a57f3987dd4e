@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "060907c6_eaa1eb23",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-09T15:03:55Z",
+      "side": 1,
+      "message": "nit: leftover",
+      "revId": "0f8301f1bac6fa8228944e76b9f2a57f3987dd4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49358bfc_d93033f4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-09T15:03:55Z",
+      "side": 1,
+      "message": "This might be expensive to calculate for each event we process if we have loads of sources, i.e.: in gerrithub. Should we memoize it somehow?",
+      "revId": "0f8301f1bac6fa8228944e76b9f2a57f3987dd4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "937169b1_de6a994a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-09T15:03:55Z",
+      "side": 1,
+      "message": "We are testing the opposite scenario silently. I think it might be worth having an explicit scenario where, for example, we have 2 projects where only one should trigger a replication.",
+      "revId": "0f8301f1bac6fa8228944e76b9f2a57f3987dd4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
