@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6a667a4_362ed565",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca51f917_dfe53d8b",
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20a075d9_950a3599",
@@ -98,6 +116,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb213df_e7c2fcad",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d46084_5f0ae512",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c2f29e3_b47834b1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20a075d9_950a3599",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e97c0c2_0c8483a5",
@@ -111,6 +177,30 @@
       "writtenOn": "2023-03-07T07:41:11Z",
       "side": 1,
       "message": "nit: how about string comparison e.g.:\n```\nprivate static final String ZERO_ID_STRING \u003d ObjectId.zeroId().name();\n\n...\n\nreturn ZERO_ID_STRING.equals(event.refUpdate.get().newRev);\n```",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 87
+      },
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eed876ca_1424d903",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:32Z",
+      "side": 1,
+      "message": "are you sure that it\u0027s safe?\nIf I check ObjecyId.equals method it\u0027s not just string comparison:\n```\n\tpublic static boolean isEqual(final AnyObjectId firstObjectId,\n\t\t\tfinal AnyObjectId secondObjectId) {\n\t\tif (References.isSameObject(firstObjectId, secondObjectId)) {\n\t\t\treturn true;\n\t\t}\n\t\t// We test word 3 first since the git file-based ODB\n\t\t// uses the first byte of w1, and we use w2 as the\n\t\t// hash code, one of those probably came up with these\n\t\t// two instances which we are comparing for equality.\n\t\t// Therefore the first two words are very likely to be\n\t\t// identical. We want to break away from collisions as\n\t\t// quickly as possible.\n\t\treturn firstObjectId.w3 \u003d\u003d secondObjectId.w3\n\t\t\t\t\u0026\u0026 firstObjectId.w4 \u003d\u003d secondObjectId.w4\n\t\t\t\t\u0026\u0026 firstObjectId.w5 \u003d\u003d secondObjectId.w5\n\t\t\t\t\u0026\u0026 firstObjectId.w1 \u003d\u003d secondObjectId.w1\n\t\t\t\t\u0026\u0026 firstObjectId.w2 \u003d\u003d secondObjectId.w2;\n\t}\n```",
+      "parentUuid": "8e97c0c2_0c8483a5",
       "range": {
         "startLine": 134,
         "startChar": 4,
@@ -138,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f471fbc_8f5dc615",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommandTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea1f2647_7f2611a1",
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "935ae6e5_33c8f04a",
@@ -151,6 +259,30 @@
       "writtenOn": "2023-03-07T07:41:11Z",
       "side": 1,
       "message": "do you plan to add a project deletion test?",
+      "range": {
+        "startLine": 111,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 87
+      },
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61a81779_02f44356",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:32Z",
+      "side": 1,
+      "message": "project deletion is out of scope for this change",
+      "parentUuid": "935ae6e5_33c8f04a",
       "range": {
         "startLine": 111,
         "startChar": 2,

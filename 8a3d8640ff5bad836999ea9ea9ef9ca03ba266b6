@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "403af822_05f4e4e0",
+        "filename": "example-setup/broker/pull-replication.jar_without_tag_delete",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:32Z",
+      "side": 0,
+      "message": "yeah, good catch it\u0027s a left over from testing",
+      "parentUuid": "186bbcc7_70d285e3",
+      "revId": "8a3d8640ff5bad836999ea9ea9ef9ca03ba266b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c6fc0aa_b12c8fd9",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-03-06T15:09:26Z",
       "side": 0,
       "message": "leftover",
+      "revId": "8a3d8640ff5bad836999ea9ea9ef9ca03ba266b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b9ff2f7_315bc482",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-09T13:13:32Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "6c6fc0aa_b12c8fd9",
       "revId": "8a3d8640ff5bad836999ea9ea9ef9ca03ba266b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
