@@ -27,12 +27,14 @@ import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
+import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
+import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
@@ -52,6 +54,7 @@ public class StreamEventListener implements EventListener {
 
   private Factory fetchJobFactory;
   private final Provider<PullReplicationApiRequestMetrics> metricsProvider;
+  private SourcesCollection sources;
 
   @Inject
   public StreamEventListener(
@@ -60,13 +63,15 @@ public class StreamEventListener implements EventListener {
       ProjectInitializationAction projectInitializationAction,
       WorkQueue workQueue,
       FetchJob.Factory fetchJobFactory,
-      Provider<PullReplicationApiRequestMetrics> metricsProvider) {
+      Provider<PullReplicationApiRequestMetrics> metricsProvider,
+      SourcesCollection sources) {
     this.instanceId = instanceId;
     this.deleteCommand = deleteCommand;
     this.projectInitializationAction = projectInitializationAction;
     this.workQueue = workQueue;
     this.fetchJobFactory = fetchJobFactory;
     this.metricsProvider = metricsProvider;
+    this.sources = sources;
 
     requireNonNull(
         Strings.emptyToNull(this.instanceId), "gerrit.instanceId cannot be null or empty");
@@ -88,8 +93,14 @@ public class StreamEventListener implements EventListener {
     if (!instanceId.equals(event.instanceId)) {
       PullReplicationApiRequestMetrics metrics = metricsProvider.get();
       metrics.start(event);
+
+      if (!shouldReplicateProject(event)) {
+        return;
+      }
+
       if (event instanceof RefUpdatedEvent) {
         RefUpdatedEvent refUpdatedEvent = (RefUpdatedEvent) event;
+
         if (!isProjectDelete(refUpdatedEvent)) {
           if (isRefDelete(refUpdatedEvent)) {
             try {
@@ -128,6 +139,18 @@ public class StreamEventListener implements EventListener {
         }
       }
     }
+  }
+
+  private boolean shouldReplicateProject(Event event) {
+    if (event instanceof ProjectEvent) {
+      ProjectEvent projectEvent = (ProjectEvent) event;
+      return sources.getAll().stream()
+          .filter(s -> s.getRemoteConfigName().equals(event.instanceId))
+          .findFirst()
+          .map(s -> s.wouldFetchProject(projectEvent.getProjectNameKey()))
+          .orElse(false);
+    }
+    return false;
   }
 
   private boolean isRefDelete(RefUpdatedEvent event) {
