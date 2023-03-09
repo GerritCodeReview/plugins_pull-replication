@@ -21,6 +21,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -32,6 +33,8 @@ import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
+import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
@@ -64,6 +67,8 @@ public class StreamEventListenerTest {
   @Mock private DeleteRefCommand deleteRefCommand;
   @Captor ArgumentCaptor<Input> inputCaptor;
   @Mock private PullReplicationApiRequestMetrics metrics;
+  @Mock private SourcesCollection sources;
+  @Mock private Source source;
 
   private StreamEventListener objectUnderTest;
 
@@ -72,6 +77,9 @@ public class StreamEventListenerTest {
     when(workQueue.getDefaultQueue()).thenReturn(executor);
     when(fetchJobFactory.create(eq(Project.nameKey(TEST_PROJECT)), any(), any()))
         .thenReturn(fetchJob);
+    when(sources.getAll()).thenReturn(Lists.newArrayList(source));
+    when(source.wouldFetchProject(any())).thenReturn(true);
+    when(source.getRemoteConfigName()).thenReturn(REMOTE_INSTANCE_ID);
     objectUnderTest =
         new StreamEventListener(
             INSTANCE_ID,
@@ -79,7 +87,8 @@ public class StreamEventListenerTest {
             projectInitializationAction,
             workQueue,
             fetchJobFactory,
-            () -> metrics);
+            () -> metrics,
+            sources);
   }
 
   @Test
@@ -89,6 +98,7 @@ public class StreamEventListenerTest {
     objectUnderTest.onEvent(event);
 
     verify(executor, never()).submit(any(Runnable.class));
+    verify(sources, never()).getAll();
   }
 
   @Test
@@ -98,6 +108,25 @@ public class StreamEventListenerTest {
     refUpdate.refName = RefNames.REFS_CONFIG;
     refUpdate.newRev = ObjectId.zeroId().getName();
     refUpdate.project = TEST_PROJECT;
+
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.refUpdate = () -> refUpdate;
+
+    objectUnderTest.onEvent(event);
+
+    verify(executor, never()).submit(any(Runnable.class));
+  }
+
+  @Test
+  public void shouldSkipEventWhenNotOnAllowedProjectsList() {
+    when(source.wouldFetchProject(any())).thenReturn(false);
+
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
+    refUpdate.refName = TEST_REF_NAME;
+    refUpdate.project = TEST_PROJECT;
+    refUpdate.oldRev = ObjectId.zeroId().getName();
+    refUpdate.newRev = "0000000000000000000000000000000000000001";
 
     event.instanceId = REMOTE_INSTANCE_ID;
     event.refUpdate = () -> refUpdate;
