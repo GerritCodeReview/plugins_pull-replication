@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f13d58f_f77b1894",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-03-09T16:02:08Z",
+      "side": 1,
+      "message": "out of curiosity, can the `if statement` go in the line 93? does it make sense start the metric if the event is \"skipped\"?",
+      "revId": "0f8301f1bac6fa8228944e76b9f2a57f3987dd4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "060907c6_eaa1eb23",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 1
@@ -31,6 +48,24 @@
       "writtenOn": "2023-03-09T15:03:55Z",
       "side": 1,
       "message": "This might be expensive to calculate for each event we process if we have loads of sources, i.e.: in gerrithub. Should we memoize it somehow?",
+      "revId": "0f8301f1bac6fa8228944e76b9f2a57f3987dd4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "142fbbbd_b72c5a47",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-03-09T16:02:08Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "49358bfc_d93033f4",
       "revId": "0f8301f1bac6fa8228944e76b9f2a57f3987dd4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
