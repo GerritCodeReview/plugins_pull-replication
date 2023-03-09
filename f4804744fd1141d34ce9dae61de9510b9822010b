@@ -34,6 +34,24 @@
       "parentUuid": "5b4e94ba_eff0cbbc",
       "revId": "f4804744fd1141d34ce9dae61de9510b9822010b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dab99b28_dfa48c63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-09T14:54:18Z",
+      "side": 1,
+      "message": "\u003e I have been looking the code and it looks that an exception IllegalStateException is raised to control the flow. That looks to me an antipattern.\n\nI thought about that as well, however I think in this context we can\u0027t get away from it. As @maczech@gmail.com mentioned we don\u0027t use `vavr`  in Gerrit 😞",
+      "parentUuid": "d6e16bad_e101a89d",
+      "revId": "f4804744fd1141d34ce9dae61de9510b9822010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
