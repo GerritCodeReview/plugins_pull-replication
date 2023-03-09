@@ -213,6 +213,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a668d006_3c6efe44",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-09T14:50:38Z",
+      "side": 1,
+      "message": "Probably @geminica.programs@gmail.com is right. Here we are just checking we are doing a RefDelete, i.e.: our object is a bunch of 0s, it doesn\u0027t have to be the same object. Similar to what you are doing in the test.",
+      "parentUuid": "eed876ca_1424d903",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 87
+      },
+      "revId": "482f1435a0f287b0b097e6d145e31eb7468ce323",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea1f2647_7f2611a1",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommandTest.java",
         "patchSetId": 5
