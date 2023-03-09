@@ -52,6 +52,24 @@
       "parentUuid": "d6e16bad_e101a89d",
       "revId": "f4804744fd1141d34ce9dae61de9510b9822010b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdfe5c0f_84007a72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-03-09T15:48:32Z",
+      "side": 1,
+      "message": "Question: Are we not allowed to include new and useful libraries in Gerrit?",
+      "parentUuid": "dab99b28_dfa48c63",
+      "revId": "f4804744fd1141d34ce9dae61de9510b9822010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
