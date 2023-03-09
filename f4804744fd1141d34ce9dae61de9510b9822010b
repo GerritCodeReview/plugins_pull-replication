@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b4e94ba_eff0cbbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-03-09T13:39:21Z",
+      "side": 1,
+      "message": "I have been looking the code and it looks that an exception `IllegalStateException` is raised to control the flow. That looks to me an antipattern.\n\nCan we not used another mechanism? Dont we have in java a type that encapsulate that behaviour? i.e Either like in scala?\n\nI just found something like https://github.com/vavr-io/vavr/blob/master/src/main/java/io/vavr/control/Either.java. Maybe we could use something like that, not now but in the future.",
+      "revId": "f4804744fd1141d34ce9dae61de9510b9822010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
