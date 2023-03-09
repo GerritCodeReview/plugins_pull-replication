@@ -41,6 +41,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -55,6 +56,7 @@ public class StreamEventListener implements EventListener {
   private Factory fetchJobFactory;
   private final Provider<PullReplicationApiRequestMetrics> metricsProvider;
   private SourcesCollection sources;
+  private ExcludedRefsFilter refsFilter;
 
   @Inject
   public StreamEventListener(
@@ -64,7 +66,8 @@ public class StreamEventListener implements EventListener {
       WorkQueue workQueue,
       FetchJob.Factory fetchJobFactory,
       Provider<PullReplicationApiRequestMetrics> metricsProvider,
-      SourcesCollection sources) {
+      SourcesCollection sources,
+      ExcludedRefsFilter excludedRefsFilter) {
     this.instanceId = instanceId;
     this.deleteCommand = deleteCommand;
     this.projectInitializationAction = projectInitializationAction;
@@ -72,6 +75,7 @@ public class StreamEventListener implements EventListener {
     this.fetchJobFactory = fetchJobFactory;
     this.metricsProvider = metricsProvider;
     this.sources = sources;
+    this.refsFilter = excludedRefsFilter;
 
     requireNonNull(
         Strings.emptyToNull(this.instanceId), "gerrit.instanceId cannot be null or empty");
@@ -100,7 +104,12 @@ public class StreamEventListener implements EventListener {
 
       if (event instanceof RefUpdatedEvent) {
         RefUpdatedEvent refUpdatedEvent = (RefUpdatedEvent) event;
-
+        if (!isRefToBeReplicated(refUpdatedEvent.getRefName())) {
+          logger.atInfo().log(
+              "Skipping excluded ref %s project:%s",
+              refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
+          return;
+        }
         if (!isProjectDelete(refUpdatedEvent)) {
           if (isRefDelete(refUpdatedEvent)) {
             try {
@@ -139,6 +148,10 @@ public class StreamEventListener implements EventListener {
         }
       }
     }
+  }
+
+  private Boolean isRefToBeReplicated(String refName) {
+    return !refsFilter.match(refName);
   }
 
   private boolean shouldReplicateProject(Event event) {
