@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21c73592_92c4ce62",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-10T10:54:02Z",
+      "side": 1,
+      "message": "Good abstraction (I\u0027m surprised `ZEROID_STR` isn\u0027t public).\n\nNit: would calling this `ZERO_ID_NAME` be better? It\u0027s what the method is called, although awkwardly the private constant isn\u0027t.",
+      "revId": "991209bc35ba4ee725d251a8091319df252045dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c22b2f19_b917ac14",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-10T10:54:02Z",
+      "side": 1,
+      "message": "Can we add some guard clauses here (and ideally on L89 too) and return early? This adds a four levels of `if` conditions, which is quite a lot could be avoided (as Torvalds says 3 levels is more than enough [1]).\n\n[1] https://news.ycombinator.com/item?id\u003d3414637",
+      "revId": "991209bc35ba4ee725d251a8091319df252045dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9db37ccc_3dd1beea",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 7
@@ -20,6 +54,40 @@
         "endLine": 105,
         "endChar": 13
       },
+      "revId": "991209bc35ba4ee725d251a8091319df252045dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95d9a489_48e92ab9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-10T10:54:02Z",
+      "side": 1,
+      "message": "This matches `TEST_REF_NAME` - we should just use that here.",
+      "revId": "991209bc35ba4ee725d251a8091319df252045dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f68c2b5_bcf663a2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-10T10:54:02Z",
+      "side": 1,
+      "message": "What does this mean?",
       "revId": "991209bc35ba4ee725d251a8091319df252045dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
