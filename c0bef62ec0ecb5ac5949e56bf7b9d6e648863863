@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff863e58_58775c87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-10T11:26:15Z",
+      "side": 1,
+      "message": "`does`",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "c0bef62ec0ecb5ac5949e56bf7b9d6e648863863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfcc46eb_41938147",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-10T11:26:15Z",
+      "side": 1,
+      "message": "Nit: could we use a guard clause here instead of having the whole body of the method wrapped in an `if`?",
+      "revId": "c0bef62ec0ecb5ac5949e56bf7b9d6e648863863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
