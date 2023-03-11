@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "624d49de_77d2d775",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-11T07:34:41Z",
+      "side": 1,
+      "message": "nit: AFAIU it is initiated directly in the constructor - why not final?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 10
+      },
+      "revId": "c0bef62ec0ecb5ac5949e56bf7b9d6e648863863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfcc46eb_41938147",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 3
