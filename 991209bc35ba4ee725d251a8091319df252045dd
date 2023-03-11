@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cad2dbca_61420868",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-11T07:18:56Z",
+      "side": 1,
+      "message": "\u003e I\u0027m surprised ZEROID_STR isn\u0027t public\n\nyeap JGit is pretty restrictive with access to internals\n\n`+1` to `ZERO_ID_NAME`",
+      "parentUuid": "21c73592_92c4ce62",
+      "revId": "991209bc35ba4ee725d251a8091319df252045dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "36f44e10_33fed392",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 7
@@ -129,6 +147,24 @@
       "writtenOn": "2023-03-10T10:54:02Z",
       "side": 1,
       "message": "What does this mean?",
+      "revId": "991209bc35ba4ee725d251a8091319df252045dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f6208a8_c18c5002",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-11T07:18:56Z",
+      "side": 1,
+      "message": "It is an objectId (SHA-1) that is valid and different than `ObjectId.zeroId()`",
+      "parentUuid": "6f68c2b5_bcf663a2",
       "revId": "991209bc35ba4ee725d251a8091319df252045dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
