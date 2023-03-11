@@ -45,6 +45,52 @@
       },
       "revId": "8c5eff5d73aa2b2d7ed3addfeb8bdca7bc8aa774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "121898cc_148bb95e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-11T07:30:55Z",
+      "side": 1,
+      "message": "nit: `s/( / (`",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "8c5eff5d73aa2b2d7ed3addfeb8bdca7bc8aa774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51f163a6_07f5f98c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-11T07:30:55Z",
+      "side": 1,
+      "message": "`deleteRef` returns the `RefUpdateState` which is actually ignored in line `#82` how about instead of throwing `IllegalStateException` which is a bit generic use it to `return new RefUpdateState(refName, `REJECTED_MISSING_OBJECT`)`? It would be IMHO cleaner.",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 146,
+        "endChar": 7
+      },
+      "revId": "8c5eff5d73aa2b2d7ed3addfeb8bdca7bc8aa774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
