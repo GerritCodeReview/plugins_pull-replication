@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f62ac067_3f59b674",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T08:56:58Z",
+      "side": 1,
+      "message": "+1, it should be taken out of the metrics counting",
+      "parentUuid": "3f13d58f_f77b1894",
+      "revId": "0f8301f1bac6fa8228944e76b9f2a57f3987dd4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "060907c6_eaa1eb23",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "49358bfc_d93033f4",
+      "revId": "0f8301f1bac6fa8228944e76b9f2a57f3987dd4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "690d63fb_9a668957",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T08:56:58Z",
+      "side": 1,
+      "message": "I\u0027d suggest to separate the optimisations from features: the caching of sources (by instanceId maybe?) can be done as a separate change.",
+      "parentUuid": "142fbbbd_b72c5a47",
       "revId": "0f8301f1bac6fa8228944e76b9f2a57f3987dd4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

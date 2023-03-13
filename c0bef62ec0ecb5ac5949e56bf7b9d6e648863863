@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b72b8371_88bc8a47",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T08:56:58Z",
+      "side": 1,
+      "message": "unrelated: there are many `final` modifiers missing here.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 34
+      },
+      "revId": "c0bef62ec0ecb5ac5949e56bf7b9d6e648863863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "624d49de_77d2d775",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 3
