@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbb944ae_7e701ed4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T08:49:27Z",
+      "side": 1,
+      "message": "Agreed, the ifs are becoming way too nested.",
+      "parentUuid": "c22b2f19_b917ac14",
+      "revId": "991209bc35ba4ee725d251a8091319df252045dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9db37ccc_3dd1beea",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 7

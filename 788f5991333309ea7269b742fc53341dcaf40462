@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deb70ac7_c11ef604",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T08:49:27Z",
+      "side": 1,
+      "message": "Should we also check if the refs still exists? In normal situations, the apply-object should have deleted the ref already, so we can skip the deletion altogether.",
+      "revId": "788f5991333309ea7269b742fc53341dcaf40462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
