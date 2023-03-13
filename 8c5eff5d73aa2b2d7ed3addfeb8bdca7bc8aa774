@@ -72,6 +72,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "806c4bf8_56ad6099",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-13T08:52:53Z",
+      "side": 1,
+      "message": "If you are stating that the deleteRef failed, then this should catch the L82 ONLY, whilst here it also catches the exceptions raised at L86",
+      "range": {
+        "startLine": 104,
+        "startChar": 13,
+        "endLine": 104,
+        "endChar": 66
+      },
+      "revId": "8c5eff5d73aa2b2d7ed3addfeb8bdca7bc8aa774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "51f163a6_07f5f98c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
         "patchSetId": 4
