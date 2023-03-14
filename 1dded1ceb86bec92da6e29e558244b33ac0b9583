@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b793e02_c400fe0e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-14T18:10:58Z",
+      "side": 1,
+      "message": "the return statement from line #100 can be avoided if these two `if`s are joined with `else` - it will not change the indentation, WDYT?",
+      "range": {
+        "startLine": 100,
+        "startChar": 5,
+        "endLine": 103,
+        "endChar": 47
+      },
+      "revId": "1dded1ceb86bec92da6e29e558244b33ac0b9583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac60617d_c9f5e7d9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-14T18:10:58Z",
+      "side": 1,
+      "message": "redundant `return` statement",
+      "range": {
+        "startLine": 117,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 13
+      },
+      "revId": "1dded1ceb86bec92da6e29e558244b33ac0b9583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
