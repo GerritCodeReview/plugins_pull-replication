@@ -52,6 +52,24 @@
       "parentUuid": "ad6ee554_15b13b5b",
       "revId": "788f5991333309ea7269b742fc53341dcaf40462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfab750b_7f70ab8f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-14T09:53:38Z",
+      "side": 1,
+      "message": "Addressed here [1]\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/361761/4",
+      "parentUuid": "20d83026_864b24eb",
+      "revId": "788f5991333309ea7269b742fc53341dcaf40462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
