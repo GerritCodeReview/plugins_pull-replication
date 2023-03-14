@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "812b4652_d6e69304",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-14T18:28:58Z",
+      "side": 1,
+      "message": "nit: I would be more specific in the log why deletion cannot be performed - the ref doesn\u0027t exist",
+      "range": {
+        "startLine": 133,
+        "startChar": 32,
+        "endLine": 133,
+        "endChar": 77
+      },
+      "revId": "15ce294586ed9f7c28c59d74130ad110cfa6ce23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
