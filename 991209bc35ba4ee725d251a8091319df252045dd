@@ -275,6 +275,24 @@
       "parentUuid": "4f6208a8_c18c5002",
       "revId": "991209bc35ba4ee725d251a8091319df252045dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "087a4fdc_acfa09d9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-03-14T21:34:22Z",
+      "side": 1,
+      "message": "Thanks Jacek for explaining and Ponch for abstracting 👍",
+      "parentUuid": "f3ad92c6_16bbef1a",
+      "revId": "991209bc35ba4ee725d251a8091319df252045dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
