@@ -79,33 +79,36 @@ public class StreamEventListener implements EventListener {
   }
 
   public void fetchRefsForEvent(Event event) throws AuthException, PermissionBackendException {
-    if (!instanceId.equals(event.instanceId)) {
-      PullReplicationApiRequestMetrics metrics = metricsProvider.get();
-      metrics.start(event);
-      if (event instanceof RefUpdatedEvent) {
-        RefUpdatedEvent refUpdatedEvent = (RefUpdatedEvent) event;
-        if (!isProjectDelete(refUpdatedEvent)) {
-          fetchRefsAsync(
-              refUpdatedEvent.getRefName(),
-              refUpdatedEvent.instanceId,
-              refUpdatedEvent.getProjectNameKey(),
-              metrics);
-        }
+    if (instanceId.equals(event.instanceId)) {
+      return;
+    }
+
+    PullReplicationApiRequestMetrics metrics = metricsProvider.get();
+    metrics.start(event);
+    if (event instanceof RefUpdatedEvent) {
+      RefUpdatedEvent refUpdatedEvent = (RefUpdatedEvent) event;
+      if (isProjectDelete(refUpdatedEvent)) {
+        return;
       }
-      if (event instanceof ProjectCreatedEvent) {
-        ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
-        try {
-          projectInitializationAction.initProject(getProjectRepositoryName(projectCreatedEvent));
-          fetchRefsAsync(
-              FetchOne.ALL_REFS,
-              projectCreatedEvent.instanceId,
-              projectCreatedEvent.getProjectNameKey(),
-              metrics);
-        } catch (AuthException | PermissionBackendException e) {
-          logger.atSevere().withCause(e).log(
-              "Cannot initialise project:%s", projectCreatedEvent.projectName);
-          throw e;
-        }
+
+      fetchRefsAsync(
+          refUpdatedEvent.getRefName(),
+          refUpdatedEvent.instanceId,
+          refUpdatedEvent.getProjectNameKey(),
+          metrics);
+    } else if (event instanceof ProjectCreatedEvent) {
+      ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
+      try {
+        projectInitializationAction.initProject(getProjectRepositoryName(projectCreatedEvent));
+        fetchRefsAsync(
+            FetchOne.ALL_REFS,
+            projectCreatedEvent.instanceId,
+            projectCreatedEvent.getProjectNameKey(),
+            metrics);
+      } catch (AuthException | PermissionBackendException e) {
+        logger.atSevere().withCause(e).log(
+            "Cannot initialise project:%s", projectCreatedEvent.projectName);
+        throw e;
       }
     }
   }
