@@ -16,6 +16,24 @@
       "message": "We are testing the opposite scenario silently. I think it might be worth having an explicit scenario where, for example, we have 2 refs and only one should trigger a replication",
       "revId": "911ae30d81f5f11a066be2ebe2504bc5d811d820",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a62ee061_d6580e8e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-14T16:48:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a71a2fe_dc94874a",
+      "revId": "911ae30d81f5f11a066be2ebe2504bc5d811d820",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
