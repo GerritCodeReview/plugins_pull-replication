@@ -22,6 +22,30 @@
       },
       "revId": "226e6cda0c0f8d430a895a0097a0f2f78c98f298",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8959238a_1879a5f3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-14T19:35:16Z",
+      "side": 1,
+      "message": "yup, makes sense. I am going to leave this open to keep track of it.",
+      "parentUuid": "6475b25e_9d0264bc",
+      "range": {
+        "startLine": 101,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 7
+      },
+      "revId": "226e6cda0c0f8d430a895a0097a0f2f78c98f298",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
