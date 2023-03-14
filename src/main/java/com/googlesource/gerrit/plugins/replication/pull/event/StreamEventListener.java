@@ -49,15 +49,14 @@ public class StreamEventListener implements EventListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String ZERO_ID_NAME = ObjectId.zeroId().name();
 
-  private String instanceId;
-  private WorkQueue workQueue;
-  private ProjectInitializationAction projectInitializationAction;
-  private DeleteRefCommand deleteCommand;
-
-  private Factory fetchJobFactory;
+  private final DeleteRefCommand deleteCommand;
+  private final ExcludedRefsFilter refsFilter;
+  private final Factory fetchJobFactory;
+  private final ProjectInitializationAction projectInitializationAction;
   private final Provider<PullReplicationApiRequestMetrics> metricsProvider;
   private final SourcesCollection sources;
-  private final ExcludedRefsFilter refsFilter;
+  private final String instanceId;
+  private final WorkQueue workQueue;
 
   @Inject
   public StreamEventListener(
