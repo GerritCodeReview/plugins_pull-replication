@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46866b7a_0a927111",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-14T22:21:47Z",
+      "side": 1,
+      "message": "This guard should be done at the beginning of the method around L78 and should return in a NOOP. I don\u0027t understand the purpose of all this simulated behaviour and triggered actions on fake Git results of an operation that did not even happen.",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 32
+      },
+      "revId": "b88c5fa4d7091704cd6a675aaa781d58931782b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
