@@ -118,6 +118,30 @@
       },
       "revId": "b88c5fa4d7091704cd6a675aaa781d58931782b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ace0d919_b0561ae1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-15T17:49:35Z",
+      "side": 1,
+      "message": "Throwing an exception here is correct IMHO: a delete of a ref *may fail* and that\u0027s OK. Imagine if someone is removing the ref in the middle of the execution of L139.\n\nJust propagate any failures.",
+      "parentUuid": "2127842d_7f0f8ce2",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 32
+      },
+      "revId": "b88c5fa4d7091704cd6a675aaa781d58931782b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
