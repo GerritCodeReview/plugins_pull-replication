@@ -46,6 +46,30 @@
       },
       "revId": "b88c5fa4d7091704cd6a675aaa781d58931782b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a801db99_746e59c9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-15T10:48:28Z",
+      "side": 1,
+      "message": "@maczech@gmail.com good point. Have a look at the last PS if it makes sense. I went back to your initial approach but added a specific exception for the missing ref.\n\nAlso, I am throwing a `RestApiException` as suggested by Luca.",
+      "parentUuid": "72f4f3e4_47458634",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 32
+      },
+      "revId": "b88c5fa4d7091704cd6a675aaa781d58931782b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
