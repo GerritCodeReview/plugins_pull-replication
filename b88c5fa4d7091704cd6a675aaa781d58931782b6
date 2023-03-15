@@ -94,6 +94,30 @@
       },
       "revId": "b88c5fa4d7091704cd6a675aaa781d58931782b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2127842d_7f0f8ce2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-15T17:04:58Z",
+      "side": 1,
+      "message": "Let me check. If that\u0027s the case we will have a problem with L#74 as well.",
+      "parentUuid": "b8fb03b7_1739e172",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 32
+      },
+      "revId": "b88c5fa4d7091704cd6a675aaa781d58931782b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
