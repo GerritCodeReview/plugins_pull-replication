@@ -22,6 +22,30 @@
       },
       "revId": "b88c5fa4d7091704cd6a675aaa781d58931782b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72f4f3e4_47458634",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-15T09:54:12Z",
+      "side": 1,
+      "message": "We can do the check around L78. But we do not lock ref so we still can end up in the situation that ref will be deleted between line 78 and 140 so we want to make sure that we will not get NPE",
+      "parentUuid": "46866b7a_0a927111",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 32
+      },
+      "revId": "b88c5fa4d7091704cd6a675aaa781d58931782b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
