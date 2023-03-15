@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cba528d5_3b35037b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-15T18:20:59Z",
+      "side": 1,
+      "message": "plus if this happens from apply object we will fallback to fetch which will give the same result so we should return 200",
+      "parentUuid": "7709a2db_1641cc1d",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 60
+      },
+      "revId": "dfb9030182ff7684020f0b7065dcc1d6ce0b03bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c003ca5_efb0bb4c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
         "patchSetId": 13
