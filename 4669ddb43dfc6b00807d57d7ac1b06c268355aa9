@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e80d3a68_94188537",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-03-15T21:46:40Z",
+      "side": 1,
+      "message": "Are we actually throwing anything here? Aren\u0027t we catching everything and then not throwing anything?",
+      "range": {
+        "startLine": 129,
+        "startChar": 69,
+        "endLine": 129,
+        "endChar": 89
+      },
+      "revId": "4669ddb43dfc6b00807d57d7ac1b06c268355aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
