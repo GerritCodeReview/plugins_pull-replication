@@ -119,6 +119,18 @@ replication.maxRetries
 
 	By default, fetches are retried indefinitely.
 
+	Note that only transient errors will be retried, whilst persistent errors will
+	cause a terminal failure, and the fetch will not be scheduled again. This is
+	only supported for JGit, not cGit. Currently, only the following failures are
+	considered permanent:
+
+	- UnknownHostKey: thrown by Jsch when establishing an SSH connection for an
+	unknown host.
+	- Jgit transport exception when the remote ref does not exist. The assumption
+    here is that the remote ref does not exist so it is not worth retrying. If the
+    exception arisen as a consequence of some ACLs (mis)configuration, then after
+    fixing the ACLs, an explicit replication must be manually triggered.
+
 replication.instanceLabel
 :	Remote configuration name of the current server.
 	This label is passed as a part of the payload to notify other
@@ -379,6 +391,9 @@ remote.NAME.replicationMaxRetries
 	This is a Gerrit specific extension to the Git remote block.
 
 	By default, use replication.maxRetries.
+
+	Note that not all fetch failures are retriable. Please refer
+	to `replication.maxRetries` for more information on this.
 
 remote.NAME.threads
 :	Number of worker threads to dedicate to fetching to the
