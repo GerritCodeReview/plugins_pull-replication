@@ -339,9 +339,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     } catch (NotSupportedException e) {
       stateLog.error("Cannot replicate from " + uri, e, getStatesAsArray());
     } catch (TransportException e) {
-      Throwable cause = e.getCause();
-      if (cause instanceof JSchException && cause.getMessage().startsWith("UnknownHostKey:")) {
-        repLog.error("Cannot replicate [{}] from {}: {}", taskIdHex, uri, cause.getMessage());
+      if (isPermanentFailure(e)) {
+        repLog.error(
+            String.format("Terminal failure. Cannot replicate [%s] from %s", taskIdHex, uri), e);
       } else if (e instanceof LockFailureException) {
         lockRetryCount++;
         // The LockFailureException message contains both URI and reason
@@ -382,6 +382,13 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       }
       pool.notifyFinished(this);
     }
+  }
+
+  private boolean isPermanentFailure(TransportException e) {
+    Throwable cause = e.getCause();
+    String message = e.getMessage();
+    return (cause instanceof JSchException && cause.getMessage().startsWith("UnknownHostKey:"))
+        || message.matches(".*Remote does not have.+available for fetch.*");
   }
 
   private void logCanceledWhileRunningException(TransportException e) {
