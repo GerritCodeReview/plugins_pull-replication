@@ -21,9 +21,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
@@ -31,10 +33,15 @@ import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
+import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
+import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -51,6 +58,7 @@ public class StreamEventListenerTest {
   private static final String TEST_REF_NAME = "refs/changes/01/1/1";
   private static final String TEST_PROJECT = "test-project";
   private static final String INSTANCE_ID = "node_instance_id";
+  private static final String NEW_REV = "0000000000000000000000000000000000000001";
   private static final String REMOTE_INSTANCE_ID = "remote_node_instance_id";
 
   @Mock private ProjectInitializationAction projectInitializationAction;
@@ -58,8 +66,12 @@ public class StreamEventListenerTest {
   @Mock private ScheduledExecutorService executor;
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
+  @Mock private DeleteRefCommand deleteRefCommand;
   @Captor ArgumentCaptor<Input> inputCaptor;
   @Mock private PullReplicationApiRequestMetrics metrics;
+  @Mock private SourcesCollection sources;
+  @Mock private Source source;
+  @Mock private ExcludedRefsFilter refsFilter;
 
   private StreamEventListener objectUnderTest;
 
@@ -68,9 +80,20 @@ public class StreamEventListenerTest {
     when(workQueue.getDefaultQueue()).thenReturn(executor);
     when(fetchJobFactory.create(eq(Project.nameKey(TEST_PROJECT)), any(), any()))
         .thenReturn(fetchJob);
+    when(sources.getAll()).thenReturn(Lists.newArrayList(source));
+    when(source.wouldFetchProject(any())).thenReturn(true);
+    when(source.getRemoteConfigName()).thenReturn(REMOTE_INSTANCE_ID);
+    when(refsFilter.match(any())).thenReturn(false);
     objectUnderTest =
         new StreamEventListener(
-            INSTANCE_ID, projectInitializationAction, workQueue, fetchJobFactory, () -> metrics);
+            INSTANCE_ID,
+            deleteRefCommand,
+            projectInitializationAction,
+            workQueue,
+            fetchJobFactory,
+            () -> metrics,
+            sources,
+            refsFilter);
   }
 
   @Test
@@ -80,6 +103,7 @@ public class StreamEventListenerTest {
     objectUnderTest.onEvent(event);
 
     verify(executor, never()).submit(any(Runnable.class));
+    verify(sources, never()).getAll();
   }
 
   @Test
@@ -99,11 +123,49 @@ public class StreamEventListenerTest {
   }
 
   @Test
+  public void shouldSkipEventWhenNotOnAllowedProjectsList() {
+    when(source.wouldFetchProject(any())).thenReturn(false);
+
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
+    refUpdate.refName = TEST_REF_NAME;
+    refUpdate.project = TEST_PROJECT;
+    refUpdate.oldRev = ObjectId.zeroId().getName();
+    refUpdate.newRev = NEW_REV;
+
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.refUpdate = () -> refUpdate;
+
+    objectUnderTest.onEvent(event);
+
+    verify(executor, never()).submit(any(Runnable.class));
+  }
+
+  @Test
+  public void shouldDeleteRefForRefDeleteEvent() throws IOException, RestApiException {
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
+    refUpdate.refName = TEST_REF_NAME;
+    refUpdate.newRev = ObjectId.zeroId().getName();
+    refUpdate.project = TEST_PROJECT;
+
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.refUpdate = () -> refUpdate;
+
+    objectUnderTest.onEvent(event);
+
+    verify(deleteRefCommand)
+        .deleteRef(Project.nameKey(TEST_PROJECT), refUpdate.refName, REMOTE_INSTANCE_ID);
+  }
+
+  @Test
   public void shouldScheduleFetchJobForRefUpdateEvent() {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
     refUpdate.project = TEST_PROJECT;
+    refUpdate.oldRev = ObjectId.zeroId().getName();
+    refUpdate.newRev = NEW_REV;
 
     event.instanceId = REMOTE_INSTANCE_ID;
     event.refUpdate = () -> refUpdate;
@@ -117,6 +179,24 @@ public class StreamEventListenerTest {
     assertThat(input.refName).isEqualTo(TEST_REF_NAME);
 
     verify(executor).submit(any(FetchJob.class));
+  }
+
+  @Test
+  public void shouldSkipRefUpdateEventForExcludedRef() {
+    when(refsFilter.match(any())).thenReturn(true);
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
+    refUpdate.refName = TEST_REF_NAME;
+    refUpdate.project = TEST_PROJECT;
+    refUpdate.oldRev = ObjectId.zeroId().getName();
+    refUpdate.newRev = NEW_REV;
+
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.refUpdate = () -> refUpdate;
+
+    objectUnderTest.onEvent(event);
+
+    verify(executor, never()).submit(any(Runnable.class));
   }
 
   @Test

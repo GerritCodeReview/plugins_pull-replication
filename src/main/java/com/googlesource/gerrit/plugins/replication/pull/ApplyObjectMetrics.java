@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.gerrit.extensions.annotations.PluginName;
+import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
@@ -27,6 +28,8 @@ import com.google.inject.Singleton;
 public class ApplyObjectMetrics {
   private final Timer1<String> executionTime;
   private final Timer1<String> end2EndTime;
+
+  private final Counter0 maxApiPayloadSizeReachedCounter;
 
   @Inject
   ApplyObjectMetrics(@PluginName String pluginName, MetricMaker metricMaker) {
@@ -53,6 +56,13 @@ public class ApplyObjectMetrics {
                 .setCumulative()
                 .setUnit(Description.Units.MILLISECONDS),
             field);
+    maxApiPayloadSizeReachedCounter =
+        metricMaker.newCounter(
+            "apply_object_max_api_payload_reached",
+            new Description(
+                    "Number of apply object operation with payload larger than maxApiPayloadSize")
+                .setRate()
+                .setUnit("errors"));
   }
 
   /**
@@ -73,5 +83,10 @@ public class ApplyObjectMetrics {
    */
   public Timer1.Context<String> startEnd2End(String name) {
     return end2EndTime.start(name);
+  }
+
+  /** Increment metric when ref size is larger than maxApiPayloadSize. */
+  public void incrementMaxPayloadSizeReached() {
+    maxApiPayloadSizeReachedCounter.increment();
   }
 }
