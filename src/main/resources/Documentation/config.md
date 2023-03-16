@@ -119,6 +119,14 @@ replication.maxRetries
 
 	By default, fetches are retried indefinitely.
 
+	Note that only transient errors will be retried, whilst persistent errors
+	will cause a terminal failure, and the fetch will not be scheduled again.
+    This is only supported for JGit and at two specific failures are considered
+	permanent:
+      - UnknownHostKey: thrown by Jsch when establishing an SSH connection for
+		an unknown host.
+	  - Jgit transport exception when the remote ref does not exist.
+
 replication.instanceLabel
 :	Remote configuration name of the current server.
 	This label is passed as a part of the payload to notify other
