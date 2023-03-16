@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8a787f4_971de532",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-16T21:49:11Z",
+      "side": 1,
+      "message": "Does it mean that we will discard full fetch task even if one ref cannot be fetched? Maybe it would be better to just discard that single ref and retry the task?",
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35d408a7_458f9038",
