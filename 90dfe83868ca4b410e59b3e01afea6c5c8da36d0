@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d408a7_458f9038",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-16T21:46:44Z",
+      "side": 1,
+      "message": "I\u0027ve noticed that we can alse get \"Remote does not have .. available to fetch\" when we restricted access to some refs via ACLs. So this can be fixed by changing the acl settings.\nI have no idea how to distinguish those two situations:\n* refs really doesn\u0027t exists on the sender side\n* ref is not visible due the ACLs settings\n\nMaybe for now we could just mention in the documentation that after fixing ACLs we should manually sync those refs because they were discarded",
+      "range": {
+        "startLine": 391,
+        "startChar": 28,
+        "endLine": 391,
+        "endChar": 73
+      },
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
