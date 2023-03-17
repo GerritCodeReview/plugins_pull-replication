@@ -16,7 +16,9 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
@@ -39,18 +42,25 @@ import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -87,6 +97,10 @@ public class ReplicationQueue
   private Provider<RevisionReader> revReaderProvider;
   private final ApplyObjectMetrics applyObjectMetrics;
   private final FetchReplicationMetrics fetchMetrics;
+  private ThreadPoolExecutor batchUpdatePool;
+  private final BatchUpdateConfiguration cfg;
+  private final AtomicLong inflightBatch = new AtomicLong(0);
+  private final AtomicLong inflightFetch = new AtomicLong(0);
 
   @Inject
   ReplicationQueue(
@@ -98,6 +112,7 @@ public class ReplicationQueue
       ExcludedRefsFilter refsFilter,
       Provider<RevisionReader> revReaderProvider,
       ApplyObjectMetrics applyObjectMetrics,
+      ReplicationConfig replicationConfig,
       FetchReplicationMetrics fetchMetrics) {
     workQueue = wq;
     dispatcher = dis;
@@ -109,6 +124,19 @@ public class ReplicationQueue
     this.revReaderProvider = revReaderProvider;
     this.applyObjectMetrics = applyObjectMetrics;
     this.fetchMetrics = fetchMetrics;
+
+    cfg = new BatchUpdateConfiguration(replicationConfig.getConfig());
+    if(cfg.useAsync()){
+      batchUpdatePool = new ThreadPoolExecutor(
+          cfg.getBatchUpdateCorePoolSize(),
+          cfg.getBatchUpdateMaxPoolSize(),
+          cfg.getBatchUpdateAliveTime(),
+          TimeUnit.MILLISECONDS,
+          new LinkedBlockingDeque<>(cfg.getBatchUpdateQueueSize()),
+          new ThreadFactoryBuilder().setNameFormat("BatchUpdatePool-%d").build(),
+          new ThreadPoolExecutor.CallerRunsPolicy()
+      );
+    }
   }
 
   @Override
@@ -134,6 +162,10 @@ public class ReplicationQueue
     if (discarded > 0) {
       repLog.warn("Canceled {} replication events during shutdown", discarded);
     }
+    if(batchUpdatePool != null){
+      repLog.warn("ShutDown BatchUpdatePool");
+      batchUpdatePool.shutdown();
+    }
   }
 
   @Override
@@ -148,23 +180,61 @@ public class ReplicationQueue
 
   @Override
   public void onGitBatchRefUpdate(GitBatchRefUpdateListener.Event event) {
-    event.getUpdatedRefs().stream()
-        .sorted(ReplicationQueue::sortByMetaRefAsLast)
-        .forEachOrdered(
-            updateRef -> {
-              String refName = updateRef.getRefName();
+    Map<Integer, List<UpdatedRef>> changeIdRefsMap = event
+            .getUpdatedRefs()
+            .stream()
+            .collect(Collectors.groupingBy(ReplicationQueue::groupByTypeAndChangeId, LinkedHashMap::new, Collectors.toList()));
 
-              if (isRefToBeReplicated(refName)) {
-                repLog.info(
-                    "Ref event received: {} on project {}:{} - {} => {}",
-                    refUpdateType(updateRef),
-                    event.getProjectName(),
-                    refName,
-                    updateRef.getOldObjectId(),
-                    updateRef.getNewObjectId());
-                fire(ReferenceUpdatedEvent.from(event.getProjectName(), updateRef));
-              }
-            });
+    List<Integer>changeIds =new ArrayList<>(changeIdRefsMap.keySet());
+    Collections.sort(changeIds);
+
+    List<GitBatchRefUpdateListener.UpdatedRef>sortedRefs = new ArrayList<>();
+    for(Integer changeId : changeIds){
+      sortedRefs.addAll(changeIdRefsMap.get(changeId).stream().sorted(ReplicationQueue::sortByPatchIdAndMetaRefAsLast).collect(Collectors.toList()));
+    }
+
+    if(cfg.useAsync()){
+      List<String>refs = sortedRefs.stream().map(r-> r.getRefName()+" "+refUpdateType(r)).collect(Collectors.toList());
+
+      batchUpdatePool.submit(()->{
+        inflightBatch.incrementAndGet();
+        repLog.info("Batch event received, project:{}, ref-pkg:{}, thread:{}", event.getProjectName(), Arrays.toString(refs.toArray()), Thread.currentThread().getName());
+        sortedRefs.stream().forEachOrdered(
+                updateRef -> {
+                  inflightFetch.incrementAndGet();
+                  String refName = updateRef.getRefName();
+
+                  if (isRefToBeReplicated(refName)) {
+                    repLog.info(
+                        "Ref event received: {} on project {}:{} - {} => {}",
+                        refUpdateType(updateRef),
+                        event.getProjectName(),
+                        refName,
+                        updateRef.getOldObjectId(),
+                        updateRef.getNewObjectId());
+                    fire(ReferenceUpdatedEvent.from(event.getProjectName(), updateRef));
+                  }
+                  inflightFetch.decrementAndGet();
+                });
+        inflightBatch.decrementAndGet();
+      });
+      repLog.info("Batch update pool, activeCount:{}, inflightBatch:{}, inflightFetch:{}, totalCount:{}", batchUpdatePool.getActiveCount(), inflightBatch.get(), inflightFetch.get(), batchUpdatePool.getTaskCount());
+    }else{
+      sortedRefs.stream().forEachOrdered(
+              updateRef -> {
+                String refName = updateRef.getRefName();
+                if (isRefToBeReplicated(refName)) {
+                  repLog.info(
+                      "Ref event received: {} on project {}:{} - {} => {}",
+                      refUpdateType(updateRef),
+                      event.getProjectName(),
+                      refName,
+                      updateRef.getOldObjectId(),
+                      updateRef.getNewObjectId());
+                  fire(ReferenceUpdatedEvent.from(event.getProjectName(), updateRef));
+                }
+              });
+    }
   }
 
   @Override
@@ -183,6 +253,33 @@ public class ReplicationQueue
         RefNames.isNoteDbMetaRef(a.getRefName()), RefNames.isNoteDbMetaRef(b.getRefName()));
   }
 
+  /**
+   * a. refs/changes and refs/changes/meta with same changeId come into same group
+   * b. Others go into other group
+   */
+  private static int groupByTypeAndChangeId(UpdatedRef ref) {
+    if(RefNames.isRefsChanges(ref.getRefName())) {
+      return getChangeIdFromRefsChanges(ref.getRefName());
+    }
+    return Integer.MAX_VALUE;
+  }
+
+  private static int sortByPatchIdAndMetaRefAsLast(UpdatedRef a, @SuppressWarnings("unused") UpdatedRef b) {
+    boolean isAChangeMetaRef = isChangeMetaRef(a.getRefName());
+    boolean isBChangeMetaRef = isChangeMetaRef(b.getRefName());
+    if(isAChangeMetaRef || isBChangeMetaRef){
+      return Boolean.compare(isAChangeMetaRef, isBChangeMetaRef);
+    }
+
+    boolean isARefsChanges = RefNames.isRefsChanges(a.getRefName());
+    boolean isBRefsChanges = RefNames.isRefsChanges(b.getRefName());
+    if(isARefsChanges && isBRefsChanges){
+      return Integer.compare(RefNames.parseRefSuffix(a.getRefName()), RefNames.parseRefSuffix(b.getRefName()));
+    }
+
+    return Boolean.compare(isBRefsChanges, isARefsChanges);
+  }
+
   private static String refUpdateType(UpdatedRef updateRef) {
     String forcedPrefix = updateRef.isNonFastForward() ? "FORCED " : " ";
     if (updateRef.isCreate()) {
@@ -192,6 +289,24 @@ public class ReplicationQueue
     } else {
       return forcedPrefix + "UPDATE";
     }
+  }
+
+  private static boolean isChangeMetaRef(String ref){
+    return ref.startsWith("refs/changes/") && ref.endsWith("/meta");
+  }
+
+
+  /**
+   * get changeId(yyyxx) from refs/changes/xx/yyyxx/01 or refs/changes/xx/yyyxx/meta
+   */
+  private static int getChangeIdFromRefsChanges(String ref){
+    int i;
+    for(i = ref.length()-1; i >= 0; --i) {
+      if (ref.charAt(i) == '/') {
+        break;
+      }
+    }
+    return RefNames.parseRefSuffix(ref.substring(0, i));
   }
 
   private Boolean isRefToBeReplicated(String refName) {
