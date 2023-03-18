@@ -35,6 +35,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.InexistentRefTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
@@ -82,6 +83,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final Project.NameKey projectName;
   private final URIish uri;
   private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
+  private final Set<TransportException> fetchFailures = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
   private boolean retrying;
@@ -277,6 +279,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     }
   }
 
+  public Set<TransportException> getFetchFailures() {
+    return fetchFailures;
+  }
+
   private void runFetchOperation() {
     try (TraceContext ctx = TraceContext.open().addTag(ID_KEY, HexFormat.fromInt(id))) {
       doRunFetchOperation();
@@ -391,7 +397,23 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private void runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
-    updateStates(fetch.fetch(fetchRefSpecs));
+
+    try {
+      updateStates(fetch.fetch(fetchRefSpecs));
+    } catch (InexistentRefTransportException e) {
+      String inexistentRef = e.getInexistentRef();
+      repLog.info(
+          "Remote {} does not have ref {} in replication task [{}], flagging as failed and removing from the replication task",
+          uri,
+          inexistentRef,
+          taskIdHex);
+      fetchFailures.add(e);
+      delta.remove(inexistentRef);
+
+      if (!delta.isEmpty()) {
+        runImpl();
+      }
+    }
   }
 
   private List<RefSpec> getFetchRefSpecs() {
@@ -495,7 +517,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
                 null);
       }
     }
-    stateMap.clear();
+
+    for (String doneRef : doneRefs) {
+      stateMap.removeAll(doneRef);
+    }
   }
 
   public static class LockFailureException extends TransportException {
@@ -504,5 +529,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     LockFailureException(URIish uri, String message) {
       super(uri, message);
     }
+  }
+
+  public Optional<PullReplicationApiRequestMetrics> getRequestMetrics() {
+    return apiRequestMetrics;
   }
 }

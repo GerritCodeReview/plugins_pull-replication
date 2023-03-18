@@ -87,6 +87,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -591,6 +592,11 @@ public class Source {
   void notifyFinished(FetchOne op) {
     synchronized (stateLock) {
       inFlight.remove(op.getURI());
+    }
+
+    Set<TransportException> fetchFailures = op.getFetchFailures();
+    if (fetchFailures.size() > 0) {
+      repLog.warn("Replication task [{}] had fetch failures: {}", op, fetchFailures);
     }
   }
 
