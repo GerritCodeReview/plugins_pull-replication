@@ -592,6 +592,24 @@ public class Source {
     synchronized (stateLock) {
       inFlight.remove(op.getURI());
     }
+
+    Set<String> failedRefs = op.getFailedRefs();
+    if (failedRefs.size() > 0) {
+      repLog.warn(
+          "Replication task [{}] had failed refs: {}. Rescheduling all of them.",
+          op,
+          op.getFailedRefs());
+
+      for (String ref : failedRefs) {
+        schedule(
+            op.getProjectNameKey(),
+            ref,
+            op.getURI(),
+            op.getStatesByRef(ref)[0],
+            ReplicationType.ASYNC,
+            op.getRequestMetrics());
+      }
+    }
   }
 
   public boolean wouldFetchRef(String ref) {
