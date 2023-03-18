@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aeec176_40b8c805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-18T00:18:43Z",
+      "side": 1,
+      "message": "Remove empty line",
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c8a787f4_971de532",
@@ -31,6 +48,53 @@
       "writtenOn": "2023-03-16T21:46:44Z",
       "side": 1,
       "message": "I\u0027ve noticed that we can alse get \"Remote does not have .. available to fetch\" when we restricted access to some refs via ACLs. So this can be fixed by changing the acl settings.\nI have no idea how to distinguish those two situations:\n* refs really doesn\u0027t exists on the sender side\n* ref is not visible due the ACLs settings\n\nMaybe for now we could just mention in the documentation that after fixing ACLs we should manually sync those refs because they were discarded",
+      "range": {
+        "startLine": 391,
+        "startChar": 28,
+        "endLine": 391,
+        "endChar": 73
+      },
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2ab657f_772a75ae",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-18T00:18:43Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve noticed that we can alse get \"Remote does not have .. available to fetch\" when we restricted access to some refs via ACLs. So this can be fixed by changing the acl settings.\n\nWell, who is going to change the ACL for making the ref visible? It requires a manual action and therefore it is not automatically retriable.\n\n\u003e I have no idea how to distinguish those two situations:\n\u003e * refs really doesn\u0027t exists on the sender side\n\u003e * ref is not visible due the ACLs settings\n\nYou don\u0027t have any way to see the difference between the two: both cases are non-retriable errors.\n\n\u003e Maybe for now we could just mention in the documentation that after fixing ACLs we should manually sync those refs because they were discarded\n\nYep, if you messed up the ACLs and something didn\u0027t get replicated: after the fix of the ACLs you must re-trigger a global replication.",
+      "parentUuid": "35d408a7_458f9038",
+      "range": {
+        "startLine": 391,
+        "startChar": 28,
+        "endLine": 391,
+        "endChar": 73
+      },
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "692beff8_87049d0c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-18T00:18:43Z",
+      "side": 1,
+      "message": "Just use `JGitText.get().remoteDoesNotHaveSpec` and replace the `{0}` placeholder.",
       "range": {
         "startLine": 391,
         "startChar": 28,
