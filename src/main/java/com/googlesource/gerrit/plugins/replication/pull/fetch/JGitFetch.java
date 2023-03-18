@@ -55,10 +55,7 @@ public class JGitFetch implements Fetch {
     try {
       return tn.fetch(NullProgressMonitor.INSTANCE, fetchRefSpecs);
     } catch (TransportException e) {
-      if (PermanentTransportException.isPermanentFailure(e)) {
-        throw new PermanentTransportException("Terminal fetch failure", e);
-      }
-      throw e;
+      throw PermanentTransportException.wrapIfPermanentTransportException(e);
     }
   }
 }
