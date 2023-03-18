@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.googlesource.gerrit.plugins.replication.pull.fetch.InexistentRefTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransportException;
 import com.jcraft.jsch.JSchException;
 import org.eclipse.jgit.errors.TransportException;
@@ -26,17 +27,17 @@ public class PermanentFailureExceptionTest {
   @Test
   public void shouldConsiderSchUnknownHostAsPermanent() {
     assertThat(
-            PermanentTransportException.isPermanentFailure(
+            PermanentTransportException.wrapTransportException(
                 new TransportException(
                     "SSH error", new JSchException("UnknownHostKey: some.place"))))
-        .isTrue();
+        .isInstanceOf(PermanentTransportException.class);
   }
 
   @Test
   public void shouldConsiderNotExistingRefsAsPermanent() {
     assertThat(
-            PermanentTransportException.isPermanentFailure(
+            PermanentTransportException.wrapTransportException(
                 new TransportException("Remote does not have refs/heads/foo available for fetch.")))
-        .isTrue();
+        .isInstanceOf(InexistentRefTransportException.class);
   }
 }
