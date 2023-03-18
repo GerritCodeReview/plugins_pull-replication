@@ -87,6 +87,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -592,6 +593,12 @@ public class Source {
     synchronized (stateLock) {
       inFlight.remove(op.getURI());
     }
+
+    Set<TransportException> fetchFailures = op.getFetchFailures();
+    fetchFailures.forEach(
+        e ->
+            repLog.warn(
+                "Replication task [" + op.getTaskIdHex() + "] completed with partial failure", e));
   }
 
   public boolean wouldFetchRef(String ref) {
