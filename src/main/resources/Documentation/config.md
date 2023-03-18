@@ -14,7 +14,7 @@ with the command line:
 ```
 
 <a name="example_file">
-Next, create `$site_path/etc/replication.config` as a Git-style config
+Next, create `$site_path/etc/replication.config` as a Git-style configper
 file, for example to replicate in parallel from four different hosts:</a>
 
 ```
@@ -126,7 +126,7 @@ replication.maxRetries
 
 	- UnknownHostKey: thrown by Jsch when establishing an SSH connection for an
 	unknown host.
-	- Jgit transport exception when the remote ref does not exist. The assumption
+	- cGit / JGit transport exception when the remote ref does not exist. The assumption
 	here is that the remote ref does not exist so it is not worth retrying. If the
 	exception arisen as a consequence of some ACLs (mis)configuration, then after
 	fixing the ACLs, an explicit replication must be manually triggered.
