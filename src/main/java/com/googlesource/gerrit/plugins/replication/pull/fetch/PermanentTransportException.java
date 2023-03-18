@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
 import com.jcraft.jsch.JSchException;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.internal.JGitText;
 
 public class PermanentTransportException extends TransportException {
   private static final long serialVersionUID = 1L;
@@ -25,10 +24,12 @@ public class PermanentTransportException extends TransportException {
     super(msg, cause);
   }
 
-  public static boolean isPermanentFailure(TransportException e) {
+  public static TransportException wrapTransportException(TransportException e) {
     Throwable cause = e.getCause();
-    String message = e.getMessage();
-    return (cause instanceof JSchException && cause.getMessage().startsWith("UnknownHostKey:"))
-        || message.matches(JGitText.get().remoteDoesNotHaveSpec.replaceAll("\\{0\\}", ".+"));
+    if (cause instanceof JSchException && cause.getMessage().startsWith("UnknownHostKey:")) {
+      return new PermanentTransportException("Terminal fetch failure", e);
+    }
+
+    return InexistentRefTransportException.getOptionalPermanentFailure(e).orElse(e);
   }
 }
