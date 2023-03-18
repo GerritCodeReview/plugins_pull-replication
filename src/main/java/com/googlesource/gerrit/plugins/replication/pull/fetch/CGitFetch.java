@@ -74,7 +74,7 @@ public class CGitFetch implements Fetch {
                 .lines()
                 .collect(Collectors.joining("\n"));
         throw new TransportException(
-            String.format("Cannot fetch from %s, error message: %s}", uri, errorMessage));
+            String.format("Cannot fetch from %s, error message: %s", uri, errorMessage));
       }
 
       return refsSpec.stream()
@@ -83,6 +83,8 @@ public class CGitFetch implements Fetch {
                 return new RefUpdateState(value.getSource(), RefUpdate.Result.NEW);
               })
           .collect(Collectors.toList());
+    } catch (TransportException e) {
+      throw PermanentTransportException.wrapTransportException(e);
     } catch (InterruptedException e) {
       repLog.error("Thread interrupted during the fetch from: {}, refs: {}", uri, refs);
       throw new IllegalStateException(e);
