@@ -46,12 +46,15 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
@@ -82,6 +85,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final Project.NameKey projectName;
   private final URIish uri;
   private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
+  private final Set<String> failedRefs = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
   private boolean retrying;
@@ -277,6 +281,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     }
   }
 
+  public Set<String> getFailedRefs() {
+    return failedRefs;
+  }
+
   private void runFetchOperation() {
     try (TraceContext ctx = TraceContext.open().addTag(ID_KEY, HexFormat.fromInt(id))) {
       doRunFetchOperation();
@@ -398,7 +406,33 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private void runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
-    updateStates(fetch.fetch(fetchRefSpecs));
+
+    try {
+      updateStates(fetch.fetch(fetchRefSpecs));
+    } catch (TransportException e) {
+      if (delta.size() > 1) {
+        Pattern inexistentRefPattern =
+            Pattern.compile(
+                JGitText.get().remoteDoesNotHaveSpec.replaceAll("\\{0\\}", "([a-zA-Z0-9/]+)"));
+        String transportError = e.getMessage();
+        Matcher matcher = inexistentRefPattern.matcher(transportError);
+        if (matcher.matches()) {
+          String inexistentRef = matcher.group(1);
+          if (inexistentRef != null) {
+            repLog.info(
+                "Remote {} does not have ref {} in replication task [{}], flagging as failed and removing from the replication task",
+                uri,
+                inexistentRef,
+                taskIdHex);
+            failedRefs.add(inexistentRef);
+            delta.remove(inexistentRef);
+            runImpl();
+            return;
+          }
+        }
+      }
+      throw e;
+    }
   }
 
   private List<RefSpec> getFetchRefSpecs() {
@@ -502,7 +536,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
                 null);
       }
     }
-    stateMap.clear();
+
+    for (String doneRef : doneRefs) {
+      stateMap.removeAll(doneRef);
+    }
   }
 
   public static class LockFailureException extends TransportException {
@@ -511,5 +548,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     LockFailureException(URIish uri, String message) {
       super(uri, message);
     }
+  }
+
+  public Optional<PullReplicationApiRequestMetrics> getRequestMetrics() {
+    return apiRequestMetrics;
   }
 }
