@@ -145,6 +145,30 @@
       },
       "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daf1f61f_121059cc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-20T21:47:06Z",
+      "side": 1,
+      "message": "I think Luca is referring to this functionality:\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/364656/2/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java#416",
+      "parentUuid": "a669ed6f_0869b02d",
+      "range": {
+        "startLine": 391,
+        "startChar": 28,
+        "endLine": 391,
+        "endChar": 73
+      },
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
