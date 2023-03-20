@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e4b7286_b6dd45be",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-20T18:26:32Z",
+      "side": 1,
+      "message": "This could be precompiled and stored. There is no need to build it every time",
+      "range": {
+        "startLine": 414,
+        "startChar": 7,
+        "endLine": 416,
+        "endChar": 95
+      },
+      "revId": "265db9f6b5496b2b1eb618fa840ba5ae293b8fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cb1a116_bb60aa72",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-20T18:26:32Z",
+      "side": 1,
+      "message": "for better readability could move that code to a separate method",
+      "range": {
+        "startLine": 412,
+        "startChar": 5,
+        "endLine": 433,
+        "endChar": 7
+      },
+      "revId": "265db9f6b5496b2b1eb618fa840ba5ae293b8fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9437852f_8da09ee8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-20T18:26:32Z",
+      "side": 1,
+      "message": "not related change",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 555,
+        "endChar": 3
+      },
+      "revId": "265db9f6b5496b2b1eb618fa840ba5ae293b8fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
