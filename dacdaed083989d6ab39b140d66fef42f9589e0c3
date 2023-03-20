@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "627d917a_0adc44f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-20T21:43:36Z",
+      "side": 1,
+      "message": "I have refactored the code a bit.\nI have added some tests and documentation.",
+      "revId": "dacdaed083989d6ab39b140d66fef42f9589e0c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

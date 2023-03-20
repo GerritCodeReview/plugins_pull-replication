@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7a1df8d3_b13c978d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-20T21:43:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aeec176_40b8c805",
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c8a787f4_971de532",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -95,6 +113,30 @@
       "writtenOn": "2023-03-18T00:18:43Z",
       "side": 1,
       "message": "Just use `JGitText.get().remoteDoesNotHaveSpec` and replace the `{0}` placeholder.",
+      "range": {
+        "startLine": 391,
+        "startChar": 28,
+        "endLine": 391,
+        "endChar": 73
+      },
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a669ed6f_0869b02d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-20T21:43:36Z",
+      "side": 1,
+      "message": "What do you mean by \"replace the {0} placeholder\"?\n\nWhat should it be replaced with? you mean the refspec?",
+      "parentUuid": "692beff8_87049d0c",
       "range": {
         "startLine": 391,
         "startChar": 28,
