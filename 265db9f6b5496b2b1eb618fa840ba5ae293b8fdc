@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4655c336_c892cdd9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-21T01:40:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e4b7286_b6dd45be",
+      "range": {
+        "startLine": 414,
+        "startChar": 7,
+        "endLine": 416,
+        "endChar": 95
+      },
+      "revId": "265db9f6b5496b2b1eb618fa840ba5ae293b8fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03f0607d_58ae3c7b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-21T01:40:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "481bcaff_2d023fd9",
+      "range": {
+        "startLine": 416,
+        "startChar": 77,
+        "endLine": 416,
+        "endChar": 89
+      },
+      "revId": "265db9f6b5496b2b1eb618fa840ba5ae293b8fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2fc88e65_c9ef228a",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-03-20T21:42:35Z",
       "side": 1,
       "message": "but why we even bother to add `inexistentRef` to failedRefs if we know that it cannot be fetched because it doesn\u0027t exists? Shouldn\u0027t we discard it here? If we have multiple failing refs in a single task we will repeat that process for every failing ref.",
+      "range": {
+        "startLine": 427,
+        "startChar": 12,
+        "endLine": 427,
+        "endChar": 41
+      },
+      "revId": "265db9f6b5496b2b1eb618fa840ba5ae293b8fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db0eb567_270c8c7c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-21T01:40:52Z",
+      "side": 1,
+      "message": "We know that it cannot be fetched *at this time* which doesn\u0027t mean it won\u0027t be able to be fetched in the future. We should not assume that has permanently failed *as yet* and just leave the rest of the fetch succeed and reschedule this one.",
+      "parentUuid": "2fc88e65_c9ef228a",
       "range": {
         "startLine": 427,
         "startChar": 12,
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05a87531_9d2d6e17",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-21T01:40:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cb1a116_bb60aa72",
+      "range": {
+        "startLine": 412,
+        "startChar": 5,
+        "endLine": 433,
+        "endChar": 7
+      },
+      "revId": "265db9f6b5496b2b1eb618fa840ba5ae293b8fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9437852f_8da09ee8",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-03-20T18:26:32Z",
       "side": 1,
       "message": "not related change",
+      "range": {
+        "startLine": 552,
+        "startChar": 0,
+        "endLine": 555,
+        "endChar": 3
+      },
+      "revId": "265db9f6b5496b2b1eb618fa840ba5ae293b8fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46d95a53_a1455d8b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-21T01:40:52Z",
+      "side": 1,
+      "message": "This is needed for the rescheduling of the removed ref, see Source.java:L610.",
+      "parentUuid": "9437852f_8da09ee8",
       "range": {
         "startLine": 552,
         "startChar": 0,
