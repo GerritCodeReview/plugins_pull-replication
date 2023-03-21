@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74e61807_b767931c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-21T20:06:06Z",
+      "side": 1,
+      "message": "should this be in line 443? Here we are discarding permissions replication when `replicatePermissions()` is set to false",
+      "range": {
+        "startLine": 420,
+        "startChar": 25,
+        "endLine": 420,
+        "endChar": 35
+      },
+      "revId": "a1f5e285920fddee2533e46d0908aca2fa17c613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
