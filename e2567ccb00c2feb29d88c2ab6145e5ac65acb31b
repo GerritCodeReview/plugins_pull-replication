@@ -52,6 +52,24 @@
       "parentUuid": "5a81ba3c_195ce92f",
       "revId": "e2567ccb00c2feb29d88c2ab6145e5ac65acb31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c6352d_7a6f5fe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-21T20:20:29Z",
+      "side": 1,
+      "message": "Cool @maczech@gmail.com, let\u0027s see what others say.\nI have tested this today and it works as expected for me, but please give it a go as well just to make sure I didn\u0027t introduce any regression",
+      "parentUuid": "5d666d89_fb6ed219",
+      "revId": "e2567ccb00c2feb29d88c2ab6145e5ac65acb31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
