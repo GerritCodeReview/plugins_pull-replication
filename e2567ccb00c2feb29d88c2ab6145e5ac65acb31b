@@ -16,6 +16,24 @@
       "message": "Not sure if I should add -1 because it\u0027s not in the scope of this change but following change https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/364656 was relying on parsing the error message to get the ref name. Now with PermanentTransportException this information is gone",
       "revId": "e2567ccb00c2feb29d88c2ab6145e5ac65acb31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a81ba3c_195ce92f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-21T20:06:07Z",
+      "side": 1,
+      "message": "\u003e Not sure if I should add -1 because it\u0027s not in the scope of this change but following change https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/364656 was relying on parsing the error message to get the ref name. Now with PermanentTransportException this information is gone\n\nI don\u0027t think the information is gone.\nThe original transport exception (inclusive of the error message with the ref name), could still be retrieved by calling `e.getCause()`.",
+      "parentUuid": "03fef2c9_69496627",
+      "revId": "e2567ccb00c2feb29d88c2ab6145e5ac65acb31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
