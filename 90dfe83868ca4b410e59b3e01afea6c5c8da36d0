@@ -169,6 +169,54 @@
       },
       "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37c39db1_1ff4df95",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-21T15:15:50Z",
+      "side": 1,
+      "message": "Makes sense, I have added a note for this.",
+      "parentUuid": "a2ab657f_772a75ae",
+      "range": {
+        "startLine": 391,
+        "startChar": 28,
+        "endLine": 391,
+        "endChar": 73
+      },
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ac680f_0b602f92",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-21T15:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daf1f61f_121059cc",
+      "range": {
+        "startLine": 391,
+        "startChar": 28,
+        "endLine": 391,
+        "endChar": 73
+      },
+      "revId": "90dfe83868ca4b410e59b3e01afea6c5c8da36d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
