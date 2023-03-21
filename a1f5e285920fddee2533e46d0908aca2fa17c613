@@ -22,6 +22,30 @@
       },
       "revId": "a1f5e285920fddee2533e46d0908aca2fa17c613",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a90b5d4_9828fa1f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-21T20:08:21Z",
+      "side": 1,
+      "message": "Yes, good catch.",
+      "parentUuid": "74e61807_b767931c",
+      "range": {
+        "startLine": 420,
+        "startChar": 25,
+        "endLine": 420,
+        "endChar": 35
+      },
+      "revId": "a1f5e285920fddee2533e46d0908aca2fa17c613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
