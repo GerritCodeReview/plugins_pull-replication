@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8738f334_70f0fd9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-21T10:43:30Z",
+      "side": 1,
+      "message": "I thought the aim of the previous change was to avoid retrying persistent failures.\n\nHere we are rescheduling them individually. What would be the case where it is possible to fix the replication error by retrying them?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 20
+      },
+      "revId": "0e8b344ca73bc75e9b0a9b33412b648c879ecfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5dc5ed6_c135efce",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-21T10:43:30Z",
+      "side": 1,
+      "message": "What about checking once only for `delta.size() \u003e 1`?\n\n```\n if (delta.size() \u003d\u003d 0) {\n  throw e;\n }\n\n Optional\u003cString\u003e ref \u003d inexistentRef(e);\n if (ref.isPresent()) {\n      reRunImplWithoutRef(ref.get());\n } else {\n      throw e;\n }\n```",
+      "range": {
+        "startLine": 408,
+        "startChar": 6,
+        "endLine": 415,
+        "endChar": 0
+      },
+      "revId": "0e8b344ca73bc75e9b0a9b33412b648c879ecfcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
