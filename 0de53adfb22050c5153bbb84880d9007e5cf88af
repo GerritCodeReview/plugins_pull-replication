@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2be6ea5f_78ae13b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-21T08:54:36Z",
+      "side": 1,
+      "message": "Apart for Luca\u0027s comment [1] it looks good to me.\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/364534/comment/692beff8_87049d0c/",
+      "revId": "0de53adfb22050c5153bbb84880d9007e5cf88af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
