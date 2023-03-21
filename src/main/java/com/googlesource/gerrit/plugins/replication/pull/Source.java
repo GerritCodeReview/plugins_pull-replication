@@ -417,7 +417,7 @@ public class Source {
       synchronized (stateLock) {
         e = pending.get(uri);
       }
-      if (e == null) {
+      if (e == null || e.isRetrying()) {
         try (Repository git = gitManager.openRepository(project)) {
           try {
             Ref head = git.exactRef(Constants.HEAD);
