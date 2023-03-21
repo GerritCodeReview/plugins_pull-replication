@@ -16,6 +16,29 @@
       "message": "Giving -1 because parent change update:\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/364534/6/src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/JGitFetch.java#59\n\ncaused that change to not work anymore. Error message is changed to \u0027Terminal fetch failure\u0027 so we are losing the ref name",
       "revId": "5a4565e03572068868a9171e81c157368b0fab35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54c8db7b_008dca10",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-21T21:06:20Z",
+      "side": 1,
+      "message": "Parent change introduced `PermanentTransportException` which is thrown from fetch() we can use it here",
+      "range": {
+        "startLine": 407,
+        "startChar": 13,
+        "endLine": 407,
+        "endChar": 31
+      },
+      "revId": "5a4565e03572068868a9171e81c157368b0fab35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
