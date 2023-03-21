@@ -16,6 +16,75 @@
       "message": "Apart for Luca\u0027s comment [1] it looks good to me.\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/364534/comment/692beff8_87049d0c/",
       "revId": "0de53adfb22050c5153bbb84880d9007e5cf88af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21b5b253_57a2d1b5",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-21T15:01:16Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 124,
+        "startChar": 40,
+        "endLine": 124,
+        "endChar": 43
+      },
+      "revId": "0de53adfb22050c5153bbb84880d9007e5cf88af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cb7a437_77bcca75",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-21T15:01:16Z",
+      "side": 1,
+      "message": "formatting",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 8
+      },
+      "revId": "0de53adfb22050c5153bbb84880d9007e5cf88af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bcce2f3_edece6c0",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-21T15:01:16Z",
+      "side": 1,
+      "message": "formatting",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 65
+      },
+      "revId": "0de53adfb22050c5153bbb84880d9007e5cf88af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
