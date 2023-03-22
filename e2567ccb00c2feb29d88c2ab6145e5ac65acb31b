@@ -164,6 +164,30 @@
       },
       "revId": "e2567ccb00c2feb29d88c2ab6145e5ac65acb31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40961ab3_d30a9443",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchITBase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-22T12:24:13Z",
+      "side": 1,
+      "message": "right, missed the latter one 😊\nsorry for the false alarm",
+      "parentUuid": "b21bfe8b_838dd60a",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 24
+      },
+      "revId": "e2567ccb00c2feb29d88c2ab6145e5ac65acb31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
