@@ -136,14 +136,15 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
 
   @Override
   public void cancel() {
-    repLog.info("Replication {} was canceled", getURI());
+    repLog.info("Replication task [{}] from {} was canceled", taskIdHex, getURI());
     canceledByReplication();
     pool.fetchWasCanceled(this);
   }
 
   @Override
   public void setCanceledWhileRunning() {
-    repLog.info("Replication {} was canceled while being executed", getURI());
+    repLog.info(
+        "Replication task [{}] from {} was canceled while being executed", taskIdHex, getURI());
     canceledWhileRunning.set(true);
   }
 
@@ -202,10 +203,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     if (ALL_REFS.equals(ref)) {
       delta.clear();
       fetchAllRefs = true;
-      repLog.trace("Added all refs for replication from {}", uri);
+      repLog.trace("[{}] Added all refs for replication from {}", taskIdHex, uri);
     } else if (!fetchAllRefs) {
       delta.add(ref);
-      repLog.trace("Added ref {} for replication from {}", ref, uri);
+      repLog.trace("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
     }
   }
 
@@ -337,7 +338,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
           elapsedEnd2End.map(el -> String.format(", E2E %dms", el)).orElse(""));
     } catch (RepositoryNotFoundException e) {
       stateLog.error(
-          "Cannot replicate " + projectName + "; Local repository error: " + e.getMessage(),
+          "["
+              + taskIdHex
+              + "] Cannot replicate "
+              + projectName
+              + "; Local repository error: "
+              + e.getMessage(),
           getStatesAsArray());
 
     } catch (NoRemoteRepositoryException | RemoteRepositoryException e) {
@@ -348,7 +354,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       repLog.error(
           "Cannot replicate [{}] {}; Remote repository error: {}", taskIdHex, projectName, msg);
     } catch (NotSupportedException e) {
-      stateLog.error("Cannot replicate from " + uri, e, getStatesAsArray());
+      stateLog.error("Cannot replicate [" + taskIdHex + "] from " + uri, e, getStatesAsArray());
     } catch (PermanentTransportException e) {
       repLog.error(
           String.format("Terminal failure. Cannot replicate [%s] from %s", taskIdHex, uri), e);
@@ -368,7 +374,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
           }
         } else {
           repLog.error(
-              "Giving up after {} occurrences of this error: {} during replication from [{}] {}",
+              "Giving up [{}] after {} occurrences of this error: {} during replication from [{}] {}",
+              taskIdHex,
               lockRetryCount,
               e.getMessage(),
               taskIdHex,
@@ -384,9 +391,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
         }
       }
     } catch (IOException e) {
-      stateLog.error("Cannot replicate from " + uri, e, getStatesAsArray());
+      stateLog.error("[" + taskIdHex + "] Cannot replicate from " + uri, e, getStatesAsArray());
     } catch (RuntimeException | Error e) {
-      stateLog.error("Unexpected error during replication from " + uri, e, getStatesAsArray());
+      stateLog.error(
+          "[" + taskIdHex + "] Unexpected error during replication from " + uri,
+          e,
+          getStatesAsArray());
     } finally {
       if (git != null) {
         git.close();
@@ -405,7 +415,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       return;
     }
 
-    Fetch fetch = fetchFactory.create(uri, git);
+    Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
 
     try {

@@ -60,6 +60,7 @@ import org.junit.Test;
     sysModule = "com.googlesource.gerrit.plugins.replication.pull.CGitFetchIT$TestModule")
 public class CGitFetchIT extends FetchITBase {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
+  private static final String TEST_TASK_ID = "taskid";
 
   @Test
   public void shouldFetchRef() throws Exception {
@@ -71,7 +72,8 @@ public class CGitFetchIT extends FetchITBase {
       RevCommit sourceCommit = pushResult.getCommit();
       String sourceRef = pushResult.getPatchSet().refName();
 
-      Fetch objectUnderTest = fetchFactory.create(new URIish(testRepoPath.toString()), repo);
+      Fetch objectUnderTest =
+          fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
       objectUnderTest.fetch(Lists.newArrayList(new RefSpec(sourceRef + ":" + sourceRef)));
 
@@ -91,7 +93,8 @@ public class CGitFetchIT extends FetchITBase {
 
       createChange();
 
-      Fetch objectUnderTest = fetchFactory.create(new URIish(testRepoPath.toString()), repo);
+      Fetch objectUnderTest =
+          fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
       objectUnderTest.fetch(Lists.newArrayList(new RefSpec(nonExistingRef)));
     }
@@ -105,7 +108,8 @@ public class CGitFetchIT extends FetchITBase {
       Result pushResult = createChange();
       String sourceRef = pushResult.getPatchSet().refName();
 
-      Fetch objectUnderTest = fetchFactory.create(new URIish("/not_existing_path/"), repo);
+      Fetch objectUnderTest =
+          fetchFactory.create(TEST_TASK_ID, new URIish("/not_existing_path/"), repo);
 
       objectUnderTest.fetch(Lists.newArrayList(new RefSpec(sourceRef + ":" + sourceRef)));
     }
@@ -122,7 +126,8 @@ public class CGitFetchIT extends FetchITBase {
       Result pushResultTwo = createChange();
       String sourceRefTwo = pushResultTwo.getPatchSet().refName();
 
-      Fetch objectUnderTest = fetchFactory.create(new URIish(testRepoPath.toString()), repo);
+      Fetch objectUnderTest =
+          fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
       objectUnderTest.fetch(
           Lists.newArrayList(
@@ -158,11 +163,12 @@ public class CGitFetchIT extends FetchITBase {
     Repository repo = mock(Repository.class);
     FetchFactory fetchFactory = mock(FetchFactory.class);
     Fetch fetchClient = mock(Fetch.class);
-    when(fetchFactory.createPlainImpl(uri, repo)).thenReturn(fetchClient);
+    when(fetchFactory.createPlainImpl(TEST_TASK_ID, uri, repo)).thenReturn(fetchClient);
     when(fetchClient.fetch(any())).thenReturn(fetchResultList);
 
     Fetch objectUnderTest =
-        new BatchFetchClient(sourceConfig, fetchFactory, new URIish(testRepoPath.toString()), repo);
+        new BatchFetchClient(
+            sourceConfig, fetchFactory, TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
     objectUnderTest.fetch(
         Lists.newArrayList(
@@ -185,7 +191,8 @@ public class CGitFetchIT extends FetchITBase {
     String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
 
     try (Repository repo = repoManager.openRepository(project)) {
-      Fetch objectUnderTest = fetchFactory.create(new URIish(testRepoPath.toString()), repo);
+      Fetch objectUnderTest =
+          fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
       objectUnderTest.fetch(Lists.newArrayList(new RefSpec(newBranch + ":" + newBranch)));
 
@@ -209,7 +216,8 @@ public class CGitFetchIT extends FetchITBase {
     gApi.projects().name(testProjectName).branch(newBranch).create(input);
 
     try (Repository repo = repoManager.openRepository(project)) {
-      Fetch objectUnderTest = fetchFactory.create(new URIish(testRepoPath.toString()), repo);
+      Fetch objectUnderTest =
+          fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
       objectUnderTest.fetch(
           Lists.newArrayList(new RefSpec("non_existing_branch" + ":" + "non_existing_branch")));
