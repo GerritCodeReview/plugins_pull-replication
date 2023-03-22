@@ -70,6 +70,52 @@
       "parentUuid": "5d666d89_fb6ed219",
       "revId": "e2567ccb00c2feb29d88c2ab6145e5ac65acb31b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e3d2fa2_8413e183",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchITBase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-22T09:21:25Z",
+      "side": 1,
+      "message": "nit: `abstract`?",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "e2567ccb00c2feb29d88c2ab6145e5ac65acb31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ddd7d6b_ad71a386",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchITBase.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-22T09:21:25Z",
+      "side": 1,
+      "message": "nit: it is being used only in the `JGitFetchIT` so maybe it should be created when it is needed? unless you have some patches down the road that are relying on it 😊",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 24
+      },
+      "revId": "e2567ccb00c2feb29d88c2ab6145e5ac65acb31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
