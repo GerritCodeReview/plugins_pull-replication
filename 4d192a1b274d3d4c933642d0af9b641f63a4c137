@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "489b4264_8cf10f3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-22T17:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bb39918_b822dc30",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "4d192a1b274d3d4c933642d0af9b641f63a4c137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a10de7b1_d94be7b2",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-03-22T17:19:10Z",
       "side": 1,
       "message": "nit: remove empty line",
+      "revId": "4d192a1b274d3d4c933642d0af9b641f63a4c137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c378348_21916b71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-22T17:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a10de7b1_d94be7b2",
       "revId": "4d192a1b274d3d4c933642d0af9b641f63a4c137",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +113,30 @@
       "writtenOn": "2023-03-22T17:19:10Z",
       "side": 1,
       "message": "This is an additional fix: can you mention it as part of the commit message?",
+      "range": {
+        "startLine": 180,
+        "startChar": 20,
+        "endLine": 180,
+        "endChar": 47
+      },
+      "revId": "4d192a1b274d3d4c933642d0af9b641f63a4c137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db32b6d2_8c1b7670",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-22T17:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3bba787_14f262cb",
       "range": {
         "startLine": 180,
         "startChar": 20,
