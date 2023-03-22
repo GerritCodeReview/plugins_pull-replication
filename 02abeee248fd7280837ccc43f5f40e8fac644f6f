@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a9f2c9a_07dd4b2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-22T16:56:17Z",
+      "side": 1,
+      "message": "This _almost works_ (TM).\n\n* It works fine when adding the SSH keys, but not when deleting them, not sure why.\n* I was expecting an `evict` method on the `AccountCache` which would have taken care of the SSH keys cache as well. Apparently, this is not the case. I will keep digging into the code to see if I can understand why.",
+      "revId": "02abeee248fd7280837ccc43f5f40e8fac644f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
