@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "542d152d_43686bc5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-22T17:21:53Z",
+      "side": 1,
+      "message": "I think it is better waiting for [1] before proceeding with the merge\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/365235/5",
+      "revId": "a0787e9b0614de0398819c5e7aab53b39d05c684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
