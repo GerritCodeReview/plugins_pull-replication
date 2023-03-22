@@ -82,6 +82,8 @@ public class StreamEventListenerTest {
         .thenReturn(fetchJob);
     when(sources.getAll()).thenReturn(Lists.newArrayList(source));
     when(source.wouldFetchProject(any())).thenReturn(true);
+    when(source.wouldCreateProject(any())).thenReturn(true);
+    when(source.isCreateMissingRepositories()).thenReturn(true);
     when(source.getRemoteConfigName()).thenReturn(REMOTE_INSTANCE_ID);
     when(refsFilter.match(any())).thenReturn(false);
     objectUnderTest =
@@ -209,6 +211,34 @@ public class StreamEventListenerTest {
     objectUnderTest.onEvent(event);
 
     verify(projectInitializationAction).initProject(String.format("%s.git", TEST_PROJECT));
+  }
+
+  @Test
+  public void shouldNotCreateProjectWhenCreateMissingRepositoriesNotSet()
+      throws AuthException, PermissionBackendException {
+    when(source.isCreateMissingRepositories()).thenReturn(false);
+
+    ProjectCreatedEvent event = new ProjectCreatedEvent();
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.projectName = TEST_PROJECT;
+
+    objectUnderTest.onEvent(event);
+
+    verify(projectInitializationAction, never()).initProject(any());
+  }
+
+  @Test
+  public void shouldNotCreateProjectWhenReplicationNotAllowed()
+      throws AuthException, PermissionBackendException {
+    when(source.isCreateMissingRepositories()).thenReturn(false);
+
+    ProjectCreatedEvent event = new ProjectCreatedEvent();
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.projectName = TEST_PROJECT;
+
+    objectUnderTest.onEvent(event);
+
+    verify(projectInitializationAction, never()).initProject(any());
   }
 
   @Test

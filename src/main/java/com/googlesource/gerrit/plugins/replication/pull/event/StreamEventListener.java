@@ -34,6 +34,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
+import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
@@ -43,6 +44,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializatio
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class StreamEventListener implements EventListener {
@@ -162,12 +164,25 @@ public class StreamEventListener implements EventListener {
       return false;
     }
 
+    Optional<Source> maybeSource =
+        sources.getAll().stream()
+            .filter(s -> s.getRemoteConfigName().equals(event.instanceId))
+            .findFirst();
+
+    if (!maybeSource.isPresent()) {
+      return false;
+    }
+
+    Source source = maybeSource.get();
+    if (event instanceof ProjectCreatedEvent) {
+      ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
+
+      return source.isCreateMissingRepositories()
+          && source.wouldCreateProject(projectCreatedEvent.getProjectNameKey());
+    }
+
     ProjectEvent projectEvent = (ProjectEvent) event;
-    return sources.getAll().stream()
-        .filter(s -> s.getRemoteConfigName().equals(projectEvent.instanceId))
-        .findFirst()
-        .map(s -> s.wouldFetchProject(projectEvent.getProjectNameKey()))
-        .orElse(false);
+    return source.wouldFetchProject(projectEvent.getProjectNameKey());
   }
 
   private boolean isRefDelete(RefUpdatedEvent event) {
