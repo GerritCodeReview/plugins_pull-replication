@@ -15,12 +15,15 @@
 package com.googlesource.gerrit.plugins.replication.pull.event;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
@@ -28,17 +31,22 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 
 public class FetchRefReplicatedEventHandler implements EventListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  final private AllUsersName allUsers;
   private ChangeIndexer changeIndexer;
+  private final SshKeyCache sshKeyCache;
 
   @Inject
-  FetchRefReplicatedEventHandler(ChangeIndexer changeIndexer) {
+  FetchRefReplicatedEventHandler(ChangeIndexer changeIndexer, AllUsersName allUsers, SshKeyCache sshKeyCache) {
     this.changeIndexer = changeIndexer;
+    this.allUsers = allUsers;
+    this.sshKeyCache = sshKeyCache;
   }
 
   @Override
   public void onEvent(Event event) {
     if (event instanceof FetchRefReplicatedEvent && isLocalEvent()) {
       FetchRefReplicatedEvent fetchRefReplicatedEvent = (FetchRefReplicatedEvent) event;
+      handleAllUsersUpdates(fetchRefReplicatedEvent);
       if (!RefNames.isNoteDbMetaRef(fetchRefReplicatedEvent.getRefName())
           || !fetchRefReplicatedEvent
               .getStatus()
@@ -57,6 +65,17 @@ public class FetchRefReplicatedEventHandler implements EventListener {
         logger.atWarning().log(
             "Couldn't get changeId from refName. Skipping indexing of change %s for project %s",
             fetchRefReplicatedEvent.getRefName(), projectNameKey.get());
+      }
+    }
+  }
+
+  private void handleAllUsersUpdates(FetchRefReplicatedEvent fetchRefReplicatedEvent) {
+    Project.NameKey projectNameKey = fetchRefReplicatedEvent.getProjectNameKey();
+    if (allUsers.equals(projectNameKey)) {
+      Account.Id accountId = Account.Id.fromRef(fetchRefReplicatedEvent.getRefName());
+      if (accountId != null) {
+        logger.atFine().log("Evicting SSH keys cache for account {}", Account.getName(accountId));
+        sshKeyCache.evict(Account.getName(accountId));
       }
     }
   }
