@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "865436b1_f364aeb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-22T17:01:14Z",
+      "side": 1,
+      "message": "The build failure is unrelated: that is due to the JGit bump on stable-3.5 and not to this merge.",
+      "revId": "0ce06d2d86114cf6bb64a1a7b51aed7b5f11e8df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
