@@ -32,10 +32,11 @@ public class BatchFetchClient implements Fetch {
   public BatchFetchClient(
       SourceConfiguration config,
       FetchFactory factory,
+      @Assisted String taskHexId,
       @Assisted URIish uri,
       @Assisted Repository git) {
     this.batchSize = config.getRefsBatchSize();
-    this.fetchClient = factory.createPlainImpl(uri, git);
+    this.fetchClient = factory.createPlainImpl(taskHexId, uri, git);
   }
 
   @Override
