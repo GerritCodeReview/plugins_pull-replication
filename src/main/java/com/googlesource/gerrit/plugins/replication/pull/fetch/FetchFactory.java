@@ -18,8 +18,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.URIish;
 
 public interface FetchFactory {
-  Fetch create(URIish uri, Repository git);
+  Fetch create(String taskIdHex, URIish uri, Repository git);
   // Return implementation without any decorators
   @FetchClientImplementation
-  Fetch createPlainImpl(URIish uri, Repository git);
+  Fetch createPlainImpl(String taskIdHex, URIish uri, Repository git);
 }
