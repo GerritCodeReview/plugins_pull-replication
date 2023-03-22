@@ -20,25 +20,83 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.ssh.SshKeyCache;
 import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import java.util.Optional;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.junit.Before;
 import org.junit.Test;
 
 public class FetchRefReplicatedEventHandlerTest {
   private ChangeIndexer changeIndexerMock;
+  private SshKeyCache sshKeyCache;
+  private IdentifiedUser.GenericFactory userFactory;
   private FetchRefReplicatedEventHandler fetchRefReplicatedEventHandler;
+  private AllUsersName allUsers = new AllUsersName("All-Users");
 
   @Before
   public void setUp() throws Exception {
     changeIndexerMock = mock(ChangeIndexer.class);
-    fetchRefReplicatedEventHandler = new FetchRefReplicatedEventHandler(changeIndexerMock);
+    sshKeyCache = mock(SshKeyCache.class);
+    userFactory = mock(IdentifiedUser.GenericFactory.class);
+    fetchRefReplicatedEventHandler =
+        new FetchRefReplicatedEventHandler(changeIndexerMock, allUsers, sshKeyCache, userFactory);
+  }
+
+  @Test
+  public void onEventShouldEvictCacheForAllUsersProject() {
+    String ref = "refs/users/00/1000000";
+    String testUser = "testUser";
+
+    Account.Id id = Account.Id.fromRef(ref);
+
+    IdentifiedUser mockedIdentifiedUser = mock(IdentifiedUser.class);
+    when(userFactory.create(id)).thenReturn(mockedIdentifiedUser);
+    when(mockedIdentifiedUser.getUserName()).thenReturn(Optional.of(testUser));
+
+    Project.NameKey projectNameKey = allUsers;
+    try {
+      Context.setLocalEvent(true);
+      fetchRefReplicatedEventHandler.onEvent(
+          new FetchRefReplicatedEvent(
+              projectNameKey.get(),
+              ref,
+              "aSourceNode",
+              ReplicationState.RefFetchResult.SUCCEEDED,
+              RefUpdate.Result.FAST_FORWARD));
+      verify(sshKeyCache, times(1)).evict(eq(testUser));
+    } finally {
+      Context.unsetLocalEvent();
+    }
+  }
+
+  @Test
+  public void onEventShouldNotEvictCacheForNormalProject() {
+    Project.NameKey projectNameKey = Project.nameKey("testProject");
+    String ref = "refs/changes/41/41/meta";
+    try {
+      Context.setLocalEvent(true);
+      fetchRefReplicatedEventHandler.onEvent(
+          new FetchRefReplicatedEvent(
+              projectNameKey.get(),
+              ref,
+              "aSourceNode",
+              ReplicationState.RefFetchResult.SUCCEEDED,
+              RefUpdate.Result.FAST_FORWARD));
+      verify(sshKeyCache, never()).evict(any());
+    } finally {
+      Context.unsetLocalEvent();
+    }
   }
 
   @Test
