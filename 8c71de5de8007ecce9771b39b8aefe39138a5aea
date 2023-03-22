@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2302ae85_1543dc8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-03-22T12:19:45Z",
+      "side": 1,
+      "message": "AFAIU Gerrit should not override configs during init as otherwise they would have to be fixed after every post upgrade init. I wonder what gets changed...",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "8c71de5de8007ecce9771b39b8aefe39138a5aea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
