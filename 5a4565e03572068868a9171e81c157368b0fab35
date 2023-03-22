@@ -81,6 +81,30 @@
       },
       "revId": "5a4565e03572068868a9171e81c157368b0fab35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2fbd09c_65928db2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-22T19:53:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4c786ff_1b505a61",
+      "range": {
+        "startLine": 407,
+        "startChar": 13,
+        "endLine": 407,
+        "endChar": 31
+      },
+      "revId": "5a4565e03572068868a9171e81c157368b0fab35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
