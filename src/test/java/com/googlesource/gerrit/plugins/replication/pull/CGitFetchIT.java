@@ -22,18 +22,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.Lists;
-import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
@@ -46,12 +40,8 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
-import java.time.Duration;
 import java.util.List;
-import java.util.function.Supplier;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
@@ -68,27 +58,8 @@ import org.junit.Test;
 @TestPlugin(
     name = "pull-replication",
     sysModule = "com.googlesource.gerrit.plugins.replication.pull.CGitFetchIT$TestModule")
-public class CGitFetchIT extends LightweightPluginDaemonTest {
+public class CGitFetchIT extends FetchITBase {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private static final int TEST_REPLICATION_DELAY = 60;
-  private static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2);
-
-  @Inject private SitePaths sitePaths;
-  @Inject private ProjectOperations projectOperations;
-  private FetchFactory fetchFactory;
-  private Path gitPath;
-  private Path testRepoPath;
-
-  @Override
-  public void setUpTestPlugin() throws Exception {
-    gitPath = sitePaths.site_path.resolve("git");
-    testRepoPath = gitPath.resolve(project + TEST_REPLICATION_SUFFIX + ".git");
-
-    super.setUpTestPlugin();
-    fetchFactory = plugin.getSysInjector().getInstance(FetchFactory.class);
-  }
 
   @Test
   public void shouldFetchRef() throws Exception {
@@ -243,27 +214,6 @@ public class CGitFetchIT extends LightweightPluginDaemonTest {
       objectUnderTest.fetch(
           Lists.newArrayList(new RefSpec("non_existing_branch" + ":" + "non_existing_branch")));
     }
-  }
-
-  private void waitUntil(Supplier<Boolean> waitCondition) throws InterruptedException {
-    WaitUtil.waitUntil(waitCondition, TEST_TIMEOUT);
-  }
-
-  private Ref getRef(Repository repo, String branchName) throws IOException {
-    return repo.getRefDatabase().exactRef(branchName);
-  }
-
-  private Ref checkedGetRef(Repository repo, String branchName) {
-    try {
-      return repo.getRefDatabase().exactRef(branchName);
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log("failed to get ref %s in repo %s", branchName, repo);
-      return null;
-    }
-  }
-
-  private Project.NameKey createTestProject(String name) throws Exception {
-    return projectOperations.newProject().name(name).create();
   }
 
   @SuppressWarnings("unused")
