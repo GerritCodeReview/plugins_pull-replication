@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "503f7131_b039b219",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T12:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc91eedc_da03ad3b",
+      "range": {
+        "startLine": 19,
+        "startChar": 16,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62c9f533_155d6c5c",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-03-23T08:46:39Z",
       "side": 1,
       "message": "nit: extra line",
+      "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a44ddb4a_94b6d6e3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T12:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62c9f533_155d6c5c",
       "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1e00258_917ae580",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T12:22:59Z",
+      "side": 1,
+      "message": "the ref is `of` the repository whilst it is included `in` in the replication task.\n`if` looks appropriate to me.",
+      "parentUuid": "6b03d1ab_0adbef77",
+      "range": {
+        "startLine": 416,
+        "startChar": 42,
+        "endLine": 416,
+        "endChar": 44
+      },
+      "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "887d23b1_f52754b3",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-03-23T08:46:39Z",
       "side": 1,
       "message": "At this point we know how many refs failed for a task, hence it might be useful logging what is the % of failed refs. Maybe as a follow up we could add a log here, WDYT?",
+      "range": {
+        "startLine": 528,
+        "startChar": 0,
+        "endLine": 530,
+        "endChar": 5
+      },
+      "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b379c04_64d57c94",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T12:22:59Z",
+      "side": 1,
+      "message": "Not sure if the number of failure is worth logging it, because you can still count the exceptions in the logs.",
+      "parentUuid": "887d23b1_f52754b3",
       "range": {
         "startLine": 528,
         "startChar": 0,
