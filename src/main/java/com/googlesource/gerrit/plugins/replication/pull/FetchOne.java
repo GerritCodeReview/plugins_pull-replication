@@ -417,11 +417,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   private void runImpl() throws IOException {
-    if (delta.isEmpty()) {
-      repLog.warn("Empty replication task [{}], skipping.", taskIdHex);
-      return;
-    }
-
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
 
@@ -436,6 +431,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
           inexistentRef);
       fetchFailures.add(e);
       delta.remove(inexistentRef);
+      if (delta.isEmpty()) {
+        repLog.warn("[{}] Empty replication task, skipping.", taskIdHex);
+        return;
+      }
+
       runImpl();
     }
   }
