@@ -589,6 +589,10 @@ public class Source {
     return true;
   }
 
+  Optional<FetchOne> getInFlight(URIish uri) {
+    return Optional.ofNullable(inFlight.get(uri));
+  }
+
   void notifyFinished(FetchOne op) {
     synchronized (stateLock) {
       inFlight.remove(op.getURI());
