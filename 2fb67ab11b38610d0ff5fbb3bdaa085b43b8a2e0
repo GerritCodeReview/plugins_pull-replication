@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a49f0f16_f99d5fed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-23T13:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08f2b3b2_323182dc",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "2fb67ab11b38610d0ff5fbb3bdaa085b43b8a2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ff0caf7_3e69ce91",
@@ -60,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "39f7182b_7dad4e3f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-23T13:39:54Z",
+      "side": 1,
+      "message": "This is how we make sure the event are local at the moment. I wonder why we don\u0027t use `instanceId` 😮",
+      "parentUuid": "d03e7962_6b333694",
+      "revId": "2fb67ab11b38610d0ff5fbb3bdaa085b43b8a2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "41276673_1416d3fc",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
         "patchSetId": 6
@@ -71,6 +113,30 @@
       "writtenOn": "2023-03-23T13:14:44Z",
       "side": 1,
       "message": "The cache should NOT be evicted here right?\n\n```suggestion\n  public void onEventShouldNotEvictCacheForNormalProject() {\n```",
+      "range": {
+        "startLine": 84,
+        "startChar": 14,
+        "endLine": 84,
+        "endChar": 58
+      },
+      "revId": "2fb67ab11b38610d0ff5fbb3bdaa085b43b8a2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2bd28d5_d613c8fb",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-23T13:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41276673_1416d3fc",
       "range": {
         "startLine": 84,
         "startChar": 14,
