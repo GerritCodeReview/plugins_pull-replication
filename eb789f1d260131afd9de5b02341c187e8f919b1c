@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e2e0ab9_68a557a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-23T09:36:36Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com we can close this, right?",
+      "revId": "eb789f1d260131afd9de5b02341c187e8f919b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5d08e5f_4f25fafe",
