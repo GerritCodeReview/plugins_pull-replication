@@ -100,6 +100,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final AtomicBoolean canceledWhileRunning;
   private final FetchFactory fetchFactory;
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
+  private final Optional<Integer> refsEscalationSize;
 
   @Inject
   FetchOne(
@@ -131,6 +132,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     this.fetchFactory = fetchFactory;
     maxRetries = s.getMaxRetries();
     this.apiRequestMetrics = apiRequestMetrics;
+    refsEscalationSize = c.getRefsEscalationSize();
   }
 
   @Override
@@ -199,13 +201,19 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   void addRef(String ref) {
-    if (ALL_REFS.equals(ref)) {
+    boolean escalateToAllRefs =
+        refsEscalationSize.filter(limit -> delta.size() >= limit).isPresent();
+    if (ALL_REFS.equals(ref) || escalateToAllRefs) {
       delta.clear();
       fetchAllRefs = true;
-      repLog.trace("[{}] Added all refs for replication from {}", taskIdHex, uri);
+      String escalation =
+          escalateToAllRefs
+              ? String.format("due to escalation over %d refs", refsEscalationSize.get())
+              : "";
+      repLog.info("[{}] Added all refs for replication from {} {}", taskIdHex, uri, escalation);
     } else if (!fetchAllRefs) {
       delta.add(ref);
-      repLog.trace("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
+      repLog.info("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
     }
   }
 

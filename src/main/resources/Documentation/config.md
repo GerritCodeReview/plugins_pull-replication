@@ -202,6 +202,15 @@ replication.refsBatchSize
 
 	Default: 50
 
+replication.refsEscalationSize
+:	Threshold for escalating to fetching refs/* instead of an list of individual
+	refs. Set to 0 or negative values for disabling the refs escalation mechanism
+	altogether.
+	When set to a positive number N, the replication tasks having N or more refs
+	would be translated into a fetch of refs/*.
+
+	Default: 0
+
 replication.excludeRefs
 :   Specify which refs should be excluded from git fetch calls. It can be provided
     more than once, and supports three formats: regular expressions, wildcard
