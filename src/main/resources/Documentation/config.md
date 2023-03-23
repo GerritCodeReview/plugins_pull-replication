@@ -119,6 +119,18 @@ replication.maxRetries
 
 	By default, fetches are retried indefinitely.
 
+	Note that only transient errors will be retried, whilst persistent errors will
+	cause a terminal failure, and the fetch will not be scheduled again. This is
+	only supported for JGit, not cGit. Currently, only the following failures are
+	considered permanent:
+
+	- UnknownHostKey: thrown by Jsch when establishing an SSH connection for an
+	unknown host.
+	- Jgit transport exception when the remote ref does not exist. The assumption
+	here is that the remote ref does not exist so it is not worth retrying. If the
+	exception arisen as a consequence of some ACLs (mis)configuration, then after
+	fixing the ACLs, an explicit replication must be manually triggered.
+
 replication.instanceLabel
 :	Remote configuration name of the current server.
 	This label is passed as a part of the payload to notify other
@@ -380,6 +392,9 @@ remote.NAME.replicationMaxRetries
 
 	By default, use replication.maxRetries.
 
+	Note that not all fetch failures are retriable. Please refer
+	to `replication.maxRetries` for more information on this.
+
 remote.NAME.threads
 :	Number of worker threads to dedicate to fetching to the
 	repositories described by this remote.  Each thread can fetch
@@ -557,6 +572,14 @@ remote.NAME.username
 
 remote.NAME.password
 :	Password to use for HTTP authentication on this remote.
+
+In both cases, the Global Capability `Access Database` [1] needs to be allowed
+in order to permit all `All-Users`' refs to be replicated. When _basic auth_ is
+used, the capability must be assigned to the `remote.NAME.username` used in
+configuration, whilst for _bearer token_, it needs to be assigned to
+the `Pull-replication Internal User` user.
+
+[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_accessDatabase
 
 File `~/.ssh/config`
 --------------------

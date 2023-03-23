@@ -35,6 +35,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
 import java.util.Collection;
@@ -337,8 +338,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
           "Cannot replicate [{}] {}; Remote repository error: {}", taskIdHex, projectName, msg);
     } catch (NotSupportedException e) {
       stateLog.error("Cannot replicate from " + uri, e, getStatesAsArray());
+    } catch (PermanentTransportException e) {
+      repLog.error(
+          String.format("Terminal failure. Cannot replicate [%s] from %s", taskIdHex, uri), e);
     } catch (TransportException e) {
-      Throwable cause = e.getCause();
       if (e instanceof LockFailureException) {
         lockRetryCount++;
         // The LockFailureException message contains both URI and reason
