@@ -151,6 +151,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc1252bc_20a284b0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/CGitFetch.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T12:20:02Z",
+      "side": 1,
+      "message": "Documentation amended.",
+      "parentUuid": "14da324e_ec278e5b",
+      "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40a95aab_c0cb01b3",
