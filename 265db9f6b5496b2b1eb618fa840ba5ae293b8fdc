@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ccb83ab2_2c59ac9b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T08:41:18Z",
+      "side": 1,
+      "message": "\u003e We know that it cannot be fetched *at this time* which doesn\u0027t mean it won\u0027t be able to be fetched in the future. We should not assume that has permanently failed *as yet* and just leave the rest of the fetch succeed and reschedule this one.\n\nI tend to agree with @maczech@gmail.com here and I am trying to get my head around this: isn\u0027t the permanent failure logic entirely based on the fact that a ref does not exist?",
+      "parentUuid": "db0eb567_270c8c7c",
+      "range": {
+        "startLine": 427,
+        "startChar": 12,
+        "endLine": 427,
+        "endChar": 41
+      },
+      "revId": "265db9f6b5496b2b1eb618fa840ba5ae293b8fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2cb1a116_bb60aa72",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 2
