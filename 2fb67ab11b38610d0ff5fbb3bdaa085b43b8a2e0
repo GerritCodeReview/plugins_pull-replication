@@ -67,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5bc7f3e4_fe59af3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-23T13:47:15Z",
+      "side": 1,
+      "message": "\u003e The change itself LGTM, but I am a bit confused about the separation of responsibilities between pull-replication, high-availability, multi-site.\n\n+1\n\n\u003e What happens when pull-replication is used together with multi-site, for example? wouldn\u0027t all these operations be executed twice? Even if they are idempotent, surely that\u0027s a waste of resources.\n\nWe probably need an overall configuration to tell us when the pull replication is working in _standalone_. We could use it to decide whether or not it has to rely on other plugins to keep up with the other nodes. _Keep up_ probably means evicting caches, indexing and consuming events from the broker. Anything else?\n\nHappy to have a chat about it and maybe formalise it in the documentation as well.",
+      "parentUuid": "5ff0caf7_3e69ce91",
+      "revId": "2fb67ab11b38610d0ff5fbb3bdaa085b43b8a2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d03e7962_6b333694",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
         "patchSetId": 6
