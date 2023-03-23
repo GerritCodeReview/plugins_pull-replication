@@ -352,6 +352,24 @@
       "parentUuid": "2df060f4_2d87709e",
       "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9337bfde_9008f112",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/JGitFetch.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T14:09:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "543d37ba_2f41dc75",
+      "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
