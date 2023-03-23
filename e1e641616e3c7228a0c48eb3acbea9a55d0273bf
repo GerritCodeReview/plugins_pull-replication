@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db790557_093abcda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:25:27Z",
+      "side": 1,
+      "message": "nit: `still` has already be mentioned at the beginning of the sentence. One of the two could be dropped imho.",
+      "range": {
+        "startLine": 19,
+        "startChar": 46,
+        "endLine": 19,
+        "endChar": 51
+      },
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "556de1b2_c37884cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:25:27Z",
+      "side": 1,
+      "message": "assures",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06433802_c269327e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:25:27Z",
+      "side": 1,
+      "message": "nit: consider moving to the beginning of the log line for consistency.\n```suggestion\n      repLog.warn(\"[{}] Empty replication task, skipping.\", taskIdHex);\n```",
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80bbd601_722f41c4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:25:27Z",
+      "side": 1,
+      "message": "nit: consider moving to the beginning of the log line for consistency.\n\n```suggestion\n      repLog.info(\n          \"[{}] Remote {} does not have ref {}, flagging as failed and removing from the replication task\",\n          taskIdHex,\n          uri,\n          inexistentRef);\n```",
+      "range": {
+        "startLine": 414,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 21
+      },
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c7ea046_dd67fb29",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:25:27Z",
+      "side": 1,
+      "message": "nit: consider moving to the beginning of the log line for consistency.\n\n```suggestion\n                \"[\" + op.getTaskIdHex() + \"] Replication task completed with partial failure\", e));\n```",
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fda790b9_28c97165",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 18
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:25:27Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 17,
+        "startChar": 64,
+        "endLine": 17,
+        "endChar": 73
+      },
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
