@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2a67b1c_ccd67740",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T08:47:54Z",
+      "side": 1,
+      "message": "nit: For consitency, why not prefixing this to the entire log line, as we do in all other places?\n\n```suggestion\n    repLog.info(\"[{}] Replication from {} was canceled\", taskIdHex, getURI());\n```",
+      "range": {
+        "startLine": 139,
+        "startChar": 29,
+        "endLine": 139,
+        "endChar": 38
+      },
+      "revId": "a48d80363d741861137e694623ea8c4cb2cde29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7150244b_87f479e1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T08:47:54Z",
+      "side": 1,
+      "message": "As above:\n\n```suggestion\n        \"[{}] Replication from {} was canceled while being executed\", taskIdHex, getURI());\n```",
+      "revId": "a48d80363d741861137e694623ea8c4cb2cde29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea4cfe4_0d470596",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T08:47:54Z",
+      "side": 1,
+      "message": "```suggestion\n              \"[{}] Giving up after {} occurrences of this error: {} during replication from [{}] {}\",\n```",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 377,
+        "endChar": 102
+      },
+      "revId": "a48d80363d741861137e694623ea8c4cb2cde29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
