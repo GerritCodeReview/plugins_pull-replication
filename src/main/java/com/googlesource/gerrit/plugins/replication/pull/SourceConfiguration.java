@@ -18,6 +18,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -54,6 +55,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private int slowLatencyThreshold;
   private boolean useCGitClient;
   private int refsBatchSize;
+  private final int refsEscalationSize;
 
   public SourceConfiguration(RemoteConfig remoteConfig, Config cfg) {
     this.remoteConfig = remoteConfig;
@@ -84,6 +86,8 @@ public class SourceConfiguration implements RemoteConfiguration {
     refsBatchSize = cfg.getInt("replication", "refsBatchSize", 50);
     if (refsBatchSize <= 0)
       throw new IllegalArgumentException("refsBatchSize must be greater than zero");
+    refsEscalationSize = cfg.getInt("replication", "refsEscalationSize", 0);
+
     remoteNameStyle =
         MoreObjects.firstNonNull(cfg.getString("remote", name, "remoteNameStyle"), "slash");
     maxRetries =
@@ -183,6 +187,10 @@ public class SourceConfiguration implements RemoteConfiguration {
 
   public int getRefsBatchSize() {
     return refsBatchSize;
+  }
+
+  public Optional<Integer> getRefsEscalationSize() {
+    return Optional.of(refsEscalationSize).filter(v -> v > 0);
   }
 
   @Override
