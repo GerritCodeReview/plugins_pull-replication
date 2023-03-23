@@ -310,9 +310,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     if (!pool.requestRunway(this)) {
       if (!canceled) {
         repLog.info(
-            "[{}] Rescheduling replication to {} to avoid collision with an in-flight fetch.",
+            "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task [{}].",
             taskIdHex,
-            uri);
+            uri,
+            pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
         pool.reschedule(this, Source.RetryReason.COLLISION);
       }
       return;
