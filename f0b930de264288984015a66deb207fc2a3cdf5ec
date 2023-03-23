@@ -22,6 +22,23 @@
       },
       "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14da324e_ec278e5b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/CGitFetch.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T08:43:19Z",
+      "side": 1,
+      "message": "We have a configuration documentation stating that permanent exceptions are not currently supported by cGit [1].\n\nThis change seems to introduce that, should we update the documentation accordingly?\n\n[1]https://gerrit.googlesource.com/plugins/pull-replication/+/f0b930de264288984015a66deb207fc2a3cdf5ec/src/main/resources/Documentation/config.md",
+      "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
