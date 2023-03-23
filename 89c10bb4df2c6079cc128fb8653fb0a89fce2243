@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40c0372e_38864ad6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T08:56:04Z",
+      "side": 1,
+      "message": "nit: consider rewriting without using the term `black hole`\n\nSome ideas:\n`into a task that would potentially always fail`\n`into a potentially always failing-task`",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "89c10bb4df2c6079cc128fb8653fb0a89fce2243",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
