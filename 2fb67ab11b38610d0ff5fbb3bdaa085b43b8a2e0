@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08f2b3b2_323182dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:14:44Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "2fb67ab11b38610d0ff5fbb3bdaa085b43b8a2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ff0caf7_3e69ce91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:14:44Z",
+      "side": 1,
+      "message": "The change itself LGTM, but I am a bit confused about the separation of responsibilities between pull-replication, high-availability, multi-site.\n\nWith this issue (but also with others in the past addressing indexing), looks like the direction is to make pull-replication smarter and smarter.\n\nWhilst I can see why this is useful in some context, it blurs the line between replicating git-data (*replication plugins) and keeping Gerrit up-to-date (multi-site, high-availability plugins).\n\nIf updating Gerrit (index, cache) becomes a responsibility of pull-replication, then what distinguishes it from the responsibilities of multi-site and high-availability?\n\nIf pull-replication is now responsible for keeping indexes and caches up-to-date, then should we not keep them *all* up-to-date, rather than just an arbitrary subset of them (like in this cache sshkeys)? \n\nWhat happens when pull-replication is used together with multi-site, for example? wouldn\u0027t all these operations be executed twice? Even if they are idempotent, surely that\u0027s a waste of resources.\n\nPerhaps these concerns are already obvious to some of you, so I apologise in advance, but I could do with a discussion and formalization of those boundaries?\n\n@luca.milanesio@gmail.com, @ponch78@gmail.com, @maczech@gmail.com, WDYT?",
+      "revId": "2fb67ab11b38610d0ff5fbb3bdaa085b43b8a2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d03e7962_6b333694",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:14:44Z",
+      "side": 1,
+      "message": "What is this needed for?",
+      "revId": "2fb67ab11b38610d0ff5fbb3bdaa085b43b8a2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41276673_1416d3fc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/FetchRefReplicatedEventHandlerTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-23T13:14:44Z",
+      "side": 1,
+      "message": "The cache should NOT be evicted here right?\n\n```suggestion\n  public void onEventShouldNotEvictCacheForNormalProject() {\n```",
+      "range": {
+        "startLine": 84,
+        "startChar": 14,
+        "endLine": 84,
+        "endChar": 58
+      },
+      "revId": "2fb67ab11b38610d0ff5fbb3bdaa085b43b8a2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
