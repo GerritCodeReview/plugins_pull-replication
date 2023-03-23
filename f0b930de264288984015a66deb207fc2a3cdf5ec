@@ -127,6 +127,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c96ad086_3b0bd60a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/CGitFetch.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T12:15:26Z",
+      "side": 1,
+      "message": "Added as part of the commit message.",
+      "parentUuid": "3ca48f60_7619956c",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 87,
+        "endChar": 66
+      },
+      "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40a95aab_c0cb01b3",
@@ -140,6 +164,24 @@
       "writtenOn": "2023-03-23T08:46:39Z",
       "side": 1,
       "message": "What about having here the defaulting exception logic? Something like:\n\n```\n\nInexistentRefTransportException.getOptionalPermanentFailure(e)\n   .orElse(\n       PermanentTransportException.getOptionalPermanentFailure(e)\n          .orElse(e)\n    );\n\n```\n\nI am suggesting it since when I first looked at the code I thought we were always throwing a `PermanentTransportException`, which is not the case.\n\nI had to look at the `PermanentTransportException#wrapTransportException` to figure it out.",
+      "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffa3e1c0_b6f63945",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/JGitFetch.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T12:15:26Z",
+      "side": 1,
+      "message": "Well, the wrapping is responsible for doing the __right thing__. Should then just the method name be changed to `wrapIfPermanentTransportException` ?",
+      "parentUuid": "40a95aab_c0cb01b3",
       "revId": "f0b930de264288984015a66deb207fc2a3cdf5ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
