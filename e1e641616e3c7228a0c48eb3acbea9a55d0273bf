@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf476cc2_04783737",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T13:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "556de1b2_c37884cf",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "840d10b8_0247b8e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T13:30:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db790557_093abcda",
+      "range": {
+        "startLine": 19,
+        "startChar": 46,
+        "endLine": 19,
+        "endChar": 51
+      },
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06433802_c269327e",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-03-23T13:25:27Z",
       "side": 1,
       "message": "nit: consider moving to the beginning of the log line for consistency.\n```suggestion\n      repLog.warn(\"[{}] Empty replication task, skipping.\", taskIdHex);\n```",
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd85bcfe_9f619d1e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T13:30:26Z",
+      "side": 1,
+      "message": "All the logs are reworked in the follow-up change: it would be best to keep it there so to avoid conflicts.",
+      "parentUuid": "06433802_c269327e",
       "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95761515_6a6b6078",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T13:30:26Z",
+      "side": 1,
+      "message": "All the logs are reworked in the follow-up change: it would be best to keep it there so to avoid conflicts.",
+      "parentUuid": "80bbd601_722f41c4",
+      "range": {
+        "startLine": 414,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 21
+      },
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c7ea046_dd67fb29",
@@ -100,6 +190,24 @@
       "writtenOn": "2023-03-23T13:25:27Z",
       "side": 1,
       "message": "nit: consider moving to the beginning of the log line for consistency.\n\n```suggestion\n                \"[\" + op.getTaskIdHex() + \"] Replication task completed with partial failure\", e));\n```",
+      "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "602d0245_332e7c49",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T13:30:26Z",
+      "side": 1,
+      "message": "All the logs are reworked in the follow-up change: it would be best to keep it there so to avoid conflicts.",
+      "parentUuid": "6c7ea046_dd67fb29",
       "revId": "e1e641616e3c7228a0c48eb3acbea9a55d0273bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
