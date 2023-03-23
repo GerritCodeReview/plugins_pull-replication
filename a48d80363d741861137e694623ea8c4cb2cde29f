@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a02384_a5c6ea08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-23T08:57:45Z",
+      "side": 1,
+      "message": "Same comment as Tony on the log consistency",
+      "revId": "a48d80363d741861137e694623ea8c4cb2cde29f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2a67b1c_ccd67740",
