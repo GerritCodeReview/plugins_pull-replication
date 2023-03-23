@@ -16,6 +16,24 @@
       "message": "This introduce regression because fetching all refs is not working anymore. For fetching all refs we clear delta so fetching all refs will fail:\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/364656/21/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java#202",
       "revId": "6066b0c4f0e83e546708954a06b599f8c338e54b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0843f19_794490a3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-23T23:36:39Z",
+      "side": 1,
+      "message": "Fixed with I3ea2769d",
+      "parentUuid": "3f5a5fca_54d3163a",
+      "revId": "6066b0c4f0e83e546708954a06b599f8c338e54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
