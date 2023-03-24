@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c8de009_97c68b0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-24T22:48:49Z",
+      "side": 1,
+      "message": "No sure if this is the correct place to check. Fetch is triggered with some delay but event will be consumed much faster so at that point apply object could still not update the ref but when we will trigger the fetch ref will be already updated",
+      "revId": "c2c2cdb89e638bedf8bd0f05db8431d73014f69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
