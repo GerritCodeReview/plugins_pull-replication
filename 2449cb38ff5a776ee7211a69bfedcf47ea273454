@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7527137c_74283b8b",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-24T16:35:04Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 206,
+        "startChar": 57,
+        "endLine": 206,
+        "endChar": 59
+      },
+      "revId": "2449cb38ff5a776ee7211a69bfedcf47ea273454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
