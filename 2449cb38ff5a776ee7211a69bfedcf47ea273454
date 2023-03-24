@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a144bb37_307ed498",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-24T16:45:16Z",
+      "side": 1,
+      "message": "setting",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "2449cb38ff5a776ee7211a69bfedcf47ea273454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7527137c_74283b8b",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 3
@@ -19,6 +42,29 @@
         "startChar": 57,
         "endLine": 206,
         "endChar": 59
+      },
+      "revId": "2449cb38ff5a776ee7211a69bfedcf47ea273454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "026d689e_f63014f1",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-24T16:45:16Z",
+      "side": 1,
+      "message": "nit: Could you also explain why one would want to use this?\nI think explaining about the problem with the accumulation of refs would be enough.",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 44
       },
       "revId": "2449cb38ff5a776ee7211a69bfedcf47ea273454",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
