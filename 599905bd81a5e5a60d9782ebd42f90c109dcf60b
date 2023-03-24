@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1017f0a0_153ade4f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-24T16:03:43Z",
+      "side": 1,
+      "message": "`[{}] Empty replication task, skipping.` for consistency?",
+      "range": {
+        "startLine": 427,
+        "startChar": 21,
+        "endLine": 427,
+        "endChar": 59
+      },
+      "revId": "599905bd81a5e5a60d9782ebd42f90c109dcf60b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
