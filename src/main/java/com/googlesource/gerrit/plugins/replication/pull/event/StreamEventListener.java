@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -29,11 +30,13 @@ import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
+import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
@@ -46,6 +49,8 @@ import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilte
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 public class StreamEventListener implements EventListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -59,6 +64,7 @@ public class StreamEventListener implements EventListener {
   private final SourcesCollection sources;
   private final String instanceId;
   private final WorkQueue workQueue;
+  private GitRepositoryManager gitManager;
 
   @Inject
   public StreamEventListener(
@@ -69,7 +75,8 @@ public class StreamEventListener implements EventListener {
       FetchJob.Factory fetchJobFactory,
       Provider<PullReplicationApiRequestMetrics> metricsProvider,
       SourcesCollection sources,
-      ExcludedRefsFilter excludedRefsFilter) {
+      ExcludedRefsFilter excludedRefsFilter,
+      LocalGitRepositoryManagerProvider gitManagerProvider) {
     this.instanceId = instanceId;
     this.deleteCommand = deleteCommand;
     this.projectInitializationAction = projectInitializationAction;
@@ -78,7 +85,7 @@ public class StreamEventListener implements EventListener {
     this.metricsProvider = metricsProvider;
     this.sources = sources;
     this.refsFilter = excludedRefsFilter;
-
+    this.gitManager = gitManagerProvider.get();
     requireNonNull(
         Strings.emptyToNull(this.instanceId), "gerrit.instanceId cannot be null or empty");
   }
@@ -120,6 +127,13 @@ public class StreamEventListener implements EventListener {
         return;
       }
 
+      if (isRefUpToDate(refUpdatedEvent)) {
+        logger.atFine().log(
+            "Skipping up to date ref '%s' for project '%s'",
+            refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
+        return;
+      }
+
       fetchRefsAsync(
           refUpdatedEvent.getRefName(),
           refUpdatedEvent.instanceId,
@@ -142,6 +156,19 @@ public class StreamEventListener implements EventListener {
     }
   }
 
+  private boolean isRefUpToDate(RefUpdatedEvent refUpdatedEvent) {
+    try {
+      return getRef(refUpdatedEvent.getProjectNameKey(), refUpdatedEvent.getRefName())
+          .filter(ref -> ref.getObjectId().getName().equals(refUpdatedEvent.refUpdate.get().newRev))
+          .isPresent();
+    } catch (IOException e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot read ref %s project:%s to check if ref is up to date",
+          refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
+      return false;
+    }
+  }
+
   private void deleteRef(RefUpdatedEvent refUpdatedEvent) {
     try {
       deleteCommand.deleteRef(
@@ -152,6 +179,13 @@ public class StreamEventListener implements EventListener {
       logger.atSevere().withCause(e).log(
           "Cannot delete ref %s project:%s",
           refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
+    }
+  }
+
+  private Optional<Ref> getRef(Project.NameKey repo, String refName) throws IOException {
+    try (Repository repository = gitManager.openRepository(repo)) {
+      Ref ref = repository.exactRef(refName);
+      return Optional.ofNullable(ref);
     }
   }
 
