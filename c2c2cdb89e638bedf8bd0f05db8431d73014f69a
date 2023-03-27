@@ -16,6 +16,23 @@
       "message": "No sure if this is the correct place to check. Fetch is triggered with some delay but event will be consumed much faster so at that point apply object could still not update the ref but when we will trigger the fetch ref will be already updated",
       "revId": "c2c2cdb89e638bedf8bd0f05db8431d73014f69a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0bbd4e4_59e3492b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-27T16:51:11Z",
+      "side": 1,
+      "message": "@maczech@gmail.com, see [1].\nWhat do to you think about following that approach instead?\nIf we agree that\u0027s the way forward, perhaps  should fix this issue too.\n\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/366077",
+      "revId": "c2c2cdb89e638bedf8bd0f05db8431d73014f69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
