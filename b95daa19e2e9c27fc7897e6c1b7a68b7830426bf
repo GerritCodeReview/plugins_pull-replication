@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44699dde_1b9e8d87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-27T16:48:34Z",
+      "side": 1,
+      "message": "@maczech@gmail.com, @luca.milanesio@gmail.com\n@ponch78@gmail.com and I had a discussion on where would the best place to add this logic.\n\nWe considered to add this directly to the global-refdb, but that would not allow us to skip the fetch, since the ref update is subsequent to any fetch operations.\n\nWe considered to add this to multi-site, but that would not be the right place since multi-site does not and should not know about replication directly.\nAlso the fetch would happen indipendently and multi-site would be notified at the end of the replication event done.\n\nBecause of the above, we thought that pull-replication _itself_ could check the global-refdb _directly_ and avoid alltogether the fetch operation when already up-to-date.\n\nThis is just an untested WIP, but we wanted to trigger a discussion before continuing on this path.\n\nWDYT?",
+      "revId": "b95daa19e2e9c27fc7897e6c1b7a68b7830426bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
