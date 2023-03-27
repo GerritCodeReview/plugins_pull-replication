@@ -17,12 +17,14 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.gerritforge.gerrit.globalrefdb.validation.SharedRefDatabaseWrapper;
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.server.git.DelegateRepository;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.ProjectRunnable;
@@ -76,6 +78,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   private final GitRepositoryManager gitManager;
+  private final SharedRefDatabaseWrapper sharedRefDb;
+  private final DelegateRepository refDb;
   private final Source pool;
   private final RemoteConfig config;
   private final PerThreadRequestScope.Scoper threadScoper;
@@ -104,6 +108,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   @Inject
   FetchOne(
       GitRepositoryManager grm,
+      SharedRefDatabaseWrapper sharedRefDb,
+      DelegateRepository refDb,
       Source s,
       SourceConfiguration c,
       PerThreadRequestScope.Scoper ts,
@@ -115,6 +121,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
     gitManager = grm;
+    this.sharedRefDb = sharedRefDb;
+    this.refDb = refDb;
     pool = s;
     config = c.getRemoteConfig();
     threadScoper = ts;
@@ -204,7 +212,16 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       fetchAllRefs = true;
       repLog.trace("[{}] Added all refs for replication from {}", taskIdHex, uri);
     } else if (!fetchAllRefs) {
-      delta.add(ref);
+      try {
+        if (sharedRefDb.isUpToDate(getProjectNameKey(), refDb.exactRef(ref))) {
+          repLog.trace(
+              "[{}] Ref {} already up-to-date, no need to replicate from {}", taskIdHex, ref, uri);
+          return;
+        }
+        delta.add(ref);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
       repLog.trace("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
     }
   }
