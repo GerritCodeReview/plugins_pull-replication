@@ -22,6 +22,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
@@ -100,6 +101,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final AtomicBoolean canceledWhileRunning;
   private final FetchFactory fetchFactory;
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
+  private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
 
   @Inject
   FetchOne(
@@ -131,6 +133,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     this.fetchFactory = fetchFactory;
     maxRetries = s.getMaxRetries();
     this.apiRequestMetrics = apiRequestMetrics;
+  }
+
+  @Inject(optional = true)
+  public void setReplicationFetchFilter(
+      DynamicItem<ReplicationFetchFilter> replicationFetchFilter) {
+    this.replicationFetchFilter = replicationFetchFilter;
   }
 
   @Override
@@ -438,11 +446,18 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       return configRefSpecs;
     }
 
-    return delta.stream()
+    return runRefsFilter(delta).stream()
         .map(ref -> refToFetchRefSpec(ref, configRefSpecs))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
+  }
+
+  private Set<String> runRefsFilter(Set<String> refs) {
+    return Optional.ofNullable(replicationFetchFilter)
+        .flatMap(filter -> Optional.ofNullable(filter.get()))
+        .map(f -> f.filter(this.projectName.get(), refs))
+        .orElse(refs);
   }
 
   private Optional<RefSpec> refToFetchRefSpec(String ref, List<RefSpec> configRefSpecs) {
