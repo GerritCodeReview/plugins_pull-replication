@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb6485c0_2a4bdc75",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-27T20:03:42Z",
+      "side": 1,
+      "message": "This would force everyone to have the global-refdb enabled, which may not be necessary if it is used for a simple primary-replica setup.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "b95daa19e2e9c27fc7897e6c1b7a68b7830426bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1ebfdac_a20de955",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 2
