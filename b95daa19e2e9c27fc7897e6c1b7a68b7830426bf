@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff0bb9e8_97b3d8ff",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-27T20:55:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0eb9534_4758cc5a",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "b95daa19e2e9c27fc7897e6c1b7a68b7830426bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1ebfdac_a20de955",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "\u003e Maybe it would be better to move that logic closer to the moment when we execute the fetch(for example to the getRefs() method . Fetch task has a replication delay so even if the ref is not up to date when we add it to the delta it can be already synchronised(for example by apply object) when we run the fetch.\n\n+1, remove the __maybe__ because that\u0027s a certainty :-)\n\nAlso, because of the rescheduling and retrying, the order of fetches can be shuffled. We need to check when we actually start executing the fetch operation if we really need to do it or not.\n\n\u003e It\u0027s not hypothetical situation this happens quite often when we consume stream events and trigger fetch operation, stream event is consumed and added to fetch task quicker than apply object manage to write data\n\n+1",
       "parentUuid": "f1ebfdac_a20de955",
+      "range": {
+        "startLine": 216,
+        "startChar": 1,
+        "endLine": 220,
+        "endChar": 9
+      },
+      "revId": "b95daa19e2e9c27fc7897e6c1b7a68b7830426bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c947419a_2d50f0d4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-27T20:55:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1e9eb71_8343f2f0",
       "range": {
         "startLine": 216,
         "startChar": 1,
