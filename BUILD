@@ -18,6 +18,7 @@ gerrit_plugin(
         "//lib/commons:io",
         "//plugins/replication",
         "@events-broker//jar:neverlink",
+        "@global-refdb//jar:neverlink",
     ],
 )
 
