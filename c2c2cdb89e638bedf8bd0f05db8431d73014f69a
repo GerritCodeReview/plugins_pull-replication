@@ -33,6 +33,24 @@
       "message": "@maczech@gmail.com, see [1].\nWhat do to you think about following that approach instead?\nIf we agree that\u0027s the way forward, perhaps  should fix this issue too.\n\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/366077",
       "revId": "c2c2cdb89e638bedf8bd0f05db8431d73014f69a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62c7e9f6_a3afc83b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-27T17:32:21Z",
+      "side": 1,
+      "message": "That would be great if we always have the global-refdb. Plus I have to do that check on replica node which for now doesn\u0027t require the global-ref db.",
+      "parentUuid": "c0bbd4e4_59e3492b",
+      "revId": "c2c2cdb89e638bedf8bd0f05db8431d73014f69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
