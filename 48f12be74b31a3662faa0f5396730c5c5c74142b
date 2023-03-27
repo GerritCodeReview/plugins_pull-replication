@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d954de0a_4afee5a6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationFetchFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-03-27T21:00:58Z",
+      "side": 1,
+      "message": "Should we also define the module to setup the dynamic item/set for those filters?",
+      "revId": "48f12be74b31a3662faa0f5396730c5c5c74142b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
