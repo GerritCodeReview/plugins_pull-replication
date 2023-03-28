@@ -623,6 +623,10 @@ public class Source {
     return configSettingsAllowReplication(project);
   }
 
+  public boolean wouldCreateProject(Project.NameKey project) {
+    return configSettingsAllowReplication(project);
+  }
+
   private boolean configSettingsAllowReplication(Project.NameKey project) {
     // by default fetch all projects
     List<String> projects = config.getProjects();
