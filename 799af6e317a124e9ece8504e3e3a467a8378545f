@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d0f7849_dae8fe4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-28T20:43:33Z",
+      "side": 1,
+      "message": "just a small nit",
+      "revId": "799af6e317a124e9ece8504e3e3a467a8378545f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85fb8669_cf1b1afe",
+        "filename": "src/main/resources/Documentation/extension-point.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-28T20:43:33Z",
+      "side": 1,
+      "message": "@PLUGIN@",
+      "range": {
+        "startLine": 13,
+        "startChar": 4,
+        "endLine": 13,
+        "endChar": 15
+      },
+      "revId": "799af6e317a124e9ece8504e3e3a467a8378545f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
