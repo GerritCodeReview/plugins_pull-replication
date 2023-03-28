@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a266f8bc_f5cb1989",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-28T11:58:22Z",
+      "side": 1,
+      "message": "Need to verify the exception thrown by Apache MINA",
+      "revId": "2850e1a8f9159f6eed9d04201bc477b5dd9b6990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
