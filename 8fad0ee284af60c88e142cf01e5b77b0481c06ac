@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e6b7fd06_e447230b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-28T17:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62fba159_ee74284f",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "8fad0ee284af60c88e142cf01e5b77b0481c06ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2f8a75f2_1af5b095",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/PermanentTransportException.java",
         "patchSetId": 3
@@ -55,6 +79,30 @@
       "writtenOn": "2023-03-28T14:22:15Z",
       "side": 1,
       "message": "This is the full stack-trace to find out what the error looked like:\n\n```\norg.eclipse.jgit.errors.TransportException: ssh://gerrit@ssh-kr.gerrit-test.uk:1022/All-Users.git: DefaultAuthFuture[ssh-connection]: Failed (UnsupportedCredentialItem) to execute: ssh://gerrit@ssh-kr.gerrit-test.uk:1022: org.eclipse.jgit.transport.CredentialItem$YesNoType:Accept and store this key, and continue connecting?\n\tat org.eclipse.jgit.transport.sshd.SshdSessionFactory.getSession(SshdSessionFactory.java:263)\n\tat org.eclipse.jgit.transport.sshd.SshdSessionFactory.getSession(SshdSessionFactory.java:75)\n\tat org.eclipse.jgit.transport.SshTransport.getSession(SshTransport.java:107)\n\tat org.eclipse.jgit.transport.TransportGitSsh$SshPushConnection.\u003cinit\u003e(TransportGitSsh.java:358)\n\tat org.eclipse.jgit.transport.TransportGitSsh.openPush(TransportGitSsh.java:159)\n\tat org.eclipse.jgit.transport.PushProcess.execute(PushProcess.java:138)\n\tat org.eclipse.jgit.transport.Transport.push(Transport.java:1537)\n\tat org.eclipse.jgit.transport.Transport.push(Transport.java:1583)\n\tat com.googlesource.gerrit.plugins.replication.PushOne.pushInBatches(PushOne.java:591)\n\tat com.googlesource.gerrit.plugins.replication.PushOne.pushVia(PushOne.java:584)\n\tat com.googlesource.gerrit.plugins.replication.PushOne.runImpl(PushOne.java:555)\n\tat com.googlesource.gerrit.plugins.replication.PushOne.doRunPushOperation(PushOne.java:437)\n\tat com.googlesource.gerrit.plugins.replication.PushOne.runPushOperation(PushOne.java:405)\n\tat com.googlesource.gerrit.plugins.replication.PushOne.lambda$run$2(PushOne.java:391)\n\tat com.google.gerrit.server.util.RequestScopePropagator.lambda$cleanup$1(RequestScopePropagator.java:186)\n\tat com.google.gerrit.server.util.RequestScopePropagator.lambda$context$0(RequestScopePropagator.java:174)\n\tat com.google.gerrit.server.git.PerThreadRequestScope$Propagator.lambda$scope$0(PerThreadRequestScope.java:70)\n\tat com.googlesource.gerrit.plugins.replication.PushOne.run(PushOne.java:394)\n\tat com.google.gerrit.server.logging.LoggingContextAwareRunnable.run(LoggingContextAwareRunnable.java:113)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n\tat com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:612)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.sshd.common.SshException: DefaultAuthFuture[ssh-connection]: Failed (UnsupportedCredentialItem) to execute: ssh://gerrit@ssh-kr.gerrit-test.uk:1022: org.eclipse.jgit.transport.CredentialItem$YesNoType:Accept and store this key, and continue connecting?\n\tat org.apache.sshd.common.future.AbstractSshFuture.lambda$verifyResult$1(AbstractSshFuture.java:132)\n\tat org.apache.sshd.common.future.AbstractSshFuture.formatExceptionMessage(AbstractSshFuture.java:190)\n\tat org.apache.sshd.common.future.AbstractSshFuture.verifyResult(AbstractSshFuture.java:131)\n\tat org.apache.sshd.client.future.DefaultAuthFuture.verify(DefaultAuthFuture.java:39)\n\tat org.apache.sshd.client.future.DefaultAuthFuture.verify(DefaultAuthFuture.java:32)\n\tat org.apache.sshd.common.future.VerifiableFuture.verify(VerifiableFuture.java:68)\n\tat org.eclipse.jgit.transport.sshd.SshdSession.connect(SshdSession.java:172)\n\tat org.eclipse.jgit.transport.sshd.SshdSession.connect(SshdSession.java:101)\n\tat org.eclipse.jgit.transport.sshd.SshdSessionFactory.getSession(SshdSessionFactory.java:256)\n\t... 25 more\nCaused by: org.eclipse.jgit.errors.UnsupportedCredentialItem: ssh://gerrit@ssh-kr.gerrit-test.uk:1022: org.eclipse.jgit.transport.CredentialItem$YesNoType:Accept and store this key, and continue connecting?\n\tat org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider.get(UsernamePasswordCredentialsProvider.java:104)\n\tat org.eclipse.jgit.transport.CredentialsProvider.get(CredentialsProvider.java:125)\n\tat org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyDatabase$AskUser.askUser(OpenSshServerKeyDatabase.java:436)\n\tat org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyDatabase$AskUser.acceptUnknownKey(OpenSshServerKeyDatabase.java:493)\n\tat org.eclipse.jgit.internal.transport.sshd.OpenSshServerKeyDatabase.accept(OpenSshServerKeyDatabase.java:250)\n\tat org.eclipse.jgit.internal.transport.sshd.JGitServerKeyVerifier.verifyServerKey(JGitServerKeyVerifier.java:94)\n\tat org.apache.sshd.client.session.AbstractClientSession.checkKeys(AbstractClientSession.java:621)\n\tat org.apache.sshd.common.session.helpers.AbstractSession.handleKexMessage(AbstractSession.java:726)\n\tat org.apache.sshd.common.session.helpers.AbstractSession.doHandleMessage(AbstractSession.java:590)\n\tat org.apache.sshd.common.session.helpers.AbstractSession.lambda$handleMessage$0(AbstractSession.java:522)\n\tat org.apache.sshd.common.util.threads.ThreadUtils.runAsInternal(ThreadUtils.java:68)\n\tat org.apache.sshd.common.session.helpers.AbstractSession.handleMessage(AbstractSession.java:521)\n\tat org.apache.sshd.common.session.helpers.AbstractSession.decode(AbstractSession.java:1639)\n\tat org.apache.sshd.common.session.helpers.AbstractSession.messageReceived(AbstractSession.java:482)\n\tat org.eclipse.jgit.internal.transport.sshd.JGitClientSession.messageReceived(JGitClientSession.java:197)\n\tat org.apache.sshd.common.session.helpers.AbstractSessionIoHandler.messageReceived(AbstractSessionIoHandler.java:64)\n\tat org.apache.sshd.common.io.nio2.Nio2Session.handleReadCycleCompletion(Nio2Session.java:407)\n\tat org.apache.sshd.common.io.nio2.Nio2Session$1.onCompleted(Nio2Session.java:380)\n\tat org.apache.sshd.common.io.nio2.Nio2Session$1.onCompleted(Nio2Session.java:375)\n\tat org.apache.sshd.common.io.nio2.Nio2CompletionHandler.lambda$completed$0(Nio2CompletionHandler.java:38)\n\tat java.base/java.security.AccessController.doPrivileged(Native Method)\n\tat org.apache.sshd.common.io.nio2.Nio2CompletionHandler.completed(Nio2CompletionHandler.java:37)\n\tat java.base/sun.nio.ch.Invoker.invokeUnchecked(Invoker.java:127)\n\tat java.base/sun.nio.ch.Invoker$2.run(Invoker.java:219)\n\tat java.base/sun.nio.ch.AsynchronousChannelGroupImpl$1.run(AsynchronousChannelGroupImpl.java:112)\n\t... 3 more\n```",
+      "range": {
+        "startLine": 31,
+        "startChar": 76,
+        "endLine": 31,
+        "endChar": 122
+      },
+      "revId": "8fad0ee284af60c88e142cf01e5b77b0481c06ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab39d2d8_082b17a6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/PermanentTransportException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-28T17:59:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a0b527b_df57f772",
       "range": {
         "startLine": 31,
         "startChar": 76,
