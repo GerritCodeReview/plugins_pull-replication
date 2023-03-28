@@ -22,6 +22,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -49,15 +50,18 @@ public class ProjectInitializationAction extends HttpServlet {
   private final GerritConfigOps gerritConfigOps;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
+  private final ProjectIndexer projectIndexer;
 
   @Inject
   ProjectInitializationAction(
       GerritConfigOps gerritConfigOps,
       Provider<CurrentUser> userProvider,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectIndexer projectIndexer) {
     this.gerritConfigOps = gerritConfigOps;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
+    this.projectIndexer = projectIndexer;
   }
 
   @Override
@@ -106,6 +110,10 @@ public class ProjectInitializationAction extends HttpServlet {
     }
     LocalFS localFS = new LocalFS(maybeUri.get());
     Project.NameKey projectNameKey = Project.NameKey.parse(projectName);
-    return localFS.createProject(projectNameKey, RefNames.HEAD);
+    if (localFS.createProject(projectNameKey, RefNames.HEAD)) {
+      projectIndexer.index(projectNameKey);
+      return true;
+    }
+    return false;
   }
 }
