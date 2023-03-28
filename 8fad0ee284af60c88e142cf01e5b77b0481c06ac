@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62fba159_ee74284f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-28T14:28:02Z",
+      "side": 1,
+      "message": "where are the other?\n\nYou need to specify `--log\u003d200` to have up to 200 commits included, otherwise they\u0027ll be truncated.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 5
+      },
+      "revId": "8fad0ee284af60c88e142cf01e5b77b0481c06ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2a0b527b_df57f772",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/PermanentTransportException.java",
         "patchSetId": 3
