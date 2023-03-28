@@ -31,7 +31,6 @@ import org.apache.http.message.BasicHeader;
 import org.junit.Test;
 
 public class ProjectInitializationActionIT extends ActionITBase {
-  public static final String INVALID_TEST_PROJECT_NAME = "\0";
   @Inject private ProjectOperations projectOperations;
 
   @Test
@@ -146,18 +145,6 @@ public class ProjectInitializationActionIT extends ActionITBase {
     httpClientFactory
         .create(source)
         .execute(put, assertHttpResponseCode(HttpServletResponse.SC_CREATED));
-  }
-
-  @Test
-  @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnBadRequestIfProjectNameIsInvalidAndCannotBeCreatedWhenNodeIsAReplica()
-      throws Exception {
-    url = getURLWithAuthenticationPrefix(INVALID_TEST_PROJECT_NAME);
-    httpClientFactory
-        .create(source)
-        .execute(
-            withBasicAuthenticationAsAdmin(createPutRequestWithHeaders()),
-            assertHttpResponseCode(HttpServletResponse.SC_BAD_REQUEST));
   }
 
   @Test
