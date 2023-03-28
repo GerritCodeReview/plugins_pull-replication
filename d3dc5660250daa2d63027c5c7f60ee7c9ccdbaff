@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca4d407d_e65ed3c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-28T20:32:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41892a38_9c6a1432",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "d3dc5660250daa2d63027c5c7f60ee7c9ccdbaff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "683b80b3_ec27866b",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-03-28T14:56:00Z",
       "side": 1,
       "message": "ReplicationFetchExtensionPointModule?",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 44
+      },
+      "revId": "d3dc5660250daa2d63027c5c7f60ee7c9ccdbaff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04b21c64_b7f162b0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationExtensionPointModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-03-28T20:32:03Z",
+      "side": 1,
+      "message": "Well, it may contain other APIs. I prefer to keep it as-is for consistency with the push-replication plugin.",
+      "parentUuid": "683b80b3_ec27866b",
       "range": {
         "startLine": 26,
         "startChar": 13,
