@@ -1,0 +1,25 @@
+[gerrit]
+    autoReload = true
+    replicateOnStartup = $REPLICATE_ON_STARTUP
+[replication]
+    excludeRefs = ^refs/users/\\d\\d/\\d+/edit-\\d+/\\d+$
+    lockErrorMaxRetries = 5
+    maxRetries = 100
+    useCGitClient = false
+    consumeStreamEvents = false
+    eventBrokerTopic = gerrit
+    syncRefs = "ALL REFS ASYNC"
+    maxApiPayloadSize = 40000
+[remote "$REMOTE"]
+    url = http://$REMOTE_URL:8080/#{name}#.git
+    fetch = +refs/*:refs/*
+    mirror = true
+    timeout = 60 # In seconds
+    connectionTimeout = 120000 # In mseconds
+    rescheduleDelay = 15
+    replicationDelay = 1
+    threads = 4
+    createMissingRepositories = true
+    replicateProjectDeletions = true
+    replicateHiddenProjects = true
+    tagopt = --no-tags

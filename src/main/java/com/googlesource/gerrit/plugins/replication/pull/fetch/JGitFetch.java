@@ -21,6 +21,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.*;
@@ -51,6 +52,13 @@ public class JGitFetch implements Fetch {
 
   private FetchResult fetchVia(Transport tn, List<RefSpec> fetchRefSpecs) throws IOException {
     repLog.info("Fetch references {} from {}", fetchRefSpecs, uri);
-    return tn.fetch(NullProgressMonitor.INSTANCE, fetchRefSpecs);
+    try {
+      return tn.fetch(NullProgressMonitor.INSTANCE, fetchRefSpecs);
+    } catch (TransportException e) {
+      if (PermanentTransportException.isPermanentFailure(e)) {
+        throw new PermanentTransportException("Terminal fetch failure", e);
+      }
+      throw e;
+    }
   }
 }
