@@ -101,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "867f33f5_02b08701",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-29T16:58:54Z",
+      "side": 1,
+      "message": "Ok, having read a bit on parameterized tests for junit 4, i think its not a good fit here, because it executes every test for the input data we\u0027ve defined - but our test data setup is different among tests. There are a few tests that would benefit from the parameterized approach, like the one you highlighted, but for this to be worthwhile we would need junit 5 which apparently allows us to parameterize tests individually, rather than as a whole (using the parameterized class runner). \n\nI will be resolving this, but feel free to reopen if I am missing something, but please provide guidance as to how this should be done.",
+      "parentUuid": "69d9722c_41ae512c",
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48e1053c_62ba237f",
