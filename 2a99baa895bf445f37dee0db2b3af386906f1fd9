@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c484c603_65ae85db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T20:21:15Z",
+      "side": 1,
+      "message": "Amazing work @christoforos.miliotis.dev@gmail.com, these tests are super super useful 👍",
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2daf2b79_5facc6df",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T20:21:15Z",
+      "side": 1,
+      "message": "I might be missing some implicit behaviour here, but shouldn\u0027t we explicitly asser that no fetch were executed?",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 48
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8344bc51_f0a3b178",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T20:21:15Z",
+      "side": 1,
+      "message": "this being a ref, should probably be named accordingly.\nWhat about `refs/heads/filteredRef`?",
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1948ea5c_366d5f40",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T20:21:15Z",
+      "side": 1,
+      "message": "This is interesting (thanks for pointing my attention to it @christoforos.miliotis.dev@gmail.com).\n\nI am not sure this is the intended behaviour.\nWhat I think is happening here is that:\n- the filteredRef is filtered out in `getFetchRefSpecs`[1]\n- `updateStates` never get a chance to update the state of the `filteredRef`[2]\n- Because that fetch was never attempted, it will notify it as `NOT_ATTEMPTED` [3]\n- When the `run()` finishes, `statesCleanUp()` will be called [4], which will notify a _failure_ for that ref [5].\n\nSo both notifications are sent.\nIn fact, if you add the following snippet to your test, it will still pass, confirming that *both* `NOT_ATTEMPTED` and `FAILED` notifications will be sent.\n\n```\n    verify(states.get(1))\n        .notifyRefReplicated(\n            testProjectName, filteredRef, urIish, ReplicationState.RefFetchResult.NOT_ATTEMPTED, null);\n```\n\nI don\u0027t think this is a problem with your test, I think this is _actually_ what happens at runtime. We shoult verify that.\n\n@luca.milanesio@gmail.com, @maczech@gmail.com, are you able to verify that? do you think this is an issue?\n\n[1]https://gerrit.googlesource.com/plugins/pull-rep lication/+/aa39163dd270cf557a2da76ebb9dfcd0fa7004cc/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java#450\n\n[2] https://gerrit.googlesource.com/plugins/pull-replication/+/aa39163dd270cf557a2da76ebb9dfcd0fa7004cc/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java#425\n\n[3] https://gerrit.googlesource.com/plugins/pull-replication/+/aa39163dd270cf557a2da76ebb9dfcd0fa7004cc/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java#543\n\n[4]https://gerrit.googlesource.com/plugins/pull-replication/+/aa39163dd270cf557a2da76ebb9dfcd0fa7004cc/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java#291\n\n[5]https://gerrit.googlesource.com/plugins/pull-replication/+/aa39163dd270cf557a2da76ebb9dfcd0fa7004cc/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java#268",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 97
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b40d21b_67c2e950",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T20:21:15Z",
+      "side": 1,
+      "message": "nit: consider using actual `refs/values/here`",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 397,
+        "endChar": 35
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc7b2f16_3edc275f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T20:21:15Z",
+      "side": 1,
+      "message": "should we add a test covering this is not done if `maxLockRetries` has been exceeded?",
+      "range": {
+        "startLine": 456,
+        "startChar": 14,
+        "endLine": 456,
+        "endChar": 42
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
