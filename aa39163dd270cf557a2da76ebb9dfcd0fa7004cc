@@ -3,6 +3,172 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fea7eb8b_fd02dd12",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T19:16:06Z",
+      "side": 1,
+      "message": "missing copyright header",
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b578fd09_f1703844",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T19:16:06Z",
+      "side": 1,
+      "message": "nit: This is also a constant, consider renaming to `TEST_PROJECT_NAME`",
+      "range": {
+        "startLine": 45,
+        "startChar": 23,
+        "endLine": 45,
+        "endChar": 38
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "115d2286_9b799d18",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T19:16:06Z",
+      "side": 1,
+      "message": "nit: this could be moved at L75",
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6f13e87_4e11cd6e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T19:16:06Z",
+      "side": 1,
+      "message": "nit: you could just use the shorted version `Project.nameKey()`",
+      "range": {
+        "startLine": 66,
+        "startChar": 40,
+        "endLine": 66,
+        "endChar": 78
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e08774c5_3199ee95",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T19:16:06Z",
+      "side": 1,
+      "message": "nit: there could both be final",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c56445c9_dbf47afb",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T19:16:06Z",
+      "side": 1,
+      "message": "nit: this could be a local variable",
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65db7f08_39e1947e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T19:16:06Z",
+      "side": 1,
+      "message": "nit: you could use `urIish.toASCIIString()`",
+      "range": {
+        "startLine": 105,
+        "startChar": 75,
+        "endLine": 105,
+        "endChar": 87
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae34d3f7_92058bf4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T19:16:06Z",
+      "side": 1,
+      "message": "I think this test asserts the properties of what happens when a task is cancelled, which is useful.\n\nHowever I don\u0027t think is testing that the task is actually removed from the `pending queue`, (which might be tricky).\n\nConsider renaming this test and/or add an additional one where the task is added to the pending queue and asserted to be there before being cancelled.",
+      "range": {
+        "startLine": 161,
+        "startChar": 14,
+        "endLine": 161,
+        "endChar": 59
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6130d5d6_d17fd5b5",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
         "patchSetId": 4
@@ -161,6 +327,29 @@
         "startChar": 15,
         "endLine": 677,
         "endChar": 25
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2608e825_882d0b9b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-29T19:16:06Z",
+      "side": 1,
+      "message": "nit: this method is only used once at L81, consider inlining the `when()` clause.\nThis will also be more consistent to other `when` clauses called directly in the `setup()`",
+      "range": {
+        "startLine": 691,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 3
       },
       "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
