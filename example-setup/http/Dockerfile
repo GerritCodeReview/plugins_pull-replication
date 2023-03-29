@@ -1,13 +1,8 @@
-FROM gerritcodereview/gerrit:3.7.0-almalinux8
+FROM gerritcodereview/gerrit:3.7.2-almalinux8
 
 USER root
 
 RUN yum install -y gettext
-
-ARG JAVA_OPTS='--add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.lang.invoke=ALL-UNNAMED'
-
-RUN  java $JAVA_OPTS -jar /var/gerrit/bin/gerrit.war init --batch --install-all-plugins -d /var/gerrit && \
-    java $JAVA_OPTS -jar /var/gerrit/bin/gerrit.war reindex -d /var/gerrit
 
 RUN git config -f /var/gerrit/etc/secure.config --add auth.bearerToken "theSecretBearerToken"
 

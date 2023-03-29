@@ -21,7 +21,7 @@ import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -82,14 +82,14 @@ public class PullReplicationWithGitHttpTransportProtocolIT extends PullReplicati
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    GitReferenceUpdatedListener.Event event =
+    GitBatchRefUpdateListener.Event event =
         new FakeGitReferenceUpdatedEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
             sourceCommit.getId().getName(),
             ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitReferenceUpdated(event);
+    pullReplicationQueue.onGitBatchRefUpdate(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
