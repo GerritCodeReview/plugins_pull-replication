@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67213aed_2f7ee3a6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "nit: constants are usually in capital",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 34
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ffbf062_65b6e1cc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "Can this be hardcoded?",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 39
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac96d8f0_b2491870",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "You might want to test the case when retries are not set.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 3
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "842422c0_5203d6cd",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "I think this doesn\u0027t add much value to the test. As long as we know we are filtering out everything BUT `ALL_REFS` we should be good.",
+      "range": {
+        "startLine": 117,
+        "startChar": 58,
+        "endLine": 117,
+        "endChar": 71
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "801319a3_2662aabf",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "nit: this could become a one-liner",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 127,
+        "endChar": 71
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "391e5e44_0a7d3fbf",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "Do we need this test? I think this is enforced by the data structure `ListMultimap\u003cString, ReplicationState\u003e` itself, WDYT?",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 3
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3ae3b68_152983d6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "Similarly to the comment at L#137, I wouldn\u0027t bother adding a test for it.",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 3
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71294b6a_f6a7a0da",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "nit: this could be written as:\n\n`assertThat(objectUnderTest.getStates().isEmpty()).isTrue();`",
+      "range": {
+        "startLine": 154,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 64
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69f34ee7_6266afab",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "Same as L#154",
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "070bf15a_54808b10",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "Since this is the dual of `setupFailingScopeMock` we could maybe reflect it in the name, something like: `setupSuccessfulScopeMock`?",
+      "range": {
+        "startLine": 616,
+        "startChar": 15,
+        "endLine": 616,
+        "endChar": 36
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44c45c45_93eec759",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "Is this needed at all?",
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4350fce8_a5594fcf",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-29T12:00:33Z",
+      "side": 1,
+      "message": "Maybe I would rename it to `runawayAllowed` to be more specific.",
+      "range": {
+        "startLine": 634,
+        "startChar": 34,
+        "endLine": 634,
+        "endChar": 41
+      },
+      "revId": "1cc81a06e5f0002e366285256c2e234834e2fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
