@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "468db060_a3717a1f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-29T14:50:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6130d5d6_d17fd5b5",
+      "range": {
+        "startLine": 238,
+        "startChar": 4,
+        "endLine": 238,
+        "endChar": 38
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "496ed07a_48612576",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "444793da_0dbba0bc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-29T14:50:53Z",
+      "side": 1,
+      "message": "I\u0027d rather not just repeat the code, I\u0027d prefer to have it abstracted away:\n- The tests are shorter.\n- I doubt having the abstracted code in the test helps with readability and understanding what is going on\n- It is very hard to spot if something is different to the \"standard\" setup\n\nI agree this is not ideal, but I think its more a code smell in how hard it is to properly test this class, rather than the style we\u0027ve written the test.",
+      "parentUuid": "48e1053c_62ba237f",
+      "range": {
+        "startLine": 677,
+        "startChar": 15,
+        "endLine": 677,
+        "endChar": 25
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19c6266e_1ed2b17c",
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee7babc7_1a80a890",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-29T14:50:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19c6266e_1ed2b17c",
+      "range": {
+        "startLine": 709,
+        "startChar": 2,
+        "endLine": 711,
+        "endChar": 3
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ee9be8f_f53e931c",
@@ -100,6 +172,24 @@
       "writtenOn": "2023-03-29T12:00:33Z",
       "side": 1,
       "message": "Since the logic in `setupFetchFactoryMock` is not complex and the method quite small, why not moving the logic here and call the method used in the tests `setupFetchFactoryMock` to make it clearer is a mock and avoid the ambiguity of `setupFetchFactoryMock` Vs `setupFetchFactory`?",
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8180de78_31d0d65c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-29T14:50:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ee9be8f_f53e931c",
       "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
