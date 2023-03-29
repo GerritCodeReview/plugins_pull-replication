@@ -55,9 +55,13 @@ public class RevisionReader {
   private GitRepositoryManager gitRepositoryManager;
   private Long maxRefSize;
   private final int maxDepth;
+  private ApplyObjectMetrics metrics;
 
   @Inject
-  public RevisionReader(GitRepositoryManager gitRepositoryManager, ReplicationConfig cfg) {
+  public RevisionReader(
+      GitRepositoryManager gitRepositoryManager,
+      ReplicationConfig cfg,
+      ApplyObjectMetrics metrics) {
     this.gitRepositoryManager = gitRepositoryManager;
     this.maxRefSize =
         cfg.getConfig()
@@ -65,6 +69,7 @@ public class RevisionReader {
     this.maxDepth =
         cfg.getConfig()
             .getInt("replication", CONFIG_MAX_API_HISTORY_DEPTH, DEFAULT_MAX_API_HISTORY_DEPTH);
+    this.metrics = metrics;
   }
 
   public Optional<RevisionData> read(
@@ -146,6 +151,7 @@ public class RevisionReader {
 
       return Optional.of(new RevisionData(parentObjectIds, commitRev, treeRev, blobs));
     } catch (LargeObjectException e) {
+      metrics.incrementMaxPayloadSizeReached();
       repLog.trace(
           "Ref {} size for project {} is greater than configured '{}'",
           refName,
