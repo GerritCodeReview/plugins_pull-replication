@@ -67,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec5ca7f4_803ac478",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-29T16:10:30Z",
+      "side": 1,
+      "message": "I believe this requires junit 5 yet we are still on junit 4.12 (according to the gerrit/WORKSPACE file). It is entirely possible I am getting this wrong though, but i might need a hand on how to update the version in a safe way given I am new to bazel.",
+      "parentUuid": "496ed07a_48612576",
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "48e1053c_62ba237f",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
         "patchSetId": 4
