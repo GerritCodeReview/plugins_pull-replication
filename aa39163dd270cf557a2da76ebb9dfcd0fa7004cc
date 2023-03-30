@@ -296,6 +296,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7cfa07dc_7b5fd850",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-30T11:03:03Z",
+      "side": 1,
+      "message": "I see, makes sense.\nnit: This could be DRY\u0027d a bit though, perhaps we could extract the string used a L78 to initialize `urIish` and use that one?\nIt will allow to use it in a couple of places at least without repeating `test.com` and `FetchOneTest.git`",
+      "parentUuid": "2f65cea4_efbc9375",
+      "range": {
+        "startLine": 105,
+        "startChar": 75,
+        "endLine": 105,
+        "endChar": 87
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ae34d3f7_92058bf4",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
         "patchSetId": 4

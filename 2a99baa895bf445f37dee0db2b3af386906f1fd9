@@ -278,6 +278,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "212711c7_e169a7a0",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-03-30T11:03:03Z",
+      "side": 1,
+      "message": "Perhaps the main assumption is wrong, checking the code it looks like the `fetch` *is* executed even when the state is empty [1].\n\nIt is the _update_ of the status and therefore the _notification_ that is not sent.\n\nWe could adapt the test name to cover this and then add an assertion along the lines of:\n\n```\n    Fetch mockFetch \u003d setupFetchFactory(\n            List.of(\n                    new FetchFactoryEntry.Builder()\n                            .withRefSpecName(testRef)\n                            .withRemoteName(\"testRemote\")\n                            .withResult(RefUpdate.Result.NEW)\n                            .build()));\n     verify(mockFetch).fetch(List.of(new RefSpec(testRef)));\n```\n\nWDYT?\n\n\n[1]https://gerrit.googlesource.com/plugins/pull-replication/+/aa39163dd270cf557a2da76ebb9dfcd0fa7004cc/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java#425",
+      "parentUuid": "40e73bab_7b2b5e27",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 48
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8344bc51_f0a3b178",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
         "patchSetId": 5
