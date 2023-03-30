@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6674cf4b_3c6bc7e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-30T15:00:10Z",
+      "side": 1,
+      "message": "Resolving this as the original comment remains unresolved.",
+      "parentUuid": "de90ca31_2a99309a",
+      "revId": "e6438d0a7cd80d20cfd5e2c73244cd67a28aad95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f4f4c3f_c0e903c8",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-03-30T14:40:18Z",
       "side": 1,
       "message": "nit: I think this can just return a constant",
+      "range": {
+        "startLine": 93,
+        "startChar": 40,
+        "endLine": 93,
+        "endChar": 52
+      },
+      "revId": "e6438d0a7cd80d20cfd5e2c73244cd67a28aad95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "927b643a_baa8d315",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-30T15:00:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f4f4c3f_c0e903c8",
       "range": {
         "startLine": 93,
         "startChar": 40,
