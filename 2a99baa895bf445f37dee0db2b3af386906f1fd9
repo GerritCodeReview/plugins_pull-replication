@@ -300,6 +300,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e0a4789_d25cd606",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-30T11:25:45Z",
+      "side": 1,
+      "message": "Oh - you\u0027re right, that\u0027s a good suggestion!",
+      "parentUuid": "212711c7_e169a7a0",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 48
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8344bc51_f0a3b178",
