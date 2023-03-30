@@ -20,6 +20,109 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9a7fa38_f6b995ab",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-30T09:27:50Z",
+      "side": 1,
+      "message": "nit: this can become local to `setup`",
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "384d1412_b45194ea",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-30T09:27:50Z",
+      "side": 1,
+      "message": "nit: `private final`",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 9
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc8344a2_39963268",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-30T09:27:50Z",
+      "side": 1,
+      "message": "```suggestion\n  private Project.NameKey projectName \u003d Project.nameKey(TEST_PROJECT_NAME);\n```",
+      "range": {
+        "startLine": 64,
+        "startChar": 40,
+        "endLine": 64,
+        "endChar": 81
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "707c8eee_a55cc61c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-30T09:27:50Z",
+      "side": 1,
+      "message": "This is not used anymore.",
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1548f91_74edfad8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-30T09:27:50Z",
+      "side": 1,
+      "message": "nit: this is only used at L#87. Consider initialising the `FetchReplicationMetrics` in the `FetchOne` constructor.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 27
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2daf2b79_5facc6df",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
         "patchSetId": 5

@@ -309,6 +309,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25e69784_c3850e3d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-30T09:27:50Z",
+      "side": 1,
+      "message": "\u003e our test data setup is different among tests\n\nYou are right, my bad.\n\n\u003e There are a few tests that would benefit from the parameterized approach\n\nYep, tt would be overkilling.",
+      "parentUuid": "867f33f5_02b08701",
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48e1053c_62ba237f",
@@ -369,6 +387,30 @@
       "writtenOn": "2023-03-29T19:16:06Z",
       "side": 1,
       "message": "nit: this method is only used once at L81, consider inlining the `when()` clause.\nThis will also be more consistent to other `when` clauses called directly in the `setup()`",
+      "range": {
+        "startLine": 691,
+        "startChar": 0,
+        "endLine": 693,
+        "endChar": 3
+      },
+      "revId": "aa39163dd270cf557a2da76ebb9dfcd0fa7004cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4161c8b4_4699736c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-03-30T09:27:50Z",
+      "side": 1,
+      "message": "Also, I believe it can be simplified by just returning a constant. No need to really generate a random number.\n\nI have tried running the tests with a constant and it works fine.",
+      "parentUuid": "2608e825_882d0b9b",
       "range": {
         "startLine": 691,
         "startChar": 0,
