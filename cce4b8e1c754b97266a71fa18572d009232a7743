@@ -16,6 +16,24 @@
       "message": "I\u0027d add we are excluding IJ stuff in the comment",
       "revId": "cce4b8e1c754b97266a71fa18572d009232a7743",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "073f5304_58e8adc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-30T09:52:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de8b91f7_28ba0133",
+      "revId": "cce4b8e1c754b97266a71fa18572d009232a7743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
