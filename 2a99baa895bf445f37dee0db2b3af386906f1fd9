@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40e73bab_7b2b5e27",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-30T09:46:31Z",
+      "side": 1,
+      "message": "Theoretically we should, however there\u0027s no `states` Map, and therefore we can\u0027t verify on the state\u0027s `notifyRefReplicated` method call. The way the code is structured i couldn\u0027t find anything else useful to assert on, hence why i use only the `assertFinishedWithEmptyStateAndNoFailures` which at least asserts that the task finished.\n\nBut let me know if you think there\u0027s something else useful enough that we can assert on",
+      "parentUuid": "2daf2b79_5facc6df",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 48
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8344bc51_f0a3b178",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
         "patchSetId": 5
@@ -157,6 +181,24 @@
       "writtenOn": "2023-03-29T20:21:15Z",
       "side": 1,
       "message": "this being a ref, should probably be named accordingly.\nWhat about `refs/heads/filteredRef`?",
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0856f6e9_a4c90129",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-30T09:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8344bc51_f0a3b178",
       "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -207,6 +249,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a89fb0_8112c147",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-30T09:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b40d21b_67c2e950",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 397,
+        "endChar": 35
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc7b2f16_3edc275f",
@@ -220,6 +286,30 @@
       "writtenOn": "2023-03-29T20:21:15Z",
       "side": 1,
       "message": "should we add a test covering this is not done if `maxLockRetries` has been exceeded?",
+      "range": {
+        "startLine": 456,
+        "startChar": 14,
+        "endLine": 456,
+        "endChar": 42
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d970e9e_f201e939",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-03-30T09:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7b2f16_3edc275f",
       "range": {
         "startLine": 456,
         "startChar": 14,
