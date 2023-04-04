@@ -382,6 +382,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26adc5d9_b341679f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-04-04T13:04:38Z",
+      "side": 1,
+      "message": "Discussed with Luca offline, this is not intended behaviour and actually we might increase the workload by issuing such notifications. Raised https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d16832 to address the problem.",
+      "parentUuid": "1948ea5c_366d5f40",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 97
+      },
+      "revId": "2a99baa895bf445f37dee0db2b3af386906f1fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b40d21b_67c2e950",
