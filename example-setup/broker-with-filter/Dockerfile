@@ -1,0 +1,28 @@
+FROM gerritcodereview/gerrit:3.4.8-almalinux8
+
+USER root
+
+RUN yum install -y gettext
+
+RUN git config -f /var/gerrit/etc/secure.config --add auth.bearerToken "theSecretBearerToken"
+
+COPY --chown=gerrit:gerrit pull-replication.jar /var/gerrit/plugins/pull-replication.jar
+COPY --chown=gerrit:gerrit pull-replication.jar /var/gerrit/lib/pull-replication.jar
+
+COPY --chown=gerrit:gerrit events-kafka.jar /var/gerrit/plugins/events-kafka.jar
+COPY --chown=gerrit:gerrit libevents-broker.jar /var/gerrit/lib/libevents-broker.jar
+
+COPY --chown=gerrit:gerrit multi-site.jar /var/gerrit/plugins/multi-site.jar
+COPY --chown=gerrit:gerrit multi-site.jar /var/gerrit/lib/multi-site.jar
+
+COPY --chown=gerrit:gerrit zookeeper-refdb.jar /var/gerrit/plugins/zookeeper-refdb.jar
+
+cOPY --chown=gerrit:gerrit libglobal-refdb.jar /var/gerrit/lib/global-refdb.jar
+
+COPY --chown=gerrit:gerrit entrypoint.sh /tmp/
+COPY --chown=gerrit:gerrit configs/replication.config.template /var/gerrit/etc/
+COPY --chown=gerrit:gerrit configs/gerrit.config.template /var/gerrit/etc/
+COPY --chown=gerrit:gerrit configs/zookeeper-refdb.config.template /var/gerrit/etc/
+COPY --chown=gerrit:gerrit configs/multi-site.config /var/gerrit/etc/ 
+
+ENTRYPOINT [ "/tmp/entrypoint.sh" ]
