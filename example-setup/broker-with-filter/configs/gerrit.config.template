@@ -1,0 +1,43 @@
+[gerrit]
+    basePath = git
+    serverId = 69ec38f0-350e-4d9c-96d4-bc956f2faaac
+    canonicalWebUrl = http://localhost:8080
+    installModule = com.gerritforge.gerrit.eventbroker.BrokerApiModule
+    installModule = com.googlesource.gerrit.plugins.replication.pull.ReplicationExtensionPointModule
+    installDbModule = com.googlesource.gerrit.plugins.multisite.GitModule
+    installModule = com.googlesource.gerrit.plugins.multisite.Module
+    instanceId = $INSTANCE_ID
+[container]
+    javaOptions = "-Dflogger.backend_factory=com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance"
+    javaOptions = "-Dflogger.logging_context=com.google.gerrit.server.logging.LoggingContext#getInstance"
+    javaOptions = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_PORT"
+    replica = $REPLICA
+[index]
+    type = LUCENE
+[auth]
+    type = DEVELOPMENT_BECOME_ANY_ACCOUNT
+[receive]
+    enableSignedPush = false
+[sendemail]
+    smtpServer = localhost
+[sshd]
+    listenAddress = *:29418
+    advertisedAddress = *:29418
+[httpd]
+    listenUrl = http://*:8080/
+    requestLog = true
+[cache]
+    directory = cache
+[plugins]
+    allowRemoteAdmin = true
+[plugin "events-kafka"]
+    sendAsync = true
+    bootstrapServers = $BROKER_HOST:$BROKER_PORT
+    groupId = $INSTANCE_ID
+    numberOfSubscribers = 6
+    securityProtocol = PLAINTEXT
+    pollingIntervalMs = 1000
+    enableAutoCommit = true
+    autoCommitIntervalMs = 1000
+    autoOffsetReset = latest
+    sendStreamEvents = true

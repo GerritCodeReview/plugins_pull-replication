@@ -1,0 +1,2 @@
+[ref-database "zookeeper"]
+        connectString = $ZOOKEEPER_HOST:$ZOOKEEPER_PORT
