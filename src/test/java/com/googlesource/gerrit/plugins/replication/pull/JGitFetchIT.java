@@ -45,6 +45,7 @@ import org.junit.Test;
     sysModule = "com.googlesource.gerrit.plugins.replication.pull.JGitFetchIT$TestModule")
 public class JGitFetchIT extends FetchITBase {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
+  private static final String TEST_TASK_ID = "taskid";
 
   @Test(expected = PermanentTransportException.class)
   public void shouldThrowPermanentTransportExceptionWhenRefDoesNotExists() throws Exception {
@@ -52,7 +53,8 @@ public class JGitFetchIT extends FetchITBase {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
     String nonExistingRef = "refs/changes/02/20000/1:refs/changes/02/20000/1";
     try (Repository repo = repoManager.openRepository(project)) {
-      Fetch objectUnderTest = fetchFactory.create(new URIish(testRepoPath.toString()), repo);
+      Fetch objectUnderTest =
+          fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
       objectUnderTest.fetch(Lists.newArrayList(new RefSpec(nonExistingRef)));
     }
   }

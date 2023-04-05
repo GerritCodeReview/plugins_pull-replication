@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.googlesource.gerrit.plugins.replication.pull.fetch;
+package com.googlesource.gerrit.plugins.replication.pull;
 
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.URIish;
+import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import java.util.Set;
 
-public interface FetchFactory {
-  Fetch create(String taskIdHex, URIish uri, Repository git);
-  // Return implementation without any decorators
-  @FetchClientImplementation
-  Fetch createPlainImpl(String taskIdHex, URIish uri, Repository git);
+/**
+ * Filter that is invoked before a set of remote refs are fetched from a remote instance.
+ *
+ * <p>It can be used to filter out unwanted fetches.
+ */
+@ExtensionPoint
+public interface ReplicationFetchFilter {
+
+  public Set<String> filter(String projectName, Set<String> fetchRefs);
 }
