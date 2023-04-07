@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "502133e0_bb425059",
+        "filename": "example-setup/broker-with-filter/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-04-07T05:43:25Z",
+      "side": 1,
+      "message": "nit: probably misplaced block close tag ``` AFAIU it should be in the new line",
+      "range": {
+        "startLine": 16,
+        "startChar": 61,
+        "endLine": 16,
+        "endChar": 64
+      },
+      "revId": "7df83cd15cc8a91f51d0efaa751369d6a8a4f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f689948f_99e9d9b8",
+        "filename": "example-setup/broker-with-filter/entrypoint.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-04-07T05:43:25Z",
+      "side": 1,
+      "message": "how about calling the original `entrypoint.sh` script instead? AFAIU it performs `init` and `reindex` only when needed...",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "7df83cd15cc8a91f51d0efaa751369d6a8a4f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
