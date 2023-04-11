@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8f8dfd29_73d142b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-04-11T09:59:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2376c067_312f4160",
+      "revId": "f2f76a3556fc1e2de6eaa85e8095c46bcdc43dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "de4216c6_1cbc0969",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/PermanentTransportException.java",
         "patchSetId": 1
