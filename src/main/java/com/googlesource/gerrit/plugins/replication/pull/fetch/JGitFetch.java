@@ -30,11 +30,16 @@ public class JGitFetch implements Fetch {
   URIish uri;
   Repository git;
   private final TransportProvider transportProvider;
+  private final String taskIdHex;
 
   @Inject
   public JGitFetch(
-      TransportProvider transportProvider, @Assisted URIish uri, @Assisted Repository git) {
+      TransportProvider transportProvider,
+      @Assisted String taskIdHex,
+      @Assisted URIish uri,
+      @Assisted Repository git) {
     this.transportProvider = transportProvider;
+    this.taskIdHex = taskIdHex;
     this.uri = uri;
     this.git = git;
   }
@@ -51,14 +56,11 @@ public class JGitFetch implements Fetch {
   }
 
   private FetchResult fetchVia(Transport tn, List<RefSpec> fetchRefSpecs) throws IOException {
-    repLog.info("Fetch references {} from {}", fetchRefSpecs, uri);
+    repLog.info("[{}] Fetch references {} from {}", taskIdHex, fetchRefSpecs, uri);
     try {
       return tn.fetch(NullProgressMonitor.INSTANCE, fetchRefSpecs);
     } catch (TransportException e) {
-      if (PermanentTransportException.isPermanentFailure(e)) {
-        throw new PermanentTransportException("Terminal fetch failure", e);
-      }
-      throw e;
+      throw PermanentTransportException.wrapIfPermanentTransportException(e);
     }
   }
 }

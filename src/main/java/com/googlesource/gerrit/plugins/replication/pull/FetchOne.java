@@ -22,6 +22,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
@@ -35,6 +36,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.InexistentRefTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
@@ -82,6 +84,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final Project.NameKey projectName;
   private final URIish uri;
   private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
+  private final Set<TransportException> fetchFailures = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
   private boolean retrying;
@@ -98,6 +101,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final AtomicBoolean canceledWhileRunning;
   private final FetchFactory fetchFactory;
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
+  private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
 
   @Inject
   FetchOne(
@@ -131,16 +135,23 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     this.apiRequestMetrics = apiRequestMetrics;
   }
 
+  @Inject(optional = true)
+  public void setReplicationFetchFilter(
+      DynamicItem<ReplicationFetchFilter> replicationFetchFilter) {
+    this.replicationFetchFilter = replicationFetchFilter;
+  }
+
   @Override
   public void cancel() {
-    repLog.info("Replication {} was canceled", getURI());
+    repLog.info("[{}] Replication task from {} was canceled", taskIdHex, getURI());
     canceledByReplication();
     pool.fetchWasCanceled(this);
   }
 
   @Override
   public void setCanceledWhileRunning() {
-    repLog.info("Replication {} was canceled while being executed", getURI());
+    repLog.info(
+        "[{}] Replication task from {} was canceled while being executed", taskIdHex, getURI());
     canceledWhileRunning.set(true);
   }
 
@@ -157,6 +168,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   @Override
   public boolean hasCustomizedPrint() {
     return true;
+  }
+
+  public String getTaskIdHex() {
+    return taskIdHex;
   }
 
   @Override
@@ -195,10 +210,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     if (ALL_REFS.equals(ref)) {
       delta.clear();
       fetchAllRefs = true;
-      repLog.trace("Added all refs for replication from {}", uri);
+      repLog.trace("[{}] Added all refs for replication from {}", taskIdHex, uri);
     } else if (!fetchAllRefs) {
       delta.add(ref);
-      repLog.trace("Added ref {} for replication from {}", ref, uri);
+      repLog.trace("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
     }
   }
 
@@ -277,6 +292,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     }
   }
 
+  public Set<TransportException> getFetchFailures() {
+    return fetchFailures;
+  }
+
   private void runFetchOperation() {
     try (TraceContext ctx = TraceContext.open().addTag(ID_KEY, HexFormat.fromInt(id))) {
       doRunFetchOperation();
@@ -291,16 +310,17 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     if (!pool.requestRunway(this)) {
       if (!canceled) {
         repLog.info(
-            "Rescheduling [{}] replication to {} to avoid collision with an in-flight fetch.",
+            "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task [{}].",
             taskIdHex,
-            uri);
+            uri,
+            pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
         pool.reschedule(this, Source.RetryReason.COLLISION);
       }
       return;
     }
 
     repLog.info(
-        "Replication [{}] from {} started for refs [{}] ...",
+        "[{}] Replication from {} started for refs [{}] ...",
         taskIdHex,
         uri,
         String.join(",", getRefs()));
@@ -317,7 +337,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
               .flatMap(metrics -> metrics.stop(config.getName()))
               .map(NANOSECONDS::toMillis);
       repLog.info(
-          "Replication [{}] from {} completed in {}ms, {}ms delay, {} retries{}",
+          "[{}] Replication from {} completed in {}ms, {}ms delay, {} retries{}",
           taskIdHex,
           uri,
           elapsed,
@@ -326,7 +346,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
           elapsedEnd2End.map(el -> String.format(", E2E %dms", el)).orElse(""));
     } catch (RepositoryNotFoundException e) {
       stateLog.error(
-          "Cannot replicate " + projectName + "; Local repository error: " + e.getMessage(),
+          "["
+              + taskIdHex
+              + "] Cannot replicate "
+              + projectName
+              + "; Local repository error: "
+              + e.getMessage(),
           getStatesAsArray());
 
     } catch (NoRemoteRepositoryException | RemoteRepositoryException e) {
@@ -335,9 +360,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       // raised.
       String msg = e.getMessage();
       repLog.error(
-          "Cannot replicate [{}] {}; Remote repository error: {}", taskIdHex, projectName, msg);
+          "[{}] Cannot replicate {}; Remote repository error: {}", taskIdHex, projectName, msg);
     } catch (NotSupportedException e) {
-      stateLog.error("Cannot replicate from " + uri, e, getStatesAsArray());
+      stateLog.error("[" + taskIdHex + "] Cannot replicate  from " + uri, e, getStatesAsArray());
     } catch (PermanentTransportException e) {
       repLog.error(
           String.format("Terminal failure. Cannot replicate [%s] from %s", taskIdHex, uri), e);
@@ -346,7 +371,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
         lockRetryCount++;
         // The LockFailureException message contains both URI and reason
         // for this failure.
-        repLog.error("Cannot replicate [{}] from {}: {}", taskIdHex, uri, e.getMessage());
+        repLog.error("[{}] Cannot replicate from {}: {}", taskIdHex, uri, e.getMessage());
 
         // The remote fetch operation should be retried.
         if (lockRetryCount <= maxLockRetries) {
@@ -357,7 +382,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
           }
         } else {
           repLog.error(
-              "Giving up after {} occurrences of this error: {} during replication from [{}] {}",
+              "[{}] Giving up after {} occurrences of this error: {} during replication from [{}] {}",
+              taskIdHex,
               lockRetryCount,
               e.getMessage(),
               taskIdHex,
@@ -373,9 +399,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
         }
       }
     } catch (IOException e) {
-      stateLog.error("Cannot replicate from " + uri, e, getStatesAsArray());
+      stateLog.error("[" + taskIdHex + "] Cannot replicate from " + uri, e, getStatesAsArray());
     } catch (RuntimeException | Error e) {
-      stateLog.error("Unexpected error during replication from " + uri, e, getStatesAsArray());
+      stateLog.error(
+          "[" + taskIdHex + "] Unexpected error during replication from " + uri,
+          e,
+          getStatesAsArray());
     } finally {
       if (git != null) {
         git.close();
@@ -385,13 +414,31 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   private void logCanceledWhileRunningException(TransportException e) {
-    repLog.info("Cannot replicate [{}] from {}. It was canceled while running", taskIdHex, uri, e);
+    repLog.info("[{}] Cannot replicate from {}. It was canceled while running", taskIdHex, uri, e);
   }
 
   private void runImpl() throws IOException {
-    Fetch fetch = fetchFactory.create(uri, git);
+    Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
-    updateStates(fetch.fetch(fetchRefSpecs));
+
+    try {
+      updateStates(fetch.fetch(fetchRefSpecs));
+    } catch (InexistentRefTransportException e) {
+      String inexistentRef = e.getInexistentRef();
+      repLog.info(
+          "[{}] Remote {} does not have ref {} in replication task, flagging as failed and removing from the replication task",
+          taskIdHex,
+          uri,
+          inexistentRef);
+      fetchFailures.add(e);
+      delta.remove(inexistentRef);
+      if (delta.isEmpty()) {
+        repLog.warn("[{}] Empty replication task, skipping.", taskIdHex);
+        return;
+      }
+
+      runImpl();
+    }
   }
 
   private List<RefSpec> getFetchRefSpecs() {
@@ -400,11 +447,18 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       return configRefSpecs;
     }
 
-    return delta.stream()
+    return runRefsFilter(delta).stream()
         .map(ref -> refToFetchRefSpec(ref, configRefSpecs))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
+  }
+
+  private Set<String> runRefsFilter(Set<String> refs) {
+    return Optional.ofNullable(replicationFetchFilter)
+        .flatMap(filter -> Optional.ofNullable(filter.get()))
+        .map(f -> f.filter(this.projectName.get(), refs))
+        .orElse(refs);
   }
 
   private Optional<RefSpec> refToFetchRefSpec(String ref, List<RefSpec> configRefSpecs) {
@@ -444,7 +498,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
         case REJECTED_MISSING_OBJECT:
           stateLog.error(
               String.format(
-                  "Failed replicate %s from %s: result %s", uri, u.getRemoteName(), u.getResult()),
+                  "[%s] Failed replicate %s from %s: result %s",
+                  taskIdHex, uri, u.getRemoteName(), u.getResult()),
               logStatesArray);
           fetchStatus = ReplicationState.RefFetchResult.FAILED;
           anyRefFailed = true;
@@ -458,7 +513,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
         case REJECTED_OTHER_REASON:
           stateLog.error(
               String.format(
-                  "Failed replicate %s from %s, reason: %s", uri, u.getRemoteName(), u.toString()),
+                  "[%s] Failed replicate %s from %s, reason: %s",
+                  taskIdHex, uri, u.getRemoteName(), u.toString()),
               logStatesArray);
 
           fetchStatus = ReplicationState.RefFetchResult.FAILED;
@@ -495,7 +551,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
                 null);
       }
     }
-    stateMap.clear();
+
+    for (String doneRef : doneRefs) {
+      stateMap.removeAll(doneRef);
+    }
   }
 
   public static class LockFailureException extends TransportException {
@@ -504,5 +563,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     LockFailureException(URIish uri, String message) {
       super(uri, message);
     }
+  }
+
+  public Optional<PullReplicationApiRequestMetrics> getRequestMetrics() {
+    return apiRequestMetrics;
   }
 }

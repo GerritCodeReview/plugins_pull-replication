@@ -41,14 +41,17 @@ public class CGitFetch implements Fetch {
   private File localProjectDirectory;
   private URIish uri;
   private int timeout;
+  private final String taskIdHex;
 
   @Inject
   public CGitFetch(
       SourceConfiguration config,
       CredentialsFactory cpFactory,
+      @Assisted String taskIdHex,
       @Assisted URIish uri,
       @Assisted Repository git) {
     this.localProjectDirectory = git.getDirectory();
+    this.taskIdHex = taskIdHex;
     this.uri = appendCredentials(uri, cpFactory.create(config.getRemoteConfig().getName()));
     this.timeout = config.getRemoteConfig().getTimeout();
   }
@@ -59,7 +62,7 @@ public class CGitFetch implements Fetch {
     List<String> command = Lists.newArrayList("git", "fetch", uri.toPrivateASCIIString());
     command.addAll(refs);
     ProcessBuilder pb = new ProcessBuilder().command(command).directory(localProjectDirectory);
-    repLog.info("Fetch references {} from {}", refs, uri);
+    repLog.info("[{}] Fetch references {} from {}", taskIdHex, refs, uri);
     Process process = pb.start();
 
     try {
@@ -74,7 +77,7 @@ public class CGitFetch implements Fetch {
                 .lines()
                 .collect(Collectors.joining("\n"));
         throw new TransportException(
-            String.format("Cannot fetch from %s, error message: %s}", uri, errorMessage));
+            String.format("Cannot fetch from %s, error message: %s", uri, errorMessage));
       }
 
       return refsSpec.stream()
@@ -83,8 +86,11 @@ public class CGitFetch implements Fetch {
                 return new RefUpdateState(value.getSource(), RefUpdate.Result.NEW);
               })
           .collect(Collectors.toList());
+    } catch (TransportException e) {
+      throw PermanentTransportException.wrapIfPermanentTransportException(e);
     } catch (InterruptedException e) {
-      repLog.error("Thread interrupted during the fetch from: {}, refs: {}", uri, refs);
+      repLog.error(
+          "[{}] Thread interrupted during the fetch from: {}, refs: {}", taskIdHex, uri, refs);
       throw new IllegalStateException(e);
     }
   }
