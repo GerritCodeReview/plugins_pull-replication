@@ -20,13 +20,14 @@ import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1.Context;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.events.EventListener;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -64,8 +65,8 @@ import org.slf4j.LoggerFactory;
 
 public class ReplicationQueue
     implements ObservableQueue,
+        EventListener,
         LifecycleListener,
-        GitReferenceUpdatedListener,
         ProjectDeletedListener,
         HeadUpdatedListener {
 
@@ -73,6 +74,8 @@ public class ReplicationQueue
   static final Logger repLog = LoggerFactory.getLogger(PULL_REPLICATION_LOG_NAME);
 
   private static final Integer DEFAULT_FETCH_CALLS_TIMEOUT = 0;
+  private static final String REF_UDPATED_EVENT_TYPE = new RefUpdatedEvent().type;
+  private static final String ZEROS_OBJECTID = ObjectId.zeroId().getName();
   private final ReplicationStateListener stateLog;
 
   private final WorkQueue workQueue;
@@ -147,20 +150,24 @@ public class ReplicationQueue
   }
 
   @Override
-  public void onGitReferenceUpdated(GitReferenceUpdatedListener.Event event) {
-    if (isRefToBeReplicated(event.getRefName())) {
-      repLog.info(
-          "Ref event received: {} on project {}:{} - {} => {}",
-          refUpdateType(event),
-          event.getProjectName(),
-          event.getRefName(),
-          event.getOldObjectId(),
-          event.getNewObjectId());
-      fire(
-          event.getProjectName(),
-          ObjectId.fromString(event.getNewObjectId()),
-          event.getRefName(),
-          event.isDelete());
+  public void onEvent(com.google.gerrit.server.events.Event e) {
+    if (e.type.equals(REF_UDPATED_EVENT_TYPE)) {
+      RefUpdatedEvent event = (RefUpdatedEvent) e;
+
+      if (isRefToBeReplicated(event.getRefName())) {
+        repLog.info(
+            "Ref event received: {} on project {}:{} - {} => {}",
+            refUpdateType(event),
+            event.refUpdate.get().project,
+            event.getRefName(),
+            event.refUpdate.get().oldRev,
+            event.refUpdate.get().newRev);
+        fire(
+            event.refUpdate.get().project,
+            ObjectId.fromString(event.refUpdate.get().newRev),
+            event.getRefName(),
+            ZEROS_OBJECTID.equals(event.refUpdate.get().newRev));
+      }
     }
   }
 
@@ -174,14 +181,13 @@ public class ReplicationQueue
                 source.getApis().forEach(apiUrl -> source.scheduleDeleteProject(apiUrl, project)));
   }
 
-  private static String refUpdateType(GitReferenceUpdatedListener.Event event) {
-    String forcedPrefix = event.isNonFastForward() ? "FORCED " : " ";
-    if (event.isCreate()) {
-      return forcedPrefix + "CREATE";
-    } else if (event.isDelete()) {
-      return forcedPrefix + "DELETE";
+  private static String refUpdateType(RefUpdatedEvent event) {
+    if (ZEROS_OBJECTID.equals(event.refUpdate.get().oldRev)) {
+      return "CREATE";
+    } else if (ZEROS_OBJECTID.equals(event.refUpdate.get().newRev)) {
+      return "DELETE";
     } else {
-      return forcedPrefix + "UPDATE";
+      return "UPDATE";
     }
   }
 
