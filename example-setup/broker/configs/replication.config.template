@@ -12,6 +12,7 @@
     maxApiPayloadSize = 40000
 [remote "$REMOTE"]
     url = http://$REMOTE_URL:8080/#{name}#.git
+    apiUrl = http://$REMOTE_URL:8080/
     fetch = +refs/*:refs/*
     mirror = true
     timeout = 60 # In seconds
