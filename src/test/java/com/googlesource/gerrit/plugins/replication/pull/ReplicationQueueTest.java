@@ -28,18 +28,20 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener.Event;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
@@ -164,7 +166,7 @@ public class ReplicationQueueTest {
   public void shouldCallSendObjectWhenMetaRef() throws ClientProtocolException, IOException {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
@@ -177,7 +179,7 @@ public class ReplicationQueueTest {
     when(source.isCreateMissingRepositories()).thenReturn(true);
 
     objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient).initProject(any(), any());
   }
@@ -190,7 +192,7 @@ public class ReplicationQueueTest {
     when(source.isCreateMissingRepositories()).thenReturn(false);
 
     objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient, never()).initProject(any(), any());
   }
@@ -199,7 +201,7 @@ public class ReplicationQueueTest {
   public void shouldCallSendObjectWhenPatchSetRef() throws ClientProtocolException, IOException {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
   }
@@ -212,7 +214,7 @@ public class ReplicationQueueTest {
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenThrow(IOException.class);
 
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
@@ -225,7 +227,7 @@ public class ReplicationQueueTest {
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenReturn(Optional.empty());
 
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
@@ -241,7 +243,7 @@ public class ReplicationQueueTest {
     when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
 
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient).callFetch(any(), anyString(), any());
   }
@@ -257,7 +259,7 @@ public class ReplicationQueueTest {
     when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
         .thenReturn(httpResult);
 
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient, times(2))
         .callSendObjects(any(), anyString(), revisionsDataCaptor.capture(), any());
@@ -293,7 +295,7 @@ public class ReplicationQueueTest {
             applyObjectMetrics,
             fetchMetrics);
     Event event = new TestEvent("refs/multi-site/version");
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
   }
@@ -301,7 +303,7 @@ public class ReplicationQueueTest {
   @Test
   public void shouldSkipEventWhenStarredChangesRef() {
     Event event = new TestEvent("refs/starred-changes/41/2941/1000000");
-    objectUnderTest.onGitReferenceUpdated(event);
+    objectUnderTest.onEvent(event);
 
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
   }
@@ -366,64 +368,18 @@ public class ReplicationQueueTest {
     return createTempDirectory(prefix);
   }
 
-  private class TestEvent implements GitReferenceUpdatedListener.Event {
-    private String refName;
-    private String projectName;
-    private ObjectId newObjectId;
-
+  private class TestEvent extends RefUpdatedEvent {
     public TestEvent(String refName) {
       this(refName, "defaultProject", ObjectId.zeroId());
     }
 
     public TestEvent(String refName, String projectName, ObjectId newObjectId) {
-      this.refName = refName;
-      this.projectName = projectName;
-      this.newObjectId = newObjectId;
-    }
-
-    @Override
-    public String getRefName() {
-      return refName;
-    }
-
-    @Override
-    public String getProjectName() {
-      return projectName;
-    }
-
-    @Override
-    public NotifyHandling getNotify() {
-      return null;
-    }
-
-    @Override
-    public String getOldObjectId() {
-      return ObjectId.zeroId().getName();
-    }
-
-    @Override
-    public String getNewObjectId() {
-      return newObjectId.getName();
-    }
-
-    @Override
-    public boolean isCreate() {
-      return false;
-    }
-
-    @Override
-    public boolean isDelete() {
-      return false;
-    }
-
-    @Override
-    public boolean isNonFastForward() {
-      return false;
-    }
-
-    @Override
-    public AccountInfo getUpdater() {
-      return null;
+      RefUpdateAttribute upd = new RefUpdateAttribute();
+      upd.newRev = newObjectId.getName();
+      upd.oldRev = ObjectId.zeroId().getName();
+      upd.project = projectName;
+      upd.refName = refName;
+      this.refUpdate = Suppliers.ofInstance(upd);
     }
   }
 

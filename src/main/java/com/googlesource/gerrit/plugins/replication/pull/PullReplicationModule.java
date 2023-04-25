@@ -19,12 +19,12 @@ import static com.googlesource.gerrit.plugins.replication.StartReplicationCapabi
 import com.google.common.eventbus.EventBus;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
-import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventTypes;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -123,7 +123,7 @@ class PullReplicationModule extends AbstractModule {
         .annotatedWith(UniqueAnnotations.create())
         .to(ReplicationQueue.class);
 
-    DynamicSet.bind(binder(), GitReferenceUpdatedListener.class).to(ReplicationQueue.class);
+    DynamicSet.bind(binder(), EventListener.class).to(ReplicationQueue.class);
 
     bind(ConfigParser.class).to(SourceConfigParser.class).in(Scopes.SINGLETON);
 
