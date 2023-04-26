@@ -22,6 +22,30 @@
       },
       "revId": "89b58413feac797cd72ea3a41a15df78830bfbe2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43bedbd9_f0a7d6ad",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-26T13:34:59Z",
+      "side": 0,
+      "message": "Unfortunately not; however, that info wasn\u0027t really used anywhere apart from the logs.",
+      "parentUuid": "f03fb569_229d840b",
+      "range": {
+        "startLine": 178,
+        "startChar": 11,
+        "endLine": 178,
+        "endChar": 23
+      },
+      "revId": "89b58413feac797cd72ea3a41a15df78830bfbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
