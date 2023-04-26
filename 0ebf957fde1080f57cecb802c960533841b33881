@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6ef2447_1eda9da5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-26T09:30:06Z",
+      "side": 1,
+      "message": "Might be my luck of knowledge, but not sure I understand what you mean here?",
+      "range": {
+        "startLine": 12,
+        "startChar": 34,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "0ebf957fde1080f57cecb802c960533841b33881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3a2b416_53ce04e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-26T09:30:06Z",
+      "side": 1,
+      "message": "WDYT of: that apply-object is always executed before ref-updated?",
+      "range": {
+        "startLine": 17,
+        "startChar": 21,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "0ebf957fde1080f57cecb802c960533841b33881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
