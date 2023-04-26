@@ -37,6 +37,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -90,6 +91,7 @@ public class ReplicationQueue
   private Provider<RevisionReader> revReaderProvider;
   private final ApplyObjectMetrics applyObjectMetrics;
   private final FetchReplicationMetrics fetchMetrics;
+  private ApplyObjectsRefsFilter applyObjectsRefsFilter;
 
   @Inject
   ReplicationQueue(
@@ -101,7 +103,8 @@ public class ReplicationQueue
       ExcludedRefsFilter refsFilter,
       Provider<RevisionReader> revReaderProvider,
       ApplyObjectMetrics applyObjectMetrics,
-      FetchReplicationMetrics fetchMetrics) {
+      FetchReplicationMetrics fetchMetrics,
+      ApplyObjectsRefsFilter applyObjectsRefsFilter) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -112,6 +115,7 @@ public class ReplicationQueue
     this.revReaderProvider = revReaderProvider;
     this.applyObjectMetrics = applyObjectMetrics;
     this.fetchMetrics = fetchMetrics;
+    this.applyObjectsRefsFilter = applyObjectsRefsFilter;
   }
 
   @Override
@@ -347,7 +351,8 @@ public class ReplicationQueue
           if (!resultSuccessful) {
             if (result.isParentObjectMissing()) {
 
-              if (RefNames.isNoteDbMetaRef(refName) && revision.size() == 1) {
+              if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
+                  && revision.size() == 1) {
                 List<RevisionData> allRevisions =
                     fetchWholeMetaHistory(project, refName, revision.get(0));
                 repLog.info(
