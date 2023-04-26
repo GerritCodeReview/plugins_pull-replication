@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.eclipse.jgit.transport;
+package com.googlesource.gerrit.plugins.replication.pull.transport;
 
 import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
 
@@ -26,6 +26,9 @@ import java.util.Set;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.TransportHttp;
+import org.eclipse.jgit.transport.TransportHttp.AcceptEncoding;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.http.HttpConnection;
 
 /**
@@ -54,6 +57,7 @@ public class TransportHttpWithBearerToken extends TransportHttp {
     this.bearerToken = bearerToken;
   }
 
+  @Override
   protected HttpConnection httpOpen(String method, URL u, AcceptEncoding acceptEncoding)
       throws IOException {
     HttpConnection conn = super.httpOpen(method, u, acceptEncoding);
