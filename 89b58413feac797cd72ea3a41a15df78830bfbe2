@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f03fb569_229d840b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-04-26T07:34:12Z",
+      "side": 0,
+      "message": "Is there a way to keep the information of ref update was forced or not?",
+      "range": {
+        "startLine": 178,
+        "startChar": 11,
+        "endLine": 178,
+        "endChar": 23
+      },
+      "revId": "89b58413feac797cd72ea3a41a15df78830bfbe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
