@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.eclipse.jgit.transport;
+package com.googlesource.gerrit.plugins.replication.pull.transport;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -23,6 +23,10 @@ import java.util.Optional;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.URIish;
 
 /**
  * This class is responsible for providing a Custom Git HTTP Transport with Bearer Token
