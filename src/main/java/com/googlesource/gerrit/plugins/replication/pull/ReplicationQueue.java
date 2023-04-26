@@ -38,6 +38,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -92,6 +93,7 @@ public class ReplicationQueue
   private final ApplyObjectMetrics applyObjectMetrics;
   private final FetchReplicationMetrics fetchMetrics;
   private final String instanceId;
+  private ApplyObjectsRefsFilter applyObjectsRefsFilter;
 
   @Inject
   ReplicationQueue(
@@ -104,7 +106,8 @@ public class ReplicationQueue
       Provider<RevisionReader> revReaderProvider,
       ApplyObjectMetrics applyObjectMetrics,
       FetchReplicationMetrics fetchMetrics,
-      @GerritInstanceId String instanceId) {
+      @GerritInstanceId String instanceId,
+      ApplyObjectsRefsFilter applyObjectsRefsFilter) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -116,6 +119,7 @@ public class ReplicationQueue
     this.applyObjectMetrics = applyObjectMetrics;
     this.fetchMetrics = fetchMetrics;
     this.instanceId = instanceId;
+    this.applyObjectsRefsFilter = applyObjectsRefsFilter;
   }
 
   @Override
@@ -351,7 +355,8 @@ public class ReplicationQueue
           if (!resultSuccessful) {
             if (result.isParentObjectMissing()) {
 
-              if (RefNames.isNoteDbMetaRef(refName) && revision.size() == 1) {
+              if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
+                  && revision.size() == 1) {
                 List<RevisionData> allRevisions =
                     fetchWholeMetaHistory(project, refName, revision.get(0));
                 repLog.info(
