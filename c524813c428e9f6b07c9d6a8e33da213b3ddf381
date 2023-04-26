@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "171f4329_43abb605",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-04-26T13:58:02Z",
+      "side": 1,
+      "message": "actually this JGit patch alone seems to be enough to get rid of the IllegalAccessError",
+      "revId": "c524813c428e9f6b07c9d6a8e33da213b3ddf381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
