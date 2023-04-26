@@ -261,6 +261,33 @@ replication.syncRefs
 
     By default, set to '*' (all refs are replicated synchronously).
 
+replication.fallbackToApplyObjectsRefs
+:   Specify for which refs will fallback to apply-objects REST-API that is capable of applying
+an entire chain of commits on the ref chain so that the Git fetch can be avoided altogether.
+It can be provided more than once, and supports three formats: regular expressions,
+wildcard matching, and single ref matching. All three formats matches are case-sensitive.
+
+    Values starting with a caret `^` are treated as regular
+    expressions. For the regular expressions details please follow
+    official [java documentation](https://docs.oracle.com/javase/tutorial/essential/regex/).
+
+    Please note that regular expressions could also be used
+    with inverse match.
+
+    Values that are not regular expressions and end in `*` are
+    treated as wildcard matches. Wildcards match refs whose
+    name agrees from the beginning until the trailing `*`. So
+    `foo/b*` would match the refs `foo/b`, `foo/bar`, and
+    `foo/baz`, but neither `foobar`, nor `bar/foo/baz`.
+
+    Values that are neither regular expressions nor wildcards are
+    treated as single ref matches. So `foo/bar` matches only
+    the ref `foo/bar`, but no other refs.
+
+    By default, set to 'refs/changes/**/meta'.
+
+    Note that the refs/changes/**/meta always fallback to apply-objects REST-API
+
 replication.maxApiPayloadSize
 :	Maximum size in bytes of the ref to be sent as a REST Api call
 	payload. For refs larger than threshold git fetch operation
