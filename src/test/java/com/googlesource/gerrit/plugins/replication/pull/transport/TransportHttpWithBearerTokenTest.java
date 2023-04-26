@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.eclipse.jgit.transport;
+package com.googlesource.gerrit.plugins.replication.pull.transport;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import java.net.URISyntaxException;
+import org.eclipse.jgit.transport.URIish;
 import org.junit.Test;
 
 public class TransportHttpWithBearerTokenTest {
