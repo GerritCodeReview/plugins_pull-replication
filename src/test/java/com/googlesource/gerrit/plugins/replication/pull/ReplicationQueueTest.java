@@ -52,6 +52,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -94,6 +95,7 @@ public class ReplicationQueueTest {
   @Mock RevisionData revisionDataWithParents;
   List<ObjectId> revisionDataParentObjectIds;
   @Mock HttpResult httpResult;
+  @Mock ApplyObjectsRefsFilter applyObjectsRefsFilter;
   ApplyObjectMetrics applyObjectMetrics;
   FetchReplicationMetrics fetchMetrics;
 
@@ -151,6 +153,7 @@ public class ReplicationQueueTest {
     when(httpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
+    when(applyObjectsRefsFilter.match(any())).thenReturn(false);
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
     fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
@@ -166,7 +169,8 @@ public class ReplicationQueueTest {
             () -> revReader,
             applyObjectMetrics,
             fetchMetrics,
-            LOCAL_INSTANCE_ID);
+            LOCAL_INSTANCE_ID,
+            applyObjectsRefsFilter);
   }
 
   @Test
@@ -294,6 +298,34 @@ public class ReplicationQueueTest {
   }
 
   @Test
+  public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnAllowedRefs()
+      throws ClientProtocolException, IOException {
+    String refName = "refs/tags/test-tag";
+    Event event = new TestEvent(refName);
+    objectUnderTest.start();
+
+    when(httpResult.isSuccessful()).thenReturn(false, true);
+    when(httpResult.isParentObjectMissing()).thenReturn(true, false);
+    when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
+        .thenReturn(httpResult);
+    when(applyObjectsRefsFilter.match(refName)).thenReturn(true);
+
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient, times(2))
+        .callSendObjects(any(), anyString(), revisionsDataCaptor.capture(), any());
+    List<List<RevisionData>> revisionsDataValues = revisionsDataCaptor.getAllValues();
+    assertThat(revisionsDataValues).hasSize(2);
+
+    List<RevisionData> firstRevisionsValues = revisionsDataValues.get(0);
+    assertThat(firstRevisionsValues).hasSize(1);
+    assertThat(firstRevisionsValues).contains(revisionData);
+
+    List<RevisionData> secondRevisionsValues = revisionsDataValues.get(1);
+    assertThat(secondRevisionsValues).hasSize(1 + revisionDataParentObjectIds.size());
+  }
+
+  @Test
   public void shouldSkipEventWhenMultiSiteVersionRef() throws IOException {
     FileBasedConfig fileConfig =
         new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
@@ -313,7 +345,8 @@ public class ReplicationQueueTest {
             () -> revReader,
             applyObjectMetrics,
             fetchMetrics,
-            LOCAL_INSTANCE_ID);
+            LOCAL_INSTANCE_ID,
+            applyObjectsRefsFilter);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onEvent(event);
 
