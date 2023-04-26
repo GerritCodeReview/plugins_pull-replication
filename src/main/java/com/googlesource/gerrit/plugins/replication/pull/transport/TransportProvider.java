@@ -12,24 +12,38 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.eclipse.jgit.transport;
+package com.googlesource.gerrit.plugins.replication.pull.transport;
 
+import static org.eclipse.jgit.util.HttpSupport.HDR_AUTHORIZATION;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.TransportHttp;
+import org.eclipse.jgit.transport.URIish;
 
 /**
- * This class is responsible for providing a Custom Git HTTP Transport with Bearer Token
- * Authentication or a concrete implementation of {@link org.eclipse.jgit.transport.Transport}.
+ * This class is responsible for setting bearer token header for Bearer Token Authentication using
+ * {@link org.eclipse.jgit.transport.TransportHttp#setAdditionalHeaders(java.util.Map)} method.
  */
 @Singleton
 public class TransportProvider {
+  private static final Set<String> SCHEMES_ALLOWED = ImmutableSet.of("http", "https");
+
   private final RemoteConfig remoteConfig;
   private final CredentialsProvider credentialsProvider;
   private final Optional<String> bearerToken;
@@ -46,23 +60,21 @@ public class TransportProvider {
 
   public Transport open(Repository local, URIish uri)
       throws NotSupportedException, TransportException {
-    return (bearerToken.isPresent() && TransportHttpWithBearerToken.canHandle(uri))
-        ? provideTransportHttpWithBearerToken(local, uri)
-        : provideNativeTransport(local, uri);
-  }
-
-  private Transport provideTransportHttpWithBearerToken(Repository local, URIish uri)
-      throws NotSupportedException {
-    Transport tn = new TransportHttpWithBearerToken(local, uri, bearerToken.get());
-    tn.applyConfig(remoteConfig);
-    return tn;
-  }
-
-  private Transport provideNativeTransport(Repository local, URIish uri)
-      throws NotSupportedException, TransportException {
     Transport tn = Transport.open(local, uri);
     tn.applyConfig(remoteConfig);
-    tn.setCredentialsProvider(credentialsProvider);
+    if (tn instanceof TransportHttp && bearerToken.isPresent() && canUseBearerToken(uri)) {
+      ((TransportHttp) tn)
+          .setAdditionalHeaders(ImmutableMap.of(HDR_AUTHORIZATION, "Bearer " + bearerToken.get()));
+    } else {
+      tn.setCredentialsProvider(credentialsProvider);
+    }
     return tn;
+  }
+
+  @VisibleForTesting
+  static boolean canUseBearerToken(URIish uri) {
+    return SCHEMES_ALLOWED.contains(uri.getScheme())
+        && !Strings.isNullOrEmpty(uri.getHost())
+        && !Strings.isNullOrEmpty(uri.getPath());
   }
 }
