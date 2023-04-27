@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="pull-replication">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/example-setup/http/pull-replication.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

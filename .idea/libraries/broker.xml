@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="broker">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/example-setup/broker/pull-replication.jar!/" />
+      <root url="jar://$PROJECT_DIR$/example-setup/broker/events-kafka.jar!/" />
+      <root url="jar://$PROJECT_DIR$/example-setup/broker/libevents-broker.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
