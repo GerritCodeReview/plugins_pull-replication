@@ -49,6 +49,13 @@ Then reload the replication plugin to pick up the new configuration:
 To manually trigger replication at runtime, see
 SSH command [start](cmd-start.md).
 
+If replicating over HTTP/HTTPS with Bearer Token Authentication, ensure
+the `pull-replication.jar` is copied into the $GERRIT_SITE/lib. The reason
+behind is that JGit does not support Bearer Token Authentication and therefore
+pull-replication plugin has implemented a temporal solution for allowing
+this feature and it requires to be loaded in the main Gerrit class-loader,
+even if it is initialised as a plugin.
+
 File `@PLUGIN@.config`
 -------------------------
 
