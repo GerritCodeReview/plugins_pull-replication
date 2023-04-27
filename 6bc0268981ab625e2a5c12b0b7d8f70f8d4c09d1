@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "33bdba2d_94a00b6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-27T12:10:10Z",
+      "side": 1,
+      "message": "I will change it.",
+      "parentUuid": "5351d6a1_dbd28108",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0c2a7f53_41174ccb",
@@ -37,6 +61,23 @@
       "writtenOn": "2023-04-27T11:50:34Z",
       "side": 1,
       "message": "Please, have a look at the explanation.",
+      "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fce0e61_dd102b78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-27T12:10:10Z",
+      "side": 1,
+      "message": "I will address the comments. Tx @Ponch",
       "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +112,42 @@
       "writtenOn": "2023-04-27T12:03:12Z",
       "side": 1,
       "message": "nit: I\u0027d probably add an `Authentication` section or `Bearer Token Authentication` paragraph to make it standout in the documentation.",
+      "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4bb99d9_76b403bc",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-27T12:10:10Z",
+      "side": 1,
+      "message": "I dont think so because in runtime that flow is ignored. but it is worth to check it.",
+      "parentUuid": "127da067_533657d5",
+      "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2c7e72e_8cb81f0b",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-27T12:10:10Z",
+      "side": 1,
+      "message": "Makes sense to me. I will do it.",
+      "parentUuid": "d346db32_d99136de",
       "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
