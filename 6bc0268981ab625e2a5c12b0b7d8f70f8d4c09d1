@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5351d6a1_dbd28108",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-04-27T12:03:12Z",
+      "side": 1,
+      "message": "nit: I would mention the update of the documentation is about the `Bearer Token Authentication`. This way by just doing a `git log --pretty\u003doneline` you could understand what\u0027s going on in the change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0c2a7f53_41174ccb",
@@ -14,6 +37,40 @@
       "writtenOn": "2023-04-27T11:50:34Z",
       "side": 1,
       "message": "Please, have a look at the explanation.",
+      "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "127da067_533657d5",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-04-27T12:03:12Z",
+      "side": 1,
+      "message": "If we are using normal auth, do we still need to copy the plugin in the lib directory?",
+      "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d346db32_d99136de",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-04-27T12:03:12Z",
+      "side": 1,
+      "message": "nit: I\u0027d probably add an `Authentication` section or `Bearer Token Authentication` paragraph to make it standout in the documentation.",
       "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
