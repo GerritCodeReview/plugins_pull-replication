@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "a9b14f28_907a3b7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-27T15:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33bdba2d_94a00b6e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0c2a7f53_41174ccb",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -166,6 +190,24 @@
       "side": 1,
       "message": "I tested, with Basic Authentication we DONT need to copy pull-replication.jar in the lib folder",
       "parentUuid": "b4bb99d9_76b403bc",
+      "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7f60647_071bc83c",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-27T15:34:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2c7e72e_8cb81f0b",
       "revId": "6bc0268981ab625e2a5c12b0b7d8f70f8d4c09d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
