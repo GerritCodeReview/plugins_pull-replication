@@ -21,18 +21,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
-import com.googlesource.gerrit.plugins.replication.pull.Context;
-import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
-import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
-import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import com.googlesource.gerrit.plugins.replication.pull.*;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
-import com.googlesource.gerrit.plugins.replication.pull.Source;
-import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
@@ -77,13 +72,15 @@ public class ApplyObjectCommand {
 
   public void applyObject(
       Project.NameKey name, String refName, RevisionData revisionsData, String sourceLabel)
-      throws IOException, RefUpdateException, MissingParentObjectException {
+      throws IOException, RefUpdateException, MissingParentObjectException,
+          ResourceNotFoundException {
     applyObjects(name, refName, new RevisionData[] {revisionsData}, sourceLabel);
   }
 
   public void applyObjects(
       Project.NameKey name, String refName, RevisionData[] revisionsData, String sourceLabel)
-      throws IOException, RefUpdateException, MissingParentObjectException {
+      throws IOException, RefUpdateException, MissingParentObjectException,
+          ResourceNotFoundException {
 
     repLog.info(
         "Apply object from {} for {}:{} - {}",
