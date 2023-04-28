@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
@@ -78,7 +79,9 @@ public class ApplyObjectCommandTest {
   private ApplyObjectCommand objectUnderTest;
 
   @Before
-  public void setup() throws MissingParentObjectException, IOException, URISyntaxException {
+  public void setup()
+      throws MissingParentObjectException, IOException, URISyntaxException,
+          ResourceNotFoundException {
     RefUpdateState state = new RefUpdateState(TEST_REMOTE_NAME, RefUpdate.Result.NEW);
     TEST_REMOTE_URI = new URIish("git://some.remote.uri");
     when(eventDispatcherDataItem.get()).thenReturn(eventDispatcher);
@@ -96,7 +99,7 @@ public class ApplyObjectCommandTest {
   @Test
   public void shouldSendEventWhenApplyObject()
       throws PermissionBackendException, IOException, RefUpdateException,
-          MissingParentObjectException {
+          MissingParentObjectException, ResourceNotFoundException {
     objectUnderTest.applyObject(
         TEST_PROJECT_NAME, TEST_REF_NAME, createSampleRevisionData(), TEST_SOURCE_LABEL);
 
