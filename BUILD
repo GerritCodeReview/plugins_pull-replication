@@ -17,6 +17,7 @@ gerrit_plugin(
     deps = [
         "//lib/commons:io",
         "//plugins/replication",
+        "//plugins/delete-project",
         "@events-broker//jar:neverlink",
     ],
 )
@@ -33,6 +34,7 @@ junit_tests(
         ":pull-replication__plugin",
         ":pull_replication_util",
         "//plugins/replication",
+        "//plugins/delete-project",
         "@events-broker//jar",
     ],
 )
@@ -50,5 +52,6 @@ java_library(
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
         "//plugins/replication:replication",
+        "//plugins/delete-project:delete-project",
     ],
 )
