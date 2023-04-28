@@ -16,6 +16,7 @@ gerrit_plugin(
     resources = glob(["src/main/resources/**/*"]),
     deps = [
         "//lib/commons:io",
+        "//plugins/delete-project",
         "//plugins/replication",
         "@events-broker//jar:neverlink",
     ],
@@ -32,6 +33,7 @@ junit_tests(
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
         ":pull_replication_util",
+        "//plugins/delete-project",
         "//plugins/replication",
         "@events-broker//jar",
     ],
@@ -49,6 +51,7 @@ java_library(
     ),
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
-        "//plugins/replication:replication",
+        "//plugins/delete-project",
+        "//plugins/replication",
     ],
 )
