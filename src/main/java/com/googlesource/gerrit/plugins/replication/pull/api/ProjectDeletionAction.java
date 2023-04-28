@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,17 +51,20 @@ class ProjectDeletionAction
   private final GerritConfigOps gerritConfigOps;
   private final PermissionBackend permissionBackend;
   private final RepositoryDelete repositoryDelete;
+  private final ProjectCache projectCache;
 
   @Inject
   ProjectDeletionAction(
       GerritConfigOps gerritConfigOps,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> userProvider,
-      RepositoryDelete repositoryDelete) {
+      RepositoryDelete repositoryDelete,
+      ProjectCache projectCache) {
     this.gerritConfigOps = gerritConfigOps;
     this.permissionBackend = permissionBackend;
     this.userProvider = userProvider;
     this.repositoryDelete = repositoryDelete;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -86,7 +90,12 @@ class ProjectDeletionAction
             ARCHIVE_DELETED_REPO,
             Optional.empty(),
             DynamicSet.emptySet());
-        repLog.info("Deleted local repository {}", projectResource.getName());
+        // delete the project from the local project cache, otherwise future ops
+        // will fail as the replica will think that the project still exists locally.
+        projectCache.evictAndReindex(projectResource.getNameKey());
+        repLog.info(
+            "Deleted local repository {} and removed it from the local project cache",
+            projectResource.getName());
         return Response.ok();
       } catch (RepositoryNotFoundException e) {
         throw new ResourceNotFoundException(
