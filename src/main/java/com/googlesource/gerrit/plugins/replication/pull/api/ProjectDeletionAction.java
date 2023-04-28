@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
+
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -27,9 +29,11 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.googlesource.gerrit.plugins.replication.LocalFS;
+import com.googlesource.gerrit.plugins.deleteproject.fs.RepositoryDelete;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
+import java.io.IOException;
 import java.util.Optional;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.transport.URIish;
 
 class ProjectDeletionAction
@@ -42,15 +46,18 @@ class ProjectDeletionAction
   private final Provider<CurrentUser> userProvider;
   private final GerritConfigOps gerritConfigOps;
   private final PermissionBackend permissionBackend;
+  private final RepositoryDelete repositoryDelete;
 
   @Inject
   ProjectDeletionAction(
       GerritConfigOps gerritConfigOps,
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> userProvider) {
+      Provider<CurrentUser> userProvider,
+      RepositoryDelete repositoryDelete) {
     this.gerritConfigOps = gerritConfigOps;
     this.permissionBackend = permissionBackend;
     this.userProvider = userProvider;
+    this.repositoryDelete = repositoryDelete;
   }
 
   @Override
@@ -67,11 +74,19 @@ class ProjectDeletionAction
         gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectResource.getName()));
 
     if (maybeRepoURI.isPresent()) {
-      if (new LocalFS(maybeRepoURI.get()).deleteProject(projectResource.getNameKey())) {
+      try {
+        // reuse repo deletion logic from delete-project plugin, as it can successfully delete
+        // the git directories hosted on nfs.
+        repositoryDelete.execute(projectResource.getNameKey());
+        repLog.info("Deleted local repository {}", projectResource.getName());
         return Response.ok();
+      } catch (RepositoryNotFoundException e) {
+        throw new ResourceNotFoundException(
+            String.format("Repository %s not found", projectResource.getName()), e);
+      } catch (IOException e) {
+        throw new UnprocessableEntityException(
+            String.format("Could not delete project %s", projectResource.getName()));
       }
-      throw new UnprocessableEntityException(
-          String.format("Could not delete project %s", projectResource.getName()));
     }
     throw new ResourceNotFoundException(
         String.format("Could not compute URI for repo: %s", projectResource.getName()));
