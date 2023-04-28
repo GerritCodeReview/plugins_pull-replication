@@ -17,12 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
-import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
-import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static javax.servlet.http.HttpServletResponse.*;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -152,9 +147,12 @@ public class PullReplicationFilter extends AllRequestFilter {
     } catch (ResourceConflictException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_CONFLICT, e.getMessage(), e.caching(), e);
-    } catch (InitProjectException | ResourceNotFoundException e) {
+    } catch (InitProjectException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_INTERNAL_SERVER_ERROR, e.getMessage(), e.caching(), e);
+    } catch (ResourceNotFoundException e) {
+      RestApiServlet.replyError(
+          httpRequest, httpResponse, SC_NOT_FOUND, e.getMessage(), e.caching(), e);
     } catch (NoSuchElementException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_BAD_REQUEST, "Project name not present in the url", e);
