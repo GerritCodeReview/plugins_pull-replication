@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04486a84_6020f5e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-04-28T09:04:34Z",
+      "side": 1,
+      "message": "Missing Issue number. I think it should be 16399, right?",
+      "revId": "dd655668bff3fbfcd7da9e350826ebb84b0f5e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
