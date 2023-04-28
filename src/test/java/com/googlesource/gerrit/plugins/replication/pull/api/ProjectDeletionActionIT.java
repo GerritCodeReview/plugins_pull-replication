@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -168,6 +169,46 @@ public class ProjectDeletionActionIT extends ActionITBase {
         .execute(
             withBearerTokenAuthentication(createDeleteRequest(), "some-bearer-token"),
             assertHttpResponseCode(HttpServletResponse.SC_OK));
+  }
+
+  @Test
+  public void shouldRemoveFromTheProjectCacheWhenProjectIsSuccessfullyDeleted() throws Exception {
+    String testProjectName = project.get();
+    url = getURLWithAuthenticationPrefix(testProjectName);
+    assertThat(projectCache.get(project).isPresent()).isTrue();
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBasicAuthenticationAsAdmin(createDeleteRequest()),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
+    assertThat(projectCache.get(project).isPresent()).isFalse();
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldRemoveFromtheReplicaProjectCacheWhenProjectIsSuccessfullyDeletedFromTheReplica()
+      throws Exception {
+    String testProjectName = project.get();
+    url = getURLWithAuthenticationPrefix(testProjectName);
+    assertThat(projectCache.get(project).isPresent()).isTrue();
+
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBasicAuthenticationAsAdmin(createDeleteRequest()),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
+    assertThat(projectCache.get(project).isPresent()).isFalse();
+  }
+
+  @Test
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldNotRemoveFromTheReplicaCacheIfAProjectCannotBeDeleted() throws Exception {
+    assertThat(projectCache.get(project).isPresent()).isTrue();
+    httpClientFactory
+        .create(source)
+        .execute(createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+    assertThat(projectCache.get(project).isPresent()).isTrue();
   }
 
   @Override
