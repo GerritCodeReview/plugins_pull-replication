@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b07a6b98_5e67358f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-04-28T14:44:50Z",
+      "side": 1,
+      "message": "Are we catching it just for the logging? Do we really need it?",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 131,
+        "endChar": 14
+      },
+      "revId": "e83d31244e28c43e1ee7f350343dda8adc093bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
