@@ -15,6 +15,8 @@
 package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
@@ -22,6 +24,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import java.io.IOException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -43,7 +46,7 @@ public class ApplyObject {
   }
 
   public RefUpdateState apply(Project.NameKey name, RefSpec refSpec, RevisionData[] revisionsData)
-      throws MissingParentObjectException, IOException {
+      throws MissingParentObjectException, IOException, ResourceNotFoundException {
     try (Repository git = gitManager.openRepository(name)) {
 
       ObjectId refHead = null;
@@ -87,6 +90,8 @@ public class ApplyObject {
         RefUpdate.Result result = ru.update();
         return new RefUpdateState(refSpec.getSource(), result);
       }
+    } catch (RepositoryNotFoundException e) {
+      throw new ResourceNotFoundException(IdString.fromDecoded(name.get()));
     }
   }
 }

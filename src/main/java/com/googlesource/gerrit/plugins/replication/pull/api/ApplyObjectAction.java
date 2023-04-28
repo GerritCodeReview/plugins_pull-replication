@@ -17,13 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.extensions.restapi.*;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
@@ -126,6 +120,15 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           input.getRevisionData(),
           e);
       throw new UnprocessableEntityException(e.getMessage());
+    } catch (ResourceNotFoundException e) {
+      repLog.error(
+          "Apply object API *FAILED* from {} for {}:{} - {}",
+          input.getLabel(),
+          resource.getNameKey(),
+          input.getRefName(),
+          input.getRevisionData(),
+          e);
+      throw e;
     }
   }
 }
