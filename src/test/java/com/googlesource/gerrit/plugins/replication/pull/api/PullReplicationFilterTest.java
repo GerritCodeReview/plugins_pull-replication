@@ -242,7 +242,7 @@ public class PullReplicationFilterTest {
   }
 
   @Test
-  public void shouldBe500WhenResourceNotFound() throws Exception {
+  public void shouldBe404WhenResourceNotFound() throws Exception {
     when(request.getRequestURI()).thenReturn(DELETE_PROJECT_URI);
     when(request.getMethod()).thenReturn("DELETE");
     when(projectsCollection.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME)))
@@ -254,7 +254,7 @@ public class PullReplicationFilterTest {
     final PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
     pullReplicationFilter.doFilter(request, response, filterChain);
 
-    verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    verify(response).setStatus(HttpServletResponse.SC_NOT_FOUND);
   }
 
   @Test
