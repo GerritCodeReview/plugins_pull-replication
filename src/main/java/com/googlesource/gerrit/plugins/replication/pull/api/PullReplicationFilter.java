@@ -22,6 +22,7 @@ import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.flogger.FluentLogger;
@@ -152,9 +153,12 @@ public class PullReplicationFilter extends AllRequestFilter {
     } catch (ResourceConflictException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_CONFLICT, e.getMessage(), e.caching(), e);
-    } catch (InitProjectException | ResourceNotFoundException e) {
+    } catch (InitProjectException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_INTERNAL_SERVER_ERROR, e.getMessage(), e.caching(), e);
+    } catch (ResourceNotFoundException e) {
+      RestApiServlet.replyError(
+          httpRequest, httpResponse, SC_NOT_FOUND, e.getMessage(), e.caching(), e);
     } catch (NoSuchElementException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_BAD_REQUEST, "Project name not present in the url", e);
