@@ -523,6 +523,12 @@ public class Source {
           pendingFetchOp.addStates(fetchOp.getStates());
           fetchOp.removeStates();
 
+          stateLog.warn(
+              String.format(
+                  "[%s] Merging all refs to fetch from [%s] to the already retrying task [%s] for keeping its position into the replication queue",
+                  fetchOp.getTaskIdHex(), fetchOp.getURI(), pendingFetchOp.getTaskIdHex()),
+              fetchOp.getStatesAsArray());
+
         } else {
           // The one pending is one that is NOT retrying, it was just
           // scheduled believing no problem would happen. The one pending
@@ -541,6 +547,12 @@ public class Source {
           fetchOp.addRefs(pendingFetchOp.getRefs());
           fetchOp.addStates(pendingFetchOp.getStates());
           pendingFetchOp.removeStates();
+
+          stateLog.warn(
+              String.format(
+                  "[%s] Merging the pending fetch from [%s] with task [%s] and rescheduling",
+                  pendingFetchOp.getTaskIdHex(), pendingFetchOp.getURI(), fetchOp.getTaskIdHex()),
+              pendingFetchOp.getStatesAsArray());
         }
       }
 
