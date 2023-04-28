@@ -26,6 +26,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ProjectResource;
@@ -195,6 +196,18 @@ public class ApplyObjectActionTest {
     doThrow(
             new MissingParentObjectException(
                 Project.nameKey("test_projects"), refName, ObjectId.zeroId()))
+        .when(applyObjectCommand)
+        .applyObject(any(), anyString(), any(), anyString());
+
+    applyObjectAction.apply(projectResource, inputParams);
+  }
+
+  @Test(expected = ResourceNotFoundException.class)
+  public void shouldRethrowResourceNotFoundException()
+      throws RestApiException, IOException, RefUpdateException, MissingParentObjectException {
+    RevisionInput inputParams = new RevisionInput(label, refName, createSampleRevisionData());
+
+    doThrow(new ResourceNotFoundException("test_projects"))
         .when(applyObjectCommand)
         .applyObject(any(), anyString(), any(), anyString());
 
