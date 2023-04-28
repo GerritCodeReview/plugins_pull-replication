@@ -29,6 +29,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.googlesource.gerrit.plugins.deleteproject.cache.CacheDeleteHandler;
 import com.googlesource.gerrit.plugins.deleteproject.fs.RepositoryDelete;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
 import java.io.IOException;
@@ -47,17 +48,20 @@ class ProjectDeletionAction
   private final GerritConfigOps gerritConfigOps;
   private final PermissionBackend permissionBackend;
   private final RepositoryDelete repositoryDelete;
+  private final CacheDeleteHandler cacheDeleteHandler;
 
   @Inject
   ProjectDeletionAction(
       GerritConfigOps gerritConfigOps,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> userProvider,
-      RepositoryDelete repositoryDelete) {
+      RepositoryDelete repositoryDelete,
+      CacheDeleteHandler cacheDeleteHandler) {
     this.gerritConfigOps = gerritConfigOps;
     this.permissionBackend = permissionBackend;
     this.userProvider = userProvider;
     this.repositoryDelete = repositoryDelete;
+    this.cacheDeleteHandler = cacheDeleteHandler;
   }
 
   @Override
@@ -78,7 +82,12 @@ class ProjectDeletionAction
         // reuse repo deletion logic from delete-project plugin, as it can successfully delete
         // the git directories hosted on nfs.
         repositoryDelete.execute(projectResource.getNameKey());
-        repLog.info("Deleted local repository {}", projectResource.getName());
+        // delete the project from the local project cache, otherwise future ops
+        // will fail as the replica will think that the project still exists locally.
+        cacheDeleteHandler.delete(projectResource.getProjectState().getProject());
+        repLog.info(
+            "Deleted local repository {} and removed it from the local project cache",
+            projectResource.getName());
         return Response.ok();
       } catch (RepositoryNotFoundException e) {
         throw new ResourceNotFoundException(
