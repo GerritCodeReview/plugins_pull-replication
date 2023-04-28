@@ -34,6 +34,24 @@
       "parentUuid": "04486a84_6020f5e3",
       "revId": "dd655668bff3fbfcd7da9e350826ebb84b0f5e84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12cff210_942aef4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-28T09:18:37Z",
+      "side": 1,
+      "message": "Let me know if this `Bug: Issue 16399` works for you.",
+      "parentUuid": "6fca675c_8eddac88",
+      "revId": "dd655668bff3fbfcd7da9e350826ebb84b0f5e84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
