@@ -46,6 +46,30 @@
       },
       "revId": "71639da7113f058c0c12a09f13a6d265dc531785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "019139ee_0db056da",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-01T20:10:07Z",
+      "side": 1,
+      "message": "I saw your change, that would clean the plugin a lot, thank you so much. I will review it.",
+      "parentUuid": "16734df9_28238624",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 65
+      },
+      "revId": "71639da7113f058c0c12a09f13a6d265dc531785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
