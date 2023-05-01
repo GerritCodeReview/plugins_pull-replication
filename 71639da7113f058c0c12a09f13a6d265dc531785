@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71aa0e24_6e2f44ba",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-01T19:34:39Z",
+      "side": 1,
+      "message": "It turns out there is a way to set header using TransportHttp#setAdditionalHeaders method without shading org.eclipse.jgit.transport package and without patching JGit, see change 371234. So that this restriction to copy pull-replication to \u003cgerrit_site\u003e/lib directory for bearer token authentication to work shouldn\u0027t be needed any more (once that change moved to stable-3.4 branch and is merged).",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 65
+      },
+      "revId": "71639da7113f058c0c12a09f13a6d265dc531785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
