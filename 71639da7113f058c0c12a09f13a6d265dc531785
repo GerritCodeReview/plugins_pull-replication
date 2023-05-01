@@ -22,6 +22,30 @@
       },
       "revId": "71639da7113f058c0c12a09f13a6d265dc531785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16734df9_28238624",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-01T20:04:10Z",
+      "side": 1,
+      "message": "are you 100% of that? I remember Marcin and I looking at that? Maybe you can create a card and we can pair on that.\nThank you very much in any case.",
+      "parentUuid": "71aa0e24_6e2f44ba",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 65
+      },
+      "revId": "71639da7113f058c0c12a09f13a6d265dc531785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
