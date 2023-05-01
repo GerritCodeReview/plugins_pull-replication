@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ab9300e_4e3185e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-01T18:36:18Z",
+      "side": 1,
+      "message": "After this refactoring, a vanilla JGit version can be used, and we could move that change to stable-3.4 branch and merge up to master branch.",
+      "revId": "f39e332c339c5b792f7a4a09549d58ef9d01ea02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
