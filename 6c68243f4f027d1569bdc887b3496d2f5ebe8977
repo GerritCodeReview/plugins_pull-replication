@@ -86,6 +86,24 @@
       "message": "Btw, this change also invalidates this one: I915b69210036928b44bbf33351d23b4c9fec9cda",
       "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3fd1aac_43e0a047",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-02T11:32:11Z",
+      "side": 1,
+      "message": "You are right and I will revert it once this change has been merged into stable.3.4",
+      "parentUuid": "52c1810c_465a66ce",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
