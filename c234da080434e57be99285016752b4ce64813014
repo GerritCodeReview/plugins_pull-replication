@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67531ab0_abde4056",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-02T10:06:16Z",
+      "side": 1,
+      "message": "The Bearer token Authentication header must have the following format:\n```\nAuthorization: Bearer \u003ctoken\u003e\n```",
+      "revId": "c234da080434e57be99285016752b4ce64813014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
