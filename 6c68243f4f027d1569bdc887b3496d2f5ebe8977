@@ -34,6 +34,23 @@
       "parentUuid": "4554cdff_0043d4c2",
       "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de2b49a_501ec960",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-02T11:08:17Z",
+      "side": 1,
+      "message": "Before we merge it, I would like to test it manually end to end for Basic and Bearer token Authentication.",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
