@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f2e5bf6_879ad79d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-02T07:51:04Z",
+      "side": 1,
+      "message": "This method was previously in the TransportHttpWithBearerToken class which gave some context to the method name. Now that it is inside the TransportProvider it lost the \"BearerToken\" part of the context and we need a more specific method name.\nProposal: `canUseBearerToken`",
+      "range": {
+        "startLine": 75,
+        "startChar": 17,
+        "endLine": 75,
+        "endChar": 26
+      },
+      "revId": "feb1d7d344686d2bbbbdc44ee8ae6b91a2c7b598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
