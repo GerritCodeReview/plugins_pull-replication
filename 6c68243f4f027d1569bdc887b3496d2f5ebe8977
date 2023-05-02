@@ -69,6 +69,23 @@
       "parentUuid": "0de2b49a_501ec960",
       "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52c1810c_465a66ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-02T11:29:20Z",
+      "side": 1,
+      "message": "Btw, this change also invalidates this one: I915b69210036928b44bbf33351d23b4c9fec9cda",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
