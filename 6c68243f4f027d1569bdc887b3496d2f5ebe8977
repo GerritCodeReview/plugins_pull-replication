@@ -104,6 +104,46 @@
       "parentUuid": "52c1810c_465a66ce",
       "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f047c949_228d0bc2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-02T11:33:44Z",
+      "side": 1,
+      "message": "I think this isn\u0027t wrong but unnecessary, `Transport#open` ensures to select the appropriate implementation `TransportHttp`. In line 65 you already check if the transport is an instance of `TransportHttp`.\n\nThis method should return `false` if the path contains the path prefix `\"a/\"` which triggers basic authentication in Gerrit.",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 52
+      },
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b06aa558_57cb22dc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProviderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-02T11:33:44Z",
+      "side": 1,
+      "message": "pushed fix for review https://git.eclipse.org/r/c/jgit/jgit/+/201656",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
