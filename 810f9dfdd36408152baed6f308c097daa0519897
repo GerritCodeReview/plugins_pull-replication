@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ced3674_9cf42753",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-03T12:39:38Z",
+      "side": 1,
+      "message": "Yes, exactly. We have the same issue there, possibly with a separate change.",
+      "parentUuid": "2ae14dae_17ec0c1b",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5b30a4b_8648bc4b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
         "patchSetId": 5
