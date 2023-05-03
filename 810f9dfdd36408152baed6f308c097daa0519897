@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab4c0ef4_55b68d9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-03T10:48:11Z",
+      "side": 1,
+      "message": "I would expect also the documentation to be changed: this change would require to have the delete-project.jar put into $GERRIT_SITE/lib.\n\nP.S. Shall we target master? This is a breaking change.",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f21932f4_e6f6595f",
@@ -20,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13e53a23_198a9f43",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-03T10:48:11Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "f21932f4_e6f6595f",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5b30a4b_8648bc4b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
         "patchSetId": 5
@@ -31,6 +66,29 @@
       "writtenOn": "2023-05-03T09:46:51Z",
       "side": 1,
       "message": "Are the tests for this class still passing?",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "611938a8_879eba01",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-03T10:48:11Z",
+      "side": 1,
+      "message": "We don\u0027t use `*` imports in Gerrit.",
+      "range": {
+        "startLine": 21,
+        "startChar": 43,
+        "endLine": 21,
+        "endChar": 45
+      },
       "revId": "810f9dfdd36408152baed6f308c097daa0519897",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
