@@ -155,6 +155,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "049f1e02_002765ef",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-03T00:13:47Z",
+      "side": 1,
+      "message": "I suspect Gerrit will not accept a bearer token if the request uses the `a/` prefix since Gerrit assumes basic authentication under this prefix.\n\nThis kind of pre-emptive bearer token authentication only works if the remote server immediately accepts the bearer token. \n\nRFC-2617 [1] and RFC-6750 [1] define how authentication methods can be dynamically negotiated between client and server. The client starts with an unauthenticated request, the server responds with one or multiple `WWW-Authenticate` headers. Then the client can choose one of the authentication methods accepted by the server. In case of bearer token authentication the server sends `WWW-Authenticate: Bearer` and the client sends the next request with a `Authorization: Bearer \u003ctoken\u003e` header to actually authenticate.\n\n[1] https://datatracker.ietf.org/doc/html/rfc2617#section-1.2\n[2] https://datatracker.ietf.org/doc/html/rfc6750",
+      "parentUuid": "f0a7c315_c74a160e",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 52
+      },
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b06aa558_57cb22dc",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProviderTest.java",
         "patchSetId": 8
@@ -184,6 +208,24 @@
       "side": 1,
       "message": "Thanks! Should we wait until this change merged and JGit on Gerrit@Head updated the JGit submodule to the version that includes this commit?",
       "parentUuid": "b06aa558_57cb22dc",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9429fa39_598b99f1",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProviderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-03T00:13:47Z",
+      "side": 1,
+      "message": "I think we can fix the TODO in a follow-up change",
+      "parentUuid": "85213bd8_9047060f",
       "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
