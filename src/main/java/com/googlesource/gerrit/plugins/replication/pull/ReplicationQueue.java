@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1.Context;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -73,6 +74,8 @@ public class ReplicationQueue
   static final Logger repLog = LoggerFactory.getLogger(PULL_REPLICATION_LOG_NAME);
 
   private static final Integer DEFAULT_FETCH_CALLS_TIMEOUT = 0;
+  private static final String REF_UDPATED_EVENT_TYPE = new RefUpdatedEvent().type;
+  private static final String ZEROS_OBJECTID = ObjectId.zeroId().getName();
   private final ReplicationStateListener stateLog;
 
   private final WorkQueue workQueue;
@@ -190,7 +193,7 @@ public class ReplicationQueue
     } else if (updateRef.isDelete()) {
       return forcedPrefix + "DELETE";
     } else {
-      return forcedPrefix + "UPDATE";
+      return "UPDATE";
     }
   }
 

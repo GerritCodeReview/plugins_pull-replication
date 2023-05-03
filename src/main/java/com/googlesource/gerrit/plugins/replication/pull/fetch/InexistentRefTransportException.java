@@ -40,8 +40,11 @@ public class InexistentRefTransportException extends PermanentTransportException
   }
 
   public static Optional<TransportException> getOptionalPermanentFailure(TransportException e) {
-    return wrapException(JGIT_INEXISTENT_REF_PATTERN, e)
-        .or(() -> wrapException(CGIT_INEXISTENT_REF_PATTERN, e));
+    Optional<TransportException> jgitEx = wrapException(JGIT_INEXISTENT_REF_PATTERN, e);
+    if (jgitEx.isPresent()) {
+      return jgitEx;
+    }
+    return wrapException(CGIT_INEXISTENT_REF_PATTERN, e);
   }
 
   private static Optional<TransportException> wrapException(
