@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da51083f_9a5675a4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-03T09:50:05Z",
+      "side": 1,
+      "message": "Avoid wildcard import. I thought error prone [1] wouldn\u0027t allow them 😮\n\n[1]: https://errorprone.info/bugpattern/WildcardImport",
+      "range": {
+        "startLine": 29,
+        "startChar": 56,
+        "endLine": 29,
+        "endChar": 57
+      },
+      "revId": "3095b88d99e9243ec279c93275d9c94191aa86bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
