@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f877e443_77d78e2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-03T12:00:13Z",
+      "side": 1,
+      "message": "Thanks for highlighting, I will see if i can figure out how/where to do that",
+      "parentUuid": "ab4c0ef4_55b68d9a",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f21932f4_e6f6595f",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "f21932f4_e6f6595f",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ae14dae_17ec0c1b",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-03T12:00:13Z",
+      "side": 1,
+      "message": "I will need some help to understand how to do this, and also I have to ask - if it needs a `neverlink`, shouldn\u0027t this be the same for the `replication` plugin?",
+      "parentUuid": "13e53a23_198a9f43",
       "revId": "810f9dfdd36408152baed6f308c097daa0519897",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
