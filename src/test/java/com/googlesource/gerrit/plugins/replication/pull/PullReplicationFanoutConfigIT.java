@@ -174,6 +174,7 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
+
     GitBatchRefUpdateListener.Event event =
         new FakeGitReferenceUpdatedEvent(
             project,
