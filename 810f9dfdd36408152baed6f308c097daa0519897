@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f21932f4_e6f6595f",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-03T09:46:51Z",
+      "side": 1,
+      "message": "I think this should be a `:neverlink`. @david.ostrovsky@gmail.com what do you think?",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5b30a4b_8648bc4b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-03T09:46:51Z",
+      "side": 1,
+      "message": "Are the tests for this class still passing?",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef4077ce_9141d0ff",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-03T09:46:51Z",
+      "side": 1,
+      "message": "Why not call them `PRESERVE_GIT_REPO` and `ARCHIVE_DELETED_REPO` as in the `delete` interface:\n\n```\n   * @param preserveGitRepository - if true, just remove the repo from the git cache, but keep the\n   *     repo on disk.\n   * @param archiveDeletedRepos - if true, copy the repo to an archived path, and delete the\n   *     original directory.\n```",
+      "range": {
+        "startLine": 37,
+        "startChar": 31,
+        "endLine": 37,
+        "endChar": 51
+      },
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d867e03_d29c2921",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-03T09:46:51Z",
+      "side": 1,
+      "message": "We are not catching the `RepositoryNotFoundException` exception here.\n\n* Will Gerrit return a 404 if we let it propagate?\n* Are we handling correctly client side the case where `RepositoryNotFoundException` is thrown?",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
