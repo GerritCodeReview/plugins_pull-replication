@@ -28,7 +28,6 @@ import com.google.inject.Singleton;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /** Backend to expose the pull-replication internal user group membership. */
 @Singleton
@@ -84,7 +83,7 @@ public class PullReplicationGroupBackend extends AbstractGroupBackend {
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
     return NAME_PREFIX.contains(name.toLowerCase())
-        ? List.of(GroupReference.create(INTERNAL_GROUP_UUID, INTERNAL_GROUP_NAME))
+        ? Arrays.asList(GroupReference.create(INTERNAL_GROUP_UUID, INTERNAL_GROUP_NAME))
         : Collections.emptyList();
   }
 
