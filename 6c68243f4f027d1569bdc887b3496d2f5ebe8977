@@ -178,6 +178,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c2c828d4_18e8879c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-04T18:37:20Z",
+      "side": 1,
+      "message": "The first one is not a Basic Authentication header. RFC-6750 calls it an \"Authorization Request Header\" with the \"Bearer\" authentication scheme [1].\n\nRFC-2617 already defined the \"Basic\" [2] and \"Digest\" [3] authentication schemes.\n\n[1] https://datatracker.ietf.org/doc/html/rfc6750#section-2.1\n[2] https://datatracker.ietf.org/doc/html/rfc2617#section-2\n[3] https://datatracker.ietf.org/doc/html/rfc2617#section-3",
+      "parentUuid": "35c11013_cd7c4a87",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f047c949_228d0bc2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProvider.java",
         "patchSetId": 8
