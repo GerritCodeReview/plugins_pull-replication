@@ -160,6 +160,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35c11013_cd7c4a87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-04T18:20:41Z",
+      "side": 1,
+      "message": "There is a typo:\n`will add the Basic Authentication header: Authorization: Bearer \u003ctoken\u003e`\nshould be\n`will add the Bearer Token Authentication header: Authorization: Bearer \u003ctoken\u003e`",
+      "parentUuid": "3c63a838_3610f2aa",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f047c949_228d0bc2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProvider.java",
         "patchSetId": 8
