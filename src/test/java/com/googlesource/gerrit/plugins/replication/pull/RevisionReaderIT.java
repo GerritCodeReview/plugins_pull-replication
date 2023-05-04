@@ -39,6 +39,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObjectImpl;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -218,7 +219,7 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     protected void configure() {
       bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
       bind(RevisionReader.class).in(Scopes.SINGLETON);
-      bind(ApplyObject.class);
+      bind(ApplyObject.class).to(ApplyObjectImpl.class);
     }
   }
 }

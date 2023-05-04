@@ -227,7 +227,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     protected void configure() {
       bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
       bind(RevisionReader.class).in(Scopes.SINGLETON);
-      bind(ApplyObject.class);
+      bind(ApplyObject.class).to(ApplyObjectImpl.class);
     }
   }
 

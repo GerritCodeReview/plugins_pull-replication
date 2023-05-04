@@ -53,6 +53,7 @@ import com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsum
 import com.googlesource.gerrit.plugins.replication.pull.event.FetchRefReplicatedEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.event.StreamEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObjectImpl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -78,7 +79,7 @@ class PullReplicationModule extends AbstractModule {
     install(new PullReplicationGroupModule());
     bind(BearerTokenProvider.class).in(Scopes.SINGLETON);
     bind(RevisionReader.class).in(Scopes.SINGLETON);
-    bind(ApplyObject.class);
+    bind(ApplyObject.class).to(ApplyObjectImpl.class);
     install(new FactoryModuleBuilder().build(FetchJob.Factory.class));
     install(new PullReplicationApiModule());
 
