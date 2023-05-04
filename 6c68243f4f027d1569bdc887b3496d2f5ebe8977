@@ -125,6 +125,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c63a838_3610f2aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-04T18:16:41Z",
+      "side": 1,
+      "message": "Apologies for the format above. I will add it again formatted properly:\n\nTo make sure that we are in the same page I am going to explain how I understand the flow:\n\n- pull-replication in primary: when primary wants to do a replication via pull replication, the rest client FetchRestApiClient.java will do:\n  - if there is bearer token defined in the secure.config then:\n     - will add the Basic Authentication header: Authorization: Bearer \u003ctoken\u003e\n     - will NOT add the prefix a/ in the request\n  - if there is no bearer token then:\n    - will add the Basic Authentication as usual\n    - will add the prefix a/ in the request\n\n- pull-replication in the replica: in the case that there is a rest request to fetch from primary then:\n  - the logic will use the remote.NAME.url [1] defined in replication.config to build the uri. So if YOU want to use basic authentication it should add a/ in that url or on the other hand you want to use Bearer token it should NOT have a/\n  - TransportProvider will decide if uses transport with bearer token when there is bearer token defined or native transport in the case that there is NO bearer token defined.\n\nAssumptions:\n\n- if you are going to use BEARER TOKEN AUTHENTICATION, you should define the bearer token in the secure.config of all the instances of the topology and make sure that the remote.NAME.url does NOT have a/\n- if you are going to use BASIC AUTHENTICATION, you should define the username and password in the secure.config of all the instances of the topology and make sure that the remote.NAME.url does have a/\n- There is NO logic to check that the configuration is correct. The person that provision the topology must fulfil the rules for the correct behaviour.\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/resources/Documentation/config.md",
+      "parentUuid": "61f69617_5257d0b9",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93aff24e_7ef20221",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-04T18:16:41Z",
+      "side": 1,
+      "message": "Apologies for the format in the previous reply",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f047c949_228d0bc2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/transport/TransportProvider.java",
         "patchSetId": 8
