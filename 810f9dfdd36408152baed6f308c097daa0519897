@@ -109,6 +109,70 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af8d25d5_9be4c0d7",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-04T05:28:44Z",
+      "side": 1,
+      "message": "Neverlink vs. shaded jar: We don\u0027t have dynamic inter-plugin dependencies. That\u0027s why we have to options: shade the dependent code in plugin artifact, or don\u0027t shade them but link the dependent plugin in `\u003cgerrit_site\u003e/lib` directory and thus hoist them in `gerrit`\u0027s core classloader.\n\nGiven, that we already re-use `replication`-plugin code in `multi-site` plugin without shading it in `multi-site.jar` artifact and use `:replication-neverlink`, I would also tend to keep that behavior here as well.\n\n\u003e Yes, exactly. We have the same issue there, possibly with a separate change.\n\n+1.",
+      "parentUuid": "2ced3674_9cf42753",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b12aad5_93380237",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-04T05:28:44Z",
+      "side": 1,
+      "message": "This wasn\u0027t changed in this commit: This rule name is not needed, as this is default: Bazel rule name is the same as Bazel package name. Also note, if you run `buildifier` utility: [1] on this file (that some CI-jobs are doing) that suffix will be removed.\n\n[1]: https://github.com/bazelbuild/buildtools/tree/master/buildifier",
+      "range": {
+        "startLine": 54,
+        "startChar": 30,
+        "endLine": 54,
+        "endChar": 42
+      },
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d112ea84_cec10b49",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-04T05:28:44Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 55,
+        "startChar": 33,
+        "endLine": 55,
+        "endChar": 48
+      },
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5b30a4b_8648bc4b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
         "patchSetId": 5
