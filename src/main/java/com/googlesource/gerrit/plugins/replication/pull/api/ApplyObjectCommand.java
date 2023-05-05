@@ -14,9 +14,11 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.googlesource.gerrit.plugins.replication.pull.ApplyObjectCacheModule.APPLY_OBJECTS_CACHE;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
@@ -25,11 +27,8 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
-import com.googlesource.gerrit.plugins.replication.pull.Context;
-import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
-import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
-import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import com.google.inject.name.Named;
+import com.googlesource.gerrit.plugins.replication.pull.*;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
@@ -45,7 +44,7 @@ import org.eclipse.jgit.transport.RefSpec;
 public class ApplyObjectCommand {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
+  private final Cache<ApplyObjectsCacheKey, Boolean> cache;
   private static final Set<RefUpdate.Result> SUCCESSFUL_RESULTS =
       ImmutableSet.of(
           RefUpdate.Result.NEW,
@@ -63,11 +62,13 @@ public class ApplyObjectCommand {
       PullReplicationStateLogger fetchStateLog,
       ApplyObject applyObject,
       ApplyObjectMetrics metrics,
-      DynamicItem<EventDispatcher> eventDispatcher) {
+      DynamicItem<EventDispatcher> eventDispatcher,
+      @Named(APPLY_OBJECTS_CACHE) Cache<ApplyObjectsCacheKey, Boolean> cache) {
     this.fetchStateLog = fetchStateLog;
     this.applyObject = applyObject;
     this.metrics = metrics;
     this.eventDispatcher = eventDispatcher;
+    this.cache = cache;
   }
 
   public void applyObject(
@@ -89,7 +90,15 @@ public class ApplyObjectCommand {
     Timer1.Context<String> context = metrics.start(sourceLabel);
 
     RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionsData);
+    Boolean isRefUpdateSuccessful = isSuccessful(refUpdateState.getResult());
 
+    if (isRefUpdateSuccessful) {
+      RevisionData lastRevisionData = revisionsData[revisionsData.length - 1];
+      cache.put(
+          ApplyObjectsCacheKey.create(
+              lastRevisionData.getCommitObject().getSha1(), refName, name.get()),
+          true);
+    }
     long elapsed = NANOSECONDS.toMillis(context.stop());
 
     try {
@@ -110,7 +119,7 @@ public class ApplyObjectCommand {
       Context.unsetLocalEvent();
     }
 
-    if (!isSuccessful(refUpdateState.getResult())) {
+    if (!isRefUpdateSuccessful) {
       String message =
           String.format(
               "RefUpdate failed with result %s for: sourceLcabel=%s, project=%s, refName=%s",
