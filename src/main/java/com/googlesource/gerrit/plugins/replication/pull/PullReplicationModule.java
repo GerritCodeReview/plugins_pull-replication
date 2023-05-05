@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventTypes;
@@ -62,9 +63,11 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
-class PullReplicationModule extends AbstractModule {
+public class PullReplicationModule extends AbstractModule {
   private final SitePaths site;
   private final Path cfgPath;
+
+  public static final String APPLY_OBJECTS_CACHE = "apply_cache";
 
   @Inject
   public PullReplicationModule(SitePaths site) {
@@ -80,6 +83,14 @@ class PullReplicationModule extends AbstractModule {
     bind(RevisionReader.class).in(Scopes.SINGLETON);
     bind(ApplyObject.class);
     install(new FactoryModuleBuilder().build(FetchJob.Factory.class));
+    install(
+        new CacheModule() {
+          @Override
+          protected void configure() {
+            cache(APPLY_OBJECTS_CACHE, ApplyObjectsCacheKey.class, Boolean.class);
+          }
+        });
+
     install(new PullReplicationApiModule());
 
     install(new FetchRefReplicatedEventModule());
