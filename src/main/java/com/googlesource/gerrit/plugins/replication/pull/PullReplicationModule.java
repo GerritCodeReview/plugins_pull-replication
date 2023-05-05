@@ -26,10 +26,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventTypes;
-import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
-import com.google.inject.ProvisionException;
-import com.google.inject.Scopes;
+import com.google.inject.*;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
@@ -80,6 +77,7 @@ class PullReplicationModule extends AbstractModule {
     bind(RevisionReader.class).in(Scopes.SINGLETON);
     bind(ApplyObject.class);
     install(new FactoryModuleBuilder().build(FetchJob.Factory.class));
+    install(new ApplyObjectCacheModule());
     install(new PullReplicationApiModule());
 
     install(new FetchRefReplicatedEventModule());
