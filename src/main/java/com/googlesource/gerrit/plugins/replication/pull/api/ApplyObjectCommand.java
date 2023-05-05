@@ -90,6 +90,8 @@ public class ApplyObjectCommand {
 
     RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionsData);
 
+    if (isSuccessful(refUpdateState.getResult())) ; // insert into cache: TODO HERE IS THE KEY
+
     long elapsed = NANOSECONDS.toMillis(context.stop());
 
     try {
