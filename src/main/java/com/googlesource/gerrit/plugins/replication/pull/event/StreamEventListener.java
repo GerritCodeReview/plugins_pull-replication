@@ -14,9 +14,11 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.event;
 
+import static com.googlesource.gerrit.plugins.replication.pull.ApplyObjectCacheModule.APPLY_OBJECTS_CACHE;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
+import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project.NameKey;
@@ -24,6 +26,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.GerritInstanceId;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
@@ -33,6 +36,8 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.name.Named;
+import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
@@ -59,6 +64,7 @@ public class StreamEventListener implements EventListener {
   private final SourcesCollection sources;
   private final String instanceId;
   private final WorkQueue workQueue;
+  private final Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache;
 
   @Inject
   public StreamEventListener(
@@ -69,7 +75,8 @@ public class StreamEventListener implements EventListener {
       FetchJob.Factory fetchJobFactory,
       Provider<PullReplicationApiRequestMetrics> metricsProvider,
       SourcesCollection sources,
-      ExcludedRefsFilter excludedRefsFilter) {
+      ExcludedRefsFilter excludedRefsFilter,
+      @Named(APPLY_OBJECTS_CACHE) Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache) {
     this.instanceId = instanceId;
     this.deleteCommand = deleteCommand;
     this.projectInitializationAction = projectInitializationAction;
@@ -78,6 +85,7 @@ public class StreamEventListener implements EventListener {
     this.metricsProvider = metricsProvider;
     this.sources = sources;
     this.refsFilter = excludedRefsFilter;
+    this.refUpdatesSucceededCache = refUpdatesSucceededCache;
 
     requireNonNull(
         Strings.emptyToNull(this.instanceId), "gerrit.instanceId cannot be null or empty");
@@ -117,6 +125,16 @@ public class StreamEventListener implements EventListener {
 
       if (isRefDelete(refUpdatedEvent)) {
         deleteRef(refUpdatedEvent);
+        return;
+      }
+
+      if (isApplyObjectsCacheHit(refUpdatedEvent)) {
+        logger.atFine().log(
+            "Skipping refupdate '%s'  '%s'=>'%s' for project '%s' because has been already replicated via apply-object",
+            refUpdatedEvent.getRefName(),
+            refUpdatedEvent.refUpdate.get().oldRev,
+            refUpdatedEvent.refUpdate.get().newRev,
+            refUpdatedEvent.getProjectNameKey());
         return;
       }
 
@@ -206,5 +224,16 @@ public class StreamEventListener implements EventListener {
 
   private String getProjectRepositoryName(ProjectCreatedEvent projectCreatedEvent) {
     return String.format("%s.git", projectCreatedEvent.projectName);
+  }
+
+  private boolean isApplyObjectsCacheHit(RefUpdatedEvent refUpdateEvent) {
+    RefUpdateAttribute refUpdateAttribute = refUpdateEvent.refUpdate.get();
+    Long refUpdateSuccededTimestamp =
+        refUpdatesSucceededCache.getIfPresent(
+            ApplyObjectsCacheKey.create(
+                refUpdateAttribute.newRev, refUpdateAttribute.refName, refUpdateAttribute.project));
+
+    return refUpdateSuccededTimestamp != null
+        && refUpdateEvent.eventCreatedOn <= refUpdateSuccededTimestamp;
   }
 }

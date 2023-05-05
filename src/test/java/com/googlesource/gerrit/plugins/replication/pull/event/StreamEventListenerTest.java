@@ -21,6 +21,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -32,6 +34,7 @@ import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
@@ -60,6 +63,7 @@ public class StreamEventListenerTest {
   private static final String INSTANCE_ID = "node_instance_id";
   private static final String NEW_REV = "0000000000000000000000000000000000000001";
   private static final String REMOTE_INSTANCE_ID = "remote_node_instance_id";
+  private static final long TEST_EVENT_TIMESTAMP = 1L;
 
   @Mock private ProjectInitializationAction projectInitializationAction;
   @Mock private WorkQueue workQueue;
@@ -72,11 +76,13 @@ public class StreamEventListenerTest {
   @Mock private SourcesCollection sources;
   @Mock private Source source;
   @Mock private ExcludedRefsFilter refsFilter;
+  private Cache<ApplyObjectsCacheKey, Long> cache;
 
   private StreamEventListener objectUnderTest;
 
   @Before
   public void setup() {
+    cache = CacheBuilder.newBuilder().build();
     when(workQueue.getDefaultQueue()).thenReturn(executor);
     when(fetchJobFactory.create(eq(Project.nameKey(TEST_PROJECT)), any(), any()))
         .thenReturn(fetchJob);
@@ -95,7 +101,8 @@ public class StreamEventListenerTest {
             fetchJobFactory,
             () -> metrics,
             sources,
-            refsFilter);
+            refsFilter,
+            cache);
   }
 
   @Test
@@ -254,6 +261,60 @@ public class StreamEventListenerTest {
     Input input = inputCaptor.getValue();
     assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
     assertThat(input.refName).isEqualTo(FetchOne.ALL_REFS);
+
+    verify(executor).submit(any(FetchJob.class));
+  }
+
+  @Test
+  public void shouldSkipEventWhenFoundInApplyObjectsCacheWithTheSameTimestamp() {
+    sendRefUpdateEventWithTimestamp(TEST_EVENT_TIMESTAMP, TEST_EVENT_TIMESTAMP);
+    verify(executor, never()).submit(any(Runnable.class));
+  }
+
+  @Test
+  public void shouldSkipEventWhenFoundInApplyObjectsCacheWithOlderTimestamp() {
+    sendRefUpdateEventWithTimestamp(TEST_EVENT_TIMESTAMP - 1, TEST_EVENT_TIMESTAMP);
+    verify(executor, never()).submit(any(Runnable.class));
+  }
+
+  @Test
+  public void shouldProcessEventWhenFoundInApplyObjectsCacheWithNewerTimestamp() {
+    sendRefUpdateEventWithTimestamp(TEST_EVENT_TIMESTAMP + 1, TEST_EVENT_TIMESTAMP);
+    verify(executor).submit(any(Runnable.class));
+  }
+
+  private void sendRefUpdateEventWithTimestamp(long eventTimestamp, long cachedTimestamp) {
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
+    refUpdate.refName = TEST_REF_NAME;
+    refUpdate.project = TEST_PROJECT;
+    refUpdate.oldRev = ObjectId.zeroId().getName();
+    refUpdate.newRev = NEW_REV;
+    event.eventCreatedOn = eventTimestamp;
+
+    cache.put(
+        ApplyObjectsCacheKey.create(refUpdate.newRev, refUpdate.refName, refUpdate.project),
+        cachedTimestamp);
+
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.refUpdate = () -> refUpdate;
+
+    objectUnderTest.onEvent(event);
+  }
+
+  @Test
+  public void shouldScheduleAllRefsFetchWhenNotFoundInApplyObjectsCache() {
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
+    refUpdate.refName = TEST_REF_NAME;
+    refUpdate.project = TEST_PROJECT;
+    refUpdate.oldRev = ObjectId.zeroId().getName();
+    refUpdate.newRev = NEW_REV;
+
+    event.instanceId = REMOTE_INSTANCE_ID;
+    event.refUpdate = () -> refUpdate;
+
+    objectUnderTest.onEvent(event);
 
     verify(executor).submit(any(FetchJob.class));
   }

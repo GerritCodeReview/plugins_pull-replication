@@ -49,6 +49,37 @@ Then reload the replication plugin to pick up the new configuration:
 To manually trigger replication at runtime, see
 SSH command [start](cmd-start.md).
 
+File `gerrit.config`
+-------------------------
+
+cache.@PLUGIN@-apply_objects.maxAge
+:	Maximum age to keep history of the latest successful apply-object refs.
+	Values should use common unit suffixes to express their setting:
+
+	s, sec, second, seconds
+
+	m, min, minute, minutes
+
+	h, hr, hour, hours
+
+	d, day, days
+
+	w, week, weeks (1 week is treated as 7 days)
+
+	mon, month, months (1 month is treated as 30 days)
+
+	y, year, years (1 year is treated as 365 days)
+
+	If a unit suffix is not specified, seconds is assumed. If 0 is supplied, the maximum age
+	is infinite and items are never purged except when the cache is full.
+
+	Default is 60s.
+
+cache.@PLUGIN@-apply_objects.memoryLimit
+:	The maximum number of apply-object refs retained in memory.
+
+	Default is 1024.
+
 File `@PLUGIN@.config`
 -------------------------
 
