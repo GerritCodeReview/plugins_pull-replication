@@ -20,6 +20,8 @@ import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
@@ -29,6 +31,7 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
@@ -67,11 +70,13 @@ public class ApplyObjectCommandTest {
   @Mock private EventDispatcher eventDispatcher;
   @Mock private Timer1.Context<String> timetContext;
   @Captor ArgumentCaptor<Event> eventCaptor;
+  private Cache<ApplyObjectsCacheKey, Boolean> cache;
 
   private ApplyObjectCommand objectUnderTest;
 
   @Before
   public void setup() throws MissingParentObjectException, IOException {
+    cache = CacheBuilder.newBuilder().build();
     RefUpdateState state = new RefUpdateState(TEST_REMOTE_NAME, RefUpdate.Result.NEW);
     when(eventDispatcherDataItem.get()).thenReturn(eventDispatcher);
     when(metrics.start(anyString())).thenReturn(timetContext);
@@ -79,15 +84,16 @@ public class ApplyObjectCommandTest {
     when(applyObject.apply(any(), any(), any())).thenReturn(state);
 
     objectUnderTest =
-        new ApplyObjectCommand(fetchStateLog, applyObject, metrics, eventDispatcherDataItem);
+        new ApplyObjectCommand(fetchStateLog, applyObject, metrics, eventDispatcherDataItem, cache);
   }
 
   @Test
   public void shouldSendEventWhenApplyObject()
       throws PermissionBackendException, IOException, RefUpdateException,
           MissingParentObjectException {
+    RevisionData sampleRevisionData = createSampleRevisionData();
     objectUnderTest.applyObject(
-        TEST_PROJECT_NAME, TEST_REF_NAME, createSampleRevisionData(), TEST_SOURCE_LABEL);
+        TEST_PROJECT_NAME, TEST_REF_NAME, sampleRevisionData, TEST_SOURCE_LABEL);
 
     verify(eventDispatcher).postEvent(eventCaptor.capture());
     Event sentEvent = eventCaptor.getValue();
@@ -95,6 +101,9 @@ public class ApplyObjectCommandTest {
     FetchRefReplicatedEvent fetchEvent = (FetchRefReplicatedEvent) sentEvent;
     assertThat(fetchEvent.getProjectNameKey()).isEqualTo(TEST_PROJECT_NAME);
     assertThat(fetchEvent.getRefName()).isEqualTo(TEST_REF_NAME);
+    assertThat(
+            cache.getIfPresent(ApplyObjectsCacheKey.create(sampleRevisionData.getCommitObject().getSha1(), TEST_REF_NAME, TEST_PROJECT_NAME.get()))
+    ).isTrue();
   }
 
   private RevisionData createSampleRevisionData() {
