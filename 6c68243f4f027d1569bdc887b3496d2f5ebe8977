@@ -212,6 +212,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f94a0850_0267e89a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-05T04:47:14Z",
+      "side": 1,
+      "message": "Based on this discussion I removed the check entirely. The configurations for basic authentication and bearer token authentication are mutually exclusive. If the gerrit administrator misconfigured the plugin, it should be checked during the load phase of the plugin and the plugin should refuse to start. This is outside of the scope of this change, though.",
+      "parentUuid": "6658350f_e102d4eb",
+      "revId": "6c68243f4f027d1569bdc887b3496d2f5ebe8977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f047c949_228d0bc2",
