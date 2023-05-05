@@ -32,7 +32,7 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -54,7 +54,7 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -78,7 +78,7 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -102,7 +102,7 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
     NameKey projectName = Project.nameKey("test/repo");
     String refName = createRef(projectName);
     Optional<RevisionData> revisionDataOption = createRevisionData(projectName, refName);
@@ -129,7 +129,7 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -148,7 +148,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnBadRequestCodeWhenMandatoryFieldLabelIsMissing() throws Exception {
     String payloadWithoutLabelFieldTemplate =
-        "{\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
+        "{\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -171,7 +171,7 @@ public class ApplyObjectActionIT extends ActionITBase {
     String wrongPayloadTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true,}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true,}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -196,7 +196,7 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -222,7 +222,7 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -245,6 +245,7 @@ public class ApplyObjectActionIT extends ActionITBase {
         String.format(
             wrongPayloadTemplate,
             refName,
+            revisionData.getCommitObject().getSha1(),
             encode(revisionData.getCommitObject().getContent()),
             encode(revisionData.getTreeObject().getContent()));
     return sendObjectPayload;
