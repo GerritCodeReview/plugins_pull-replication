@@ -97,7 +97,11 @@ public class ApplyObjectsAction implements RestModifyView<ProjectResource, Revis
       }
 
       command.applyObjects(
-          resource.getNameKey(), input.getRefName(), input.getRevisionsData(), input.getLabel());
+          resource.getNameKey(),
+          input.getRefName(),
+          input.getRevisionsData(),
+          input.getLabel(),
+          input.getEventCreatedOn());
       return Response.created(input);
     } catch (MissingParentObjectException e) {
       repLog.error(

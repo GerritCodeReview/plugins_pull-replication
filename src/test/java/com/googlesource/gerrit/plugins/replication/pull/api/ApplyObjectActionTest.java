@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -209,7 +210,7 @@ public class ApplyObjectActionTest {
             new MissingParentObjectException(
                 Project.nameKey("test_projects"), refName, ObjectId.zeroId()))
         .when(applyObjectCommand)
-        .applyObject(any(), anyString(), any(), anyString());
+        .applyObject(any(), anyString(), any(), anyString(), anyLong());
 
     applyObjectAction.apply(projectResource, inputParams);
   }
