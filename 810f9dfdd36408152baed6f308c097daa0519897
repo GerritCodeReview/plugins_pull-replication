@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd1b698c_1a4b4a43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-08T12:03:14Z",
+      "side": 1,
+      "message": "Reopening as I mistakenly resolved it without being done.",
+      "parentUuid": "f877e443_77d78e2c",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f21932f4_e6f6595f",
         "filename": "BUILD",
         "patchSetId": 5
