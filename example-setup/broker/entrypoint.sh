@@ -3,6 +3,11 @@
 function setup_replication_config {
 
   echo "Replacing variables for file /var/gerrit/etc/replication.config.template"
+
+  if test "$REPLICA" = "false" ; then
+    git config -f /var/gerrit/etc/replication.config.template --remove-section 'remote.$REMOTE'
+  fi
+
   cat /var/gerrit/etc/replication.config.template | envsubst | sed 's/#{name}#/${name}/g' > /var/gerrit/etc/replication.config
 
   cat /var/gerrit/etc/replication.config
