@@ -10,7 +10,7 @@ COPY --chown=gerrit:gerrit pull-replication.jar /var/gerrit/plugins/pull-replica
 COPY --chown=gerrit:gerrit pull-replication.jar /var/gerrit/lib/pull-replication.jar
 
 COPY --chown=gerrit:gerrit events-kafka.jar /var/gerrit/plugins/events-kafka.jar
-COPY --chown=gerrit:gerrit libevents-broker.jar /var/gerrit/lib/libevents-broker.jar
+COPY --chown=gerrit:gerrit events-broker.jar /var/gerrit/lib/events-broker.jar
 
 COPY --chown=gerrit:gerrit entrypoint.sh /tmp/
 COPY --chown=gerrit:gerrit configs/replication.config.template /var/gerrit/etc/
