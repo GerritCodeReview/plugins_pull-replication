@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4e85a4a_0f928e75",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-08T12:01:27Z",
+      "side": 1,
+      "message": "So i guess we will leave it as is - for consistency - and we just need to document the change in behaviour, ie we need to drop the delete-project.jar in the lib directory? Is this the consensus we\u0027ve reached?",
+      "parentUuid": "af8d25d5_9be4c0d7",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b12aad5_93380237",
         "filename": "BUILD",
         "patchSetId": 5
@@ -138,6 +156,30 @@
       "writtenOn": "2023-05-04T05:28:44Z",
       "side": 1,
       "message": "This wasn\u0027t changed in this commit: This rule name is not needed, as this is default: Bazel rule name is the same as Bazel package name. Also note, if you run `buildifier` utility: [1] on this file (that some CI-jobs are doing) that suffix will be removed.\n\n[1]: https://github.com/bazelbuild/buildtools/tree/master/buildifier",
+      "range": {
+        "startLine": 54,
+        "startChar": 30,
+        "endLine": 54,
+        "endChar": 42
+      },
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2042f45_c727ccf0",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-08T12:01:27Z",
+      "side": 1,
+      "message": "Ah cool, thanks for the info and for the link!\nI will run the tool and commit its output",
+      "parentUuid": "8b12aad5_93380237",
       "range": {
         "startLine": 54,
         "startChar": 30,
@@ -171,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e366d4d4_fc69eb92",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-08T12:01:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d112ea84_cec10b49",
+      "range": {
+        "startLine": 55,
+        "startChar": 33,
+        "endLine": 55,
+        "endChar": 48
+      },
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5b30a4b_8648bc4b",
@@ -188,6 +254,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed1f38b8_ed7e189f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-08T12:01:27Z",
+      "side": 1,
+      "message": "yes, they are both locally and on the CI server",
+      "parentUuid": "c5b30a4b_8648bc4b",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "611938a8_879eba01",
@@ -201,6 +285,30 @@
       "writtenOn": "2023-05-03T10:48:11Z",
       "side": 1,
       "message": "We don\u0027t use `*` imports in Gerrit.",
+      "range": {
+        "startLine": 21,
+        "startChar": 43,
+        "endLine": 21,
+        "endChar": 45
+      },
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c69e653f_04b76445",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-08T12:01:27Z",
+      "side": 1,
+      "message": "Ok - thanks for letting me know",
+      "parentUuid": "611938a8_879eba01",
       "range": {
         "startLine": 21,
         "startChar": 43,
@@ -234,6 +342,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fb7acd8_4b2a9605",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-08T12:01:27Z",
+      "side": 1,
+      "message": "Good point, done 👍",
+      "parentUuid": "ef4077ce_9141d0ff",
+      "range": {
+        "startLine": 37,
+        "startChar": 31,
+        "endLine": 37,
+        "endChar": 51
+      },
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d867e03_d29c2921",
@@ -247,6 +379,30 @@
       "writtenOn": "2023-05-03T09:46:51Z",
       "side": 1,
       "message": "We are not catching the `RepositoryNotFoundException` exception here.\n\n* Will Gerrit return a 404 if we let it propagate?\n* Are we handling correctly client side the case where `RepositoryNotFoundException` is thrown?",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af49fc6d_efcfa58a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-08T12:01:27Z",
+      "side": 1,
+      "message": "Well, we are catching it because its a subclass of `IOException`, however we will end up returning `UnprocessableEntityException` which the `PullReplicationFilter` treats as a 422 http code. Worth highlighting this is existing behaviour, but perhaps we should catch the `RepositoryNotFoundException` and rethrow it as a ResourceNotFoundException? WDYT?",
+      "parentUuid": "5d867e03_d29c2921",
       "range": {
         "startLine": 84,
         "startChar": 8,
