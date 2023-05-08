@@ -7,7 +7,6 @@ RUN yum install -y gettext
 RUN git config -f /var/gerrit/etc/secure.config --add auth.bearerToken "theSecretBearerToken"
 
 COPY --chown=gerrit:gerrit pull-replication.jar /var/gerrit/plugins/pull-replication.jar
-COPY --chown=gerrit:gerrit pull-replication.jar /var/gerrit/lib/pull-replication.jar
 
 # The message-broker notification needs to be the last in the notification chain
 # hence rename it with a 'z-' prefix because the Gerrit plugin loader starts the
