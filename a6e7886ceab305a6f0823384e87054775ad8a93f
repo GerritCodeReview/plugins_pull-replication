@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b0b612c_3001901a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/LocalGitRepositoryManagerProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-09T10:07:28Z",
+      "side": 1,
+      "message": "1. Where is a GitRepositoryManger annotated with @Named(\"LocalDiskRepositoryManger\") bound? I don\u0027t find any module doing that.\n\n2. Why is this annotation named \"LocalDiskRepositoryManger\"? So we have this.gitRepositoryManager annotated with \"LocalDiskRepositoryManger\" and we have this.localDiskRepositoryManager. Hard to follow what it the idea here...",
+      "revId": "a6e7886ceab305a6f0823384e87054775ad8a93f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
