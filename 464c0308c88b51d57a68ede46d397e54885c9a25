@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "542fc655_1bd8d791",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-09T13:52:51Z",
+      "side": 1,
+      "message": "project cache",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "340a52c5_6e4177f2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-09T13:52:51Z",
+      "side": 1,
+      "message": "you are already using code from the delete-project plugin, why don\u0027t you inject its CacheDeleteHandler to implement this ?",
+      "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
