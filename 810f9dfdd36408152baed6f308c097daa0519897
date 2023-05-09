@@ -163,6 +163,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cd7042f5_a1e945df",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-09T08:37:50Z",
+      "side": 1,
+      "message": "Ok so re-reading David\u0027s reply, and having spent a bit more time to understand it, here\u0027s a summary of my understanding:\n\n- Current version of my code shades the dependent code in the plugin artifact, essentially creating a fat jar which also contains the `delete-project` plugin code. This means that dropping the `pull-replication` jar in the plugins dir should be sufficient, ie we don\u0027t need to drop the delete-project.jar in the `/lib` directory.\n- If we were to keep this approach, we don\u0027t need to document anything as the `pull-replication` plugin does not need any extra configuration.\n- This behaviour is also what we currently do for the dependencies on the `replication` plugin. \n- Apparently this behaviour was also applied for the `multi-site` plugin, but David fixed it https://gerrit-review.googlesource.com/c/plugins/multi-site/+/245692\n- The alternative to shading is to use `neverlink` which means the dependency is provided. This also requires the dependent jar to be present in the `/lib` directory.\n- We want to change the code in this CR to use `neverlink`, basically re-using the same approach as David did for `multi-site`. This means we will need to also update the documentation, to explain the additional step required to configure the plugin (ie the `delete-project.jar` should be dropped in the `/lib` dir).\n- Going forward, in `pull-replication` we want to stop shading the `replication` jar, but this will be done as a separate change.\n\n@davido @luca can you please confirm if the above is accurate, and whether I should follow the same approach as we did with `multi-site`?",
+      "parentUuid": "e4e85a4a_0f928e75",
+      "revId": "810f9dfdd36408152baed6f308c097daa0519897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b12aad5_93380237",
         "filename": "BUILD",
         "patchSetId": 5
