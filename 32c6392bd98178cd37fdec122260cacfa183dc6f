@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48dbc1f5_88d8d7a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-09T14:27:18Z",
+      "side": 1,
+      "message": "I have created the logic to insert/find in the apply-objects cache. Please have a look at it.\n\nTODO:\n- Configure the cache programatically\n- E2E\n- Add documentation about new cache",
+      "revId": "32c6392bd98178cd37fdec122260cacfa183dc6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
