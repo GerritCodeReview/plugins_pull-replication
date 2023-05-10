@@ -18,6 +18,7 @@ gerrit_plugin(
         "//lib/commons:io",
         "//plugins/replication",
         "@events-broker//jar:neverlink",
+        "gerrit-healthcheck-neverlink",
     ],
 )
 
@@ -51,4 +52,10 @@ java_library(
         ":pull-replication__plugin",
         "//plugins/replication:replication",
     ],
+)
+
+java_library(
+    name = "gerrit-healthcheck-neverlink",
+    neverlink = True,
+    exports = ["//plugins/healthcheck"],
 )
