@@ -16,6 +16,7 @@ gerrit_plugin(
     ],
     resources = glob(["src/main/resources/**/*"]),
     deps = [
+        "gerrit-healthcheck-neverlink",
         ":events-broker-neverlink",
         "//lib/commons:io",
         "//plugins/delete-project",
@@ -84,4 +85,10 @@ java_library(
     name = "events-broker-neverlink",
     neverlink = 1,
     exports = ["//plugins/events-broker"],
+)
+
+java_library(
+    name = "gerrit-healthcheck-neverlink",
+    neverlink = True,
+    exports = ["//plugins/healthcheck"],
 )
