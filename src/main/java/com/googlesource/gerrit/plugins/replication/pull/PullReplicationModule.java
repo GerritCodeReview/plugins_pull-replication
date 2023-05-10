@@ -14,9 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import static com.googlesource.gerrit.plugins.replication.StartReplicationCapability.START_REPLICATION;
-import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
-
 import com.google.common.eventbus.EventBus;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
@@ -33,6 +30,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
+import com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
@@ -53,14 +51,18 @@ import com.googlesource.gerrit.plugins.replication.pull.client.SourceHttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule;
 import com.googlesource.gerrit.plugins.replication.pull.event.StreamEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static com.googlesource.gerrit.plugins.replication.StartReplicationCapability.START_REPLICATION;
+import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
 
 class PullReplicationModule extends AbstractModule {
   private final SitePaths site;
@@ -154,6 +156,15 @@ class PullReplicationModule extends AbstractModule {
     EventTypes.register(FetchRefReplicatedEvent.TYPE, FetchRefReplicatedEvent.class);
     EventTypes.register(FetchRefReplicationDoneEvent.TYPE, FetchRefReplicationDoneEvent.class);
     EventTypes.register(FetchReplicationScheduledEvent.TYPE, FetchReplicationScheduledEvent.class);
+
+    // Check whether the healthcheck plugin is installed and, if so, register
+    // an additional healthcheck component
+    if (ClassLoaderCheck.isLoaded(
+        "com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck")) {
+      DynamicSet.bind(binder(), HealthCheck.class)
+          .to(PullReplicationHealthCheck.class)
+          .in(Scopes.SINGLETON);
+    }
   }
 
   private FileBasedConfig getReplicationConfig() {
