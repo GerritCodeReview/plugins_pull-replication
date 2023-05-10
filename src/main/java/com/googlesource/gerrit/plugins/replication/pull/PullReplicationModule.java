@@ -35,6 +35,7 @@ import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Names;
+import com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
@@ -161,6 +162,15 @@ class PullReplicationModule extends AbstractModule {
     EventTypes.register(FetchRefReplicatedEvent.TYPE, FetchRefReplicatedEvent.class);
     EventTypes.register(FetchRefReplicationDoneEvent.TYPE, FetchRefReplicationDoneEvent.class);
     EventTypes.register(FetchReplicationScheduledEvent.TYPE, FetchReplicationScheduledEvent.class);
+
+    // Check whether the healthcheck plugin is installed and, if so, register
+    // an additional healthcheck component
+    if (ClassLoaderCheck.isLoaded(
+        "com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck")) {
+      DynamicSet.bind(binder(), HealthCheck.class)
+          .to(PullReplicationHealthCheck.class)
+          .in(Scopes.SINGLETON);
+    }
   }
 
   private FileBasedConfig getReplicationConfig() {
