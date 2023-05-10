@@ -16,6 +16,24 @@
       "message": "don\u0027t use wildcard imports",
       "revId": "26d9e181f8edcb459cb75fb1ce17d8a85db53be9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54c2573f_ed6653f9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-10T10:58:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "557ea67b_565d7a73",
+      "revId": "26d9e181f8edcb459cb75fb1ce17d8a85db53be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
