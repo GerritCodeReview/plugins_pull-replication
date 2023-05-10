@@ -73,6 +73,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class ReplicationQueueTest {
   private static int CONNECTION_TIMEOUT = 1000000;
+  private static final String LOCAL_INSTANCE_ID = "local instance id";
+  private static final String FOREIGN_INSTANCE_ID = "any other instance id";
+  private static final String TEST_REF_NAME = "refs/meta/heads/anyref";
 
   @Mock private WorkQueue wq;
   @Mock private Source source;
@@ -159,7 +162,8 @@ public class ReplicationQueueTest {
             refsFilter,
             () -> revReader,
             applyObjectMetrics,
-            fetchMetrics);
+            fetchMetrics,
+            LOCAL_INSTANCE_ID);
   }
 
   @Test
@@ -169,6 +173,17 @@ public class ReplicationQueueTest {
     objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
+  }
+
+  @Test
+  public void shouldIgnoreEventWhenIsNotLocalInstanceId()
+      throws ClientProtocolException, IOException {
+    Event event = new TestEvent();
+    event.instanceId = FOREIGN_INSTANCE_ID;
+    objectUnderTest.start();
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient, never()).callSendObjects(any(), anyString(), any(), any());
   }
 
   @Test
@@ -293,7 +308,8 @@ public class ReplicationQueueTest {
             refsFilter,
             () -> revReader,
             applyObjectMetrics,
-            fetchMetrics);
+            fetchMetrics,
+            LOCAL_INSTANCE_ID);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onEvent(event);
 
@@ -369,6 +385,11 @@ public class ReplicationQueueTest {
   }
 
   private class TestEvent extends RefUpdatedEvent {
+
+    public TestEvent() {
+      this(TEST_REF_NAME);
+    }
+
     public TestEvent(String refName) {
       this(
           refName,
@@ -383,6 +404,7 @@ public class ReplicationQueueTest {
       upd.project = projectName;
       upd.refName = refName;
       this.refUpdate = Suppliers.ofInstance(upd);
+      this.instanceId = LOCAL_INSTANCE_ID;
     }
   }
 

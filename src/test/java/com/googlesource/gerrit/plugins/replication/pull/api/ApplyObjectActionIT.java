@@ -27,6 +27,7 @@ import org.junit.Test;
 public class ApplyObjectActionIT extends ActionITBase {
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldAcceptPayloadWithAsyncField() throws Exception {
     String payloadWithAsyncFieldTemplate =
         "{\"label\":\""
@@ -48,6 +49,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldAcceptPayloadWithoutAsyncField() throws Exception {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
@@ -70,6 +72,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldAcceptPayloadWhenNodeIsAReplica() throws Exception {
     String payloadWithoutAsyncFieldTemplate =
@@ -93,6 +96,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldAcceptPayloadWhenNodeIsAReplicaAndProjectNameContainsSlash() throws Exception {
     String payloadWithoutAsyncFieldTemplate =
@@ -119,6 +123,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnForbiddenWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
     String payloadWithoutAsyncFieldTemplate =
@@ -140,6 +145,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnBadRequestCodeWhenMandatoryFieldLabelIsMissing() throws Exception {
     String payloadWithoutLabelFieldTemplate =
         "{\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
@@ -160,6 +166,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnBadRequestCodeWhenPayloadIsNotAProperJSON() throws Exception {
     String wrongPayloadTemplate =
         "{\"label\":\""
@@ -181,6 +188,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   public void shouldAcceptPayloadWhenNodeIsAReplicaWithBearerToken() throws Exception {
@@ -206,6 +214,7 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "false")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   public void shouldAcceptPayloadWhenNodeIsAPrimaryWithBearerToken() throws Exception {
