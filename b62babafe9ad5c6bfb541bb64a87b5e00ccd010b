@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49efe011_89ad7183",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-10T08:22:06Z",
+      "side": 1,
+      "message": "you\u0027ll need to revert this revert for Iea80a01b84ca72aef5de21db3a05e07a626db079 which introduces a dependency on the delete-project plugin",
+      "revId": "b62babafe9ad5c6bfb541bb64a87b5e00ccd010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
