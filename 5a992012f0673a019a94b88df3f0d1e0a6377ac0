@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "673895c9_2bd085d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-10T09:26:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5c65ad6_85a8cc71",
+      "revId": "5a992012f0673a019a94b88df3f0d1e0a6377ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c169aee_927c2476",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1bad3c3_6b986ed6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-10T09:26:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c169aee_927c2476",
+      "revId": "5a992012f0673a019a94b88df3f0d1e0a6377ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fa8530d_4f4aa20e",
@@ -48,6 +84,30 @@
       "writtenOn": "2023-05-09T13:38:46Z",
       "side": 1,
       "message": "handle",
+      "range": {
+        "startLine": 11,
+        "startChar": 28,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "5a992012f0673a019a94b88df3f0d1e0a6377ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a609ef_29991609",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-10T09:26:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fa8530d_4f4aa20e",
       "range": {
         "startLine": 11,
         "startChar": 28,
