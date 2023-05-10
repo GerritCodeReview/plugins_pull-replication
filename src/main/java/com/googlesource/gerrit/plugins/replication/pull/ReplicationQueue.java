@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1.Context;
+import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.RefUpdatedEvent;
@@ -90,6 +91,7 @@ public class ReplicationQueue
   private Provider<RevisionReader> revReaderProvider;
   private final ApplyObjectMetrics applyObjectMetrics;
   private final FetchReplicationMetrics fetchMetrics;
+  private final String instanceId;
 
   @Inject
   ReplicationQueue(
@@ -101,7 +103,8 @@ public class ReplicationQueue
       ExcludedRefsFilter refsFilter,
       Provider<RevisionReader> revReaderProvider,
       ApplyObjectMetrics applyObjectMetrics,
-      FetchReplicationMetrics fetchMetrics) {
+      FetchReplicationMetrics fetchMetrics,
+      @GerritInstanceId String instanceId) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -112,6 +115,7 @@ public class ReplicationQueue
     this.revReaderProvider = revReaderProvider;
     this.applyObjectMetrics = applyObjectMetrics;
     this.fetchMetrics = fetchMetrics;
+    this.instanceId = instanceId;
   }
 
   @Override
@@ -151,7 +155,7 @@ public class ReplicationQueue
 
   @Override
   public void onEvent(com.google.gerrit.server.events.Event e) {
-    if (e.type.equals(REF_UDPATED_EVENT_TYPE)) {
+    if (e.type.equals(REF_UDPATED_EVENT_TYPE) && instanceId.equals(e.instanceId)) {
       RefUpdatedEvent event = (RefUpdatedEvent) e;
 
       if (isRefToBeReplicated(event.getRefName())) {

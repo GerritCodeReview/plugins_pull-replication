@@ -35,6 +35,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @Inject private ProjectOperations projectOperations;
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnUnauthorizedForUserWithoutPermissions() throws Exception {
     httpClientFactory
         .create(source)
@@ -44,6 +45,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnBadRequestIfContentNotSet() throws Exception {
     httpClientFactory
         .create(source)
@@ -53,6 +55,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldCreateRepository() throws Exception {
     String newProjectName = "new/newProjectForPrimary";
     url = getURLWithAuthenticationPrefix(newProjectName);
@@ -72,6 +75,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilities() throws Exception {
     String newProjectName = "new/newProjectForUserWithCapabilities";
     url = getURLWithAuthenticationPrefix(newProjectName);
@@ -94,6 +98,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnForbiddenIfUserNotAuthorized() throws Exception {
     httpClientFactory
         .create(source)
@@ -103,6 +108,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldCreateRepositoryWhenNodeIsAReplica() throws Exception {
     String newProjectName = "new/newProjectForReplica";
@@ -115,6 +121,8 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnForbiddenIfUserNotAuthorizedAndNodeIsAReplica() throws Exception {
     httpClientFactory
@@ -125,6 +133,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldCreateRepositoryWhenUserHasProjectCreationCapabilitiesAndNodeIsAReplica()
       throws Exception {
@@ -149,6 +158,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnBadRequestIfProjectNameIsInvalidAndCannotBeCreatedWhenNodeIsAReplica()
       throws Exception {
@@ -161,6 +171,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnBadRequestIfContentNotSetWhenNodeIsAReplica() throws Exception {
     httpClientFactory
@@ -171,6 +182,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnForbiddenForUserWithoutPermissionsWhenNodeIsAReplica() throws Exception {
     httpClientFactory
@@ -181,6 +193,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   public void shouldCreateRepositoryWhenNodeIsAReplicaWithBearerToken() throws Exception {
@@ -194,6 +207,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "false")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   public void shouldCreateRepositoryWhenNodeIsAPrimaryWithBearerToken() throws Exception {
