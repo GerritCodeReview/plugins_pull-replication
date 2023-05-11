@@ -17,6 +17,8 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.server.config.GerritIsReplica;
+import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
 import java.net.URISyntaxException;
@@ -32,6 +34,13 @@ public class SourceConfigParser implements ConfigParser {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private boolean isReplica;
+
+  @Inject
+  SourceConfigParser(@GerritIsReplica Boolean isReplica) {
+    this.isReplica = isReplica;
+  }
+
   /* (non-Javadoc)
    * @see com.googlesource.gerrit.plugins.replication.ConfigParser#parseRemotes(org.eclipse.jgit.lib.Config)
    */
@@ -45,7 +54,7 @@ public class SourceConfigParser implements ConfigParser {
 
     ImmutableList.Builder<RemoteConfiguration> sourceConfigs = ImmutableList.builder();
     for (RemoteConfig c : allFetchRemotes(config)) {
-      if (c.getURIs().isEmpty()) {
+      if (isReplica && c.getURIs().isEmpty()) {
         continue;
       }
 
