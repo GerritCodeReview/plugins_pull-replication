@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e45220_7886141e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-11T10:52:04Z",
+      "side": 1,
+      "message": "Nit: Rephrase to fit in 72 char, see: [1].\n\n[1]: https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#commit-message",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 8,
+        "endChar": 17
+      },
+      "revId": "7214864eb260a2bfd6d7d678cbeb20ce105e2409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0ff8992_86fd4f62",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-11T10:52:04Z",
+      "side": 1,
+      "message": "This is too much noise on the caller site. I would have expected we say just:\n\n```\n  repositoryDelete.execute(projectResource.getNameKey());\n```\n\nSo, may be we add convenience `execute` method in `delete-project` plugin with sane defaults, that would internally call the main method and would pass the abaove default values?",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 33
+      },
+      "revId": "7214864eb260a2bfd6d7d678cbeb20ce105e2409",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
