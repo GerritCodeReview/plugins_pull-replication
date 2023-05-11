@@ -16,6 +16,24 @@
       "message": "I don\u0027t know much about the CI side, so I could be wrong here, but I think this won\u0027t work, because `healthcheck` is not a core plugin, so the CI server won\u0027t be able to find that repo? I guess we will need to follow the same approach as with the `events-broker` lib, or is there another way to tell the CI server to checkout the healthcheck repo?",
       "revId": "36f47b289f5276c861e65734600c2d0b200e0f0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba208313_3e122372",
+        "filename": "BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-11T10:20:54Z",
+      "side": 1,
+      "message": "Also, perhaps we should move the change to master, rather than 3.6?",
+      "parentUuid": "f555d742_aa7f0c2d",
+      "revId": "36f47b289f5276c861e65734600c2d0b200e0f0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
