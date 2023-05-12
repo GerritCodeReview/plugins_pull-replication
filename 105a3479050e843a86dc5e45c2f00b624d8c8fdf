@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d2d4a782_bbf75c5d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationEndpoints.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-12T23:14:47Z",
+      "side": 1,
+      "message": "The proper solution is implemented on master",
+      "parentUuid": "4242b165_f6db42da",
+      "range": {
+        "startLine": 29,
+        "startChar": 47,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "105a3479050e843a86dc5e45c2f00b624d8c8fdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0ac83979_b4a2fede",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 3
