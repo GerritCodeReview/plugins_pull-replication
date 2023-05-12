@@ -50,7 +50,6 @@ import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClien
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.SourceHttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule;
-import com.googlesource.gerrit.plugins.replication.pull.event.FetchRefReplicatedEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.event.StreamEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.io.File;
@@ -81,8 +80,6 @@ class PullReplicationModule extends AbstractModule {
     bind(ApplyObject.class);
     install(new FactoryModuleBuilder().build(FetchJob.Factory.class));
     install(new PullReplicationApiModule());
-
-    install(new FetchRefReplicatedEventModule());
 
     install(
         new FactoryModuleBuilder()
