@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8897146_3cf40d7c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationEndpoints.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-12T20:58:18Z",
+      "side": 1,
+      "message": "I find it overkill to make plugins depend on each other to reuse some constants.\nPlugins can come and go at runtime, what does this lifecycle mean for a shared constant ? Does that imply the plugin providing these constants has to be made a lib module ?\n\nWe could adopt OpenAPI and use Swagger to generate client and server code for REST APIs.\n\nIf we really need to reuse constants I would put them into an interface in a common library which is then shaded into the plugins needing them. \n\nOr we hardcode these API endpoints into the plugins using them.\n\nOr we squash all the coupled plugins into a larger multi-site plugin to avoid the overhead of many inter-dependant plugins.",
+      "parentUuid": "bae6ae07_6a2ace49",
+      "range": {
+        "startLine": 29,
+        "startChar": 47,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "105a3479050e843a86dc5e45c2f00b624d8c8fdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "0ac83979_b4a2fede",
