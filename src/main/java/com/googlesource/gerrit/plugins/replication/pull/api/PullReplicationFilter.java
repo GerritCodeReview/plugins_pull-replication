@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.google.gerrit.common.UsedAt.Project.PLUGIN_MULTI_SITE;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
@@ -25,6 +26,7 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -70,6 +72,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class PullReplicationFilter extends AllRequestFilter {
+  @UsedAt(PLUGIN_MULTI_SITE)
+  public static final String APPLY_OBJECT_API_ENDPOINT = "apply-object";
+
+  @UsedAt(PLUGIN_MULTI_SITE)
+  public static final String APPLY_OBJECTS_API_ENDPOINT = "apply-objects";
+
+  public static final String FETCH_ENDPOINT = "fetch-endpoint";
+  public static final String INIT_PROJECT_ENDPOINT = "init-project";
+  public static final String DELETE_PROJECT_ENDPOINT = "delete-project";
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final Pattern projectNameInGerritUrl = Pattern.compile(".*/projects/([^/]+)/.*");
@@ -299,19 +311,25 @@ public class PullReplicationFilter extends AllRequestFilter {
   }
 
   private boolean isApplyObjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith(String.format("/%s~apply-object", pluginName));
+    return httpRequest
+        .getRequestURI()
+        .endsWith(String.format("/%s~" + APPLY_OBJECT_API_ENDPOINT, pluginName));
   }
 
   private boolean isApplyObjectsAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith(String.format("/%s~apply-objects", pluginName));
+    return httpRequest
+        .getRequestURI()
+        .endsWith(String.format("/%s~" + APPLY_OBJECTS_API_ENDPOINT, pluginName));
   }
 
   private boolean isFetchAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith(String.format("/%s~fetch", pluginName));
+    return httpRequest.getRequestURI().endsWith(String.format("/%s~" + FETCH_ENDPOINT, pluginName));
   }
 
   private boolean isInitProjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().contains(String.format("/%s/init-project/", pluginName));
+    return httpRequest
+        .getRequestURI()
+        .contains(String.format("/%s/" + INIT_PROJECT_ENDPOINT + "/", pluginName));
   }
 
   private boolean isUpdateHEADAction(HttpServletRequest httpRequest) {
@@ -320,7 +338,9 @@ public class PullReplicationFilter extends AllRequestFilter {
   }
 
   private boolean isDeleteProjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith(String.format("/%s~delete-project", pluginName))
+    return httpRequest
+            .getRequestURI()
+            .endsWith(String.format("/%s~" + DELETE_PROJECT_ENDPOINT, pluginName))
         && "DELETE".equals(httpRequest.getMethod());
   }
 }
