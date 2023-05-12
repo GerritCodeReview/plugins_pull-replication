@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "4242b165_f6db42da",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationEndpoints.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-12T21:20:32Z",
+      "side": 1,
+      "message": "\u003e I find it overkill to make plugins depend on each other to reuse some constants.\n\nThey already depend on each other because multi-site implements an interface exposed by pull-replication. These constants is simply a temporary workaround on a stable branch.\n\n\u003e Plugins can come and go at runtime, what does this lifecycle mean for a shared constant ? Does that imply the plugin providing these constants has to be made a lib module ?\n\nNope.\n\u003e \n\u003e We could adopt OpenAPI and use Swagger to generate client and server code for REST APIs.\n\nThis isn\u0027t really a reuse of the API but rather a temporary workaround on stable-3.4 for allowing multi-site to *understand* that he reindex happened inside a pull-replication event handler.\n\n\u003e If we really need to reuse constants I would put them into an interface in a common library which is then shaded into the plugins needing them. \n\nThat would be overkill IMHO.\n\n\u003e Or we hardcode these API endpoints into the plugins using them.\n\nThat\u0027s what I did, but DavidO suggested to have them here for avoiding implicit dependencies.\n\n\u003e Or we squash all the coupled plugins into a larger multi-site plugin to avoid the overhead of many inter-dependant plugins.\n\nThat won\u0027t work at all: pull-replication has nothing to do with multi-site, they do not need each other, but they can work together.\n\nYou can use pull-replication for a simple primary-replica setup (no multi-site) and use multi-site without pull-replication (just use the standard replication plugin).",
+      "parentUuid": "a8897146_3cf40d7c",
+      "range": {
+        "startLine": 29,
+        "startChar": 47,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "105a3479050e843a86dc5e45c2f00b624d8c8fdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "0ac83979_b4a2fede",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 3
