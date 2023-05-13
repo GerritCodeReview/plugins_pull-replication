@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58f1a948_c4de36c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-05-13T13:08:44Z",
+      "side": 1,
+      "message": "I think this is the right approach @Alvaro, well done 👍\nThe only thing I am still thinking about is this cache value as `boolean`:\n\nI think it is misleading.\nWhat would it mean for the cache to have a `false` value?\n\nIdeally, this would be a set rather than a map, but I don\u0027t think there\u0027s any class modelling a set with TTL:\n\nA couple of alternatives could be:\n- use the key _as_ the value.\n- use a DUMMY static value.\n\nWDYT?",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
