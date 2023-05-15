@@ -39,6 +39,24 @@
       "message": "you are already using code from the delete-project plugin, why don\u0027t you inject its CacheDeleteHandler to implement this ?",
       "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b2dabeb_e0c1ba0b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-15T13:04:08Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "340a52c5_6e4177f2",
+      "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

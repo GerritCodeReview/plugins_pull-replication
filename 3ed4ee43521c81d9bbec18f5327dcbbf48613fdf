@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09036c56_3eecaf85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-15T13:04:08Z",
+      "side": 1,
+      "message": "Is this true for replica only? I think it would happen in case of primary as well, isn\u0027t it? If so, can you remove `replica` from the commit description?",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "3ed4ee43521c81d9bbec18f5327dcbbf48613fdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
