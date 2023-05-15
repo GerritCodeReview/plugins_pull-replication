@@ -16,6 +16,40 @@
       "message": "I think this is the right approach @Alvaro, well done 👍\nThe only thing I am still thinking about is this cache value as `boolean`:\n\nI think it is misleading.\nWhat would it mean for the cache to have a `false` value?\n\nIdeally, this would be a set rather than a map, but I don\u0027t think there\u0027s any class modelling a set with TTL:\n\nA couple of alternatives could be:\n- use the key _as_ the value.\n- use a DUMMY static value.\n\nWDYT?",
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e5ab458_6774a374",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-15T13:44:15Z",
+      "side": 1,
+      "message": "Is it possible that we process the refs via the `StreamEventListener` before the apply object? I am thinking about any slowness related to the HTTP connection.\n\nIn that can we should cache the value here and check on the apply object side.",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f129cd2_5c8d1dab",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-15T13:44:15Z",
+      "side": 1,
+      "message": "How does the cache invalidation happen at the moment?\n\nI was wondering if it makes sense to invalidate the cache here, since at this stage we know it won\u0027t be needed anymore, right?\n\nThis way we will keep it as small as possible.\n\nFurthermore, if we decide to invalidate it here, maybe we don\u0027t even need a cache anymore, but a simple in-memory `Set` would be enough. WDYT?",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
