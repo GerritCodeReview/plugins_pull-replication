@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6770ab7b_2e9a0d3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-15T15:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "542fc655_1bd8d791",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "340a52c5_6e4177f2",
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "340a52c5_6e4177f2",
+      "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58a900d5_d7aa58ed",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-15T15:35:47Z",
+      "side": 1,
+      "message": "If anything, I\u0027d ask the opposite: what\u0027s the purpose of the `CacheDeleteHandler`, it looks to me like a simple wrapper over the `ProjectCache` which serves no purpose?\nWouldn\u0027t it be better to remove the `CacheDeleteHandler` from the delete-project code?",
+      "parentUuid": "2b2dabeb_e0c1ba0b",
       "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
