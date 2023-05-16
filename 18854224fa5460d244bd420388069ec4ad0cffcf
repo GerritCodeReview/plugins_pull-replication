@@ -72,6 +72,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79322761_84e15cae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-16T22:42:41Z",
+      "side": 1,
+      "message": "+1 and we should document the condition.",
+      "revId": "18854224fa5460d244bd420388069ec4ad0cffcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b19ad9f_75c77df7",
@@ -133,6 +150,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e0daa66d_5fdce7b8",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "18854224fa5460d244bd420388069ec4ad0cffcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1770bc9_269e441b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-16T22:42:41Z",
+      "side": 1,
+      "message": "+1, if you are on a replica and you don\u0027t have any fetch URI, well you cannot really do anything and therefore you\u0027re not a valid source.\n\nP.S. Should we issue a warning that the entry is ignored because there is no URI?",
+      "parentUuid": "a37d6c4d_39268f6c",
       "range": {
         "startLine": 57,
         "startChar": 10,
