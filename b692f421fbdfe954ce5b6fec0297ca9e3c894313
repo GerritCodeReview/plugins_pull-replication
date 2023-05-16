@@ -22,6 +22,30 @@
       },
       "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "119fa34b_f38773f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-16T14:25:54Z",
+      "side": 1,
+      "message": "I believe that this option is dangerous for primary/replica setup. In that setup the fetch direction is always: replica fetches from primary.\n\nIn a multi-site setup, a primary may fetch from another primary. What would replicateOnStartup mean in a multi-site scenario where there are multiple remote sections in the replication.config (like every of N primaries knows the rest of N-1 primaries). Which other site it would fetch from (one of them, all of them)? The semantics here are unclear to me.\n\nThe point of this change is that we need protection for primary fetching all from replica, and that protection needs to be stronger than relying on Gerrit admin to set replicateOnStartup \u003d false on the primary side. I am open for other suggestions about how to approach this problem. Maybe we can have an REST API endpoint \"is-replica\" where one site can check if a remote is replica of primary?",
+      "parentUuid": "875c9a48_90707f6b",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
