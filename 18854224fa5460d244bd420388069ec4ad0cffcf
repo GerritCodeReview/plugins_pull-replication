@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93674c2d_c7267dd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-16T14:11:58Z",
+      "side": 1,
+      "message": "Sorry, my previous reply is wrong.\n\nSo the properly configured masters (url present in the remote) will work. If the url is missing then that remote section will still be loaded and this master will be able to notify the other master (if the apiUrl is present) but will not be able to fetch (because of the missing url). I believe this is still a correct behaviour: url is missing, no fetch from that remote.",
+      "parentUuid": "58c0bd2e_e313a803",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "18854224fa5460d244bd420388069ec4ad0cffcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b19ad9f_75c77df7",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
         "patchSetId": 1
