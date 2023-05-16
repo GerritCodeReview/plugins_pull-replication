@@ -20,6 +20,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "329aad02_1d077cc5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectCacheModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-16T08:31:50Z",
+      "side": 1,
+      "message": "this cache should have short ttl? Could we add some defaults let say expiration time to one minute",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1981bbc5_d72e16bc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-16T08:31:50Z",
+      "side": 1,
+      "message": "maybe rev or sha1 would be a better name?",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d90631b_18b39a72",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-16T08:31:50Z",
+      "side": 1,
+      "message": "why sha1 is a part of the key? Should this be a value and key should contain only refName and project name? Is this because we want to tract all apply objects which happened for that ref not only the last one?",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 58
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e5ab458_6774a374",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 15
@@ -48,6 +111,24 @@
       "writtenOn": "2023-05-15T13:44:15Z",
       "side": 1,
       "message": "How does the cache invalidation happen at the moment?\n\nI was wondering if it makes sense to invalidate the cache here, since at this stage we know it won\u0027t be needed anymore, right?\n\nThis way we will keep it as small as possible.\n\nFurthermore, if we decide to invalidate it here, maybe we don\u0027t even need a cache anymore, but a simple in-memory `Set` would be enough. WDYT?",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "678c2ba0_cc111daf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-16T08:31:50Z",
+      "side": 1,
+      "message": "We don\u0027t know if we don\u0027t need it anymore. We still can have applyObject or different node for some reason can send us event for the same ref version",
+      "parentUuid": "7f129cd2_5c8d1dab",
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
