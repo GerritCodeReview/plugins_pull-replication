@@ -18,6 +18,7 @@ import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.gerrit.server.config.GerritIsReplica;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
@@ -36,6 +37,7 @@ public class OnStartStop implements LifecycleListener {
   private final ReplicationState.Factory replicationStateFactory;
   private final SourcesCollection sourcesCollection;
   private final WorkQueue workQueue;
+  private boolean isReplica;
 
   @Inject
   protected OnStartStop(
@@ -45,7 +47,8 @@ public class OnStartStop implements LifecycleListener {
       DynamicItem<EventDispatcher> eventDispatcher,
       ReplicationState.Factory replicationStateFactory,
       SourcesCollection sourcesCollection,
-      WorkQueue workQueue) {
+      WorkQueue workQueue,
+      @GerritIsReplica Boolean isReplica) {
     this.srvInfo = srvInfo;
     this.fetchAll = fetchAll;
     this.config = config;
@@ -54,11 +57,13 @@ public class OnStartStop implements LifecycleListener {
     this.fetchAllFuture = Atomics.newReference();
     this.sourcesCollection = sourcesCollection;
     this.workQueue = workQueue;
+    this.isReplica = isReplica;
   }
 
   @Override
   public void start() {
-    if (srvInfo.getState() == ServerInformation.State.STARTUP
+    if (isReplica
+        && srvInfo.getState() == ServerInformation.State.STARTUP
         && config.isReplicateAllOnPluginStart()) {
       ReplicationState state =
           replicationStateFactory.create(
