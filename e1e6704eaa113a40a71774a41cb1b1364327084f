@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a56ddd25_2b37f8e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-16T16:35:40Z",
+      "side": 1,
+      "message": "\u003e What would it mean for the cache to have a false value?\n\nThat case is not possible, is always (key, true). You are right that it is very misleading and it needs to be revisit.\n\n\n\u003e A couple of alternatives could be:\n\u003e use the key as the value.\n \n  Can we have a cache where the internal data structure is a Set?\n  \n\u003e use a DUMMY static value.\n  \n  Can we end up with the same problem as the boolean?",
+      "parentUuid": "58f1a948_c4de36c0",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "329aad02_1d077cc5",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectCacheModule.java",
         "patchSetId": 15
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d3e1f1c_487b687f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectCacheModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-16T16:35:40Z",
+      "side": 1,
+      "message": "I added a comment earlier:\n```\nI have created the logic to insert/find in the apply-objects cache. Please have a look at it.\n\nTODO:\n\nConfigure the cache programatically\nE2E\nAdd documentation about new cache\n```\n\nThe idea is configure the cache with TTL i.e 1 minute. All that part is not implemented yet. I am waiting feedback about the approach.",
+      "parentUuid": "329aad02_1d077cc5",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1981bbc5_d72e16bc",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
         "patchSetId": 15
@@ -48,6 +84,30 @@
       "writtenOn": "2023-05-16T08:31:50Z",
       "side": 1,
       "message": "maybe rev or sha1 would be a better name?",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a530ddf1_4fb253a4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-16T16:35:40Z",
+      "side": 1,
+      "message": "Happy to change if makes it more descriptive.",
+      "parentUuid": "1981bbc5_d72e16bc",
       "range": {
         "startLine": 12,
         "startChar": 25,
@@ -83,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80937793_31970127",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-16T16:35:40Z",
+      "side": 1,
+      "message": "Maybe the way I have model Cache\u003cKey,Value\u003e is a bit misleading.\nThe way I understood it is like a `composite key (Sha1, refName, projectName)` and when there is an event `RefUpdatedEvent` consumed by `StreamEventListener` that contains an entry in the cache with those values then it is discarded. \n\nLets have a talk about that.",
+      "parentUuid": "2d90631b_18b39a72",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 58
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e5ab458_6774a374",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 15
@@ -94,6 +178,24 @@
       "writtenOn": "2023-05-15T13:44:15Z",
       "side": 1,
       "message": "Is it possible that we process the refs via the `StreamEventListener` before the apply object? I am thinking about any slowness related to the HTTP connection.\n\nIn that can we should cache the value here and check on the apply object side.",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db41a216_3a4bfa9d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-16T16:35:40Z",
+      "side": 1,
+      "message": "Good question. What I understood is that when there is an `Gerrit Event` published in the `Gerrit event bus` all the listeners will consumed the event sequentially and in this case the listener that makes the `Apply object HTTP request` is before that the `events-kafka` plus I think that request is blocking so there is no way that the event is consumed earlier.\n\n@luca.milanesio@gmail.com / @syntonyze@gmail.com can you confirm that? \nIf I am not correct then we need to revisit the ACs.",
+      "parentUuid": "6e5ab458_6774a374",
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -129,6 +231,24 @@
       "side": 1,
       "message": "We don\u0027t know if we don\u0027t need it anymore. We still can have applyObject or different node for some reason can send us event for the same ref version",
       "parentUuid": "7f129cd2_5c8d1dab",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e0dcc5_4a742d45",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-16T16:35:40Z",
+      "side": 1,
+      "message": "\u003e How does the cache invalidation happen at the moment?\n\nThe invalidation will be part of the configuration of the cache, i.e after 60 seconds then entry will be removed\n\n\u003e I was wondering if it makes sense to invalidate the cache here, since at this stage we know it won\u0027t be needed anymore, right?\n\nI would leave that responsibility to the cache itself. For instance what would happen if the event is duplicated? I guess that we want to keep ignoring it.\n\n\u003e We don\u0027t know if we don\u0027t need it anymore. We still can have applyObject or different node for some reason can send us event for the same ref version\n\n@maczech@gmail.com what do you mean?",
+      "parentUuid": "678c2ba0_cc111daf",
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
