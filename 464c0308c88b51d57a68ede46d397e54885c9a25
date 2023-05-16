@@ -117,6 +117,24 @@
       "parentUuid": "58a900d5_d7aa58ed",
       "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4c9ea6c_940862bc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-16T07:50:47Z",
+      "side": 1,
+      "message": "Yeah, i dont disagree. I am just saying that duplication can also be eradicated by simply removing the enclosing class - and to my eyes that is much better than reusing a class which (no longer) serves any purpose (plus it\u0027s other drawbacks).\nI\u0027ll leave it as-is for now to gather more opinions, if I don\u0027t hear anything i will assume the majority desires reusing the cache handler which i will implement",
+      "parentUuid": "e6930a40_20335298",
+      "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
