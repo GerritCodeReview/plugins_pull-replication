@@ -135,6 +135,24 @@
       "parentUuid": "e6930a40_20335298",
       "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbc49b93_8f99ce83",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-16T17:19:35Z",
+      "side": 1,
+      "message": "I haven\u0027t heard anything back, so I followed the suggestions on this thread 👍",
+      "parentUuid": "a4c9ea6c_940862bc",
+      "revId": "464c0308c88b51d57a68ede46d397e54885c9a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
