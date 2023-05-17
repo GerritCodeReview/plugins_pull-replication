@@ -46,6 +46,30 @@
       },
       "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edd28106_625431a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-17T07:09:39Z",
+      "side": 1,
+      "message": "\u003e In a multi-site setup, a primary may fetch from another primary. What would replicateOnStartup mean in a multi-site scenario where there are multiple remote sections in the replication.config (like every of N primaries knows the rest of N-1 primaries). Which other site it would fetch from (one of them, all of them)? The semantics here are unclear to me.\n\nGood question. I think just fetching from one other primary (if n \u003e 2) would be dangerous, since the other primaries might not all have the same state yet. Maybe this could be more intelligently solved by making use of the data in the global RefDB (which would be available in such a setup), instead of blindly fetching everything from every other primary, which when done sequentially should also work. The first fetch would be the largest and then the subsequent ones would just get the commits that were not available yet on the other instances.\n\n\u003e The point of this change is that we need protection for primary fetching all from replica, and that protection needs to be stronger than relying on Gerrit admin to set replicateOnStartup \u003d false on the primary side. I am open for other suggestions about how to approach this problem. Maybe we can have an REST API endpoint \"is-replica\" where one site can check if a remote is replica of primary?\n\nWouldn\u0027t it be enough, just not to configure `remote.\u003cname\u003e.url`, which we anyway shouldn\u0027t do if the remote is a replica?",
+      "parentUuid": "119fa34b_f38773f8",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
