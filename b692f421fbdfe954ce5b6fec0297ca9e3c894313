@@ -70,6 +70,30 @@
       },
       "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bb7421c_a93afa57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-17T11:09:19Z",
+      "side": 1,
+      "message": "I think fetching from all other primaries only works fine if there are no forced updates (by some user using push -f). \n\nFor the following let\u0027s assume we have 3 primary sites P1, P2, P3 in a multi-site setup.\n\nIf a forced update was executed on P1, immediately after this update the other primaries P2, P3 are out-of-sync. When these other primaries get notified and then fetch (I assume with fetch -f option) from all other primaries the result depends on the fetch order:\n\n- If P3 first fetches from P2 and then from P1 the forced update is replicated correctly.\n- If P2 first fetches from P1 and then from P3 the forced update is lost on P2.",
+      "parentUuid": "edd28106_625431a7",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
