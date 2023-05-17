@@ -206,6 +206,30 @@
       },
       "revId": "18854224fa5460d244bd420388069ec4ad0cffcf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9630f880_5ff42bff",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-17T12:00:01Z",
+      "side": 1,
+      "message": "The behaviour on the replica side remains the same as before this change. What this change fixes is the primary side which, before this change, skipped all remote sections where url was missing. So the replication to those replicas was skipped in that case even if apiUrl was defined.",
+      "parentUuid": "b1770bc9_269e441b",
+      "range": {
+        "startLine": 57,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "18854224fa5460d244bd420388069ec4ad0cffcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
