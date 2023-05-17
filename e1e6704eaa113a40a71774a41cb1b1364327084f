@@ -36,6 +36,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c5d80a_9d5a1e22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "Good stuff @alvaro.vilaplana@gmail.com, see my comments.",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "329aad02_1d077cc5",
@@ -91,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35e73f4e_8b70337b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectCacheModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "The configuration is a NTH, but not necessarily needed. There is no value in having longer values anyway.",
+      "parentUuid": "da47d307_b9406e05",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1981bbc5_d72e16bc",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
         "patchSetId": 15
@@ -131,6 +166,93 @@
         "startChar": 25,
         "endLine": 12,
         "endChar": 31
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c4bd4e9_c2032a8a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "objectId?",
+      "parentUuid": "a530ddf1_4fb253a4",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d271f1f9_5e4c677f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "Missing the event timestamp.",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e41fa37e_e72bb73b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "What is this for?",
+      "range": {
+        "startLine": 47,
+        "startChar": 44,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2752cda6_5f366ccc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "Why only the last one? If the apply-objects has succeeded, I believe we should remember that all SHA1s have been applied to that ref. Any attempt to fetch any of them should be discarded, if they match the same event timestamp.",
+      "range": {
+        "startLine": 96,
+        "startChar": 38,
+        "endLine": 96,
+        "endChar": 77
       },
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -209,6 +331,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ee16a0e_24b9361b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "I believe the `sha1` is definitely needed (the same ref could be updated more than once in a rapid sequence with different `sha1` values) and also the timestamp of the event.\n\nTo recap:\n- Event timestamp to add to the key\n- Store *ALL* SHA1s as separate entries, to remember that the ref has been applied to all those SHA1s.",
+      "parentUuid": "4e200b58_87021ca9",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 58
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57d4c2bb_6664a72c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "This means nothing IMHO. Can we put something else more meaningful or just nothing? (Void)",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 14
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e5ab458_6774a374",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 15
@@ -238,6 +407,24 @@
       "side": 1,
       "message": "Good question. What I understood is that when there is an `Gerrit Event` published in the `Gerrit event bus` all the listeners will consumed the event sequentially and in this case the listener that makes the `Apply object HTTP request` is before that the `events-kafka` plus I think that request is blocking so there is no way that the event is consumed earlier.\n\n@luca.milanesio@gmail.com / @syntonyze@gmail.com can you confirm that? \nIf I am not correct then we need to revisit the ACs.",
       "parentUuid": "6e5ab458_6774a374",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ba19fa9_3bcebdf5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "It is *NOT* possible that the event would come before the apply-object: the invocation of the ref-update listeners is sync and the apply-object won\u0027t release the control to the next listener until it is completed (or failed).",
+      "parentUuid": "db41a216_3a4bfa9d",
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -309,6 +496,24 @@
       "side": 1,
       "message": "As you mentioned cache entry should be removed by ttl not explicitly from the code because we don\u0027t know if all operations(apply object/fetch) are done for that ref",
       "parentUuid": "e8e0dcc5_4a742d45",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "161e639e_e648b3d2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-17T21:30:32Z",
+      "side": 1,
+      "message": "+1, we should not invalidate anything, just let the items expire by maxAge.",
+      "parentUuid": "fc784bdf_6bb09140",
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
