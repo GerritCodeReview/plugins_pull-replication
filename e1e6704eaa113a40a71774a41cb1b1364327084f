@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da47d307_b9406e05",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectCacheModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-17T07:17:44Z",
+      "side": 1,
+      "message": "I think you approach is correct 😊",
+      "parentUuid": "6d3e1f1c_487b687f",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1981bbc5_d72e16bc",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
         "patchSetId": 15
@@ -167,6 +185,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e200b58_87021ca9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-17T07:17:44Z",
+      "side": 1,
+      "message": "I think your approach is correct I just wanted to confirm if this was the intention",
+      "parentUuid": "80937793_31970127",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 58
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e5ab458_6774a374",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
         "patchSetId": 15
@@ -249,6 +291,24 @@
       "side": 1,
       "message": "\u003e How does the cache invalidation happen at the moment?\n\nThe invalidation will be part of the configuration of the cache, i.e after 60 seconds then entry will be removed\n\n\u003e I was wondering if it makes sense to invalidate the cache here, since at this stage we know it won\u0027t be needed anymore, right?\n\nI would leave that responsibility to the cache itself. For instance what would happen if the event is duplicated? I guess that we want to keep ignoring it.\n\n\u003e We don\u0027t know if we don\u0027t need it anymore. We still can have applyObject or different node for some reason can send us event for the same ref version\n\n@maczech@gmail.com what do you mean?",
       "parentUuid": "678c2ba0_cc111daf",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc784bdf_6bb09140",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-17T07:17:44Z",
+      "side": 1,
+      "message": "As you mentioned cache entry should be removed by ttl not explicitly from the code because we don\u0027t know if all operations(apply object/fetch) are done for that ref",
+      "parentUuid": "e8e0dcc5_4a742d45",
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
