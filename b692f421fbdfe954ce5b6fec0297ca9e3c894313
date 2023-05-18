@@ -94,6 +94,30 @@
       },
       "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fcdaac5_29e2cd2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-18T20:27:29Z",
+      "side": 1,
+      "message": "\u003e I think fetching from all other primaries only works fine if there are no forced updates (by some user using push -f). \n\u003e \n\u003e For the following let\u0027s assume we have 3 primary sites P1, P2, P3 in a multi-site setup.\n\u003e \n\u003e If a forced update was executed on P1, immediately after this update the other primaries P2, P3 are out-of-sync.\n\nCorrect.\n\n\u003e When these other primaries get notified and then fetch (I assume with fetch -f option) from all other primaries the result depends on the fetch order:\n\u003e \n\u003e - If P3 first fetches from P2\n\nP3 does not fetch from P2 because the ref-update event happened on P1, therefore the ref-updated event has the P1\u0027s instance-id.\n\n\u003e and then from P1 the forced update is replicated correctly.\n\nP3 fetches from P1 only\n\n\u003e - If P2 first fetches from P1 and then from P3 the forced update is lost on P2.\n\nP2 fetches from P1 only",
+      "parentUuid": "1bb7421c_a93afa57",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
