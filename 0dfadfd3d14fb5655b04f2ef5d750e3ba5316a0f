@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2883949f_463d7189",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-18T08:22:01Z",
+      "side": 1,
+      "message": "currently only `meta` refs are transferred via apply objects",
+      "parentUuid": "bf70a9b9_5e2daaa6",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "0dfadfd3d14fb5655b04f2ef5d750e3ba5316a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7adbb040_a3e8eb15",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 2
