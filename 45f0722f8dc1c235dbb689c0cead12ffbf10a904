@@ -70,6 +70,24 @@
       "parentUuid": "1b3c7032_2f52b1cb",
       "revId": "45f0722f8dc1c235dbb689c0cead12ffbf10a904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf0dc9dc_7f41b328",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T11:17:53Z",
+      "side": 1,
+      "message": "Ah, I see - the issue is not with using a stream but rather with the refactoring. This change is so small that I think it\u0027s probably fine, but that\u0027s just my opinion. Anyway I understand now, thanks for explaining.",
+      "parentUuid": "a42268f7_ae621887",
+      "revId": "45f0722f8dc1c235dbb689c0cead12ffbf10a904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
