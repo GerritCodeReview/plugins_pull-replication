@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.errors.CorruptObjectException;
@@ -38,6 +39,7 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
@@ -222,7 +224,13 @@ public class RevisionReader {
       List<DiffEntry> diffEntries)
       throws MissingObjectException, IOException {
     List<RevisionObjectData> blobs = Lists.newLinkedList();
-    for (DiffEntry diffEntry : diffEntries) {
+    // filter out git submodule commits, we can't read them as they
+    // belong to a different repo.
+    List<DiffEntry> filtered =
+        diffEntries.stream()
+            .filter(diffEntry -> diffEntry.getNewMode() != FileMode.GITLINK)
+            .collect(Collectors.toList());
+    for (DiffEntry diffEntry : filtered) {
       if (!ChangeType.DELETE.equals(diffEntry.getChangeType())) {
         ObjectId diffObjectId = diffEntry.getNewId().toObjectId();
         ObjectLoader objectLoader = git.open(diffObjectId);
