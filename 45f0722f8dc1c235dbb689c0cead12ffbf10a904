@@ -34,6 +34,24 @@
       "parentUuid": "33f1296f_abb074b0",
       "revId": "45f0722f8dc1c235dbb689c0cead12ffbf10a904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b3c7032_2f52b1cb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T10:44:36Z",
+      "side": 1,
+      "message": "What is the reasoning behind it?\nI\u0027ve had negative feedback on using streams due to performance concerns, I don\u0027t know if they are significant here though. If so instead of a stream we could use a `continue` in the for loop.",
+      "parentUuid": "543c07de_1661abc2",
+      "revId": "45f0722f8dc1c235dbb689c0cead12ffbf10a904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
