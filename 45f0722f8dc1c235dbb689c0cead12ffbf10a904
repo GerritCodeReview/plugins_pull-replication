@@ -16,6 +16,24 @@
       "message": "We are already iterating through all the filtered elements in the list, and we already have a stream in the statement above. I don\u0027t think we need to transform it back into a list in order to have a for-loop, we can `map` and transform the resulting stream into the linked list (or just populate `blobs`).",
       "revId": "45f0722f8dc1c235dbb689c0cead12ffbf10a904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "543c07de_1661abc2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-19T10:39:16Z",
+      "side": 1,
+      "message": "I agree, I think a filter followed by a foreach would be sufficient, however whenever I attempted such refactoring in the past i was told to do it in a separate commit.",
+      "parentUuid": "33f1296f_abb074b0",
+      "revId": "45f0722f8dc1c235dbb689c0cead12ffbf10a904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
