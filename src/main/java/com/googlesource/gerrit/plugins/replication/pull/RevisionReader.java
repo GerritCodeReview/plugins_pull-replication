@@ -38,6 +38,7 @@ import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
@@ -214,6 +215,24 @@ public class RevisionReader {
     return blobs;
   }
 
+  /**
+   * Reads and evaluates the git objects in this revision. The following are filtered out:
+   * <li>DELETE changes
+   * <li>git submodule commits, because the git commit hash is not present in this repo.
+   *
+   *     <p>The method keeps track of the total size of all objects it has processed, and verifies
+   *     it is below the acceptable threshold.
+   *
+   * @param projectName - the name of the project, used to check total object size threshold
+   * @param refName - the ref name, used to check total object size threshold
+   * @param git - this git repo, used to load the objects
+   * @param totalRefSize - tracks the total size of objects processed
+   * @param diffEntries - a list of the diff entries for this revision
+   * @return a List of `RevisionObjectData`, an object that includes the git object SHA, the git
+   *     object change type and the object contents.
+   * @throws MissingObjectException - if the object can't be found
+   * @throws IOException - if processing failed for another reason
+   */
   private List<RevisionObjectData> readBlobs(
       Project.NameKey projectName,
       String refName,
@@ -223,7 +242,7 @@ public class RevisionReader {
       throws MissingObjectException, IOException {
     List<RevisionObjectData> blobs = Lists.newLinkedList();
     for (DiffEntry diffEntry : diffEntries) {
-      if (!ChangeType.DELETE.equals(diffEntry.getChangeType())) {
+      if (!(ChangeType.DELETE.equals(diffEntry.getChangeType()) || gitSubmoduleCommit(diffEntry))) {
         ObjectId diffObjectId = diffEntry.getNewId().toObjectId();
         ObjectLoader objectLoader = git.open(diffObjectId);
         totalRefSize += objectLoader.getSize();
@@ -235,6 +254,10 @@ public class RevisionReader {
       }
     }
     return blobs;
+  }
+
+  private boolean gitSubmoduleCommit(DiffEntry diffEntry) {
+    return diffEntry.getNewMode().equals(FileMode.GITLINK);
   }
 
   private RevTree getParentTree(Repository git, RevCommit commit)
