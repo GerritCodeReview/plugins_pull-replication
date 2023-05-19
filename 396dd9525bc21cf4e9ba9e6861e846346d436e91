@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "801bd427_253a1ff1",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T14:26:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6bffadd_3f59639d",
+      "range": {
+        "startLine": 5,
+        "startChar": 13,
+        "endLine": 5,
+        "endChar": 41
+      },
+      "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fc45967_fc9f32f0",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-05-19T11:53:21Z",
       "side": 1,
       "message": "To use the REST API for replication notifications add the apiUrl to the remote section for which notifications should be sent.",
+      "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9939d1e_caad50c3",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T14:26:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fc45967_fc9f32f0",
       "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f39693a_b92038be",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T14:26:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a0c04d4_350afe45",
+      "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0e84b29_9855bcdf",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fab7ff8f_b7b2bf6a",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T14:26:21Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "f0e84b29_9855bcdf",
+      "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be5f4c0a_7bbfbcaa",
@@ -88,6 +166,24 @@
       "writtenOn": "2023-05-19T11:53:21Z",
       "side": 1,
       "message": "this seems to contradict line 88 which says that stream events can be used additionally to using an event broker",
+      "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5eaa0563_388c392f",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T14:26:21Z",
+      "side": 1,
+      "message": "I don\u0027t see that in the line 88.",
+      "parentUuid": "be5f4c0a_7bbfbcaa",
       "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
