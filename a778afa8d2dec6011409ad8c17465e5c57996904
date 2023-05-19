@@ -75,6 +75,24 @@
       "parentUuid": "1661bc75_0c765414",
       "revId": "a778afa8d2dec6011409ad8c17465e5c57996904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1157e17_fe0d9954",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T15:21:42Z",
+      "side": 1,
+      "message": "Please also see our guides for contributors, this section:\nhttps://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#opportunistic-refactoring\n\n\"Likewise, if during review for a functional change, an opportunity for cleanup/refactoring is discovered, then it is preferable to do the cleanup first in a separate change so as to improve the reviewability of the functional change.\"",
+      "parentUuid": "824e9399_2c16a0da",
+      "revId": "a778afa8d2dec6011409ad8c17465e5c57996904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
