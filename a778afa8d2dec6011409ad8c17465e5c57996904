@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbbf187a_d1fc8a88",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-19T15:31:57Z",
+      "side": 1,
+      "message": "good catch, fixed.",
+      "parentUuid": "c15ac999_4cfcc541",
+      "range": {
+        "startLine": 219,
+        "startChar": 59,
+        "endLine": 222,
+        "endChar": 30
+      },
+      "revId": "a778afa8d2dec6011409ad8c17465e5c57996904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f41d161_49af18d0",
@@ -91,6 +115,24 @@
       "side": 1,
       "message": "Please also see our guides for contributors, this section:\nhttps://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#opportunistic-refactoring\n\n\"Likewise, if during review for a functional change, an opportunity for cleanup/refactoring is discovered, then it is preferable to do the cleanup first in a separate change so as to improve the reviewability of the functional change.\"",
       "parentUuid": "824e9399_2c16a0da",
+      "revId": "a778afa8d2dec6011409ad8c17465e5c57996904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ddfe34d_471bafba",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-19T15:31:57Z",
+      "side": 1,
+      "message": "thanks, I will keep it in mind for future changes 👍",
+      "parentUuid": "f1157e17_fe0d9954",
       "revId": "a778afa8d2dec6011409ad8c17465e5c57996904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
