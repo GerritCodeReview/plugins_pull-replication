@@ -1,6 +1,117 @@
 @PLUGIN@ Configuration
 =========================
 
+The @PLUGIN@ plugin is required on both the replica and primary Gerrit site. The configuration
+requirements on both sides are different and the set of supported options on both sides are
+different.
+
+Note that the @PLUGIN@ plugin can also be used in a multi-primary scenario where one primary fetches
+from another primary. In this scenario we can talk about the fetching side (the primary performing
+the fetch) and the serving side (the primary performing the upload-pack). The configuration
+considerations are still the same as in the primary-replica scenario. If a primary will both fetch
+and serve upload-pack for other primaries fetching from it, then configuration of this primary
+has to consider both roles.
+
+In the further text we will use the primary and replica terms to represent the two different roles
+in the @PLUGIN@ plugin setup.
+
+Configuring Primary
+-------------------
+The purpose of the @PLUGIN@ plugin on the primary side is to send notifications to the
+@PLUGIN@ plugin running in replica(s). The notifications instruct the @PLUGIN@ plugin in a
+replica what to do: fetch this (set of) ref, create this project, etc..
+
+The notifications can be sent via the REST API or the events-broker API.
+
+Usage of REST API and usage of events-broker for sending notifications from primary to replica is
+activated independently of each other.
+
+### Using REST API for sending notifications
+
+The REST API will be used for each remote section in the `replication.config` which contains the
+apiUrl, for example:
+
+```
+[remote "replica-1"]
+  apiUrl = https://replica-1
+```
+### Using events-broker API for sending notifications
+
+The events-broker will be used if `replication.config` defines an `eventBrokerTopic`, for example:
+
+```
+[replication]
+  eventBrokerTopic = topic-name
+```
+
+The events-broker module and a concrete implementation, like events-kafka.jar, must be installed:
+
+```
+$ ls $PRIMARY_SITE/lib
+events-broker.jar
+events-kafka.jar
+```
+
+In addition a corresponding message broker system, Kafka in this example, must be available.
+
+Configuring Replica
+-------------------
+The purpose of the @PLUGIN@ plugin on the replica side is to receive notifications from the
+primary and react on them. This means that the @PLUGIN@ plugin needs to be configured to
+receive the notifications using the same channel that the primary uses to send them. Further, since
+a notification may instruct to fetch a (set of) refs from the primary, the replica needs to be
+configured for performing `git fetch` against the primary.
+
+### Receiving notifications via REST API
+
+There is no configuration necessary in order to receive notifications via the REST API as this is
+always enabled.
+
+### Receiving notifications via events-broker API
+
+To receive notifications via the event-broker we need the same configuration as on the primary:
+
+```
+[replication]
+  eventBrokerTopic = topic-name
+```
+
+The events-broker module and a concrete implementation, like events-kafka.jar, must be installed:
+
+```
+$ ls $PRIMARY_SITE/lib
+events-broker.jar
+events-kafka.jar
+```
+
+### Additional usage of SSH stream-events along the REST API
+When using REST API it is also possible to, additionally, receive events via the SSH stream-events
+channel where replica acts as an SSH client to the primary. This mechanism is useful to provide a
+backfill mechanism when a node has to catch up with the events after being unreachable. This option
+only makes sense if the primary runs the `events` plugin which is able to resume the event stream
+when a client reconnects.
+
+To activate this option set the following in the `replication.config`:
+
+```
+[replication]
+	consumeStreamEvents = true
+```
+
+Note that when the `replication.consumeStreamEvents` is set to `true` any configured
+`replication.eventBrokerTopic` is ignored.
+
+### Configure Git fetch access from replica to primary
+The most common notification from primary to replica is to fetch a (set of) refs. Therefore, the
+replica has to be configured for performing Git fetch against the primary. This is done by
+configuring the `remote.<primary-name>.url` and the `remote.<primary-name>.fetch` for example:
+
+```
+[remote "primary"]
+  url = https://primary:8080/${name}.git
+  fetch = refs/*:refs/*
+```
+
 Enabling Replication
 --------------------
 
@@ -71,6 +182,10 @@ In the keys below, the `NAME` portion is unused by this plugin, but
 must be unique to distinguish the different sections if more than one
 remote section appears in the file.
 
+If a configuration option is supported only on primary or only on
+replica side it will contain a remark. If such remark is not specified
+then the option is supported on both primary and replica.
+
 gerrit.replicateOnStartup
 :	If true, replicates from all remotes on startup to ensure they
 	are in-sync with this server.  By default, false.
@@ -108,6 +223,8 @@ replication.lockErrorMaxRetries
 
 	Default: 0 (disabled, i.e. never retry)
 
+  Supported for: replica
+
 replication.maxRetries
 :	Maximum number of times to retry a fetch operation that previously
 	failed.
@@ -130,6 +247,8 @@ replication.maxRetries
 	here is that the remote ref does not exist so it is not worth retrying. If the
 	exception arisen as a consequence of some ACLs (mis)configuration, then after
 	fixing the ACLs, an explicit replication must be manually triggered.
+
+  Supported for: replica
 
 replication.instanceLabel
 :	Remote configuration name of the current server.
@@ -156,6 +275,8 @@ replication.consumeStreamEvents
 
 	Default: false
 
+  Supported for: replica
+
 replication.eventBrokerTopic
 :	Topic to consumer stream events from.
 
@@ -181,10 +302,14 @@ replication.maxConnectionsPerRoute
 
 	Default: 100
 
+  Supported for: primary
+
 replication.maxConnections
 :	Total number of HTTP connections pool.
 
 	Default: 2 * replication.maxConnectionsPerRoute
+
+  Supported for: primary
 
 replication.useCGitClient
 :	By default Gerrit uses JGit library to execute all git protocol command.
@@ -192,6 +317,8 @@ replication.useCGitClient
 	executed using CGit client instead of JGit.
 
 	Default: false
+
+  Supported for: replica
 
 replication.refsBatchSize
 :	Number of refs that are fetched in a single fetch call.
@@ -201,6 +328,8 @@ replication.refsBatchSize
 	Value must be greater than zero.
 
 	Default: 50
+
+  Supported for: replica
 
 replication.excludeRefs
 :   Specify which refs should be excluded from git fetch calls. It can be provided
@@ -237,6 +366,8 @@ replication.excludeRefs
     Note that if you are using @PLUGIN@ together with multi-site, you should
     explicitly exclude `refs/multi-site/version` from being replicated.
 
+  Supported for: primary
+
 replication.syncRefs
 :   Specify for which refs git fetch calls should be executed synchronously.
     It can be provided more than once, and supports three formats: regular expressions,
@@ -261,12 +392,16 @@ replication.syncRefs
 
     By default, set to '*' (all refs are replicated synchronously).
 
+  Supported for: primary
+
 replication.maxApiPayloadSize
 :	Maximum size in bytes of the ref to be sent as a REST Api call
 	payload. For refs larger than threshold git fetch operation
 	will be used.
 
 	Default: 10000
+
+  Supported for: primary
 
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
@@ -286,6 +421,8 @@ remote.NAME.url
 
 	See [git fetch][1] for details on Git URL syntax.
 
+  Supported for: replica
+
 [1]: http://www.git-scm.com/docs/git-fetch#URLS
 [3]: #remote.NAME.projects
 
@@ -295,12 +432,16 @@ remote.NAME.apiUrl
 	different destinations which share the same settings. Gerrit calls
 	all URLs in sequence.
 
+  Supported for: primary
+
 remote.NAME.connectionTimeout
 :	Defines the socket timeout ({@code SO_TIMEOUT}) in milliseconds,
 	which is the timeout for waiting for data or, put differently,
 	a maximum period inactivity between two consecutive data packets.
 
 	Default: 5000
+
+  Supported for: primary
 
 remote.NAME.idleTimeout
 :	Defines period of inactivity in milliseconds after which persistent connections must
@@ -310,11 +451,15 @@ remote.NAME.idleTimeout
 
 	Default: 10000
 
+  Supported for: primary
+
 remote.NAME.uploadpack
 :	Path of the `git-upload-pack` executable on the remote system,
 	if using the SSH transport.
 
 	Defaults to `git-upload-pack`.
+
+  Supported for: primary
 
 remote.NAME.fetch
 :	Standard Git refspec denoting what should be replicated.
@@ -332,6 +477,8 @@ remote.NAME.fetch
 	when `replicatePermissions` is true, even if the push refspec
 	is 'all refs'.
 
+  Supported for: primary
+
 [2]: #example_file
 
 remote.NAME.timeout
@@ -347,6 +494,8 @@ remote.NAME.timeout
 
 	Defaults to 0 seconds, wait indefinitely.
 
+  Supported for: replica
+
 remote.NAME.replicationDelay
 :	Time to wait before scheduling an asynchronous remote fetch
 	operation. Setting the delay to 0 effectively disables the delay,
@@ -356,6 +505,8 @@ remote.NAME.replicationDelay
 
 	By default for asynchronous fetch, 4 seconds. For a synchronous fetch
 	replicationDelay is zero.
+
+  Supported for: primary
 
 remote.NAME.rescheduleDelay
 :	Delay when rescheduling a fetch operation due to an in-flight fetch
@@ -367,6 +518,8 @@ remote.NAME.rescheduleDelay
 	A configured value lower than 3 seconds will be rounded to 3 seconds.
 
 	By default, 3 seconds.
+
+  Supported for: primary
 
 remote.NAME.replicationRetry
 :	Time to wait before scheduling a remote fetch operation previously
@@ -380,6 +533,8 @@ remote.NAME.replicationRetry
 	This is a Gerrit specific extension to the Git remote block.
 
 	By default, 1 minute.
+
+  Supported for: replica
 
 remote.NAME.replicationMaxRetries
 :	Maximum number of times to retry a fetch operation that previously
@@ -395,6 +550,8 @@ remote.NAME.replicationMaxRetries
 	Note that not all fetch failures are retriable. Please refer
 	to `replication.maxRetries` for more information on this.
 
+  Supported for: replica
+
 remote.NAME.threads
 :	Number of worker threads to dedicate to fetching to the
 	repositories described by this remote.  Each thread can fetch
@@ -405,16 +562,22 @@ remote.NAME.threads
 
 	By default, 1 thread.
 
+  Supported for: replica
+
 remote.NAME.createMissingRepositories
 :	Replicate newly created repositories.
 
 	By default, true.
+
+  Supported for: primary
 
 remote.NAME.replicateProjectDeletions
 :	If true, project deletions will also be replicated to the
 remote site.
 
 	By default, false, do *not* replicate project deletions.
+
+  Supported for: primary
 
 remote.NAME.authGroup
 :	Specifies the name of a group that the remote should use to
@@ -426,6 +589,8 @@ remote.NAME.authGroup
 
 	By default, replicates without group control, i.e. replicates
 	everything from all remotes.
+
+  Supported for: primary
 
 remote.NAME.remoteNameStyle
 :	Provides possibilities to influence the name of the source
@@ -447,6 +612,8 @@ remote.NAME.remoteNameStyle
 
 	By default, "slash", i.e. remote names will contain slashes as
 	they do in Gerrit.
+
+  Supported for: replica
 
 <a name="remote.NAME.projects">remote.NAME.projects</a>
 :	Specifies which repositories should be replicated from the
