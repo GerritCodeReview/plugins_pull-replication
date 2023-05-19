@@ -188,6 +188,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de98a13_d9d93963",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-19T15:18:05Z",
+      "side": 1,
+      "message": "line 88 says:\n\nWhen using REST API it is also possible to, **additionally**, receive events via the SSH stream-events channel ...\n\nAlso line 87 says:\n\n**Additional** usage of SSH stream-events along the REST API.\n\nThe section before talks about using events-broker API, this makes me think: events-broker API and stream events can be used together but this seems impossible if the topic isn\u0027t configured.\n\nMaybe you meant **alternatively** instead of **additionally** ?",
+      "parentUuid": "5eaa0563_388c392f",
+      "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a2c9de4_14480598",
