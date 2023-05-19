@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad94140b_51a71e29",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-19T18:56:21Z",
+      "side": 1,
+      "message": "What about using the following to minimise negation:\n\n```\n!(ChangeType.DELETE.equals(diffEntry.getChangeType() || gitSubmoduleCommit(diffEntry)) { ... }\n\n\n\nprivate boolean gitSubmoduleCommit(DiffEntry diffEntry) {\n    return diffEntry.getNewMode().equals(FileMode.GITLINK);\n\n\n```\n\nI think it might read better.",
+      "range": {
+        "startLine": 245,
+        "startChar": 10,
+        "endLine": 246,
+        "endChar": 47
+      },
+      "revId": "3ed291a2d7774903529c077c77b38f8c29102025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "701bf59e_96858da4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReaderIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-19T18:56:21Z",
+      "side": 1,
+      "message": "We usually use capital letter for constants.",
+      "range": {
+        "startLine": 206,
+        "startChar": 19,
+        "endLine": 206,
+        "endChar": 37
+      },
+      "revId": "3ed291a2d7774903529c077c77b38f8c29102025",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
