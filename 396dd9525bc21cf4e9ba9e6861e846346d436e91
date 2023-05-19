@@ -107,6 +107,24 @@
       "message": "doesn\u0027t this also make sense when replicating between masters in multi-site setup ?\n\nSame question for the other options below which don\u0027t make sense for both sides of replication. \n\nHow about introducing replication roles \"source\" and \"target\" with replication going from \"source\" to \"target\". Then replace what you marked \"supported for replica\" with \"target\" and what you marked \"supported for primary\" with \"source\". With that if you aim at replication from a primary to a replica \"source\" is a primary and \"target\" a replica, whereas if you aim at a multi-site setup both \"source\" and \"target\" are a primary and each primary uses both roles \"source\" and \"target\".",
       "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e79dd7e_1f03b692",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T13:51:16Z",
+      "side": 1,
+      "message": "I explained that in the lines 8-13 and proposed to use \"primary\" and \"replica\" as the role names. In that sense a primary can have both roles \"primary\" and \"replica\" in a multi-primary setup.\n\nFor me, \"target\" and \"source\" are less intuitive role names. I am not sure everyone will immediately understand what is target and what is source in the case of pull-replication.",
+      "parentUuid": "2a2c9de4_14480598",
+      "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
