@@ -52,6 +52,24 @@
       "parentUuid": "543c07de_1661abc2",
       "revId": "45f0722f8dc1c235dbb689c0cead12ffbf10a904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a42268f7_ae621887",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-19T10:59:57Z",
+      "side": 1,
+      "message": "Obviously here we are traversing the list twice, which is not ideal, I could simply move the predicate in L234 and be done with it. Won\u0027t read great but will be more efficient. \n\nI am planning to raise a separate commit where the filter and foreach is done within the stream, which will be efficient enough. I just didnt do it here as it could be considered refactoring (and hence needs a separate commit).",
+      "parentUuid": "1b3c7032_2f52b1cb",
+      "revId": "45f0722f8dc1c235dbb689c0cead12ffbf10a904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
