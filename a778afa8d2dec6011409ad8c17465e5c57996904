@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c15ac999_4cfcc541",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T15:17:22Z",
+      "side": 1,
+      "message": "Looks like wrong formatting i.e. you want a bulleted list here?",
+      "range": {
+        "startLine": 219,
+        "startChar": 59,
+        "endLine": 222,
+        "endChar": 30
+      },
+      "revId": "a778afa8d2dec6011409ad8c17465e5c57996904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1f41d161_49af18d0",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
         "patchSetId": 3
@@ -32,6 +55,24 @@
       "side": 1,
       "message": "I need to document somewhere in the code, why we are filtering out the git submodule commits. I could use inline comments before the for loop, but I thought this wouldn\u0027t be much readable, and I would also need to explain why we are filtering out DELETE changes. So I thought I\u0027d do it with a javadoc for this method only.",
       "parentUuid": "1f41d161_49af18d0",
+      "revId": "a778afa8d2dec6011409ad8c17465e5c57996904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "824e9399_2c16a0da",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T15:17:22Z",
+      "side": 1,
+      "message": "I understand. The correct way would be to first only add the missing javadoc in one change and then implement this change on top. This way the javadoc would be extended for only the item related to the subject of this change.",
+      "parentUuid": "1661bc75_0c765414",
       "revId": "a778afa8d2dec6011409ad8c17465e5c57996904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
