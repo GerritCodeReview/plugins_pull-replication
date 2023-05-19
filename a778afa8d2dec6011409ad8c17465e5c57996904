@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f41d161_49af18d0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T14:58:27Z",
+      "side": 1,
+      "message": "Strictly, adding a missing javadoc here is not necessary for fixing the issue described in the commit message. This belongs to a separate change. But then, many\nother private methods do not have javadoc and the question is if you want to fix \nit only for this method, for all methods, or just keep it as-is i.e. most of the private methods don\u0027t have javadoc.",
+      "revId": "a778afa8d2dec6011409ad8c17465e5c57996904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
