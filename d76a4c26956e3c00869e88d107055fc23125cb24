@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "855886ad_83c491e6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-22T21:48:58Z",
+      "side": 1,
+      "message": "Do you want also a mention to the bearer token for authentication?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "d76a4c26956e3c00869e88d107055fc23125cb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "978d990a_03b47f17",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-22T21:48:58Z",
+      "side": 1,
+      "message": "There is a bit more config involved when using a Broker. Do you want to add a hyperlink for instance on how to setup the events-kafka plugin?",
+      "revId": "d76a4c26956e3c00869e88d107055fc23125cb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29601e6a_7c8cd31e",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-22T21:48:58Z",
+      "side": 1,
+      "message": "This isn\u0027t going to replicate the forced push. Amend to `+rfs/*:refs/*`",
+      "range": {
+        "startLine": 111,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 23
+      },
+      "revId": "d76a4c26956e3c00869e88d107055fc23125cb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03327e86_a6d45ba6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-22T21:48:58Z",
+      "side": 1,
+      "message": "You should also mention the special permissions to provide to the pull replication user, which is a special internal user representing the bearer token.\n\nIf you don\u0027t give special permissions, you may fail to replicate some repositories like All-Users.",
+      "revId": "d76a4c26956e3c00869e88d107055fc23125cb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
