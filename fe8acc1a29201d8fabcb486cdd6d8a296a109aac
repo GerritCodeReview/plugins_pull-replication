@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12e09bc_393fb0b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-22T15:37:56Z",
+      "side": 1,
+      "message": "Post-merge -2: this is the wrong solution. Let me upload a revert here and then it would need to be managed instead of filtered out.",
+      "revId": "fe8acc1a29201d8fabcb486cdd6d8a296a109aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
