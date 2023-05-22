@@ -16,6 +16,23 @@
       "message": "Local build works as expected",
       "revId": "72070da5f2cc47a50eeba659d4792478b5f81767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b76aca18_502adee8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-22T22:20:01Z",
+      "side": 1,
+      "message": "I have built and run the tests locally and it works fine. I haven\u0027t tested it e2e yet.",
+      "revId": "72070da5f2cc47a50eeba659d4792478b5f81767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
