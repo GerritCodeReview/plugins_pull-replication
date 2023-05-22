@@ -206,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77b265e2_451a6c9f",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-22T07:21:04Z",
+      "side": 1,
+      "message": "The intention is to say that the stream-events can be used in addition (or together with) the REST API. I don\u0027t see it as alternative between events-broker and REST API. Rather we have the following choices:\n* events-broker API\n* REST API\n* REST API + stream-events\n\nTechnically, events-broker API and REST API can be used together but this doesn\u0027t make sense as events-broker guarantees message delivery.",
+      "parentUuid": "0de98a13_d9d93963",
+      "revId": "396dd9525bc21cf4e9ba9e6861e846346d436e91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a2c9de4_14480598",
