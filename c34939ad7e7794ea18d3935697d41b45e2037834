@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c9553d6_219a3ead",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-22T21:50:58Z",
+      "side": 1,
+      "message": "Do you foresee any possibility for adding a test?",
+      "revId": "c34939ad7e7794ea18d3935697d41b45e2037834",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
