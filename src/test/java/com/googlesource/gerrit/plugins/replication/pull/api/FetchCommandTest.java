@@ -125,7 +125,7 @@ public class FetchCommandTest {
   @Test
   public void shouldUpdateStateWhenInterruptedException()
       throws InterruptedException, ExecutionException, TimeoutException {
-    when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new InterruptedException());
+    when(future.get()).thenThrow(new InterruptedException());
     when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
         .thenReturn(future);
 
@@ -140,8 +140,7 @@ public class FetchCommandTest {
   @Test
   public void shouldUpdateStateWhenExecutionException()
       throws InterruptedException, ExecutionException, TimeoutException {
-    when(future.get(anyLong(), eq(TimeUnit.SECONDS)))
-        .thenThrow(new ExecutionException(new Exception()));
+    when(future.get()).thenThrow(new ExecutionException(new Exception()));
     when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
         .thenReturn(future);
 
@@ -159,6 +158,7 @@ public class FetchCommandTest {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new TimeoutException());
     when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
         .thenReturn(future);
+    when(source.getTimeout()).thenReturn(1);
 
     TimeoutException e =
         assertThrows(
