@@ -213,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "187d322a_29e037d6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:01:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c4bd4e9_c2032a8a",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d271f1f9_5e4c677f",
@@ -226,6 +250,24 @@
       "writtenOn": "2023-05-17T21:30:32Z",
       "side": 1,
       "message": "Missing the event timestamp.",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbbda020_cd3b4fdb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:01:16Z",
+      "side": 1,
+      "message": "Not needed here: we can use it as a value an then compare it.",
+      "parentUuid": "d271f1f9_5e4c677f",
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

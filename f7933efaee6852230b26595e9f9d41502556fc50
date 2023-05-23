@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ba90d0b_e4f8ec7c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:01:16Z",
+      "side": 1,
+      "message": "Missing copyright.",
+      "revId": "f7933efaee6852230b26595e9f9d41502556fc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb1c98f0_a3dc4f28",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:01:16Z",
+      "side": 1,
+      "message": "Missing braces, it would also be useful to add a debug message.",
+      "range": {
+        "startLine": 131,
+        "startChar": 50,
+        "endLine": 131,
+        "endChar": 58
+      },
+      "revId": "f7933efaee6852230b26595e9f9d41502556fc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
