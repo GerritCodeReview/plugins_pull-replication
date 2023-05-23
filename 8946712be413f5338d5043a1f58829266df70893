@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf8c40bf_8c6c982d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-23T20:58:02Z",
+      "side": 1,
+      "message": "I think it would be good to do a E2E test locally.\n@ponch78@gmail.com created a docker compose with the broker.",
+      "revId": "8946712be413f5338d5043a1f58829266df70893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
