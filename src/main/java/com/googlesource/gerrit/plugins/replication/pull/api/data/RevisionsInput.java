@@ -21,11 +21,14 @@ public class RevisionsInput {
 
   private String refName;
 
+  private long eventCreatedOn;
   private RevisionData[] revisionsData;
 
-  public RevisionsInput(String label, String refName, RevisionData[] revisionsData) {
+  public RevisionsInput(
+      String label, String refName, long eventCreatedOn, RevisionData[] revisionsData) {
     this.label = label;
     this.refName = refName;
+    this.eventCreatedOn = eventCreatedOn;
     this.revisionsData = revisionsData;
   }
 
@@ -35,6 +38,10 @@ public class RevisionsInput {
 
   public String getRefName() {
     return refName;
+  }
+
+  public long getEventCreatedOn() {
+    return eventCreatedOn;
   }
 
   public RevisionData[] getRevisionsData() {
