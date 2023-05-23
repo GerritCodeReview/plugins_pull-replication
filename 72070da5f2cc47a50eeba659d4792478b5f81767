@@ -33,6 +33,23 @@
       "message": "I have built and run the tests locally and it works fine. I haven\u0027t tested it e2e yet.",
       "revId": "72070da5f2cc47a50eeba659d4792478b5f81767",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75d66df2_a7dcd2aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-23T09:31:48Z",
+      "side": 1,
+      "message": "Tested locally e2e and it looks ok",
+      "revId": "72070da5f2cc47a50eeba659d4792478b5f81767",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
