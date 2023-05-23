@@ -235,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f33c080_88cad8a6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T18:26:46Z",
+      "side": 1,
+      "message": "I\u0027ve changed it to the timestamp of the ref-update event, so that we can use it to consider as __done__ all the apply objects for that ref and \u003c\u003d of that time.",
+      "parentUuid": "e41fa37e_e72bb73b",
+      "range": {
+        "startLine": 47,
+        "startChar": 44,
+        "endLine": 47,
+        "endChar": 51
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2752cda6_5f366ccc",
@@ -248,6 +272,30 @@
       "writtenOn": "2023-05-17T21:30:32Z",
       "side": 1,
       "message": "Why only the last one? If the apply-objects has succeeded, I believe we should remember that all SHA1s have been applied to that ref. Any attempt to fetch any of them should be discarded, if they match the same event timestamp.",
+      "range": {
+        "startLine": 96,
+        "startChar": 38,
+        "endLine": 96,
+        "endChar": 77
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a67db08b_143b9184",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T18:26:46Z",
+      "side": 1,
+      "message": "Also, it would be best to apply on the ApplyObject command, so that we have the exact status of the execution for each one of them.",
+      "parentUuid": "2752cda6_5f366ccc",
       "range": {
         "startLine": 96,
         "startChar": 38,
