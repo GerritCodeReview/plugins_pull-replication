@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1318484f_5b77d3da",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab4c20cc_ca64c055",
+      "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57b9ab0f_3a1e205b",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-23T20:31:04Z",
       "side": 1,
       "message": "I think you are missing an assertion in `sampleRevisionData`:\n```\nassertThat(\n           cache.getIfPresent(\n                ApplyObjectsCacheKey.create(\n                    sampleRevisionData.getCommitObject().getSha1(),\n                    TEST_REF_NAME,\n                    TEST_PROJECT_NAME.get())))\n        .isNotNull();\n  }\n```",
+      "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccb36065_8ff6e299",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommandTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57b9ab0f_3a1e205b",
       "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ff303b3_8107f1b8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:48:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "706549ce_29b14d33",
+      "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "975103af_57d5e092",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-05-23T20:31:04Z",
       "side": 1,
       "message": "I think we are missing a test (should schedule) when there is a hit in the cache but :\n```\nrefUpdateEvent.eventCreatedOn \u003e refUpdateSuccededTimestamp;\n```        \n?",
+      "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "744bab62_be42e34b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:48:06Z",
+      "side": 1,
+      "message": "Yep, I need to add that extra test-case.",
+      "parentUuid": "975103af_57d5e092",
       "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
