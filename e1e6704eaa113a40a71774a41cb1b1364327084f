@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9340e44e_025ba878",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:28:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a56ddd25_2b37f8e4",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "329aad02_1d077cc5",
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "Set to 1 minute.",
       "parentUuid": "35e73f4e_8b70337b",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a7750af_f9a5afbc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectCacheModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T20:28:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97b40201_51ea46fa",
       "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
