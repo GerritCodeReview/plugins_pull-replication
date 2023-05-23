@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab4c20cc_ca64c055",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-23T20:31:04Z",
+      "side": 1,
+      "message": "`lastRevisionData` is the right name?",
+      "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57b9ab0f_3a1e205b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommandTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-23T20:31:04Z",
+      "side": 1,
+      "message": "I think you are missing an assertion in `sampleRevisionData`:\n```\nassertThat(\n           cache.getIfPresent(\n                ApplyObjectsCacheKey.create(\n                    sampleRevisionData.getCommitObject().getSha1(),\n                    TEST_REF_NAME,\n                    TEST_PROJECT_NAME.get())))\n        .isNotNull();\n  }\n```",
+      "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "706549ce_29b14d33",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-23T20:31:04Z",
+      "side": 1,
+      "message": "Dont you need to set `eventCreatedOn` in `RefUpdatedEvent event`?",
+      "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "975103af_57d5e092",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-23T20:31:04Z",
+      "side": 1,
+      "message": "I think we are missing a test (should schedule) when there is a hit in the cache but :\n```\nrefUpdateEvent.eventCreatedOn \u003e refUpdateSuccededTimestamp;\n```        \n?",
+      "revId": "2dc240cdec9a4f5457f60de1a330b624390d010b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
