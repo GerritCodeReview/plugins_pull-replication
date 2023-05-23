@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89069664_c0e2034f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T21:01:34Z",
+      "side": 1,
+      "message": "LGTM, just a couple of nits.",
+      "revId": "9f3813f8f5e3b2571789a1c0319a90faffe1a346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8081bb_5cb9374e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T21:01:34Z",
+      "side": 1,
+      "message": "This can be a static final long.\n```suggestion\n  private static final long DUMMY_EVENT_TIMESTAMP \u003d System.currentTimeMillis();\n```",
+      "range": {
+        "startLine": 59,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 26
+      },
+      "revId": "9f3813f8f5e3b2571789a1c0319a90faffe1a346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b41c900_7aaaf428",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T21:01:34Z",
+      "side": 1,
+      "message": "Do we really care about being the current time? It is best to rely on constants if you do not need to rely on real epoch instant here.",
+      "range": {
+        "startLine": 77,
+        "startChar": 24,
+        "endLine": 77,
+        "endChar": 51
+      },
+      "revId": "9f3813f8f5e3b2571789a1c0319a90faffe1a346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
