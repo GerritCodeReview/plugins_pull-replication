@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "302199a4_06a738a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-23T21:01:55Z",
+      "side": 1,
+      "message": "Not sure if I understand. As I stated in the commit message only `refs/changes/**/meta` will fallback to the apply objects by default.\n\n\u003e I\u0027m wondering what is actually the use case to put sth there as commit message/doc doesn\u0027t mention it and it is not clear to me.\n\nIt\u0027s in the commit message, to avoid git fetch operation\n\n\u003e IOW what refs will be a subject of such treatment: master? all refs? user\u0027s refs? if not all why not? What is the decisive factor to put a ref into this setting?\n\nIt depends on the client use-case in theory this should happen only to meta refs because those are the only orphan refs we have in Gerrit. But for example we have a client which is creating build branches based on a extra empty commit. So they can add those additional refs to fallback to apply objects. But there is no magic rule we can define. If user has MissingParentObject exception he can investigate why and decide if he wants to add this extra overhead of retrying with the larger history before fallback to git fetch",
+      "parentUuid": "759361a6_62ce881d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "0dfadfd3d14fb5655b04f2ef5d750e3ba5316a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "39a6d535_a5d669ce",
