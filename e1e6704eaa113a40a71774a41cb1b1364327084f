@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97b40201_51ea46fa",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectCacheModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T19:16:59Z",
+      "side": 1,
+      "message": "Set to 1 minute.",
+      "parentUuid": "35e73f4e_8b70337b",
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1981bbc5_d72e16bc",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ApplyObjectsCacheKey.java",
         "patchSetId": 15
@@ -391,6 +409,30 @@
       "side": 1,
       "message": "I believe the `sha1` is definitely needed (the same ref could be updated more than once in a rapid sequence with different `sha1` values) and also the timestamp of the event.\n\nTo recap:\n- Event timestamp to add to the key\n- Store *ALL* SHA1s as separate entries, to remember that the ref has been applied to all those SHA1s.",
       "parentUuid": "4e200b58_87021ca9",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 99,
+        "endChar": 58
+      },
+      "revId": "e1e6704eaa113a40a71774a41cb1b1364327084f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fb11ad2_3fb7bfde",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommand.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T19:16:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ee16a0e_24b9361b",
       "range": {
         "startLine": 99,
         "startChar": 14,
