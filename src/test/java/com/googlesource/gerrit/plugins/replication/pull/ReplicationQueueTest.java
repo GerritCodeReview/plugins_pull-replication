@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.Files.createTempDirectory;
 import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.anyString;
@@ -137,10 +138,12 @@ public class ReplicationQueueTest {
 
     when(fetchClientFactory.create(any())).thenReturn(fetchRestApiClient);
     lenient()
-        .when(fetchRestApiClient.callSendObject(any(), anyString(), anyBoolean(), any(), any()))
+        .when(
+            fetchRestApiClient.callSendObject(
+                any(), anyString(), anyLong(), anyBoolean(), any(), any()))
         .thenReturn(httpResult);
     lenient()
-        .when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
+        .when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
     when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
@@ -172,7 +175,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
+    verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());
   }
 
   @Test
@@ -183,7 +186,8 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient, never()).callSendObjects(any(), anyString(), any(), any());
+    verify(fetchRestApiClient, never())
+        .callSendObjects(any(), anyString(), anyLong(), any(), any());
   }
 
   @Test
@@ -218,7 +222,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callSendObjects(any(), anyString(), any(), any());
+    verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());
   }
 
   @Test
@@ -255,7 +259,7 @@ public class ReplicationQueueTest {
 
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isParentObjectMissing()).thenReturn(true);
-    when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
+    when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
         .thenReturn(httpResult);
 
     objectUnderTest.onEvent(event);
@@ -271,13 +275,13 @@ public class ReplicationQueueTest {
 
     when(httpResult.isSuccessful()).thenReturn(false, true);
     when(httpResult.isParentObjectMissing()).thenReturn(true, false);
-    when(fetchRestApiClient.callSendObjects(any(), anyString(), any(), any()))
+    when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
         .thenReturn(httpResult);
 
     objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient, times(2))
-        .callSendObjects(any(), anyString(), revisionsDataCaptor.capture(), any());
+        .callSendObjects(any(), anyString(), anyLong(), revisionsDataCaptor.capture(), any());
     List<List<RevisionData>> revisionsDataValues = revisionsDataCaptor.getAllValues();
     assertThat(revisionsDataValues).hasSize(2);
 

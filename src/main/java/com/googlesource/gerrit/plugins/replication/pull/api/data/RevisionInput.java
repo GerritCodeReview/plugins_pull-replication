@@ -23,11 +23,14 @@ public class RevisionInput {
 
   private String refName;
 
+  private long eventCreatedOn;
   private RevisionData revisionData;
 
-  public RevisionInput(String label, String refName, RevisionData revisionData) {
+  public RevisionInput(
+      String label, String refName, long eventCreatedOn, RevisionData revisionData) {
     this.label = label;
     this.refName = refName;
+    this.eventCreatedOn = eventCreatedOn;
     this.revisionData = revisionData;
   }
 
@@ -41,6 +44,10 @@ public class RevisionInput {
 
   public RevisionData getRevisionData() {
     return revisionData;
+  }
+
+  public long getEventCreatedOn() {
+    return eventCreatedOn;
   }
 
   public void validate() {
