@@ -33,6 +33,52 @@
       "message": "LGTM. Brilliant job.",
       "revId": "8946712be413f5338d5043a1f58829266df70893",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b965cdd_adfc1802",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-23T21:41:46Z",
+      "side": 1,
+      "message": "could we also add the `eventCreatedOn` field. It will make debugging easier",
+      "range": {
+        "startLine": 137,
+        "startChar": 12,
+        "endLine": 137,
+        "endChar": 49
+      },
+      "revId": "8946712be413f5338d5043a1f58829266df70893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6492b5e_cb93a783",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-23T21:41:46Z",
+      "side": 1,
+      "message": "could we set some real epoch value",
+      "range": {
+        "startLine": 66,
+        "startChar": 51,
+        "endLine": 66,
+        "endChar": 53
+      },
+      "revId": "8946712be413f5338d5043a1f58829266df70893",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
