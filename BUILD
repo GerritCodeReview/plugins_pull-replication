@@ -26,7 +26,6 @@ junit_tests(
     size = "large",
     srcs = glob([
         "src/test/java/**/*Test.java",
-        "src/test/java/**/*IT.java",
     ]),
     tags = ["pull-replication"],
     visibility = ["//visibility:public"],
@@ -37,6 +36,19 @@ junit_tests(
         "@events-broker//jar",
     ],
 )
+
+[junit_tests(
+    name = f[:f.index(".")].replace("/", "_"),
+    srcs = glob([f + "src/test/java/**/PullReplicationIT.java"]),
+    tags = ["pull-replication"],
+    visibility = ["//visibility:public"],
+    deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
+        ":pull-replication__plugin",
+                ":pull_replication_util",
+                "//plugins/replication",
+                "@events-broker//jar"
+    ],
+) for f in glob(["src/test/java/**/*IT.java"])]
 
 java_library(
     name = "pull_replication_util",
