@@ -86,6 +86,24 @@
       "message": "Thanks for the fix. Would this also apply then to earlier releases of the pull-replication plugin? (\u003c v3.7)\n\nCan you also add a test case for it?",
       "revId": "7db81e0f3512b6faffcd187a497d1f1f1acba22c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c66d368_05902669",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1160733
+      },
+      "writtenOn": "2023-05-25T11:46:06Z",
+      "side": 1,
+      "message": "It\u0027s my pleasure. In our practice, this fix can work fine in stable-3.5/3.6/3.7/3.8, we use pull-replication from stable-3.5 and find this bug in stable-3.7. Now our version is on the master branch(51b2633).\n\nI will try to make a test for it. \n\nWe also find another bug in CGitFetchClient: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/374954",
+      "parentUuid": "7fcad543_72b846a9",
+      "revId": "7db81e0f3512b6faffcd187a497d1f1f1acba22c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
