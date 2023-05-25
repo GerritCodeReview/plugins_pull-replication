@@ -69,6 +69,23 @@
       "parentUuid": "2a3bde08_450b3ee6",
       "revId": "7db81e0f3512b6faffcd187a497d1f1f1acba22c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fcad543_72b846a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-25T10:51:32Z",
+      "side": 1,
+      "message": "Thanks for the fix. Would this also apply then to earlier releases of the pull-replication plugin? (\u003c v3.7)\n\nCan you also add a test case for it?",
+      "revId": "7db81e0f3512b6faffcd187a497d1f1f1acba22c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
