@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d04d1213_68cf5aef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-25T05:34:00Z",
+      "side": 1,
+      "message": "Here and below: Wrap the line at 73 (or less) characters. See this commendation about commit message: [2].\n\n[2]: https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#commit-message",
+      "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1c960ab_fc143f37",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
