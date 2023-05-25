@@ -33,6 +33,24 @@
       "message": "Hi Dalio, thank you for your contribution to the pull-replication.\nI will try to reproduce the issue and validate your fix. My understanding was that when we create a new project, on replica nodes we create empty repository and then we trigger git fetch operation for all refs[1]. We do that to make sure that all refs from the primary node and synced up on replica node. Could you please check if that fetch is successful and if you still see the issue with the repo clone\n\n1. https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.7/src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java?autodive\u003d0%2F#494",
       "revId": "7db81e0f3512b6faffcd187a497d1f1f1acba22c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a3bde08_450b3ee6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1160733
+      },
+      "writtenOn": "2023-05-25T09:10:56Z",
+      "side": 1,
+      "message": "We find this issue when we import a repo from Gerrit(v3.2.3) to v3.7.2. \n\nFirstly, we create an empty repo in our Gerrit(v3.7.2) without [Create initial empty commit], the repo can create and sync successfully as above code works.\n\nThen we \"cd\" in the old Gerrit(v3.2.3) repo directory and use the following commands to push repo to Gerrit(v3.7.2) Master:\ngit push -o notedb\u003dallow ssh://gerrit@10.162.55.1:29418/vela/nuttx/drivers/segger/SystemView +refs/heads/*:refs/heads/*\ngit push -o notedb\u003dallow ssh://gerrit@10.162.55.1:29418/vela/nuttx/drivers/segger/SystemView +refs/changes/*:refs/changes/*\ngit push -o notedb\u003dallow ssh://gerrit@10.162.55.1:29418/vela/nuttx/drivers/segger/SystemView  +refs/tags/*:refs/tags/* \n\nAnd we find that if we don\u0027t create an initial create, we can\u0027t download from the Pull-Replcation Slave, because the Master didn\u0027t send tree objects.",
+      "parentUuid": "0d77f0b3_951ea641",
+      "revId": "7db81e0f3512b6faffcd187a497d1f1f1acba22c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
