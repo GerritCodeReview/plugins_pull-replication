@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1c960ab_fc143f37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-25T05:28:54Z",
+      "side": 1,
+      "message": "Mention, that this will also benefit from distributed build e.g. RBE backend that potentially improve performance as well.",
+      "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e610b2b0_d118c97b",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-25T05:28:54Z",
+      "side": 1,
+      "message": "This can be removed now, as it was recently added as temporary solution. This change is a proper fix for the timeout problem. The default \"moderate\" should be fine now: [1].\n\n[1]: https://bazel.build/reference/test-encyclopedia#role-test-runner",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a610874c_7b242170",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-25T05:28:54Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be hard coded, effectively, it\u0027s just running one single test for all `glob([\"src/test/java/**/*IT.java\"])`. It should be just: `srcs \u003d [f]`.",
+      "range": {
+        "startLine": 42,
+        "startChar": 21,
+        "endLine": 42,
+        "endChar": 62
+      },
+      "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
