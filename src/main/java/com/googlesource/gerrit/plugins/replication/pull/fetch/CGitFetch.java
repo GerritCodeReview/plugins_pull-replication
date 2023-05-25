@@ -28,6 +28,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -101,7 +103,9 @@ public class CGitFetch implements Fetch {
     if (credentialsProvider.supports(user, pass)
         && credentialsProvider.get(uri, user, pass)
         && uri.getScheme() != null
-        && !"ssh".equalsIgnoreCase(uri.getScheme())) {
+        && !"ssh".equalsIgnoreCase(uri.getScheme())
+        && StringUtils.isNotEmpty(user.getValue())
+        && ArrayUtils.isNotEmpty(pass.getValue())) {
       return uri.setUser(user.getValue()).setPass(String.valueOf(pass.getValue()));
     }
 
