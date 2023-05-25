@@ -20,12 +20,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.Truth8;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Id;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -42,6 +44,9 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -85,6 +90,54 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     assertThat(revisionData.getTreeObject().getContent()).isEmpty();
 
     assertThat(revisionData.getBlobs()).isEmpty();
+  }
+
+  @Test
+  public void shouldReadForcePushCommitWithoutParent() throws Exception {
+    String refName = "refs/heads/master";
+    Project.NameKey emptyProjectName =
+        createProjectOverAPI("emptyProject", project, false, /* submitType= */ null);
+    TestRepository<InMemoryRepository> emptyRepo = cloneProject(emptyProjectName);
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            emptyRepo,
+            "subject1",
+            ImmutableMap.of("a/fileA.txt", "content 1", "b/fileB.txt", "content 2"));
+    push.setForce(true);
+    Result pushResult = push.to(refName);
+    pushResult.assertOkStatus();
+
+    try (Repository repo = repoManager.openRepository(emptyProjectName)) {
+      Optional<RevisionData> revisionDataOption =
+          Optional.ofNullable(repo.exactRef(refName))
+              .map(Ref::getObjectId)
+              .flatMap(
+                  objId -> readRevisionFromObjectUnderTest(emptyProjectName, refName, objId, 0));
+
+      assertThat(revisionDataOption.isPresent()).isTrue();
+      RevisionData revisionData = revisionDataOption.get();
+      assertThat(revisionData.getCommitObject()).isNotNull();
+      assertThat(revisionData.getCommitObject().getType()).isEqualTo(Constants.OBJ_COMMIT);
+      assertThat(revisionData.getCommitObject().getContent()).isNotEmpty();
+
+      assertThat(revisionData.getTreeObject()).isNotNull();
+      assertThat(revisionData.getTreeObject().getType()).isEqualTo(Constants.OBJ_TREE);
+      assertThat(revisionData.getTreeObject().getContent()).isNotEmpty();
+
+      assertThat(revisionData.getBlobs()).hasSize(4);
+
+      assertThat(
+              revisionData.getBlobs().stream()
+                  .filter(b -> b.getType() == Constants.OBJ_TREE)
+                  .collect(Collectors.toList()))
+          .hasSize(2);
+      assertThat(
+              revisionData.getBlobs().stream()
+                  .filter(b -> b.getType() == Constants.OBJ_BLOB)
+                  .collect(Collectors.toList()))
+          .hasSize(2);
+    }
   }
 
   @Test
@@ -144,6 +197,11 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
 
   private Optional<RevisionData> readRevisionFromObjectUnderTest(
       String refName, ObjectId objId, int maxParentsDepth) {
+    return readRevisionFromObjectUnderTest(project, refName, objId, maxParentsDepth);
+  }
+
+  private Optional<RevisionData> readRevisionFromObjectUnderTest(
+      Project.NameKey project, String refName, ObjectId objId, int maxParentsDepth) {
     try {
       return objectUnderTest.read(project, objId, refName, maxParentsDepth);
     } catch (Exception e) {

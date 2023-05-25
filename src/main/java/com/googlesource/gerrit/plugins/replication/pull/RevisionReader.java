@@ -140,6 +140,7 @@ public class RevisionReader {
           blobs = readBlobs(project, refName, git, totalRefSize, diffEntries);
         } else {
           walk.setRecursive(true);
+          walk.setPostOrderTraversal(true);
           walk.addTree(tree);
           blobs = readBlobs(project, refName, git, totalRefSize, walk);
         }
