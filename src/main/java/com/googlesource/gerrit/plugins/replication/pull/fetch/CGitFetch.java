@@ -101,10 +101,11 @@ public class CGitFetch implements Fetch {
     if (credentialsProvider.supports(user, pass)
         && credentialsProvider.get(uri, user, pass)
         && uri.getScheme() != null
-        && !"ssh".equalsIgnoreCase(uri.getScheme())) {
+        && !"ssh".equalsIgnoreCase(uri.getScheme())
+        && !StringUtils.isEmptyOrNull(user.getValue())
+        && !StringUtils.isEmptyOrNull(pass.getValue())) {
       return uri.setUser(user.getValue()).setPass(String.valueOf(pass.getValue()));
     }
-
     return uri;
   }
 
