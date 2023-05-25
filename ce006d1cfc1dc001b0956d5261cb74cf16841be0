@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb993944_1f1b935d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-25T17:52:44Z",
+      "side": 1,
+      "message": "This is coming with the drawback of sending duplicate objects though: the apply-object doesn\u0027t really do negotiation, so we will send all the objects *we can* hoping that it would also contain the parent.\n\nWith `refs/changes/*meta` it was way easier because we know that there is no common parent, so sending the whole chain was OK. Here the situation *could* be different, so we need to make the Gerrit admin aware of the consequences.",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "ce006d1cfc1dc001b0956d5261cb74cf16841be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
