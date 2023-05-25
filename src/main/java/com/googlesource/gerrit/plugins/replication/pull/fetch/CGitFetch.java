@@ -35,8 +35,9 @@ import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.util.StringUtils;
 
-public class CGitFetch implements Fetch {
+public class CGitFetch implements com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch {
 
   private File localProjectDirectory;
   private URIish uri;
@@ -57,7 +58,7 @@ public class CGitFetch implements Fetch {
   }
 
   @Override
-  public List<RefUpdateState> fetch(List<RefSpec> refsSpec) throws IOException {
+  public List<com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState> fetch(List<RefSpec> refsSpec) throws IOException {
     List<String> refs = refsSpec.stream().map(s -> s.toString()).collect(Collectors.toList());
     List<String> command = Lists.newArrayList("git", "fetch", uri.toPrivateASCIIString());
     command.addAll(refs);
@@ -83,11 +84,11 @@ public class CGitFetch implements Fetch {
       return refsSpec.stream()
           .map(
               value -> {
-                return new RefUpdateState(value.getSource(), RefUpdate.Result.NEW);
+                return new com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState(value.getSource(), RefUpdate.Result.NEW);
               })
           .collect(Collectors.toList());
     } catch (TransportException e) {
-      throw PermanentTransportException.wrapIfPermanentTransportException(e);
+      throw com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransportException.wrapIfPermanentTransportException(e);
     } catch (InterruptedException e) {
       repLog.error(
           "[{}] Thread interrupted during the fetch from: {}, refs: {}", taskIdHex, uri, refs);
@@ -101,7 +102,10 @@ public class CGitFetch implements Fetch {
     if (credentialsProvider.supports(user, pass)
         && credentialsProvider.get(uri, user, pass)
         && uri.getScheme() != null
-        && !"ssh".equalsIgnoreCase(uri.getScheme())) {
+        && !"ssh".equalsIgnoreCase(uri.getScheme())
+        && !StringUtils.isEmptyOrNull(user.getValue())
+        && pass.getValue() != null
+        && pass.getValue().length > 0) {
       return uri.setUser(user.getValue()).setPass(String.valueOf(pass.getValue()));
     }
 
