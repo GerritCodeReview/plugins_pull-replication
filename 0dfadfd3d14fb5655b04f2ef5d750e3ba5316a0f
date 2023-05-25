@@ -154,6 +154,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae6680f0_33da43f0",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-25T09:32:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51fa88e9_32f72086",
+      "revId": "0dfadfd3d14fb5655b04f2ef5d750e3ba5316a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "756b2b51_61d62512",
@@ -171,6 +189,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5faf40fc_c4664ef5",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-25T09:32:30Z",
+      "side": 1,
+      "message": "I agree we should have a follow up task to improve the documentation",
+      "parentUuid": "756b2b51_61d62512",
+      "revId": "0dfadfd3d14fb5655b04f2ef5d750e3ba5316a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7adbb040_a3e8eb15",
@@ -184,6 +220,30 @@
       "writtenOn": "2023-05-18T08:18:47Z",
       "side": 1,
       "message": "nit: either `matches are` or `match is`",
+      "range": {
+        "startLine": 268,
+        "startChar": 62,
+        "endLine": 268,
+        "endChar": 71
+      },
+      "revId": "0dfadfd3d14fb5655b04f2ef5d750e3ba5316a0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d2b00ca_729e3e3d",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-25T09:32:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7adbb040_a3e8eb15",
       "range": {
         "startLine": 268,
         "startChar": 62,
