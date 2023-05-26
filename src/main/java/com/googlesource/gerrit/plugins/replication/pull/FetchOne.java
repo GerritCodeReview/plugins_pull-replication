@@ -41,6 +41,7 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransport
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -336,23 +337,33 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     try {
       long startedAt = context.getStartTime();
       long delay = NANOSECONDS.toMillis(startedAt - createdAt);
-      metrics.record(config.getName(), delay, retryCount);
       git = gitManager.openRepository(projectName);
-      runImpl();
-      long elapsed = NANOSECONDS.toMillis(context.stop());
-      Optional<Long> elapsedEnd2End =
-          apiRequestMetrics
-              .flatMap(metrics -> metrics.stop(config.getName()))
-              .map(NANOSECONDS::toMillis);
-      repLog.info(
-          "[{}] {} replication from {} completed in {}ms, {}ms delay, {} retries{}",
-          taskIdHex,
-          replicationType,
-          uri,
-          elapsed,
-          delay,
-          retryCount,
-          elapsedEnd2End.map(el -> String.format(", E2E %dms", el)).orElse(""));
+      List<RefSpec> fetchRefSpecs = runImpl();
+
+      if (fetchRefSpecs.isEmpty()) {
+        repLog.info(
+            "[{}] Replication from {} finished but no refs were replicated, {}ms delay, {} retries",
+            taskIdHex,
+            uri,
+            delay,
+            retryCount);
+      } else {
+        metrics.record(config.getName(), delay, retryCount);
+        long elapsed = NANOSECONDS.toMillis(context.stop());
+        Optional<Long> elapsedEnd2End =
+            apiRequestMetrics
+                .flatMap(metrics -> metrics.stop(config.getName()))
+                .map(NANOSECONDS::toMillis);
+        repLog.info(
+            "[{}] {} replication from {} completed in {}ms, {}ms delay, {} retries{}",
+            taskIdHex,
+            replicationType,
+            uri,
+            elapsed,
+            delay,
+            retryCount,
+            elapsedEnd2End.map(el -> String.format(", E2E %dms", el)).orElse(""));
+      }
     } catch (RepositoryNotFoundException e) {
       stateLog.error(
           "["
@@ -428,7 +439,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     repLog.info("[{}] Cannot replicate from {}. It was canceled while running", taskIdHex, uri, e);
   }
 
-  private void runImpl() throws IOException {
+  private List<RefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
 
@@ -445,7 +456,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       delta.remove(inexistentRef);
       if (delta.isEmpty()) {
         repLog.warn("[{}] Empty replication task, skipping.", taskIdHex);
-        return;
+        return Collections.emptyList();
       }
 
       runImpl();
@@ -453,6 +464,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       notifyRefReplicatedIOException();
       throw e;
     }
+    return fetchRefSpecs;
   }
 
   public List<RefSpec> getFetchRefSpecs() {
