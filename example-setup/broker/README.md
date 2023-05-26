@@ -10,7 +10,7 @@ into this directory:
 ```bash
 cp $GERRIT_HOME/bazel-bin/plugins/pull-replication/pull-replication.jar .
 cp $GERRIT_HOME/bazel-bin/plugins/events-kafka/events-kafka.jar .
-cp $GERRIT_HOME/bazel-bin/plugins/events-broker/libevents-broker.jar .
+cp $GERRIT_HOME/bazel-bin/plugins/events-broker/events-broker.jar .
 ```
 
 Start up the application using docker compose:

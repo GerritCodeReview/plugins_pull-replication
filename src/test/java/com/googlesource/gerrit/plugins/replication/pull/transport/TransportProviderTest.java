@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package org.eclipse.jgit.transport;
+package com.googlesource.gerrit.plugins.replication.pull.transport;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.eclipse.jgit.transport.HttpConfig.EXTRA_HEADER;
@@ -28,6 +28,11 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
+import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.TransferConfig;
+import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.TransportHttp;
+import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,7 +74,9 @@ public class TransportProviderTest {
 
     URIish urIish = new URIish("http://some-host/some-path");
     Transport transport = transportProvider.open(repository, urIish);
-    assertThat(transport).isInstanceOf(TransportHttpWithBearerToken.class);
+
+    // TODO(davido): We cannot access headers to check that the bearer token is set.
+    assertThat(transport).isInstanceOf(TransportHttp.class);
   }
 
   @Test
@@ -84,7 +91,8 @@ public class TransportProviderTest {
 
     URIish urIish = new URIish("ssh://some-host/some-path");
     Transport transport = transportProvider.open(repository, urIish);
-    assertThat(transport).isNotInstanceOf(TransportHttpWithBearerToken.class);
+
+    assertThat(transport).isNotInstanceOf(TransportHttp.class);
   }
 
   @Test
@@ -98,6 +106,6 @@ public class TransportProviderTest {
 
     URIish urIish = new URIish("ssh://some-host/some-path");
     Transport transport = transportProvider.open(repository, urIish);
-    assertThat(transport).isNotInstanceOf(TransportHttpWithBearerToken.class);
+    assertThat(transport).isNotInstanceOf(TransportHttp.class);
   }
 }
