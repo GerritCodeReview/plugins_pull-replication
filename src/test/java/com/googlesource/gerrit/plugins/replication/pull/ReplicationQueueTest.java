@@ -31,6 +31,7 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.gerrit.acceptance.TestMetricMaker;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -102,6 +103,7 @@ public class ReplicationQueueTest {
   private ReplicationQueue objectUnderTest;
   private SitePaths sitePaths;
   private Path pluginDataPath;
+  private final TestMetricMaker testMetricMaker = new TestMetricMaker();
 
   @Before
   public void setup() throws IOException, LargeObjectException {
@@ -147,8 +149,9 @@ public class ReplicationQueueTest {
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
 
+    testMetricMaker.reset();
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
-    fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
+    fetchMetrics = new FetchReplicationMetrics("pull-replication", testMetricMaker);
 
     objectUnderTest =
         new ReplicationQueue(
@@ -390,6 +393,21 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onHeadUpdated(new FakeHeadUpdateEvent("oldHead", newHEAD, projectName));
     verify(source, never()).scheduleUpdateHead(any(), any(), any());
+  }
+
+  @Test
+  public void shouldUpdateTheFetchSchedulingTaskMetricWhenTargetAcceptsAFetchTask()
+      throws IOException, LargeObjectException {
+    TestEvent event = new TestEvent("refs/changes/01/1/meta");
+    objectUnderTest.start();
+
+    when(revReader.read(any(), any(), anyString(), anyInt())).thenThrow(IOException.class);
+
+    objectUnderTest.onGitBatchRefUpdate(event);
+
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    assertThat(testMetricMaker.getTimer("replication_fetch_task_scheduling_latency"))
+        .isGreaterThan(0);
   }
 
   protected static Path createTempPath(String prefix) throws IOException {

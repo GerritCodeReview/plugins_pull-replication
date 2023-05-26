@@ -29,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 public class FetchReplicationMetrics {
   private final Timer1<String> executionTime;
   private final Timer1<String> end2EndExecutionTime;
+  private final Timer1<String> fetchTaskSchedulingTime;
   private final Histogram1<String> executionDelay;
   private final Histogram1<String> executionRetries;
 
@@ -55,6 +56,14 @@ public class FetchReplicationMetrics {
         metricMaker.newTimer(
             "replication_end_2_end_latency",
             new Description("Time spent end-2-end fetching from remote source.")
+                .setCumulative()
+                .setUnit(Description.Units.MILLISECONDS),
+            SOURCE_FIELD);
+
+    fetchTaskSchedulingTime =
+        metricMaker.newTimer(
+            "replication_fetch_task_scheduling_latency",
+            new Description("Time spent scheduling a fetch task to the remote target.")
                 .setCumulative()
                 .setUnit(Description.Units.MILLISECONDS),
             SOURCE_FIELD);
@@ -116,5 +125,15 @@ public class FetchReplicationMetrics {
   public void record(String name, long delay, long retries) {
     executionDelay.record(name, delay);
     executionRetries.record(name, retries);
+  }
+
+  /**
+   * Start the fetch task scheduling timer from a source.
+   *
+   * @param name the target name
+   * @return the timer context
+   */
+  public Timer1.Context<String> startFetchTaskSchedulingTimer(String name) {
+    return fetchTaskSchedulingTime.start(name);
   }
 }
