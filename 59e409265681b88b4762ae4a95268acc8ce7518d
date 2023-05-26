@@ -8,12 +8,12 @@
       "updated": "2023-05-26T09:08:20Z"
     },
     "gerritforge:pull-replication-format-3852e64366bb37d13b8baf8af9b15cfd38eb9227": {
-      "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/plugin-pull-replication-verifier/job/59%252F375159%252F2/1/console",
-      "started": "2023-05-26T09:08:08Z",
+      "state": "RUNNING",
+      "url": "https://gerrit-ci.gerritforge.com/job/plugin-pull-replication-verifier/job/59%252F375159%252F2/2/console",
+      "started": "2023-05-26T09:09:23Z",
       "finished": "2023-05-26T09:08:16Z",
       "created": "2023-05-26T09:08:09Z",
-      "updated": "2023-05-26T09:08:16Z"
+      "updated": "2023-05-26T09:09:23Z"
     }
   }
 }
