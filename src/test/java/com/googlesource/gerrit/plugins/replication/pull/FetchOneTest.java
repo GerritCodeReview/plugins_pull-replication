@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import com.google.gerrit.acceptance.TestMetricMaker;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.util.IdGenerator;
@@ -55,6 +55,7 @@ public class FetchOneTest {
   private final Project.NameKey PROJECT_NAME = Project.NameKey.parse(TEST_PROJECT_NAME);
   private final String TEST_REF = "refs/heads/refForReplicationTask";
   private final String URI_PATTERN = "http://test.com/" + TEST_PROJECT_NAME + ".git";
+  private final TestMetricMaker testMetricMaker = new TestMetricMaker();
 
   @Mock private GitRepositoryManager grm;
   @Mock private Repository repository;
@@ -73,8 +74,9 @@ public class FetchOneTest {
 
   @Before
   public void setup() throws Exception {
+    testMetricMaker.reset();
     FetchReplicationMetrics fetchReplicationMetrics =
-        new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
+        new FetchReplicationMetrics("pull-replication", testMetricMaker);
     urIish = new URIish(URI_PATTERN);
 
     grm = mock(GitRepositoryManager.class);
@@ -691,6 +693,50 @@ public class FetchOneTest {
     verify(states.get(0), never())
         .notifyRefReplicated(
             TEST_PROJECT_NAME, TEST_REF, urIish, ReplicationState.RefFetchResult.FAILED, null);
+  }
+
+  @Test
+  public void shouldNotRecordReplicationLatencyMetricIfAllRefsAreExcluded() throws Exception {
+    setupMocks(true);
+    String filteredRef = "refs/heads/filteredRef";
+    Set<String> refSpecs = Set.of(TEST_REF, filteredRef);
+    createTestStates(TEST_REF, 1);
+    createTestStates(filteredRef, 1);
+    setupFetchFactoryMock(
+        List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()),
+        Optional.of(List.of(TEST_REF)));
+    objectUnderTest.addRefs(refSpecs);
+    objectUnderTest.setReplicationFetchFilter(replicationFilter);
+    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
+    when(replicationFilter.get()).thenReturn(mockFilter);
+    when(mockFilter.filter(TEST_PROJECT_NAME, refSpecs)).thenReturn(Collections.emptySet());
+
+    objectUnderTest.run();
+
+    verify(pullReplicationApiRequestMetrics, never()).stop(any());
+    assertThat(testMetricMaker.getTimer("replication_latency")).isEqualTo(0);
+  }
+
+  @Test
+  public void shouldRecordReplicationLatencyMetricWhenAtLeastOneRefWasReplicated() throws Exception {
+    setupMocks(true);
+    String filteredRef = "refs/heads/filteredRef";
+    Set<String> refSpecs = Set.of(TEST_REF, filteredRef);
+    createTestStates(TEST_REF, 1);
+    createTestStates(filteredRef, 1);
+    setupFetchFactoryMock(
+        List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()),
+        Optional.of(List.of(TEST_REF)));
+    objectUnderTest.addRefs(refSpecs);
+    objectUnderTest.setReplicationFetchFilter(replicationFilter);
+    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
+    when(replicationFilter.get()).thenReturn(mockFilter);
+    when(mockFilter.filter(TEST_PROJECT_NAME, refSpecs)).thenReturn(Set.of(TEST_REF));
+
+    objectUnderTest.run();
+
+    verify(pullReplicationApiRequestMetrics).stop(any());
+    assertThat(testMetricMaker.getTimer("replication_latency")).isGreaterThan(0);
   }
 
   private void setupRequestScopeMock() {
