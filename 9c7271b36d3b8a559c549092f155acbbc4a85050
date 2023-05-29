@@ -16,6 +16,29 @@
       "message": "I prefer to remove the old `FetchReplicationMetrics.startEnd2End` method - but i have decided to seek your advice here, as its public and I don\u0027t know what might be using it (outside the pull-replication plugin ofc). Not sure how we are supposed to handle such cases, so guidance is appreciated.",
       "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7dcdef4d_12f2f2ce",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchReplicationMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-05-29T16:07:28Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this metric make sense. It\u0027s quite confusing what it shows. If you look at the documentation `replication.syncRefs`[1] by default all fetch operations are triggered synchronously so `replication_end_2_end_latency` shows e2e fetch time, if you decide to add only some refs to the list, for those it will be e2e for others will be fetch task scheduling latency. If you disable sync calls for all refs it will be scheduling time.\n\nhttps://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/resources/Documentation/config.md",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 54
+      },
+      "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
