@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6648ce7_1c940690",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2023-05-30T09:45:43Z",
+      "side": 1,
+      "message": "nit: Few lines need wrapping.",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 119
+      },
+      "revId": "7db81e0f3512b6faffcd187a497d1f1f1acba22c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a43ba01c_ddd446ed",
@@ -102,6 +125,23 @@
       "side": 1,
       "message": "It\u0027s my pleasure. In our practice, this fix can work fine in stable-3.5/3.6/3.7/3.8, we use pull-replication from stable-3.5 and find this bug in stable-3.7. Now our version is on the master branch(51b2633).\n\nI will try to make a test for it. \n\nWe also find another bug in CGitFetchClient: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/374954",
       "parentUuid": "7fcad543_72b846a9",
+      "revId": "7db81e0f3512b6faffcd187a497d1f1f1acba22c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4356e82b_5600ee26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2023-05-30T09:45:43Z",
+      "side": 1,
+      "message": "Thanks for the contribution! Just a minor nit.",
       "revId": "7db81e0f3512b6faffcd187a497d1f1f1acba22c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
