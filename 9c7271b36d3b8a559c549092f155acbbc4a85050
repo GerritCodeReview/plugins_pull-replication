@@ -39,6 +39,30 @@
       },
       "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd51e027_50ff8ed1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchReplicationMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-30T14:12:55Z",
+      "side": 1,
+      "message": "@Marcin not sure i follow. Did we not say that the method where this metric is updated is always used during the async code path?",
+      "parentUuid": "7dcdef4d_12f2f2ce",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 54
+      },
+      "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
