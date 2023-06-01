@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c89c022e_793c4d48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-01T10:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d04d1213_68cf5aef",
+      "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1c960ab_fc143f37",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "You are totally right. I had that comment in mind but i forget it.",
       "parentUuid": "a1c960ab_fc143f37",
+      "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce80e4dc_40640af2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-01T10:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4371df0_9aaa7df3",
       "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -90,6 +126,30 @@
       "side": 1,
       "message": "I will remove it.",
       "parentUuid": "e610b2b0_d118c97b",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cea6439d_5fad9a63",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-01T10:52:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e22f07a8_3dbfc9f7",
       "range": {
         "startLine": 26,
         "startChar": 4,
