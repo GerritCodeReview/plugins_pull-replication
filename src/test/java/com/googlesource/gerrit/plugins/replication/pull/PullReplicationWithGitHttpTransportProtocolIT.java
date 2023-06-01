@@ -82,7 +82,11 @@ public class PullReplicationWithGitHttpTransportProtocolIT extends PullReplicati
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, sourceRef, ObjectId.zeroId().getName(), sourceCommit.getId().getName());
+            project,
+            sourceRef,
+            ObjectId.zeroId().getName(),
+            sourceCommit.getId().getName(),
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {

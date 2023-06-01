@@ -105,7 +105,11 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, sourceRef, ObjectId.zeroId().getName(), sourceCommit.getId().getName());
+            project,
+            sourceRef,
+            ObjectId.zeroId().getName(),
+            sourceCommit.getId().getName(),
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
@@ -137,7 +141,11 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, sourceRef, ObjectId.zeroId().getName(), sourceCommit.getId().getName());
+            project,
+            sourceRef,
+            ObjectId.zeroId().getName(),
+            sourceCommit.getId().getName(),
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
@@ -166,7 +174,11 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, newBranch, ObjectId.zeroId().getName(), branchRevision);
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project);
