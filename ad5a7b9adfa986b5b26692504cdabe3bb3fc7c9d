@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46f30e3_68c988fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-01T18:26:30Z",
+      "side": 1,
+      "message": "Looks like there is a regression in the way how Gerrit recognise invalid project name. We expects InvalidPathException but we got InvalidArgumentException",
+      "revId": "ad5a7b9adfa986b5b26692504cdabe3bb3fc7c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
