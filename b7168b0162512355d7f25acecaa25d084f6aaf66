@@ -205,6 +205,30 @@
       },
       "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f74cbf7_3657d53c",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-01T10:53:19Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com please, let me know when we can have a chat.",
+      "parentUuid": "5be7fdff_a8fe6f9c",
+      "range": {
+        "startLine": 42,
+        "startChar": 21,
+        "endLine": 42,
+        "endChar": 62
+      },
+      "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
