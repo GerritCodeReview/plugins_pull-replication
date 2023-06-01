@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.Truth8;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
@@ -197,6 +198,39 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
         refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId, 0));
 
     Truth8.assertThat(revisionDataOption).isEmpty();
+  }
+
+  @Test
+  public void shouldFilterOutGitSubmoduleCommitsWhenReadingTheBlobs() throws Exception {
+    String submodulePath = "submodule_path";
+    final ObjectId GitSubmoduleCommit =
+        ObjectId.fromString("93e2901bc0b4719ef6081ee6353b49c9cdd97614");
+
+    PushOneCommit push =
+        pushFactory
+            .create(admin.newIdent(), testRepo)
+            .addGitSubmodule(submodulePath, GitSubmoduleCommit);
+    PushOneCommit.Result pushResult = push.to("refs/for/master");
+    pushResult.assertOkStatus();
+    Change.Id changeId = pushResult.getChange().getId();
+    String refName = RefNames.patchSetRef(pushResult.getPatchSetId());
+
+    CommentInput comment = createCommentInput(1, 0, 1, 1, "Test comment");
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
+    gApi.changes().id(changeId.get()).current().review(reviewInput);
+
+    Optional<RevisionData> revisionDataOption =
+        refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId, 0));
+
+    assertThat(revisionDataOption.isPresent()).isTrue();
+    RevisionData revisionData = revisionDataOption.get();
+
+    assertThat(revisionData.getBlobs()).hasSize(1);
+    RevisionObjectData blobObject = revisionData.getBlobs().get(0);
+    assertThat(blobObject.getType()).isEqualTo(Constants.OBJ_BLOB);
+    assertThat(blobObject.getSha1()).isNotEqualTo(GitSubmoduleCommit.getName());
   }
 
   private CommentInput createCommentInput(

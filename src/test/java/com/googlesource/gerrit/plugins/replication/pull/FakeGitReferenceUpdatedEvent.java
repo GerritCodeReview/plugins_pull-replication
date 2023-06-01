@@ -21,12 +21,17 @@ import com.google.gerrit.server.events.RefUpdatedEvent;
 
 public class FakeGitReferenceUpdatedEvent extends RefUpdatedEvent {
   FakeGitReferenceUpdatedEvent(
-      Project.NameKey project, String ref, String oldObjectId, String newObjectId) {
+      Project.NameKey project,
+      String ref,
+      String oldObjectId,
+      String newObjectId,
+      String instanceId) {
     RefUpdateAttribute upd = new RefUpdateAttribute();
     upd.newRev = newObjectId;
     upd.oldRev = oldObjectId;
     upd.project = project.get();
     upd.refName = ref;
     this.refUpdate = Suppliers.ofInstance(upd);
+    this.instanceId = instanceId;
   }
 }

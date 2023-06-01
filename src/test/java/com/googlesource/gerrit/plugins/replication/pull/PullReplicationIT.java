@@ -91,7 +91,11 @@ public class PullReplicationIT extends PullReplicationSetupBase {
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, sourceRef, ObjectId.zeroId().getName(), sourceCommit.getId().getName());
+            project,
+            sourceRef,
+            ObjectId.zeroId().getName(),
+            sourceCommit.getId().getName(),
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
@@ -120,7 +124,11 @@ public class PullReplicationIT extends PullReplicationSetupBase {
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, newBranch, ObjectId.zeroId().getName(), branchRevision);
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project);
@@ -159,7 +167,11 @@ public class PullReplicationIT extends PullReplicationSetupBase {
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, newBranch, ObjectId.zeroId().getName(), branchRevision);
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
@@ -181,7 +193,11 @@ public class PullReplicationIT extends PullReplicationSetupBase {
 
     FakeGitReferenceUpdatedEvent forcedPushEvent =
         new FakeGitReferenceUpdatedEvent(
-            project, newBranch, branchRevision, amendedCommit.getId().getName());
+            project,
+            newBranch,
+            branchRevision,
+            amendedCommit.getId().getName(),
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(forcedPushEvent);
 
     try (Repository repo = repoManager.openRepository(project);
@@ -216,7 +232,11 @@ public class PullReplicationIT extends PullReplicationSetupBase {
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, sourceRef, ObjectId.zeroId().getName(), sourceCommit.getId().getName());
+            project,
+            sourceRef,
+            ObjectId.zeroId().getName(),
+            sourceCommit.getId().getName(),
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
@@ -253,7 +273,11 @@ public class PullReplicationIT extends PullReplicationSetupBase {
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, newBranch, ObjectId.zeroId().getName(), branchRevision);
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project);
@@ -341,7 +365,11 @@ public class PullReplicationIT extends PullReplicationSetupBase {
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
     FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
-            project, sourceRef, ObjectId.zeroId().getName(), sourceCommit.getId().getName());
+            project,
+            sourceRef,
+            ObjectId.zeroId().getName(),
+            sourceCommit.getId().getName(),
+            TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
