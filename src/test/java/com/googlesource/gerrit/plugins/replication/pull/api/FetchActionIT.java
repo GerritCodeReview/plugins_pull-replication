@@ -23,6 +23,7 @@ import org.junit.Test;
 public class FetchActionIT extends ActionITBase {
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldFetchRefWhenNodeIsAReplica() throws Exception {
     String refName = createRef();
@@ -41,6 +42,7 @@ public class FetchActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldFetchRefWhenNodeIsAReplicaAndProjectNameContainsSlash() throws Exception {
     NameKey projectName = Project.nameKey("test/repo");
@@ -63,6 +65,7 @@ public class FetchActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnForbiddenWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
     String refName = createRef();
@@ -79,6 +82,7 @@ public class FetchActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   public void shouldFetchRefWhenNodeIsAReplicaWithBearerToken() throws Exception {
@@ -99,6 +103,7 @@ public class FetchActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "false")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   public void shouldFetchRefWhenNodeIsAPrimaryWithBearerToken() throws Exception {

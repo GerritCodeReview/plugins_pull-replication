@@ -27,7 +27,6 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
@@ -44,7 +43,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
@@ -105,14 +103,14 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    GitBatchRefUpdateListener.Event event =
+    FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
             sourceCommit.getId().getName(),
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitBatchRefUpdate(event);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
@@ -141,14 +139,14 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     RevCommit sourceCommit = pushResult.getCommit();
     final String sourceRef = pushResult.getPatchSet().refName();
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    GitBatchRefUpdateListener.Event event =
+    FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
             sourceCommit.getId().getName(),
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitBatchRefUpdate(event);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
@@ -174,14 +172,14 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    GitBatchRefUpdateListener.Event event =
+    FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
             branchRevision,
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitBatchRefUpdate(event);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project);
         Repository sourceRepo = repoManager.openRepository(project)) {

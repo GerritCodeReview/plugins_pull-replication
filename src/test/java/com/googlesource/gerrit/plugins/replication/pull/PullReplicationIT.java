@@ -30,7 +30,6 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -47,7 +46,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Test;
@@ -91,14 +89,14 @@ public class PullReplicationIT extends PullReplicationSetupBase {
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    GitBatchRefUpdateListener.Event event =
+    FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
             sourceCommit.getId().getName(),
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitBatchRefUpdate(event);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
@@ -124,14 +122,14 @@ public class PullReplicationIT extends PullReplicationSetupBase {
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    GitBatchRefUpdateListener.Event event =
+    FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
             branchRevision,
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitBatchRefUpdate(event);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project);
         Repository sourceRepo = repoManager.openRepository(project)) {
@@ -167,14 +165,14 @@ public class PullReplicationIT extends PullReplicationSetupBase {
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    GitBatchRefUpdateListener.Event event =
+    FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
             branchRevision,
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitBatchRefUpdate(event);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, newBranch) != null);
@@ -193,14 +191,14 @@ public class PullReplicationIT extends PullReplicationSetupBase {
     assertThat(pushedRefs).hasSize(1);
     assertThat(pushedRefs.iterator().next().getStatus()).isEqualTo(Status.OK);
 
-    GitBatchRefUpdateListener.Event forcedPushEvent =
+    FakeGitReferenceUpdatedEvent forcedPushEvent =
         new FakeGitReferenceUpdatedEvent(
             project,
             newBranch,
             branchRevision,
             amendedCommit.getId().getName(),
-            ReceiveCommand.Type.UPDATE_NONFASTFORWARD);
-    pullReplicationQueue.onGitBatchRefUpdate(forcedPushEvent);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(forcedPushEvent);
 
     try (Repository repo = repoManager.openRepository(project);
         Repository sourceRepo = repoManager.openRepository(project)) {
@@ -232,14 +230,14 @@ public class PullReplicationIT extends PullReplicationSetupBase {
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    GitBatchRefUpdateListener.Event event =
+    FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
             sourceCommit.getId().getName(),
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitBatchRefUpdate(event);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
@@ -273,14 +271,14 @@ public class PullReplicationIT extends PullReplicationSetupBase {
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    GitBatchRefUpdateListener.Event event =
+    FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
             branchRevision,
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitBatchRefUpdate(event);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project);
         Repository sourceRepo = repoManager.openRepository(project)) {
@@ -364,14 +362,14 @@ public class PullReplicationIT extends PullReplicationSetupBase {
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    GitBatchRefUpdateListener.Event event =
+    FakeGitReferenceUpdatedEvent event =
         new FakeGitReferenceUpdatedEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
             sourceCommit.getId().getName(),
-            ReceiveCommand.Type.CREATE);
-    pullReplicationQueue.onGitBatchRefUpdate(event);
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);

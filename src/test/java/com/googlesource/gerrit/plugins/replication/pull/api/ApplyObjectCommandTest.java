@@ -20,6 +20,8 @@ import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
@@ -30,6 +32,7 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
@@ -62,9 +65,14 @@ public class ApplyObjectCommandTest {
   private static final NameKey TEST_PROJECT_NAME = Project.nameKey("test-project");
   private static final String TEST_REMOTE_NAME = "test-remote-name";
   private static URIish TEST_REMOTE_URI;
+  private static final long TEST_EVENT_TIMESTAMP = 1L;
 
   private String sampleCommitObjectId = "9f8d52853089a3cf00c02ff7bd0817bd4353a95a";
   private String sampleTreeObjectId = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
+
+  private String sampleBlobObjectId = "b5d7bcf1d1c5b0f0726d10a16c8315f06f900bfb";
+  private String sampleCommitObjectId2 = "9f8d52853089a3cf00c02ff7bd0817bd4353a95b";
+  private String sampleTreeObjectId2 = "4b825dc642cb6eb9a060e54bf8d69288fbee4905";
 
   @Mock private PullReplicationStateLogger fetchStateLog;
   @Mock private ApplyObject applyObject;
@@ -75,6 +83,7 @@ public class ApplyObjectCommandTest {
   @Mock private SourcesCollection sourceCollection;
   @Mock private Source source;
   @Captor ArgumentCaptor<Event> eventCaptor;
+  private Cache<ApplyObjectsCacheKey, Long> cache;
 
   private ApplyObjectCommand objectUnderTest;
 
@@ -82,6 +91,7 @@ public class ApplyObjectCommandTest {
   public void setup()
       throws MissingParentObjectException, IOException, URISyntaxException,
           ResourceNotFoundException {
+    cache = CacheBuilder.newBuilder().build();
     RefUpdateState state = new RefUpdateState(TEST_REMOTE_NAME, RefUpdate.Result.NEW);
     TEST_REMOTE_URI = new URIish("git://some.remote.uri");
     when(eventDispatcherDataItem.get()).thenReturn(eventDispatcher);
@@ -93,15 +103,21 @@ public class ApplyObjectCommandTest {
 
     objectUnderTest =
         new ApplyObjectCommand(
-            fetchStateLog, applyObject, metrics, eventDispatcherDataItem, sourceCollection);
+            fetchStateLog, applyObject, metrics, eventDispatcherDataItem, sourceCollection, cache);
   }
 
   @Test
   public void shouldSendEventWhenApplyObject()
       throws PermissionBackendException, IOException, RefUpdateException,
           MissingParentObjectException, ResourceNotFoundException {
+    RevisionData sampleRevisionData =
+        createSampleRevisionData(sampleCommitObjectId, sampleTreeObjectId);
     objectUnderTest.applyObject(
-        TEST_PROJECT_NAME, TEST_REF_NAME, createSampleRevisionData(), TEST_SOURCE_LABEL);
+        TEST_PROJECT_NAME,
+        TEST_REF_NAME,
+        sampleRevisionData,
+        TEST_SOURCE_LABEL,
+        TEST_EVENT_TIMESTAMP);
 
     verify(eventDispatcher).postEvent(eventCaptor.capture());
     Event sentEvent = eventCaptor.getValue();
@@ -112,11 +128,66 @@ public class ApplyObjectCommandTest {
     assertThat(fetchEvent.targetUri).isEqualTo(TEST_REMOTE_URI.toASCIIString());
   }
 
-  private RevisionData createSampleRevisionData() {
+  @Test
+  public void shouldInsertIntoApplyObjectsCacheWhenApplyObjectIsSuccessful()
+      throws IOException, RefUpdateException, MissingParentObjectException,
+          ResourceNotFoundException {
+    RevisionData sampleRevisionData =
+        createSampleRevisionData(sampleCommitObjectId, sampleTreeObjectId);
+    RevisionData sampleRevisionData2 =
+        createSampleRevisionData(sampleCommitObjectId2, sampleTreeObjectId2);
+    objectUnderTest.applyObjects(
+        TEST_PROJECT_NAME,
+        TEST_REF_NAME,
+        new RevisionData[] {sampleRevisionData, sampleRevisionData2},
+        TEST_SOURCE_LABEL,
+        TEST_EVENT_TIMESTAMP);
+
+    assertThat(
+            cache.getIfPresent(
+                ApplyObjectsCacheKey.create(
+                    sampleRevisionData.getCommitObject().getSha1(),
+                    TEST_REF_NAME,
+                    TEST_PROJECT_NAME.get())))
+        .isEqualTo(TEST_EVENT_TIMESTAMP);
+    assertThat(
+            cache.getIfPresent(
+                ApplyObjectsCacheKey.create(
+                    sampleRevisionData2.getCommitObject().getSha1(),
+                    TEST_REF_NAME,
+                    TEST_PROJECT_NAME.get())))
+        .isEqualTo(TEST_EVENT_TIMESTAMP);
+  }
+
+  @Test(expected = RefUpdateException.class)
+  public void shouldNotInsertIntoApplyObjectsCacheWhenApplyObjectIsFailure()
+      throws IOException, RefUpdateException, MissingParentObjectException,
+          ResourceNotFoundException {
+    RevisionData sampleRevisionData =
+        createSampleRevisionData(sampleCommitObjectId, sampleTreeObjectId);
+    RefUpdateState failureState = new RefUpdateState(TEST_REMOTE_NAME, RefUpdate.Result.IO_FAILURE);
+    when(applyObject.apply(any(), any(), any())).thenReturn(failureState);
+    objectUnderTest.applyObject(
+        TEST_PROJECT_NAME,
+        TEST_REF_NAME,
+        sampleRevisionData,
+        TEST_SOURCE_LABEL,
+        TEST_EVENT_TIMESTAMP);
+
+    assertThat(
+            cache.getIfPresent(
+                ApplyObjectsCacheKey.create(
+                    sampleRevisionData.getCommitObject().getSha1(),
+                    TEST_REF_NAME,
+                    TEST_PROJECT_NAME.get())))
+        .isNull();
+  }
+
+  private RevisionData createSampleRevisionData(String commitObjectId, String treeObjectId) {
     RevisionObjectData commitData =
-        new RevisionObjectData(sampleCommitObjectId, Constants.OBJ_COMMIT, new byte[] {});
+        new RevisionObjectData(commitObjectId, Constants.OBJ_COMMIT, new byte[] {});
     RevisionObjectData treeData =
-        new RevisionObjectData(sampleTreeObjectId, Constants.OBJ_TREE, new byte[] {});
+        new RevisionObjectData(treeObjectId, Constants.OBJ_TREE, new byte[] {});
     return new RevisionData(Collections.emptyList(), commitData, treeData, Lists.newArrayList());
   }
 }
