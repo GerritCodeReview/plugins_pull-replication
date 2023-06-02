@@ -23,6 +23,7 @@ gerrit_plugin(
 
 junit_tests(
     name = "pull_replication_tests",
+    size = "large",
     srcs = glob([
         "src/test/java/**/*Test.java",
         "src/test/java/**/*IT.java",
@@ -49,6 +50,16 @@ java_library(
     ),
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
-        "//plugins/replication:replication",
+        "//plugins/replication",
+    ],
+)
+
+java_library(
+    name = "pull-replication__plugin_test_deps",
+    testonly = 1,
+    visibility = ["//visibility:public"],
+    exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
+        ":pull-replication__plugin",
+        "@events-broker//jar",
     ],
 )
