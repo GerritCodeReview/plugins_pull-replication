@@ -16,6 +16,23 @@
       "message": "Tested locally",
       "revId": "399fce0ad1a6490fa5e9dd7008f65fdd0e85d2e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40087ecc_25d71133",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-04T22:11:05Z",
+      "side": 1,
+      "message": "Needs re-merge to include bf74d77791cbd26c3187b055790040dfaf43d0d9",
+      "revId": "399fce0ad1a6490fa5e9dd7008f65fdd0e85d2e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
