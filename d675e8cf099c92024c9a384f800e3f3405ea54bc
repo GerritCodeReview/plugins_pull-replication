@@ -16,6 +16,24 @@
       "message": "Makes sense to me.",
       "revId": "d675e8cf099c92024c9a384f800e3f3405ea54bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1abb2631_687106a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-04T09:02:25Z",
+      "side": 1,
+      "message": "Should I rebase this change out of this series, so that you could rebase the base change on top of it?",
+      "parentUuid": "4bfe6254_ae96d8ab",
+      "revId": "d675e8cf099c92024c9a384f800e3f3405ea54bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
