@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bfdfa44_8b8a2897",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-04T08:37:25Z",
+      "side": 1,
+      "message": "Mention bug number in the commit message footer: Bug: Issue 16931",
+      "revId": "77aef314cc4304974d123aa50264bd505333c723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
