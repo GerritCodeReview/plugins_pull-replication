@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "410aeef4_c2b3076b",
+        "filename": "BUILD",
+        "patchSetId": 15
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-04T13:51:39Z",
+      "side": 1,
+      "message": "This dependency was copied from the `pull_replication_tests` above, but it isn\u0027t used in any of integration tests atm and should be removed:\n\n```\n  $ git grep -l BrokerApi\ncom/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumerTest.java\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 29
+      },
+      "revId": "476e7b69615b42ffb689e8843e87694b3ec4f4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
