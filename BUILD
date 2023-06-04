@@ -38,7 +38,7 @@ junit_tests(
 
 [junit_tests(
     name = f[:f.index(".")].replace("/", "_"),
-    srcs = glob([f + "src/test/java/**/PullReplicationIT.java"]),
+    srcs = [f],
     tags = ["pull-replication"],
     visibility = ["//visibility:public"],
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
