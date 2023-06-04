@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c7b512e_cf28c494",
+        "filename": "BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-04T10:44:54Z",
+      "side": 1,
+      "message": "This is now unused, as the integration tests were extracted in its own rule. Sorry, that I missed this.",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 30
+      },
+      "revId": "c0be097d700c8f5ee900122635e3ad2380c49410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
