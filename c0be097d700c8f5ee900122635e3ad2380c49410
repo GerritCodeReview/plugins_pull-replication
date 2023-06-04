@@ -46,6 +46,30 @@
       },
       "revId": "c0be097d700c8f5ee900122635e3ad2380c49410",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1128aa25_bb5eaae0",
+        "filename": "BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-04T13:33:39Z",
+      "side": 1,
+      "message": "Apparently removing that we have this error:\n```\nERROR: /Users/alvarovilaplana/projects/gerrit/plugins/pull-replication/BUILD:24:12: Building plugins/pull-replication/pull_replication_tests.jar (21 source files) and running annotation processors (AutoAnnotationProcessor, AutoValueProcessor, AutoOneOfProcessor, AutoValueGsonAdapterFactoryProcessor) failed: (Exit 1): java failed: error executing command external/remotejdk11_macos/bin/java \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.api\u003dALL-UNNAMED\u0027 \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.main\u003dALL-UNNAMED\u0027 ... (remaining 16 argument(s) skipped)\nplugins/pull-replication/src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumerTest.java:37: error: [strict] Using type com.gerritforge.gerrit.eventbroker.BrokerApi from an indirect dependency (TOOL_INFO: \"@events-broker//jar:neverlink\"). See command below **\n  @Mock DynamicItem\u003cBrokerApi\u003e eventsBroker;\n                    ^\n ** Please add the following dependencies:\n  @events-broker//jar:neverlink to //plugins/pull-replication:pull_replication_tests\n ** You can use the following buildozer command:\nbuildozer \u0027add deps @events-broker//jar:neverlink\u0027 //plugins/pull-replication:pull_replication_tests\n```",
+      "parentUuid": "cc6d23de_eb875c3d",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 30
+      },
+      "revId": "c0be097d700c8f5ee900122635e3ad2380c49410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
