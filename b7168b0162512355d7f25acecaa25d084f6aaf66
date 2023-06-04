@@ -253,6 +253,30 @@
       },
       "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a13cae5_27886eda",
+        "filename": "BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-04T09:15:27Z",
+      "side": 1,
+      "message": "Tx for the explanation.\n\n\u003e Still, the straight forward way to fix the test inter-dependency and to allow to isolate their execution, is to de-couple those tests. Add abstract base class, e.g.: and derive the regular and async test classes from that base class. I have sent the change 375954 on top of this CL for review.\n\nThat is something that I considered but I wanted to speak with you first to see if you could show me a smart solution.",
+      "parentUuid": "f0e256ee_7259f597",
+      "range": {
+        "startLine": 42,
+        "startChar": 21,
+        "endLine": 42,
+        "endChar": 62
+      },
+      "revId": "b7168b0162512355d7f25acecaa25d084f6aaf66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

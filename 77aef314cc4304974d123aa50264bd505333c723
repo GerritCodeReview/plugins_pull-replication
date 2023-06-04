@@ -16,6 +16,24 @@
       "message": "Mention bug number in the commit message footer: Bug: Issue 16931",
       "revId": "77aef314cc4304974d123aa50264bd505333c723",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67d7798b_7ac5aff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-04T09:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bfdfa44_8b8a2897",
+      "revId": "77aef314cc4304974d123aa50264bd505333c723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
