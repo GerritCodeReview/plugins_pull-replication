@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.events.ProjectEvent;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import java.io.IOException;
 import java.util.Collection;
@@ -83,8 +84,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    ProjectEvent event =
+        generateUpdateEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
@@ -116,8 +117,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    ProjectEvent event =
+        generateUpdateEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
@@ -159,8 +160,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    ProjectEvent event =
+        generateUpdateEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
@@ -185,8 +186,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     assertThat(pushedRefs).hasSize(1);
     assertThat(pushedRefs.iterator().next().getStatus()).isEqualTo(Status.OK);
 
-    FakeGitReferenceUpdatedEvent forcedPushEvent =
-        new FakeGitReferenceUpdatedEvent(
+    ProjectEvent forcedPushEvent =
+        generateUpdateEvent(
             project,
             newBranch,
             branchRevision,
@@ -224,8 +225,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    ProjectEvent event =
+        generateUpdateEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
@@ -265,8 +266,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    ProjectEvent event =
+        generateUpdateEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
@@ -357,8 +358,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    ProjectEvent event =
+        generateUpdateEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
