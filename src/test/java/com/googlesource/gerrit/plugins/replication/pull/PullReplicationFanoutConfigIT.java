@@ -17,27 +17,19 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
+import com.google.gerrit.server.events.BatchRefUpdateEvent;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -51,27 +43,14 @@ import org.junit.Test;
 @TestPlugin(
     name = "pull-replication",
     sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule")
-public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
-  private static final Optional<String> ALL_PROJECTS = Optional.empty();
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+public class PullReplicationFanoutConfigIT extends PullReplicationSetupBase {
   private static final int TEST_REPLICATION_DELAY = 60;
-  private static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2);
-  private static final String TEST_REPLICATION_SUFFIX = "suffix1";
-  private static final String TEST_REPLICATION_REMOTE = "remote1";
 
-  @Inject private SitePaths sitePaths;
-  @Inject private ProjectOperations projectOperations;
-  private Path gitPath;
-  private FileBasedConfig config;
   private FileBasedConfig remoteConfig;
-  private FileBasedConfig secureConfig;
 
   @Override
   public void setUpTestPlugin() throws Exception {
     gitPath = sitePaths.site_path.resolve("git");
-
-    config =
-        new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
     remoteConfig =
         new FileBasedConfig(
             sitePaths
@@ -80,17 +59,9 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
                 .toFile(),
             FS.DETECTED);
 
-    setReplicationSource(
-        TEST_REPLICATION_REMOTE); // Simulates a full replication.config initialization
-
     setRemoteConfig(TEST_REPLICATION_SUFFIX, ALL_PROJECTS);
 
-    secureConfig =
-        new FileBasedConfig(sitePaths.etc_dir.resolve("secure.config").toFile(), FS.DETECTED);
-    setReplicationCredentials(TEST_REPLICATION_REMOTE, admin.username(), admin.httpPassword());
-    secureConfig.save();
-
-    super.setUpTestPlugin();
+    super.setUpTestPlugin(false);
   }
 
   @Test
@@ -103,8 +74,8 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
@@ -139,8 +110,8 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     RevCommit sourceCommit = pushResult.getCommit();
     final String sourceRef = pushResult.getPatchSet().refName();
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
@@ -172,8 +143,8 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
@@ -250,17 +221,11 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     waitUntil(() -> sources.getAll().size() == 1);
   }
 
-  private Ref getRef(Repository repo, String branchName) throws IOException {
-    return repo.getRefDatabase().exactRef(branchName);
-  }
-
-  private Ref checkedGetRef(Repository repo, String branchName) {
-    try {
-      return repo.getRefDatabase().exactRef(branchName);
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log("failed to get ref %s in repo %s", branchName, repo);
-      return null;
-    }
+  @Override
+  protected void setReplicationSource(
+      String remoteName, List<String> replicaSuffixes, Optional<String> project)
+      throws IOException {
+    setReplicationSource(remoteName);
   }
 
   private void setReplicationSource(String remoteName) throws IOException {
@@ -292,24 +257,5 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     remoteConfig.setInt("remote", null, "replicationDelay", TEST_REPLICATION_DELAY);
     project.ifPresent(prj -> remoteConfig.setString("remote", null, "projects", prj));
     remoteConfig.save();
-  }
-
-  private void setReplicationCredentials(String remoteName, String username, String password)
-      throws IOException {
-    secureConfig.setString("remote", remoteName, "username", username);
-    secureConfig.setString("remote", remoteName, "password", password);
-    secureConfig.save();
-  }
-
-  private void waitUntil(Supplier<Boolean> waitCondition) throws InterruptedException {
-    WaitUtil.waitUntil(waitCondition, TEST_TIMEOUT);
-  }
-
-  private <T> T getInstance(Class<T> classObj) {
-    return plugin.getSysInjector().getInstance(classObj);
-  }
-
-  private Project.NameKey createTestProject(String name) throws Exception {
-    return projectOperations.newProject().name(name).create();
   }
 }
