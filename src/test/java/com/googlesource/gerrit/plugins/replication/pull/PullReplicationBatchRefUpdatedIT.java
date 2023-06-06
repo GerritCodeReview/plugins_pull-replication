@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,10 +17,8 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.inject.Inject;
-import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.util.FS;
+import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.server.events.ProjectEvent;
 
 @SkipProjectClone
 @UseLocalDisk
@@ -28,16 +26,16 @@ import org.eclipse.jgit.util.FS;
     name = "pull-replication",
     sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
-public class PullReplicationAsyncIT extends PullReplicationITAbstract {
-  @Inject private SitePaths sitePaths;
+public class PullReplicationBatchRefUpdatedIT extends PullReplicationITBase {
 
   @Override
-  public void setUpTestPlugin() throws Exception {
-    FileBasedConfig config =
-        new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
-    config.setString("replication", null, "syncRefs", "^$");
-    config.save();
+  protected boolean useBatchRefUpdateEvent() {
+    return true;
+  }
 
-    super.setUpTestPlugin(true);
+  @Override
+  protected ProjectEvent generateUpdateEvent(
+      NameKey project, String ref, String oldObjectId, String newObjectId, String instanceId) {
+    return generateBatchRefUpdateEvent(project, ref, oldObjectId, newObjectId, instanceId);
   }
 }

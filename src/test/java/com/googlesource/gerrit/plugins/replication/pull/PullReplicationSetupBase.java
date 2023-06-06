@@ -16,13 +16,20 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Suppliers;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.data.AccountAttribute;
+import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.events.BatchRefUpdateEvent;
+import com.google.gerrit.server.events.ProjectEvent;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
@@ -54,6 +61,15 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
   protected FileBasedConfig config;
   protected FileBasedConfig secureConfig;
 
+  protected abstract boolean useBatchRefUpdateEvent();
+
+  protected abstract ProjectEvent generateUpdateEvent(
+      Project.NameKey project,
+      String ref,
+      String oldObjectId,
+      String newObjectId,
+      String instanceId);
+
   protected void setUpTestPlugin(boolean loadExisting) throws Exception {
     gitPath = sitePaths.site_path.resolve("git");
 
@@ -72,6 +88,9 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
         new FileBasedConfig(sitePaths.etc_dir.resolve("secure.config").toFile(), FS.DETECTED);
     setReplicationCredentials(TEST_REPLICATION_REMOTE, admin.username(), admin.httpPassword());
     secureConfig.save();
+
+    cfg.setBoolean(
+        "event", "stream-events", "enableBatchRefUpdatedEvents", useBatchRefUpdateEvent());
 
     super.setUpTestPlugin();
   }
@@ -120,5 +139,39 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
   protected List<String> buildReplicaURLs(
       List<String> replicaSuffixes, Function<String, String> toURL) {
     return replicaSuffixes.stream().map(suffix -> toURL.apply(suffix)).collect(toList());
+  }
+
+  protected BatchRefUpdateEvent generateBatchRefUpdateEvent(
+      Project.NameKey project,
+      String ref,
+      String oldObjectId,
+      String newObjectId,
+      String instanceId) {
+    RefUpdateAttribute upd = new RefUpdateAttribute();
+    upd.newRev = newObjectId;
+    upd.oldRev = oldObjectId;
+    upd.project = project.get();
+    upd.refName = ref;
+    BatchRefUpdateEvent event =
+        new BatchRefUpdateEvent(
+            project,
+            Suppliers.ofInstance(List.of(upd)),
+            Suppliers.ofInstance(new AccountAttribute(admin.id().get())));
+    event.instanceId = instanceId;
+    return event;
+  }
+
+  protected ProjectEvent generateRefUpdateEvent(
+      NameKey project, String ref, String oldObjectId, String newObjectId, String instanceId) {
+    RefUpdateAttribute upd = new RefUpdateAttribute();
+    upd.newRev = newObjectId;
+    upd.oldRev = oldObjectId;
+    upd.project = project.get();
+    upd.refName = ref;
+    RefUpdatedEvent event = new RefUpdatedEvent();
+    event.refUpdate = Suppliers.ofInstance(upd);
+    event.submitter = Suppliers.ofInstance(new AccountAttribute(admin.id().get()));
+    event.instanceId = instanceId;
+    return event;
   }
 }
