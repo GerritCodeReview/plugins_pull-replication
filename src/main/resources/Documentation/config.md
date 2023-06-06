@@ -80,6 +80,7 @@ cache.@PLUGIN@-apply_objects.memoryLimit
 
 	Default is 1024.
 
+
 File `@PLUGIN@.config`
 -------------------------
 

@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.events.BatchRefUpdateEvent;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import java.io.IOException;
 import java.util.Collection;
@@ -74,6 +75,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateNewChangeRef() throws Exception {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
 
@@ -82,8 +84,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
@@ -102,6 +104,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateNewBranch() throws Exception {
     String testProjectName = project + TEST_REPLICATION_SUFFIX;
     createTestProject(testProjectName);
@@ -115,8 +118,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
@@ -137,6 +140,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
   @Test
   @UseLocalDisk
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateForceUpdatedBranch() throws Exception {
     boolean forcedPush = true;
     String testProjectName = project + TEST_REPLICATION_SUFFIX;
@@ -158,8 +162,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
@@ -184,8 +188,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     assertThat(pushedRefs).hasSize(1);
     assertThat(pushedRefs.iterator().next().getStatus()).isEqualTo(Status.OK);
 
-    FakeGitReferenceUpdatedEvent forcedPushEvent =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent forcedPushEvent =
+        generateBatchRefUpdateEvent(
             project,
             newBranch,
             branchRevision,
@@ -207,6 +211,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateNewChangeRefCGitClient() throws Exception {
     AutoReloadConfigDecorator autoReloadConfigDecorator =
         getInstance(AutoReloadConfigDecorator.class);
@@ -223,8 +228,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
@@ -243,6 +248,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateNewBranchCGitClient() throws Exception {
     AutoReloadConfigDecorator autoReloadConfigDecorator =
         getInstance(AutoReloadConfigDecorator.class);
@@ -264,8 +270,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             newBranch,
             ObjectId.zeroId().getName(),
@@ -285,6 +291,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateProjectDeletion() throws Exception {
     String projectToDelete = project.get();
     setReplicationSource(TEST_REPLICATION_REMOTE, "", Optional.of(projectToDelete));
@@ -314,6 +321,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateHeadUpdate() throws Exception {
     String testProjectName = project.get();
     setReplicationSource(TEST_REPLICATION_REMOTE, "", Optional.of(testProjectName));
@@ -348,6 +356,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   @GerritConfig(name = "container.replica", value = "true")
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateNewChangeRefToReplica() throws Exception {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
 
@@ -356,8 +365,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
