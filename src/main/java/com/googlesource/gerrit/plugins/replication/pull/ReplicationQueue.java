@@ -26,6 +26,9 @@ import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1.Context;
 import com.google.gerrit.server.config.GerritInstanceId;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.events.BatchRefUpdateEvent;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.RefUpdatedEvent;
@@ -59,6 +62,7 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
@@ -75,6 +79,7 @@ public class ReplicationQueue
   static final Logger repLog = LoggerFactory.getLogger(PULL_REPLICATION_LOG_NAME);
 
   private static final Integer DEFAULT_FETCH_CALLS_TIMEOUT = 0;
+  private static final String BATCH_REF_UPDATED_EVENT_TYPE = BatchRefUpdateEvent.TYPE;
   private static final String REF_UDPATED_EVENT_TYPE = new RefUpdatedEvent().type;
   private static final String ZEROS_OBJECTID = ObjectId.zeroId().getName();
   private final ReplicationStateListener stateLog;
@@ -92,6 +97,7 @@ public class ReplicationQueue
   private final ApplyObjectMetrics applyObjectMetrics;
   private final FetchReplicationMetrics fetchMetrics;
   private final String instanceId;
+  private final boolean useBatchUpdateEvents;
   private ApplyObjectsRefsFilter applyObjectsRefsFilter;
 
   @Inject
@@ -106,6 +112,7 @@ public class ReplicationQueue
       ApplyObjectMetrics applyObjectMetrics,
       FetchReplicationMetrics fetchMetrics,
       @GerritInstanceId String instanceId,
+      @GerritServerConfig Config gerritConfig,
       ApplyObjectsRefsFilter applyObjectsRefsFilter) {
     workQueue = wq;
     dispatcher = dis;
@@ -118,6 +125,8 @@ public class ReplicationQueue
     this.applyObjectMetrics = applyObjectMetrics;
     this.fetchMetrics = fetchMetrics;
     this.instanceId = instanceId;
+    this.useBatchUpdateEvents =
+        gerritConfig.getBoolean("event", "stream-events", "enableBatchRefUpdatedEvents", false);
     this.applyObjectsRefsFilter = applyObjectsRefsFilter;
   }
 
@@ -158,20 +167,41 @@ public class ReplicationQueue
 
   @Override
   public void onEvent(com.google.gerrit.server.events.Event e) {
-    if (e.type.equals(REF_UDPATED_EVENT_TYPE) && instanceId.equals(e.instanceId)) {
+    if (!instanceId.equals(e.instanceId)) {
+      return;
+    }
+
+    if (useBatchUpdateEvents && e.type.equals(BATCH_REF_UPDATED_EVENT_TYPE)) {
+      BatchRefUpdateEvent event = (BatchRefUpdateEvent) e;
+
+      event.refUpdates.get().stream()
+          .sorted(ReplicationQueue::sortByMetaRefAsLast)
+          .forEachOrdered(
+              updateRef -> {
+                if (isRefToBeReplicated(updateRef.refName)) {
+                  fireSingleRefUpdate(updateRef, e.eventCreatedOn);
+                }
+              });
+    }
+
+    if (!useBatchUpdateEvents && e.type.equals(REF_UDPATED_EVENT_TYPE)) {
       RefUpdatedEvent event = (RefUpdatedEvent) e;
 
       if (isRefToBeReplicated(event.getRefName())) {
-        repLog.info(
-            "Ref event received: {} on project {}:{} - {} => {}",
-            refUpdateType(event),
-            event.refUpdate.get().project,
-            event.getRefName(),
-            event.refUpdate.get().oldRev,
-            event.refUpdate.get().newRev);
-        fire(ReferenceUpdatedEvent.from(event));
+        fireSingleRefUpdate(event.refUpdate.get(), event.eventCreatedOn);
       }
     }
+  }
+
+  private void fireSingleRefUpdate(RefUpdateAttribute refUpdate, long eventCreatedOn) {
+    repLog.info(
+        "Ref event received: {} on project {}:{} - {} => {}",
+        refUpdateType(refUpdate.oldRev, refUpdate.newRev),
+        refUpdate.project,
+        refUpdate.refName,
+        refUpdate.oldRev,
+        refUpdate.newRev);
+    fire(ReferenceUpdatedEvent.from(refUpdate, eventCreatedOn));
   }
 
   @Override
@@ -184,10 +214,16 @@ public class ReplicationQueue
                 source.getApis().forEach(apiUrl -> source.scheduleDeleteProject(apiUrl, project)));
   }
 
-  private static String refUpdateType(RefUpdatedEvent event) {
-    if (ZEROS_OBJECTID.equals(event.refUpdate.get().oldRev)) {
+  private static int sortByMetaRefAsLast(RefUpdateAttribute a, RefUpdateAttribute b) {
+    repLog.debug("sortByMetaRefAsLast(" + a.refName + " <=> " + b.refName);
+    return Boolean.compare(
+        RefNames.isNoteDbMetaRef(a.refName), RefNames.isNoteDbMetaRef(b.refName));
+  }
+
+  private static String refUpdateType(String oldRev, String newRev) {
+    if (ZEROS_OBJECTID.equals(oldRev)) {
       return "CREATE";
-    } else if (ZEROS_OBJECTID.equals(event.refUpdate.get().newRev)) {
+    } else if (ZEROS_OBJECTID.equals(newRev)) {
       return "DELETE";
     } else {
       return "UPDATE";
@@ -550,13 +586,13 @@ public class ReplicationQueue
           projectName, refName, objectId, eventCreatedOn, isDelete);
     }
 
-    static ReferenceUpdatedEvent from(RefUpdatedEvent event) {
+    static ReferenceUpdatedEvent from(RefUpdateAttribute refUpdate, long eventCreatedOn) {
       return ReferenceUpdatedEvent.create(
-          event.refUpdate.get().project,
-          event.getRefName(),
-          ObjectId.fromString(event.refUpdate.get().newRev),
-          event.eventCreatedOn,
-          ZEROS_OBJECTID.equals(event.refUpdate.get().newRev));
+          refUpdate.project,
+          refUpdate.refName,
+          ObjectId.fromString(refUpdate.newRev),
+          eventCreatedOn,
+          ZEROS_OBJECTID.equals(refUpdate.newRev));
     }
 
     public abstract String projectName();
