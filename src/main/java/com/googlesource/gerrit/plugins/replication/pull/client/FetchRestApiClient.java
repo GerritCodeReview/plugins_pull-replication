@@ -214,7 +214,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
 
     String url = formatUrl(targetUri.toString(), project, "apply-objects");
     HttpPost post = new HttpPost(url);
-    post.setEntity(new StringEntity(GSON.toJson(input)));
+    post.setEntity(new StringEntity(GSON.toJson(List.of(input))));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
