@@ -136,11 +136,11 @@ public class PullReplicationFilterTest {
   public void shouldFilterApplyObjectsAction() throws Exception {
 
     byte[] payloadApplyObjects =
-        ("{\"label\":\"Replication\",\"ref_name\":\"refs/heads/master\","
+        ("[{\"label\":\"Replication\",\"ref_name\":\"refs/heads/master\","
                 + "\"revisions_data\":[{"
                 + "\"commit_object\":{\"type\":1,\"content\":\"some-content\"},"
                 + "\"tree_object\":{\"type\":2,\"content\":\"some-content\"},"
-                + "\"blobs\":[]}]}")
+                + "\"blobs\":[]}]}]")
             .getBytes(StandardCharsets.UTF_8);
 
     defineBehaviours(payloadApplyObjects, APPLY_OBJECTS_URI);
