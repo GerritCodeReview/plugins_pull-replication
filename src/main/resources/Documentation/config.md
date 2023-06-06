@@ -80,6 +80,13 @@ cache.@PLUGIN@-apply_objects.memoryLimit
 
 	Default is 1024.
 
+event.stream-events.enableBatchRefUpdatedEvents
+: Boolean flag controlling the use of batch ref update events (ie multiple
+  refs updated together in a single `batch-ref-updated` event).
+
+  Default is false.
+
+
 File `@PLUGIN@.config`
 -------------------------
 
