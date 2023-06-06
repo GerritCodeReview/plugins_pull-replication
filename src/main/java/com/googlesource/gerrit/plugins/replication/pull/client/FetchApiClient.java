@@ -22,6 +22,7 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
 import java.util.List;
+
 import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.transport.URIish;
 

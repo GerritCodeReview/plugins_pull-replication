@@ -31,10 +31,11 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingPar
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 
-public class ApplyObjectsAction implements RestModifyView<ProjectResource, RevisionsInput> {
+public class ApplyObjectsAction implements RestModifyView<ProjectResource, List<RevisionsInput>> {
 
   private final ApplyObjectCommand command;
   private final DeleteRefCommand deleteRefCommand;
@@ -51,11 +52,12 @@ public class ApplyObjectsAction implements RestModifyView<ProjectResource, Revis
   }
 
   @Override
-  public Response<?> apply(ProjectResource resource, RevisionsInput input) throws RestApiException {
+  public Response<?> apply(ProjectResource resource, List<RevisionsInput> revisionsInputs) throws RestApiException {
     if (!preConditions.canCallFetchApi()) {
       throw new AuthException("not allowed to call fetch command");
     }
 
+    RevisionsInput input = revisionsInputs.get(0);
     try {
       if (Strings.isNullOrEmpty(input.getLabel())) {
         throw new BadRequestException("Source label cannot be null or empty");

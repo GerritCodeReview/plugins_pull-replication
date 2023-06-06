@@ -45,6 +45,7 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.MalformedJsonException;
 import com.google.inject.Inject;
@@ -57,6 +58,9 @@ import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -188,7 +192,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doApplyObject(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
-    RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class));
+    RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class).getType());
     IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
@@ -198,16 +202,17 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doApplyObjects(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
-    RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class));
+    TypeToken<List<RevisionsInput>> collectionType = new TypeToken<>(){};
+    List<RevisionsInput> input = readJson(httpRequest, collectionType.getType());
     IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
-    return (Response<Map<String, Object>>) applyObjectsAction.apply(projectResource, input);
+    return (Response<Map<String, Object>>) applyObjectsAction.apply(projectResource, new ArrayList<>(input));
   }
 
   @SuppressWarnings("unchecked")
   private Response<String> doUpdateHEAD(HttpServletRequest httpRequest) throws Exception {
-    HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class));
+    HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class).getType());
     IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
@@ -225,7 +230,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doFetch(HttpServletRequest httpRequest)
       throws IOException, RestApiException, PermissionBackendException {
-    Input input = readJson(httpRequest, TypeLiteral.get(Input.class));
+    Input input = readJson(httpRequest, TypeLiteral.get(Input.class).getType());
     IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
@@ -247,7 +252,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     }
   }
 
-  private <T> T readJson(HttpServletRequest httpRequest, TypeLiteral<T> typeLiteral)
+  private <T> T readJson(HttpServletRequest httpRequest, Type typeToken)
       throws IOException, BadRequestException {
 
     try (BufferedReader br = httpRequest.getReader();
@@ -261,7 +266,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
           throw new BadRequestException("Expected JSON object", e);
         }
 
-        return gson.fromJson(json, typeLiteral.getType());
+        return gson.fromJson(json, typeToken);
       } finally {
         try {
           // Reader.close won't consume the rest of the input. Explicitly consume the request

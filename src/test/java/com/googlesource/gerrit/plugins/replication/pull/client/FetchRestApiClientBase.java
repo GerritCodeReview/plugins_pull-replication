@@ -38,6 +38,8 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
+import java.util.List;
+
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
@@ -97,6 +99,7 @@ public abstract class FetchRestApiClientBase {
           + "\",\"type\":2,\"content\":\"MTAwNjQ0IGJsb2IgYmIzODNmNTI0OWM2OGE0Y2M4YzgyYmRkMTIyOGI0YTg4ODNmZjZlOCAgICBmNzVhNjkwMDRhOTNiNGNjYzhjZTIxNWMxMjgwODYzNmMyYjc1Njc1\"},\"blobs\":[{\"sha1\":\""
           + blobObjectId
           + "\",\"type\":3,\"content\":\"ewogICJjb21tZW50cyI6IFsKICAgIHsKICAgICAgImtleSI6IHsKICAgICAgICAidXVpZCI6ICI5MGI1YWJmZl80ZjY3NTI2YSIsCiAgICAgICAgImZpbGVuYW1lIjogIi9DT01NSVRfTVNHIiwKICAgICAgICAicGF0Y2hTZXRJZCI6IDEKICAgICAgfSwKICAgICAgImxpbmVOYnIiOiA5LAogICAgICAiYXV0aG9yIjogewogICAgICAgICJpZCI6IDEwMDAwMDAKICAgICAgfSwKICAgICAgIndyaXR0ZW5PbiI6ICIyMDIxLTAxLTEzVDIyOjU3OjI4WiIsCiAgICAgICJzaWRlIjogMSwKICAgICAgIm1lc3NhZ2UiOiAidGVzdCBjb21tZW50IiwKICAgICAgInJhbmdlIjogewogICAgICAgICJzdGFydExpbmUiOiA5LAogICAgICAgICJzdGFydENoYXIiOiAyMSwKICAgICAgICAiZW5kTGluZSI6IDksCiAgICAgICAgImVuZENoYXIiOiAzNAogICAgICB9LAogICAgICAicmV2SWQiOiAiZjc1YTY5MDA0YTkzYjRjY2M4Y2UyMTVjMTI4MDg2MzZjMmI3NTY3NSIsCiAgICAgICJzZXJ2ZXJJZCI6ICI2OWVjMzhmMC0zNTBlLTRkOWMtOTZkNC1iYzk1NmYyZmFhYWMiLAogICAgICAidW5yZXNvbHZlZCI6IHRydWUKICAgIH0KICBdCn0\\u003d\"}]}}";
+
   String commitObject =
       "tree "
           + treeObjectId
@@ -441,19 +444,60 @@ public abstract class FetchRestApiClientBase {
     assertAuthentication(httpPut);
   }
 
+  @Test
+  public void shouldCallApplyObjectsEndpointWithAListOfRefs() throws IOException, URISyntaxException {
+    RevisionData a = createSampleRevisionData();
+    RevisionData b = createSampleRevisionData("b");
+    List<RevisionData> revisions = List.of(a, b);
+
+    objectUnderTest.callSendObjects(
+        Project.nameKey("test_repo"),
+        refName,
+        eventCreatedOn,
+        revisions,
+        new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+
+    String expectedSendObjectsPayload =
+        "["
+        + "{\"label\":\"Replication\",\"ref_name\":\"" + refName + "\",\"event_created_on\":"
+        + eventCreatedOn
+        + ",\"revisions_data\":["
+        + "{\"commit_object\":{\"sha1\":\"" + revisions.get(0).getCommitObject().getSha1() + "\",\"type\":1,\"content\":\"dHJlZSA3NzgxNGQyMTZhNmNhYjJkZGI5ZjI4NzdmYmJkMGZlYmRjMGZhNjA4CnBhcmVudCA5ODNmZjFhM2NmNzQ3MjVhNTNhNWRlYzhkMGMwNjEyMjEyOGY1YThkCmF1dGhvciBHZXJyaXQgVXNlciAxMDAwMDAwIDwxMDAwMDAwQDY5ZWMzOGYwLTM1MGUtNGQ5Yy05NmQ0LWJjOTU2ZjJmYWFhYz4gMTYxMDU3ODY0OCArMDEwMApjb21taXR0ZXIgR2Vycml0IENvZGUgUmV2aWV3IDxyb290QG1hY3plY2gtWFBTLTE1PiAxNjEwNTc4NjQ4ICswMTAwCgpVcGRhdGUgcGF0Y2ggc2V0IDEKClBhdGNoIFNldCAxOgoKKDEgY29tbWVudCkKClBhdGNoLXNldDogMQo\\u003d\"},"
+        + "\"tree_object\":{\"sha1\":\"" + revisions.get(0).getTreeObject().getSha1() + "\",\"type\":2,\"content\":\"MTAwNjQ0IGJsb2IgYmIzODNmNTI0OWM2OGE0Y2M4YzgyYmRkMTIyOGI0YTg4ODNmZjZlOCAgICBmNzVhNjkwMDRhOTNiNGNjYzhjZTIxNWMxMjgwODYzNmMyYjc1Njc1\"},"
+        + "\"blobs\":[{\"sha1\":\"" + revisions.get(0).getBlobs().get(0).getSha1() +"\",\"type\":3,\"content\":\"ewogICJjb21tZW50cyI6IFsKICAgIHsKICAgICAgImtleSI6IHsKICAgICAgICAidXVpZCI6ICI5MGI1YWJmZl80ZjY3NTI2YSIsCiAgICAgICAgImZpbGVuYW1lIjogIi9DT01NSVRfTVNHIiwKICAgICAgICAicGF0Y2hTZXRJZCI6IDEKICAgICAgfSwKICAgICAgImxpbmVOYnIiOiA5LAogICAgICAiYXV0aG9yIjogewogICAgICAgICJpZCI6IDEwMDAwMDAKICAgICAgfSwKICAgICAgIndyaXR0ZW5PbiI6ICIyMDIxLTAxLTEzVDIyOjU3OjI4WiIsCiAgICAgICJzaWRlIjogMSwKICAgICAgIm1lc3NhZ2UiOiAidGVzdCBjb21tZW50IiwKICAgICAgInJhbmdlIjogewogICAgICAgICJzdGFydExpbmUiOiA5LAogICAgICAgICJzdGFydENoYXIiOiAyMSwKICAgICAgICAiZW5kTGluZSI6IDksCiAgICAgICAgImVuZENoYXIiOiAzNAogICAgICB9LAogICAgICAicmV2SWQiOiAiZjc1YTY5MDA0YTkzYjRjY2M4Y2UyMTVjMTI4MDg2MzZjMmI3NTY3NSIsCiAgICAgICJzZXJ2ZXJJZCI6ICI2OWVjMzhmMC0zNTBlLTRkOWMtOTZkNC1iYzk1NmYyZmFhYWMiLAogICAgICAidW5yZXNvbHZlZCI6IHRydWUKICAgIH0KICBdCn0\\u003d\"}]},"
+        + "{\"commit_object\":{\"sha1\":\"" + revisions.get(1).getCommitObject().getSha1() + "\",\"type\":1,\"content\":\"Y29tbWl0YmNvbnRlbnQ\\u003d\"},"
+        + "\"tree_object\":{\"sha1\":\"" + revisions.get(1).getTreeObject().getSha1() + "\",\"type\":2,\"content\":\"dHJlZWJjb250ZW50\"},"
+        + "\"blobs\":[{\"sha1\":\"" + revisions.get(1).getBlobs().get(0).getSha1() + "\",\"type\":3,\"content\":\"YmxvYmJjb250ZW50\"}]}]}]";
+    assertThat(readPayload(httpPost)).isEqualTo(expectedSendObjectsPayload);
+  }
+
   public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {
     ByteBuffer buf = IO.readWholeStream(entity.getEntity().getContent(), 1024);
     return RawParseUtils.decode(buf.array(), buf.arrayOffset(), buf.limit()).trim();
   }
 
-  private RevisionData createSampleRevisionData() {
+  private RevisionData createSampleRevisionData(String prefix) {
+    String commitPrefix = "commit" + prefix;
+    String treePrefix = "tree" + prefix;
+    String blobPrefix = "blob" + prefix;
+    return createSampleRevisionData(commitPrefix, commitPrefix + "content", treePrefix, treePrefix + "content", blobPrefix, blobPrefix + "content");
+  }
+
+  private RevisionData createSampleRevisionData(String commitObjectId, String commitContent, String treeObjectId, String treeContent, String blobObjectId, String blobContent) {
     RevisionObjectData commitData =
-        new RevisionObjectData(commitObjectId, Constants.OBJ_COMMIT, commitObject.getBytes());
+        new RevisionObjectData(commitObjectId, Constants.OBJ_COMMIT, commitContent.getBytes());
     RevisionObjectData treeData =
-        new RevisionObjectData(treeObjectId, Constants.OBJ_TREE, treeObject.getBytes());
+        new RevisionObjectData(treeObjectId, Constants.OBJ_TREE, treeContent.getBytes());
     RevisionObjectData blobData =
-        new RevisionObjectData(blobObjectId, Constants.OBJ_BLOB, blobObject.getBytes());
+        new RevisionObjectData(blobObjectId, Constants.OBJ_BLOB, blobContent.getBytes());
     return new RevisionData(
         Collections.emptyList(), commitData, treeData, Lists.newArrayList(blobData));
+  }
+  private RevisionData createSampleRevisionData() {
+    return createSampleRevisionData(commitObjectId, commitObject, treeObjectId, treeObject, blobObjectId, blobObject);
   }
 }
