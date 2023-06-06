@@ -34,15 +34,15 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
-import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
+import com.google.gerrit.server.events.BatchRefUpdateEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
-import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
@@ -78,6 +78,10 @@ public class ReplicationQueueTest {
   private static final String FOREIGN_INSTANCE_ID = "any other instance id";
   private static final String TEST_REF_NAME = "refs/meta/heads/anyref";
 
+  private static final Project.NameKey PROJECT = Project.nameKey("defaultProject");
+  private static final String NEW_OBJECT_ID =
+      ObjectId.fromString("3c1ddc050d7906adb0e29bc3bc46af8749b2f63b").getName();
+
   @Mock private WorkQueue wq;
   @Mock private Source source;
   @Mock private SourcesCollection sourceCollection;
@@ -86,7 +90,7 @@ public class ReplicationQueueTest {
   @Mock ReplicationStateListeners sl;
   @Mock FetchRestApiClient fetchRestApiClient;
   @Mock FetchApiClient.Factory fetchClientFactory;
-  @Mock AccountInfo accountInfo;
+  @Mock AccountAttribute accountAttribute;
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
   @Mock HttpResult successfulHttpResult;
@@ -174,7 +178,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldCallSendObjectWhenMetaRef() throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
@@ -183,7 +187,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldIgnoreEventWhenIsNotLocalInstanceId() throws IOException {
-    Event event = new TestEvent();
+    Event event = generateBatchRefUpdateEvent(TEST_REF_NAME);
     event.instanceId = FOREIGN_INSTANCE_ID;
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -194,7 +198,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldCallInitProjectWhenProjectIsMissing() throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isProjectMissing(any())).thenReturn(true);
     when(source.isCreateMissingRepositories()).thenReturn(true);
@@ -207,7 +211,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isProjectMissing(any())).thenReturn(true);
     when(source.isCreateMissingRepositories()).thenReturn(false);
@@ -220,7 +224,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldCallSendObjectWhenPatchSetRef() throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/1");
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
@@ -230,7 +234,7 @@ public class ReplicationQueueTest {
   @Test
   public void shouldFallbackToCallFetchWhenIOException()
       throws IOException, LargeObjectException, RefUpdateException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenThrow(IOException.class);
@@ -243,7 +247,7 @@ public class ReplicationQueueTest {
   @Test
   public void shouldFallbackToCallFetchWhenLargeRef()
       throws IOException, LargeObjectException, RefUpdateException {
-    Event event = new TestEvent("refs/changes/01/1/1");
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenReturn(Optional.empty());
@@ -255,7 +259,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallFetchWhenParentObjectIsMissing() throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/1");
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(httpResult.isSuccessful()).thenReturn(false);
@@ -271,7 +275,7 @@ public class ReplicationQueueTest {
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnMetaRef()
       throws IOException {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
     when(httpResult.isSuccessful()).thenReturn(false, true);
@@ -298,7 +302,7 @@ public class ReplicationQueueTest {
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnAllowedRefs()
       throws IOException {
     String refName = "refs/tags/test-tag";
-    Event event = new TestEvent(refName);
+    Event event = generateBatchRefUpdateEvent(refName);
     objectUnderTest.start();
 
     when(httpResult.isSuccessful()).thenReturn(false, true);
@@ -344,18 +348,18 @@ public class ReplicationQueueTest {
             fetchMetrics,
             LOCAL_INSTANCE_ID,
             applyObjectsRefsFilter);
-    Event event = new TestEvent("refs/multi-site/version");
+    Event event = generateBatchRefUpdateEvent("refs/multi-site/version");
     objectUnderTest.onEvent(event);
 
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
+    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountAttribute);
   }
 
   @Test
   public void shouldSkipEventWhenStarredChangesRef() {
-    Event event = new TestEvent("refs/starred-changes/41/2941/1000000");
+    Event event = generateBatchRefUpdateEvent("refs/starred-changes/41/2941/1000000");
     objectUnderTest.onEvent(event);
 
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
+    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountAttribute);
   }
 
   @Test
@@ -418,28 +422,17 @@ public class ReplicationQueueTest {
     return createTempDirectory(prefix);
   }
 
-  private class TestEvent extends RefUpdatedEvent {
-
-    public TestEvent() {
-      this(TEST_REF_NAME);
-    }
-
-    public TestEvent(String refName) {
-      this(
-          refName,
-          "defaultProject",
-          ObjectId.fromString("3c1ddc050d7906adb0e29bc3bc46af8749b2f63b"));
-    }
-
-    public TestEvent(String refName, String projectName, ObjectId newObjectId) {
-      RefUpdateAttribute upd = new RefUpdateAttribute();
-      upd.newRev = newObjectId.getName();
-      upd.oldRev = ObjectId.zeroId().getName();
-      upd.project = projectName;
-      upd.refName = refName;
-      this.refUpdate = Suppliers.ofInstance(upd);
-      this.instanceId = LOCAL_INSTANCE_ID;
-    }
+  private BatchRefUpdateEvent generateBatchRefUpdateEvent(String ref) {
+    RefUpdateAttribute upd = new RefUpdateAttribute();
+    upd.newRev = NEW_OBJECT_ID;
+    upd.oldRev = ObjectId.zeroId().getName();
+    upd.project = PROJECT.get();
+    upd.refName = ref;
+    BatchRefUpdateEvent event =
+        new BatchRefUpdateEvent(
+            PROJECT, Suppliers.ofInstance(List.of(upd)), Suppliers.ofInstance(accountAttribute));
+    event.instanceId = LOCAL_INSTANCE_ID;
+    return event;
   }
 
   private class FakeProjectDeletedEvent implements ProjectDeletedListener.Event {
