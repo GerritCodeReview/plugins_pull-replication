@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.server.events.BatchRefUpdateEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +62,7 @@ public class PullReplicationWithGitHttpTransportProtocolIT extends PullReplicati
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateWithBasicAuthentication() throws Exception {
     runTest();
   }
@@ -68,6 +70,7 @@ public class PullReplicationWithGitHttpTransportProtocolIT extends PullReplicati
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
   public void shouldReplicateWithBearerTokenAuthentication() throws Exception {
     runTest();
   }
@@ -80,8 +83,8 @@ public class PullReplicationWithGitHttpTransportProtocolIT extends PullReplicati
     String sourceRef = pushResult.getPatchSet().refName();
 
     ReplicationQueue pullReplicationQueue = getInstance(ReplicationQueue.class);
-    FakeGitReferenceUpdatedEvent event =
-        new FakeGitReferenceUpdatedEvent(
+    BatchRefUpdateEvent event =
+        generateBatchRefUpdateEvent(
             project,
             sourceRef,
             ObjectId.zeroId().getName(),
