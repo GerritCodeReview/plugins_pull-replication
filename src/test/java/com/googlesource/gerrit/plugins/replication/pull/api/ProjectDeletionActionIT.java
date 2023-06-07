@@ -32,6 +32,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   @Inject private ProjectOperations projectOperations;
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnUnauthorizedForUserWithoutPermissions() throws Exception {
     httpClientFactory
         .create(source)
@@ -40,6 +41,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldDeleteRepositoryWhenUserHasProjectDeletionCapabilities() throws Exception {
     String testProjectName = project.get();
     url = getURLWithAuthenticationPrefix(testProjectName);
@@ -63,6 +65,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnOKWhenProjectIsDeleted() throws Exception {
     String testProjectName = project.get();
     url = getURLWithAuthenticationPrefix(testProjectName);
@@ -75,6 +78,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnBadRequestWhenDeletingAnInvalidProjectName() throws Exception {
     url = getURLWithAuthenticationPrefix(INVALID_TEST_PROJECT_NAME);
 
@@ -86,6 +90,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnForbiddenForUserWithoutPermissionsOnReplica() throws Exception {
     httpClientFactory
@@ -94,6 +99,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnOKWhenProjectIsDeletedOnReplica() throws Exception {
     String testProjectName = project.get();
@@ -107,6 +113,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldDeleteRepositoryWhenUserHasProjectDeletionCapabilitiesAndNodeIsAReplica()
       throws Exception {
@@ -130,6 +137,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnBadRequestWhenDeletingAnInvalidProjectNameWhenNodeIsAReplica()
       throws Exception {
@@ -143,6 +151,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   public void shouldReturnOKWhenProjectIsDeletedOnReplicaWithBearerToken() throws Exception {
@@ -157,6 +166,7 @@ public class ProjectDeletionActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "false")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   public void shouldReturnOKWhenProjectIsDeletedOnPrimaryWithBearerToken() throws Exception {
