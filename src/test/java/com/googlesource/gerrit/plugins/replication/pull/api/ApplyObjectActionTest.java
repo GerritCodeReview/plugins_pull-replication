@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -48,6 +49,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ApplyObjectActionTest {
+
+  private static final long DUMMY_EVENT_TIMESTAMP = 1684875939;
+
   ApplyObjectAction applyObjectAction;
   String label = "instance-2-label";
   String url = "file:///gerrit-host/instance-1/git/${name}.git";
@@ -55,7 +59,6 @@ public class ApplyObjectActionTest {
   String refMetaName = "refs/meta/version";
   String location = "http://gerrit-host/a/config/server/tasks/08d173e9";
   int taskId = 1234;
-
   private String sampleCommitObjectId = "9f8d52853089a3cf00c02ff7bd0817bd4353a95a";
   private String sampleTreeObjectId = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
   private String sampleBlobObjectId = "b5d7bcf1d1c5b0f0726d10a16c8315f06f900bfb";
@@ -95,7 +98,8 @@ public class ApplyObjectActionTest {
 
   @Test
   public void shouldReturnCreatedResponseCode() throws RestApiException {
-    RevisionInput inputParams = new RevisionInput(label, refName, createSampleRevisionData());
+    RevisionInput inputParams =
+        new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
     Response<?> response = applyObjectAction.apply(projectResource, inputParams);
 
@@ -109,6 +113,7 @@ public class ApplyObjectActionTest {
         new RevisionInput(
             label,
             refMetaName,
+            DUMMY_EVENT_TIMESTAMP,
             createSampleRevisionDataBlob(
                 new RevisionObjectData(sampleBlobObjectId, Constants.OBJ_BLOB, blobData)));
 
@@ -120,7 +125,8 @@ public class ApplyObjectActionTest {
   @SuppressWarnings("cast")
   @Test
   public void shouldReturnSourceUrlAndrefNameAsAResponseBody() throws Exception {
-    RevisionInput inputParams = new RevisionInput(label, refName, createSampleRevisionData());
+    RevisionInput inputParams =
+        new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
     Response<?> response = applyObjectAction.apply(projectResource, inputParams);
 
     assertThat((RevisionInput) response.value()).isEqualTo(inputParams);
@@ -128,28 +134,32 @@ public class ApplyObjectActionTest {
 
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenMissingLabel() throws Exception {
-    RevisionInput inputParams = new RevisionInput(null, refName, createSampleRevisionData());
+    RevisionInput inputParams =
+        new RevisionInput(null, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
     applyObjectAction.apply(projectResource, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenEmptyLabel() throws Exception {
-    RevisionInput inputParams = new RevisionInput("", refName, createSampleRevisionData());
+    RevisionInput inputParams =
+        new RevisionInput("", refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
     applyObjectAction.apply(projectResource, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenMissingRefName() throws Exception {
-    RevisionInput inputParams = new RevisionInput(label, null, createSampleRevisionData());
+    RevisionInput inputParams =
+        new RevisionInput(label, null, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
     applyObjectAction.apply(projectResource, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenEmptyRefName() throws Exception {
-    RevisionInput inputParams = new RevisionInput(label, "", createSampleRevisionData());
+    RevisionInput inputParams =
+        new RevisionInput(label, "", DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
     applyObjectAction.apply(projectResource, inputParams);
   }
@@ -161,7 +171,8 @@ public class ApplyObjectActionTest {
     RevisionObjectData treeData =
         new RevisionObjectData(sampleTreeObjectId, Constants.OBJ_TREE, new byte[] {});
     RevisionInput inputParams =
-        new RevisionInput(label, refName, createSampleRevisionData(commitData, treeData));
+        new RevisionInput(
+            label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData(commitData, treeData));
 
     applyObjectAction.apply(projectResource, inputParams);
   }
@@ -172,7 +183,8 @@ public class ApplyObjectActionTest {
         new RevisionObjectData(
             sampleCommitObjectId, Constants.OBJ_COMMIT, sampleCommitContent.getBytes());
     RevisionInput inputParams =
-        new RevisionInput(label, refName, createSampleRevisionData(commitData, null));
+        new RevisionInput(
+            label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData(commitData, null));
 
     applyObjectAction.apply(projectResource, inputParams);
   }
@@ -180,7 +192,8 @@ public class ApplyObjectActionTest {
   @Test(expected = AuthException.class)
   public void shouldThrowAuthExceptionWhenCallFetchActionCapabilityNotAssigned()
       throws RestApiException {
-    RevisionInput inputParams = new RevisionInput(label, refName, createSampleRevisionData());
+    RevisionInput inputParams =
+        new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
     when(preConditions.canCallFetchApi()).thenReturn(false);
 
@@ -190,13 +203,14 @@ public class ApplyObjectActionTest {
   @Test(expected = ResourceConflictException.class)
   public void shouldThrowResourceConflictExceptionWhenMissingParentObject()
       throws RestApiException, IOException, RefUpdateException, MissingParentObjectException {
-    RevisionInput inputParams = new RevisionInput(label, refName, createSampleRevisionData());
+    RevisionInput inputParams =
+        new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
     doThrow(
             new MissingParentObjectException(
                 Project.nameKey("test_projects"), refName, ObjectId.zeroId()))
         .when(applyObjectCommand)
-        .applyObject(any(), anyString(), any(), anyString());
+        .applyObject(any(), anyString(), any(), anyString(), anyLong());
 
     applyObjectAction.apply(projectResource, inputParams);
   }

@@ -36,6 +36,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   @Inject private ProjectOperations projectOperations;
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnUnauthorizedForUserWithoutPermissions() throws Exception {
     httpClientFactory
         .create(source)
@@ -45,6 +46,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnBadRequestWhenInputIsEmpty() throws Exception {
     httpClientFactory
         .create(source)
@@ -54,6 +56,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnOKWhenHeadIsUpdated() throws Exception {
     String testProjectName = project.get();
     String newBranch = "refs/heads/mybranch";
@@ -71,6 +74,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnBadRequestWhenInputIsEmptyInReplica() throws Exception {
     httpClientFactory
@@ -81,6 +85,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnOKWhenHeadIsUpdatedInReplica() throws Exception {
     String testProjectName = project.get();
@@ -99,6 +104,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnForbiddenWhenMissingPermissions() throws Exception {
     httpClientFactory
         .create(source)
@@ -108,6 +114,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnOKWhenRegisteredUserHasPermissions() throws Exception {
     String testProjectName = project.get();
     String newBranch = "refs/heads/mybranch";
@@ -132,6 +139,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnForbiddenWhenMissingPermissionsInReplica() throws Exception {
     httpClientFactory
@@ -142,6 +150,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   @Ignore("Waiting for resolving: Issue 16332: Not able to update the HEAD from internal user")
@@ -164,6 +173,7 @@ public class UpdateHeadActionIT extends ActionITBase {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "false")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   @Ignore("Waiting for resolving: Issue 16332: Not able to update the HEAD from internal user")

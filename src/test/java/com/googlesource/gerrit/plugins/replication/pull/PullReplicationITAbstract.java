@@ -21,8 +21,6 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.PushOneCommit.Result;
-import com.google.gerrit.acceptance.SkipProjectClone;
-import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Permission;
@@ -50,13 +48,8 @@ import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Test;
 
-@SkipProjectClone
-@UseLocalDisk
-@TestPlugin(
-    name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
-    httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
-public class PullReplicationIT extends PullReplicationSetupBase {
+/** Base class to run regular and async acceptance tests */
+public abstract class PullReplicationITAbstract extends PullReplicationSetupBase {
 
   @Override
   protected void setReplicationSource(
@@ -334,6 +327,7 @@ public class PullReplicationIT extends PullReplicationSetupBase {
     BranchInput input = new BranchInput();
     input.revision = master;
     gApi.projects().name(testProjectName).branch(newBranch).create(input);
+    String branchRevision = gApi.projects().name(testProjectName).branch(newBranch).get().revision;
 
     ReplicationQueue pullReplicationQueue =
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
