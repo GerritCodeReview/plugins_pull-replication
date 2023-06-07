@@ -38,7 +38,9 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
@@ -444,7 +446,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallApplyObjectsEndpointWithAListOfRefs()
+  public void shouldCallApplyObjectsEndpointWithAListOfRevisions()
       throws IOException, URISyntaxException {
     RevisionData a = createSampleRevisionData();
     RevisionData b = createSampleRevisionData("b");
@@ -482,6 +484,36 @@ public abstract class FetchRestApiClientBase {
             + "\"blobs\":[{\"sha1\":\""
             + revisions.get(1).getBlobs().get(0).getSha1()
             + "\",\"type\":3,\"content\":\"YmxvYmJjb250ZW50\"}]}]}]";
+    assertThat(readPayload(httpPost)).isEqualTo(expectedSendObjectsPayload);
+  }
+
+  @Test
+  public void shouldCallApplyObjectsEndpointWithAListOfRefs()
+      throws IOException, URISyntaxException {
+    Map<String, List<RevisionData>> testInput = new LinkedHashMap<>();
+    testInput.put("refs/foo", List.of(createSampleRevisionData("b")));
+    testInput.put("refs/bar", List.of());
+    objectUnderTest.callSendObjectsBatched(
+        Project.nameKey("test_repo"), testInput, eventCreatedOn, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    String expectedSendObjectsPayload =
+        "["
+            + "{\"label\":\"Replication\","
+            + "\"ref_name\":\"refs/foo\","
+            + "\"event_created_on\":"
+            + eventCreatedOn
+            + ",\"revisions_data\":["
+            + "{\"commit_object\":{\"sha1\":\"commitb\",\"type\":1,\"content\":\"Y29tbWl0YmNvbnRlbnQ\\u003d\"},"
+            + "\"tree_object\":{\"sha1\":\"treeb\",\"type\":2,\"content\":\"dHJlZWJjb250ZW50\"},"
+            + "\"blobs\":[{\"sha1\":\"blobb\",\"type\":3,\"content\":\"YmxvYmJjb250ZW50\"}]}]},"
+            + "{\"label\":\"Replication\","
+            + "\"ref_name\":\"refs/bar\","
+            + "\"event_created_on\":"
+            + eventCreatedOn
+            + ",\"revisions_data\":[]}]";
     assertThat(readPayload(httpPost)).isEqualTo(expectedSendObjectsPayload);
   }
 

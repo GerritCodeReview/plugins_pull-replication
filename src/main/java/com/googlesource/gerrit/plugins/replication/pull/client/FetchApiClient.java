@@ -22,6 +22,7 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.transport.URIish;
 
@@ -60,6 +61,13 @@ public interface FetchApiClient {
       String refName,
       long eventCreatedOn,
       List<RevisionData> revisionData,
+      URIish targetUri)
+      throws ClientProtocolException, IOException;
+
+  HttpResult callSendObjectsBatched(
+      NameKey project,
+      Map<String, List<RevisionData>> refNamesToRevisionData,
+      long eventCreatedOn,
       URIish targetUri)
       throws ClientProtocolException, IOException;
 }

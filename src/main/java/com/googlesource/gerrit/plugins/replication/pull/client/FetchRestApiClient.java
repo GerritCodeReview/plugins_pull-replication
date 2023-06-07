@@ -41,7 +41,9 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -212,9 +214,40 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     RevisionsInput input =
         new RevisionsInput(instanceId, refName, eventCreatedOn, revisionData.toArray(inputData));
 
+    return executeHttpRequest(targetUri, project, List.of(input));
+  }
+
+  @Override
+  public HttpResult callSendObjectsBatched(
+      NameKey project,
+      Map<String, List<RevisionData>> refNamesToRevisionData,
+      long eventCreatedOn,
+      URIish targetUri)
+      throws ClientProtocolException, IOException {
+    if (refNamesToRevisionData.size() == 1) {
+      Map.Entry<String, List<RevisionData>> firstEntry =
+          refNamesToRevisionData.entrySet().iterator().next();
+      return callSendObjects(
+          project, firstEntry.getKey(), eventCreatedOn, firstEntry.getValue(), targetUri);
+    } else {
+      ArrayList<RevisionsInput> inputs = new ArrayList<>();
+      refNamesToRevisionData.forEach(
+          (key, value) -> {
+            RevisionsInput input =
+                new RevisionsInput(
+                    instanceId, key, eventCreatedOn, value.toArray(new RevisionData[value.size()]));
+            inputs.add(input);
+          });
+      return executeHttpRequest(targetUri, project, inputs);
+    }
+  }
+
+  private HttpResult executeHttpRequest(
+      URIish targetUri, NameKey project, List<RevisionsInput> revisionsInputs)
+      throws ClientProtocolException, IOException {
     String url = formatUrl(targetUri.toString(), project, "apply-objects");
     HttpPost post = new HttpPost(url);
-    post.setEntity(new StringEntity(GSON.toJson(List.of(input))));
+    post.setEntity(new StringEntity(GSON.toJson(revisionsInputs)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
