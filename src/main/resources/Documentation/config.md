@@ -49,6 +49,37 @@ Then reload the replication plugin to pick up the new configuration:
 To manually trigger replication at runtime, see
 SSH command [start](cmd-start.md).
 
+File `gerrit.config`
+-------------------------
+
+cache.@PLUGIN@-apply_objects.maxAge
+:	Maximum age to keep history of the latest successful apply-object refs.
+	Values should use common unit suffixes to express their setting:
+
+	s, sec, second, seconds
+
+	m, min, minute, minutes
+
+	h, hr, hour, hours
+
+	d, day, days
+
+	w, week, weeks (1 week is treated as 7 days)
+
+	mon, month, months (1 month is treated as 30 days)
+
+	y, year, years (1 year is treated as 365 days)
+
+	If a unit suffix is not specified, seconds is assumed. If 0 is supplied, the maximum age
+	is infinite and items are never purged except when the cache is full.
+
+	Default is 60s.
+
+cache.@PLUGIN@-apply_objects.memoryLimit
+:	The maximum number of apply-object refs retained in memory.
+
+	Default is 1024.
+
 File `@PLUGIN@.config`
 -------------------------
 
@@ -260,6 +291,33 @@ replication.syncRefs
     the ref `foo/bar`, but no other refs.
 
     By default, set to '*' (all refs are replicated synchronously).
+
+replication.fallbackToApplyObjectsRefs
+:   Specify for which refs will fallback to apply-objects REST-API that is capable of applying
+an entire chain of commits on the ref chain so that the Git fetch can be avoided altogether.
+It can be provided more than once, and supports three formats: regular expressions,
+wildcard matching, and single ref matching. All three formats matches are case-sensitive.
+
+    Values starting with a caret `^` are treated as regular
+    expressions. For the regular expressions details please follow
+    official [java documentation](https://docs.oracle.com/javase/tutorial/essential/regex/).
+
+    Please note that regular expressions could also be used
+    with inverse match.
+
+    Values that are not regular expressions and end in `*` are
+    treated as wildcard matches. Wildcards match refs whose
+    name agrees from the beginning until the trailing `*`. So
+    `foo/b*` would match the refs `foo/b`, `foo/bar`, and
+    `foo/baz`, but neither `foobar`, nor `bar/foo/baz`.
+
+    Values that are neither regular expressions nor wildcards are
+    treated as single ref matches. So `foo/bar` matches only
+    the ref `foo/bar`, but no other refs.
+
+    By default, set to 'refs/changes/**/meta'.
+
+    Note that the refs/changes/**/meta always fallback to apply-objects REST-API
 
 replication.maxApiPayloadSize
 :	Maximum size in bytes of the ref to be sent as a REST Api call

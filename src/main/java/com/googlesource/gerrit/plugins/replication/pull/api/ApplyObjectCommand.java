@@ -14,9 +14,11 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.googlesource.gerrit.plugins.replication.pull.ApplyObjectCacheModule.APPLY_OBJECTS_CACHE;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
@@ -26,21 +28,20 @@ import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
-import com.googlesource.gerrit.plugins.replication.pull.Context;
-import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
-import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
-import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
+import com.google.inject.name.Named;
+import com.googlesource.gerrit.plugins.replication.pull.*;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.RefSpec;
@@ -48,7 +49,7 @@ import org.eclipse.jgit.transport.RefSpec;
 public class ApplyObjectCommand {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
+  private final Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache;
   private static final Set<RefUpdate.Result> SUCCESSFUL_RESULTS =
       ImmutableSet.of(
           RefUpdate.Result.NEW,
@@ -68,23 +69,33 @@ public class ApplyObjectCommand {
       ApplyObject applyObject,
       ApplyObjectMetrics metrics,
       DynamicItem<EventDispatcher> eventDispatcher,
-      SourcesCollection sourcesCollection) {
+      SourcesCollection sourcesCollection,
+      @Named(APPLY_OBJECTS_CACHE) Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache) {
     this.fetchStateLog = fetchStateLog;
     this.applyObject = applyObject;
     this.metrics = metrics;
     this.eventDispatcher = eventDispatcher;
     this.sourcesCollection = sourcesCollection;
+    this.refUpdatesSucceededCache = refUpdatesSucceededCache;
   }
 
   public void applyObject(
-      Project.NameKey name, String refName, RevisionData revisionsData, String sourceLabel)
+      Project.NameKey name,
+      String refName,
+      RevisionData revisionsData,
+      String sourceLabel,
+      long eventCreatedOn)
       throws IOException, RefUpdateException, MissingParentObjectException,
           ResourceNotFoundException {
-    applyObjects(name, refName, new RevisionData[] {revisionsData}, sourceLabel);
+    applyObjects(name, refName, new RevisionData[] {revisionsData}, sourceLabel, eventCreatedOn);
   }
 
   public void applyObjects(
-      Project.NameKey name, String refName, RevisionData[] revisionsData, String sourceLabel)
+      Project.NameKey name,
+      String refName,
+      RevisionData[] revisionsData,
+      String sourceLabel,
+      long eventCreatedOn)
       throws IOException, RefUpdateException, MissingParentObjectException,
           ResourceNotFoundException {
 
@@ -97,7 +108,26 @@ public class ApplyObjectCommand {
     Timer1.Context<String> context = metrics.start(sourceLabel);
 
     RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionsData);
+    Boolean isRefUpdateSuccessful = isSuccessful(refUpdateState.getResult());
 
+    if (isRefUpdateSuccessful) {
+      for (RevisionData revisionData : revisionsData) {
+        RevisionObjectData commitObj = revisionData.getCommitObject();
+        List<RevisionObjectData> blobs = revisionData.getBlobs();
+
+        if (commitObj != null) {
+          refUpdatesSucceededCache.put(
+              ApplyObjectsCacheKey.create(
+                  revisionData.getCommitObject().getSha1(), refName, name.get()),
+              eventCreatedOn);
+        } else if (blobs != null) {
+          for (RevisionObjectData blob : blobs) {
+            refUpdatesSucceededCache.put(
+                ApplyObjectsCacheKey.create(blob.getSha1(), refName, name.get()), eventCreatedOn);
+          }
+        }
+      }
+    }
     long elapsed = NANOSECONDS.toMillis(context.stop());
 
     try {
@@ -125,7 +155,7 @@ public class ApplyObjectCommand {
       Context.unsetLocalEvent();
     }
 
-    if (!isSuccessful(refUpdateState.getResult())) {
+    if (!isRefUpdateSuccessful) {
       String message =
           String.format(
               "RefUpdate failed with result %s for: sourceLcabel=%s, project=%s, refName=%s",
