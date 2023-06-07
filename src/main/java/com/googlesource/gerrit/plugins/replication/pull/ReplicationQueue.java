@@ -20,13 +20,15 @@ import com.google.common.collect.Queues;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1.Context;
+import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.events.EventListener;
+import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -36,6 +38,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -64,8 +67,8 @@ import org.slf4j.LoggerFactory;
 
 public class ReplicationQueue
     implements ObservableQueue,
+        EventListener,
         LifecycleListener,
-        GitBatchRefUpdateListener,
         ProjectDeletedListener,
         HeadUpdatedListener {
 
@@ -73,6 +76,8 @@ public class ReplicationQueue
   static final Logger repLog = LoggerFactory.getLogger(PULL_REPLICATION_LOG_NAME);
 
   private static final Integer DEFAULT_FETCH_CALLS_TIMEOUT = 0;
+  private static final String REF_UDPATED_EVENT_TYPE = new RefUpdatedEvent().type;
+  private static final String ZEROS_OBJECTID = ObjectId.zeroId().getName();
   private final ReplicationStateListener stateLog;
 
   private final WorkQueue workQueue;
@@ -87,6 +92,8 @@ public class ReplicationQueue
   private Provider<RevisionReader> revReaderProvider;
   private final ApplyObjectMetrics applyObjectMetrics;
   private final FetchReplicationMetrics fetchMetrics;
+  private final String instanceId;
+  private ApplyObjectsRefsFilter applyObjectsRefsFilter;
 
   @Inject
   ReplicationQueue(
@@ -98,7 +105,9 @@ public class ReplicationQueue
       ExcludedRefsFilter refsFilter,
       Provider<RevisionReader> revReaderProvider,
       ApplyObjectMetrics applyObjectMetrics,
-      FetchReplicationMetrics fetchMetrics) {
+      FetchReplicationMetrics fetchMetrics,
+      @GerritInstanceId String instanceId,
+      ApplyObjectsRefsFilter applyObjectsRefsFilter) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
@@ -109,6 +118,8 @@ public class ReplicationQueue
     this.revReaderProvider = revReaderProvider;
     this.applyObjectMetrics = applyObjectMetrics;
     this.fetchMetrics = fetchMetrics;
+    this.instanceId = instanceId;
+    this.applyObjectsRefsFilter = applyObjectsRefsFilter;
   }
 
   @Override
@@ -147,24 +158,21 @@ public class ReplicationQueue
   }
 
   @Override
-  public void onGitBatchRefUpdate(GitBatchRefUpdateListener.Event event) {
-    event.getUpdatedRefs().stream()
-        .sorted(ReplicationQueue::sortByMetaRefAsLast)
-        .forEachOrdered(
-            updateRef -> {
-              String refName = updateRef.getRefName();
+  public void onEvent(com.google.gerrit.server.events.Event e) {
+    if (e.type.equals(REF_UDPATED_EVENT_TYPE) && instanceId.equals(e.instanceId)) {
+      RefUpdatedEvent event = (RefUpdatedEvent) e;
 
-              if (isRefToBeReplicated(refName)) {
-                repLog.info(
-                    "Ref event received: {} on project {}:{} - {} => {}",
-                    refUpdateType(updateRef),
-                    event.getProjectName(),
-                    refName,
-                    updateRef.getOldObjectId(),
-                    updateRef.getNewObjectId());
-                fire(ReferenceUpdatedEvent.from(event.getProjectName(), updateRef));
-              }
-            });
+      if (isRefToBeReplicated(event.getRefName())) {
+        repLog.info(
+            "Ref event received: {} on project {}:{} - {} => {}",
+            refUpdateType(event),
+            event.refUpdate.get().project,
+            event.getRefName(),
+            event.refUpdate.get().oldRev,
+            event.refUpdate.get().newRev);
+        fire(ReferenceUpdatedEvent.from(event));
+      }
+    }
   }
 
   @Override
@@ -177,20 +185,13 @@ public class ReplicationQueue
                 source.getApis().forEach(apiUrl -> source.scheduleDeleteProject(apiUrl, project)));
   }
 
-  private static int sortByMetaRefAsLast(UpdatedRef a, @SuppressWarnings("unused") UpdatedRef b) {
-    repLog.info("sortByMetaRefAsLast(" + a.getRefName() + " <=> " + b.getRefName());
-    return Boolean.compare(
-        RefNames.isNoteDbMetaRef(a.getRefName()), RefNames.isNoteDbMetaRef(b.getRefName()));
-  }
-
-  private static String refUpdateType(UpdatedRef updateRef) {
-    String forcedPrefix = updateRef.isNonFastForward() ? "FORCED " : " ";
-    if (updateRef.isCreate()) {
-      return forcedPrefix + "CREATE";
-    } else if (updateRef.isDelete()) {
-      return forcedPrefix + "DELETE";
+  private static String refUpdateType(RefUpdatedEvent event) {
+    if (ZEROS_OBJECTID.equals(event.refUpdate.get().oldRev)) {
+      return "CREATE";
+    } else if (ZEROS_OBJECTID.equals(event.refUpdate.get().newRev)) {
+      return "DELETE";
     } else {
-      return forcedPrefix + "UPDATE";
+      return "UPDATE";
     }
   }
 
@@ -227,6 +228,7 @@ public class ReplicationQueue
               Project.nameKey(event.projectName()),
               event.objectId(),
               event.refName(),
+              event.eventCreatedOn(),
               event.isDelete(),
               state);
       fetchCallsPool
@@ -250,9 +252,11 @@ public class ReplicationQueue
       NameKey project,
       ObjectId objectId,
       String refName,
+      long eventCreatedOn,
       boolean isDelete,
       ReplicationState state) {
-    CallFunction call = getCallFunction(project, objectId, refName, isDelete, state);
+    CallFunction call =
+        getCallFunction(project, objectId, refName, eventCreatedOn, isDelete, state);
 
     return (source) -> {
       boolean callSuccessful;
@@ -277,10 +281,12 @@ public class ReplicationQueue
       NameKey project,
       ObjectId objectId,
       String refName,
+      long eventCreatedOn,
       boolean isDelete,
       ReplicationState state) {
     if (isDelete) {
-      return ((source) -> callSendObject(source, project, refName, isDelete, null, state));
+      return ((source) ->
+          callSendObject(source, project, refName, eventCreatedOn, isDelete, null, state));
     }
 
     try {
@@ -295,7 +301,13 @@ public class ReplicationQueue
       if (revisionData.isPresent()) {
         return ((source) ->
             callSendObject(
-                source, project, refName, isDelete, Arrays.asList(revisionData.get()), state));
+                source,
+                project,
+                refName,
+                eventCreatedOn,
+                isDelete,
+                Arrays.asList(revisionData.get()),
+                state));
       }
     } catch (InvalidObjectIdException | IOException e) {
       stateLog.error(
@@ -311,8 +323,9 @@ public class ReplicationQueue
 
   private boolean callSendObject(
       Source source,
-      Project.NameKey project,
+      NameKey project,
       String refName,
+      long eventCreatedOn,
       boolean isDelete,
       List<RevisionData> revision,
       ReplicationState state)
@@ -332,8 +345,9 @@ public class ReplicationQueue
           Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
           HttpResult result =
               isDelete
-                  ? fetchClient.callSendObject(project, refName, isDelete, null, uri)
-                  : fetchClient.callSendObjects(project, refName, revision, uri);
+                  ? fetchClient.callSendObject(
+                      project, refName, eventCreatedOn, isDelete, null, uri)
+                  : fetchClient.callSendObjects(project, refName, eventCreatedOn, revision, uri);
           boolean resultSuccessful = result.isSuccessful();
           repLog.info(
               "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
@@ -355,7 +369,8 @@ public class ReplicationQueue
           if (!resultSuccessful) {
             if (result.isParentObjectMissing()) {
 
-              if (RefNames.isNoteDbMetaRef(refName) && revision.size() == 1) {
+              if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
+                  && revision.size() == 1) {
                 List<RevisionData> allRevisions =
                     fetchWholeMetaHistory(project, refName, revision.get(0));
                 repLog.info(
@@ -364,7 +379,8 @@ public class ReplicationQueue
                     project,
                     refName,
                     allRevisions);
-                return callSendObject(source, project, refName, isDelete, allRevisions, state);
+                return callSendObject(
+                    source, project, refName, eventCreatedOn, isDelete, allRevisions, state);
               }
 
               throw new MissingParentObjectException(
@@ -526,17 +542,22 @@ public class ReplicationQueue
   abstract static class ReferenceUpdatedEvent {
 
     static ReferenceUpdatedEvent create(
-        String projectName, String refName, ObjectId objectId, boolean isDelete) {
+        String projectName,
+        String refName,
+        ObjectId objectId,
+        long eventCreatedOn,
+        boolean isDelete) {
       return new AutoValue_ReplicationQueue_ReferenceUpdatedEvent(
-          projectName, refName, objectId, isDelete);
+          projectName, refName, objectId, eventCreatedOn, isDelete);
     }
 
-    static ReferenceUpdatedEvent from(String projectName, UpdatedRef updateRef) {
+    static ReferenceUpdatedEvent from(RefUpdatedEvent event) {
       return ReferenceUpdatedEvent.create(
-          projectName,
-          updateRef.getRefName(),
-          ObjectId.fromString(updateRef.getNewObjectId()),
-          updateRef.isDelete());
+          event.refUpdate.get().project,
+          event.getRefName(),
+          ObjectId.fromString(event.refUpdate.get().newRev),
+          event.eventCreatedOn,
+          ZEROS_OBJECTID.equals(event.refUpdate.get().newRev));
     }
 
     public abstract String projectName();
@@ -544,6 +565,8 @@ public class ReplicationQueue
     public abstract String refName();
 
     public abstract ObjectId objectId();
+
+    public abstract long eventCreatedOn();
 
     public abstract boolean isDelete();
   }

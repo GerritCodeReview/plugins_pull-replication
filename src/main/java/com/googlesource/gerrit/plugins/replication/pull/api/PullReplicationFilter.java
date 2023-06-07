@@ -56,7 +56,6 @@ import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.InvalidPathException;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -69,7 +68,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PullReplicationFilter extends AllRequestFilter {
+public class PullReplicationFilter extends AllRequestFilter implements PullReplicationEndpoints {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final Pattern projectNameInGerritUrl = Pattern.compile(".*/projects/([^/]+)/.*");
@@ -159,7 +158,8 @@ public class PullReplicationFilter extends AllRequestFilter {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_BAD_REQUEST, "Project name not present in the url", e);
     } catch (Exception e) {
-      if (e instanceof InvalidPathException || e.getCause() instanceof InvalidPathException) {
+      if (e instanceof IllegalArgumentException
+          || e.getCause() instanceof IllegalArgumentException) {
         RestApiServlet.replyError(
             httpRequest, httpResponse, SC_BAD_REQUEST, "Invalid repository path in request", e);
       } else {
@@ -299,19 +299,25 @@ public class PullReplicationFilter extends AllRequestFilter {
   }
 
   private boolean isApplyObjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith(String.format("/%s~apply-object", pluginName));
+    return httpRequest
+        .getRequestURI()
+        .endsWith(String.format("/%s~" + APPLY_OBJECT_API_ENDPOINT, pluginName));
   }
 
   private boolean isApplyObjectsAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith(String.format("/%s~apply-objects", pluginName));
+    return httpRequest
+        .getRequestURI()
+        .endsWith(String.format("/%s~" + APPLY_OBJECTS_API_ENDPOINT, pluginName));
   }
 
   private boolean isFetchAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith(String.format("/%s~fetch", pluginName));
+    return httpRequest.getRequestURI().endsWith(String.format("/%s~" + FETCH_ENDPOINT, pluginName));
   }
 
   private boolean isInitProjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().contains(String.format("/%s/init-project/", pluginName));
+    return httpRequest
+        .getRequestURI()
+        .contains(String.format("/%s/" + INIT_PROJECT_ENDPOINT + "/", pluginName));
   }
 
   private boolean isUpdateHEADAction(HttpServletRequest httpRequest) {
@@ -320,7 +326,9 @@ public class PullReplicationFilter extends AllRequestFilter {
   }
 
   private boolean isDeleteProjectAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().endsWith(String.format("/%s~delete-project", pluginName))
+    return httpRequest
+            .getRequestURI()
+            .endsWith(String.format("/%s~" + DELETE_PROJECT_ENDPOINT, pluginName))
         && "DELETE".equals(httpRequest.getMethod());
   }
 }
