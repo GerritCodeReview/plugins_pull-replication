@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,18 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import com.google.gerrit.acceptance.SkipProjectClone;
-import com.google.gerrit.acceptance.TestPlugin;
-import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.auto.value.AutoValue;
 
-@SkipProjectClone
-@UseLocalDisk
-@TestPlugin(
-    name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
-    httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
-public class PullReplicationIT extends PullReplicationITAbstract {}
+@AutoValue
+public abstract class ApplyObjectsCacheKey {
+
+  public static ApplyObjectsCacheKey create(String objectId, String refName, String project) {
+    return new AutoValue_ApplyObjectsCacheKey(objectId, refName, project);
+  }
+
+  public abstract String objectId();
+
+  public abstract String refName();
+
+  public abstract String project();
+}

@@ -1,4 +1,4 @@
-// Copyright (C) 2022 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,16 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import com.google.gerrit.acceptance.SkipProjectClone;
-import com.google.gerrit.acceptance.TestPlugin;
-import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.server.cache.CacheModule;
+import java.time.Duration;
 
-@SkipProjectClone
-@UseLocalDisk
-@TestPlugin(
-    name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
-    httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
-public class PullReplicationIT extends PullReplicationITAbstract {}
+public class ApplyObjectCacheModule extends CacheModule {
+  public static final String APPLY_OBJECTS_CACHE = "apply_objects";
+  public static final Duration APPLY_OBJECTS_CACHE_MAX_AGE = Duration.ofMinutes(1);
+
+  @Override
+  protected void configure() {
+    cache(APPLY_OBJECTS_CACHE, ApplyObjectsCacheKey.class, Long.class)
+        .expireAfterWrite(APPLY_OBJECTS_CACHE_MAX_AGE);
+  }
+}

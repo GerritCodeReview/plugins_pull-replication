@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
@@ -46,14 +47,19 @@ public interface FetchApiClient {
   HttpResult updateHead(Project.NameKey project, String newHead, URIish apiUri) throws IOException;
 
   HttpResult callSendObject(
-      Project.NameKey project,
+      NameKey project,
       String refName,
+      long eventCreatedOn,
       boolean isDelete,
       RevisionData revisionData,
       URIish targetUri)
       throws ClientProtocolException, IOException;
 
   HttpResult callSendObjects(
-      Project.NameKey project, String refName, List<RevisionData> revisionData, URIish targetUri)
+      NameKey project,
+      String refName,
+      long eventCreatedOn,
+      List<RevisionData> revisionData,
+      URIish targetUri)
       throws ClientProtocolException, IOException;
 }

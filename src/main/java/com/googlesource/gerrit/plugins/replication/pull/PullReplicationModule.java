@@ -80,6 +80,7 @@ class PullReplicationModule extends AbstractModule {
     bind(RevisionReader.class).in(Scopes.SINGLETON);
     bind(ApplyObject.class);
     install(new FactoryModuleBuilder().build(FetchJob.Factory.class));
+    install(new ApplyObjectCacheModule());
     install(new PullReplicationApiModule());
 
     install(new FetchRefReplicatedEventModule());
