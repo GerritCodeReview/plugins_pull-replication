@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efbae77d_dc0af251",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-12T07:04:54Z",
+      "side": 1,
+      "message": "We should probably adjust the log here with a more generic \"Invalid argument...\".",
+      "range": {
+        "startLine": 164,
+        "startChar": 56,
+        "endLine": 164,
+        "endChar": 80
+      },
+      "revId": "ea90b3f4dfbb88b5b809f1b9ec2f7fcf15085f7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
