@@ -87,6 +87,30 @@
       },
       "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d55481d6_38d5139d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchReplicationMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-12T12:15:39Z",
+      "side": 1,
+      "message": "\u003e Did we not say that the method where this metric is updated is always used during the async code path\n\nAsync/sync fetch call is decided based on replication.syncRefs[1] param and it\u0027s implemented in[2].\n\nI\u0027m not sure if I see benefits of keeping this metric because it can show many different values based on the configuration. In the case where we have part of the refs async and part of them sync it really doesn\u0027t present much value\n\n1. https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/resources/Documentation/config.md\n\n2. https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java#117",
+      "parentUuid": "7365bd4b_fc5b2431",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 54
+      },
+      "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
