@@ -118,6 +118,30 @@
       },
       "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2662699_c9b9e4b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-06-13T11:31:23Z",
+      "side": 1,
+      "message": "Ok, this means replication always fetches from the instance which did the ref update which solves this problem. But this implies that if P1 becomes unavailable after it sent the event and before replication to the other instances finished we are stuck since P2 and P3 can only catch up if P1 comes up again.",
+      "parentUuid": "4fcdaac5_29e2cd2e",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
