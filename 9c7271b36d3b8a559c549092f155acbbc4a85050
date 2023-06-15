@@ -111,6 +111,30 @@
       },
       "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21497a39_7a6dfe6b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchReplicationMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-15T11:19:23Z",
+      "side": 1,
+      "message": "I see - thanks a lot for that, its clear now!\nSo I think you are suggesting to get rid of the metric completely?\n\nAs an alternative, could we perhaps move the metric recording logic from the `ReplicationQueue` to the `FetchRestApiClient.callFetch` method? Because at that method we decide if it will be async or not, so we can choose what metric to use.\n\nWDYT?",
+      "parentUuid": "d55481d6_38d5139d",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 54
+      },
+      "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
