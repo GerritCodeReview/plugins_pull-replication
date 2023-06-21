@@ -35,6 +35,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
@@ -43,6 +44,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -196,6 +198,38 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   }
 
   @Override
+  public HttpResult callBatchSendObject(
+      NameKey project,
+      List<BatchApplyObjectData> batchedRefs,
+      long eventCreatedOn,
+      URIish targetUri)
+      throws ClientProtocolException, IOException {
+    List<RevisionInput> inputs =
+        batchedRefs.stream()
+            .map(
+                batchApplyObject -> {
+                  if (batchApplyObject.isDelete()) {
+                    requireNoRevisionData(
+                        batchApplyObject.getRevisionData(),
+                        "DELETE ref-updates cannot be associated with a RevisionData");
+                  }
+                  return new RevisionInput(
+                      instanceId,
+                      batchApplyObject.getRefName(),
+                      eventCreatedOn,
+                      batchApplyObject.getRevisionData().orElse(null));
+                })
+            .collect(Collectors.toList());
+
+    String url = formatUrl(targetUri.toString(), project, "batch-apply-object");
+
+    HttpPost post = new HttpPost(url);
+    post.setEntity(new StringEntity(GSON.toJson(inputs)));
+    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    return executeRequest(post, bearerTokenProvider.get(), targetUri);
+  }
+
+  @Override
   public HttpResult callSendObjects(
       NameKey project,
       String refName,
@@ -234,6 +268,12 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   private void requireNull(Object object, String string) {
     if (object != null) {
       throw new IllegalArgumentException(string);
+    }
+  }
+
+  private void requireNoRevisionData(Optional<RevisionData> maybeObject, String msg) {
+    if (maybeObject.isPresent()) {
+      throw new IllegalArgumentException(msg);
     }
   }
 
