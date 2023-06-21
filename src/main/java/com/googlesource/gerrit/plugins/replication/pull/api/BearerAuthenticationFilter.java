@@ -125,6 +125,7 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
     return (requestURI.contains(pluginName)
             && (requestURI.endsWith(String.format("/%s~apply-object", pluginName))
                 || requestURI.endsWith(String.format("/%s~apply-objects", pluginName))
+                || requestURI.endsWith(String.format("/%s~apply-batch-object", pluginName))
                 || requestURI.endsWith(String.format("/%s~fetch", pluginName))
                 || requestURI.endsWith(String.format("/%s~delete-project", pluginName))
                 || requestURI.contains(String.format("/%s/init-project/", pluginName))))

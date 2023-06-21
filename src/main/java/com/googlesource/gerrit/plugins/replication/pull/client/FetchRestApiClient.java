@@ -42,7 +42,9 @@ import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -191,6 +193,31 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
 
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
+    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    return executeRequest(post, bearerTokenProvider.get(), targetUri);
+  }
+
+  @Override
+  public HttpResult callSendBatchObject(
+      NameKey project,
+      Map<String, Optional<RevisionData>> revisionData,
+      long eventCreatedOn,
+      URIish targetUri)
+      throws ClientProtocolException, IOException {
+    // TODO: ADD LOGIC FOR REF DELETE
+    // TODO: Check if it is preserving the order of refs or replace revisionData with List
+    List<RevisionInput> inputs =
+        revisionData.entrySet().stream()
+            .map(
+                entry ->
+                    new RevisionInput(
+                        instanceId, entry.getKey(), eventCreatedOn, entry.getValue().orElse(null)))
+            .collect(Collectors.toList());
+
+    String url = formatUrl(targetUri.toString(), project, "apply-batch-object");
+
+    HttpPost post = new HttpPost(url);
+    post.setEntity(new StringEntity(GSON.toJson(inputs)));
     post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
