@@ -30,26 +30,36 @@ public class HttpResultTest {
   public static Iterable<Object[]> data() {
     return Arrays.asList(
         new Object[][] {
-          {HttpServletResponse.SC_OK, true},
-          {HttpServletResponse.SC_CREATED, true},
-          {HttpServletResponse.SC_ACCEPTED, true},
-          {HttpServletResponse.SC_NO_CONTENT, true},
-          {HttpServletResponse.SC_BAD_REQUEST, false},
-          {HttpServletResponse.SC_CONFLICT, false}
+          {HttpServletResponse.SC_OK, true, true},
+          {HttpServletResponse.SC_CREATED, true, true},
+          {HttpServletResponse.SC_ACCEPTED, true, true},
+          {HttpServletResponse.SC_NO_CONTENT, true, true},
+          {HttpServletResponse.SC_BAD_REQUEST, false, true},
+          {HttpServletResponse.SC_NOT_FOUND, false, false},
+          {HttpServletResponse.SC_CONFLICT, false, true}
         });
   }
 
   private Integer httpStatus;
   private boolean isSuccessful;
+  private boolean isSendBatchObjectAvailable;
 
-  public HttpResultTest(Integer httpStatus, Boolean isSuccessful) {
+  public HttpResultTest(
+      Integer httpStatus, Boolean isSuccessful, Boolean isSendBatchObjectAvailable) {
     this.httpStatus = httpStatus;
     this.isSuccessful = isSuccessful;
+    this.isSendBatchObjectAvailable = isSendBatchObjectAvailable;
   }
 
   @Test
   public void httpResultIsSuccessful() {
     HttpResult httpResult = new HttpResult(httpStatus, Optional.empty());
     assertThat(httpResult.isSuccessful()).isEqualTo(isSuccessful);
+  }
+
+  @Test
+  public void httpResultIsSendBatchObjectAvailable() {
+    HttpResult httpResult = new HttpResult(httpStatus, Optional.empty());
+    assertThat(httpResult.isSendBatchObjectAvailable()).isEqualTo(isSendBatchObjectAvailable);
   }
 }
