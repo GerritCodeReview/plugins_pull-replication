@@ -30,6 +30,7 @@ import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
@@ -37,7 +38,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
@@ -430,19 +434,141 @@ public abstract class FetchRestApiClientBase {
     assertAuthentication(httpPut);
   }
 
+  @Test
+  public void shouldCallBatchSendObjectEndpoint() throws IOException, URISyntaxException {
+
+    List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
+    batchApplyObjects.add(
+        new BatchApplyObjectData(refName, Optional.of(createSampleRevisionData("a")), false));
+
+    objectUnderTest.callBatchSendObject(
+        Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPost.getURI().getPath())
+        .isEqualTo(
+            String.format(
+                "%s/projects/test_repo/pull-replication~batch-apply-object",
+                urlAuthenticationPrefix()));
+    assertAuthentication(httpPost);
+  }
+
+  @Test
+  public void shouldCallBatchApplyObjectEndpointWithAListOfRefsInPayload()
+      throws IOException, URISyntaxException {
+    List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
+    RevisionData revisionA = createSampleRevisionData("a");
+    RevisionData revisionB = createSampleRevisionData("b");
+    String refNameB = "refs/heads/b";
+    batchApplyObjects.add(new BatchApplyObjectData(refName, Optional.of(revisionA), false));
+    batchApplyObjects.add(new BatchApplyObjectData(refNameB, Optional.of(revisionB), false));
+
+    objectUnderTest.callBatchSendObject(
+        Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+
+    String expectedSendObjectsPayload =
+        "[{\"label\":\"Replication\",\"ref_name\":\""
+            + refName
+            + "\",\"event_created_on\":"
+            + eventCreatedOn
+            + ",\"revision_data\":{\"commit_object\":{\"sha1\":\""
+            + revisionA.getCommitObject().getSha1()
+            + "\",\"type\":1,\"content\":\"Y29tbWl0YWNvbnRlbnQ\\u003d\"},\"tree_object\":{\"sha1\":\""
+            + revisionA.getTreeObject().getSha1()
+            + "\",\"type\":2,\"content\":\"dHJlZWFjb250ZW50\"},\"blobs\":[{\"sha1\":\""
+            + revisionA.getBlobs().get(0).getSha1()
+            + "\",\"type\":3,\"content\":\"YmxvYmFjb250ZW50\"}]}},"
+            + "{\"label\":\"Replication\",\"ref_name\":\""
+            + refNameB
+            + "\",\"event_created_on\":"
+            + eventCreatedOn
+            + ",\"revision_data\":{\"commit_object\":{\"sha1\":\""
+            + revisionB.getCommitObject().getSha1()
+            + "\",\"type\":1,\"content\":\"Y29tbWl0YmNvbnRlbnQ\\u003d\"},\"tree_object\":{\"sha1\":\""
+            + revisionB.getTreeObject().getSha1()
+            + "\",\"type\":2,\"content\":\"dHJlZWJjb250ZW50\"},\"blobs\":[{\"sha1\":\""
+            + revisionB.getBlobs().get(0).getSha1()
+            + "\",\"type\":3,\"content\":\"YmxvYmJjb250ZW50\"}]}}]";
+    assertThat(readPayload(httpPost)).isEqualTo(expectedSendObjectsPayload);
+  }
+
+  @Test
+  public void shouldCallBatchApplyObjectEndpointWithNoRevisionDataForDeletes()
+      throws IOException, URISyntaxException {
+    List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
+    batchApplyObjects.add(new BatchApplyObjectData(refName, Optional.empty(), true));
+
+    objectUnderTest.callBatchSendObject(
+        Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+
+    String expectedSendObjectsPayload =
+        "[{\"label\":\"Replication\",\"ref_name\":\""
+            + refName
+            + "\",\"event_created_on\":"
+            + eventCreatedOn
+            + "}]";
+    assertThat(readPayload(httpPost)).isEqualTo(expectedSendObjectsPayload);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldThrowExceptionIfDeleteFlagIsSetButRevisionDataIsPresentForBatchSendEndpoint()
+      throws IOException, URISyntaxException {
+    List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
+    batchApplyObjects.add(
+        new BatchApplyObjectData(refName, Optional.of(createSampleRevisionData()), true));
+
+    objectUnderTest.callBatchSendObject(
+        Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
+  }
+
   public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {
     ByteBuffer buf = IO.readWholeStream(entity.getEntity().getContent(), 1024);
     return RawParseUtils.decode(buf.array(), buf.arrayOffset(), buf.limit()).trim();
   }
 
-  private RevisionData createSampleRevisionData() {
+  private RevisionData createSampleRevisionData(String prefix) {
+    String commitPrefix = "commit" + prefix;
+    String treePrefix = "tree" + prefix;
+    String blobPrefix = "blob" + prefix;
+    return createSampleRevisionData(
+        commitPrefix,
+        commitPrefix + "content",
+        treePrefix,
+        treePrefix + "content",
+        blobPrefix,
+        blobPrefix + "content");
+  }
+
+  private RevisionData createSampleRevisionData(
+      String commitObjectId,
+      String commitContent,
+      String treeObjectId,
+      String treeContent,
+      String blobObjectId,
+      String blobContent) {
     RevisionObjectData commitData =
-        new RevisionObjectData(commitObjectId, Constants.OBJ_COMMIT, commitObject.getBytes());
+        new RevisionObjectData(commitObjectId, Constants.OBJ_COMMIT, commitContent.getBytes());
     RevisionObjectData treeData =
-        new RevisionObjectData(treeObjectId, Constants.OBJ_TREE, treeObject.getBytes());
+        new RevisionObjectData(treeObjectId, Constants.OBJ_TREE, treeContent.getBytes());
     RevisionObjectData blobData =
-        new RevisionObjectData(blobObjectId, Constants.OBJ_BLOB, blobObject.getBytes());
+        new RevisionObjectData(blobObjectId, Constants.OBJ_BLOB, blobContent.getBytes());
     return new RevisionData(
         Collections.emptyList(), commitData, treeData, Lists.newArrayList(blobData));
+  }
+
+  private RevisionData createSampleRevisionData() {
+    return createSampleRevisionData(
+        commitObjectId, commitObject, treeObjectId, treeObject, blobObjectId, blobObject);
   }
 }
