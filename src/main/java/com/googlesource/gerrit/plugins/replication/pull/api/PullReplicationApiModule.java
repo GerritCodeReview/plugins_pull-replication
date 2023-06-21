@@ -29,8 +29,11 @@ public class PullReplicationApiModule extends RestApiModule {
     bind(ApplyObjectAction.class).in(Scopes.SINGLETON);
     bind(ProjectDeletionAction.class).in(Scopes.SINGLETON);
     bind(UpdateHeadAction.class).in(Scopes.SINGLETON);
+    // TODO: Why need binding here?
+    bind(BatchApplyObjectAction.class).in(Scopes.SINGLETON);
     post(PROJECT_KIND, "fetch").to(FetchAction.class);
     post(PROJECT_KIND, "apply-object").to(ApplyObjectAction.class);
+    post(PROJECT_KIND, "batch-apply-object").to(BatchApplyObjectAction.class);
     post(PROJECT_KIND, "apply-objects").to(ApplyObjectsAction.class);
     delete(PROJECT_KIND, "delete-project").to(ProjectDeletionAction.class);
     put(PROJECT_KIND, "HEAD").to(UpdateHeadAction.class);
