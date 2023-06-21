@@ -91,6 +91,11 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
+  public void shouldAuthenticateWhenBatchApplyObject() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~batch-apply-object", NO_QUERY_PARAMETERS);
+  }
+
+  @Test
   public void shouldAuthenticateWhenDeleteProject() throws ServletException, IOException {
     authenticateAndFilter("any-prefix/pull-replication~delete-project", NO_QUERY_PARAMETERS);
   }
