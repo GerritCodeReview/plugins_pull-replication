@@ -99,6 +99,7 @@ public class ReplicationQueueTest {
   @Mock RevisionData revisionDataWithParents;
   List<ObjectId> revisionDataParentObjectIds;
   @Mock HttpResult httpResult;
+  @Mock HttpResult batchHttpResult;
   @Mock ApplyObjectsRefsFilter applyObjectsRefsFilter;
   ApplyObjectMetrics applyObjectMetrics;
   FetchReplicationMetrics fetchMetrics;
@@ -151,12 +152,17 @@ public class ReplicationQueueTest {
     lenient()
         .when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
         .thenReturn(httpResult);
+    lenient()
+        .when(fetchRestApiClient.callBatchSendObject(any(), any(), anyLong(), any()))
+        .thenReturn(batchHttpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
     when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
     when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
+    when(batchHttpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
+    when(batchHttpResult.isProjectMissing(any())).thenReturn(false);
     when(applyObjectsRefsFilter.match(any())).thenReturn(false);
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
@@ -178,12 +184,12 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectWhenMetaRef() throws ClientProtocolException, IOException {
+  public void shouldCallBatchSendObjectWhenMetaRef() throws ClientProtocolException, IOException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());
+    verify(fetchRestApiClient).callBatchSendObject(any(), any(), anyLong(), any());
   }
 
   @Test
@@ -194,15 +200,14 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient, never())
-        .callSendObjects(any(), anyString(), anyLong(), any(), any());
+    verify(fetchRestApiClient, never()).callBatchSendObject(any(), any(), anyLong(), any());
   }
 
   @Test
   public void shouldCallInitProjectWhenProjectIsMissing() throws IOException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
-    when(httpResult.isSuccessful()).thenReturn(false);
-    when(httpResult.isProjectMissing(any())).thenReturn(true);
+    when(batchHttpResult.isSuccessful()).thenReturn(false);
+    when(batchHttpResult.isProjectMissing(any())).thenReturn(true);
     when(source.isCreateMissingRepositories()).thenReturn(true);
 
     objectUnderTest.start();
@@ -214,8 +219,10 @@ public class ReplicationQueueTest {
   @Test
   public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
-    when(httpResult.isSuccessful()).thenReturn(false);
-    when(httpResult.isProjectMissing(any())).thenReturn(true);
+    when(batchHttpResult.isSuccessful()).thenReturn(false);
+    when(batchHttpResult.isProjectMissing(any())).thenReturn(true);
+    lenient().when(httpResult.isSuccessful()).thenReturn(false);
+    lenient().when(httpResult.isProjectMissing(any())).thenReturn(true);
     when(source.isCreateMissingRepositories()).thenReturn(false);
 
     objectUnderTest.start();
@@ -225,12 +232,13 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectWhenPatchSetRef() throws ClientProtocolException, IOException {
+  public void shouldCallBatchSendObjectWhenPatchSetRef()
+      throws ClientProtocolException, IOException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());
+    verify(fetchRestApiClient).callBatchSendObject(any(), any(), anyLong(), any());
   }
 
   @Test
@@ -265,10 +273,25 @@ public class ReplicationQueueTest {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
+    when(batchHttpResult.isSuccessful()).thenReturn(false);
+    when(batchHttpResult.isParentObjectMissing()).thenReturn(true);
+
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+  }
+
+  @Test
+  public void shouldFallbackToCallFetchWhenSendBatchObjectNotAvailable()
+      throws ClientProtocolException, IOException {
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    objectUnderTest.start();
+
+    when(batchHttpResult.isSuccessful()).thenReturn(false);
+    when(batchHttpResult.isParentObjectMissing()).thenReturn(false);
+    when(batchHttpResult.isSendBatchObjectNotAvailable()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(false);
-    when(httpResult.isParentObjectMissing()).thenReturn(true);
-    when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
-        .thenReturn(httpResult);
+    when(httpResult.isParentObjectMissing()).thenReturn(false);
 
     objectUnderTest.onEvent(event);
 
@@ -281,10 +304,56 @@ public class ReplicationQueueTest {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
+    when(batchHttpResult.isSuccessful()).thenReturn(false);
+    when(batchHttpResult.isParentObjectMissing()).thenReturn(true);
+
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient, times(1))
+        .callSendObjects(any(), anyString(), anyLong(), revisionsDataCaptor.capture(), any());
+    List<List<RevisionData>> revisionsDataValues = revisionsDataCaptor.getAllValues();
+    assertThat(revisionsDataValues).hasSize(1);
+
+    List<RevisionData> firstRevisionsValues = revisionsDataValues.get(0);
+    assertThat(firstRevisionsValues).hasSize(1 + revisionDataParentObjectIds.size());
+    assertThat(firstRevisionsValues).contains(revisionData);
+  }
+
+  @Test
+  public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnAllowedRefs()
+      throws ClientProtocolException, IOException {
+    String refName = "refs/tags/test-tag";
+    Event event = generateBatchRefUpdateEvent(refName);
+    objectUnderTest.start();
+
+    when(batchHttpResult.isSuccessful()).thenReturn(false);
+    when(batchHttpResult.isParentObjectMissing()).thenReturn(true);
+    when(applyObjectsRefsFilter.match(refName)).thenReturn(true);
+
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient, times(1))
+        .callSendObjects(any(), anyString(), anyLong(), revisionsDataCaptor.capture(), any());
+    List<List<RevisionData>> revisionsDataValues = revisionsDataCaptor.getAllValues();
+    assertThat(revisionsDataValues).hasSize(1);
+
+    List<RevisionData> firstRevisionsValues = revisionsDataValues.get(0);
+    assertThat(firstRevisionsValues).hasSize(1 + revisionDataParentObjectIds.size());
+    assertThat(firstRevisionsValues).contains(revisionData);
+  }
+
+  @Test
+  public void
+      shouldFallbackToApplyAllParentObjectsWhenSendBatchObjectNotAvailableAndParentObjectIsMissingOnMetaRef()
+          throws ClientProtocolException, IOException {
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
+    objectUnderTest.start();
+
+    when(batchHttpResult.isSuccessful()).thenReturn(false);
+    when(batchHttpResult.isParentObjectMissing()).thenReturn(false);
+    when(batchHttpResult.isSendBatchObjectNotAvailable()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(false, true);
     when(httpResult.isParentObjectMissing()).thenReturn(true, false);
-    when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
-        .thenReturn(httpResult);
 
     objectUnderTest.onEvent(event);
 
@@ -302,16 +371,18 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnAllowedRefs()
-      throws ClientProtocolException, IOException {
+  public void
+      shouldFallbackToApplyAllParentObjectsWhenSendBatchObjectNotAvailableAndParentObjectIsMissingOnAllowedRefs()
+          throws ClientProtocolException, IOException {
     String refName = "refs/tags/test-tag";
     Event event = generateBatchRefUpdateEvent(refName);
     objectUnderTest.start();
 
+    when(batchHttpResult.isSuccessful()).thenReturn(false);
+    when(batchHttpResult.isParentObjectMissing()).thenReturn(false);
+    when(batchHttpResult.isSendBatchObjectNotAvailable()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(false, true);
     when(httpResult.isParentObjectMissing()).thenReturn(true, false);
-    when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
-        .thenReturn(httpResult);
     when(applyObjectsRefsFilter.match(refName)).thenReturn(true);
 
     objectUnderTest.onEvent(event);
