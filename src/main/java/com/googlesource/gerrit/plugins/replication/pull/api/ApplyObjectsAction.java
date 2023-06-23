@@ -102,7 +102,7 @@ public class ApplyObjectsAction implements RestModifyView<ProjectResource, Revis
           input.getRevisionsData(),
           input.getLabel(),
           input.getEventCreatedOn());
-      return Response.created(input);
+      return Response.created();
     } catch (MissingParentObjectException e) {
       repLog.error(
           "Apply object API *FAILED* from {} for {}:{} - {}",
