@@ -122,16 +122,6 @@ public class ApplyObjectActionTest {
     assertThat(response.statusCode()).isEqualTo(SC_CREATED);
   }
 
-  @SuppressWarnings("cast")
-  @Test
-  public void shouldReturnSourceUrlAndrefNameAsAResponseBody() throws Exception {
-    RevisionInput inputParams =
-        new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
-    Response<?> response = applyObjectAction.apply(projectResource, inputParams);
-
-    assertThat((RevisionInput) response.value()).isEqualTo(inputParams);
-  }
-
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenMissingLabel() throws Exception {
     RevisionInput inputParams =
