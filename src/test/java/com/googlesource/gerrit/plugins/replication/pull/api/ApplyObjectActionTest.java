@@ -124,12 +124,12 @@ public class ApplyObjectActionTest {
 
   @SuppressWarnings("cast")
   @Test
-  public void shouldReturnSourceUrlAndrefNameAsAResponseBody() throws Exception {
+  public void shouldReturnEmptyResponseBody() throws Exception {
     RevisionInput inputParams =
         new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
     Response<?> response = applyObjectAction.apply(projectResource, inputParams);
 
-    assertThat((RevisionInput) response.value()).isEqualTo(inputParams);
+    assertThat((String) response.value()).isEmpty();
   }
 
   @Test(expected = BadRequestException.class)

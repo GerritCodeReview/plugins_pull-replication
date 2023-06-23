@@ -182,23 +182,23 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   }
 
   @SuppressWarnings("unchecked")
-  private Response<Map<String, Object>> doApplyObject(HttpServletRequest httpRequest)
+  private Response<String> doApplyObject(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
     RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class));
     IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
-    return (Response<Map<String, Object>>) applyObjectAction.apply(projectResource, input);
+    return (Response<String>) applyObjectAction.apply(projectResource, input);
   }
 
   @SuppressWarnings("unchecked")
-  private Response<Map<String, Object>> doApplyObjects(HttpServletRequest httpRequest)
+  private Response<String> doApplyObjects(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
     RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class));
     IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
-    return (Response<Map<String, Object>>) applyObjectsAction.apply(projectResource, input);
+    return (Response<String>) applyObjectsAction.apply(projectResource, input);
   }
 
   @SuppressWarnings("unchecked")
