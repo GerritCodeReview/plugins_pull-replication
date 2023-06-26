@@ -8,7 +8,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.atLeastOnce;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 import com.google.common.net.MediaType;
 import com.google.gerrit.extensions.restapi.*;
@@ -34,6 +33,7 @@ public class PullReplicationFilterTest {
   @Mock private FetchAction fetchAction;
   @Mock private ApplyObjectAction applyObjectAction;
   @Mock private ApplyObjectsAction applyObjectsAction;
+  @Mock private BatchApplyObjectAction batchApplyObjectAction;
   @Mock private ProjectInitializationAction projectInitializationAction;
   @Mock private UpdateHeadAction updateHEADAction;
   @Mock private ProjectDeletionAction projectDeletionAction;
@@ -50,6 +50,9 @@ public class PullReplicationFilterTest {
       String.format("any-prefix/projects/%s/%s~apply-object", PROJECT_NAME, PLUGIN_NAME);
   private final String APPLY_OBJECTS_URI =
       String.format("any-prefix/projects/%s/%s~apply-objects", PROJECT_NAME, PLUGIN_NAME);
+
+  private final String BATCH_APPLY_OBJECT_URI =
+      String.format("any-prefix/projects/%s/%s~batch-apply-object", PROJECT_NAME, PLUGIN_NAME);
   private final String HEAD_URI = String.format("any-prefix/projects/%s/HEAD", PROJECT_NAME);
   private final String DELETE_PROJECT_URI =
       String.format("any-prefix/projects/%s/%s~delete-project", PROJECT_NAME, PLUGIN_NAME);
@@ -63,6 +66,7 @@ public class PullReplicationFilterTest {
         fetchAction,
         applyObjectAction,
         applyObjectsAction,
+        batchApplyObjectAction,
         projectInitializationAction,
         updateHEADAction,
         projectDeletionAction,
@@ -165,7 +169,6 @@ public class PullReplicationFilterTest {
     final PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
     pullReplicationFilter.doFilter(request, response, filterChain);
 
-    verify(request, times(5)).getRequestURI();
     verify(projectInitializationAction).initProject(eq(PROJECT_NAME_GIT));
     verify(response).getWriter();
   }
@@ -197,7 +200,6 @@ public class PullReplicationFilterTest {
     final PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
     pullReplicationFilter.doFilter(request, response, filterChain);
 
-    verify(request, times(7)).getRequestURI();
     verify(projectsCollection).parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME));
     verify(projectDeletionAction).apply(eq(projectResource), any());
     verify(response).getWriter();
@@ -327,5 +329,34 @@ public class PullReplicationFilterTest {
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
+  }
+
+  @Test
+  public void shouldFilterBatchApplyObjectAction() throws Exception {
+
+    byte[] payloadApplyObject =
+        ("[{\"label\":\"Replication\",\"ref_name\":\"refs/heads/foo\","
+                + "\"revision_data\":{"
+                + "\"commit_object\":{\"type\":1,\"content\":\"some-content\"},"
+                + "\"tree_object\":{\"type\":2,\"content\":\"some-content\"},"
+                + "\"blobs\":[]}"
+                + "},"
+                + "{\"label\":\"Replication\",\"ref_name\":\"refs/heads/bar\","
+                + "\"revision_data\":{"
+                + "\"commit_object\":{\"type\":1,\"content\":\"some-content\"},"
+                + "\"tree_object\":{\"type\":2,\"content\":\"some-content\"},"
+                + "\"blobs\":[]}"
+                + "}]")
+            .getBytes(StandardCharsets.UTF_8);
+
+    defineBehaviours(payloadApplyObject, BATCH_APPLY_OBJECT_URI);
+
+    when(batchApplyObjectAction.apply(any(), any())).thenReturn(OK_RESPONSE);
+
+    PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
+    pullReplicationFilter.doFilter(request, response, filterChain);
+
+    verifyBehaviours();
+    verify(batchApplyObjectAction).apply(eq(projectResource), any());
   }
 }
