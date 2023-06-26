@@ -33,6 +33,8 @@ public interface PullReplicationEndpoints {
   @UsedAt(PLUGIN_MULTI_SITE)
   public static final String APPLY_OBJECTS_API_ENDPOINT = "apply-objects";
 
+  public static final String BATCH_APPLY_OBJECT_API_ENDPOINT = "batch-apply-object";
+
   public static final String FETCH_ENDPOINT = "fetch";
   public static final String INIT_PROJECT_ENDPOINT = "init-project";
   public static final String DELETE_PROJECT_ENDPOINT = "delete-project";
