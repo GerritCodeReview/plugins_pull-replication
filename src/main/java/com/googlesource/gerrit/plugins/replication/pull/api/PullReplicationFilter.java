@@ -27,6 +27,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.common.reflect.TypeToken;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.projects.HeadInput;
@@ -63,6 +64,8 @@ import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -85,6 +88,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private FetchAction fetchAction;
   private ApplyObjectAction applyObjectAction;
   private ApplyObjectsAction applyObjectsAction;
+  private BatchApplyObjectAction batchApplyObjectAction;
   private ProjectInitializationAction projectInitializationAction;
   private UpdateHeadAction updateHEADAction;
   private ProjectDeletionAction projectDeletionAction;
@@ -98,6 +102,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       FetchAction fetchAction,
       ApplyObjectAction applyObjectAction,
       ApplyObjectsAction applyObjectsAction,
+      BatchApplyObjectAction batchApplyObjectAction,
       ProjectInitializationAction projectInitializationAction,
       UpdateHeadAction updateHEADAction,
       ProjectDeletionAction projectDeletionAction,
@@ -107,6 +112,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.applyObjectsAction = applyObjectsAction;
+    this.batchApplyObjectAction = batchApplyObjectAction;
     this.projectInitializationAction = projectInitializationAction;
     this.updateHEADAction = updateHEADAction;
     this.projectDeletionAction = projectDeletionAction;
@@ -136,6 +142,9 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       } else if (isApplyObjectsAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doApplyObjects(httpRequest));
+      } else if (isBatchApplyObjectsAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
+        writeResponse(httpResponse, doBatchApplyObject(httpRequest));
       } else if (isInitProjectAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         if (!checkAcceptHeader(httpRequest, httpResponse)) {
@@ -213,7 +222,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<String> doApplyObject(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
-    RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class));
+    RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class).getType());
     IdString id = getProjectName(httpRequest).get();
 
     return (Response<String>) applyObjectAction.apply(parseProjectResource(id), input);
@@ -222,15 +231,26 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<String> doApplyObjects(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
-    RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class));
+    RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class).getType());
     IdString id = getProjectName(httpRequest).get();
 
     return (Response<String>) applyObjectsAction.apply(parseProjectResource(id), input);
   }
 
   @SuppressWarnings("unchecked")
+  private Response<Map<String, Object>> doBatchApplyObject(HttpServletRequest httpRequest)
+      throws RestApiException, IOException, PermissionBackendException {
+    TypeToken<List<RevisionInput>> collectionType = new TypeToken<>() {};
+    List<RevisionInput> inputs = readJson(httpRequest, collectionType.getType());
+    IdString id = getProjectName(httpRequest).get();
+
+    return (Response<Map<String, Object>>)
+        batchApplyObjectAction.apply(parseProjectResource(id), inputs);
+  }
+
+  @SuppressWarnings("unchecked")
   private Response<String> doUpdateHEAD(HttpServletRequest httpRequest) throws Exception {
-    HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class));
+    HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class).getType());
     IdString id = getProjectName(httpRequest).get();
 
     return (Response<String>) updateHEADAction.apply(parseProjectResource(id), input);
@@ -247,7 +267,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doFetch(HttpServletRequest httpRequest)
       throws IOException, RestApiException, PermissionBackendException {
-    Input input = readJson(httpRequest, TypeLiteral.get(Input.class));
+    Input input = readJson(httpRequest, TypeLiteral.get(Input.class).getType());
     IdString id = getProjectName(httpRequest).get();
 
     return (Response<Map<String, Object>>) fetchAction.apply(parseProjectResource(id), input);
@@ -276,7 +296,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     }
   }
 
-  private <T> T readJson(HttpServletRequest httpRequest, TypeLiteral<T> typeLiteral)
+  private <T> T readJson(HttpServletRequest httpRequest, Type typeToken)
       throws IOException, BadRequestException {
 
     try (BufferedReader br = httpRequest.getReader();
@@ -290,7 +310,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
           throw new BadRequestException("Expected JSON object", e);
         }
 
-        return gson.fromJson(json, typeLiteral.getType());
+        return gson.fromJson(json, typeToken);
       } finally {
         try {
           // Reader.close won't consume the rest of the input. Explicitly consume the request
@@ -341,6 +361,12 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     return httpRequest
         .getRequestURI()
         .endsWith(String.format("/%s~" + APPLY_OBJECTS_API_ENDPOINT, pluginName));
+  }
+
+  private boolean isBatchApplyObjectsAction(HttpServletRequest httpRequest) {
+    return httpRequest
+        .getRequestURI()
+        .endsWith(String.format("/%s~" + BATCH_APPLY_OBJECT_API_ENDPOINT, pluginName));
   }
 
   private boolean isFetchAction(HttpServletRequest httpRequest) {
