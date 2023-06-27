@@ -574,6 +574,21 @@ remote.NAME.remoteNameStyle
 	By default, replicates without matching, i.e. replicates
 	everything from all remotes.
 
+remote.NAME.enableBatchedRefs
+:	Choose whether the batch-apply-object endpoint is enabled.
+	If you set this to `true`, then there will be a single call
+	to the batch-apply-object endpoint with all the refs from
+	the batch ref update included. The default behaviour means
+	one call to the apply object(s) endpoint per ref.
+
+	*NOTE*: the default value is only needed for backwards
+	compatibility to allow migrating transparently to the
+	latest pull-replication plugin version. Once the migration is
+	over, this value should be set to `true` to leverage the
+	performance improvements introduced by the `batch-apply-object` API.
+
+	By default, false.
+
 Directory `replication`
 --------------------
 The optional directory `$site_path/etc/replication` contains Git-style
