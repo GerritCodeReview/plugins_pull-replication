@@ -326,6 +326,16 @@ replication.maxApiPayloadSize
 
 	Default: 10000
 
+replication.enableBatchedRefs
+: Choose whether the batch-apply-object endpoint is enabled.
+  If you set this to `true`, then there will be a single call
+  to the batch-apply-object endpoint with all the refs from
+  the batch ref update included. The (not encouraged but
+  necessary for backwards compatibility) default behaviour means
+  one call to the apply object(s) endpoint per ref.
+
+  Default: false
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
