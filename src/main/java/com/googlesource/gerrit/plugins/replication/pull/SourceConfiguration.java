@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.RemoteConfig;
 
 public class SourceConfiguration implements RemoteConfiguration {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static final int DEFAULT_REPLICATION_DELAY = 4;
   static final int DEFAULT_RESCHEDULE_DELAY = 3;
   static final int DEFAULT_SLOW_LATENCY_THRESHOLD_SECS = 900;
@@ -54,6 +56,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private int slowLatencyThreshold;
   private boolean useCGitClient;
   private int refsBatchSize;
+  private boolean enableBatchedRefs;
 
   public SourceConfiguration(RemoteConfig remoteConfig, Config cfg) {
     this.remoteConfig = remoteConfig;
@@ -98,6 +101,13 @@ public class SourceConfiguration implements RemoteConfiguration {
                 "slowLatencyThreshold",
                 DEFAULT_SLOW_LATENCY_THRESHOLD_SECS,
                 TimeUnit.SECONDS);
+    enableBatchedRefs = cfg.getBoolean("remote", name, "enableBatchedRefs", false);
+    if (!enableBatchedRefs) {
+      logger.atWarning().log("You haven't enabled batched refs in the node, as such you are not " +
+          "leveraging the performance improvements introduced by the batch-apply-object API. Consider " +
+          "upgrading the plugin to the latest version and consult the plugin's documentation for more " +
+          "details on the `enableBatchedRefs` configuration.");
+    }
   }
 
   @Override
@@ -220,5 +230,9 @@ public class SourceConfiguration implements RemoteConfiguration {
   @Override
   public boolean replicateNoteDbMetaRefs() {
     return true;
+  }
+
+  public boolean enableBatchedRefs() {
+    return enableBatchedRefs;
   }
 }

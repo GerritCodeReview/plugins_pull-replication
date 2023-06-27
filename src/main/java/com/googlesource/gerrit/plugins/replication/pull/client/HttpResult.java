@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import com.google.gerrit.entities.Project;
 import java.util.Optional;
@@ -51,9 +50,5 @@ public class HttpResult {
     return isSuccessful()
         ? "OK"
         : "FAILED" + ", status=" + responseCode + message.map(s -> " '" + s + "'").orElse("");
-  }
-
-  public boolean isSendBatchObjectAvailable() {
-    return responseCode != SC_NOT_FOUND;
   }
 }
