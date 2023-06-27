@@ -376,105 +376,42 @@ public class ReplicationQueue
     return batchApplyObjectData.stream().anyMatch(e -> e.revisionData().isEmpty() && !e.isDelete());
   }
 
-  private boolean callSendObject(
+  private Optional<HttpResult> callSendObject(
       Source source,
+      URIish uri,
       NameKey project,
       String refName,
       long eventCreatedOn,
       boolean isDelete,
       List<RevisionData> revision,
       ReplicationState state)
-      throws MissingParentObjectException {
-    boolean resultIsSuccessful = true;
+      throws MissingParentObjectException, IOException {
     if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
-      for (String apiUrl : source.getApis()) {
-        try {
-          URIish uri = new URIish(apiUrl);
-          FetchApiClient fetchClient = fetchClientFactory.create(source);
-          repLog.info(
-              "Pull replication REST API apply object to {} for {}:{} - {}",
-              apiUrl,
-              project,
-              refName,
-              revision);
-          Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
-          HttpResult result =
-              isDelete
-                  ? fetchClient.callSendObject(
-                      project, refName, eventCreatedOn, isDelete, null, uri)
-                  : fetchClient.callSendObjects(project, refName, eventCreatedOn, revision, uri);
-          boolean resultSuccessful = result.isSuccessful();
-          repLog.info(
-              "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
-                  + " {} - time:{} ms",
-              apiUrl,
-              project,
-              refName,
-              revision,
-              result,
-              apiTimer.stop() / 1000000.0);
+      FetchApiClient fetchClient = fetchClientFactory.create(source);
+      repLog.info(
+          "Pull replication REST API apply object to {} for {}:{} - {}",
+          uri,
+          project,
+          refName,
+          revision);
+      Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
+      HttpResult result =
+          isDelete
+              ? fetchClient.callSendObject(project, refName, eventCreatedOn, isDelete, null, uri)
+              : fetchClient.callSendObjects(project, refName, eventCreatedOn, revision, uri);
+      repLog.info(
+          "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
+              + " {} - time:{} ms",
+          uri,
+          project,
+          refName,
+          revision,
+          result,
+          apiTimer.stop() / 1000000.0);
 
-          if (!resultSuccessful
-              && result.isProjectMissing(project)
-              && source.isCreateMissingRepositories()) {
-            result = initProject(project, uri, fetchClient, result);
-            repLog.info("Missing project {} created, HTTP Result:{}", project, result);
-          }
-
-          if (!resultSuccessful) {
-            if (result.isParentObjectMissing()) {
-
-              if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
-                  && revision.size() == 1) {
-                List<RevisionData> allRevisions =
-                    fetchWholeMetaHistory(project, refName, revision.get(0));
-                repLog.info(
-                    "Pull replication REST API apply object to {} for {}:{} - {}",
-                    apiUrl,
-                    project,
-                    refName,
-                    allRevisions);
-                return callSendObject(
-                    source, project, refName, eventCreatedOn, isDelete, allRevisions, state);
-              }
-
-              throw new MissingParentObjectException(
-                  project, refName, source.getRemoteConfigName());
-            }
-          }
-
-          resultIsSuccessful &= resultSuccessful;
-        } catch (URISyntaxException e) {
-          repLog.warn(
-              "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
-              apiUrl,
-              project,
-              refName,
-              revision,
-              e);
-          stateLog.error(String.format("Cannot parse pull replication api url:%s", apiUrl), state);
-          resultIsSuccessful = false;
-        } catch (IOException e) {
-          repLog.warn(
-              "Pull replication REST API apply object to {} *FAILED* for {}:{} - {}",
-              apiUrl,
-              project,
-              refName,
-              revision,
-              e);
-          stateLog.error(
-              String.format(
-                  "Exception during the pull replication fetch rest api call. Endpoint url:%s,"
-                      + " message:%s",
-                  apiUrl, e.getMessage()),
-              e,
-              state);
-          resultIsSuccessful = false;
-        }
-      }
+      return Optional.ofNullable(result);
     }
-
-    return resultIsSuccessful;
+    return Optional.empty();
   }
 
   private boolean callBatchSendObject(
@@ -499,33 +436,62 @@ public class ReplicationQueue
 
     for (String apiUrl : source.getApis()) {
       try {
+        boolean resultSuccessful = true;
+        Optional<HttpResult> result = Optional.empty();
         URIish uri = new URIish(apiUrl);
-        repLog.info(
-            "Pull replication REST API batch apply object to {} for {}:[{}]",
-            apiUrl,
-            project,
-            batchApplyObjectStr);
-        Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
-        HttpResult result =
-            fetchClient.callBatchSendObject(project, filteredRefsBatch, eventCreatedOn, uri);
-        boolean resultSuccessful = result.isSuccessful();
-        repLog.info(
-            "Pull replication REST API batch apply object to {} COMPLETED for {}:[{}], HTTP  Result:"
-                + " {} - time:{} ms",
-            apiUrl,
-            project,
-            batchApplyObjectStr,
-            result,
-            apiTimer.stop() / 1000000.0);
+        if (source.enableBatchedRefs()) {
+          repLog.info(
+              "Pull replication REST API batch apply object to {} for {}:[{}]",
+              apiUrl,
+              project,
+              batchApplyObjectStr);
+          Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
+          result =
+              Optional.ofNullable(
+                  fetchClient.callBatchSendObject(project, filteredRefsBatch, eventCreatedOn, uri));
+          resultSuccessful = result.map(HttpResult::isSuccessful).orElse(false);
+          repLog.info(
+              "Pull replication REST API batch apply object to {} COMPLETED for {}:[{}], HTTP  Result:"
+                  + " {} - time:{} ms",
+              apiUrl,
+              project,
+              batchApplyObjectStr,
+              result,
+              apiTimer.stop() / 1000000.0);
+        } else {
+          repLog.info(
+              "REST API batch apply object not enabled for source {}, using REST API apply object to {} for {}:[{}]",
+              source.getRemoteConfigName(),
+              apiUrl,
+              project,
+              batchApplyObjectStr);
+          for (BatchApplyObjectData batchApplyObject : refsBatch) {
+            result =
+                callSendObject(
+                    source,
+                    uri,
+                    project,
+                    batchApplyObject.refName(),
+                    eventCreatedOn,
+                    batchApplyObject.isDelete(),
+                    batchApplyObject.revisionData().map(ImmutableList::of).orElse(null),
+                    state);
 
-        if (!resultSuccessful
-            && result.isProjectMissing(project)
-            && source.isCreateMissingRepositories()) {
-          result = initProject(project, uri, fetchClient, result);
-          repLog.info("Missing project {} created, HTTP Result:{}", project, result);
+            resultSuccessful &= result.map(HttpResult::isSuccessful).orElse(false);
+            if (!resultSuccessful) {
+              break;
+            }
+          }
         }
 
-        if (!resultSuccessful && result.isParentObjectMissing()) {
+        if (!resultSuccessful
+            && result.map(r -> r.isProjectMissing(project)).orElse(false)
+            && source.isCreateMissingRepositories()) {
+          Optional<HttpResult> initProjectResult = initProject(project, uri, fetchClient);
+          repLog.info("Missing project {} created, HTTP Result:{}", project, initProjectResult);
+        }
+
+        if (!resultSuccessful && result.map(HttpResult::isParentObjectMissing).orElse(false)) {
           resultSuccessful = true;
           for (BatchApplyObjectData batchApplyObject : filteredRefsBatch) {
             String refName = batchApplyObject.refName();
@@ -536,34 +502,21 @@ public class ReplicationQueue
               List<RevisionData> allRevisions =
                   fetchWholeMetaHistory(project, refName, maybeRevisionData.get());
 
-              resultSuccessful &=
+              Optional<HttpResult> sendObjectResult =
                   callSendObject(
                       source,
+                      uri,
                       project,
                       refName,
                       eventCreatedOn,
                       batchApplyObject.isDelete(),
                       allRevisions,
                       state);
+              resultSuccessful &= sendObjectResult.map(HttpResult::isSuccessful).orElse(false);
             } else {
               throw new MissingParentObjectException(
                   project, refName, source.getRemoteConfigName());
             }
-          }
-        }
-
-        if (!resultSuccessful && !result.isSendBatchObjectAvailable()) {
-          resultSuccessful = true;
-          for (BatchApplyObjectData batchApplyObjectData : filteredRefsBatch) {
-            resultSuccessful &=
-                callSendObject(
-                    source,
-                    project,
-                    batchApplyObjectData.refName(),
-                    eventCreatedOn,
-                    batchApplyObjectData.isDelete(),
-                    batchApplyObjectData.revisionData().map(ImmutableList::of).orElse(null),
-                    state);
           }
         }
 
@@ -649,7 +602,7 @@ public class ReplicationQueue
             if (!resultSuccessful
                 && result.isProjectMissing(project)
                 && source.isCreateMissingRepositories()) {
-              result = initProject(project, uri, fetchClient, result);
+              result = initProject(project, uri, fetchClient).orElse(null);
             }
             if (!resultSuccessful) {
               stateLog.warn(
@@ -685,12 +638,12 @@ public class ReplicationQueue
     return maxRetries == 0 || attempt < maxRetries;
   }
 
-  private HttpResult initProject(
-      Project.NameKey project, URIish uri, FetchApiClient fetchClient, HttpResult result)
-      throws IOException {
+  private Optional<HttpResult> initProject(
+      Project.NameKey project, URIish uri, FetchApiClient fetchClient) throws IOException {
     HttpResult initProjectResult = fetchClient.initProject(project, uri);
+    Optional<HttpResult> result = Optional.empty();
     if (initProjectResult.isSuccessful()) {
-      result = fetchClient.callFetch(project, FetchOne.ALL_REFS, uri);
+      result = Optional.ofNullable(fetchClient.callFetch(project, FetchOne.ALL_REFS, uri));
     } else {
       String errorMessage = initProjectResult.getMessage().map(e -> " - Error: " + e).orElse("");
       repLog.error("Cannot create project " + project + errorMessage);
