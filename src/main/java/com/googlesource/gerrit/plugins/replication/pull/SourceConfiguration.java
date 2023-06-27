@@ -54,6 +54,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private int slowLatencyThreshold;
   private boolean useCGitClient;
   private int refsBatchSize;
+  private boolean enableBatchedRefs;
 
   public SourceConfiguration(RemoteConfig remoteConfig, Config cfg) {
     this.remoteConfig = remoteConfig;
@@ -98,6 +99,7 @@ public class SourceConfiguration implements RemoteConfiguration {
                 "slowLatencyThreshold",
                 DEFAULT_SLOW_LATENCY_THRESHOLD_SECS,
                 TimeUnit.SECONDS);
+    enableBatchedRefs = cfg.getBoolean("remote", name, "enableBatchedRefs", false);
   }
 
   @Override
@@ -220,5 +222,9 @@ public class SourceConfiguration implements RemoteConfiguration {
   @Override
   public boolean replicateNoteDbMetaRefs() {
     return true;
+  }
+
+  public boolean enableBatchedRefs() {
+    return enableBatchedRefs;
   }
 }
