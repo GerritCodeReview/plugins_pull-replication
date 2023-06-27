@@ -788,6 +788,10 @@ public class Source {
     return config.replicateProjectDeletions();
   }
 
+  public boolean enableBatchedRefs() {
+    return config.enableBatchedRefs();
+  }
+
   void scheduleUpdateHead(String apiUrl, Project.NameKey project, String newHead) {
     try {
       URIish apiURI = new URIish(apiUrl);
