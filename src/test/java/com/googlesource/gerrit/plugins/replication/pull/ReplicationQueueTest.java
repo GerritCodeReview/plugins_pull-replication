@@ -125,6 +125,7 @@ public class ReplicationQueueTest {
     when(source.wouldFetchRef(anyString())).thenReturn(true);
     ImmutableList<String> apis = ImmutableList.of("http://localhost:18080");
     when(source.getApis()).thenReturn(apis);
+    when(source.enableBatchedRefs()).thenReturn(true);
     when(sourceCollection.getAll()).thenReturn(Lists.newArrayList(source));
     when(rd.get()).thenReturn(sourceCollection);
     lenient()
@@ -282,14 +283,13 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenSendBatchObjectNotAvailable()
+  public void shouldFallbackToCallFetchWhenParentObjectNotMissingButResultIsFailure()
       throws ClientProtocolException, IOException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(batchHttpResult.isSuccessful()).thenReturn(false);
     when(batchHttpResult.isParentObjectMissing()).thenReturn(false);
-    when(batchHttpResult.isSendBatchObjectNotAvailable()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isParentObjectMissing()).thenReturn(false);
 
@@ -343,61 +343,15 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void
-      shouldFallbackToApplyAllParentObjectsWhenSendBatchObjectNotAvailableAndParentObjectIsMissingOnMetaRef()
-          throws ClientProtocolException, IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
+  public void shouldCallSendObjectsIfBatchedRefsNotEnabledAtSource()
+      throws ClientProtocolException, IOException {
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    when(source.enableBatchedRefs()).thenReturn(false);
     objectUnderTest.start();
-
-    when(batchHttpResult.isSuccessful()).thenReturn(false);
-    when(batchHttpResult.isParentObjectMissing()).thenReturn(false);
-    when(batchHttpResult.isSendBatchObjectNotAvailable()).thenReturn(true);
-    when(httpResult.isSuccessful()).thenReturn(false, true);
-    when(httpResult.isParentObjectMissing()).thenReturn(true, false);
-
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient, times(2))
-        .callSendObjects(any(), anyString(), anyLong(), revisionsDataCaptor.capture(), any());
-    List<List<RevisionData>> revisionsDataValues = revisionsDataCaptor.getAllValues();
-    assertThat(revisionsDataValues).hasSize(2);
-
-    List<RevisionData> firstRevisionsValues = revisionsDataValues.get(0);
-    assertThat(firstRevisionsValues).hasSize(1);
-    assertThat(firstRevisionsValues).contains(revisionData);
-
-    List<RevisionData> secondRevisionsValues = revisionsDataValues.get(1);
-    assertThat(secondRevisionsValues).hasSize(1 + revisionDataParentObjectIds.size());
-  }
-
-  @Test
-  public void
-      shouldFallbackToApplyAllParentObjectsWhenSendBatchObjectNotAvailableAndParentObjectIsMissingOnAllowedRefs()
-          throws ClientProtocolException, IOException {
-    String refName = "refs/tags/test-tag";
-    Event event = generateBatchRefUpdateEvent(refName);
-    objectUnderTest.start();
-
-    when(batchHttpResult.isSuccessful()).thenReturn(false);
-    when(batchHttpResult.isParentObjectMissing()).thenReturn(false);
-    when(batchHttpResult.isSendBatchObjectNotAvailable()).thenReturn(true);
-    when(httpResult.isSuccessful()).thenReturn(false, true);
-    when(httpResult.isParentObjectMissing()).thenReturn(true, false);
-    when(applyObjectsRefsFilter.match(refName)).thenReturn(true);
-
-    objectUnderTest.onEvent(event);
-
-    verify(fetchRestApiClient, times(2))
-        .callSendObjects(any(), anyString(), anyLong(), revisionsDataCaptor.capture(), any());
-    List<List<RevisionData>> revisionsDataValues = revisionsDataCaptor.getAllValues();
-    assertThat(revisionsDataValues).hasSize(2);
-
-    List<RevisionData> firstRevisionsValues = revisionsDataValues.get(0);
-    assertThat(firstRevisionsValues).hasSize(1);
-    assertThat(firstRevisionsValues).contains(revisionData);
-
-    List<RevisionData> secondRevisionsValues = revisionsDataValues.get(1);
-    assertThat(secondRevisionsValues).hasSize(1 + revisionDataParentObjectIds.size());
+    verify(fetchRestApiClient, never()).callBatchSendObject(any(), any(), anyLong(), any());
+    verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());
   }
 
   @Test
