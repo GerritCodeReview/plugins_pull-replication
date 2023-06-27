@@ -506,63 +506,66 @@ public class ReplicationQueue
             project,
             batchApplyObjectStr);
         Context<String> apiTimer = applyObjectMetrics.startEnd2End(source.getRemoteConfigName());
-        HttpResult result =
-            fetchClient.callBatchSendObject(project, filteredRefsBatch, eventCreatedOn, uri);
-        boolean resultSuccessful = result.isSuccessful();
-        repLog.info(
-            "Pull replication REST API batch apply object to {} COMPLETED for {}:[{}], HTTP  Result:"
-                + " {} - time:{} ms",
-            apiUrl,
-            project,
-            batchApplyObjectStr,
-            result,
-            apiTimer.stop() / 1000000.0);
+        boolean resultSuccessful = true;
+        if (source.enableBatchedRefs()) {
+          HttpResult result =
+              fetchClient.callBatchSendObject(project, filteredRefsBatch, eventCreatedOn, uri);
+          resultSuccessful = result.isSuccessful();
+          repLog.info(
+              "Pull replication REST API batch apply object to {} COMPLETED for {}:[{}], HTTP  Result:"
+                  + " {} - time:{} ms",
+              apiUrl,
+              project,
+              batchApplyObjectStr,
+              result,
+              apiTimer.stop() / 1000000.0);
 
-        if (!resultSuccessful
-            && result.isProjectMissing(project)
-            && source.isCreateMissingRepositories()) {
-          result = initProject(project, uri, fetchClient, result);
-          repLog.info("Missing project {} created, HTTP Result:{}", project, result);
-        }
+          if (!resultSuccessful
+              && result.isProjectMissing(project)
+              && source.isCreateMissingRepositories()) {
+            result = initProject(project, uri, fetchClient, result);
+            repLog.info("Missing project {} created, HTTP Result:{}", project, result);
+          }
 
-        if (!resultSuccessful && result.isParentObjectMissing()) {
-          resultSuccessful = true;
-          for (BatchApplyObjectData batchApplyObject : filteredRefsBatch) {
-            String refName = batchApplyObject.refName();
-            if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
-                && batchApplyObject.revisionData().isPresent()) {
+          if (!resultSuccessful && result.isParentObjectMissing()) {
+            resultSuccessful = true;
+            // TODO could the below be problematic, if we fail midway through processing? Code
+            // fallbacks to fetch but
+            // what happens with the refs we have already processed?
+            for (BatchApplyObjectData batchApplyObject : filteredRefsBatch) {
+              String refName = batchApplyObject.refName();
+              if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
+                  && batchApplyObject.revisionData().isPresent()) {
 
-              Optional<RevisionData> maybeRevisionData = batchApplyObject.revisionData();
-              List<RevisionData> allRevisions =
-                  fetchWholeMetaHistory(project, refName, maybeRevisionData.get());
+                Optional<RevisionData> maybeRevisionData = batchApplyObject.revisionData();
+                List<RevisionData> allRevisions =
+                    fetchWholeMetaHistory(project, refName, maybeRevisionData.get());
 
-              resultSuccessful &=
-                  callSendObject(
-                      source,
-                      project,
-                      refName,
-                      eventCreatedOn,
-                      batchApplyObject.isDelete(),
-                      allRevisions,
-                      state);
-            } else {
-              throw new MissingParentObjectException(
-                  project, refName, source.getRemoteConfigName());
+                resultSuccessful &=
+                    callSendObject(
+                        source,
+                        project,
+                        refName,
+                        eventCreatedOn,
+                        batchApplyObject.isDelete(),
+                        allRevisions,
+                        state);
+              } else {
+                throw new MissingParentObjectException(
+                    project, refName, source.getRemoteConfigName());
+              }
             }
           }
-        }
-
-        if (!resultSuccessful && !result.isSendBatchObjectAvailable()) {
-          resultSuccessful = true;
-          for (BatchApplyObjectData batchApplyObjectData : filteredRefsBatch) {
+        } else {
+          for (BatchApplyObjectData batchApplyObject : refsBatch) {
             resultSuccessful &=
                 callSendObject(
                     source,
                     project,
-                    batchApplyObjectData.refName(),
+                    batchApplyObject.refName(),
                     eventCreatedOn,
-                    batchApplyObjectData.isDelete(),
-                    batchApplyObjectData.revisionData().map(ImmutableList::of).orElse(null),
+                    batchApplyObject.isDelete(),
+                    batchApplyObject.revisionData().map(ImmutableList::of).orElse(null),
                     state);
           }
         }
