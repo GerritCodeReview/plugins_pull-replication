@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77cbcdd2_01eb87c7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T17:14:51Z",
+      "side": 1,
+      "message": "to improve the visibility could we wrap that in a method?",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 19
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab59f30b_7c03450a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T17:14:51Z",
+      "side": 1,
+      "message": "nit: callBatchSendObject",
+      "range": {
+        "startLine": 447,
+        "startChar": 18,
+        "endLine": 447,
+        "endChar": 37
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53bc484a_58e90f3a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T17:14:51Z",
+      "side": 1,
+      "message": "as a follow up we should add batch apply objects",
+      "range": {
+        "startLine": 495,
+        "startChar": 21,
+        "endLine": 495,
+        "endChar": 42
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b76504fa_20b43163",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T17:14:51Z",
+      "side": 1,
+      "message": "we should fallback to applyObject and then to fetch",
+      "range": {
+        "startLine": 285,
+        "startChar": 14,
+        "endLine": 285,
+        "endChar": 70
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f203c5c3_5d5cbac8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T17:14:51Z",
+      "side": 1,
+      "message": "We return SC_OK so we should rename the test",
+      "range": {
+        "startLine": 103,
+        "startChar": 26,
+        "endLine": 103,
+        "endChar": 33
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f1c3138_9e0cefd2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T17:14:51Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 113,
+        "startChar": 14,
+        "endLine": 113,
+        "endChar": 52
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
