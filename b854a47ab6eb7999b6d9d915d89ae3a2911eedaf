@@ -22,6 +22,75 @@
       },
       "revId": "b854a47ab6eb7999b6d9d915d89ae3a2911eedaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0825551b_29e63c23",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T13:56:28Z",
+      "side": 1,
+      "message": "this is out of the scope and should be done as a separate change",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 99
+      },
+      "revId": "b854a47ab6eb7999b6d9d915d89ae3a2911eedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c90c5a2b_86636395",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T13:56:28Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 34
+      },
+      "revId": "b854a47ab6eb7999b6d9d915d89ae3a2911eedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7afa1af7_37afc55a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T13:56:28Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 28
+      },
+      "revId": "b854a47ab6eb7999b6d9d915d89ae3a2911eedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
