@@ -41,6 +41,17 @@ public interface FetchApiClient {
     return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
 
+  HttpResult callBatchFetch(
+      Project.NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
+      throws ClientProtocolException, IOException;
+
+  default HttpResult callBatchFetch(
+      Project.NameKey project, List<String> refsInBatch, URIish targetUri)
+      throws ClientProtocolException, IOException {
+    return callBatchFetch(
+        project, refsInBatch, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
+  }
+
   HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;
 
   HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
