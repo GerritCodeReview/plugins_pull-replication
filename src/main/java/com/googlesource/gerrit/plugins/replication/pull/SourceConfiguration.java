@@ -199,6 +199,15 @@ public class SourceConfiguration implements RemoteConfiguration {
     return createMissingRepositories;
   }
 
+  @Override
+  public boolean replicateNoteDbMetaRefs() {
+      // In contrast to the replication plugin the receiving application in case of
+      // pull-replication will always be a Gerrit instance, which will most likely
+      // be interested in meta-refs. Thus, this method is overridden to satisfy the
+      // compiler, but is not used.
+      return true;
+  }
+
   public boolean replicateProjectDeletions() {
     return replicateProjectDeletions;
   }
