@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59e38268_3848e4c7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-29T14:03:23Z",
+      "side": 1,
+      "message": "Yup, good call, done",
+      "parentUuid": "77cbcdd2_01eb87c7",
+      "range": {
+        "startLine": 307,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 19
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab59f30b_7c03450a",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-28T17:14:51Z",
       "side": 1,
       "message": "nit: callBatchSendObject",
+      "range": {
+        "startLine": 447,
+        "startChar": 18,
+        "endLine": 447,
+        "endChar": 37
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ce2da4a_0435f8b8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-29T14:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab59f30b_7c03450a",
       "range": {
         "startLine": 447,
         "startChar": 18,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3ae0fc5_1a48e669",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-29T14:03:23Z",
+      "side": 1,
+      "message": "How do you mean? As far as I understand apply-objects endpoint is the same as apply-object but with multiple revisions sent in the msg body. Why add batching there?",
+      "parentUuid": "53bc484a_58e90f3a",
+      "range": {
+        "startLine": 495,
+        "startChar": 21,
+        "endLine": 495,
+        "endChar": 42
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b76504fa_20b43163",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 15
@@ -83,6 +155,30 @@
       "writtenOn": "2023-06-28T17:14:51Z",
       "side": 1,
       "message": "we should fallback to applyObject and then to fetch",
+      "range": {
+        "startLine": 285,
+        "startChar": 14,
+        "endLine": 285,
+        "endChar": 70
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "743b1414_b31e0187",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-29T14:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b76504fa_20b43163",
       "range": {
         "startLine": 285,
         "startChar": 14,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "06a0d710_c5629e86",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-29T14:03:23Z",
+      "side": 1,
+      "message": "good catch",
+      "parentUuid": "f203c5c3_5d5cbac8",
+      "range": {
+        "startLine": 103,
+        "startChar": 26,
+        "endLine": 103,
+        "endChar": 33
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f1c3138_9e0cefd2",
@@ -129,6 +249,30 @@
       "writtenOn": "2023-06-28T17:14:51Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 113,
+        "startChar": 14,
+        "endLine": 113,
+        "endChar": 52
+      },
+      "revId": "3a34e384209a8866a5ce9960514692477dd891d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef99e81a_e6b1327f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-29T14:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f1c3138_9e0cefd2",
       "range": {
         "startLine": 113,
         "startChar": 14,
