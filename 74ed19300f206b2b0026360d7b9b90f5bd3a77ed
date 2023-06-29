@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b630cc9_4ede2c00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-29T14:25:26Z",
+      "side": 1,
+      "message": "you dont return anything in the response. Should the message be:\ni.e `Do NOT provide response body when `apply-object` is successfully created` ?",
+      "revId": "74ed19300f206b2b0026360d7b9b90f5bd3a77ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c61cb49d_4c969e99",
