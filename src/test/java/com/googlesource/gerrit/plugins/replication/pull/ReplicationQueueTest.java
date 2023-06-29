@@ -101,6 +101,7 @@ public class ReplicationQueueTest {
   @Mock RevisionData revisionData;
   @Mock HttpResult successfulHttpResult;
   @Mock HttpResult fetchHttpResult;
+  @Mock HttpResult batchFetchHttpResult;
   @Mock RevisionData revisionDataWithParents;
   List<ObjectId> revisionDataParentObjectIds;
   @Mock HttpResult httpResult;
@@ -167,11 +168,13 @@ public class ReplicationQueueTest {
         .when(fetchRestApiClient.callBatchSendObject(any(), any(), anyLong(), any()))
         .thenReturn(batchHttpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
+    when(fetchRestApiClient.callBatchFetch(any(), any(), any())).thenReturn(batchFetchHttpResult);
     when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
     when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
     when(batchHttpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
+    when(batchFetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
     when(batchHttpResult.isProjectMissing(any())).thenReturn(false);
     when(applyObjectsRefsFilter.match(any())).thenReturn(false);
@@ -322,7 +325,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenIOException()
+  public void shouldFallbackToCallBatchFetchWhenIOException()
       throws IOException, LargeObjectException, RefUpdateException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
@@ -331,11 +334,11 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callBatchFetch(any(), any(), any());
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenLargeRef()
+  public void shouldFallbackToCallBatchFetchWhenLargeRef()
       throws IOException, LargeObjectException, RefUpdateException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
@@ -344,12 +347,12 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callBatchFetch(any(), any(), any());
   }
 
   @Test
   public void
-      shouldFallbackToCallFetchWhenParentObjectIsMissingAndRefDoesntMatchApplyObjectsRefsFilter()
+      shouldFallbackToCallBatchFetchWhenParentObjectIsMissingAndRefDoesntMatchApplyObjectsRefsFilter()
           throws IOException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
@@ -359,7 +362,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callBatchFetch(any(), any(), any());
   }
 
   @Test
@@ -381,7 +384,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenSendBatchObjectNotAvailableAndApplyObjectFails()
+  public void shouldFallbackToCallBatchFetchWhenParentObjectNotMissingButApplyObjectFails()
       throws IOException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
@@ -393,7 +396,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callBatchFetch(any(), any(), any());
   }
 
   @Test
@@ -452,6 +455,20 @@ public class ReplicationQueueTest {
   }
 
   @Test
+  public void shouldCallFetchIfBatchedRefsNotEnabledAtSource() throws IOException {
+    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    when(source.enableBatchedRefs()).thenReturn(false);
+    when(httpResult.isSuccessful()).thenReturn(false);
+    when(httpResult.isParentObjectMissing()).thenReturn(false);
+
+    objectUnderTest.start();
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient, never()).callBatchFetch(any(), any(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+  }
+
+  @Test
   public void shouldCallBatchFetchForAllTheRefsInTheBatchIfApplyObjectFails()
       throws IOException, URISyntaxException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1", "refs/changes/02/1/1");
@@ -467,9 +484,10 @@ public class ReplicationQueueTest {
     verify(fetchRestApiClient, times(2))
         .callSendObjects(any(), anyString(), anyLong(), any(), any());
     verify(fetchRestApiClient)
-        .callFetch(PROJECT, "refs/changes/01/1/1", new URIish("http://localhost:18080"));
-    verify(fetchRestApiClient)
-        .callFetch(PROJECT, "refs/changes/02/1/1", new URIish("http://localhost:18080"));
+        .callBatchFetch(
+            PROJECT,
+            List.of("refs/changes/01/1/1", "refs/changes/02/1/1"),
+            new URIish("http://localhost:18080"));
   }
 
   @Test

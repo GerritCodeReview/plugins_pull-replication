@@ -342,12 +342,12 @@ replication.maxApiPayloadSize
 	Default: 10000
 
 replication.enableBatchedRefs
-: Choose whether the batch-apply-object endpoint is enabled.
+: Choose whether the `batch-apply-object` and `batch-fetch` endpoints are enabled.
   If you set this to `true`, then there will be a single call
-  to the batch-apply-object endpoint with all the refs from
+  to the `batch-apply-object` and `batch-fetch` endpoints with all the refs from
   the batch ref update included. The (not encouraged but
   necessary for backwards compatibility) default behaviour means
-  one call to the apply object(s) endpoint per ref.
+  one call to each endpoint per ref.
 
   Default: false
 
