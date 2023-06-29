@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c61cb49d_4c969e99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-06-29T14:04:48Z",
+      "side": 1,
+      "message": "Would be interesting to know why this was done in the first place.",
+      "revId": "74ed19300f206b2b0026360d7b9b90f5bd3a77ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
