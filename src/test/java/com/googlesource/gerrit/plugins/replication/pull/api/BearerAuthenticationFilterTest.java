@@ -81,6 +81,11 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
+  public void shouldAuthenticateWhenBatchFetch() throws ServletException, IOException {
+    authenticateAndFilter("any-prefix/pull-replication~batch-fetch", NO_QUERY_PARAMETERS);
+  }
+
+  @Test
   public void shouldAuthenticateWhenApplyObject() throws ServletException, IOException {
     authenticateAndFilter("any-prefix/pull-replication~apply-object", NO_QUERY_PARAMETERS);
   }
