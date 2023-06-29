@@ -55,14 +55,17 @@ import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
@@ -96,6 +99,7 @@ public class ReplicationQueueTest {
   @Mock RevisionData revisionData;
   @Mock HttpResult successfulHttpResult;
   @Mock HttpResult fetchHttpResult;
+  @Mock HttpResult batchFetchHttpResult;
   @Mock RevisionData revisionDataWithParents;
   List<ObjectId> revisionDataParentObjectIds;
   @Mock HttpResult httpResult;
@@ -157,11 +161,13 @@ public class ReplicationQueueTest {
         .when(fetchRestApiClient.callBatchSendObject(any(), any(), anyLong(), any()))
         .thenReturn(batchHttpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
+    when(fetchRestApiClient.callBatchFetch(any(), any(), any())).thenReturn(batchFetchHttpResult);
     when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
     when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
     when(batchHttpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
+    when(batchFetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
     when(batchHttpResult.isProjectMissing(any())).thenReturn(false);
     when(applyObjectsRefsFilter.match(any())).thenReturn(false);
@@ -186,7 +192,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldCallBatchSendObjectWhenMetaRef() throws ClientProtocolException, IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/meta"));
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
@@ -196,7 +202,7 @@ public class ReplicationQueueTest {
   @Test
   public void shouldIgnoreEventWhenIsNotLocalInstanceId()
       throws ClientProtocolException, IOException {
-    Event event = generateBatchRefUpdateEvent(TEST_REF_NAME);
+    Event event = generateBatchRefUpdateEvent(List.of(TEST_REF_NAME));
     event.instanceId = FOREIGN_INSTANCE_ID;
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -206,7 +212,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldCallInitProjectWhenProjectIsMissing() throws IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/meta"));
     when(batchHttpResult.isSuccessful()).thenReturn(false);
     when(batchHttpResult.isProjectMissing(any())).thenReturn(true);
     when(source.isCreateMissingRepositories()).thenReturn(true);
@@ -219,7 +225,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/meta"));
     when(batchHttpResult.isSuccessful()).thenReturn(false);
     when(batchHttpResult.isProjectMissing(any())).thenReturn(true);
     lenient().when(httpResult.isSuccessful()).thenReturn(false);
@@ -235,7 +241,7 @@ public class ReplicationQueueTest {
   @Test
   public void shouldCallBatchSendObjectWhenPatchSetRef()
       throws ClientProtocolException, IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
@@ -243,35 +249,35 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenIOException()
+  public void shouldFallbackToCallBatchFetchWhenIOException()
       throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/meta"));
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenThrow(IOException.class);
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callBatchFetch(any(), any(), any());
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenLargeRef()
+  public void shouldFallbackToCallBatchFetchWhenLargeRef()
       throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenReturn(Optional.empty());
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callBatchFetch(any(), any(), any());
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenParentObjectIsMissing()
+  public void shouldFallbackToCallBatchFetchWhenParentObjectIsMissing()
       throws ClientProtocolException, IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     objectUnderTest.start();
 
     when(batchHttpResult.isSuccessful()).thenReturn(false);
@@ -279,13 +285,13 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callBatchFetch(any(), any(), any());
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenParentObjectNotMissingButResultIsFailure()
+  public void shouldFallbackToCallBatchFetchWhenParentObjectNotMissingButResultIsFailure()
       throws ClientProtocolException, IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     objectUnderTest.start();
 
     when(batchHttpResult.isSuccessful()).thenReturn(false);
@@ -295,13 +301,13 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient).callBatchFetch(any(), any(), any());
   }
 
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnMetaRef()
       throws ClientProtocolException, IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/meta"));
     objectUnderTest.start();
 
     when(batchHttpResult.isSuccessful()).thenReturn(false);
@@ -323,7 +329,7 @@ public class ReplicationQueueTest {
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnAllowedRefs()
       throws ClientProtocolException, IOException {
     String refName = "refs/tags/test-tag";
-    Event event = generateBatchRefUpdateEvent(refName);
+    Event event = generateBatchRefUpdateEvent(List.of(refName));
     objectUnderTest.start();
 
     when(batchHttpResult.isSuccessful()).thenReturn(false);
@@ -345,13 +351,47 @@ public class ReplicationQueueTest {
   @Test
   public void shouldCallSendObjectsIfBatchedRefsNotEnabledAtSource()
       throws ClientProtocolException, IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     when(source.enableBatchedRefs()).thenReturn(false);
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient, never()).callBatchSendObject(any(), any(), anyLong(), any());
     verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());
+  }
+
+  @Test
+  public void shouldCallFetchIfBatchedRefsNotEnabledAtSource()
+      throws ClientProtocolException, IOException {
+    Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
+    when(source.enableBatchedRefs()).thenReturn(false);
+    when(httpResult.isSuccessful()).thenReturn(false);
+    when(httpResult.isParentObjectMissing()).thenReturn(false);
+
+    objectUnderTest.start();
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient, never()).callBatchFetch(any(), any(), any());
+    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+  }
+
+  @Test
+  public void shouldCallBatchFetchForAllTheRefsInTheBatchIfApplyObjectFails()
+      throws ClientProtocolException, IOException, URISyntaxException {
+    List<String> refs = List.of("refs/changes/01/1/1", "refs/changes/02/1/1");
+    Event event = generateBatchRefUpdateEvent(refs);
+    when(batchHttpResult.isSuccessful()).thenReturn(false);
+    when(batchHttpResult.isParentObjectMissing()).thenReturn(true);
+    when(applyObjectsRefsFilter.match(any())).thenReturn(true, true);
+    when(httpResult.isSuccessful()).thenReturn(true, false);
+    when(httpResult.isParentObjectMissing()).thenReturn(true);
+
+    objectUnderTest.start();
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient, times(2))
+        .callSendObjects(any(), anyString(), anyLong(), any(), any());
+    verify(fetchRestApiClient).callBatchFetch(PROJECT, refs, new URIish("http://localhost:18080"));
   }
 
   @Test
@@ -376,7 +416,7 @@ public class ReplicationQueueTest {
             fetchMetrics,
             LOCAL_INSTANCE_ID,
             applyObjectsRefsFilter);
-    Event event = generateBatchRefUpdateEvent("refs/multi-site/version");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/multi-site/version"));
     objectUnderTest.onEvent(event);
 
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountAttribute);
@@ -384,7 +424,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldSkipEventWhenStarredChangesRef() {
-    Event event = generateBatchRefUpdateEvent("refs/starred-changes/41/2941/1000000");
+    Event event = generateBatchRefUpdateEvent(List.of("refs/starred-changes/41/2941/1000000"));
     objectUnderTest.onEvent(event);
 
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountAttribute);
@@ -450,15 +490,24 @@ public class ReplicationQueueTest {
     return createTempDirectory(prefix);
   }
 
-  private BatchRefUpdateEvent generateBatchRefUpdateEvent(String ref) {
-    RefUpdateAttribute upd = new RefUpdateAttribute();
-    upd.newRev = NEW_OBJECT_ID;
-    upd.oldRev = ObjectId.zeroId().getName();
-    upd.project = PROJECT.get();
-    upd.refName = ref;
+  private BatchRefUpdateEvent generateBatchRefUpdateEvent(List<String> refs) {
+    List<RefUpdateAttribute> refUpdateAttributes =
+        refs.stream()
+            .map(
+                r -> {
+                  RefUpdateAttribute upd = new RefUpdateAttribute();
+                  upd.newRev = NEW_OBJECT_ID;
+                  upd.oldRev = ObjectId.zeroId().getName();
+                  upd.project = PROJECT.get();
+                  upd.refName = r;
+                  return upd;
+                })
+            .collect(Collectors.toList());
     BatchRefUpdateEvent event =
         new BatchRefUpdateEvent(
-            PROJECT, Suppliers.ofInstance(List.of(upd)), Suppliers.ofInstance(accountAttribute));
+            PROJECT,
+            Suppliers.ofInstance(refUpdateAttributes),
+            Suppliers.ofInstance(accountAttribute));
     event.instanceId = LOCAL_INSTANCE_ID;
     return event;
   }
