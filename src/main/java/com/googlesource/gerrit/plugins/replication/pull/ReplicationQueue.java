@@ -289,7 +289,7 @@ public class ReplicationQueue
       }
 
       if (!callSuccessful) {
-        callFetch(source, project, refs, state);
+        callBatchFetch(source, project, refs, state);
       }
     };
   }
@@ -333,7 +333,7 @@ public class ReplicationQueue
     } catch (UncheckedIOException e) {
       stateLog.error("Falling back to calling fetch", e, state);
     }
-    return ((source) -> callFetch(source, project, refs, state));
+    return ((source) -> callBatchFetch(source, project, refs, state));
   }
 
   private boolean containsLargeRef(List<BatchApplyObjectData> batchApplyObjectData) {
@@ -498,6 +498,7 @@ public class ReplicationQueue
               // TODO could the below be problematic, if we fail midway through processing? Code
               // fallbacks to fetch but
               // what happens with the refs we have already processed?
+              resultSuccessful = true;
               for (BatchApplyObjectData batchApplyObject : filteredRefsBatch) {
                 String refName = batchApplyObject.getRefName();
                 if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
@@ -507,17 +508,19 @@ public class ReplicationQueue
                   List<RevisionData> allRevisions =
                       fetchWholeMetaHistory(project, refName, maybeRevisionData.get());
 
-                  return callSendObject(
-                      source,
-                      project,
-                      refName,
-                      eventCreatedOn,
-                      batchApplyObject.isDelete(),
-                      allRevisions,
-                      state);
+                  resultSuccessful &=
+                      callSendObject(
+                          source,
+                          project,
+                          refName,
+                          eventCreatedOn,
+                          batchApplyObject.isDelete(),
+                          allRevisions,
+                          state);
+                } else {
+                  throw new MissingParentObjectException(
+                      project, refName, source.getRemoteConfigName());
                 }
-                throw new MissingParentObjectException(
-                    project, refName, source.getRemoteConfigName());
               }
             }
           }
@@ -585,6 +588,76 @@ public class ReplicationQueue
     revisionDataBuilder.add(revision);
 
     return revisionDataBuilder.build();
+  }
+
+  private boolean callBatchFetch(
+      Source source,
+      Project.NameKey project,
+      List<ReferenceUpdatedEvent> refs,
+      ReplicationState state) {
+
+    if (source.enableBatchedRefs()) {
+      boolean resultIsSuccessful = true;
+
+      List<String> filteredRefs =
+          refs.stream()
+              .map(ReferenceUpdatedEvent::refName)
+              .filter(refName -> source.wouldFetchProject(project) && source.wouldFetchRef(refName))
+              .collect(Collectors.toList());
+
+      String refsStr = String.join(",", filteredRefs);
+
+      for (String apiUrl : source.getApis()) {
+        try {
+          URIish uri = new URIish(apiUrl);
+          FetchApiClient fetchClient = fetchClientFactory.create(source);
+          repLog.info(
+              "Pull replication REST API batch fetch to {} for {}:[{}]", apiUrl, project, refsStr);
+          Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
+          HttpResult result = fetchClient.callBatchFetch(project, filteredRefs, uri);
+          long elapsedMs = TimeUnit.NANOSECONDS.toMillis(timer.stop());
+          boolean resultSuccessful = result.isSuccessful();
+          repLog.info(
+              "Pull replication REST API batch fetch to {} COMPLETED for {}:[{}], HTTP Result:"
+                  + " {} - time:{} ms",
+              apiUrl,
+              project,
+              refsStr,
+              result,
+              elapsedMs);
+          if (!resultSuccessful
+              && result.isProjectMissing(project)
+              && source.isCreateMissingRepositories()) {
+            result = initProject(project, uri, fetchClient, result);
+          }
+          if (!resultSuccessful) {
+            stateLog.warn(
+                String.format(
+                    "Pull replication rest api batch fetch call failed. Endpoint url: %s, reason:%s",
+                    apiUrl, result.getMessage().orElse("unknown")),
+                state);
+          }
+          resultIsSuccessful &= result.isSuccessful();
+        } catch (URISyntaxException e) {
+          stateLog.error(
+              String.format("Cannot parse pull replication batch api url:%s", apiUrl), state);
+          resultIsSuccessful = false;
+        } catch (Exception e) {
+          stateLog.error(
+              String.format(
+                  "Exception during the pull replication batch fetch rest api call. Endpoint url:%s,"
+                      + " message:%s",
+                  apiUrl, e.getMessage()),
+              e,
+              state);
+          resultIsSuccessful = false;
+        }
+      }
+
+      return resultIsSuccessful;
+    } else {
+      return callFetch(source, project, refs, state);
+    }
   }
 
   private boolean callFetch(
