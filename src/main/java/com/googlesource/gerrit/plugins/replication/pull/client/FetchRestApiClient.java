@@ -131,6 +131,31 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
 
+  @Override
+  public HttpResult callBatchFetch(
+      NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
+      throws IOException {
+    String msgBody =
+        refsInBatch.stream()
+            .map(
+                refName -> {
+                  Boolean callAsync = !syncRefsFilter.match(refName);
+                  return String.format(
+                      "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
+                      instanceId, refName, callAsync);
+                })
+            .collect(Collectors.joining(","));
+
+    String url = formatUrl(targetUri.toString(), project, "batch-fetch");
+    HttpPost post = new HttpPost(url);
+    post.setEntity(new StringEntity("[" + msgBody + "]", StandardCharsets.UTF_8));
+    post.addHeader(new BasicHeader(CONTENT_TYPE, "application/json"));
+    post.addHeader(
+        PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
+        Long.toString(startTimeNanos));
+    return executeRequest(post, bearerTokenProvider.get(), targetUri);
+  }
+
   /* (non-Javadoc)
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
    */
@@ -219,7 +244,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
 
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(inputs)));
-    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    post.addHeader(new BasicHeader(CONTENT_TYPE, MediaType.JSON_UTF_8.toString()));
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
 
