@@ -169,6 +169,25 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
+  public void shouldCallBatchFetchEndpoint() throws IOException, URISyntaxException {
+
+    objectUnderTest.callBatchFetch(
+        Project.nameKey("test_repo"),
+        List.of(refName, RefNames.REFS_HEADS + "test"),
+        new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPost.getURI().getPath())
+        .isEqualTo(
+            String.format(
+                "%s/projects/test_repo/pull-replication~batch-fetch", urlAuthenticationPrefix()));
+    assertAuthentication(httpPost);
+  }
+
+  @Test
   public void shouldByDefaultCallSyncFetchForAllRefs() throws IOException, URISyntaxException {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
@@ -205,6 +224,41 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
+  public void shouldCallAsyncBatchFetchForAllRefs() throws IOException, URISyntaxException {
+
+    when(config.getStringList("replication", null, "syncRefs"))
+        .thenReturn(new String[] {"NO_SYNC_REFS"});
+    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    objectUnderTest =
+        new FetchRestApiClient(
+            credentials,
+            httpClientFactory,
+            replicationConfig,
+            syncRefsFilter,
+            pluginName,
+            instanceId,
+            bearerTokenProvider,
+            source);
+
+    String testRef = RefNames.REFS_HEADS + "test";
+    List<String> refs = List.of(refName, testRef);
+    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    String expectedPayload =
+        "[{\"label\":\"Replication\", \"ref_name\": \""
+            + refName
+            + "\", \"async\":true},"
+            + "{\"label\":\"Replication\", \"ref_name\": \""
+            + refs.get(1)
+            + "\", \"async\":true}"
+            + "]";
+    assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
+  }
+
+  @Test
   public void shouldCallSyncFetchOnlyForMetaRef() throws IOException, URISyntaxException {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
@@ -236,6 +290,33 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
+  public void shouldCallSyncBatchFetchOnlyForMetaRef() throws IOException, URISyntaxException {
+    String metaRefName = "refs/changes/01/101/meta";
+    String expectedMetaRefPayload =
+        "[{\"label\":\"Replication\", \"ref_name\": \"" + metaRefName + "\", \"async\":false}]";
+
+    when(config.getStringList("replication", null, "syncRefs"))
+        .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
+    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    objectUnderTest =
+        new FetchRestApiClient(
+            credentials,
+            httpClientFactory,
+            replicationConfig,
+            syncRefsFilter,
+            pluginName,
+            instanceId,
+            bearerTokenProvider,
+            source);
+
+    objectUnderTest.callBatchFetch(
+        Project.nameKey("test_repo"), List.of(metaRefName), new URIish(api));
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+    HttpPost httpPost = httpPostCaptor.getValue();
+    assertThat(readPayload(httpPost)).isEqualTo(expectedMetaRefPayload);
+  }
+
+  @Test
   public void shouldCallFetchEndpointWithPayload() throws IOException, URISyntaxException {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
@@ -247,9 +328,77 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
+  public void shouldCallBatchFetchEndpointWithPayload() throws IOException, URISyntaxException {
+
+    String testRef = RefNames.REFS_HEADS + "test";
+    List<String> refs = List.of(refName, testRef);
+    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    String expectedPayload =
+        "[{\"label\":\"Replication\", \"ref_name\": \""
+            + refName
+            + "\", \"async\":false},"
+            + "{\"label\":\"Replication\", \"ref_name\": \""
+            + refs.get(1)
+            + "\", \"async\":false}"
+            + "]";
+    assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
+  }
+
+  @Test
+  public void shouldCallBatchFetchWithAMixOfSyncAndAsyncRefs()
+      throws IOException, URISyntaxException {
+
+    when(config.getStringList("replication", null, "syncRefs"))
+        .thenReturn(new String[] {"^refs\\/heads\\/test"});
+    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    String testRef = RefNames.REFS_HEADS + "test";
+    List<String> refs = List.of(refName, testRef);
+    objectUnderTest =
+        new FetchRestApiClient(
+            credentials,
+            httpClientFactory,
+            replicationConfig,
+            syncRefsFilter,
+            pluginName,
+            instanceId,
+            bearerTokenProvider,
+            source);
+    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    String expectedPayload =
+        "[{\"label\":\"Replication\", \"ref_name\": \""
+            + refName
+            + "\", \"async\":true},"
+            + "{\"label\":\"Replication\", \"ref_name\": \""
+            + refs.get(1)
+            + "\", \"async\":false}"
+            + "]";
+    assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
+  }
+
+  @Test
   public void shouldSetContentTypeHeader() throws IOException, URISyntaxException {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
+
+    HttpPost httpPost = httpPostCaptor.getValue();
+    assertThat(httpPost.getLastHeader("Content-Type").getValue())
+        .isEqualTo(expectedHeader.getValue());
+  }
+
+  @Test
+  public void shouldSetContentTypeHeaderInBatchFetch() throws IOException, URISyntaxException {
+
+    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), List.of(refName), new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
