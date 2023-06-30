@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c219dd3b_7c1ed8dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-30T20:52:05Z",
+      "side": 1,
+      "message": "Not finished but thought I\u0027d post what I have for now.\n\nAbout the target branch - what is the practice here? Shouldn\u0027t we support older versions of Gerrit too, not just master?",
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a35f6549_9af3c6d8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-30T20:52:05Z",
+      "side": 1,
+      "message": "This class has a compilation error - looks like `BatchRefUpdateEvent` wasn\u0027t included as part of this change.",
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27921e87_bee7dc88",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-30T20:52:05Z",
+      "side": 1,
+      "message": "We don\u0027t need this exception - it\u0027s a subclass of `IOException`. Although I do notice it\u0027s listed in other methods unnecessarily too, so maybe removing them where unnecessary could be a separate change.",
+      "range": {
+        "startLine": 206,
+        "startChar": 39,
+        "endLine": 206,
+        "endChar": 62
+      },
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d4951ab_0058f6c1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-30T20:52:05Z",
+      "side": 1,
+      "message": "Is it an illegal state of `BatchApplyObjectData` to have both revision data and be a delete? If so, could we structure the class such that we can\u0027t create illegal instances of it?",
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd299468_f10730b5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-30T20:52:05Z",
+      "side": 1,
+      "message": "Nit: Gerrit seems to use `com.google.common.net.HttpHeaders.CONTENT_TYPE` as a constant for `Content-Type` - maybe we should use that here too.",
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
