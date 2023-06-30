@@ -40,6 +40,7 @@ public class PullReplicationFilterTest {
   @Mock HttpServletResponse response;
   @Mock FilterChain filterChain;
   @Mock private FetchAction fetchAction;
+  @Mock private BatchFetchAction batchFetchAction;
   @Mock private ApplyObjectAction applyObjectAction;
   @Mock private ApplyObjectsAction applyObjectsAction;
   @Mock private ProjectInitializationAction projectInitializationAction;
@@ -56,6 +57,8 @@ public class PullReplicationFilterTest {
   private final String PROJECT_NAME_GIT = "some-project.git";
   private final String FETCH_URI =
       String.format("any-prefix/projects/%s/%s~fetch", PROJECT_NAME, PLUGIN_NAME);
+  private final String BATCH_FETCH_URI =
+      String.format("any-prefix/projects/%s/%s~batch-fetch", PROJECT_NAME, PLUGIN_NAME);
   private final String APPLY_OBJECT_URI =
       String.format("any-prefix/projects/%s/%s~apply-object", PROJECT_NAME, PLUGIN_NAME);
   private final String APPLY_OBJECTS_URI =
@@ -76,6 +79,7 @@ public class PullReplicationFilterTest {
   private PullReplicationFilter createPullReplicationFilter(CurrentUser currentUser) {
     return new PullReplicationFilter(
         fetchAction,
+        batchFetchAction,
         applyObjectAction,
         applyObjectsAction,
         projectInitializationAction,
@@ -122,6 +126,31 @@ public class PullReplicationFilterTest {
 
     verifyBehaviours();
     verify(fetchAction).apply(any(ProjectResource.class), any());
+  }
+
+  @Test
+  public void shouldFilterBatchFetchAction() throws Exception {
+    byte[] payloadBatchFetch =
+        ("[{"
+                + "\"label\":\"Replication\", "
+                + "\"ref_name\": \"refs/heads/master\", "
+                + "\"async\":false"
+                + "},"
+                + "{"
+                + "\"label\":\"Replication\", "
+                + "\"ref_name\": \"refs/heads/test\", "
+                + "\"async\":false"
+                + "}]")
+            .getBytes(StandardCharsets.UTF_8);
+
+    defineBehaviours(payloadBatchFetch, BATCH_FETCH_URI);
+    when(batchFetchAction.apply(any(), any())).thenReturn(OK_RESPONSE);
+
+    PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
+    pullReplicationFilter.doFilter(request, response, filterChain);
+
+    verifyBehaviours();
+    verify(batchFetchAction).apply(eq(projectResource), any());
   }
 
   @Test

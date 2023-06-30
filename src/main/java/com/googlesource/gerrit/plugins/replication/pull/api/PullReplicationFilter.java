@@ -83,6 +83,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       Pattern.compile(".*/init-project/([^/]+.git)");
 
   private FetchAction fetchAction;
+  private BatchFetchAction batchFetchAction;
   private ApplyObjectAction applyObjectAction;
   private ApplyObjectsAction applyObjectsAction;
   private ProjectInitializationAction projectInitializationAction;
@@ -96,6 +97,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @Inject
   public PullReplicationFilter(
       FetchAction fetchAction,
+      BatchFetchAction batchFetchAction,
       ApplyObjectAction applyObjectAction,
       ApplyObjectsAction applyObjectsAction,
       ProjectInitializationAction projectInitializationAction,
@@ -105,6 +107,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       @PluginName String pluginName,
       Provider<CurrentUser> currentUserProvider) {
     this.fetchAction = fetchAction;
+    this.batchFetchAction = batchFetchAction;
     this.applyObjectAction = applyObjectAction;
     this.applyObjectsAction = applyObjectsAction;
     this.projectInitializationAction = projectInitializationAction;
@@ -130,6 +133,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       if (isFetchAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doFetch(httpRequest));
+      } else if (isBatchFetchAction(httpRequest)) {
+        writeResponse(httpResponse, doBatchFetch(httpRequest));
       } else if (isApplyObjectAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doApplyObject(httpRequest));
@@ -261,6 +266,17 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     return new ProjectResource(project.get(), currentUserProvider.get());
   }
 
+  @SuppressWarnings("unchecked")
+  private Response<Map<String, Object>> doBatchFetch(HttpServletRequest httpRequest)
+      throws IOException, RestApiException, PermissionBackendException {
+    TypeToken<List<Input>> collectionType = new TypeToken<>() {};
+    List<Input> inputs = readJson(httpRequest, collectionType.getType());
+    IdString id = getProjectName(httpRequest).get();
+    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
+
+    return (Response<Map<String, Object>>) batchFetchAction.apply(projectResource, inputs);
+  }
+
   private <T> void writeResponse(HttpServletResponse httpResponse, Response<T> response)
       throws IOException {
     String responseJson = gson.toJson(response);
@@ -345,6 +361,12 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   private boolean isFetchAction(HttpServletRequest httpRequest) {
     return httpRequest.getRequestURI().endsWith(String.format("/%s~" + FETCH_ENDPOINT, pluginName));
+  }
+
+  private boolean isBatchFetchAction(HttpServletRequest httpRequest) {
+    return httpRequest
+        .getRequestURI()
+        .endsWith(String.format("/%s~" + BATCH_FETCH_ENDPOINT, pluginName));
   }
 
   private boolean isInitProjectAction(HttpServletRequest httpRequest) {
