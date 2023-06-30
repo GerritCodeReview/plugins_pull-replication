@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4af527c5_e8494e13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-30T18:37:17Z",
+      "side": 1,
+      "message": "wrap long line",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "4f76758d4f33ae0e49dcfb78ddac76b21d987343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5b66ba_0c8f41e0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchFetchAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-30T18:37:17Z",
+      "side": 1,
+      "message": "that should be changed as well. We want to create a single fetch tasks with all the refs. In this case we will schedule each ref individually so we cannot guarantee that they will end up in a single task.\nIt is important to have all the refs in a single task to reduce the inconsistency period",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 59
+      },
+      "revId": "4f76758d4f33ae0e49dcfb78ddac76b21d987343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71176e7b_f24f1897",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-30T18:37:17Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "4f76758d4f33ae0e49dcfb78ddac76b21d987343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
