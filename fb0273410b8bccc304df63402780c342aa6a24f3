@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0f2c8e9_de7de8c2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-30T10:53:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "415a3300_e754e8a4",
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9913c47_9eaf240d",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-06-28T17:34:50Z",
       "side": 1,
       "message": "we should enable that per source not as a global setting",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 82
+      },
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5a3b0bd_b602b44a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-30T10:53:43Z",
+      "side": 1,
+      "message": "Can you justify this? To me it feels like a global setting, either all the nodes support batching or they dont. It also simplifies troubleshooting and debugging and makes it easier to reason about what the software is doing. Even for a rolling update, you can gradually update all the nodes to the same version while using apply-objects endpoint, then enable batching endpoint by modifying the replication.config on every node and it will be automatically picked up (if `gerrit.autoReload` is set to true).",
+      "parentUuid": "b9913c47_9eaf240d",
       "range": {
         "startLine": 103,
         "startChar": 4,
@@ -87,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e01fa82_eda443a1",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-30T10:53:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb8130ab_641c3052",
+      "range": {
+        "startLine": 333,
+        "startChar": 56,
+        "endLine": 333,
+        "endChar": 57
+      },
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4e9a54e_bc5be306",
@@ -100,6 +166,30 @@
       "writtenOn": "2023-06-28T17:34:50Z",
       "side": 1,
       "message": "should default be true. We need that param only during the rolling upgrade or when part of the nodes is on old version. When all nodes are on the same version this param is not needed",
+      "range": {
+        "startLine": 337,
+        "startChar": 11,
+        "endLine": 337,
+        "endChar": 16
+      },
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10cecd73_df48c8a9",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-30T10:53:43Z",
+      "side": 1,
+      "message": "ok, but that will require the users to be aware and make sure they set it to false while migrating. How do we communicate this, how can we add it to the release notes?",
+      "parentUuid": "c4e9a54e_bc5be306",
       "range": {
         "startLine": 337,
         "startChar": 11,
