@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f45626a7_f75f1496",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-30T18:23:09Z",
+      "side": 1,
+      "message": "But this is reducing the possibility of doing the rolling upgrade. We cannot enable batch ref event just for a part of the nodes, check if all works fine even move part of the jenkins builds to the new event and then enable it for all the nodes. Also we can have replication between clusters so one cluster can be on old code and other on the new one. With the global setting you have to wait for all the clusters to upgraded",
+      "parentUuid": "b5a3b0bd_b602b44a",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 82
+      },
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e8f5bf3_50216a7c",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 2
@@ -190,6 +214,30 @@
       "side": 1,
       "message": "ok, but that will require the users to be aware and make sure they set it to false while migrating. How do we communicate this, how can we add it to the release notes?",
       "parentUuid": "c4e9a54e_bc5be306",
+      "range": {
+        "startLine": 337,
+        "startChar": 11,
+        "endLine": 337,
+        "endChar": 16
+      },
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "970bfe6e_1e6d5f2b",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-30T18:23:09Z",
+      "side": 1,
+      "message": "we should mention that in the release notes and in the documentation",
+      "parentUuid": "10cecd73_df48c8a9",
       "range": {
         "startLine": 337,
         "startChar": 11,
