@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c6df84d_5753fd21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-01T00:53:18Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "1b630cc9_4ede2c00",
+      "revId": "74ed19300f206b2b0026360d7b9b90f5bd3a77ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c61cb49d_4c969e99",
@@ -48,6 +66,23 @@
       "writtenOn": "2023-06-30T11:32:10Z",
       "side": 1,
       "message": "Do we need to adapt the `PullReplicationFilter` logic as well, as it is using whatever the `apply` method returns? Looks like we are casting the response to a `Response\u003cMap\u003cString, Object\u003e\u003e` - although I am not clear how we go from a `RevisionInput` to a `Map\u003cString, Object\u003e`. But perhaps we can simplify the method signature to `Response\u003cString\u003e`? WDYT?",
+      "revId": "74ed19300f206b2b0026360d7b9b90f5bd3a77ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb1136e0_1fa5e51c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-01T00:53:18Z",
+      "side": 1,
+      "message": "Happy to merge as soon as the suggestions are implemented.",
       "revId": "74ed19300f206b2b0026360d7b9b90f5bd3a77ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
