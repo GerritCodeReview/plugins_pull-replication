@@ -16,6 +16,24 @@
       "message": "dont you want to test that you are not sending anything?",
       "revId": "3c99fd11179c6a1ce5a4f2cb1d3a09918956dccf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e86eba4_0c024fdc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-03T15:02:17Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "223bbfb8_91a5b67e",
+      "revId": "3c99fd11179c6a1ce5a4f2cb1d3a09918956dccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
