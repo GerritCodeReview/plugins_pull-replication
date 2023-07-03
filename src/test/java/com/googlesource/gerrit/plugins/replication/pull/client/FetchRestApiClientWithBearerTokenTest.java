@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -33,7 +32,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class FetchRestApiClientWithBearerTokenTest extends FetchRestApiClientBase {
 
   @Before
-  public void setup() throws ClientProtocolException, IOException {
+  public void setup() throws IOException {
     when(bearerTokenProvider.get()).thenReturn(Optional.of("some-bearer-token"));
     when(replicationConfig.getConfig()).thenReturn(config);
     when(config.getStringList("replication", null, "syncRefs")).thenReturn(new String[0]);
