@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18d8c7d9_8e1566f3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-03T12:40:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a35f6549_9af3c6d8",
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27921e87_bee7dc88",
@@ -48,6 +66,30 @@
       "writtenOn": "2023-06-30T20:52:05Z",
       "side": 1,
       "message": "We don\u0027t need this exception - it\u0027s a subclass of `IOException`. Although I do notice it\u0027s listed in other methods unnecessarily too, so maybe removing them where unnecessary could be a separate change.",
+      "range": {
+        "startLine": 206,
+        "startChar": 39,
+        "endLine": 206,
+        "endChar": 62
+      },
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb3913c_02d03c17",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-03T12:40:37Z",
+      "side": 1,
+      "message": "Yeah I just followed what was there, but I agree this is redundant. I\u0027ve removed it in a [separate change](https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/378595/1).",
+      "parentUuid": "27921e87_bee7dc88",
       "range": {
         "startLine": 206,
         "startChar": 39,
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52e4e1be_730fc6c7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-03T12:40:37Z",
+      "side": 1,
+      "message": "sure, i will enforce this in the constructor.",
+      "parentUuid": "4d4951ab_0058f6c1",
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd299468_f10730b5",
@@ -88,6 +148,24 @@
       "writtenOn": "2023-06-30T20:52:05Z",
       "side": 1,
       "message": "Nit: Gerrit seems to use `com.google.common.net.HttpHeaders.CONTENT_TYPE` as a constant for `Content-Type` - maybe we should use that here too.",
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fac9175e_e8fea5d0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-03T12:40:37Z",
+      "side": 1,
+      "message": "Ok, but I will do it as a separate change.",
+      "parentUuid": "bd299468_f10730b5",
       "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
