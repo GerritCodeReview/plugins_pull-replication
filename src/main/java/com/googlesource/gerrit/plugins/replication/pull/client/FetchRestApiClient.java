@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -135,25 +136,68 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   public HttpResult callBatchFetch(
       NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
       throws ClientProtocolException, IOException {
-    String msgBody =
+    List<String> asyncRefs =
         refsInBatch.stream()
+            .filter(refName -> !syncRefsFilter.match(refName))
             .map(
-                refName -> {
-                  Boolean callAsync = !syncRefsFilter.match(refName);
-                  return String.format(
-                      "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
-                      instanceId, refName, callAsync);
-                })
-            .collect(Collectors.joining(","));
+                refName ->
+                    String.format(
+                        "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":true}",
+                        instanceId, refName))
+            .collect(Collectors.toList());
+
+    List<String> syncRefs =
+        refsInBatch.stream()
+            .filter(syncRefsFilter::match)
+            .map(
+                refName ->
+                    String.format(
+                        "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":false}",
+                        instanceId, refName))
+            .collect(Collectors.toList());
 
     String url = formatUrl(targetUri.toString(), project, "batch-fetch");
+
+    if (asyncRefs.isEmpty() && syncRefs.isEmpty()) {
+      throw new IllegalArgumentException(
+          "At least one ref should be provided during a batch-fetch operation");
+    }
+    if (asyncRefs.isEmpty()) {
+      HttpPost syncPost =
+          createPostRequest(url, "[" + String.join(",", syncRefs) + "]", startTimeNanos);
+      return executeRequest(syncPost, bearerTokenProvider.get(), targetUri);
+    }
+    if (syncRefs.isEmpty()) {
+      HttpPost asyncPost =
+          createPostRequest(url, "[" + String.join(",", asyncRefs) + "]", startTimeNanos);
+      return executeRequest(asyncPost, bearerTokenProvider.get(), targetUri);
+    }
+
+    // first execute for async refs, then for sync
+    HttpPost asyncPost =
+        createPostRequest(url, "[" + String.join(",", asyncRefs) + "]", startTimeNanos);
+    HttpResult asyncResult = executeRequest(asyncPost, bearerTokenProvider.get(), targetUri);
+
+    if (asyncResult.isSuccessful()) {
+      HttpPost syncPost =
+          createPostRequest(
+              url,
+              "[" + String.join(",", syncRefs) + "]",
+              MILLISECONDS.toNanos(System.currentTimeMillis()));
+      return executeRequest(syncPost, bearerTokenProvider.get(), targetUri);
+    }
+
+    return asyncResult;
+  }
+
+  private HttpPost createPostRequest(String url, String msgBody, long startTimeNanos) {
     HttpPost post = new HttpPost(url);
-    post.setEntity(new StringEntity("[" + msgBody + "]", StandardCharsets.UTF_8));
+    post.setEntity(new StringEntity(msgBody, StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
     post.addHeader(
         PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
         Long.toString(startTimeNanos));
-    return executeRequest(post, bearerTokenProvider.get(), targetUri);
+    return post;
   }
 
   /* (non-Javadoc)
