@@ -61,7 +61,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -191,7 +190,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallBatchSendObjectWhenMetaRef() throws ClientProtocolException, IOException {
+  public void shouldCallBatchSendObjectWhenMetaRef() throws IOException {
     Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/meta"));
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -200,8 +199,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldIgnoreEventWhenIsNotLocalInstanceId()
-      throws ClientProtocolException, IOException {
+  public void shouldIgnoreEventWhenIsNotLocalInstanceId() throws IOException {
     Event event = generateBatchRefUpdateEvent(List.of(TEST_REF_NAME));
     event.instanceId = FOREIGN_INSTANCE_ID;
     objectUnderTest.start();
@@ -239,8 +237,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallBatchSendObjectWhenPatchSetRef()
-      throws ClientProtocolException, IOException {
+  public void shouldCallBatchSendObjectWhenPatchSetRef() throws IOException {
     Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -250,7 +247,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallBatchFetchWhenIOException()
-      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+      throws IOException, LargeObjectException, RefUpdateException {
     Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/meta"));
     objectUnderTest.start();
 
@@ -263,7 +260,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallBatchFetchWhenLargeRef()
-      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+      throws IOException, LargeObjectException, RefUpdateException {
     Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     objectUnderTest.start();
 
@@ -277,7 +274,7 @@ public class ReplicationQueueTest {
   @Test
   public void
       shouldFallbackToCallBatchFetchWhenParentObjectIsMissingAndRefDoesntMatchApplyObjectsRefsFilter()
-          throws ClientProtocolException, IOException {
+          throws IOException {
     Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     objectUnderTest.start();
 
@@ -292,7 +289,7 @@ public class ReplicationQueueTest {
   @Test
   public void
       shouldFallbackToApplyObjectsForEachRefWhenParentObjectIsMissingAndRefMatchesApplyObjectsRefFilter()
-          throws ClientProtocolException, IOException {
+          throws IOException {
     List<String> refs = List.of("refs/changes/01/1/1", "refs/changes/02/1/1");
     Event event = generateBatchRefUpdateEvent(refs);
     objectUnderTest.start();
@@ -310,7 +307,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallBatchFetchWhenParentObjectNotMissingButApplyObjectFails()
-      throws ClientProtocolException, IOException {
+      throws IOException {
     Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     objectUnderTest.start();
 
@@ -326,7 +323,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnMetaRef()
-      throws ClientProtocolException, IOException {
+      throws IOException {
     Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/meta"));
     objectUnderTest.start();
 
@@ -347,7 +344,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnAllowedRefs()
-      throws ClientProtocolException, IOException {
+      throws IOException {
     String refName = "refs/tags/test-tag";
     Event event = generateBatchRefUpdateEvent(List.of(refName));
     objectUnderTest.start();
@@ -369,8 +366,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectsIfBatchedRefsNotEnabledAtSource()
-      throws ClientProtocolException, IOException {
+  public void shouldCallSendObjectsIfBatchedRefsNotEnabledAtSource() throws IOException {
     Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     when(source.enableBatchedRefs()).thenReturn(false);
     objectUnderTest.start();
@@ -381,8 +377,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallFetchIfBatchedRefsNotEnabledAtSource()
-      throws ClientProtocolException, IOException {
+  public void shouldCallFetchIfBatchedRefsNotEnabledAtSource() throws IOException {
     Event event = generateBatchRefUpdateEvent(List.of("refs/changes/01/1/1"));
     when(source.enableBatchedRefs()).thenReturn(false);
     when(httpResult.isSuccessful()).thenReturn(false);
@@ -397,7 +392,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldCallBatchFetchForAllTheRefsInTheBatchIfApplyObjectFails()
-      throws ClientProtocolException, IOException, URISyntaxException {
+      throws IOException, URISyntaxException {
     List<String> refs = List.of("refs/changes/01/1/1", "refs/changes/02/1/1");
     Event event = generateBatchRefUpdateEvent(refs);
     when(batchHttpResult.isSuccessful()).thenReturn(false);
