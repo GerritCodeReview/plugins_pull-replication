@@ -109,6 +109,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65fc435d_5c25b42c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-03T10:12:41Z",
+      "side": 1,
+      "message": "Yeah agreed, i guess my point here is that having it as a global setting reduces complexity and I also assumed that waiting until rolling upgrade is done and then update the config was not a big deal. Let\u0027s wait until more people have had a chance to review, I will give it a few days and if i dont hear back i will change it according to your suggestion 👍",
+      "parentUuid": "f45626a7_f75f1496",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 82
+      },
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e8f5bf3_50216a7c",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 2
@@ -238,6 +262,30 @@
       "side": 1,
       "message": "we should mention that in the release notes and in the documentation",
       "parentUuid": "10cecd73_df48c8a9",
+      "range": {
+        "startLine": 337,
+        "startChar": 11,
+        "endLine": 337,
+        "endChar": 16
+      },
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1788f6ab_fd6c8af6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-03T10:12:41Z",
+      "side": 1,
+      "message": "If you can point me to the release notes i can add it there",
+      "parentUuid": "970bfe6e_1e6d5f2b",
       "range": {
         "startLine": 337,
         "startChar": 11,
