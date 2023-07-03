@@ -46,6 +46,30 @@
       },
       "revId": "18f239de130e1b1ed5cf10c2ebcd259d7afab721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04d55c79_d86adf3d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-03T12:40:59Z",
+      "side": 1,
+      "message": "Sorry I missed the second one",
+      "parentUuid": "a6c491b7_ea8847d0",
+      "range": {
+        "startLine": 123,
+        "startChar": 8,
+        "endLine": 132,
+        "endChar": 23
+      },
+      "revId": "18f239de130e1b1ed5cf10c2ebcd259d7afab721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
