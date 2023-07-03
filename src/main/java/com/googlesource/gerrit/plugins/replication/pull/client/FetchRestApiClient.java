@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
+import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -124,7 +125,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
                 "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
                 instanceId, refName, callAsync),
             StandardCharsets.UTF_8));
-    post.addHeader(new BasicHeader("Content-Type", "application/json"));
+    post.addHeader(new BasicHeader(CONTENT_TYPE, "application/json"));
     post.addHeader(
         PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
         Long.toString(startTimeNanos));
@@ -192,7 +193,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   private HttpPost createPostRequest(String url, String msgBody, long startTimeNanos) {
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(msgBody, StandardCharsets.UTF_8));
-    post.addHeader(new BasicHeader("Content-Type", "application/json"));
+    post.addHeader(new BasicHeader(CONTENT_TYPE, "application/json"));
     post.addHeader(
         PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
         Long.toString(startTimeNanos));
@@ -207,7 +208,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     String url = formatInitProjectUrl(uri.toString(), project);
     HttpPut put = new HttpPut(url);
     put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
-    put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
+    put.addHeader(new BasicHeader(CONTENT_TYPE, MediaType.PLAIN_TEXT_UTF_8.toString()));
     return executeRequest(put, bearerTokenProvider.get(), uri);
   }
 
@@ -232,7 +233,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     HttpPut req = new HttpPut(url);
     req.setEntity(
         new StringEntity(String.format("{\"ref\": \"%s\"}", newHead), StandardCharsets.UTF_8));
-    req.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    req.addHeader(new BasicHeader(CONTENT_TYPE, MediaType.JSON_UTF_8.toString()));
     return executeRequest(req, bearerTokenProvider.get(), apiUri);
   }
 
@@ -261,7 +262,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
 
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
-    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    post.addHeader(new BasicHeader(CONTENT_TYPE, MediaType.JSON_UTF_8.toString()));
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
 
@@ -287,7 +288,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
 
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(inputs)));
-    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    post.addHeader(new BasicHeader(CONTENT_TYPE, MediaType.JSON_UTF_8.toString()));
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
 
@@ -311,7 +312,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     String url = formatUrl(targetUri.toString(), project, "apply-objects");
     HttpPost post = new HttpPost(url);
     post.setEntity(new StringEntity(GSON.toJson(input)));
-    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    post.addHeader(new BasicHeader(CONTENT_TYPE, MediaType.JSON_UTF_8.toString()));
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
 
