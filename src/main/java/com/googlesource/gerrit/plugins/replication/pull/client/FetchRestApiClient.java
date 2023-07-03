@@ -51,7 +51,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
@@ -135,7 +134,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   @Override
   public HttpResult callBatchFetch(
       NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
-      throws ClientProtocolException, IOException {
+      throws IOException {
     List<String> asyncRefs =
         refsInBatch.stream()
             .filter(refName -> !syncRefsFilter.match(refName))
@@ -248,7 +247,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
       boolean isDelete,
       @Nullable RevisionData revisionData,
       URIish targetUri)
-      throws ClientProtocolException, IOException {
+      throws IOException {
 
     if (!isDelete) {
       requireNonNull(
@@ -272,7 +271,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
       List<BatchApplyObjectData> batchedRefs,
       long eventCreatedOn,
       URIish targetUri)
-      throws ClientProtocolException, IOException {
+      throws IOException {
     List<RevisionInput> inputs =
         batchedRefs.stream()
             .map(
@@ -299,7 +298,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
       long eventCreatedOn,
       List<RevisionData> revisionData,
       URIish targetUri)
-      throws ClientProtocolException, IOException {
+      throws IOException {
     if (revisionData.size() == 1) {
       return callSendObject(
           project, refName, eventCreatedOn, false, revisionData.get(0), targetUri);

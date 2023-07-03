@@ -23,7 +23,6 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjec
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
 import java.util.List;
-import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.transport.URIish;
 
 public interface FetchApiClient {
@@ -34,20 +33,19 @@ public interface FetchApiClient {
 
   HttpResult callFetch(
       Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
-      throws ClientProtocolException, IOException;
+      throws IOException;
 
   default HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
-      throws ClientProtocolException, IOException {
+      throws IOException {
     return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
 
   HttpResult callBatchFetch(
       Project.NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
-      throws ClientProtocolException, IOException;
+      throws IOException;
 
   default HttpResult callBatchFetch(
-      Project.NameKey project, List<String> refsInBatch, URIish targetUri)
-      throws ClientProtocolException, IOException {
+      Project.NameKey project, List<String> refsInBatch, URIish targetUri) throws IOException {
     return callBatchFetch(
         project, refsInBatch, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
@@ -65,14 +63,14 @@ public interface FetchApiClient {
       boolean isDelete,
       RevisionData revisionData,
       URIish targetUri)
-      throws ClientProtocolException, IOException;
+      throws IOException;
 
   HttpResult callBatchSendObject(
       NameKey project,
       List<BatchApplyObjectData> batchApplyObjects,
       long eventCreatedOn,
       URIish targetUri)
-      throws ClientProtocolException, IOException;
+      throws IOException;
 
   HttpResult callSendObjects(
       NameKey project,
@@ -80,5 +78,5 @@ public interface FetchApiClient {
       long eventCreatedOn,
       List<RevisionData> revisionData,
       URIish targetUri)
-      throws ClientProtocolException, IOException;
+      throws IOException;
 }
