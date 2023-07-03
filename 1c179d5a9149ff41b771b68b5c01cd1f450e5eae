@@ -168,6 +168,24 @@
       "parentUuid": "bd299468_f10730b5",
       "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a8c57d4_fd18c5f4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-03T14:18:51Z",
+      "side": 1,
+      "message": "Done as a [separate change](https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/378616/1).",
+      "parentUuid": "fac9175e_e8fea5d0",
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
