@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8994d6d_be865ba4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-03T14:43:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4af527c5_e8494e13",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "4f76758d4f33ae0e49dcfb78ddac76b21d987343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a5b66ba_0c8f41e0",
@@ -108,6 +132,24 @@
       "writtenOn": "2023-06-30T18:37:17Z",
       "side": 1,
       "message": "remove empty line",
+      "revId": "4f76758d4f33ae0e49dcfb78ddac76b21d987343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49bce561_279eeff7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-03T14:43:53Z",
+      "side": 1,
+      "message": "why? In my opinion it provides a nice separation between binding in singleton scope and binding of the REST resources.",
+      "parentUuid": "71176e7b_f24f1897",
       "revId": "4f76758d4f33ae0e49dcfb78ddac76b21d987343",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
