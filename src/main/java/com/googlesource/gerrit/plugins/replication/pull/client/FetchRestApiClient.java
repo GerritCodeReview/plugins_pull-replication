@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -44,6 +45,7 @@ import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.http.HttpHeaders;
@@ -131,29 +133,72 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
 
+  private Map<Boolean, List<String>> partitionRefsToAsyncAndSync(List<String> refsInBatch) {
+    return refsInBatch.stream()
+        .collect(
+            Collectors.partitioningBy(
+                refName -> !syncRefsFilter.match(refName),
+                Collectors.mapping(
+                    refName ->
+                        String.format(
+                            "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
+                            instanceId, refName, !syncRefsFilter.match(refName)),
+                    Collectors.toList())));
+  }
+
   @Override
   public HttpResult callBatchFetch(
       NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
       throws IOException {
-    String msgBody =
-        refsInBatch.stream()
-            .map(
-                refName -> {
-                  Boolean callAsync = !syncRefsFilter.match(refName);
-                  return String.format(
-                      "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
-                      instanceId, refName, callAsync);
-                })
-            .collect(Collectors.joining(","));
+    Map<Boolean, List<String>> refsPartitionedInAsyncAndSync =
+        partitionRefsToAsyncAndSync(refsInBatch);
+    boolean async = true;
+    List<String> asyncRefs = refsPartitionedInAsyncAndSync.get(async);
+    List<String> syncRefs = refsPartitionedInAsyncAndSync.get(!async);
+
+    if (asyncRefs.isEmpty() && syncRefs.isEmpty()) {
+      throw new IllegalArgumentException(
+          "At least one ref should be provided during a batch-fetch operation");
+    }
 
     String url = formatUrl(targetUri.toString(), project, "batch-fetch");
+
+    if (asyncRefs.isEmpty()) {
+      HttpPost syncPost =
+          createPostRequest(url, "[" + String.join(",", syncRefs) + "]", startTimeNanos);
+      return executeRequest(syncPost, bearerTokenProvider.get(), targetUri);
+    }
+    if (syncRefs.isEmpty()) {
+      HttpPost asyncPost =
+          createPostRequest(url, "[" + String.join(",", asyncRefs) + "]", startTimeNanos);
+      return executeRequest(asyncPost, bearerTokenProvider.get(), targetUri);
+    }
+
+    // first execute for async refs, then for sync
+    HttpPost asyncPost =
+        createPostRequest(url, "[" + String.join(",", asyncRefs) + "]", startTimeNanos);
+    HttpResult asyncResult = executeRequest(asyncPost, bearerTokenProvider.get(), targetUri);
+
+    if (asyncResult.isSuccessful()) {
+      HttpPost syncPost =
+          createPostRequest(
+              url,
+              "[" + String.join(",", syncRefs) + "]",
+              MILLISECONDS.toNanos(System.currentTimeMillis()));
+      return executeRequest(syncPost, bearerTokenProvider.get(), targetUri);
+    }
+
+    return asyncResult;
+  }
+
+  private HttpPost createPostRequest(String url, String msgBody, long startTimeNanos) {
     HttpPost post = new HttpPost(url);
-    post.setEntity(new StringEntity("[" + msgBody + "]", StandardCharsets.UTF_8));
+    post.setEntity(new StringEntity(msgBody, StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader(CONTENT_TYPE, "application/json"));
     post.addHeader(
         PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
         Long.toString(startTimeNanos));
-    return executeRequest(post, bearerTokenProvider.get(), targetUri);
+    return post;
   }
 
   /* (non-Javadoc)
