@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66225412_408d0b30",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchFetchAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-03T12:44:18Z",
+      "side": 1,
+      "message": "Yes, and I believe it\u0027s a part of this change. All benefits from having batch refs fetch are coming from scheduling fetch as a single fetch task. If you want to split it into two changes because you think that this one is already large enough do it but put a topic so they have to be merge together",
+      "parentUuid": "fe8001c6_ebac005f",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 59
+      },
+      "revId": "4f76758d4f33ae0e49dcfb78ddac76b21d987343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "71176e7b_f24f1897",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationApiModule.java",
         "patchSetId": 6
