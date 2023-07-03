@@ -22,7 +22,6 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
 import java.util.List;
-import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.transport.URIish;
 
 public interface FetchApiClient {
@@ -33,10 +32,10 @@ public interface FetchApiClient {
 
   HttpResult callFetch(
       Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
-      throws ClientProtocolException, IOException;
+      throws IOException;
 
   default HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
-      throws ClientProtocolException, IOException {
+      throws IOException {
     return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
 
@@ -53,7 +52,7 @@ public interface FetchApiClient {
       boolean isDelete,
       RevisionData revisionData,
       URIish targetUri)
-      throws ClientProtocolException, IOException;
+      throws IOException;
 
   HttpResult callSendObjects(
       NameKey project,
@@ -61,5 +60,5 @@ public interface FetchApiClient {
       long eventCreatedOn,
       List<RevisionData> revisionData,
       URIish targetUri)
-      throws ClientProtocolException, IOException;
+      throws IOException;
 }

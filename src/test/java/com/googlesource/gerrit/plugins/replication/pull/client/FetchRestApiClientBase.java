@@ -39,7 +39,6 @@ import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import org.apache.http.Header;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -150,8 +149,7 @@ public abstract class FetchRestApiClientBase {
   protected abstract void assertAuthentication(HttpRequestBase httpRequest);
 
   @Test
-  public void shouldCallFetchEndpoint()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldCallFetchEndpoint() throws IOException, URISyntaxException {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -167,8 +165,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldByDefaultCallSyncFetchForAllRefs()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldByDefaultCallSyncFetchForAllRefs() throws IOException, URISyntaxException {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -179,8 +176,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallAsyncFetchForAllRefs()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldCallAsyncFetchForAllRefs() throws IOException, URISyntaxException {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"NO_SYNC_REFS"});
@@ -205,8 +201,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallSyncFetchOnlyForMetaRef()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldCallSyncFetchOnlyForMetaRef() throws IOException, URISyntaxException {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
         "{\"label\":\"Replication\", \"ref_name\": \"" + metaRefName + "\", \"async\":false}";
@@ -237,8 +232,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallFetchEndpointWithPayload()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldCallFetchEndpointWithPayload() throws IOException, URISyntaxException {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -249,8 +243,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldSetContentTypeHeader()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldSetContentTypeHeader() throws IOException, URISyntaxException {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -262,8 +255,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallSendObjectEndpoint()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldCallSendObjectEndpoint() throws IOException, URISyntaxException {
 
     objectUnderTest.callSendObject(
         Project.nameKey("test_repo"),
@@ -285,8 +277,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallSendObjectEndpointWithPayload()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldCallSendObjectEndpointWithPayload() throws IOException, URISyntaxException {
 
     objectUnderTest.callSendObject(
         Project.nameKey("test_repo"),
@@ -303,8 +294,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldSetContentTypeHeaderForSendObjectCall()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldSetContentTypeHeaderForSendObjectCall() throws IOException, URISyntaxException {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -364,8 +354,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldUseReplicationLabelWhenProvided()
-      throws ClientProtocolException, IOException, URISyntaxException {
+  public void shouldUseReplicationLabelWhenProvided() throws IOException, URISyntaxException {
     when(config.getString("replication", null, "instanceLabel")).thenReturn(instanceId);
     FetchRestApiClient objectUnderTest =
         new FetchRestApiClient(

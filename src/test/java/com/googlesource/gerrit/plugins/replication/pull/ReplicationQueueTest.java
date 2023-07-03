@@ -59,7 +59,6 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -174,7 +173,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectWhenMetaRef() throws ClientProtocolException, IOException {
+  public void shouldCallSendObjectWhenMetaRef() throws IOException {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -183,8 +182,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldIgnoreEventWhenIsNotLocalInstanceId()
-      throws ClientProtocolException, IOException {
+  public void shouldIgnoreEventWhenIsNotLocalInstanceId() throws IOException {
     Event event = new TestEvent();
     event.instanceId = FOREIGN_INSTANCE_ID;
     objectUnderTest.start();
@@ -221,7 +219,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectWhenPatchSetRef() throws ClientProtocolException, IOException {
+  public void shouldCallSendObjectWhenPatchSetRef() throws IOException {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -231,7 +229,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallFetchWhenIOException()
-      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+      throws IOException, LargeObjectException, RefUpdateException {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
@@ -244,7 +242,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallFetchWhenLargeRef()
-      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+      throws IOException, LargeObjectException, RefUpdateException {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
@@ -256,8 +254,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenParentObjectIsMissing()
-      throws ClientProtocolException, IOException {
+  public void shouldFallbackToCallFetchWhenParentObjectIsMissing() throws IOException {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
@@ -273,7 +270,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnMetaRef()
-      throws ClientProtocolException, IOException {
+      throws IOException {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
@@ -299,7 +296,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnAllowedRefs()
-      throws ClientProtocolException, IOException {
+      throws IOException {
     String refName = "refs/tags/test-tag";
     Event event = new TestEvent(refName);
     objectUnderTest.start();
