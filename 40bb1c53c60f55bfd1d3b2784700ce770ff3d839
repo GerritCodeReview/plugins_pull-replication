@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "376f396c_56cfcc45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-04T08:24:33Z",
+      "side": 1,
+      "message": "I don\u0027t think this depends on the unmerged changes in the relation chain - is it worth making its parent? That way we can merge it as soon as it\u0027s requirements are fulfilled.",
+      "revId": "40bb1c53c60f55bfd1d3b2784700ce770ff3d839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
