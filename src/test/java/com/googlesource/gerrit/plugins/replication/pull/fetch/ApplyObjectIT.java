@@ -218,7 +218,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
   }
 
   private Project.NameKey createTestProject(String name) throws Exception {
-    return projectOperations.newProject().name(name).create();
+    return projectOperations.newProject().name(name).parent(project).create();
   }
 
   @SuppressWarnings("unused")
