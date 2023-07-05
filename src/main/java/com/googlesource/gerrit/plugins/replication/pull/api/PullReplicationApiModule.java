@@ -25,12 +25,12 @@ import com.google.inject.Scopes;
 public class PullReplicationApiModule extends RestApiModule {
   @Override
   protected void configure() {
-    bind(FetchAction.class).in(Scopes.SINGLETON);
+    bind(BatchFetchAction.class).in(Scopes.SINGLETON);
     bind(ApplyObjectAction.class).in(Scopes.SINGLETON);
     bind(ProjectDeletionAction.class).in(Scopes.SINGLETON);
     bind(UpdateHeadAction.class).in(Scopes.SINGLETON);
     bind(BatchApplyObjectAction.class).in(Scopes.SINGLETON);
-    bind(BatchFetchAction.class).in(Scopes.SINGLETON);
+    bind(FetchAction.class).in(Scopes.SINGLETON);
 
     post(PROJECT_KIND, "fetch").to(FetchAction.class);
     post(PROJECT_KIND, "batch-fetch").to(BatchFetchAction.class);

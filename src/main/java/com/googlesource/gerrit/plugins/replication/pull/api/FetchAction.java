@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -62,6 +63,14 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     public String label;
     public String refName;
     public boolean async;
+
+    public BatchFetchAction.Inputs asBatchFetchActionInputs() {
+      BatchFetchAction.Inputs inputs = new BatchFetchAction.Inputs();
+      inputs.label = label;
+      inputs.refNames = ImmutableList.of(refName);
+      inputs.async = async;
+      return inputs;
+    }
   }
 
   @Override
@@ -107,7 +116,10 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
             workQueue
                 .getDefaultQueue()
                 .submit(
-                    fetchJobFactory.create(project, input, PullReplicationApiRequestMetrics.get()));
+                    fetchJobFactory.create(
+                        project,
+                        input.asBatchFetchActionInputs(),
+                        PullReplicationApiRequestMetrics.get()));
     Optional<String> url =
         urlFormatter
             .get()
