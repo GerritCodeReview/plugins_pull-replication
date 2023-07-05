@@ -77,6 +77,7 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -442,24 +443,29 @@ public class Source {
 
   public Future<?> schedule(
       Project.NameKey project,
-      String ref,
+      List<String> refs,
       ReplicationState state,
       ReplicationType replicationType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
     URIish uri = getURI(project);
-    return schedule(project, ref, uri, state, replicationType, apiRequestMetrics);
+    return schedule(project, refs, uri, state, replicationType, apiRequestMetrics);
   }
 
   public Future<?> schedule(
       Project.NameKey project,
-      String ref,
+      List<String> refs,
       URIish uri,
       ReplicationState state,
       ReplicationType replicationType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
 
-    repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
-    if (!shouldReplicate(project, ref, state)) {
+    repLog.info("scheduling replication {}:[{}] => {}", uri, String.join(",", refs), project);
+    Set<String> refsToReplicate =
+        refs.stream()
+            .filter(r -> shouldReplicate(project, r, state))
+            .collect(Collectors.toCollection((Supplier<Set<String>>) LinkedHashSet::new));
+
+    if (refsToReplicate.isEmpty()) {
       queueMetrics.incrementTaskNotScheduled(this);
       return CompletableFuture.completedFuture(null);
     }
@@ -495,26 +501,43 @@ public class Source {
     synchronized (stateLock) {
       FetchOne e = pending.get(uri);
       Future<?> f = CompletableFuture.completedFuture(null);
+      int schedulingDelay = isSyncCall(replicationType) ? 0 : config.getDelay();
       if (e == null || e.isRetrying()) {
         e = opFactory.create(project, uri, apiRequestMetrics);
-        addRef(e, ref);
-        e.addState(ref, state);
+        addRefs(e, refsToReplicate);
+        for (String ref : refsToReplicate) {
+          e.addState(ref, state);
+        }
         pending.put(uri, e);
-        f =
-            pool.schedule(
-                queueMetrics.runWithMetrics(this, e),
-                isSyncCall(replicationType) ? 0 : config.getDelay(),
-                TimeUnit.SECONDS);
+        f = pool.schedule(queueMetrics.runWithMetrics(this, e), schedulingDelay, TimeUnit.SECONDS);
         queueMetrics.incrementTaskScheduled(this);
-      } else if (!e.getRefs().contains(ref)) {
-        addRef(e, ref);
-        e.addState(ref, state);
-        queueMetrics.incrementTaskMerged(this);
+        state.increaseFetchTaskCount(project.get(), refsToReplicate);
+        repLog.info("scheduled {} => {} to run after {}s", e, project, schedulingDelay);
       } else {
-        queueMetrics.incrementTaskNotScheduled(this);
+        Set<String> refsInFetchOne = e.getRefs();
+        Set<String> refsMissingFromExistingTask =
+            refsToReplicate.stream()
+                .filter(r -> !refsInFetchOne.contains(r))
+                .collect(Collectors.toCollection((Supplier<Set<String>>) LinkedHashSet::new));
+
+        if (refsMissingFromExistingTask.isEmpty()) {
+          queueMetrics.incrementTaskNotScheduled(this);
+          repLog.debug(
+              "Ignoring replication request for refs [{}] => {} as they already exist in task {}",
+              refsToReplicate,
+              project,
+              e);
+        } else {
+          addRefs(e, refsMissingFromExistingTask);
+          for (String missingRef : refsMissingFromExistingTask) {
+            e.addState(missingRef, state);
+          }
+          queueMetrics.incrementTaskMerged(this);
+          state.increaseFetchTaskCount(project.get(), refsMissingFromExistingTask);
+          repLog.info(
+              "added refs [{}] => {} to existing task {}", refsMissingFromExistingTask, project, e);
+        }
       }
-      state.increaseFetchTaskCount(project.get(), ref);
-      repLog.info("scheduled {}:{} => {} to run after {}s", e, ref, project, config.getDelay());
       return f;
     }
   }
@@ -537,9 +560,9 @@ public class Source {
     }
   }
 
-  private void addRef(FetchOne e, String ref) {
-    e.addRef(ref);
-    postReplicationScheduledEvent(e, ref);
+  private void addRefs(FetchOne e, Set<String> refs) {
+    e.addRefs(refs);
+    postReplicationScheduledEvent(e, refs);
   }
 
   private boolean isSyncCall(ReplicationType replicationType) {
@@ -912,13 +935,14 @@ public class Source {
   }
 
   private void postReplicationScheduledEvent(FetchOne fetchOp) {
-    postReplicationScheduledEvent(fetchOp, null);
+    postReplicationScheduledEvent(fetchOp, Set.of());
   }
 
-  private void postReplicationScheduledEvent(FetchOne fetchOp, String inputRef) {
-    Set<String> refs = inputRef == null ? fetchOp.getRefs() : ImmutableSet.of(inputRef);
+  private void postReplicationScheduledEvent(FetchOne fetchOp, Set<String> inputRefs) {
+    Set<String> refs = (inputRefs == null || inputRefs.isEmpty()) ? fetchOp.getRefs() : inputRefs;
     Project.NameKey project = fetchOp.getProjectNameKey();
     for (String ref : refs) {
+      // TODO Do we need a batch fetch replication scheduled event?
       FetchReplicationScheduledEvent event =
           new FetchReplicationScheduledEvent(project.get(), ref, fetchOp.getURI());
       try {

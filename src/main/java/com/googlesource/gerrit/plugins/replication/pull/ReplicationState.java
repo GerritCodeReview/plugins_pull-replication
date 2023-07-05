@@ -18,6 +18,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -64,10 +65,16 @@ public class ReplicationState {
   }
 
   public void increaseFetchTaskCount(String project, String ref) {
+    increaseFetchTaskCount(project, Set.of(ref));
+  }
+
+  public void increaseFetchTaskCount(String project, Set<String> refs) {
     countingLock.lock();
     try {
-      getRefStatus(project, ref).projectsToReplicateCount++;
-      totalFetchTasksCount++;
+      for (String ref : refs) {
+        getRefStatus(project, ref).projectsToReplicateCount++;
+        totalFetchTasksCount++;
+      }
     } finally {
       countingLock.unlock();
     }

@@ -20,6 +20,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.net.URISyntaxException;
+import java.util.Set;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
@@ -80,6 +81,45 @@ public class ReplicationStateTest {
 
     verify(fetchResultProcessingMock).onRefReplicatedFromAllNodes("someProject", "someRef", 1);
     verify(fetchResultProcessingMock).onAllRefsReplicatedFromAllNodes(1);
+  }
+
+  @Test
+  public void shouldFireEventsForReplicationOfMultipleRefsToOneNode() throws URISyntaxException {
+    URIish uri = new URIish("git://someHost/someRepo.git");
+
+    // actual test
+    replicationState.increaseFetchTaskCount("someProject", Set.of("ref-1", "ref-2"));
+    replicationState.markAllFetchTasksScheduled();
+    replicationState.notifyRefReplicated(
+        "someProject",
+        "ref-1",
+        uri,
+        ReplicationState.RefFetchResult.SUCCEEDED,
+        RefUpdate.Result.NEW);
+    replicationState.notifyRefReplicated(
+        "someProject",
+        "ref-2",
+        uri,
+        ReplicationState.RefFetchResult.SUCCEEDED,
+        RefUpdate.Result.NEW);
+
+    // expected events
+    fetchResultProcessingMock.onOneProjectReplicationDone(
+        "someProject",
+        "ref-1",
+        uri,
+        ReplicationState.RefFetchResult.SUCCEEDED,
+        RefUpdate.Result.NEW);
+    fetchResultProcessingMock.onOneProjectReplicationDone(
+        "someProject",
+        "ref-2",
+        uri,
+        ReplicationState.RefFetchResult.SUCCEEDED,
+        RefUpdate.Result.NEW);
+
+    verify(fetchResultProcessingMock).onRefReplicatedFromAllNodes("someProject", "ref-1", 1);
+    verify(fetchResultProcessingMock).onRefReplicatedFromAllNodes("someProject", "ref-2", 1);
+    verify(fetchResultProcessingMock).onAllRefsReplicatedFromAllNodes(2);
   }
 
   @Test
