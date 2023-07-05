@@ -55,6 +55,7 @@ import com.google.gson.stream.MalformedJsonException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
+import com.googlesource.gerrit.plugins.replication.pull.api.BatchFetchAction.Inputs;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
@@ -85,8 +86,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private static final Pattern projectNameInitProjectUrl =
       Pattern.compile(".*/init-project/([^/]+.git)");
 
-  private FetchAction fetchAction;
   private BatchFetchAction batchFetchAction;
+  private FetchAction fetchAction;
   private ApplyObjectAction applyObjectAction;
   private ApplyObjectsAction applyObjectsAction;
   private BatchApplyObjectAction batchApplyObjectAction;
@@ -100,8 +101,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @Inject
   public PullReplicationFilter(
-      FetchAction fetchAction,
       BatchFetchAction batchFetchAction,
+      FetchAction fetchAction,
       ApplyObjectAction applyObjectAction,
       ApplyObjectsAction applyObjectsAction,
       BatchApplyObjectAction batchApplyObjectAction,
@@ -290,8 +291,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doBatchFetch(HttpServletRequest httpRequest)
       throws IOException, RestApiException, PermissionBackendException {
-    TypeToken<List<Input>> collectionType = new TypeToken<>() {};
-    List<Input> inputs = readJson(httpRequest, collectionType.getType());
+    Inputs inputs = readJson(httpRequest, TypeLiteral.get(Inputs.class).getType());
     IdString id = getProjectName(httpRequest).get();
 
     return (Response<Map<String, Object>>) batchFetchAction.apply(parseProjectResource(id), inputs);

@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.api.BatchFetchAction.Inputs;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -27,37 +28,38 @@ public class FetchJob implements Runnable {
 
   public interface Factory {
     FetchJob create(
-        Project.NameKey project, FetchAction.Input input, PullReplicationApiRequestMetrics metrics);
+        Project.NameKey project, Inputs inputs, PullReplicationApiRequestMetrics metrics);
   }
 
   private FetchCommand command;
   private Project.NameKey project;
-  private FetchAction.Input input;
+  private Inputs inputs;
   private final PullReplicationApiRequestMetrics metrics;
 
   @Inject
   public FetchJob(
       FetchCommand command,
       @Assisted Project.NameKey project,
-      @Assisted FetchAction.Input input,
+      @Assisted Inputs inputs,
       @Assisted PullReplicationApiRequestMetrics metrics) {
     this.command = command;
     this.project = project;
-    this.input = input;
+    this.inputs = inputs;
     this.metrics = metrics;
   }
 
   @Override
   public void run() {
     try {
-      command.fetchAsync(project, input.label, input.refName, metrics);
+      command.fetchAsync(project, inputs, metrics);
+      //      command.fetchAsync(project, input.label, input.refName, metrics);
     } catch (InterruptedException
         | ExecutionException
         | RemoteConfigurationMissingException
         | TimeoutException e) {
       log.atSevere().withCause(e).log(
-          "Exception during the async fetch call for project %s, label %s and ref name %s",
-          project.get(), input.label, input.refName);
+          "Exception during the async fetch call for project %s, label %s and ref names: [%s]",
+          project.get(), inputs.label, String.join(",", inputs.refNames));
     }
   }
 }
