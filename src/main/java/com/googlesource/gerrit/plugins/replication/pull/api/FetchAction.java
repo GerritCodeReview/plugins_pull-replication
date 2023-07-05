@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
+import com.googlesource.gerrit.plugins.replication.pull.api.BatchFetchAction.Inputs;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
@@ -101,13 +103,18 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   }
 
   private Response.Accepted applyAsync(Project.NameKey project, Input input) {
+    Inputs inputs = new Inputs();
+    inputs.label = input.label;
+    inputs.async = input.async;
+    inputs.refNames = ImmutableList.of(input.refName);
     @SuppressWarnings("unchecked")
     WorkQueue.Task<Void> task =
         (WorkQueue.Task<Void>)
             workQueue
                 .getDefaultQueue()
                 .submit(
-                    fetchJobFactory.create(project, input, PullReplicationApiRequestMetrics.get()));
+                    fetchJobFactory.create(
+                        project, inputs, PullReplicationApiRequestMetrics.get()));
     Optional<String> url =
         urlFormatter
             .get()

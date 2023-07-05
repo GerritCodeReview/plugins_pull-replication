@@ -139,22 +139,10 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     List<String> asyncRefs =
         refsInBatch.stream()
             .filter(refName -> !syncRefsFilter.match(refName))
-            .map(
-                refName ->
-                    String.format(
-                        "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":true}",
-                        instanceId, refName))
             .collect(Collectors.toList());
 
     List<String> syncRefs =
-        refsInBatch.stream()
-            .filter(syncRefsFilter::match)
-            .map(
-                refName ->
-                    String.format(
-                        "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":false}",
-                        instanceId, refName))
-            .collect(Collectors.toList());
+        refsInBatch.stream().filter(syncRefsFilter::match).collect(Collectors.toList());
 
     String url = formatUrl(targetUri.toString(), project, "batch-fetch");
 
@@ -163,31 +151,34 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
           "At least one ref should be provided during a batch-fetch operation");
     }
     if (asyncRefs.isEmpty()) {
-      HttpPost syncPost =
-          createPostRequest(url, "[" + String.join(",", syncRefs) + "]", startTimeNanos);
+      HttpPost syncPost = createPostRequest(url, getJsonPayload(syncRefs, false), startTimeNanos);
       return executeRequest(syncPost, bearerTokenProvider.get(), targetUri);
     }
     if (syncRefs.isEmpty()) {
-      HttpPost asyncPost =
-          createPostRequest(url, "[" + String.join(",", asyncRefs) + "]", startTimeNanos);
+      HttpPost asyncPost = createPostRequest(url, getJsonPayload(asyncRefs, true), startTimeNanos);
       return executeRequest(asyncPost, bearerTokenProvider.get(), targetUri);
     }
 
     // first execute for async refs, then for sync
-    HttpPost asyncPost =
-        createPostRequest(url, "[" + String.join(",", asyncRefs) + "]", startTimeNanos);
+    HttpPost asyncPost = createPostRequest(url, getJsonPayload(asyncRefs, true), startTimeNanos);
     HttpResult asyncResult = executeRequest(asyncPost, bearerTokenProvider.get(), targetUri);
 
     if (asyncResult.isSuccessful()) {
       HttpPost syncPost =
           createPostRequest(
               url,
-              "[" + String.join(",", syncRefs) + "]",
+              getJsonPayload(syncRefs, false),
               MILLISECONDS.toNanos(System.currentTimeMillis()));
       return executeRequest(syncPost, bearerTokenProvider.get(), targetUri);
     }
 
     return asyncResult;
+  }
+
+  private String getJsonPayload(List<String> refs, boolean isAsync) {
+    String refNamesList = refs.stream().collect(Collectors.joining("\",\"", "\"", "\""));
+    return String.format(
+        "{\"label\":\"%s\", \"ref_names\": [%s], \"async\":%s}", instanceId, refNamesList, isAsync);
   }
 
   private HttpPost createPostRequest(String url, String msgBody, long startTimeNanos) {
