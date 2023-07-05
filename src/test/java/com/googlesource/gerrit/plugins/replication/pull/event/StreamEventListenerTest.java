@@ -38,8 +38,8 @@ import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
+import com.googlesource.gerrit.plugins.replication.pull.api.BatchFetchAction.Inputs;
 import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
-import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
@@ -71,7 +71,7 @@ public class StreamEventListenerTest {
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
   @Mock private DeleteRefCommand deleteRefCommand;
-  @Captor ArgumentCaptor<Input> inputCaptor;
+  @Captor ArgumentCaptor<Inputs> inputsCaptor;
   @Mock private PullReplicationApiRequestMetrics metrics;
   @Mock private SourcesCollection sources;
   @Mock private Source source;
@@ -181,11 +181,13 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), any());
+    verify(fetchJobFactory)
+        .create(eq(Project.nameKey(TEST_PROJECT)), inputsCaptor.capture(), any());
 
-    Input input = inputCaptor.getValue();
-    assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
-    assertThat(input.refName).isEqualTo(TEST_REF_NAME);
+    Inputs inputs = inputsCaptor.getValue();
+    assertThat(inputs.label).isEqualTo(REMOTE_INSTANCE_ID);
+    assertThat(inputs.refNames).hasSize(1);
+    assertThat(inputs.refNames.get(0)).isEqualTo(TEST_REF_NAME);
 
     verify(executor).submit(any(FetchJob.class));
   }
@@ -256,11 +258,13 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), any());
+    verify(fetchJobFactory)
+        .create(eq(Project.nameKey(TEST_PROJECT)), inputsCaptor.capture(), any());
 
-    Input input = inputCaptor.getValue();
-    assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
-    assertThat(input.refName).isEqualTo(FetchOne.ALL_REFS);
+    Inputs inputs = inputsCaptor.getValue();
+    assertThat(inputs.label).isEqualTo(REMOTE_INSTANCE_ID);
+    assertThat(inputs.refNames).hasSize(1);
+    assertThat(inputs.refNames.get(0)).isEqualTo(FetchOne.ALL_REFS);
 
     verify(executor).submit(any(FetchJob.class));
   }

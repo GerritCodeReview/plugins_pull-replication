@@ -73,6 +73,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -84,6 +85,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.eclipse.jgit.errors.TransportException;
@@ -389,6 +391,17 @@ public class Source {
     return false;
   }
 
+  // my stuff
+  public Future<?> schedule(
+      Project.NameKey project,
+      List<String> refs,
+      ReplicationState state,
+      ReplicationType replicationType,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+    URIish uri = getURI(project);
+    return schedule(project, refs, uri, state, replicationType, apiRequestMetrics);
+  }
+
   public Future<?> schedule(
       Project.NameKey project,
       String ref,
@@ -397,6 +410,80 @@ public class Source {
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
     URIish uri = getURI(project);
     return schedule(project, ref, uri, state, replicationType, apiRequestMetrics);
+  }
+
+  // my stuff
+  public Future<?> schedule(
+      Project.NameKey project,
+      List<String> refs,
+      URIish uri,
+      ReplicationState state,
+      ReplicationType replicationType,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+
+    repLog.info("scheduling replication {}:[{}] => {}", uri, String.join(",", refs), project);
+    List<String> refsToReplicate =
+        refs.stream().filter(r -> shouldReplicate(project, r, state)).collect(Collectors.toList());
+
+    if (refsToReplicate.isEmpty()) {
+      return CompletableFuture.completedFuture(null);
+    }
+
+    if (!config.replicatePermissions()) {
+      FetchOne e;
+      synchronized (stateLock) {
+        e = pending.get(uri);
+      }
+      if (e == null) {
+        try (Repository git = gitManager.openRepository(project)) {
+          try {
+            Ref head = git.exactRef(Constants.HEAD);
+            if (head != null
+                && head.isSymbolic()
+                && RefNames.REFS_CONFIG.equals(head.getLeaf().getName())) {
+              return CompletableFuture.completedFuture(null);
+            }
+          } catch (IOException err) {
+            stateLog.error(String.format("cannot check type of project %s", project), err, state);
+            return CompletableFuture.completedFuture(null);
+          }
+        } catch (IOException err) {
+          stateLog.error(String.format("source project %s not available", project), err, state);
+          return CompletableFuture.completedFuture(null);
+        }
+      }
+    }
+
+    synchronized (stateLock) {
+      FetchOne e = pending.get(uri);
+      Future<?> f = CompletableFuture.completedFuture(null);
+      if (e == null || e.isRetrying()) {
+        e = opFactory.create(project, uri, apiRequestMetrics);
+        addRefs(e, refsToReplicate);
+        for (String ref : refsToReplicate) {
+          e.addState(ref, state);
+        }
+        pending.put(uri, e);
+        f = pool.schedule(e, isSyncCall(replicationType) ? 0 : config.getDelay(), TimeUnit.SECONDS);
+      } else {
+        Set<String> refsAsSet = new HashSet<>(refsToReplicate);
+        Set<String> refsInFetchOne = e.getRefs();
+        Set<String> missingFromFetchOne =
+            refsAsSet.stream().filter(r -> !refsInFetchOne.contains(r)).collect(Collectors.toSet());
+        for (String missingRef : missingFromFetchOne) {
+          addRef(e, missingRef);
+          e.addState(missingRef, state);
+        }
+      }
+      state.increaseFetchTaskCount(project.get(), new HashSet<>(refsToReplicate));
+      repLog.info(
+          "scheduled {}:[{}] => {} to run after {}s",
+          e,
+          refsToReplicate,
+          project,
+          config.getDelay());
+      return f;
+    }
   }
 
   public Future<?> schedule(
@@ -467,6 +554,13 @@ public class Source {
       URIish uri = fetchOp.getURI();
       pending.remove(uri);
     }
+  }
+
+  // my stuff
+  private void addRefs(FetchOne e, List<String> refs) {
+    Set<String> refsAsSet = new HashSet<>(refs);
+    e.addRefs(refsAsSet);
+    postReplicationScheduledEvent(e, refsAsSet);
   }
 
   private void addRef(FetchOne e, String ref) {
@@ -820,13 +914,29 @@ public class Source {
   }
 
   private void postReplicationScheduledEvent(FetchOne fetchOp) {
-    postReplicationScheduledEvent(fetchOp, null);
+    postReplicationScheduledEvent(fetchOp, Set.of());
   }
 
   private void postReplicationScheduledEvent(FetchOne fetchOp, String inputRef) {
     Set<String> refs = inputRef == null ? fetchOp.getRefs() : ImmutableSet.of(inputRef);
     Project.NameKey project = fetchOp.getProjectNameKey();
     for (String ref : refs) {
+      FetchReplicationScheduledEvent event =
+          new FetchReplicationScheduledEvent(project.get(), ref, fetchOp.getURI());
+      try {
+        eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
+      } catch (PermissionBackendException e) {
+        repLog.error("error posting event", e);
+      }
+    }
+  }
+
+  // my stuff
+  private void postReplicationScheduledEvent(FetchOne fetchOp, Set<String> inputRefs) {
+    Set<String> refs = (inputRefs == null || inputRefs.isEmpty()) ? fetchOp.getRefs() : inputRefs;
+    Project.NameKey project = fetchOp.getProjectNameKey();
+    for (String ref : refs) {
+      // TODO Do we need a batch fetch replication scheduled event?
       FetchReplicationScheduledEvent event =
           new FetchReplicationScheduledEvent(project.get(), ref, fetchOp.getURI());
       try {
