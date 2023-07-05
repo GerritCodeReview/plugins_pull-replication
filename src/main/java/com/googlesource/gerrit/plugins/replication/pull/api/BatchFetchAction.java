@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BatchFetchAction implements RestModifyView<ProjectResource, List<Input>> {
@@ -34,12 +33,13 @@ public class BatchFetchAction implements RestModifyView<ProjectResource, List<In
   @Override
   public Response<?> apply(ProjectResource resource, List<Input> inputs) throws RestApiException {
 
-    List<Response<?>> allResponses = new ArrayList<>();
-    for (Input input : inputs) {
-      Response<?> res = fetchAction.apply(resource, input);
-      allResponses.add(res);
-    }
+    //    List<Response<?>> allResponses = new ArrayList<>();
+    return Response.ok(fetchAction.apply(resource, inputs));
+    //    for (Input input : inputs) {
+    //      Response<?> res = fetchAction.apply(resource, input);
+    //      allResponses.add(res);
+    //    }
 
-    return Response.ok(allResponses);
+    //    return Response.ok(allResponses);
   }
 }

@@ -33,6 +33,7 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.project.ProjectResource;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
@@ -93,7 +94,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    Response<?> response = fetchAction.apply(projectResource, inputParams);
+    Response<?> response = fetchAction.apply(projectResource, List.of(inputParams));
 
     assertThat(response.statusCode()).isEqualTo(SC_CREATED);
   }
@@ -105,7 +106,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    Response<?> response = fetchAction.apply(projectResource, inputParams);
+    Response<?> response = fetchAction.apply(projectResource, List.of(inputParams));
 
     assertThat((FetchAction.Input) response.value()).isEqualTo(inputParams);
   }
@@ -115,7 +116,7 @@ public class FetchActionTest {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.refName = refName;
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test(expected = BadRequestException.class)
@@ -124,7 +125,7 @@ public class FetchActionTest {
     inputParams.label = "";
     inputParams.refName = refName;
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test(expected = BadRequestException.class)
@@ -132,7 +133,7 @@ public class FetchActionTest {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test(expected = BadRequestException.class)
@@ -141,7 +142,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = "";
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test(expected = RestApiException.class)
@@ -154,7 +155,7 @@ public class FetchActionTest {
 
     doThrow(new InterruptedException()).when(fetchCommand).fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test(expected = UnprocessableEntityException.class)
@@ -169,7 +170,7 @@ public class FetchActionTest {
         .when(fetchCommand)
         .fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test(expected = RestApiException.class)
@@ -184,7 +185,7 @@ public class FetchActionTest {
         .when(fetchCommand)
         .fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test(expected = RestApiException.class)
@@ -197,7 +198,7 @@ public class FetchActionTest {
 
     doThrow(new IllegalStateException()).when(fetchCommand).fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test(expected = RestApiException.class)
@@ -210,7 +211,7 @@ public class FetchActionTest {
 
     doThrow(new TimeoutException()).when(fetchCommand).fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test(expected = AuthException.class)
@@ -222,7 +223,7 @@ public class FetchActionTest {
 
     when(preConditions.canCallFetchApi()).thenReturn(false);
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectResource, List.of(inputParams));
   }
 
   @Test
@@ -232,7 +233,7 @@ public class FetchActionTest {
     inputParams.refName = refName;
     inputParams.async = true;
 
-    Response<?> response = fetchAction.apply(projectResource, inputParams);
+    Response<?> response = fetchAction.apply(projectResource, List.of(inputParams));
     assertThat(response.statusCode()).isEqualTo(SC_ACCEPTED);
   }
 
@@ -243,7 +244,7 @@ public class FetchActionTest {
     inputParams.refName = refName;
     inputParams.async = true;
 
-    Response<?> response = fetchAction.apply(projectResource, inputParams);
+    Response<?> response = fetchAction.apply(projectResource, List.of(inputParams));
     assertThat(response).isInstanceOf(Response.Accepted.class);
     Response.Accepted acceptResponse = (Response.Accepted) response;
     assertThat(acceptResponse.location()).isEqualTo(location);

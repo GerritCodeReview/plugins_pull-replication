@@ -49,6 +49,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializatio
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -220,7 +221,9 @@ public class StreamEventListener implements EventListener {
     FetchAction.Input input = new FetchAction.Input();
     input.refName = refName;
     input.label = sourceInstanceId;
-    workQueue.getDefaultQueue().submit(fetchJobFactory.create(projectNameKey, input, metrics));
+    workQueue
+        .getDefaultQueue()
+        .submit(fetchJobFactory.create(projectNameKey, List.of(input), metrics));
   }
 
   private String getProjectRepositoryName(ProjectCreatedEvent projectCreatedEvent) {

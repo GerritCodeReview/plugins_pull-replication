@@ -248,7 +248,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     IdString id = getProjectName(httpRequest).get();
     ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
-    return (Response<Map<String, Object>>) fetchAction.apply(projectResource, input);
+    return (Response<Map<String, Object>>) fetchAction.apply(projectResource, List.of(input));
   }
 
   private <T> void writeResponse(HttpServletResponse httpResponse, Response<T> response)

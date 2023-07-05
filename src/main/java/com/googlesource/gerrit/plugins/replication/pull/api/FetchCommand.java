@@ -29,11 +29,13 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationType;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 
 public class FetchCommand implements Command {
 
@@ -54,6 +56,16 @@ public class FetchCommand implements Command {
     this.eventDispatcher = eventDispatcher;
   }
 
+  // my stuff
+  public void fetchAsync(
+      Project.NameKey name,
+      List<FetchAction.Input> inputs,
+      PullReplicationApiRequestMetrics apiRequestMetrics)
+      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
+          TimeoutException {
+    fetch(name, inputs, ASYNC, Optional.of(apiRequestMetrics));
+  }
+
   public void fetchAsync(
       Project.NameKey name,
       String label,
@@ -68,6 +80,58 @@ public class FetchCommand implements Command {
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
     fetch(name, label, refName, SYNC, Optional.empty());
+  }
+
+  // my stuff
+  public void fetchSync(Project.NameKey name, List<FetchAction.Input> inputs)
+      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
+          TimeoutException {
+    fetch(name, inputs, SYNC, Optional.empty());
+  }
+
+  // my stuff
+  private void fetch(
+      Project.NameKey name,
+      List<FetchAction.Input> inputs,
+      ReplicationType fetchType,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
+      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
+          TimeoutException {
+    ReplicationState state =
+        fetchReplicationStateFactory.create(
+            new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
+    String label = inputs.get(0).label;
+    Optional<Source> source = sources.getByRemoteName(label);
+    if (!source.isPresent()) {
+      String msg = String.format("Remote configuration section %s not found", label);
+      fetchStateLog.error(msg, state);
+      throw new RemoteConfigurationMissingException(msg);
+    }
+
+    try {
+      state.markAllFetchTasksScheduled();
+      List<String> refNames = inputs.stream().map(i -> i.refName).collect(Collectors.toList());
+      Future<?> future = source.get().schedule(name, refNames, state, fetchType, apiRequestMetrics);
+      int timeout = source.get().getTimeout();
+      if (timeout == 0) {
+        future.get();
+      } else {
+        future.get(timeout, TimeUnit.SECONDS);
+      }
+    } catch (ExecutionException
+        | IllegalStateException
+        | TimeoutException
+        | InterruptedException e) {
+      fetchStateLog.error("Exception during the fetch operation", e, state);
+      throw e;
+    }
+
+    try {
+      state.waitForReplication(source.get().getTimeout());
+    } catch (InterruptedException e) {
+      writeStdErrSync("We are interrupted while waiting replication to complete");
+      throw e;
+    }
   }
 
   private void fetch(

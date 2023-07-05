@@ -45,6 +45,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializatio
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -71,7 +72,7 @@ public class StreamEventListenerTest {
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
   @Mock private DeleteRefCommand deleteRefCommand;
-  @Captor ArgumentCaptor<Input> inputCaptor;
+  @Captor ArgumentCaptor<List<Input>> inputCaptor;
   @Mock private PullReplicationApiRequestMetrics metrics;
   @Mock private SourcesCollection sources;
   @Mock private Source source;
@@ -183,9 +184,9 @@ public class StreamEventListenerTest {
 
     verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), any());
 
-    Input input = inputCaptor.getValue();
-    assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
-    assertThat(input.refName).isEqualTo(TEST_REF_NAME);
+    List<Input> inputs = inputCaptor.getValue();
+    assertThat(inputs.get(0).label).isEqualTo(REMOTE_INSTANCE_ID);
+    assertThat(inputs.get(0).refName).isEqualTo(TEST_REF_NAME);
 
     verify(executor).submit(any(FetchJob.class));
   }
@@ -258,9 +259,9 @@ public class StreamEventListenerTest {
 
     verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), any());
 
-    Input input = inputCaptor.getValue();
-    assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
-    assertThat(input.refName).isEqualTo(FetchOne.ALL_REFS);
+    List<Input> inputs = inputCaptor.getValue();
+    assertThat(inputs.get(0).label).isEqualTo(REMOTE_INSTANCE_ID);
+    assertThat(inputs.get(0).refName).isEqualTo(FetchOne.ALL_REFS);
 
     verify(executor).submit(any(FetchJob.class));
   }

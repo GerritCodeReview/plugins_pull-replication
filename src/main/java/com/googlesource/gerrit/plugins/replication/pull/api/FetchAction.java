@@ -33,11 +33,12 @@ import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-public class FetchAction implements RestModifyView<ProjectResource, Input> {
+public class FetchAction implements RestModifyView<ProjectResource, List<Input>> {
   private final FetchCommand command;
   private final WorkQueue workQueue;
   private final DynamicItem<UrlFormatter> urlFormatter;
@@ -65,24 +66,28 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   }
 
   @Override
-  public Response<?> apply(ProjectResource resource, Input input) throws RestApiException {
+  public Response<?> apply(ProjectResource resource, List<Input> inputs) throws RestApiException {
 
     if (!preConditions.canCallFetchApi()) {
       throw new AuthException("not allowed to call fetch command");
     }
     try {
-      if (Strings.isNullOrEmpty(input.label)) {
-        throw new BadRequestException("Source label cannot be null or empty");
+      for (Input input : inputs) {
+        if (Strings.isNullOrEmpty(input.label)) {
+          throw new BadRequestException("Source label cannot be null or empty");
+        }
+
+        if (Strings.isNullOrEmpty(input.refName)) {
+          throw new BadRequestException("Ref-update refname cannot be null or empty");
+        }
       }
 
-      if (Strings.isNullOrEmpty(input.refName)) {
-        throw new BadRequestException("Ref-update refname cannot be null or empty");
-      }
+      boolean inputsAreAsync = inputs.get(0).async;
 
-      if (input.async) {
-        return applyAsync(resource.getNameKey(), input);
+      if (inputsAreAsync) {
+        return applyAsync(resource.getNameKey(), inputs);
       }
-      return applySync(resource.getNameKey(), input);
+      return applySync(resource.getNameKey(), inputs);
     } catch (InterruptedException
         | ExecutionException
         | IllegalStateException
@@ -93,21 +98,23 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  private Response<?> applySync(Project.NameKey project, Input input)
+  private Response<?> applySync(Project.NameKey project, List<Input> inputs)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    command.fetchSync(project, input.label, input.refName);
-    return Response.created(input);
+    command.fetchSync(project, inputs);
+    //    command.fetchSync(project, input.label, input.refName);
+    return Response.created(inputs);
   }
 
-  private Response.Accepted applyAsync(Project.NameKey project, Input input) {
+  private Response.Accepted applyAsync(Project.NameKey project, List<Input> inputs) {
     @SuppressWarnings("unchecked")
     WorkQueue.Task<Void> task =
         (WorkQueue.Task<Void>)
             workQueue
                 .getDefaultQueue()
                 .submit(
-                    fetchJobFactory.create(project, input, PullReplicationApiRequestMetrics.get()));
+                    fetchJobFactory.create(
+                        project, inputs, PullReplicationApiRequestMetrics.get()));
     Optional<String> url =
         urlFormatter
             .get()
