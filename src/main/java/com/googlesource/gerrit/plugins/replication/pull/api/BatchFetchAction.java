@@ -14,32 +14,112 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.google.common.base.Preconditions.checkState;
+
+import com.google.common.base.Strings;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.config.UrlFormatter;
+import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
-import java.util.ArrayList;
+import com.googlesource.gerrit.plugins.replication.pull.api.BatchFetchAction.Inputs;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
-public class BatchFetchAction implements RestModifyView<ProjectResource, List<Input>> {
-  private final FetchAction fetchAction;
+public class BatchFetchAction implements RestModifyView<ProjectResource, Inputs> {
+  private final FetchCommand command;
+  private final WorkQueue workQueue;
+  private final DynamicItem<UrlFormatter> urlFormatter;
+  private final FetchPreconditions preConditions;
+  private final Factory fetchJobFactory;
 
   @Inject
-  public BatchFetchAction(FetchAction fetchAction) {
-    this.fetchAction = fetchAction;
+  public BatchFetchAction(
+      FetchCommand command,
+      WorkQueue workQueue,
+      DynamicItem<UrlFormatter> urlFormatter,
+      FetchPreconditions preConditions,
+      FetchJob.Factory fetchJobFactory) {
+    this.command = command;
+    this.workQueue = workQueue;
+    this.urlFormatter = urlFormatter;
+    this.preConditions = preConditions;
+    this.fetchJobFactory = fetchJobFactory;
+  }
+
+  public static class Inputs {
+    public String label;
+    public List<String> refNames;
+    public boolean async;
   }
 
   @Override
-  public Response<?> apply(ProjectResource resource, List<Input> inputs) throws RestApiException {
+  public Response<?> apply(ProjectResource resource, Inputs inputs) throws RestApiException {
 
-    List<Response<?>> allResponses = new ArrayList<>();
-    for (Input input : inputs) {
-      Response<?> res = fetchAction.apply(resource, input);
-      allResponses.add(res);
+    if (!preConditions.canCallFetchApi()) {
+      throw new AuthException("not allowed to call fetch command");
     }
+    try {
 
-    return Response.ok(allResponses);
+      if (Strings.isNullOrEmpty(inputs.label)) {
+        throw new BadRequestException("Source label cannot be null or empty");
+      }
+      for (String refName : inputs.refNames) {
+        if (Strings.isNullOrEmpty(refName)) {
+          throw new BadRequestException("Ref-update refname cannot be null or empty");
+        }
+      }
+
+      boolean inputsAreAsync = inputs.async;
+
+      if (inputsAreAsync) {
+        return applyAsync(resource.getNameKey(), inputs);
+      }
+      return applySync(resource.getNameKey(), inputs);
+    } catch (InterruptedException
+        | ExecutionException
+        | IllegalStateException
+        | TimeoutException e) {
+      throw RestApiException.wrap(e.getMessage(), e);
+    } catch (RemoteConfigurationMissingException e) {
+      throw new UnprocessableEntityException(e.getMessage());
+    }
+  }
+
+  private Response<?> applySync(Project.NameKey project, Inputs inputs)
+      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
+          TimeoutException {
+    command.fetchSync(project, inputs);
+    return Response.created(inputs);
+  }
+
+  private Response.Accepted applyAsync(Project.NameKey project, Inputs inputs) {
+    @SuppressWarnings("unchecked")
+    WorkQueue.Task<Void> task =
+        (WorkQueue.Task<Void>)
+            workQueue
+                .getDefaultQueue()
+                .submit(
+                    fetchJobFactory.create(
+                        project, inputs, PullReplicationApiRequestMetrics.get()));
+    Optional<String> url =
+        urlFormatter
+            .get()
+            .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
+    // We're in a HTTP handler, so must be present.
+    checkState(url.isPresent());
+    return Response.accepted(url.get());
   }
 }
