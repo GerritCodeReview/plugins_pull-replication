@@ -18,6 +18,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -67,6 +68,20 @@ public class ReplicationState {
     countingLock.lock();
     try {
       getRefStatus(project, ref).projectsToReplicateCount++;
+      totalFetchTasksCount++;
+    } finally {
+      countingLock.unlock();
+    }
+  }
+
+  // my stuff
+  public void increaseFetchTaskCount(String project, Set<String> refs) {
+    countingLock.lock();
+    try {
+      for (String ref : refs) {
+        getRefStatus(project, ref).projectsToReplicateCount++;
+      }
+      // TODO is the below in the right place, or should we move it inside the for loop above.
       totalFetchTasksCount++;
     } finally {
       countingLock.unlock();

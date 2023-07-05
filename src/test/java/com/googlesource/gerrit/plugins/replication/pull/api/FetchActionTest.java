@@ -19,7 +19,9 @@ import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -247,5 +249,17 @@ public class FetchActionTest {
     assertThat(response).isInstanceOf(Response.Accepted.class);
     Response.Accepted acceptResponse = (Response.Accepted) response;
     assertThat(acceptResponse.location()).isEqualTo(location);
+  }
+
+  @Test
+  public void shouldCreateFetchJobUsingBatchRefActionInputsForAsyncCall() throws RestApiException {
+    FetchAction.Input inputParams = new FetchAction.Input();
+    inputParams.label = label;
+    inputParams.refName = refName;
+    inputParams.async = true;
+
+    fetchAction.apply(projectResource, inputParams);
+
+    verify(fetchJobFactory).create(any(), eq(inputParams.asBatchFetchActionInputs()), any());
   }
 }

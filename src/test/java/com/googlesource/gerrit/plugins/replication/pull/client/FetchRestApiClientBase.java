@@ -248,13 +248,11 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPost = httpPostCaptor.getValue();
     String expectedPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \""
+        "{\"label\":\"Replication\", \"ref_names\": [\""
             + refName
-            + "\", \"async\":true},"
-            + "{\"label\":\"Replication\", \"ref_name\": \""
-            + refs.get(1)
-            + "\", \"async\":true}"
-            + "]";
+            + "\",\""
+            + testRef
+            + "\"], \"async\":true}";
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
   }
 
@@ -293,7 +291,7 @@ public abstract class FetchRestApiClientBase {
   public void shouldCallSyncBatchFetchOnlyForMetaRef() throws IOException, URISyntaxException {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \"" + metaRefName + "\", \"async\":false}]";
+        "{\"label\":\"Replication\", \"ref_names\": [\"" + metaRefName + "\"], \"async\":false}";
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
@@ -338,13 +336,11 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPost = httpPostCaptor.getValue();
     String expectedPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \""
+        "{\"label\":\"Replication\", \"ref_names\": [\""
             + refName
-            + "\", \"async\":false},"
-            + "{\"label\":\"Replication\", \"ref_name\": \""
-            + refs.get(1)
-            + "\", \"async\":false}"
-            + "]";
+            + "\",\""
+            + testRef
+            + "\"], \"async\":false}";
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
   }
 
@@ -355,8 +351,8 @@ public abstract class FetchRestApiClientBase {
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/heads\\/test"});
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
-    String testRef = RefNames.REFS_HEADS + "test";
-    List<String> refs = List.of(refName, testRef);
+    String syncRef = RefNames.REFS_HEADS + "test";
+    List<String> refs = List.of(refName, syncRef);
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
@@ -373,12 +369,9 @@ public abstract class FetchRestApiClientBase {
 
     List<HttpPost> httpPosts = httpPostCaptor.getAllValues();
     String expectedSyncPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \""
-            + refs.get(1)
-            + "\", \"async\":false}"
-            + "]";
+        "{\"label\":\"Replication\", \"ref_names\": [\"" + syncRef + "\"], \"async\":false}";
     String expectedAsyncPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":true}]";
+        "{\"label\":\"Replication\", \"ref_names\": [\"" + refName + "\"], \"async\":true}";
 
     assertThat(readPayload(httpPosts.get(0))).isEqualTo(expectedAsyncPayload);
     assertThat(readPayload(httpPosts.get(1))).isEqualTo(expectedSyncPayload);
@@ -409,7 +402,7 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPost = httpPostCaptor.getValue();
     String expectedAsyncPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":true}]";
+        "{\"label\":\"Replication\", \"ref_names\": [\"" + refName + "\"], \"async\":true}";
 
     assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
   }
