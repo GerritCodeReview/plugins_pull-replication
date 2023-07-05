@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.WorkQueue;
@@ -92,7 +93,13 @@ public class FetchAll implements Runnable {
     for (Source cfg : sources.getAll()) {
       if (cfg.wouldFetchProject(project)) {
         for (URIish uri : cfg.getURIs(project, urlMatch)) {
-          cfg.schedule(project, FetchOne.ALL_REFS, uri, state, replicationType, Optional.empty());
+          cfg.schedule(
+              project,
+              ImmutableList.of(FetchOne.ALL_REFS),
+              uri,
+              state,
+              replicationType,
+              Optional.empty());
         }
       }
     }

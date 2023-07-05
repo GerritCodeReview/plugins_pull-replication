@@ -41,8 +41,9 @@ import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
+import com.googlesource.gerrit.plugins.replication.pull.api.BatchFetchAction;
+import com.googlesource.gerrit.plugins.replication.pull.api.BatchFetchAction.Inputs;
 import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
-import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
@@ -217,10 +218,8 @@ public class StreamEventListener implements EventListener {
       String sourceInstanceId,
       NameKey projectNameKey,
       PullReplicationApiRequestMetrics metrics) {
-    FetchAction.Input input = new FetchAction.Input();
-    input.refName = refName;
-    input.label = sourceInstanceId;
-    workQueue.getDefaultQueue().submit(fetchJobFactory.create(projectNameKey, input, metrics));
+    Inputs inputs = BatchFetchAction.toInputsFromSingleRef(sourceInstanceId, refName, true);
+    workQueue.getDefaultQueue().submit(fetchJobFactory.create(projectNameKey, inputs, metrics));
   }
 
   private String getProjectRepositoryName(ProjectCreatedEvent projectCreatedEvent) {

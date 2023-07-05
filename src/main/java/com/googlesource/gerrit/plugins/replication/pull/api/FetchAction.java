@@ -64,6 +64,10 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     public String label;
     public String refName;
     public boolean async;
+
+    public BatchFetchAction.Inputs asBatchFetchActionInputs() {
+      return BatchFetchAction.toInputsFromSingleRef(label, refName, async);
+    }
   }
 
   @Override
@@ -98,7 +102,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private Response<?> applySync(Project.NameKey project, Input input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    command.fetchSync(project, input.label, input.refName);
+    command.fetchSync(project, input.asBatchFetchActionInputs());
     return Response.created(input);
   }
 
@@ -109,7 +113,10 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
             workQueue
                 .getDefaultQueue()
                 .submit(
-                    fetchJobFactory.create(project, input, PullReplicationApiRequestMetrics.get()));
+                    fetchJobFactory.create(
+                        project,
+                        input.asBatchFetchActionInputs(),
+                        PullReplicationApiRequestMetrics.get()));
     Optional<String> url =
         urlFormatter
             .get()

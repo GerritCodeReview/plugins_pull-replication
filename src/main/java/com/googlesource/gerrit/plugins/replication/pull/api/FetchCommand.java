@@ -28,6 +28,7 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationType;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
+import com.googlesource.gerrit.plugins.replication.pull.api.BatchFetchAction.Inputs;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -55,25 +56,21 @@ public class FetchCommand implements Command {
   }
 
   public void fetchAsync(
-      Project.NameKey name,
-      String label,
-      String refName,
-      PullReplicationApiRequestMetrics apiRequestMetrics)
+      Project.NameKey name, Inputs inputs, PullReplicationApiRequestMetrics apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    fetch(name, label, refName, ASYNC, Optional.of(apiRequestMetrics));
+    fetch(name, inputs, ASYNC, Optional.of(apiRequestMetrics));
   }
 
-  public void fetchSync(Project.NameKey name, String label, String refName)
+  public void fetchSync(Project.NameKey name, Inputs inputs)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    fetch(name, label, refName, SYNC, Optional.empty());
+    fetch(name, inputs, SYNC, Optional.empty());
   }
 
   private void fetch(
       Project.NameKey name,
-      String label,
-      String refName,
+      Inputs inputs,
       ReplicationType fetchType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
@@ -81,6 +78,7 @@ public class FetchCommand implements Command {
     ReplicationState state =
         fetchReplicationStateFactory.create(
             new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
+    String label = inputs.label;
     Optional<Source> source = sources.getByRemoteName(label);
     if (!source.isPresent()) {
       String msg = String.format("Remote configuration section %s not found", label);
@@ -90,7 +88,8 @@ public class FetchCommand implements Command {
 
     try {
       state.markAllFetchTasksScheduled();
-      Future<?> future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
+      Future<?> future =
+          source.get().schedule(name, inputs.refNames, state, fetchType, apiRequestMetrics);
       int timeout = source.get().getTimeout();
       if (timeout == 0) {
         future.get();

@@ -19,7 +19,9 @@ import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -153,7 +155,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    doThrow(new InterruptedException()).when(fetchCommand).fetchSync(any(), any(), any());
+    doThrow(new InterruptedException()).when(fetchCommand).fetchSync(any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -166,9 +168,7 @@ public class FetchActionTest {
     inputParams.label = "non-existing-label";
     inputParams.refName = refName;
 
-    doThrow(new RemoteConfigurationMissingException(""))
-        .when(fetchCommand)
-        .fetchSync(any(), any(), any());
+    doThrow(new RemoteConfigurationMissingException("")).when(fetchCommand).fetchSync(any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -183,7 +183,7 @@ public class FetchActionTest {
 
     doThrow(new ExecutionException(new RuntimeException()))
         .when(fetchCommand)
-        .fetchSync(any(), any(), any());
+        .fetchSync(any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -196,7 +196,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    doThrow(new IllegalStateException()).when(fetchCommand).fetchSync(any(), any(), any());
+    doThrow(new IllegalStateException()).when(fetchCommand).fetchSync(any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -209,7 +209,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    doThrow(new TimeoutException()).when(fetchCommand).fetchSync(any(), any(), any());
+    doThrow(new TimeoutException()).when(fetchCommand).fetchSync(any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -248,5 +248,17 @@ public class FetchActionTest {
     assertThat(response).isInstanceOf(Response.Accepted.class);
     Response.Accepted acceptResponse = (Response.Accepted) response;
     assertThat(acceptResponse.location()).isEqualTo(location);
+  }
+
+  @Test
+  public void shouldCreateFetchJobUsingBatchRefActionInputsForAsyncCall() throws RestApiException {
+    FetchAction.Input inputParams = new FetchAction.Input();
+    inputParams.label = label;
+    inputParams.refName = refName;
+    inputParams.async = true;
+
+    fetchAction.apply(projectResource, inputParams);
+
+    verify(fetchJobFactory).create(any(), eq(inputParams.asBatchFetchActionInputs()), any());
   }
 }
