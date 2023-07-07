@@ -142,6 +142,30 @@
       },
       "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1ef0050_2537548b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-07T13:23:39Z",
+      "side": 1,
+      "message": "The discussion here diverged from the primary-replica setup to a multi-primary setup. The purpose of this change is to make sure that in a primary-replica setup, the primary doesn\u0027t fetch from the replica when, maybe only by mistake, the `replicateOnStartup \u003d true` on primary.",
+      "parentUuid": "a2662699_c9b9e4b9",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "b692f421fbdfe954ce5b6fec0297ca9e3c894313",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
