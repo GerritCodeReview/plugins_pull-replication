@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79e757ef_ef4bf671",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-07T13:06:00Z",
+      "side": 1,
+      "message": "Do we actually need the pull-replication plugin on the primary side at ell when using a message-broker based notifications? Maybe we can remove both the plugin and the replication.config from the primary in this scenario?",
+      "revId": "ed268be3b458063cdd26effa83023391475aab25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
