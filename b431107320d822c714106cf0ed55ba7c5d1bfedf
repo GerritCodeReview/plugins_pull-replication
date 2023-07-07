@@ -20,6 +20,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67a9011f_dbac736b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T21:02:39Z",
+      "side": 1,
+      "message": "I don\u0027t understand this logic - probably as a consequence of me not fully understanding the domain. Nonetheless, a ref is considered large if it has no revision data and is not a delete? Why would this mean it\u0027s large? Do we mean large in terms of bytes? Why would it not be large if it contains revision data?",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b39b1d9_eaff408d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T21:02:39Z",
+      "side": 1,
+      "message": "Should this be an instance method on `BatchApplyObjectData`? It might read better as then I (for one) wouldn\u0027t need to understand why this logic maps to meaning it\u0027s a large ref - although granted we\u0027d just be pushing the reasoning elsewhere.",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "503db391_d0f29205",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 23
@@ -108,6 +142,57 @@
         "endLine": 464,
         "endChar": 48
       },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50e9d145_8b9c94c0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T21:02:39Z",
+      "side": 1,
+      "message": "I think the client can be created before the for loop too.",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa0571dc_9e766898",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T21:02:39Z",
+      "side": 1,
+      "message": "If we succeed in creating the project, isn\u0027t that a success case, i.e. shouldn\u0027t we set `resultSuccessful` to `true`?\n\nEDIT: I see this is lifted from `callSendObject`, so not new logic. Still, do you know why?",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37513173_37b09416",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T21:02:39Z",
+      "side": 1,
+      "message": "I think we could use some guard clauses to reduce the mental load on this method - it\u0027s quite long and there\u0027s a lot of nesting. This looks like a good candidate to move further up and then break (or return even). I don\u0027t think we need to evaluate `resultIsSuccessful` anymore at the end of the loop.",
       "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -496,6 +581,80 @@
         "endLine": 53,
         "endChar": 3
       },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3b94a7d_4d5bdfca",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T21:02:39Z",
+      "side": 1,
+      "message": "This should be a constant as in a previous change in this chain.",
+      "range": {
+        "startLine": 222,
+        "startChar": 35,
+        "endLine": 222,
+        "endChar": 49
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e51abd9e_f7c569fc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T21:02:39Z",
+      "side": 1,
+      "message": "Nit: Why not make this an affirmation `isSendBatchObjectAvailable`? It would mean not thinking in double negatives, simplifying the mental gymnastics.",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d003cf9_53ec17ff",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T21:02:39Z",
+      "side": 1,
+      "message": "Nit: not sure what the convention is, but shouldn\u0027t these all be `private static`? They\u0027re all fixtures - why declare them differently?",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ad3a260_c28411e6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T21:02:39Z",
+      "side": 1,
+      "message": "Do we continue to process the revisions if we get a failure? Should we have a test either way?",
       "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
