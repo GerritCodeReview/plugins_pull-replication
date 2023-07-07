@@ -474,6 +474,30 @@
       },
       "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ae20714_f65a49ad",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-07T10:21:01Z",
+      "side": 1,
+      "message": "\u003e  are they in relation to merge of batch of changes (e.g. all under a single topic or grand child of the relation chain)?\n\nThose are refs which were updated together during the single batch update. For example when you push change it will contain patchset and meta refs.\n\nI\u0027m not sure if when you submit whole topic all updates are executed as a single batch ref update. But event if this is true we do want to log full content. This is useful for debugging",
+      "parentUuid": "9120c20f_076656d3",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
