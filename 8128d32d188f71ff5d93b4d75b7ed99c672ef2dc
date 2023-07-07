@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56143561_afd6d676",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T05:47:06Z",
+      "side": 1,
+      "message": "How about adding a simple unit test that confirms/proves that sorting works?",
+      "range": {
+        "startLine": 196,
+        "startChar": 21,
+        "endLine": 196,
+        "endChar": 40
+      },
+      "revId": "8128d32d188f71ff5d93b4d75b7ed99c672ef2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7f0e7810_130088f0",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 7
