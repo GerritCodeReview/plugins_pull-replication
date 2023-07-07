@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc1b2222_1119d437",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "well spotted 👍",
+      "parentUuid": "503db391_d0f29205",
+      "range": {
+        "startLine": 339,
+        "startChar": 11,
+        "endLine": 342,
+        "endChar": 12
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c5daad5_3801c568",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-07-07T06:31:00Z",
       "side": 1,
       "message": "AFAIU this can happen prior the `for` loop",
+      "range": {
+        "startLine": 461,
+        "startChar": 6,
+        "endLine": 464,
+        "endChar": 48
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23a37798_5be21219",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c5daad5_3801c568",
       "range": {
         "startLine": 461,
         "startChar": 6,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "41d15cb6_cddadab5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06c92385_3aca8b80",
+      "range": {
+        "startLine": 698,
+        "startChar": 24,
+        "endLine": 698,
+        "endChar": 49
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ce93ca6_0d756784",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-07-07T06:31:00Z",
       "side": 1,
       "message": "nit: can be package protected as it is ingested in the module in the same package",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 7
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48e56856_674d420a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectAction.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "sure, was just following similar classes, but your suggestion makes sense.",
+      "parentUuid": "9ce93ca6_0d756784",
       "range": {
         "startLine": 26,
         "startChar": 0,
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "021d1357_69176dda",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectAction.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cca38be_3315cbd8",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 9
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2230f727_02c30991",
@@ -146,6 +266,30 @@
       "writtenOn": "2023-07-07T06:31:00Z",
       "side": 1,
       "message": "nit: file comments are formatted with `//` e.g.\n```\n// Copyright (C) 2018 The Android Open Source Project\n//\n// Licensed under the Apache License, Version 2.0 (the \"License\");\n// you may not use this file except in compliance with the License.\n// You may obtain a copy of the License at\n...\n```",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d2fcf98_4f9120c8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "not necessarily, I find 2293 results where copyright header is formatted with `*` - and I couldn\u0027t see a de-facto standard in the gerrit contribution guidelines.",
+      "parentUuid": "2230f727_02c30991",
       "range": {
         "startLine": 1,
         "startChar": 0,
@@ -196,6 +340,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d45b19_14fe89fd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c113549_26a10706",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f377c3c4_e97a0c9f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "I dont think its that simple. The main problem comes from the fact that we pass around a list of refs, and that list can contain both creates and deletes. But we need to know what type each ref is, as the semantics are different. Modifying the RevisionInput to add this information would be a breaking change.",
+      "parentUuid": "ab4f5ec3_bbb0b470",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a52fda7e_d712dd3f",
@@ -219,6 +405,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d7a7186_b9ec851d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "I\u0027ve written too much scala 😊 - changed.",
+      "parentUuid": "a52fda7e_d712dd3f",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 73
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5936386_127830fc",
@@ -232,6 +442,30 @@
       "writtenOn": "2023-07-07T06:31:00Z",
       "side": 1,
       "message": "is this going to explode? how many revisions we are typically seeing? are they in relation to merge of batch of changes (e.g. all under a single topic or grand child of the relation chain)?",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9120c20f_076656d3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:13:46Z",
+      "side": 1,
+      "message": "I honestly don\u0027t know the answers to your questions, @Marcin can you help?\nAlso, what do you mean by \"explode\" and what is your concern?",
+      "parentUuid": "b5936386_127830fc",
       "range": {
         "startLine": 49,
         "startChar": 2,
