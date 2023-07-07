@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57310146_0aa64b4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-07T10:36:40Z",
+      "side": 1,
+      "message": "Sorry my bad, when the change was introduced, a few tests were failing which we fixed. But that is always part of the change anyway, I have removed it from the commit description.",
+      "parentUuid": "c96db938_7c461eaf",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "8128d32d188f71ff5d93b4d75b7ed99c672ef2dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56143561_afd6d676",
