@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b65a84ee_2daa1149",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "I had no chance to look at tests yet ;)",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "503db391_d0f29205",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "nit: the function returns `true` if any object that meets criteria is found IOW calling `count` to get all of them is sub-optimal and `anyMatch` would do better here 😊",
+      "range": {
+        "startLine": 339,
+        "startChar": 11,
+        "endLine": 342,
+        "endChar": 12
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c5daad5_3801c568",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "AFAIU this can happen prior the `for` loop",
+      "range": {
+        "startLine": 461,
+        "startChar": 6,
+        "endLine": 464,
+        "endChar": 48
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06c92385_3aca8b80",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "nit: `ReferenceBatchUpdateEvent` -\u003e `ReferenceBatchUpdatedEvent` - to stay consistent with the existing `ReferenceUpdatedEvent`",
+      "range": {
+        "startLine": 698,
+        "startChar": 24,
+        "endLine": 698,
+        "endChar": 49
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ce93ca6_0d756784",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectAction.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "nit: can be package protected as it is ingested in the module in the same package",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 7
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cca38be_3315cbd8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectAction.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "nit: injection works on package protected classes",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 9
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2230f727_02c30991",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "nit: file comments are formatted with `//` e.g.\n```\n// Copyright (C) 2018 The Android Open Source Project\n//\n// Licensed under the Apache License, Version 2.0 (the \"License\");\n// you may not use this file except in compliance with the License.\n// You may obtain a copy of the License at\n...\n```",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab4f5ec3_bbb0b470",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "nit: is this class needed? AFAIU the `RevisionInput` is eventually used to send data over pipe so maybe we could it from the beginning?",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c113549_26a10706",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "nit: how about `@AutoValue`-ing it and skipping the boilerplate code?",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a52fda7e_d712dd3f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "nit: it is correct from the language perspective but in the longer term it is preferred to wrap `if` block with braces `{}`",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 73
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5936386_127830fc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-07T06:31:00Z",
+      "side": 1,
+      "message": "is this going to explode? how many revisions we are typically seeing? are they in relation to merge of batch of changes (e.g. all under a single topic or grand child of the relation chain)?",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
