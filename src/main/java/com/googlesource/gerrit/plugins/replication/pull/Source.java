@@ -440,18 +440,23 @@ public class Source {
     synchronized (stateLock) {
       FetchOne e = pending.get(uri);
       Future<?> f = CompletableFuture.completedFuture(null);
+      boolean scheduled = false;
       if (e == null || e.isRetrying()) {
         e = opFactory.create(project, uri, apiRequestMetrics);
         addRef(e, ref);
         e.addState(ref, state);
         pending.put(uri, e);
         f = pool.schedule(e, isSyncCall(replicationType) ? 0 : config.getDelay(), TimeUnit.SECONDS);
+        scheduled = true;
       } else if (!e.getRefs().contains(ref)) {
         addRef(e, ref);
         e.addState(ref, state);
+        scheduled = true;
       }
-      state.increaseFetchTaskCount(project.get(), ref);
-      repLog.info("scheduled {}:{} => {} to run after {}s", e, ref, project, config.getDelay());
+      if (scheduled) {
+        state.increaseFetchTaskCount(project.get(), ref);
+        repLog.info("scheduled {}:{} => {} to run after {}s", e, ref, project, config.getDelay());
+      }
       return f;
     }
   }
