@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "892d9cc7_c8961de3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2023-07-10T15:39:39Z",
+      "side": 1,
+      "message": "Should we be increasing the amount of fetch tasks when we\u0027re only adding a ref to an existing one?",
+      "range": {
+        "startLine": 454,
+        "startChar": 8,
+        "endLine": 454,
+        "endChar": 25
+      },
+      "revId": "08e42629044a78f03c5988b71f3e68b6a766d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
