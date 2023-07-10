@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c3d7d0d_4122a64c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-10T12:18:56Z",
+      "side": 1,
+      "message": "\u003e a ref is considered large if it has no revision data and is not a delete?\n\nYes\n\n\u003e Why would this mean it\u0027s large? Do we mean large in terms of bytes?\n\nYes, large in terms of bytes. I am not familiar with the logic either, but looking into the code that creates the revision data (`RevisionReader.verifySize`), we are actually check if the total payload is higher than a configurable threshold, and if yes, we throw an exception which results in an empty optional of revision data.",
+      "parentUuid": "67a9011f_dbac736b",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b39b1d9_eaff408d",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-07-07T21:02:39Z",
       "side": 1,
       "message": "Should this be an instance method on `BatchApplyObjectData`? It might read better as then I (for one) wouldn\u0027t need to understand why this logic maps to meaning it\u0027s a large ref - although granted we\u0027d just be pushing the reasoning elsewhere.",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72676351_13978a89",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-10T12:18:56Z",
+      "side": 1,
+      "message": "I dont think you are actually gaining anything here? The logic is applied on a list of `BatchApplyObjectData`. The filter predicate could move into the class as you suggest, but I think the method is so simple, and its name so self-explanatory, that moving it elsewhere is just an overkill.",
+      "parentUuid": "9b39b1d9_eaff408d",
       "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -163,6 +199,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1218bde1_24e678f2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-10T12:18:56Z",
+      "side": 1,
+      "message": "good call 👍",
+      "parentUuid": "50e9d145_8b9c94c0",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa0571dc_9e766898",
@@ -182,6 +236,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e204e607_1e8a04e7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-10T12:18:56Z",
+      "side": 1,
+      "message": "Good question, I dont know why, maybe @Marcin can help.",
+      "parentUuid": "fa0571dc_9e766898",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37513173_37b09416",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 23
@@ -193,6 +265,24 @@
       "writtenOn": "2023-07-07T21:02:39Z",
       "side": 1,
       "message": "I think we could use some guard clauses to reduce the mental load on this method - it\u0027s quite long and there\u0027s a lot of nesting. This looks like a good candidate to move further up and then break (or return even). I don\u0027t think we need to evaluate `resultIsSuccessful` anymore at the end of the loop.",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ca27f0f_16be8f1e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-10T12:18:56Z",
+      "side": 1,
+      "message": "I can move this logic further up, there\u0027s a 3-level nesting, personally I don\u0027t think it helps but that\u0027s personal taste.\n\n\u003e I don\u0027t think we need to evaluate resultIsSuccessful anymore at the end of the loop.\n\nMaybe, I don\u0027t know how succeeding for some source urls might affect the fetch task load for the ones that failed. I don\u0027t know why it was written this way tbh, but your suggestion is definitely something we should not do here, it will require a new change, so feel free to raise a new issue.",
+      "parentUuid": "37513173_37b09416",
       "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -632,6 +722,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93656cca_a0a35bf1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-10T12:18:56Z",
+      "side": 1,
+      "message": "yup, must have missed it, sorted.",
+      "parentUuid": "1c021e2c_5290b765",
+      "range": {
+        "startLine": 222,
+        "startChar": 35,
+        "endLine": 222,
+        "endChar": 49
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e51abd9e_f7c569fc",
@@ -645,6 +759,24 @@
       "writtenOn": "2023-07-07T21:02:39Z",
       "side": 1,
       "message": "Nit: Why not make this an affirmation `isSendBatchObjectAvailable`? It would mean not thinking in double negatives, simplifying the mental gymnastics.",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fa7d05c_7606cc0f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-10T12:18:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e51abd9e_f7c569fc",
       "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -666,6 +798,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51ce40b0_b48352e4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-10T12:18:56Z",
+      "side": 1,
+      "message": "Don\u0027t know, I think we just copied from another similar test, I\u0027ve changed them here.",
+      "parentUuid": "4d003cf9_53ec17ff",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ad3a260_c28411e6",
@@ -679,6 +829,24 @@
       "writtenOn": "2023-07-07T21:02:39Z",
       "side": 1,
       "message": "Do we continue to process the revisions if we get a failure? Should we have a test either way?",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bed525c0_10380d2e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-10T12:18:56Z",
+      "side": 1,
+      "message": "sure, that\u0027s a good idea 👍",
+      "parentUuid": "8ad3a260_c28411e6",
       "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
