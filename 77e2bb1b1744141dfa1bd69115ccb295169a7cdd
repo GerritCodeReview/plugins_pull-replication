@@ -16,6 +16,29 @@
       "message": "Post-merge -1: this has broken the update head on replicas, because the URL is now different.",
       "revId": "77e2bb1b1744141dfa1bd69115ccb295169a7cdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c71cf0ea_e2cc8512",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-10T23:42:56Z",
+      "side": 1,
+      "message": "This should have been also changed in the `UpdateHeadActionIT` and `PullReplicationFilter`.",
+      "range": {
+        "startLine": 398,
+        "startChar": 49,
+        "endLine": 398,
+        "endChar": 66
+      },
+      "revId": "77e2bb1b1744141dfa1bd69115ccb295169a7cdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
