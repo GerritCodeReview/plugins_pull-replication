@@ -96,7 +96,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private Response<?> applySync(Project.NameKey project, Input input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    command.fetchSync(project, input.label, input.refName);
+    command.fetchSync(project, input.label, input.refName, false);
     return Response.created(input);
   }
 
@@ -107,7 +107,8 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
             workQueue
                 .getDefaultQueue()
                 .submit(
-                    fetchJobFactory.create(project, input, PullReplicationApiRequestMetrics.get()));
+                    fetchJobFactory.create(
+                        project, input, false, PullReplicationApiRequestMetrics.get()));
     Optional<String> url =
         urlFormatter
             .get()

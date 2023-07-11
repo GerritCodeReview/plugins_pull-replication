@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -47,6 +48,9 @@ import org.mockito.stubbing.Answer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FetchActionTest {
+
+  private static final boolean IS_NOT_DELETE = false;
+
   FetchAction fetchAction;
   String label = "instance-2-label";
   String url = "file:///gerrit-host/instance-1/git/${name}.git";
@@ -67,7 +71,7 @@ public class FetchActionTest {
 
   @Before
   public void setup() {
-    when(fetchJobFactory.create(any(), any(), any())).thenReturn(fetchJob);
+    when(fetchJobFactory.create(any(), any(), anyBoolean(), any())).thenReturn(fetchJob);
     when(workQueue.getDefaultQueue()).thenReturn(exceutorService);
     when(urlFormatter.getRestUrl(anyString())).thenReturn(Optional.of(location));
     when(exceutorService.submit(any(Runnable.class)))
@@ -152,7 +156,9 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    doThrow(new InterruptedException()).when(fetchCommand).fetchSync(any(), any(), any());
+    doThrow(new InterruptedException())
+        .when(fetchCommand)
+        .fetchSync(any(), any(), any(), anyBoolean());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -167,7 +173,7 @@ public class FetchActionTest {
 
     doThrow(new RemoteConfigurationMissingException(""))
         .when(fetchCommand)
-        .fetchSync(any(), any(), any());
+        .fetchSync(any(), any(), any(), anyBoolean());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -182,7 +188,7 @@ public class FetchActionTest {
 
     doThrow(new ExecutionException(new RuntimeException()))
         .when(fetchCommand)
-        .fetchSync(any(), any(), any());
+        .fetchSync(any(), any(), any(), anyBoolean());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -195,7 +201,9 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    doThrow(new IllegalStateException()).when(fetchCommand).fetchSync(any(), any(), any());
+    doThrow(new IllegalStateException())
+        .when(fetchCommand)
+        .fetchSync(any(), any(), any(), anyBoolean());
 
     fetchAction.apply(projectResource, inputParams);
   }
@@ -208,7 +216,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    doThrow(new TimeoutException()).when(fetchCommand).fetchSync(any(), any(), any());
+    doThrow(new TimeoutException()).when(fetchCommand).fetchSync(any(), any(), any(), anyBoolean());
 
     fetchAction.apply(projectResource, inputParams);
   }

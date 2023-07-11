@@ -24,6 +24,7 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.util.IdGenerator;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -64,6 +65,7 @@ public class FetchOneTest {
   @Mock private IdGenerator idGenerator;
   @Mock private ReplicationStateListeners replicationStateListeners;
   @Mock private FetchFactory fetchFactory;
+  @Mock private DeleteRefCommand deleteRefCommand;
   @Mock private PullReplicationApiRequestMetrics pullReplicationApiRequestMetrics;
   @Mock private RemoteConfig remoteConfig;
   @Mock private DynamicItem<ReplicationFetchFilter> replicationFilter;
@@ -84,6 +86,7 @@ public class FetchOneTest {
     idGenerator = mock(IdGenerator.class);
     replicationStateListeners = mock(ReplicationStateListeners.class);
     fetchFactory = mock(FetchFactory.class);
+    deleteRefCommand = mock(DeleteRefCommand.class);
     pullReplicationApiRequestMetrics = mock(PullReplicationApiRequestMetrics.class);
     remoteConfig = mock(RemoteConfig.class);
     replicationFilter = mock(DynamicItem.class);
@@ -103,6 +106,7 @@ public class FetchOneTest {
             replicationStateListeners,
             fetchReplicationMetrics,
             fetchFactory,
+            deleteRefCommand,
             PROJECT_NAME,
             urIish,
             Optional.of(pullReplicationApiRequestMetrics));

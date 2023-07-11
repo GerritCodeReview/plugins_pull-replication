@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.event;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.never;
@@ -72,6 +73,7 @@ public class StreamEventListenerTest {
   @Mock private FetchJob.Factory fetchJobFactory;
   @Mock private DeleteRefCommand deleteRefCommand;
   @Captor ArgumentCaptor<Input> inputCaptor;
+  @Captor ArgumentCaptor<Boolean> isDeleteCaptor;
   @Mock private PullReplicationApiRequestMetrics metrics;
   @Mock private SourcesCollection sources;
   @Mock private Source source;
@@ -84,7 +86,7 @@ public class StreamEventListenerTest {
   public void setup() {
     cache = CacheBuilder.newBuilder().build();
     when(workQueue.getDefaultQueue()).thenReturn(executor);
-    when(fetchJobFactory.create(eq(Project.nameKey(TEST_PROJECT)), any(), any()))
+    when(fetchJobFactory.create(eq(Project.nameKey(TEST_PROJECT)), any(), anyBoolean(), any()))
         .thenReturn(fetchJob);
     when(sources.getAll()).thenReturn(Lists.newArrayList(source));
     when(source.wouldFetchProject(any())).thenReturn(true);
@@ -151,7 +153,8 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldDeleteRefForRefDeleteEvent() throws IOException, RestApiException {
+  public void shouldScheduleFetchJobToDeleteRefForRefDeleteEvent()
+      throws IOException, RestApiException {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
@@ -163,8 +166,10 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(deleteRefCommand)
-        .deleteRef(Project.nameKey(TEST_PROJECT), refUpdate.refName, REMOTE_INSTANCE_ID);
+    verify(fetchJobFactory)
+        .create(eq(Project.nameKey(TEST_PROJECT)), any(), isDeleteCaptor.capture(), any());
+    assertThat(isDeleteCaptor.getValue()).isTrue();
+    verify(executor).submit(any(FetchJob.class));
   }
 
   @Test
@@ -181,7 +186,8 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), any());
+    verify(fetchJobFactory)
+        .create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), anyBoolean(), any());
 
     Input input = inputCaptor.getValue();
     assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
@@ -256,7 +262,8 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), any());
+    verify(fetchJobFactory)
+        .create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), anyBoolean(), any());
 
     Input input = inputCaptor.getValue();
     assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
