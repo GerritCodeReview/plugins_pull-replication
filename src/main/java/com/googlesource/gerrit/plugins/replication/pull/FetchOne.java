@@ -23,6 +23,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
@@ -30,9 +31,11 @@ import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue.CanceledWhileRunning;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -40,6 +43,7 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.InexistentRefTrans
 import com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -84,6 +88,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final Project.NameKey projectName;
   private final URIish uri;
   private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
+  private Set<String> deleteRefs = Sets.newHashSetWithExpectedSize(4);
   private final Set<TransportException> fetchFailures = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
@@ -102,6 +107,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final FetchFactory fetchFactory;
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
+  private final DeleteRefCommand deleteRefCommand;
 
   @Inject
   FetchOne(
@@ -113,6 +119,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       ReplicationStateListeners sl,
       FetchReplicationMetrics m,
       FetchFactory fetchFactory,
+      DeleteRefCommand dfc,
       @Assisted Project.NameKey d,
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -131,6 +138,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     metrics = m;
     canceledWhileRunning = new AtomicBoolean(false);
     this.fetchFactory = fetchFactory;
+    this.deleteRefCommand = dfc;
     maxRetries = s.getMaxRetries();
     this.apiRequestMetrics = apiRequestMetrics;
   }
@@ -221,12 +229,21 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     return fetchAllRefs ? Sets.newHashSet(ALL_REFS) : delta;
   }
 
+  Set<String> getDeleteRefs() {
+    return deleteRefs;
+  }
+
   void addRefs(Set<String> refs) {
     if (!fetchAllRefs) {
       for (String ref : refs) {
         addRef(ref);
       }
     }
+  }
+
+  void addRefToDelete(String ref) {
+    deleteRefs.add(ref);
+    repLog.trace("[{}] Added ref {} to delete", taskIdHex, ref);
   }
 
   void addState(String ref, ReplicationState state) {
@@ -320,10 +337,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     }
 
     repLog.info(
-        "[{}] Replication from {} started for refs [{}] ...",
+        "[{}] Replication from {} started for refs [{}], delete refs [{}] ...",
         taskIdHex,
         uri,
-        String.join(",", getRefs()));
+        String.join(",", getRefs()),
+        String.join(",", deleteRefs));
     Timer1.Context<String> context = metrics.start(config.getName());
     try {
       long startedAt = context.getStartTime();
@@ -344,7 +362,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
           delay,
           retryCount,
           elapsedEnd2End.map(el -> String.format(", E2E %dms", el)).orElse(""));
-    } catch (RepositoryNotFoundException e) {
+    } catch (RepositoryNotFoundException | ResourceNotFoundException e) {
       stateLog.error(
           "["
               + taskIdHex
@@ -363,7 +381,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
           "[{}] Cannot replicate {}; Remote repository error: {}", taskIdHex, projectName, msg);
     } catch (NotSupportedException e) {
       stateLog.error("[" + taskIdHex + "] Cannot replicate  from " + uri, e, getStatesAsArray());
-    } catch (PermanentTransportException e) {
+    } catch (PermanentTransportException | PermissionBackendException e) {
       repLog.error(
           String.format("Terminal failure. Cannot replicate [%s] from %s", taskIdHex, uri), e);
     } catch (TransportException e) {
@@ -417,12 +435,18 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     repLog.info("[{}] Cannot replicate from {}. It was canceled while running", taskIdHex, uri, e);
   }
 
-  private void runImpl() throws IOException {
+  private void runImpl() throws IOException, PermissionBackendException, ResourceNotFoundException {
+    List<RefUpdateState> refSpecs = new ArrayList<>(deleteRefs.size() + getFetchRefSpecs().size());
+    for (String ref : deleteRefs) {
+      refSpecs.addAll(deleteRefCommand.deleteRef(projectName, ref, pool.getRemoteConfigName()));
+    }
+
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
 
     try {
-      updateStates(fetch.fetch(fetchRefSpecs));
+      refSpecs.addAll(fetch.fetch(fetchRefSpecs));
+      updateStates(refSpecs);
     } catch (InexistentRefTransportException e) {
       String inexistentRef = e.getInexistentRef();
       repLog.info(
@@ -443,7 +467,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
 
   private List<RefSpec> getFetchRefSpecs() {
     List<RefSpec> configRefSpecs = config.getFetchRefSpecs();
-    if (delta.isEmpty()) {
+    if (delta.isEmpty() && deleteRefs.isEmpty()) {
       return configRefSpecs;
     }
 

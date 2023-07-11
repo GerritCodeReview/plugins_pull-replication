@@ -32,12 +32,18 @@ public interface FetchApiClient {
   }
 
   HttpResult callFetch(
-      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
+      Project.NameKey project,
+      String refName,
+      URIish targetUri,
+      boolean isDelete,
+      long startTimeNanos)
       throws ClientProtocolException, IOException;
 
-  default HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+  default HttpResult callFetch(
+      Project.NameKey project, String refName, URIish targetUri, boolean isDelete)
       throws ClientProtocolException, IOException {
-    return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
+    return callFetch(
+        project, refName, targetUri, isDelete, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
 
   HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;

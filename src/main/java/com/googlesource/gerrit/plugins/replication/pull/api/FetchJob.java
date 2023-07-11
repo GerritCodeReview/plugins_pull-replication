@@ -16,8 +16,10 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -26,8 +28,7 @@ public class FetchJob implements Runnable {
   private static final FluentLogger log = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    FetchJob create(
-        Project.NameKey project, FetchAction.Input input, PullReplicationApiRequestMetrics metrics);
+    FetchJob create(NameKey project, Input input, PullReplicationApiRequestMetrics metrics);
   }
 
   private FetchCommand command;
@@ -50,7 +51,7 @@ public class FetchJob implements Runnable {
   @Override
   public void run() {
     try {
-      command.fetchAsync(project, input.label, input.refName, metrics);
+      command.fetchAsync(project, input.label, input.refName, input.delete, metrics);
     } catch (InterruptedException
         | ExecutionException
         | RemoteConfigurationMissingException

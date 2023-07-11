@@ -24,7 +24,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
@@ -48,7 +47,6 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
-import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -123,12 +121,8 @@ public class StreamEventListener implements EventListener {
         return;
       }
 
-      if (isRefDelete(refUpdatedEvent)) {
-        deleteRef(refUpdatedEvent);
-        return;
-      }
-
-      if (isApplyObjectsCacheHit(refUpdatedEvent)) {
+      boolean isDelete = isRefDelete(refUpdatedEvent);
+      if (!isDelete && isApplyObjectsCacheHit(refUpdatedEvent)) {
         logger.atFine().log(
             "Skipping refupdate '%s'  '%s'=>'%s' (eventCreatedOn=%d) for project '%s' because has been already replicated via apply-object",
             refUpdatedEvent.getRefName(),
@@ -143,6 +137,7 @@ public class StreamEventListener implements EventListener {
           refUpdatedEvent.getRefName(),
           refUpdatedEvent.instanceId,
           refUpdatedEvent.getProjectNameKey(),
+          isDelete,
           metrics);
     } else if (event instanceof ProjectCreatedEvent) {
       ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
@@ -152,25 +147,13 @@ public class StreamEventListener implements EventListener {
             FetchOne.ALL_REFS,
             projectCreatedEvent.instanceId,
             projectCreatedEvent.getProjectNameKey(),
+            false,
             metrics);
       } catch (AuthException | PermissionBackendException e) {
         logger.atSevere().withCause(e).log(
             "Cannot initialise project:%s", projectCreatedEvent.projectName);
         throw e;
       }
-    }
-  }
-
-  private void deleteRef(RefUpdatedEvent refUpdatedEvent) {
-    try {
-      deleteCommand.deleteRef(
-          refUpdatedEvent.getProjectNameKey(),
-          refUpdatedEvent.getRefName(),
-          refUpdatedEvent.instanceId);
-    } catch (IOException | RestApiException e) {
-      logger.atSevere().withCause(e).log(
-          "Cannot delete ref %s project:%s",
-          refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
     }
   }
 
@@ -216,10 +199,12 @@ public class StreamEventListener implements EventListener {
       String refName,
       String sourceInstanceId,
       NameKey projectNameKey,
+      boolean isDelete,
       PullReplicationApiRequestMetrics metrics) {
     FetchAction.Input input = new FetchAction.Input();
     input.refName = refName;
     input.label = sourceInstanceId;
+    input.delete = isDelete;
     workQueue.getDefaultQueue().submit(fetchJobFactory.create(projectNameKey, input, metrics));
   }
 
