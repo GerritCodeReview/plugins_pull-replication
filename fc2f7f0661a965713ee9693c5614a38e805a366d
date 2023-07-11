@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e924078_1cec7cb5",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadActionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-07-11T00:36:05Z",
+      "side": 1,
+      "message": "I see the comment in the `restartAsSlave` method, makes sense.\n\nSo was `GerritConfig` for `container.replica` not working?",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 12
+      },
+      "revId": "fc2f7f0661a965713ee9693c5614a38e805a366d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0b36095_98f033f5",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadActionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-07-11T00:36:05Z",
+      "side": 1,
+      "message": "What\u0027s the difference between this and the previous `GerritConfig` annotation?",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 12
+      },
+      "revId": "fc2f7f0661a965713ee9693c5614a38e805a366d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
