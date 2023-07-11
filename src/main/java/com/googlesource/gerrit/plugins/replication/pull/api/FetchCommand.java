@@ -58,16 +58,17 @@ public class FetchCommand implements Command {
       Project.NameKey name,
       String label,
       String refName,
+      boolean isDelete,
       PullReplicationApiRequestMetrics apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    fetch(name, label, refName, ASYNC, Optional.of(apiRequestMetrics));
+    fetch(name, label, refName, ASYNC, isDelete, Optional.of(apiRequestMetrics));
   }
 
-  public void fetchSync(Project.NameKey name, String label, String refName)
+  public void fetchSync(Project.NameKey name, String label, String refName, boolean isDelete)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    fetch(name, label, refName, SYNC, Optional.empty());
+    fetch(name, label, refName, SYNC, isDelete, Optional.empty());
   }
 
   private void fetch(
@@ -75,6 +76,7 @@ public class FetchCommand implements Command {
       String label,
       String refName,
       ReplicationType fetchType,
+      boolean isDelete,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
@@ -91,7 +93,8 @@ public class FetchCommand implements Command {
 
     try {
       state.markAllFetchTasksScheduled();
-      Future<?> future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
+      Future<?> future =
+          source.get().schedule(name, refName, state, fetchType, apiRequestMetrics, isDelete);
       future.get(source.get().getTimeout(), TimeUnit.SECONDS);
     } catch (ExecutionException
         | IllegalStateException
