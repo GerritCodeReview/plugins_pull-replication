@@ -321,7 +321,9 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   }
 
   private boolean isUpdateHEADAction(HttpServletRequest httpRequest) {
-    return httpRequest.getRequestURI().matches(".*/projects/[^/]+/HEAD")
+    return httpRequest
+            .getRequestURI()
+            .matches(String.format(".*/projects/[^/]+/%s~HEAD", pluginName))
         && "PUT".equals(httpRequest.getMethod());
   }
 
