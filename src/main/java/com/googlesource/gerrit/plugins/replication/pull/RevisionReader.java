@@ -286,7 +286,7 @@ public class RevisionReader {
 
     if (totalRefSize > maxRefSize) {
       repLog.warn(
-          "Objects associated with {}:{} ({}) use {} bytes, over the maximum limit of {} bytes",
+          "Objects associated with {}:{} ({}) over the maximum limit of {} bytes",
           projectName,
           refName,
           objectTypeToString(loader.getType()),
