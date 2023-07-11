@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Permission;
@@ -75,8 +76,9 @@ public class UpdateHeadActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
-  @GerritConfig(name = "container.replica", value = "true")
+  @Sandboxed
   public void shouldReturnBadRequestWhenInputIsEmptyInReplica() throws Exception {
+    restartAsReplicaWithNewUrl();
     httpClientFactory
         .create(source)
         .execute(
@@ -86,11 +88,12 @@ public class UpdateHeadActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
-  @GerritConfig(name = "container.replica", value = "true")
+  @Sandboxed
   public void shouldReturnOKWhenHeadIsUpdatedInReplica() throws Exception {
     String testProjectName = project.get();
     String newBranch = "refs/heads/mybranch";
     String master = "refs/heads/master";
+    restartAsReplicaWithNewUrl();
     BranchInput input = new BranchInput();
     input.revision = master;
     gApi.projects().name(testProjectName).branch(newBranch).create(input);
@@ -140,8 +143,9 @@ public class UpdateHeadActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
-  @GerritConfig(name = "container.replica", value = "true")
+  @Sandboxed
   public void shouldReturnForbiddenWhenMissingPermissionsInReplica() throws Exception {
+    restartAsReplicaWithNewUrl();
     httpClientFactory
         .create(source)
         .execute(
@@ -151,10 +155,10 @@ public class UpdateHeadActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
-  @GerritConfig(name = "container.replica", value = "true")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   @Ignore("Waiting for resolving: Issue 16332: Not able to update the HEAD from internal user")
   public void shouldReturnOKWhenHeadIsUpdatedInReplicaWithBearerToken() throws Exception {
+    restartAsReplicaWithNewUrl();
     String testProjectName = project.get();
     url = getURLWithoutAuthenticationPrefix(testProjectName);
     String newBranch = "refs/heads/mybranch";
@@ -174,7 +178,6 @@ public class UpdateHeadActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
-  @GerritConfig(name = "container.replica", value = "false")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   @Ignore("Waiting for resolving: Issue 16332: Not able to update the HEAD from internal user")
   public void shouldReturnOKWhenHeadIsUpdatedInPrimaryWithBearerToken() throws Exception {
@@ -203,6 +206,7 @@ public class UpdateHeadActionIT extends ActionITBase {
 
   @Override
   protected String getURLWithAuthenticationPrefix(String projectName) {
-    return String.format("%s/a/projects/%s/HEAD", adminRestSession.url(), projectName);
+    return String.format(
+        "%s/a/projects/%s/pull-replication~HEAD", adminRestSession.url(), projectName);
   }
 }

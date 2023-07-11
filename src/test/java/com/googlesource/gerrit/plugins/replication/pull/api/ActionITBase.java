@@ -231,4 +231,9 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     secureConfig.setString("remote", remoteName, "password", password);
     secureConfig.save();
   }
+
+  protected void restartAsReplicaWithNewUrl() throws Exception {
+    restartAsSlave();
+    url = server.getUrl();
+  }
 }
