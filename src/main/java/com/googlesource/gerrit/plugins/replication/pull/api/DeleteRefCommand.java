@@ -16,11 +16,12 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
+import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -35,6 +36,8 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -64,65 +67,61 @@ public class DeleteRefCommand {
     this.gitManager = gitManagerProvider.get();
   }
 
-  public void deleteRef(Project.NameKey name, String refName, String sourceLabel)
-      throws IOException, RestApiException {
+  public List<RefUpdateState> deleteRef(NameKey name, String refName, String sourceLabel)
+      throws IOException, ResourceNotFoundException, PermissionBackendException {
+    repLog.info("Delete ref from {} for project {}, ref name {}", sourceLabel, name, refName);
+    Optional<ProjectState> projectState = projectCache.get(name);
+    if (!projectState.isPresent()) {
+      throw new ResourceNotFoundException(String.format("Project %s was not found", name));
+    }
+
+    Optional<Ref> ref = getRef(name, refName);
+    if (!ref.isPresent()) {
+      logger.atFine().log("Ref %s was not found in project %s", refName, name);
+      return Collections.emptyList();
+    }
+
     try {
-      repLog.info("Delete ref from {} for project {}, ref name {}", sourceLabel, name, refName);
-      Optional<ProjectState> projectState = projectCache.get(name);
-      if (!projectState.isPresent()) {
-        throw new ResourceNotFoundException(String.format("Project %s was not found", name));
-      }
 
-      Optional<Ref> ref = getRef(name, refName);
-      if (!ref.isPresent()) {
-        logger.atFine().log("Ref %s was not found in project %s", refName, name);
-        return;
-      }
+      Context.setLocalEvent(true);
+      RefUpdateState result = deleteRef(name, ref.get());
 
-      try {
-
-        Context.setLocalEvent(true);
-        deleteRef(name, ref.get());
-
-        eventDispatcher
-            .get()
-            .postEvent(
-                new FetchRefReplicatedEvent(
-                    name.get(),
-                    refName,
-                    sourceLabel,
-                    ReplicationState.RefFetchResult.SUCCEEDED,
-                    RefUpdate.Result.FORCED));
-      } catch (PermissionBackendException e) {
-        logger.atSevere().withCause(e).log(
-            "Unexpected error while trying to delete ref '%s' on project %s and notifying it",
-            refName, name);
-        throw RestApiException.wrap(e.getMessage(), e);
-      } catch (IOException e) {
-        eventDispatcher
-            .get()
-            .postEvent(
-                new FetchRefReplicatedEvent(
-                    name.get(),
-                    refName,
-                    sourceLabel,
-                    ReplicationState.RefFetchResult.FAILED,
-                    RefUpdate.Result.LOCK_FAILURE));
-        String message =
-            String.format(
-                "RefUpdate lock failure for: sourceLabel=%s, project=%s, refName=%s",
-                sourceLabel, name, refName);
-        logger.atSevere().withCause(e).log(message);
-        fetchStateLog.error(message);
-        throw e;
-      } finally {
-        Context.unsetLocalEvent();
-      }
-
+      eventDispatcher
+          .get()
+          .postEvent(
+              new FetchRefReplicatedEvent(
+                  name.get(),
+                  refName,
+                  sourceLabel,
+                  ReplicationState.RefFetchResult.SUCCEEDED,
+                  RefUpdate.Result.FORCED));
       repLog.info(
           "Delete ref from {} for project {}, ref name {} completed", sourceLabel, name, refName);
+      return Lists.newArrayList(result);
     } catch (PermissionBackendException e) {
-      throw RestApiException.wrap(e.getMessage(), e);
+      logger.atSevere().withCause(e).log(
+          "Unexpected error while trying to delete ref '%s' on project %s and notifying it",
+          refName, name);
+      throw e;
+    } catch (IOException e) {
+      eventDispatcher
+          .get()
+          .postEvent(
+              new FetchRefReplicatedEvent(
+                  name.get(),
+                  refName,
+                  sourceLabel,
+                  ReplicationState.RefFetchResult.FAILED,
+                  RefUpdate.Result.LOCK_FAILURE));
+      String message =
+          String.format(
+              "RefUpdate lock failure for: sourceLabel=%s, project=%s, refName=%s",
+              sourceLabel, name, refName);
+      logger.atSevere().withCause(e).log(message);
+      fetchStateLog.error(message);
+      throw e;
+    } finally {
+      Context.unsetLocalEvent();
     }
   }
 

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
@@ -130,6 +131,14 @@ public class ApplyObjectsAction implements RestModifyView<ProjectResource, Revis
           Arrays.toString(input.getRevisionsData()),
           e);
       throw new UnprocessableEntityException(e.getMessage());
+    } catch (PermissionBackendException e) {
+      repLog.error(
+          "Apply object API - REF DELETED - *FAILED* from {} for {}:{}",
+          input.getLabel(),
+          resource.getNameKey(),
+          input.getRefName(),
+          e);
+      throw RestApiException.wrap(e.getMessage(), e);
     }
   }
 }

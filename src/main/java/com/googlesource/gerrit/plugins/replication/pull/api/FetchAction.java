@@ -62,6 +62,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     public String label;
     public String refName;
     public boolean async;
+    public boolean delete;
   }
 
   @Override
@@ -96,7 +97,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private Response<?> applySync(Project.NameKey project, Input input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    command.fetchSync(project, input.label, input.refName);
+    command.fetchSync(project, input.label, input.refName, input.delete);
     return Response.created(input);
   }
 

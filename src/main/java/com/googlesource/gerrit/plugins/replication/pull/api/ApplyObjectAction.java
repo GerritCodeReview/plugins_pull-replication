@@ -31,7 +31,6 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingPar
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
 import java.util.Objects;
-import javax.servlet.http.HttpServletResponse;
 
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
@@ -71,14 +70,16 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           input.getRevisionData());
 
       if (Objects.isNull(input.getRevisionData())) {
-        deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
-        repLog.info(
-            "Apply object API - REF DELETED - from {} for {}:{} - {}",
-            resource.getNameKey(),
-            input.getLabel(),
-            input.getRefName(),
-            input.getRevisionData());
-        return Response.withStatusCode(HttpServletResponse.SC_NO_CONTENT, "");
+        throw RestApiException.wrap("do not delete", new Exception());
+        //        deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(),
+        // input.getLabel());
+        //        repLog.info(
+        //            "Apply object API - REF DELETED - from {} for {}:{} - {}",
+        //            resource.getNameKey(),
+        //            input.getLabel(),
+        //            input.getRefName(),
+        //            input.getRevisionData());
+        //        return Response.withStatusCode(HttpServletResponse.SC_NO_CONTENT, "");
       }
 
       try {
