@@ -45,6 +45,54 @@
       },
       "revId": "fc2f7f0661a965713ee9693c5614a38e805a366d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d5ea079_42277481",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadActionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-11T23:19:33Z",
+      "side": 1,
+      "message": "`@Sandboxed` means that the Gerrit daemon created in the test will NOT be shared with the other tests.",
+      "parentUuid": "f0b36095_98f033f5",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 12
+      },
+      "revId": "fc2f7f0661a965713ee9693c5614a38e805a366d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3bacb7e_41b9513b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadActionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-11T23:19:33Z",
+      "side": 1,
+      "message": "You are right, there was a bug in Gerrit that has been fixed with Change 379199",
+      "parentUuid": "9e924078_1cec7cb5",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 12
+      },
+      "revId": "fc2f7f0661a965713ee9693c5614a38e805a366d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
