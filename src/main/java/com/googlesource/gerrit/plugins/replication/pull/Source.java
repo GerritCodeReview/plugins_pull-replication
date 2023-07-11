@@ -395,9 +395,10 @@ public class Source {
       String ref,
       ReplicationState state,
       ReplicationType replicationType,
-      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics,
+      Boolean isDelete) {
     URIish uri = getURI(project);
-    return schedule(project, ref, uri, state, replicationType, apiRequestMetrics);
+    return schedule(project, ref, uri, state, replicationType, apiRequestMetrics, isDelete);
   }
 
   public Future<?> schedule(
@@ -406,7 +407,8 @@ public class Source {
       URIish uri,
       ReplicationState state,
       ReplicationType replicationType,
-      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics,
+      boolean isDelete) {
 
     repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
     if (!shouldReplicate(project, ref, state)) {
@@ -443,12 +445,20 @@ public class Source {
       Future<?> f = CompletableFuture.completedFuture(null);
       if (e == null || e.isRetrying()) {
         e = opFactory.create(project, uri, apiRequestMetrics);
-        addRef(e, ref);
+        if (isDelete) {
+          addDeleteRef(e, ref);
+        } else {
+          addRef(e, ref);
+        }
         e.addState(ref, state);
         pending.put(uri, e);
         f = pool.schedule(e, isSyncCall(replicationType) ? 0 : config.getDelay(), TimeUnit.SECONDS);
       } else if (!e.getRefs().contains(ref)) {
-        addRef(e, ref);
+        if (isDelete) {
+          addDeleteRef(e, ref);
+        } else {
+          addRef(e, ref);
+        }
         e.addState(ref, state);
       }
       state.increaseFetchTaskCount(project.get(), ref);
@@ -472,6 +482,11 @@ public class Source {
 
   private void addRef(FetchOne e, String ref) {
     e.addRef(ref);
+    postReplicationScheduledEvent(e, ref);
+  }
+
+  private void addDeleteRef(FetchOne e, String ref) {
+    e.addRefToDelete(ref);
     postReplicationScheduledEvent(e, ref);
   }
 

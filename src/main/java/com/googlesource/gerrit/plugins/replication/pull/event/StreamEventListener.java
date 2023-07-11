@@ -123,12 +123,8 @@ public class StreamEventListener implements EventListener {
         return;
       }
 
-      if (isRefDelete(refUpdatedEvent)) {
-        deleteRef(refUpdatedEvent);
-        return;
-      }
-
-      if (isApplyObjectsCacheHit(refUpdatedEvent)) {
+      boolean isDelete = isRefDelete(refUpdatedEvent);
+      if (!isDelete && isApplyObjectsCacheHit(refUpdatedEvent)) {
         logger.atFine().log(
             "Skipping refupdate '%s'  '%s'=>'%s' (eventCreatedOn=%d) for project '%s' because has been already replicated via apply-object",
             refUpdatedEvent.getRefName(),
@@ -143,6 +139,7 @@ public class StreamEventListener implements EventListener {
           refUpdatedEvent.getRefName(),
           refUpdatedEvent.instanceId,
           refUpdatedEvent.getProjectNameKey(),
+          isDelete,
           metrics);
     } else if (event instanceof ProjectCreatedEvent) {
       ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
@@ -152,6 +149,7 @@ public class StreamEventListener implements EventListener {
             FetchOne.ALL_REFS,
             projectCreatedEvent.instanceId,
             projectCreatedEvent.getProjectNameKey(),
+            false,
             metrics);
       } catch (AuthException | PermissionBackendException e) {
         logger.atSevere().withCause(e).log(
@@ -216,10 +214,12 @@ public class StreamEventListener implements EventListener {
       String refName,
       String sourceInstanceId,
       NameKey projectNameKey,
+      boolean isDelete,
       PullReplicationApiRequestMetrics metrics) {
     FetchAction.Input input = new FetchAction.Input();
     input.refName = refName;
     input.label = sourceInstanceId;
+    input.delete = isDelete;
     workQueue.getDefaultQueue().submit(fetchJobFactory.create(projectNameKey, input, metrics));
   }
 

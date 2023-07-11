@@ -23,6 +23,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -84,6 +86,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final Project.NameKey projectName;
   private final URIish uri;
   private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
+  private Set<String> deleteRefs = Sets.newHashSetWithExpectedSize(4);
   private final Set<TransportException> fetchFailures = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
@@ -102,6 +105,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final FetchFactory fetchFactory;
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
+  private final DeleteRefCommand deleteRefCommand;
 
   @Inject
   FetchOne(
@@ -113,6 +117,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
       ReplicationStateListeners sl,
       FetchReplicationMetrics m,
       FetchFactory fetchFactory,
+      DeleteRefCommand dfc,
       @Assisted Project.NameKey d,
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -131,6 +136,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
     metrics = m;
     canceledWhileRunning = new AtomicBoolean(false);
     this.fetchFactory = fetchFactory;
+    this.deleteRefCommand = dfc;
     maxRetries = s.getMaxRetries();
     this.apiRequestMetrics = apiRequestMetrics;
   }
@@ -227,6 +233,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
         addRef(ref);
       }
     }
+  }
+
+  void addRefToDelete(String ref) {
+    deleteRefs.add(ref);
+    repLog.trace("[{}] Added ref {} to delete", taskIdHex, ref);
   }
 
   void addState(String ref, ReplicationState state) {
@@ -418,6 +429,13 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   }
 
   private void runImpl() throws IOException {
+    for (String ref : deleteRefs) {
+      try {
+        deleteRefCommand.deleteRef(projectName, ref, pool.getRemoteConfigName());
+      } catch (RestApiException e) {
+        throw new RuntimeException(e);
+      }
+    }
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
     List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
 

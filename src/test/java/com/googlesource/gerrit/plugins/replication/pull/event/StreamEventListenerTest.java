@@ -151,7 +151,8 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldDeleteRefForRefDeleteEvent() throws IOException, RestApiException {
+  public void shouldScheduleFetchJobToDeleteRefForRefDeleteEvent()
+      throws IOException, RestApiException {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
@@ -163,8 +164,9 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(deleteRefCommand)
-        .deleteRef(Project.nameKey(TEST_PROJECT), refUpdate.refName, REMOTE_INSTANCE_ID);
+    verify(fetchJobFactory).create(eq(Project.nameKey(TEST_PROJECT)), inputCaptor.capture(), any());
+    assertThat(inputCaptor.getValue().delete).isTrue();
+    verify(executor).submit(any(FetchJob.class));
   }
 
   @Test

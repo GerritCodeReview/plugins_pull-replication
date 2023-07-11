@@ -111,7 +111,11 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
    */
   @Override
   public HttpResult callFetch(
-      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
+      Project.NameKey project,
+      String refName,
+      URIish targetUri,
+      boolean isDelete,
+      long startTimeNanos)
       throws IOException {
     String url = formatUrl(targetUri.toString(), project, "fetch");
     Boolean callAsync = !syncRefsFilter.match(refName);
@@ -119,8 +123,8 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     post.setEntity(
         new StringEntity(
             String.format(
-                "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
-                instanceId, refName, callAsync),
+                "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s, \"delete\":%s}",
+                instanceId, refName, callAsync, isDelete),
             StandardCharsets.UTF_8));
     post.addHeader(new BasicHeader("Content-Type", "application/json"));
     post.addHeader(
