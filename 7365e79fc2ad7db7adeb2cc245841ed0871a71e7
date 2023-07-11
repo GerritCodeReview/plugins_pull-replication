@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e69a8074_605c194e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-11T18:32:50Z",
+      "side": 1,
+      "message": "What about moving it to stable-3.4?",
+      "revId": "7365e79fc2ad7db7adeb2cc245841ed0871a71e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8647bf5c_945bb72d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-11T18:32:50Z",
+      "side": 1,
+      "message": "You should also remove the parameter, otherwise you have 4 placeholders and 5 parameters.",
+      "range": {
+        "startLine": 293,
+        "startChar": 10,
+        "endLine": 293,
+        "endChar": 23
+      },
+      "revId": "7365e79fc2ad7db7adeb2cc245841ed0871a71e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
