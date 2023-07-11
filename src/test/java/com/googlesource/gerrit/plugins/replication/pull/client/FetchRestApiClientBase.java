@@ -58,6 +58,7 @@ import org.mockito.Mock;
 
 public abstract class FetchRestApiClientBase {
   private static final boolean IS_REF_UPDATE = false;
+  private static final boolean IS_REF_DELETE = false;
 
   @Mock CredentialsProvider credentialProvider;
   @Mock CredentialsFactory credentials;
@@ -77,9 +78,13 @@ public abstract class FetchRestApiClientBase {
   long eventCreatedOn = 1684875939;
 
   String expectedPayload =
-      "{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":false}";
+      "{\"label\":\"Replication\", \"ref_name\": \""
+          + refName
+          + "\", \"async\":false, \"delete\":false}";
   String expectedAsyncPayload =
-      "{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":true}";
+      "{\"label\":\"Replication\", \"ref_name\": \""
+          + refName
+          + "\", \"async\":true, \"delete\":false}";
   Header expectedHeader = new BasicHeader("Content-Type", "application/json");
   SyncRefsFilter syncRefsFilter;
 
@@ -153,7 +158,8 @@ public abstract class FetchRestApiClientBase {
   public void shouldCallFetchEndpoint()
       throws ClientProtocolException, IOException, URISyntaxException {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), IS_REF_DELETE);
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -170,7 +176,8 @@ public abstract class FetchRestApiClientBase {
   public void shouldByDefaultCallSyncFetchForAllRefs()
       throws ClientProtocolException, IOException, URISyntaxException {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), IS_REF_DELETE);
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -196,7 +203,8 @@ public abstract class FetchRestApiClientBase {
             bearerTokenProvider,
             source);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), IS_REF_DELETE);
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -209,7 +217,9 @@ public abstract class FetchRestApiClientBase {
       throws ClientProtocolException, IOException, URISyntaxException {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
-        "{\"label\":\"Replication\", \"ref_name\": \"" + metaRefName + "\", \"async\":false}";
+        "{\"label\":\"Replication\", \"ref_name\": \""
+            + metaRefName
+            + "\", \"async\":false, \"delete\":false}";
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
@@ -225,12 +235,14 @@ public abstract class FetchRestApiClientBase {
             bearerTokenProvider,
             source);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), IS_REF_DELETE);
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), metaRefName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), metaRefName, new URIish(api), IS_REF_DELETE);
     verify(httpClient, times(2)).execute(httpPostCaptor.capture(), any());
     httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedMetaRefPayload);
@@ -240,7 +252,8 @@ public abstract class FetchRestApiClientBase {
   public void shouldCallFetchEndpointWithPayload()
       throws ClientProtocolException, IOException, URISyntaxException {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), IS_REF_DELETE);
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -252,7 +265,8 @@ public abstract class FetchRestApiClientBase {
   public void shouldSetContentTypeHeader()
       throws ClientProtocolException, IOException, URISyntaxException {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), IS_REF_DELETE);
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -306,7 +320,8 @@ public abstract class FetchRestApiClientBase {
   public void shouldSetContentTypeHeaderForSendObjectCall()
       throws ClientProtocolException, IOException, URISyntaxException {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), IS_REF_DELETE);
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -377,7 +392,8 @@ public abstract class FetchRestApiClientBase {
             "",
             bearerTokenProvider,
             source);
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), IS_REF_DELETE);
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
