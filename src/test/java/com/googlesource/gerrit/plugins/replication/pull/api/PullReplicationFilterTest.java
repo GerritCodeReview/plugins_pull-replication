@@ -50,7 +50,8 @@ public class PullReplicationFilterTest {
       String.format("any-prefix/projects/%s/%s~apply-object", PROJECT_NAME, PLUGIN_NAME);
   private final String APPLY_OBJECTS_URI =
       String.format("any-prefix/projects/%s/%s~apply-objects", PROJECT_NAME, PLUGIN_NAME);
-  private final String HEAD_URI = String.format("any-prefix/projects/%s/HEAD", PROJECT_NAME);
+  private final String HEAD_URI =
+      String.format("any-prefix/projects/%s/%s~HEAD", PROJECT_NAME, PLUGIN_NAME);
   private final String DELETE_PROJECT_URI =
       String.format("any-prefix/projects/%s/%s~delete-project", PROJECT_NAME, PLUGIN_NAME);
   private final String INIT_PROJECT_URI =

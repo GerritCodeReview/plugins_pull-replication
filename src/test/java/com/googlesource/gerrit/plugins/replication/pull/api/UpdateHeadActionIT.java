@@ -203,6 +203,7 @@ public class UpdateHeadActionIT extends ActionITBase {
 
   @Override
   protected String getURLWithAuthenticationPrefix(String projectName) {
-    return String.format("%s/a/projects/%s/HEAD", adminRestSession.url(), projectName);
+    return String.format(
+        "%s/a/projects/%s/pull-replication~HEAD", adminRestSession.url(), projectName);
   }
 }
