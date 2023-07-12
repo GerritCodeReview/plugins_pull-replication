@@ -35,6 +35,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.UnauthorizedAuthException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -90,7 +91,7 @@ public class ApplyObjectActionTest {
   @Mock FetchPreconditions preConditions;
 
   @Before
-  public void setup() {
+  public void setup() throws UnauthorizedAuthException {
     when(preConditions.canCallFetchApi()).thenReturn(true);
 
     applyObjectAction = new ApplyObjectAction(applyObjectCommand, deleteRefCommand, preConditions);

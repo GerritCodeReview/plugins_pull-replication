@@ -23,6 +23,7 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -52,6 +53,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.InitProjectException;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.UnauthorizedAuthException;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
@@ -137,6 +139,9 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
         chain.doFilter(request, response);
       }
 
+    } catch (UnauthorizedAuthException e) {
+      RestApiServlet.replyError(
+          httpRequest, httpResponse, SC_UNAUTHORIZED, e.getMessage(), e.caching(), e);
     } catch (AuthException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_FORBIDDEN, e.getMessage(), e.caching(), e);
