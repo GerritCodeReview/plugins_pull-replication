@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dc51863_9c256010",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-07-12T17:43:21Z",
+      "side": 1,
+      "message": "Verified manually on my side... we should wait for the tests to pass though.",
+      "revId": "d801c88cb2bdd2447ce18b58900eaa8abea9d1c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
