@@ -16,6 +16,23 @@
       "message": "The failure was unrelated.",
       "revId": "12ea62d15a51a00a419a99b092729e3f274befd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "943d4b2d_acc0095f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-07-12T19:43:06Z",
+      "side": 1,
+      "message": "😞",
+      "revId": "12ea62d15a51a00a419a99b092729e3f274befd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
