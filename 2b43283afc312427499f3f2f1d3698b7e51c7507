@@ -52,6 +52,24 @@
       "message": "Not sure how to reproduce that. If I put breakpoint in `com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationFilter` and run this test in Debug mode I see that it is using `PullReplicationFilter` class",
       "revId": "2b43283afc312427499f3f2f1d3698b7e51c7507",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c612766_eee67469",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchActionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-12T17:49:04Z",
+      "side": 1,
+      "message": "Well, if you start Gerrit as replica, it is readonly. Then `createRef()` would definitely fail.\n\nAll the tests on replicas share the same pattern and they would have never worked if Gerrit test framework would have worked. Now it is working and it shows the failures.",
+      "parentUuid": "290a6a03_da23d077",
+      "revId": "2b43283afc312427499f3f2f1d3698b7e51c7507",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
