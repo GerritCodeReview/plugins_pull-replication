@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,11 +37,16 @@ import org.eclipse.jgit.transport.URIish;
 public class UpdateHeadAction implements RestModifyView<ProjectResource, HeadInput> {
   private final GerritConfigOps gerritConfigOps;
   private final PermissionBackend permissionBackend;
+  private final FetchPreconditions preconditions;
 
   @Inject
-  UpdateHeadAction(GerritConfigOps gerritConfigOps, PermissionBackend permissionBackend) {
+  UpdateHeadAction(
+      GerritConfigOps gerritConfigOps,
+      PermissionBackend permissionBackend,
+      FetchPreconditions preconditions) {
     this.gerritConfigOps = gerritConfigOps;
     this.permissionBackend = permissionBackend;
+    this.preconditions = preconditions;
   }
 
   @Override
@@ -53,11 +57,9 @@ public class UpdateHeadAction implements RestModifyView<ProjectResource, HeadInp
     }
     String ref = RefNames.fullName(input.ref);
 
-    permissionBackend
-        .user(projectResource.getUser())
-        .project(projectResource.getNameKey())
-        .ref(ref)
-        .check(RefPermission.SET_HEAD);
+    if (!preconditions.canCallUpdateHeadApi(projectResource.getNameKey(), ref)) {
+      throw new AuthException("Update head not permitted");
+    }
 
     // TODO: the .git suffix should not be added here, but rather it should be
     //  dealt with by the caller, honouring the naming style from the
