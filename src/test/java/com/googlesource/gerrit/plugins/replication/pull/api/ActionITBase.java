@@ -66,6 +66,8 @@ import org.eclipse.jgit.util.FS;
     sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
 public abstract class ActionITBase extends LightweightPluginDaemonTest {
+  protected static final int TEST_CONNECTION_TIMEOUT = 600000;
+  protected static final int TEST_IDLE_TIMEOUT = 600000;
   protected static final Optional<String> ALL_PROJECTS = Optional.empty();
   protected static final int TEST_REPLICATION_DELAY = 60;
   protected static final String TEST_REPLICATION_SUFFIX = "suffix1";
@@ -218,7 +220,8 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     config.setStringList("remote", remoteName, "url", replicaUrls);
     config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
     config.setString("remote", remoteName, "fetch", "+refs/tags/*:refs/tags/*");
-    config.setInt("remote", remoteName, "timeout", 600);
+    config.setInt("remote", remoteName, "connectionTimeout", TEST_CONNECTION_TIMEOUT);
+    config.setInt("remote", remoteName, "idleTimeout", TEST_IDLE_TIMEOUT);
     config.setInt("remote", remoteName, "replicationDelay", TEST_REPLICATION_DELAY);
     project.ifPresent(prj -> config.setString("remote", remoteName, "projects", prj));
     config.setBoolean("gerrit", null, "autoReload", true);
