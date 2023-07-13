@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5efd7218_746f9f80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-07-13T16:45:07Z",
+      "side": 1,
+      "message": "Verified manually and it works! Great job!",
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "271722f8_11d479f7",
@@ -36,6 +53,29 @@
         "startChar": 4,
         "endLine": 59,
         "endChar": 63
+      },
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a4141cd_1869b0e7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchPreconditions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-07-13T16:45:07Z",
+      "side": 1,
+      "message": "Why an OR? Wouldn\u0027t a user need to be able to do both?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 69
       },
       "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
