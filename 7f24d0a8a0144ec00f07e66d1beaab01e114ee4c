@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee574f8b_d97dd1a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T20:18:51Z",
+      "side": 1,
+      "message": "The first impression is that this change is way too big.\n\nIMHO we should break this down into different parts:\n\n1. Abstract the FetchOne to a generic \u0027ReplicationRunnable\u0027 which has these method associated:\n\n```\npublic interface ReplicationRunnable extends Runnable {\n\tURIish getURI();\n\tboolean wasCanceled();\n\tboolean isRetrying();\n\tObject getRefs();\n\tvoid addRefs(Object refs);\n\tObject getTaskIdHex();\n\tvoid canceledByReplication();\n\tboolean setToRetry();\n}\n```\n\n2. Extract from FetchOne a RetryingReplicationOp that implements the ReplicationRunnable retrying logic\n\n3. Introduce a new DeleteOne which derive from RetryingReplicationOp\n\n4. Trigger a DeleteOne or a FetchOne depending on the type of input operation\n\nThe individual changes should be more self-contained, focused and smaller to review and merge.\n\nWDYT?",
+      "revId": "7f24d0a8a0144ec00f07e66d1beaab01e114ee4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
