@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13ec5a11_d520f84e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T15:56:39Z",
+      "side": 1,
+      "message": "Good stuff nearly there",
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "271722f8_11d479f7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchPreconditions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T15:56:39Z",
+      "side": 1,
+      "message": "Not sure how expensive these operations are, but perhaps we can optimise here. First check the result of `canCallFetchApi`, if that fails, then execute the code which gets the acls and tests for the SET_HEAD permission.\n\nSo something like\n```\nif (!canCallFetchApi()) {\n  WithUser userAcls \u003d permissionBackend.user(currentUser());\n  ForRef refAcls \u003d userAcls.project(projectNameKey).ref(ref);\n  return refAcls.test(RefPermission.SET_HEAD);\n}\nreturn true;\n```",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 63
+      },
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdf5f04b_94213439",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T15:56:39Z",
+      "side": 1,
+      "message": "this is no longer used.",
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5276e7cb_fd4fa26c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T15:56:39Z",
+      "side": 1,
+      "message": "what http code is this exception type mapped to? Is it the same as the one you used in the PullReplicationFilter (401)?",
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e71e47a7_12a15d71",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/exception/UnauthorizedAuthException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T15:56:39Z",
+      "side": 1,
+      "message": "can we pass the user name/id so we know who failed to get authorised?",
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
