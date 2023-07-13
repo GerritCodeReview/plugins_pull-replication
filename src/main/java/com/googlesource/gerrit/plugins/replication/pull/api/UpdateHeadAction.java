@@ -55,9 +55,6 @@ public class UpdateHeadAction implements RestModifyView<ProjectResource, HeadInp
       throw new AuthException("Update head not permitted");
     }
 
-    // TODO: the .git suffix should not be added here, but rather it should be
-    //  dealt with by the caller, honouring the naming style from the
-    //  replication.config (Issue 15221)
     Optional<URIish> maybeRepo =
         gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectResource.getName()));
 
