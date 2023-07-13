@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11837675_d43e62b6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchPreconditions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T17:11:33Z",
+      "side": 1,
+      "message": "Well, they are equivalent in complexity. However, we could avoid of calling `permissionBackend.user(currentUser())` twice (once for the `SET_HEAD` permission and once indirectly through the `canCallFetchApi()`)",
+      "parentUuid": "271722f8_11d479f7",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 63
+      },
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a4141cd_1869b0e7",
@@ -71,6 +95,30 @@
       "writtenOn": "2023-07-13T16:45:07Z",
       "side": 1,
       "message": "Why an OR? Wouldn\u0027t a user need to be able to do both?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 69
+      },
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d75259_7f0c46b3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchPreconditions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T17:11:33Z",
+      "side": 1,
+      "message": "There are two cases when a user is allowed to perform a set-head:\n\n1. The user is already capable of executing pull-replication (aka canCallFetchApi), then it makes sense that is also able to set the head of the project\n2. The user can set the head of the project as a project owner\n\n1. or 2. allows a user to set the head.",
+      "parentUuid": "3a4141cd_1869b0e7",
       "range": {
         "startLine": 61,
         "startChar": 4,
@@ -98,6 +146,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dba700a_10d64431",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T17:11:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdf5f04b_94213439",
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5276e7cb_fd4fa26c",
@@ -115,6 +181,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f66eedb_b2897c3f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T17:11:33Z",
+      "side": 1,
+      "message": "AuthException returns a 403 FORBIDDEN",
+      "parentUuid": "5276e7cb_fd4fa26c",
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e71e47a7_12a15d71",
@@ -128,6 +212,24 @@
       "writtenOn": "2023-07-13T15:56:39Z",
       "side": 1,
       "message": "can we pass the user name/id so we know who failed to get authorised?",
+      "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5734ef82_55940a13",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/exception/UnauthorizedAuthException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T17:11:33Z",
+      "side": 1,
+      "message": "The username is already traced in the logs by Gerrit out of the box, why do we need to display it again?",
+      "parentUuid": "e71e47a7_12a15d71",
       "revId": "c36d7c71d32516352d5f00145c43d902b00ce450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
