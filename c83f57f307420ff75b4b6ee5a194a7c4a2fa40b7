@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2465063_6a565d8e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchJob.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T19:39:22Z",
+      "side": 0,
+      "message": "nit: unrelated change",
+      "range": {
+        "startLine": 29,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 100
+      },
+      "revId": "c83f57f307420ff75b4b6ee5a194a7c4a2fa40b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
