@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0a2498b_112de7c0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T14:13:21Z",
+      "side": 1,
+      "message": "Nit: `isBatchApplyObjectAction` - this is singular elsewhere.",
+      "range": {
+        "startLine": 336,
+        "startChar": 18,
+        "endLine": 336,
+        "endChar": 43
+      },
+      "revId": "86ce07ce38832445c32a7d965f271fc6eac1ff33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
