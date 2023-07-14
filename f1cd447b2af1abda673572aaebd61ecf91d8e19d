@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbc31b9f_3e539051",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadActionIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T12:11:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "78996a6c_53ee43b0",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 59
+      },
+      "revId": "f1cd447b2af1abda673572aaebd61ecf91d8e19d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf02c54a_b6ad60aa",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-07-11T00:04:05Z",
       "side": 1,
       "message": "This has no effect because the Gerrit server was already started.\nYou should call instead `restartAsSlave();` in the test body.",
+      "range": {
+        "startLine": 87,
+        "startChar": 1,
+        "endLine": 87,
+        "endChar": 59
+      },
+      "revId": "f1cd447b2af1abda673572aaebd61ecf91d8e19d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e188769_1b36056c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadActionIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T12:11:13Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "bf02c54a_b6ad60aa",
       "range": {
         "startLine": 87,
         "startChar": 1,
