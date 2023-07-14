@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31bac994_ad43029a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T14:23:43Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "4c3d7d0d_4122a64c",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b39b1d9_eaff408d",
@@ -283,6 +301,24 @@
       "side": 1,
       "message": "I can move this logic further up, there\u0027s a 3-level nesting, personally I don\u0027t think it helps but that\u0027s personal taste.\n\n\u003e I don\u0027t think we need to evaluate resultIsSuccessful anymore at the end of the loop.\n\nMaybe, I don\u0027t know how succeeding for some source urls might affect the fetch task load for the ones that failed. I don\u0027t know why it was written this way tbh, but your suggestion is definitely something we should not do here, it will require a new change, so feel free to raise a new issue.",
       "parentUuid": "37513173_37b09416",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ecd36ea_b460bd48",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T14:23:43Z",
+      "side": 1,
+      "message": "Don\u0027t know if it\u0027s worth writing an issue for, just suggesting a way to break this code up into smaller chunks. It\u0027s brand new code so I thought we could do it here, but yes could be in a different change too. Not a biggie.",
+      "parentUuid": "1ca27f0f_16be8f1e",
       "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
