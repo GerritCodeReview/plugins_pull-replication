@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a2baf0_23555e29",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-14T09:06:22Z",
+      "side": 1,
+      "message": "this will need to be added to the docs.",
+      "revId": "7c91e65cfe57f4adad2c96afb92b44831eefffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
