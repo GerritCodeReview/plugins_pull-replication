@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa343ccf_6c9bf401",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T12:37:28Z",
+      "side": 0,
+      "message": "Yes I think it is fine to remove this TODO, since the investigation done in 40014289.\n\nHowever, this also means that the replicated repository _has_ to have the `.git` suffix. This gotcha should be mentioned in the docs, either in this change or as a follow up.\n\nWDYT?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 96
+      },
+      "revId": "ada956afbca17a3672e8eb973ec9313fae6edca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
