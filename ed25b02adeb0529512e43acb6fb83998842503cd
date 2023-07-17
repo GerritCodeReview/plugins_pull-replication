@@ -33,6 +33,24 @@
       "message": "Possibly (probably, even) unrelated, but I had at test failure running this [1]. Passed when re-running, so we have flakey test. Maybe worth having a look though to see if we can at least determine if it\u0027s caused by this chain or not.\n\n[1] https://pastebin.com/JNe1y3em",
       "revId": "ed25b02adeb0529512e43acb6fb83998842503cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14074251_054943c8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-17T08:21:23Z",
+      "side": 1,
+      "message": "Known issue https://issues.gerritcodereview.com/issues/289961082",
+      "parentUuid": "ae204758_9ca37371",
+      "revId": "ed25b02adeb0529512e43acb6fb83998842503cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
