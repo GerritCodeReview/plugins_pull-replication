@@ -713,6 +713,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98007a69_a928acb5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-17T07:03:48Z",
+      "side": 1,
+      "message": "I have confirmed that in both cases (`Submit with parents` and `Submit whole topic`) when chain of `n` changes is merged with then `n+1` refs is a part of a single batch refs update event (in cross repos topic case we have on event per repo). IMHO we should limit it to some reasonable value 10? WDYT?",
+      "parentUuid": "1ae20714_f65a49ad",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3b94a7d_4d5bdfca",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
         "patchSetId": 23
