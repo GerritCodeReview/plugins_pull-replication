@@ -18,6 +18,7 @@ gerrit_plugin(
         "//lib/commons:io",
         "//plugins/delete-project",
         "//plugins/replication",
+        "@commons-lang3//jar",
         "@events-broker//jar:neverlink",
     ],
 )

@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -25,19 +26,54 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.auth.AuthenticationException;
+import org.apache.http.client.ClientProtocolException;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class UpdateHeadActionIT extends ActionITBase {
   private static final Gson gson = newGson();
+  private static final String PLUGIN_NAME = "pull-replication";
 
   @Inject private ProjectOperations projectOperations;
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
-  public void shouldReturnUnauthorizedForUserWithoutPermissions() throws Exception {
+  public void shouldReturnForbiddenForUserWithoutPermissions() throws Exception {
+    shouldReturnForbiddenForUserWithoutPermissionsTest();
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldReturnForbiddenForUserWithoutPermissionsInReplica() throws Exception {
+    shouldReturnForbiddenForUserWithoutPermissionsTest();
+  }
+
+  private void shouldReturnForbiddenForUserWithoutPermissionsTest() throws Exception {
+    httpClientFactory
+        .create(source)
+        .execute(
+            withBasicAuthenticationAsUser(createPutRequest(headInput("some/branch"))),
+            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  public void shouldReturnUnauthorizedForAnonymousUser() throws Exception {
+    shouldReturnUnauthorizedForAnonymousUserTest();
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldReturnUnauthorizedForAnonymousUserInReplica() throws Exception {
+    shouldReturnUnauthorizedForAnonymousUserTest();
+  }
+
+  private void shouldReturnUnauthorizedForAnonymousUserTest() throws Exception {
     httpClientFactory
         .create(source)
         .execute(
@@ -106,6 +142,17 @@ public class UpdateHeadActionIT extends ActionITBase {
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnForbiddenWhenMissingPermissions() throws Exception {
+    shouldReturnForbiddenWhenMissingPermissionsTest();
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldReturnForbiddenWhenMissingPermissionsInReplica() throws Exception {
+    shouldReturnForbiddenWhenMissingPermissionsTest();
+  }
+
+  private void shouldReturnForbiddenWhenMissingPermissionsTest() throws Exception {
     httpClientFactory
         .create(source)
         .execute(
@@ -115,18 +162,36 @@ public class UpdateHeadActionIT extends ActionITBase {
 
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
-  public void shouldReturnOKWhenRegisteredUserHasPermissions() throws Exception {
-    String testProjectName = project.get();
-    String newBranch = "refs/heads/mybranch";
-    String master = "refs/heads/master";
-    BranchInput input = new BranchInput();
-    input.revision = master;
-    gApi.projects().name(testProjectName).branch(newBranch).create(input);
-    HttpRequestBase put = withBasicAuthenticationAsUser(createPutRequest(headInput(newBranch)));
+  public void shouldReturnOKForUserWithPullReplicationCapability() throws Exception {
+    shouldReturnOKForUserWithPullReplicationCapabilityTest();
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  @GerritConfig(name = "container.replica", value = "true")
+  public void shouldReturnOKForUserWithPullReplicationCapabilityInReplica() throws Exception {
+    shouldReturnOKForUserWithPullReplicationCapabilityTest();
+  }
+
+  private void shouldReturnOKForUserWithPullReplicationCapabilityTest()
+      throws ClientProtocolException, IOException, AuthenticationException {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(
+            allowCapability(PLUGIN_NAME + "-" + FetchApiCapability.CALL_FETCH_ACTION)
+                .group(REGISTERED_USERS))
+        .update();
+
     httpClientFactory
         .create(source)
-        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+        .execute(
+            withBasicAuthenticationAsUser(createPutRequest(headInput("refs/heads/master"))),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
+  }
 
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  public void shouldReturnOKWhenRegisteredUserIsProjectOwner() throws Exception {
     projectOperations
         .project(project)
         .forUpdate()
@@ -135,18 +200,9 @@ public class UpdateHeadActionIT extends ActionITBase {
 
     httpClientFactory
         .create(source)
-        .execute(put, assertHttpResponseCode(HttpServletResponse.SC_OK));
-  }
-
-  @Test
-  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
-  @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnForbiddenWhenMissingPermissionsInReplica() throws Exception {
-    httpClientFactory
-        .create(source)
         .execute(
-            withBasicAuthenticationAsUser(createPutRequest(headInput("some/new/head"))),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+            withBasicAuthenticationAsUser(createPutRequest(headInput("refs/heads/master"))),
+            assertHttpResponseCode(HttpServletResponse.SC_OK));
   }
 
   @Test
@@ -203,6 +259,7 @@ public class UpdateHeadActionIT extends ActionITBase {
 
   @Override
   protected String getURLWithAuthenticationPrefix(String projectName) {
-    return String.format("%s/a/projects/%s/HEAD", adminRestSession.url(), projectName);
+    return String.format(
+        "%s/a/projects/%s/pull-replication~HEAD", adminRestSession.url(), projectName);
   }
 }
