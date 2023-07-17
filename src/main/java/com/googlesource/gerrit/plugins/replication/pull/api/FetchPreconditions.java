@@ -16,13 +16,17 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.UnauthorizedAuthException;
 
 public class FetchPreconditions {
   private final String pluginName;
@@ -39,11 +43,31 @@ public class FetchPreconditions {
     this.permissionBackend = permissionBackend;
   }
 
-  public Boolean canCallFetchApi() {
-    CurrentUser currentUser = userProvider.get();
-    PermissionBackend.WithUser userPermission = permissionBackend.user(currentUser);
+  public Boolean canCallFetchApi() throws UnauthorizedAuthException {
+    CurrentUser currentUser = currentUser();
+    return canCallFetchApi(currentUser, permissionBackend.user(currentUser));
+  }
+
+  private Boolean canCallFetchApi(
+      CurrentUser currentUser, PermissionBackend.WithUser userPermission) {
     return currentUser.isInternalUser()
         || userPermission.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER)
         || userPermission.testOrFalse(new PluginPermission(pluginName, CALL_FETCH_ACTION));
+  }
+
+  public Boolean canCallUpdateHeadApi(Project.NameKey projectNameKey, String ref)
+      throws PermissionBackendException, UnauthorizedAuthException {
+    CurrentUser currentUser = currentUser();
+    PermissionBackend.WithUser userAcls = permissionBackend.user(currentUser);
+    return canCallFetchApi(currentUser, userAcls)
+        || userAcls.project(projectNameKey).ref(ref).test(RefPermission.SET_HEAD);
+  }
+
+  private CurrentUser currentUser() throws UnauthorizedAuthException {
+    CurrentUser currentUser = userProvider.get();
+    if (!currentUser.isIdentifiedUser() && !currentUser.isInternalUser()) {
+      throw new UnauthorizedAuthException();
+    }
+    return currentUser;
   }
 }
