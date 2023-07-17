@@ -139,6 +139,24 @@
       "parentUuid": "19751c1d_ec90dd2e",
       "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e9b919b_ce4cebdb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-17T16:02:41Z",
+      "side": 1,
+      "message": "Can you double check? I think it defaults to `ISO-8859-1` if `contentType` is null, otherwise it uses the charset defined in the content-type passed as an argument. In the case of `APPLICATION_JSON` it\u0027s set to `Consts.UTF_8`, which is what we want.",
+      "parentUuid": "12ae5ffe_ef527c79",
+      "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
