@@ -22,6 +22,30 @@
       },
       "revId": "9d1a4b7cc267a3901155f5545802fada139190c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "083d93ac_9a50a5b0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-17T07:58:39Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/377697/comment/2230f727_02c30991/ and let me know WYT",
+      "parentUuid": "f9a9031a_67d1c5e7",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "9d1a4b7cc267a3901155f5545802fada139190c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

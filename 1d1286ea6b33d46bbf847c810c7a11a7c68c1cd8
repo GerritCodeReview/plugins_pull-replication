@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a8394acb_d7324859",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-17T07:58:39Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/377697/comment/2230f727_02c30991/ and let me know WYT",
+      "parentUuid": "8923e938_e05e8d62",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "1d1286ea6b33d46bbf847c810c7a11a7c68c1cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "278299f8_49dc15c6",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectDataTest.java",
         "patchSetId": 26
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-17T07:03:48Z",
       "side": 1,
       "message": "nit: wrong format of header comment",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "1d1286ea6b33d46bbf847c810c7a11a7c68c1cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d38878d2_1a67f30d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectDataTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-17T07:58:39Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/377697/comment/2230f727_02c30991/ and let me know WYT",
+      "parentUuid": "278299f8_49dc15c6",
       "range": {
         "startLine": 1,
         "startChar": 1,
