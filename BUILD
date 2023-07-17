@@ -17,6 +17,7 @@ gerrit_plugin(
     deps = [
         "//lib/commons:io",
         "//plugins/replication",
+        "@commons-lang3//jar",
         "@events-broker//jar:neverlink",
     ],
 )

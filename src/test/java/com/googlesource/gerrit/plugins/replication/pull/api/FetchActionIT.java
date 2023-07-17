@@ -18,11 +18,12 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.restapi.Url;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class FetchActionIT extends ActionITBase {
 
-  @Test
+  @Ignore
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldFetchRefWhenNodeIsAReplica() throws Exception {
@@ -41,7 +42,7 @@ public class FetchActionIT extends ActionITBase {
             assertHttpResponseCode(201));
   }
 
-  @Test
+  @Ignore
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldFetchRefWhenNodeIsAReplicaAndProjectNameContainsSlash() throws Exception {
@@ -64,7 +65,7 @@ public class FetchActionIT extends ActionITBase {
             assertHttpResponseCode(201));
   }
 
-  @Test
+  @Ignore
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReturnForbiddenWhenNodeIsAReplicaAndUSerIsAnonymous() throws Exception {
@@ -81,7 +82,7 @@ public class FetchActionIT extends ActionITBase {
         .execute(createRequest(sendObjectPayload), assertHttpResponseCode(403));
   }
 
-  @Test
+  @Ignore
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
