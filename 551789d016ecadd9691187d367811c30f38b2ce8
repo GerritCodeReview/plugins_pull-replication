@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d6ca509_1acc6f01",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-17T09:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3366cd6c_97b7076f",
+      "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49623a91_997f05f3",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-14T16:24:17Z",
       "side": 1,
       "message": "This returns an `AutoCloseable` - I don\u0027t see us closing this resource manually, or using try-with-resources. Is this leaking, or am I missing something?",
+      "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89d4aabf_09cf3eab",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-17T09:16:28Z",
+      "side": 1,
+      "message": "see L617 - `timer.stop()`",
+      "parentUuid": "49623a91_997f05f3",
       "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e375c1c_936dc924",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-17T09:16:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b15695fe_45328fe8",
+      "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "19751c1d_ec90dd2e",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-07-14T16:24:17Z",
       "side": 1,
       "message": "Nit: this line is unnecessary if we use another `StringEntity` constructor whose second argument is a content type: `new StringEntity(\"[\" + msgBody + \"]\", ContentType.APPLICATION_JSON)` - it automatically sets the content type and the charset.",
+      "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ae5ffe_ef527c79",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-17T09:16:28Z",
+      "side": 1,
+      "message": "The charset defaults to `ISO-8859-1` if we use the constructor you are suggesting, but everywhere else we are using `UTF-8` charset.",
+      "parentUuid": "19751c1d_ec90dd2e",
       "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
