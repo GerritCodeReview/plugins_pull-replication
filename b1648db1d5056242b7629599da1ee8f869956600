@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c91a7583_0ad36943",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-07-17T21:01:33Z",
+      "side": 1,
+      "message": "Just for my clarity, is this to ensure that a set of refs is fetched as part of the same tasks? Rather than across tasks, as it could happen if they where sent separetely?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
