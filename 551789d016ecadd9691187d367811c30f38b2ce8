@@ -175,6 +175,24 @@
       "parentUuid": "8e9b919b_ce4cebdb",
       "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0d32f68_f4b80af3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-18T10:31:41Z",
+      "side": 1,
+      "message": "Curious. I don\u0027t know this library well, but I\u0027m surprised it builds the request differently. Anyway if it\u0027s more hassle then just leave it as is 👍",
+      "parentUuid": "21d5ef46_948cd13d",
+      "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
