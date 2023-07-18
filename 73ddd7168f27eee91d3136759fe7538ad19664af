@@ -46,6 +46,30 @@
       },
       "revId": "73ddd7168f27eee91d3136759fe7538ad19664af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e8a8052_74eeadb8",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-18T13:47:31Z",
+      "side": 1,
+      "message": "This is a  Gerrit core setting introduced here Idd4410543 so it shouldn\u0027t be added as a pull-replication specific property",
+      "parentUuid": "e1d8da27_e0d2125a",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 19
+      },
+      "revId": "73ddd7168f27eee91d3136759fe7538ad19664af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
