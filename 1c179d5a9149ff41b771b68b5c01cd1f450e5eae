@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "757f0ecc_f8a6dceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-18T16:11:43Z",
+      "side": 1,
+      "message": "This is a brand new functionality and it is introducing new REST API endpoint so it should target master branch",
+      "parentUuid": "f087cdf2_4950b707",
+      "revId": "1c179d5a9149ff41b771b68b5c01cd1f450e5eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a35f6549_9af3c6d8",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 19
