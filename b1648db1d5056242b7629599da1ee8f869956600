@@ -22,6 +22,30 @@
       },
       "revId": "b1648db1d5056242b7629599da1ee8f869956600",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a27d9334_136d03ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-18T09:21:13Z",
+      "side": 1,
+      "message": "There\u0027s a new stream event which contains multiple\nrefs updated together during the BatchUpdate. This allows to implement single fetch\noperation that contains data about all refs from a single batch update.",
+      "parentUuid": "c91a7583_0ad36943",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
