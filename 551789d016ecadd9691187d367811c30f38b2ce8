@@ -157,6 +157,24 @@
       "parentUuid": "12ae5ffe_ef527c79",
       "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21d5ef46_948cd13d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-18T09:18:03Z",
+      "side": 1,
+      "message": "You\u0027re right. However the proposed change will remove the `ContentType` header from the root of the post request, the header is now available via the entity. And the charset value is also hardcoded to the header value. To better illustrate what I am talking about, the `FetchRestApiClientBase.shouldSetContentTypeHeaderInBatchFetch` is failing, and to make it pass, I need this:\n```\nHttpPost httpPost \u003d httpPostCaptor.getValue();\n    assertThat(httpPost.getEntity().getContentType().getValue())\n        .isEqualTo(new BasicHeader(\"Content-Type\", \"application/json; charset\u003dUTF-8\").getValue());\n```\n\nWDYT?",
+      "parentUuid": "8e9b919b_ce4cebdb",
+      "revId": "551789d016ecadd9691187d367811c30f38b2ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
