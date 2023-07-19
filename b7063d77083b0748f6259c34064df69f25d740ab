@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f46ee0ad_384da5ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-19T17:14:23Z",
+      "side": 1,
+      "message": "Can you specify why we are doing the async one before the sync?",
+      "range": {
+        "startLine": 15,
+        "startChar": 44,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "b7063d77083b0748f6259c34064df69f25d740ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "023c66a3_cdaf254f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-19T17:14:23Z",
+      "side": 1,
+      "message": "What about using a `partitioningBy` and a `map` so you will go through the stream only once?\n\nSomething like this:\n\n```\nList \u003cInteger\u003e myList \u003d Arrays.asList(1, 2, 3 ,4 ,6 , 7);\n\nMap \u003cBoolean, List\u003cInteger\u003e\u003e c \u003d myList.stream().\n        collect(Collectors.partitioningBy(\n                i -\u003e i % 2 \u003d\u003d 0,\n                Collectors.mapping(s -\u003e s + 100, Collectors.toList()))\n        );\n```\n\nThis will return:\n\n```{false\u003d[101, 103, 107], true\u003d[102, 104, 106]}```",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 157,
+        "endChar": 42
+      },
+      "revId": "b7063d77083b0748f6259c34064df69f25d740ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1cfaecd_d9e1abd7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-19T17:14:23Z",
+      "side": 1,
+      "message": "What about doing the opposite check:\n\n```\nif (!asyncRefs.isEmpty()) {\n      HttpPost syncPost \u003d\n          createPostRequest(url, \"[\" + String.join(\",\", syncRefs) + \"]\", startTimeNanos);\n      return executeRequest(asyncPost, bearerTokenProvider.get(), targetUri);\n}\n```\n\nSo it will be clear this block of code is only dealing with async stuff.",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 170,
+        "endChar": 5
+      },
+      "revId": "b7063d77083b0748f6259c34064df69f25d740ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
