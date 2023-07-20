@@ -12,8 +12,10 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 import com.google.common.net.MediaType;
 import com.google.gerrit.extensions.restapi.*;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
+import com.google.inject.util.Providers;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import javax.servlet.FilterChain;
@@ -41,6 +43,7 @@ public class PullReplicationFilterTest {
   @Mock private ProjectResource projectResource;
   @Mock private ServletOutputStream outputStream;
   @Mock private PrintWriter printWriter;
+  @Mock private CurrentUser currentUserMock;
   private final String PLUGIN_NAME = "pull-replication";
   private final String PROJECT_NAME = "some-project";
   private final String PROJECT_NAME_GIT = "some-project.git";
@@ -60,6 +63,8 @@ public class PullReplicationFilterTest {
   private final Response OK_RESPONSE = Response.ok();
 
   private PullReplicationFilter createPullReplicationFilter() {
+    when(currentUserMock.isIdentifiedUser()).thenReturn(true);
+
     return new PullReplicationFilter(
         fetchAction,
         applyObjectAction,
@@ -68,7 +73,8 @@ public class PullReplicationFilterTest {
         updateHEADAction,
         projectDeletionAction,
         projectsCollection,
-        PLUGIN_NAME);
+        PLUGIN_NAME,
+        Providers.of(currentUserMock));
   }
 
   private void defineBehaviours(byte[] payload, String uri) throws Exception {
