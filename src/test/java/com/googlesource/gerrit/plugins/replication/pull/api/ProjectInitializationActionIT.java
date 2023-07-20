@@ -184,12 +184,13 @@ public class ProjectInitializationActionIT extends ActionITBase {
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnForbiddenForUserWithoutPermissionsWhenNodeIsAReplica() throws Exception {
+  public void shouldReturnUnauthorizedForUserWithoutPermissionsWhenNodeIsAReplica()
+      throws Exception {
     httpClientFactory
         .create(source)
         .execute(
             createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Test

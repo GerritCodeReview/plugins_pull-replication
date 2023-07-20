@@ -26,6 +26,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -35,19 +36,22 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.restapi.project.ProjectsCollection;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.MalformedJsonException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
@@ -83,9 +87,10 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private ProjectInitializationAction projectInitializationAction;
   private UpdateHeadAction updateHEADAction;
   private ProjectDeletionAction projectDeletionAction;
-  private ProjectsCollection projectsCollection;
+  private ProjectCache projectCache;
   private Gson gson;
   private String pluginName;
+  private final Provider<CurrentUser> currentUserProvider;
 
   @Inject
   public PullReplicationFilter(
@@ -95,17 +100,19 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       ProjectInitializationAction projectInitializationAction,
       UpdateHeadAction updateHEADAction,
       ProjectDeletionAction projectDeletionAction,
-      ProjectsCollection projectsCollection,
-      @PluginName String pluginName) {
+      ProjectCache projectCache,
+      @PluginName String pluginName,
+      Provider<CurrentUser> currentUserProvider) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.applyObjectsAction = applyObjectsAction;
     this.projectInitializationAction = projectInitializationAction;
     this.updateHEADAction = updateHEADAction;
     this.projectDeletionAction = projectDeletionAction;
-    this.projectsCollection = projectsCollection;
+    this.projectCache = projectCache;
     this.pluginName = pluginName;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
+    this.currentUserProvider = currentUserProvider;
   }
 
   @Override
@@ -120,19 +127,25 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     try {
       if (isFetchAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doFetch(httpRequest));
       } else if (isApplyObjectAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doApplyObject(httpRequest));
       } else if (isApplyObjectsAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doApplyObjects(httpRequest));
       } else if (isInitProjectAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         if (!checkAcceptHeader(httpRequest, httpResponse)) {
           return;
         }
         doInitProject(httpRequest, httpResponse);
       } else if (isUpdateHEADAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doUpdateHEAD(httpRequest));
       } else if (isDeleteProjectAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doDeleteProject(httpRequest));
       } else {
         chain.doFilter(request, response);
@@ -173,6 +186,13 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     }
   }
 
+  private void failIfcurrentUserIsAnonymous() throws UnauthorizedAuthException {
+    CurrentUser currentUser = currentUserProvider.get();
+    if (currentUser instanceof AnonymousUser) {
+      throw new UnauthorizedAuthException();
+    }
+  }
+
   private void doInitProject(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
       throws RestApiException, IOException, PermissionBackendException {
 
@@ -191,9 +211,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       throws RestApiException, IOException, PermissionBackendException {
     RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class));
     IdString id = getProjectName(httpRequest).get();
-    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
-    return (Response<String>) applyObjectAction.apply(projectResource, input);
+    return (Response<String>) applyObjectAction.apply(parseProjectResource(id), input);
   }
 
   @SuppressWarnings("unchecked")
@@ -201,26 +220,24 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       throws RestApiException, IOException, PermissionBackendException {
     RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class));
     IdString id = getProjectName(httpRequest).get();
-    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
-    return (Response<String>) applyObjectsAction.apply(projectResource, input);
+    return (Response<String>) applyObjectsAction.apply(parseProjectResource(id), input);
   }
 
   @SuppressWarnings("unchecked")
   private Response<String> doUpdateHEAD(HttpServletRequest httpRequest) throws Exception {
     HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class));
     IdString id = getProjectName(httpRequest).get();
-    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
-    return (Response<String>) updateHEADAction.apply(projectResource, input);
+    return (Response<String>) updateHEADAction.apply(parseProjectResource(id), input);
   }
 
   @SuppressWarnings("unchecked")
   private Response<String> doDeleteProject(HttpServletRequest httpRequest) throws Exception {
     IdString id = getProjectName(httpRequest).get();
-    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
     return (Response<String>)
-        projectDeletionAction.apply(projectResource, new ProjectDeletionAction.DeleteInput());
+        projectDeletionAction.apply(
+            parseProjectResource(id), new ProjectDeletionAction.DeleteInput());
   }
 
   @SuppressWarnings("unchecked")
@@ -228,9 +245,16 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       throws IOException, RestApiException, PermissionBackendException {
     Input input = readJson(httpRequest, TypeLiteral.get(Input.class));
     IdString id = getProjectName(httpRequest).get();
-    ProjectResource projectResource = projectsCollection.parse(TopLevelResource.INSTANCE, id);
 
-    return (Response<Map<String, Object>>) fetchAction.apply(projectResource, input);
+    return (Response<Map<String, Object>>) fetchAction.apply(parseProjectResource(id), input);
+  }
+
+  private ProjectResource parseProjectResource(IdString id) throws ResourceNotFoundException {
+    Optional<ProjectState> project = projectCache.get(Project.nameKey(id.get()));
+    if (project.isEmpty()) {
+      throw new ResourceNotFoundException(id);
+    }
+    return new ProjectResource(project.get(), currentUserProvider.get());
   }
 
   private <T> void writeResponse(HttpServletResponse httpResponse, Response<T> response)
