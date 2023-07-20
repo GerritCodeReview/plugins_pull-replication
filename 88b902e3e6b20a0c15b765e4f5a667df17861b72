@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "337e8f52_46dc9eae",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-20T19:14:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42adb9e8_e91d298a",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 133,
+        "endChar": 63
+      },
+      "revId": "88b902e3e6b20a0c15b765e4f5a667df17861b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a00d60e_f0adbef6",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-20T15:57:28Z",
       "side": 1,
       "message": "I believe this was missing from a previous change.\nMight be worth separating it in another change.",
+      "range": {
+        "startLine": 355,
+        "startChar": 2,
+        "endLine": 355,
+        "endChar": 9
+      },
+      "revId": "88b902e3e6b20a0c15b765e4f5a667df17861b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aa700c8_fc72d7e8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-20T19:14:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a00d60e_f0adbef6",
       "range": {
         "startLine": 355,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "466a4ac9_48d3baab",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionActionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-20T19:14:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c8367d5_227b6ef6",
+      "range": {
+        "startLine": 97,
+        "startChar": 14,
+        "endLine": 97,
+        "endChar": 69
+      },
+      "revId": "88b902e3e6b20a0c15b765e4f5a667df17861b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc9db3da_42a17153",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6df0938_b36e7902",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationActionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-20T19:14:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc9db3da_42a17153",
+      "range": {
+        "startLine": 187,
+        "startChar": 14,
+        "endLine": 187,
+        "endChar": 78
+      },
+      "revId": "88b902e3e6b20a0c15b765e4f5a667df17861b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f101e64e_13a0bab9",
@@ -106,6 +202,24 @@
       "writtenOn": "2023-07-20T15:57:28Z",
       "side": 1,
       "message": "Might be worth adding some tests to cover the logic introduced in `PullReplicationFilter`, maybe in a followup change.",
+      "revId": "88b902e3e6b20a0c15b765e4f5a667df17861b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36ea766_95e89d4b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-20T19:14:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f101e64e_13a0bab9",
       "revId": "88b902e3e6b20a0c15b765e4f5a667df17861b72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
