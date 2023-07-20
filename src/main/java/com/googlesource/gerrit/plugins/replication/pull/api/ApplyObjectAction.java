@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
@@ -33,6 +34,7 @@ import java.io.IOException;
 import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 
+@Singleton
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
   private final ApplyObjectCommand applyObjectCommand;
