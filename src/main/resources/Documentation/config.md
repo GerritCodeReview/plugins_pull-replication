@@ -80,6 +80,20 @@ cache.@PLUGIN@-apply_objects.memoryLimit
 
 	Default is 1024.
 
+cache.projects.refreshAfterWrite
+:	The Gerrit configuration of the `projects` cache, as [documented](/Documentation/config-gerrit.html#cache.name.refreshAfterWrite)
+
+	Needs to be set to a relatively low value (e.g. 1 min) for allowing the
+	project settings cache to be kept up-to-date with the incoming replication
+	tasks updating it.
+
+cache.project_list.refreshAfterWrite
+:	The Gerrit configuration of the `project_list` cache, as [documented](/Documentation/config-gerrit.html#cache.name.refreshAfterWrite)
+
+	Needs to be set to a relatively low value (e.g. 5 min) for allowing the
+	creation, removal and hiding of projects performed by incoming
+	replication tasks.
+
 File `@PLUGIN@.config`
 -------------------------
 
