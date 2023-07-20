@@ -189,7 +189,7 @@ public class ProjectInitializationActionIT extends ActionITBase {
         .create(source)
         .execute(
             createPutRequestWithHeaders(),
-            assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+            assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Test

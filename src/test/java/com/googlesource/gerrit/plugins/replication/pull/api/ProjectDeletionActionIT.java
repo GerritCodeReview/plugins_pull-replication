@@ -97,7 +97,8 @@ public class ProjectDeletionActionIT extends ActionITBase {
   public void shouldReturnForbiddenForUserWithoutPermissionsOnReplica() throws Exception {
     httpClientFactory
         .create(source)
-        .execute(createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+        .execute(
+            createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Test
