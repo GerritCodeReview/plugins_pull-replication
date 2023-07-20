@@ -16,6 +16,10 @@ To be allowed to trigger pull replication a user must be a member of a
 group that is granted the 'Pull Replication' capability (provided
 by this plugin) or the 'Administrate Server' capability.
 
+When replicating hidden projects, the pull replication user needs to have
+the 'Administrate Server' capability or being added as the owner of each
+individual project that is supposed to be replicated.
+
 Change Indexing
 --------
 
