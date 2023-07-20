@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -40,6 +41,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
@@ -48,6 +51,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.MalformedJsonException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
@@ -86,6 +90,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private ProjectsCollection projectsCollection;
   private Gson gson;
   private String pluginName;
+  private final Provider<CurrentUser> currentUserProvider;
 
   @Inject
   public PullReplicationFilter(
@@ -96,7 +101,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       UpdateHeadAction updateHEADAction,
       ProjectDeletionAction projectDeletionAction,
       ProjectsCollection projectsCollection,
-      @PluginName String pluginName) {
+      @PluginName String pluginName,
+      Provider<CurrentUser> currentUserProvider) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.applyObjectsAction = applyObjectsAction;
@@ -106,6 +112,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.projectsCollection = projectsCollection;
     this.pluginName = pluginName;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
+    this.currentUserProvider = currentUserProvider;
   }
 
   @Override
@@ -119,6 +126,20 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     HttpServletResponse httpResponse = (HttpServletResponse) response;
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     try {
+      CurrentUser currentUser = currentUserProvider.get();
+
+      if (!currentUser.isIdentifiedUser()
+          && !(currentUser instanceof InternalUser
+              && ((InternalUser) currentUser).isInternalUser())) {
+        RestApiServlet.replyError(
+            httpRequest,
+            httpResponse,
+            SC_UNAUTHORIZED,
+            "Authentication Required",
+            CacheControl.NONE,
+            null);
+      }
+
       if (isFetchAction(httpRequest)) {
         writeResponse(httpResponse, doFetch(httpRequest));
       } else if (isApplyObjectAction(httpRequest)) {
