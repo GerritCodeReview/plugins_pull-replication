@@ -46,6 +46,30 @@
       },
       "revId": "6315a1df4ac2ef807eb7f562ad1062dd6e7fe5b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f128016_ecbd583b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-20T13:06:43Z",
+      "side": 0,
+      "message": "We should add in the documentation the reference to the caches of:\n- projects\n- project_list\n\nThey need to be both set with a refreshAfterWrite with a relatively low (e.g. 1 mins) TTL, so that they are eventually refreshed.",
+      "parentUuid": "5f89a760_69e11146",
+      "range": {
+        "startLine": 322,
+        "startChar": 22,
+        "endLine": 322,
+        "endChar": 42
+      },
+      "revId": "6315a1df4ac2ef807eb7f562ad1062dd6e7fe5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
