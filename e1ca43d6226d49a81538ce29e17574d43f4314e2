@@ -16,6 +16,29 @@
       "message": "Let me do more E2E testing before submission.",
       "revId": "e1ca43d6226d49a81538ce29e17574d43f4314e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8539b8eb_40e48317",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-20T22:04:41Z",
+      "side": 1,
+      "message": "This needs to be conditioned to the URL being associated with the pull-replication plugin, otherwise we just need to delegate to the chain.doFilter()",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 131,
+        "endChar": 46
+      },
+      "revId": "e1ca43d6226d49a81538ce29e17574d43f4314e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
