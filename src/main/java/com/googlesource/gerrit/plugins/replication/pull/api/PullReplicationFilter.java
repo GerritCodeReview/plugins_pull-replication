@@ -40,6 +40,8 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
@@ -48,6 +50,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.MalformedJsonException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
@@ -86,6 +89,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private ProjectsCollection projectsCollection;
   private Gson gson;
   private String pluginName;
+  private final Provider<CurrentUser> currentUserProvider;
 
   @Inject
   public PullReplicationFilter(
@@ -96,7 +100,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       UpdateHeadAction updateHEADAction,
       ProjectDeletionAction projectDeletionAction,
       ProjectsCollection projectsCollection,
-      @PluginName String pluginName) {
+      @PluginName String pluginName,
+      Provider<CurrentUser> currentUserProvider) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.applyObjectsAction = applyObjectsAction;
@@ -106,6 +111,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.projectsCollection = projectsCollection;
     this.pluginName = pluginName;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
+    this.currentUserProvider = currentUserProvider;
   }
 
   @Override
@@ -120,19 +126,25 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     HttpServletRequest httpRequest = (HttpServletRequest) request;
     try {
       if (isFetchAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doFetch(httpRequest));
       } else if (isApplyObjectAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doApplyObject(httpRequest));
       } else if (isApplyObjectsAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doApplyObjects(httpRequest));
       } else if (isInitProjectAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         if (!checkAcceptHeader(httpRequest, httpResponse)) {
           return;
         }
         doInitProject(httpRequest, httpResponse);
       } else if (isUpdateHEADAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doUpdateHEAD(httpRequest));
       } else if (isDeleteProjectAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
         writeResponse(httpResponse, doDeleteProject(httpRequest));
       } else {
         chain.doFilter(request, response);
@@ -170,6 +182,13 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       } else {
         throw new ServletException(e);
       }
+    }
+  }
+
+  private void failIfcurrentUserIsAnonymous() throws UnauthorizedAuthException {
+    CurrentUser currentUser = currentUserProvider.get();
+    if (currentUser instanceof AnonymousUser) {
+      throw new UnauthorizedAuthException();
     }
   }
 

@@ -26,8 +26,10 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.UnauthorizedAuthException;
 
+@Singleton
 public class FetchPreconditions {
   private final String pluginName;
   private final PermissionBackend permissionBackend;
