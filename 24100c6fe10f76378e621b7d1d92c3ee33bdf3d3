@@ -846,6 +846,24 @@
       "message": "I this this should be the contrary:\n\n```\n Event event \u003d generateBatchRefUpdateEvent(\"refs/changes/01/1/1\", \"refs/changes/01/1/meta\");\n ```",
       "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c99b1cc_2b864ee6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-20T19:30:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7ef7ae7_58b8ad4c",
+      "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
