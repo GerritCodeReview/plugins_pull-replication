@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81063f3b_0d7f23db",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-20T08:31:33Z",
+      "side": 0,
+      "message": "This would work only if the `projects` cache is disabled, otherwise the stale value won\u0027t hit this condition.",
+      "range": {
+        "startLine": 322,
+        "startChar": 22,
+        "endLine": 322,
+        "endChar": 42
+      },
+      "revId": "6315a1df4ac2ef807eb7f562ad1062dd6e7fe5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
