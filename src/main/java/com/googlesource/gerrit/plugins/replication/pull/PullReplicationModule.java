@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.googlesource.gerrit.plugins.replication.StartReplicationCapability.START_REPLICATION;
+import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
 
 import com.google.common.eventbus.EventBus;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -42,8 +43,8 @@ import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
-import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiModule;
 import com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationGroupModule;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
@@ -75,13 +76,16 @@ class PullReplicationModule extends AbstractModule {
   @Override
   protected void configure() {
 
+    bind(CapabilityDefinition.class)
+        .annotatedWith(Exports.named(CALL_FETCH_ACTION))
+        .to(FetchApiCapability.class);
+
     install(new PullReplicationGroupModule());
     bind(BearerTokenProvider.class).in(Scopes.SINGLETON);
     bind(RevisionReader.class).in(Scopes.SINGLETON);
     bind(ApplyObject.class);
     install(new FactoryModuleBuilder().build(FetchJob.Factory.class));
     install(new ApplyObjectCacheModule());
-    install(new PullReplicationApiModule());
 
     install(new FetchRefReplicatedEventModule());
 
