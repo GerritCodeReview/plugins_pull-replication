@@ -5,17 +5,25 @@ import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_EN
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.atLeastOnce;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 import com.google.common.net.MediaType;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.*;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.restapi.project.ProjectsCollection;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.util.Providers;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +45,12 @@ public class PullReplicationFilterTest {
   @Mock private ProjectInitializationAction projectInitializationAction;
   @Mock private UpdateHeadAction updateHEADAction;
   @Mock private ProjectDeletionAction projectDeletionAction;
-  @Mock private ProjectsCollection projectsCollection;
-  @Mock private ProjectResource projectResource;
+  @Mock private ProjectCache projectCache;
+  @Mock private ProjectState projectState;
   @Mock private ServletOutputStream outputStream;
   @Mock private PrintWriter printWriter;
+  @Mock private IdentifiedUser identifiedUserMock;
+  @Mock private AnonymousUser anonymousUserMock;
   private final String PLUGIN_NAME = "pull-replication";
   private final String PROJECT_NAME = "some-project";
   private final String PROJECT_NAME_GIT = "some-project.git";
@@ -60,6 +70,10 @@ public class PullReplicationFilterTest {
   private final Response OK_RESPONSE = Response.ok();
 
   private PullReplicationFilter createPullReplicationFilter() {
+    return createPullReplicationFilter(identifiedUserMock);
+  }
+
+  private PullReplicationFilter createPullReplicationFilter(CurrentUser currentUser) {
     return new PullReplicationFilter(
         fetchAction,
         applyObjectAction,
@@ -67,8 +81,9 @@ public class PullReplicationFilterTest {
         projectInitializationAction,
         updateHEADAction,
         projectDeletionAction,
-        projectsCollection,
-        PLUGIN_NAME);
+        projectCache,
+        PLUGIN_NAME,
+        Providers.of(currentUser));
   }
 
   private void defineBehaviours(byte[] payload, String uri) throws Exception {
@@ -76,15 +91,14 @@ public class PullReplicationFilterTest {
     InputStream is = new ByteArrayInputStream(payload);
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
     when(request.getReader()).thenReturn(bufferedReader);
-    when(projectsCollection.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME)))
-        .thenReturn(projectResource);
+    when(projectCache.get(Project.nameKey(PROJECT_NAME))).thenReturn(Optional.of(projectState));
     when(response.getWriter()).thenReturn(printWriter);
   }
 
   private void verifyBehaviours() throws Exception {
     verify(request, atLeastOnce()).getRequestURI();
     verify(request).getReader();
-    verify(projectsCollection).parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME));
+    verify(projectCache).get(Project.nameKey(PROJECT_NAME));
     verify(response).getWriter();
     verify(response).setContentType("application/json");
     verify(response).setStatus(HttpServletResponse.SC_OK);
@@ -107,7 +121,7 @@ public class PullReplicationFilterTest {
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verifyBehaviours();
-    verify(fetchAction).apply(eq(projectResource), any());
+    verify(fetchAction).apply(any(ProjectResource.class), any());
   }
 
   @Test
@@ -130,7 +144,7 @@ public class PullReplicationFilterTest {
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verifyBehaviours();
-    verify(applyObjectAction).apply(eq(projectResource), any());
+    verify(applyObjectAction).apply(any(ProjectResource.class), any());
   }
 
   @Test
@@ -152,7 +166,7 @@ public class PullReplicationFilterTest {
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verifyBehaviours();
-    verify(applyObjectsAction).apply(eq(projectResource), any());
+    verify(applyObjectsAction).apply(any(ProjectResource.class), any());
   }
 
   @Test
@@ -183,15 +197,14 @@ public class PullReplicationFilterTest {
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verifyBehaviours();
-    verify(updateHEADAction).apply(eq(projectResource), any());
+    verify(updateHEADAction).apply(any(ProjectResource.class), any());
   }
 
   @Test
   public void shouldFilterProjectDeletionAction() throws Exception {
     when(request.getRequestURI()).thenReturn(DELETE_PROJECT_URI);
     when(request.getMethod()).thenReturn("DELETE");
-    when(projectsCollection.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME)))
-        .thenReturn(projectResource);
+    when(projectCache.get(Project.nameKey(PROJECT_NAME))).thenReturn(Optional.of(projectState));
     when(projectDeletionAction.apply(any(), any())).thenReturn(OK_RESPONSE);
     when(response.getWriter()).thenReturn(printWriter);
 
@@ -199,8 +212,8 @@ public class PullReplicationFilterTest {
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verify(request, times(7)).getRequestURI();
-    verify(projectsCollection).parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME));
-    verify(projectDeletionAction).apply(eq(projectResource), any());
+    verify(projectCache).get(Project.nameKey(PROJECT_NAME));
+    verify(projectDeletionAction).apply(any(ProjectResource.class), any());
     verify(response).getWriter();
     verify(response).setContentType("application/json");
     verify(response).setStatus(OK_RESPONSE.statusCode());
@@ -210,6 +223,17 @@ public class PullReplicationFilterTest {
   public void shouldGoNextInChainWhenUriDoesNotMatch() throws Exception {
     when(request.getRequestURI()).thenReturn("any-url");
     final PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
+    pullReplicationFilter.doFilter(request, response, filterChain);
+    verify(filterChain).doFilter(request, response);
+  }
+
+  @Test
+  public void shouldGoNextInChainWhenAnonymousRequestUriDoesNotMatch() throws Exception {
+    when(request.getRequestURI()).thenReturn("any-url");
+    lenient().when(response.getOutputStream()).thenReturn(outputStream);
+
+    final PullReplicationFilter pullReplicationFilter =
+        createPullReplicationFilter(anonymousUserMock);
     pullReplicationFilter.doFilter(request, response, filterChain);
     verify(filterChain).doFilter(request, response);
   }
@@ -246,8 +270,7 @@ public class PullReplicationFilterTest {
   public void shouldBe500WhenResourceNotFound() throws Exception {
     when(request.getRequestURI()).thenReturn(DELETE_PROJECT_URI);
     when(request.getMethod()).thenReturn("DELETE");
-    when(projectsCollection.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME)))
-        .thenReturn(projectResource);
+    when(projectCache.get(Project.nameKey(PROJECT_NAME))).thenReturn(Optional.of(projectState));
     when(projectDeletionAction.apply(any(), any()))
         .thenThrow(new ResourceNotFoundException("resource not found"));
     when(response.getOutputStream()).thenReturn(outputStream);
@@ -280,6 +303,19 @@ public class PullReplicationFilterTest {
   }
 
   @Test
+  public void shouldBe401WhenUserIsAnonymous() throws Exception {
+    byte[] payloadFetchAction = "{}".getBytes(StandardCharsets.UTF_8);
+
+    defineBehaviours(payloadFetchAction, FETCH_URI);
+    when(response.getOutputStream()).thenReturn(outputStream);
+
+    PullReplicationFilter pullReplicationFilter = createPullReplicationFilter(anonymousUserMock);
+    pullReplicationFilter.doFilter(request, response, filterChain);
+
+    verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+  }
+
+  @Test
   public void shouldBe422WhenEntityCannotBeProcessed() throws Exception {
     byte[] payloadFetchAction =
         ("{"
@@ -304,8 +340,7 @@ public class PullReplicationFilterTest {
   public void shouldBe409WhenThereIsResourceConflict() throws Exception {
     when(request.getRequestURI()).thenReturn(DELETE_PROJECT_URI);
     when(request.getMethod()).thenReturn("DELETE");
-    when(projectsCollection.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(PROJECT_NAME)))
-        .thenReturn(projectResource);
+    when(projectCache.get(Project.nameKey(PROJECT_NAME))).thenReturn(Optional.of(projectState));
 
     when(projectDeletionAction.apply(any(), any()))
         .thenThrow(new ResourceConflictException("Resource conflict"));

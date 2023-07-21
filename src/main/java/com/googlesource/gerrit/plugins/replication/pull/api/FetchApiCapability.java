@@ -17,7 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 
 public class FetchApiCapability extends CapabilityDefinition {
-  static final String CALL_FETCH_ACTION = "callFetchAction";
+  public static final String CALL_FETCH_ACTION = "callFetchAction";
 
   @Override
   public String getDescription() {
