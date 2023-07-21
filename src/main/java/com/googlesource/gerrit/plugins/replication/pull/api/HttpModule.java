@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.AllRequestFilter;
-import com.google.gerrit.server.config.GerritIsReplica;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
@@ -24,12 +23,10 @@ import com.google.inject.servlet.ServletModule;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 
 public class HttpModule extends ServletModule {
-  private boolean isReplica;
   private final BearerTokenProvider bearerTokenProvider;
 
   @Inject
-  public HttpModule(@GerritIsReplica Boolean isReplica, BearerTokenProvider bearerTokenProvider) {
-    this.isReplica = isReplica;
+  public HttpModule(BearerTokenProvider bearerTokenProvider) {
     this.bearerTokenProvider = bearerTokenProvider;
   }
 
@@ -49,12 +46,8 @@ public class HttpModule extends ServletModule {
                   .in(Scopes.SINGLETON);
             });
 
-    if (isReplica) {
-      DynamicSet.bind(binder(), AllRequestFilter.class)
-          .to(PullReplicationFilter.class)
-          .in(Scopes.SINGLETON);
-    } else {
-      serveRegex("/init-project/.*$").with(ProjectInitializationAction.class);
-    }
+    DynamicSet.bind(binder(), AllRequestFilter.class)
+        .to(PullReplicationFilter.class)
+        .in(Scopes.SINGLETON);
   }
 }

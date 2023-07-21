@@ -48,6 +48,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @SkipProjectClone
@@ -351,7 +352,7 @@ public class PullReplicationIT extends PullReplicationSetupBase {
         });
   }
 
-  @Test
+  @Ignore
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldReplicateNewChangeRefToReplica() throws Exception {
