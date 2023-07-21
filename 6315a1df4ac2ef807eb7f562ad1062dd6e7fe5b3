@@ -94,6 +94,23 @@
       },
       "revId": "6315a1df4ac2ef807eb7f562ad1062dd6e7fe5b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5ba5e01_c767bc02",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-21T10:35:18Z",
+      "side": 0,
+      "message": "Post-merge: shouldn\u0027t we only replicate these conditional to `replicateHiddenProjects` being true?",
+      "revId": "6315a1df4ac2ef807eb7f562ad1062dd6e7fe5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
