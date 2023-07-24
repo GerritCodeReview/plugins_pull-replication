@@ -318,13 +318,6 @@ public class Source {
                         ref);
                     throw new NoSuchProjectException(project);
                   }
-                  if (!projectState.get().statePermitsRead()) {
-                    repLog.warn(
-                        "NOT scheduling replication {}:{} because project is not readable",
-                        project,
-                        ref);
-                    return false;
-                  }
                   if (!shouldReplicate(projectState.get(), userProvider.get())) {
                     return false;
                   }

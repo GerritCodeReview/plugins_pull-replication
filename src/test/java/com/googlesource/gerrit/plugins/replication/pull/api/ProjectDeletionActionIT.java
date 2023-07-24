@@ -93,10 +93,11 @@ public class ProjectDeletionActionIT extends ActionITBase {
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
-  public void shouldReturnForbiddenForUserWithoutPermissionsOnReplica() throws Exception {
+  public void shouldReturnUnauthorizedForUserWithoutPermissionsOnReplica() throws Exception {
     httpClientFactory
         .create(source)
-        .execute(createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+        .execute(
+            createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
   }
 
   @Test
@@ -220,7 +221,8 @@ public class ProjectDeletionActionIT extends ActionITBase {
     assertThat(projectCache.get(project).isPresent()).isTrue();
     httpClientFactory
         .create(source)
-        .execute(createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_FORBIDDEN));
+        .execute(
+            createDeleteRequest(), assertHttpResponseCode(HttpServletResponse.SC_UNAUTHORIZED));
     assertThat(projectCache.get(project).isPresent()).isTrue();
   }
 
