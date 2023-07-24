@@ -882,6 +882,24 @@
       "parentUuid": "9c99b1cc_2b864ee6",
       "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd99114f_59952ee2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-24T12:58:24Z",
+      "side": 1,
+      "message": "We have two tests one which is sorting when  meta ref is first and other one which is testing if is keeping meta ref at the end. I restored those tests from the original change",
+      "parentUuid": "f08643a7_c2acf31a",
+      "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
