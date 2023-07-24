@@ -18,17 +18,16 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.ioutil.HexFormat;
-import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
@@ -39,7 +38,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
 @Singleton
-public class FetchAction implements RestModifyView<ProjectResource, Input> {
+public class FetchAction {
   private final FetchCommand command;
   private final WorkQueue workQueue;
   private final DynamicItem<UrlFormatter> urlFormatter;
@@ -66,8 +65,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     public boolean async;
   }
 
-  @Override
-  public Response<?> apply(ProjectResource resource, Input input) throws RestApiException {
+  public Response<?> apply(NameKey projectName, Input input) throws RestApiException {
 
     if (!preConditions.canCallFetchApi()) {
       throw new AuthException("not allowed to call fetch command");
@@ -82,9 +80,9 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
       }
 
       if (input.async) {
-        return applyAsync(resource.getNameKey(), input);
+        return applyAsync(projectName, input);
       }
-      return applySync(resource.getNameKey(), input);
+      return applySync(projectName, input);
     } catch (InterruptedException
         | ExecutionException
         | IllegalStateException

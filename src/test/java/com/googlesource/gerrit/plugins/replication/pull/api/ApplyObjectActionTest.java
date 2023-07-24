@@ -24,12 +24,12 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.project.ProjectResource;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
@@ -87,7 +87,7 @@ public class ApplyObjectActionTest {
 
   @Mock ApplyObjectCommand applyObjectCommand;
   @Mock DeleteRefCommand deleteRefCommand;
-  @Mock ProjectResource projectResource;
+  @Mock NameKey projectName;
   @Mock FetchPreconditions preConditions;
 
   @Before
@@ -102,7 +102,7 @@ public class ApplyObjectActionTest {
     RevisionInput inputParams =
         new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
-    Response<?> response = applyObjectAction.apply(projectResource, inputParams);
+    Response<?> response = applyObjectAction.apply(projectName, inputParams);
 
     assertThat(response.statusCode()).isEqualTo(SC_CREATED);
   }
@@ -118,7 +118,7 @@ public class ApplyObjectActionTest {
             createSampleRevisionDataBlob(
                 new RevisionObjectData(sampleBlobObjectId, Constants.OBJ_BLOB, blobData)));
 
-    Response<?> response = applyObjectAction.apply(projectResource, inputParams);
+    Response<?> response = applyObjectAction.apply(projectName, inputParams);
 
     assertThat(response.statusCode()).isEqualTo(SC_CREATED);
   }
@@ -128,7 +128,7 @@ public class ApplyObjectActionTest {
   public void shouldReturnEmptyResponseBody() throws Exception {
     RevisionInput inputParams =
         new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
-    Response<?> response = applyObjectAction.apply(projectResource, inputParams);
+    Response<?> response = applyObjectAction.apply(projectName, inputParams);
 
     assertThat((String) response.value()).isEmpty();
   }
@@ -138,7 +138,7 @@ public class ApplyObjectActionTest {
     RevisionInput inputParams =
         new RevisionInput(null, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
-    applyObjectAction.apply(projectResource, inputParams);
+    applyObjectAction.apply(projectName, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
@@ -146,7 +146,7 @@ public class ApplyObjectActionTest {
     RevisionInput inputParams =
         new RevisionInput("", refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
-    applyObjectAction.apply(projectResource, inputParams);
+    applyObjectAction.apply(projectName, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
@@ -154,7 +154,7 @@ public class ApplyObjectActionTest {
     RevisionInput inputParams =
         new RevisionInput(label, null, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
-    applyObjectAction.apply(projectResource, inputParams);
+    applyObjectAction.apply(projectName, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
@@ -162,7 +162,7 @@ public class ApplyObjectActionTest {
     RevisionInput inputParams =
         new RevisionInput(label, "", DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
-    applyObjectAction.apply(projectResource, inputParams);
+    applyObjectAction.apply(projectName, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
@@ -175,7 +175,7 @@ public class ApplyObjectActionTest {
         new RevisionInput(
             label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData(commitData, treeData));
 
-    applyObjectAction.apply(projectResource, inputParams);
+    applyObjectAction.apply(projectName, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
@@ -187,7 +187,7 @@ public class ApplyObjectActionTest {
         new RevisionInput(
             label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData(commitData, null));
 
-    applyObjectAction.apply(projectResource, inputParams);
+    applyObjectAction.apply(projectName, inputParams);
   }
 
   @Test(expected = AuthException.class)
@@ -198,7 +198,7 @@ public class ApplyObjectActionTest {
 
     when(preConditions.canCallFetchApi()).thenReturn(false);
 
-    applyObjectAction.apply(projectResource, inputParams);
+    applyObjectAction.apply(projectName, inputParams);
   }
 
   @Test(expected = ResourceConflictException.class)
@@ -213,7 +213,7 @@ public class ApplyObjectActionTest {
         .when(applyObjectCommand)
         .applyObject(any(), anyString(), any(), anyString(), anyLong());
 
-    applyObjectAction.apply(projectResource, inputParams);
+    applyObjectAction.apply(projectName, inputParams);
   }
 
   private RevisionData createSampleRevisionData() {
