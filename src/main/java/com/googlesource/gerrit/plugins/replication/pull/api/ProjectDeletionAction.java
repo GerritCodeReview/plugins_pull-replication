@@ -14,17 +14,19 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -34,13 +36,13 @@ import java.util.Optional;
 import org.eclipse.jgit.transport.URIish;
 
 @Singleton
-class ProjectDeletionAction
-    implements RestModifyView<ProjectResource, ProjectDeletionAction.DeleteInput> {
+class ProjectDeletionAction {
   private static final PluginPermission DELETE_PROJECT =
       new PluginPermission("delete-project", "deleteProject");
 
   static class DeleteInput {}
 
+  private final ProjectCache projectCache;
   private final Provider<CurrentUser> userProvider;
   private final GerritConfigOps gerritConfigOps;
   private final PermissionBackend permissionBackend;
@@ -49,33 +51,43 @@ class ProjectDeletionAction
   ProjectDeletionAction(
       GerritConfigOps gerritConfigOps,
       PermissionBackend permissionBackend,
+      ProjectCache projectCache,
       Provider<CurrentUser> userProvider) {
     this.gerritConfigOps = gerritConfigOps;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
     this.userProvider = userProvider;
   }
 
-  @Override
-  public Response<?> apply(ProjectResource projectResource, DeleteInput input)
+  public Response<?> apply(NameKey projectName, DeleteInput input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
 
     // When triggered internally(for example by consuming stream events) user is not provided
     // and internal user is returned. Project deletion should be always allowed for internal user.
     if (!userProvider.get().isInternalUser()) {
-      permissionBackend.user(projectResource.getUser()).check(DELETE_PROJECT);
+      permissionBackend.user(parseProjectResource(projectName).getUser()).check(DELETE_PROJECT);
     }
 
     Optional<URIish> maybeRepoURI =
-        gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectResource.getName()));
+        gerritConfigOps.getGitRepositoryURI(String.format("%s.git", projectName.get()));
 
     if (maybeRepoURI.isPresent()) {
-      if (new LocalFS(maybeRepoURI.get()).deleteProject(projectResource.getNameKey())) {
+      if (new LocalFS(maybeRepoURI.get()).deleteProject(projectName)) {
         return Response.ok();
       }
       throw new UnprocessableEntityException(
-          String.format("Could not delete project %s", projectResource.getName()));
+          String.format("Could not delete project %s", projectName));
     }
     throw new ResourceNotFoundException(
-        String.format("Could not compute URI for repo: %s", projectResource.getName()));
+        String.format("Could not compute URI for repo: %s", projectName));
+  }
+
+  private ProjectResource parseProjectResource(NameKey projectName)
+      throws ResourceNotFoundException {
+    Optional<ProjectState> project = projectCache.get(projectName);
+    if (project.isEmpty()) {
+      throw new ResourceNotFoundException(projectName.get());
+    }
+    return new ProjectResource(project.get(), userProvider.get());
   }
 }

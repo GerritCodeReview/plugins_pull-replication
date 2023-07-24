@@ -17,14 +17,13 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
@@ -35,7 +34,7 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 
 @Singleton
-public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
+public class ApplyObjectAction {
 
   private final ApplyObjectCommand applyObjectCommand;
   private final DeleteRefCommand deleteRefCommand;
@@ -51,8 +50,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
     this.preConditions = preConditions;
   }
 
-  @Override
-  public Response<?> apply(ProjectResource resource, RevisionInput input) throws RestApiException {
+  public Response<?> apply(NameKey projectName, RevisionInput input) throws RestApiException {
 
     if (!preConditions.canCallFetchApi()) {
       throw new AuthException("Not allowed to call fetch command");
@@ -67,16 +65,16 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
     try {
       repLog.info(
           "Apply object API from {} for {}:{} - {}",
-          resource.getNameKey(),
+          projectName,
           input.getLabel(),
           input.getRefName(),
           input.getRevisionData());
 
       if (Objects.isNull(input.getRevisionData())) {
-        deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
+        deleteRefCommand.deleteRef(projectName, input.getRefName(), input.getLabel());
         repLog.info(
             "Apply object API - REF DELETED - from {} for {}:{} - {}",
-            resource.getNameKey(),
+            projectName,
             input.getLabel(),
             input.getRefName(),
             input.getRevisionData());
@@ -91,7 +89,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
         repLog.error(
             "Apply object API *FAILED* from {} for {}:{} - {}",
             input.getLabel(),
-            resource.getNameKey(),
+            projectName,
             input.getRefName(),
             input.getRevisionData(),
             bre);
@@ -99,7 +97,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
       }
 
       applyObjectCommand.applyObject(
-          resource.getNameKey(),
+          projectName,
           input.getRefName(),
           input.getRevisionData(),
           input.getLabel(),
@@ -109,7 +107,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
       repLog.error(
           "Apply object API *FAILED* from {} for {}:{} - {}",
           input.getLabel(),
-          resource.getNameKey(),
+          projectName,
           input.getRefName(),
           input.getRevisionData(),
           e);
@@ -118,7 +116,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
       repLog.error(
           "Apply object API *FAILED* from {} for {}:{} - {}",
           input.getLabel(),
-          resource.getNameKey(),
+          projectName,
           input.getRefName(),
           input.getRevisionData(),
           e);
@@ -127,7 +125,7 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
       repLog.error(
           "Apply object API *FAILED* from {} for {}:{} - {}",
           input.getLabel(),
-          resource.getNameKey(),
+          projectName,
           input.getRefName(),
           input.getRevisionData(),
           e);

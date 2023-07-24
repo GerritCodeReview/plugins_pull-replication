@@ -26,12 +26,11 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -43,9 +42,6 @@ import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonReader;
@@ -87,7 +83,6 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private ProjectInitializationAction projectInitializationAction;
   private UpdateHeadAction updateHEADAction;
   private ProjectDeletionAction projectDeletionAction;
-  private ProjectCache projectCache;
   private Gson gson;
   private String pluginName;
   private final Provider<CurrentUser> currentUserProvider;
@@ -100,7 +95,6 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       ProjectInitializationAction projectInitializationAction,
       UpdateHeadAction updateHEADAction,
       ProjectDeletionAction projectDeletionAction,
-      ProjectCache projectCache,
       @PluginName String pluginName,
       Provider<CurrentUser> currentUserProvider) {
     this.fetchAction = fetchAction;
@@ -109,7 +103,6 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.projectInitializationAction = projectInitializationAction;
     this.updateHEADAction = updateHEADAction;
     this.projectDeletionAction = projectDeletionAction;
-    this.projectCache = projectCache;
     this.pluginName = pluginName;
     this.gson = OutputFormat.JSON.newGsonBuilder().create();
     this.currentUserProvider = currentUserProvider;
@@ -196,7 +189,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private void doInitProject(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
       throws RestApiException, IOException, PermissionBackendException {
 
-    IdString id = getInitProjectName(httpRequest).get();
+    NameKey id = getInitProjectName(httpRequest).get();
     String projectName = id.get();
     if (projectInitializationAction.initProject(projectName)) {
       setResponse(
@@ -210,51 +203,39 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private Response<String> doApplyObject(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
     RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class));
-    IdString id = getProjectName(httpRequest).get();
 
-    return (Response<String>) applyObjectAction.apply(parseProjectResource(id), input);
+    return (Response<String>) applyObjectAction.apply(getProjectName(httpRequest).get(), input);
   }
 
   @SuppressWarnings("unchecked")
   private Response<String> doApplyObjects(HttpServletRequest httpRequest)
       throws RestApiException, IOException, PermissionBackendException {
     RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class));
-    IdString id = getProjectName(httpRequest).get();
 
-    return (Response<String>) applyObjectsAction.apply(parseProjectResource(id), input);
+    return (Response<String>) applyObjectsAction.apply(getProjectName(httpRequest).get(), input);
   }
 
   @SuppressWarnings("unchecked")
   private Response<String> doUpdateHEAD(HttpServletRequest httpRequest) throws Exception {
     HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class));
-    IdString id = getProjectName(httpRequest).get();
 
-    return (Response<String>) updateHEADAction.apply(parseProjectResource(id), input);
+    return (Response<String>) updateHEADAction.apply(getProjectName(httpRequest).get(), input);
   }
 
   @SuppressWarnings("unchecked")
   private Response<String> doDeleteProject(HttpServletRequest httpRequest) throws Exception {
-    IdString id = getProjectName(httpRequest).get();
     return (Response<String>)
         projectDeletionAction.apply(
-            parseProjectResource(id), new ProjectDeletionAction.DeleteInput());
+            getProjectName(httpRequest).get(), new ProjectDeletionAction.DeleteInput());
   }
 
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doFetch(HttpServletRequest httpRequest)
       throws IOException, RestApiException, PermissionBackendException {
     Input input = readJson(httpRequest, TypeLiteral.get(Input.class));
-    IdString id = getProjectName(httpRequest).get();
 
-    return (Response<Map<String, Object>>) fetchAction.apply(parseProjectResource(id), input);
-  }
-
-  private ProjectResource parseProjectResource(IdString id) throws ResourceNotFoundException {
-    Optional<ProjectState> project = projectCache.get(Project.nameKey(id.get()));
-    if (project.isEmpty()) {
-      throw new ResourceNotFoundException(id);
-    }
-    return new ProjectResource(project.get(), currentUserProvider.get());
+    return (Response<Map<String, Object>>)
+        fetchAction.apply(getProjectName(httpRequest).get(), input);
   }
 
   private <T> void writeResponse(HttpServletResponse httpResponse, Response<T> response)
@@ -308,20 +289,20 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
    * @param req
    * @return project name
    */
-  private Optional<IdString> getInitProjectName(HttpServletRequest req) {
+  private Optional<NameKey> getInitProjectName(HttpServletRequest req) {
     return extractProjectName(req, projectNameInitProjectUrl);
   }
 
-  private Optional<IdString> getProjectName(HttpServletRequest req) {
+  private Optional<NameKey> getProjectName(HttpServletRequest req) {
     return extractProjectName(req, projectNameInGerritUrl);
   }
 
-  private Optional<IdString> extractProjectName(HttpServletRequest req, Pattern urlPattern) {
+  private Optional<NameKey> extractProjectName(HttpServletRequest req, Pattern urlPattern) {
     String path = req.getRequestURI();
     Matcher projectGroupMatcher = urlPattern.matcher(path);
 
     if (projectGroupMatcher.find()) {
-      return Optional.of(IdString.fromUrl(projectGroupMatcher.group(1)));
+      return Optional.of(projectGroupMatcher.group(1)).map(NameKey::parse);
     }
 
     return Optional.empty();

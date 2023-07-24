@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -31,7 +32,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.gerrit.server.project.ProjectResource;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.UnauthorizedAuthException;
 import java.util.Optional;
@@ -58,7 +58,7 @@ public class FetchActionTest {
   @Mock FetchCommand fetchCommand;
   @Mock FetchJob fetchJob;
   @Mock FetchJob.Factory fetchJobFactory;
-  @Mock ProjectResource projectResource;
+  @Mock NameKey projectName;
   @Mock WorkQueue workQueue;
   @Mock ScheduledExecutorService exceutorService;
   @Mock DynamicItem<UrlFormatter> urlFormatterDynamicItem;
@@ -94,7 +94,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    Response<?> response = fetchAction.apply(projectResource, inputParams);
+    Response<?> response = fetchAction.apply(projectName, inputParams);
 
     assertThat(response.statusCode()).isEqualTo(SC_CREATED);
   }
@@ -106,7 +106,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = refName;
 
-    Response<?> response = fetchAction.apply(projectResource, inputParams);
+    Response<?> response = fetchAction.apply(projectName, inputParams);
 
     assertThat((FetchAction.Input) response.value()).isEqualTo(inputParams);
   }
@@ -116,7 +116,7 @@ public class FetchActionTest {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.refName = refName;
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
@@ -125,7 +125,7 @@ public class FetchActionTest {
     inputParams.label = "";
     inputParams.refName = refName;
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
@@ -133,7 +133,7 @@ public class FetchActionTest {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test(expected = BadRequestException.class)
@@ -142,7 +142,7 @@ public class FetchActionTest {
     inputParams.label = label;
     inputParams.refName = "";
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test(expected = RestApiException.class)
@@ -155,7 +155,7 @@ public class FetchActionTest {
 
     doThrow(new InterruptedException()).when(fetchCommand).fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test(expected = UnprocessableEntityException.class)
@@ -170,7 +170,7 @@ public class FetchActionTest {
         .when(fetchCommand)
         .fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test(expected = RestApiException.class)
@@ -185,7 +185,7 @@ public class FetchActionTest {
         .when(fetchCommand)
         .fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test(expected = RestApiException.class)
@@ -198,7 +198,7 @@ public class FetchActionTest {
 
     doThrow(new IllegalStateException()).when(fetchCommand).fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test(expected = RestApiException.class)
@@ -211,7 +211,7 @@ public class FetchActionTest {
 
     doThrow(new TimeoutException()).when(fetchCommand).fetchSync(any(), any(), any());
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test(expected = AuthException.class)
@@ -223,7 +223,7 @@ public class FetchActionTest {
 
     when(preConditions.canCallFetchApi()).thenReturn(false);
 
-    fetchAction.apply(projectResource, inputParams);
+    fetchAction.apply(projectName, inputParams);
   }
 
   @Test
@@ -233,7 +233,7 @@ public class FetchActionTest {
     inputParams.refName = refName;
     inputParams.async = true;
 
-    Response<?> response = fetchAction.apply(projectResource, inputParams);
+    Response<?> response = fetchAction.apply(projectName, inputParams);
     assertThat(response.statusCode()).isEqualTo(SC_ACCEPTED);
   }
 
@@ -244,7 +244,7 @@ public class FetchActionTest {
     inputParams.refName = refName;
     inputParams.async = true;
 
-    Response<?> response = fetchAction.apply(projectResource, inputParams);
+    Response<?> response = fetchAction.apply(projectName, inputParams);
     assertThat(response).isInstanceOf(Response.Accepted.class);
     Response.Accepted acceptResponse = (Response.Accepted) response;
     assertThat(acceptResponse.location()).isEqualTo(location);
