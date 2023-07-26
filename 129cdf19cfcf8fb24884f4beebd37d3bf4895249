@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "584f53a8_99c92b67",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-26T12:32:57Z",
+      "side": 1,
+      "message": "Nope, check L187 we always wants to return if `useBatchUpdateEvents`",
+      "parentUuid": "8687cbd6_32996411",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 56
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33dd4286_675f8597",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-26T06:25:58Z",
       "side": 1,
       "message": "nit: the string is _always_ created even if log level doesn\u0027t include `debug` how about\n```suggestion\n    repLog.debug(\"sortByMetaRefAsLast({} \u003c\u003d\u003e {})\", a.refName, b.refName);\n```",
+      "range": {
+        "startLine": 221,
+        "startChar": 4,
+        "endLine": 221,
+        "endChar": 75
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb22145a_da140349",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-26T12:32:57Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "33dd4286_675f8597",
       "range": {
         "startLine": 221,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af9809a1_db962f55",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigBase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-26T12:32:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e57b450_d8334f82",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 7
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65cae3bf_6542c01d",
@@ -83,6 +155,24 @@
       "writtenOn": "2023-07-26T06:25:58Z",
       "side": 1,
       "message": "nit: change not related",
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec2eedcb_881f6166",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigBase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-26T12:32:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65cae3bf_6542c01d",
       "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53b19e75_01220f6f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationITBase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-26T12:32:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ca130a4_1b344f5c",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 7
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c482f293_ff076679",
@@ -127,6 +241,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bf4188d_624d6b2b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationWithGitHttpTransportProtocolBatchRefUpdatedIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-26T12:32:57Z",
+      "side": 1,
+      "message": "It\u0027s done by overriding `useBatchRefUpdateEvent`",
+      "parentUuid": "c482f293_ff076679",
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5137dbef_41577951",
@@ -140,6 +272,30 @@
       "writtenOn": "2023-07-26T06:25:58Z",
       "side": 1,
       "message": "nit: I see it being created a few times down - how about a dedicated method?",
+      "range": {
+        "startLine": 203,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 36
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1098a480_32dce4a2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-26T12:32:57Z",
+      "side": 1,
+      "message": "well but this method will just call constructor",
+      "parentUuid": "5137dbef_41577951",
       "range": {
         "startLine": 203,
         "startChar": 4,
