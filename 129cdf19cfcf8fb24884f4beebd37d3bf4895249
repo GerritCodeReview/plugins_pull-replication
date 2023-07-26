@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8687cbd6_32996411",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-26T06:25:58Z",
+      "side": 1,
+      "message": "nit: combine into single `if` so that less indentation is applied",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 56
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33dd4286_675f8597",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-26T06:25:58Z",
+      "side": 1,
+      "message": "nit: the string is _always_ created even if log level doesn\u0027t include `debug` how about\n```suggestion\n    repLog.debug(\"sortByMetaRefAsLast({} \u003c\u003d\u003e {})\", a.refName, b.refName);\n```",
+      "range": {
+        "startLine": 221,
+        "startChar": 4,
+        "endLine": 221,
+        "endChar": 75
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e57b450_d8334f82",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigBase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-26T06:25:58Z",
+      "side": 1,
+      "message": "nit: can be package protected as it is derived in IT classes",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 7
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65cae3bf_6542c01d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigBase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-26T06:25:58Z",
+      "side": 1,
+      "message": "nit: change not related",
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ca130a4_1b344f5c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationITBase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-26T06:25:58Z",
+      "side": 1,
+      "message": "nit: can be package protected",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 7
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c482f293_ff076679",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationWithGitHttpTransportProtocolBatchRefUpdatedIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-26T06:25:58Z",
+      "side": 1,
+      "message": "I would expect that the following Gerrit config would be needed for the test to actually enable do batch-ref-update processing\n\n```java\n  @ConfigSuite.Default\n  public static Config defaultConfig() {\n    Config cfg \u003d new Config();\n    cfg.setBoolean(\"event\", \"stream-events\", \"enableBatchRefUpdatedEvents\", true);\n    return cfg;\n  }\n```",
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5137dbef_41577951",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-26T06:25:58Z",
+      "side": 1,
+      "message": "nit: I see it being created a few times down - how about a dedicated method?",
+      "range": {
+        "startLine": 203,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 36
+      },
+      "revId": "129cdf19cfcf8fb24884f4beebd37d3bf4895249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
