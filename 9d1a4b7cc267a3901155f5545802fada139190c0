@@ -70,6 +70,30 @@
       },
       "revId": "9d1a4b7cc267a3901155f5545802fada139190c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "592910e1_a272dd5a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-26T06:54:00Z",
+      "side": 1,
+      "message": "Ok, my search included jgit module, which is full of the `* Copyright` style, I will change it.",
+      "parentUuid": "5ff9030f_22e20d24",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "9d1a4b7cc267a3901155f5545802fada139190c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
