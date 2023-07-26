@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eb553b86_ffb23bb5",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectActionTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-26T06:38:32Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/377697/comment/f9a9031a_67d1c5e7/",
+      "parentUuid": "a8394acb_d7324859",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "1d1286ea6b33d46bbf847c810c7a11a7c68c1cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "278299f8_49dc15c6",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectDataTest.java",
         "patchSetId": 26
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "See https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/377697/comment/2230f727_02c30991/ and let me know WYT",
       "parentUuid": "278299f8_49dc15c6",
+      "range": {
+        "startLine": 1,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "1d1286ea6b33d46bbf847c810c7a11a7c68c1cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a427f981_52e2f6e5",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectDataTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-26T06:38:32Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/377697/comment/f9a9031a_67d1c5e7/",
+      "parentUuid": "d38878d2_1a67f30d",
       "range": {
         "startLine": 1,
         "startChar": 1,
