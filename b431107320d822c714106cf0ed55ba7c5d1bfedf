@@ -306,6 +306,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f615f06_c8363a59",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T05:36:02Z",
+      "side": 1,
+      "message": "we do now 😊\nhttps://issues.gerritcodereview.com/u/2/issues/293794767",
+      "parentUuid": "f458f7e0_4b137821",
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37513173_37b09416",
