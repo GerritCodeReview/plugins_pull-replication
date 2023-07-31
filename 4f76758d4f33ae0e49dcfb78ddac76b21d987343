@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae941dd4_b35e6646",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchFetchAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "This is being done in a separate change: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/378721",
+      "parentUuid": "669bfe4b_593b8ff4",
+      "range": {
+        "startLine": 39,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 59
+      },
+      "revId": "4f76758d4f33ae0e49dcfb78ddac76b21d987343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71176e7b_f24f1897",

@@ -67,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "03a7d34c_3abfeabe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "This is our fallback logic, where we (used to) resort to calling fetch. Now, we are just utilising the benefits of batch fetch. Note that batching is controlled in the config, so if we don\u0027t have it enabled, then `callBatchFetch` simply delegates to `callFetch`. \nWhat should we call instead?",
+      "parentUuid": "014cd15f_f1af6d25",
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d067f0b2_94db982f",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 13
@@ -78,6 +96,30 @@
       "writtenOn": "2023-07-19T12:46:58Z",
       "side": 1,
       "message": "I think the name of the method is misleading. We are saying we are calling a BatchFetch, however we might not (L#598).\n\nI would rather leave the check at (L#598) outside of this method either having an inline switch:\n\n```\nsource.enableBatchedRefs() ? callBatchFetch(source, project, refs, state) : callBatchSingle(source, project, refs, state);\n```\n\n... or with a wrapper method, got example `callFetch` which will either invoke `callBathFetch` or `callSingelFetch`.",
+      "range": {
+        "startLine": 592,
+        "startChar": 18,
+        "endLine": 592,
+        "endChar": 32
+      },
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9163b3f2_0b00be55",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d067f0b2_94db982f",
       "range": {
         "startLine": 592,
         "startChar": 18,
@@ -111,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3138d876_3e633052",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b2bc26a_b9041c16",
+      "range": {
+        "startLine": 637,
+        "startChar": 36,
+        "endLine": 637,
+        "endChar": 44
+      },
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecf6874c_113c95ad",
@@ -124,6 +190,30 @@
       "writtenOn": "2023-07-19T12:46:58Z",
       "side": 1,
       "message": "I think it is a bit confusing that at L#621 we are saying the replication is `COMPLETED` and later on we are logging the API call failed.",
+      "range": {
+        "startLine": 635,
+        "startChar": 10,
+        "endLine": 639,
+        "endChar": 21
+      },
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a09f4a43_45349310",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "Agreed, but this is what we do in `callFetch` which serves as the blueprint. I guess we want to know the result and how long it took (hence the 1st log statement) and we also want to know the reason why we failed (hence the 2nd log statement). However I think using the `resultSuccessful` in the guard is not correct, I have changed this to `result.isSuccessful`, because the `result` can (eventually) be successful if we create a project.\nI think that will prevent (unnecessarily) logging the failure in a few occasions.",
+      "parentUuid": "ecf6874c_113c95ad",
       "range": {
         "startLine": 635,
         "startChar": 10,
@@ -157,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae21e3d_84511fd9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "If we return early, then i think we exit the for loop (`for (String apiUrl : source.getApis())`) which is wrong.",
+      "parentUuid": "fae136dd_abfdc093",
+      "range": {
+        "startLine": 621,
+        "startChar": 7,
+        "endLine": 641,
+        "endChar": 52
+      },
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32b7c017_b6330d60",
@@ -170,6 +284,30 @@
       "writtenOn": "2023-07-19T12:46:58Z",
       "side": 1,
       "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52a096cf_0481b331",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchFetchAction.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32b7c017_b6330d60",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -203,6 +341,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bab3ef52_ed3a37c0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "The list is ordered by the logic in the `ReplicationQueue` - we then just pass it around. Also, ordering can be dangerous, as the semantics are different. Based on what will you sort? The sorting i mentioned earlier puts the meta ref last, however if this code is called from elsewhere, perhaps a different sorting will be more appropriate.",
+      "parentUuid": "37e1bf1a_f76180e4",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 139,
+        "endChar": 19
+      },
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "83b13a71_e6eaae3c",
@@ -226,6 +388,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f35caf92_a1170ea2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "no, but resolving conflicts is already tedious enough in this chain, as its not a functional change, lets leave it.",
+      "parentUuid": "83b13a71_e6eaae3c",
+      "range": {
+        "startLine": 247,
+        "startChar": 35,
+        "endLine": 247,
+        "endChar": 47
+      },
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3985ad84_745eb5f5",
@@ -239,6 +425,24 @@
       "writtenOn": "2023-07-19T12:46:58Z",
       "side": 1,
       "message": "Isn\u0027t the batching disabled by default? Why we are calling the `callBatchFetch` here?",
+      "revId": "b1648db1d5056242b7629599da1ee8f869956600",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3e77278_225524c1",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-31T07:10:33Z",
+      "side": 1,
+      "message": "It is enabled in the test (check the setup method, `when(source.enableBatchedRefs()).thenReturn(true);`)",
+      "parentUuid": "3985ad84_745eb5f5",
       "revId": "b1648db1d5056242b7629599da1ee8f869956600",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
