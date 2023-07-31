@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80ad8383_2cba5be4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-07-31T15:46:28Z",
+      "side": 1,
+      "message": "Again, my lack of knowledge, what\u0027s a sync ref? And what\u0027s an async one?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "b7063d77083b0748f6259c34064df69f25d740ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f46ee0ad_384da5ff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
