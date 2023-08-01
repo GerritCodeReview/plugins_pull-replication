@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5c9840b_f774d168",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-01T04:38:38Z",
+      "side": 1,
+      "message": "Refs for which we want to execute a sync or an async git fetch call. It is configurable via the `replication.syncRefs` config.",
+      "parentUuid": "80ad8383_2cba5be4",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "b7063d77083b0748f6259c34064df69f25d740ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f46ee0ad_384da5ff",
