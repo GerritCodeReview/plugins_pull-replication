@@ -34,6 +34,29 @@
       "parentUuid": "b3f060af_ef22ebe9",
       "revId": "5c05b3dd04e8876007c7f2727c91c8563aacd683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c10f13f_582e6667",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReaderIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-02T04:56:45Z",
+      "side": 1,
+      "message": "How is this test related to the problem?",
+      "range": {
+        "startLine": 96,
+        "startChar": 14,
+        "endLine": 96,
+        "endChar": 52
+      },
+      "revId": "5c05b3dd04e8876007c7f2727c91c8563aacd683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
