@@ -57,6 +57,30 @@
       },
       "revId": "5c05b3dd04e8876007c7f2727c91c8563aacd683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63ec350d_8207bbb8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReaderIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1160733
+      },
+      "writtenOn": "2023-08-02T08:16:46Z",
+      "side": 1,
+      "message": "If \"walk.setPostOrderTraversal(true)\" not set, th master will not send  project\u0027s first commit to the slave.\n\nBut the test framework in Pull-Replicaiton will create a default commit when project created. \n\nSo we could force push a commit without parent to imitate it is the first commit in the project and watch whether tree objects will be replicated.",
+      "parentUuid": "1c10f13f_582e6667",
+      "range": {
+        "startLine": 96,
+        "startChar": 14,
+        "endLine": 96,
+        "endChar": 52
+      },
+      "revId": "5c05b3dd04e8876007c7f2727c91c8563aacd683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
