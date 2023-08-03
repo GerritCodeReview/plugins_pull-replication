@@ -16,6 +16,24 @@
       "message": "I think I am missing something. Why using `batch-ref-update` events allow us to get rid of this?",
       "revId": "f466de4c297fa0d99d9b53998d81ff48415b1952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2378a039_fff20f10",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FakeGitReferenceUpdatedEvent.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-03T14:51:01Z",
+      "side": 0,
+      "message": "On the first iterations of the `BatchRefUpdateEvent`, it did not have a default constructor, and in order to fix the tests we came up with the `generateBatchRefUpdateEvent` method in `PullReplicationSetupBase`. This made the `FakeGitReferenceUpdatedEvent` class redundant (at the time all the tests were changed to use the `BatchRefUpdateEvent`). \n\nI see now that the default constructor is included, so we could undo this change, if we prefer having a fake event class extending the `BatchRefUpdateEvent` class, WDYT? I personally don\u0027t see the point, but I might be missing something.",
+      "parentUuid": "f1526934_5d018792",
+      "revId": "f466de4c297fa0d99d9b53998d81ff48415b1952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
