@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1526934_5d018792",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FakeGitReferenceUpdatedEvent.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-03T12:34:44Z",
+      "side": 0,
+      "message": "I think I am missing something. Why using `batch-ref-update` events allow us to get rid of this?",
+      "revId": "f466de4c297fa0d99d9b53998d81ff48415b1952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -83,6 +83,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26d85d96_3c5a8f4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-03T12:34:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36df6e24_993ddcc7",
+      "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d937dfc_6d42e045",
@@ -172,6 +190,54 @@
         "startChar": 59,
         "endLine": 129,
         "endChar": 86
+      },
+      "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c15e7d78_4be0fc90",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-03T12:34:44Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e9cd8af1_4b59b619",
+      "range": {
+        "startLine": 129,
+        "startChar": 59,
+        "endLine": 129,
+        "endChar": 86
+      },
+      "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3f91454_605eed5e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-03T12:34:44Z",
+      "side": 1,
+      "message": "Oh I see. I think it might make sense to add a note to the pull-replication docs, saying that if you want to use it, you need to enable that Gerrit configuration.",
+      "parentUuid": "1256ba9f_a14b24af",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 129,
+        "endChar": 96
       },
       "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
