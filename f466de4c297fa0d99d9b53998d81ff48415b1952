@@ -34,6 +34,24 @@
       "parentUuid": "f1526934_5d018792",
       "revId": "f466de4c297fa0d99d9b53998d81ff48415b1952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea7f8ed6_5827482a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FakeGitReferenceUpdatedEvent.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-03T18:09:14Z",
+      "side": 0,
+      "message": "My doubt was more, why getting rid of the FakeGitReferenceUpdatedEvent in this change? I guess we could eliminate FakeGitReferenceUpdatedEvent separately from this change to reduce the scope of this change.",
+      "parentUuid": "2378a039_fff20f10",
+      "revId": "f466de4c297fa0d99d9b53998d81ff48415b1952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
