@@ -52,6 +52,24 @@
       "parentUuid": "2378a039_fff20f10",
       "revId": "f466de4c297fa0d99d9b53998d81ff48415b1952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb951ed_02c356f7",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FakeGitReferenceUpdatedEvent.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-07T09:12:34Z",
+      "side": 0,
+      "message": "Oh I see - yeah this could be a separate change, but it would involve only removing a single file, tbh i don\u0027t think it increases the scope much.",
+      "parentUuid": "ea7f8ed6_5827482a",
+      "revId": "f466de4c297fa0d99d9b53998d81ff48415b1952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
