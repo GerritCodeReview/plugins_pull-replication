@@ -105,6 +105,30 @@
       },
       "revId": "5c05b3dd04e8876007c7f2727c91c8563aacd683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf44b280_3d669ecd",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/RevisionReaderIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-07T15:42:58Z",
+      "side": 1,
+      "message": "Exactly, this test covers steps described in the ticket and will:\n1. Create empty repo without initial commit:\n` createProjectOverAPI(\"emptyProject\", project, *false*, /* submitType\u003d */ null);`\n2. Create an initial change with some files and directories structure\n3. Read the content of that commit.\n\nWithout the code fix test will fail in L128 and in L134 because tree objects will be skipped",
+      "parentUuid": "aec6613e_8546131f",
+      "range": {
+        "startLine": 96,
+        "startChar": 14,
+        "endLine": 96,
+        "endChar": 52
+      },
+      "revId": "5c05b3dd04e8876007c7f2727c91c8563aacd683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
