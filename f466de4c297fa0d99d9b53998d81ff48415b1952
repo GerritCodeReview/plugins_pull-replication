@@ -70,6 +70,24 @@
       "parentUuid": "ea7f8ed6_5827482a",
       "revId": "f466de4c297fa0d99d9b53998d81ff48415b1952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11512bd2_b35b8960",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FakeGitReferenceUpdatedEvent.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-07T15:35:39Z",
+      "side": 0,
+      "message": "True, in percentage it won\u0027t reduce much the amount of line touched in the change, however, it will reduce the logical scope of the two changes.\n\nAnyway, I am not strong about that, I just +1 since being a big change I\u0027d like someone else to look at it as well.",
+      "parentUuid": "fcb951ed_02c356f7",
+      "revId": "f466de4c297fa0d99d9b53998d81ff48415b1952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
