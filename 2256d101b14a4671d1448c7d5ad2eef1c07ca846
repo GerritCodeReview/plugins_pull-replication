@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6480ea9f_933b1a6c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-08T17:40:23Z",
+      "side": 1,
+      "message": "This timer will leak as it only gets stopped in one of the branches of the condition.",
+      "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9614eb0_3ac36387",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-08T17:40:23Z",
+      "side": 1,
+      "message": "We should move `filteredRefsBatch`, `apiTimer` `batchApplyObjectStr`, `uri` into this branch as they are not used in the else branch anymore. Technically the latter two are also used in the log statement above... but maybe it would be clearer if that log statement was moved into this branch, and we added another log statement to say we\u0027re falling back as `enableBatchedRefs` isn\u0027t set. WDYT? Or maybe this is addressed in another change in this chain?",
+      "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "291ffeac_68caf285",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-08T17:40:23Z",
+      "side": 1,
+      "message": "Is this going to be addressed anywhere in this change, or another one? These tend to be forgotten and stay with the code. I think this would better be expressed as a comment/ticket than a TODO here.",
+      "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
