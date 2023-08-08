@@ -27,6 +27,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -50,6 +51,7 @@ public class ProjectInitializationAction extends HttpServlet {
   private final GerritConfigOps gerritConfigOps;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
   private final ProjectIndexer projectIndexer;
 
   @Inject
@@ -57,10 +59,12 @@ public class ProjectInitializationAction extends HttpServlet {
       GerritConfigOps gerritConfigOps,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
+      ProjectCache projectCache,
       ProjectIndexer projectIndexer) {
     this.gerritConfigOps = gerritConfigOps;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
     this.projectIndexer = projectIndexer;
   }
 
@@ -111,6 +115,7 @@ public class ProjectInitializationAction extends HttpServlet {
     LocalFS localFS = new LocalFS(maybeUri.get());
     Project.NameKey projectNameKey = Project.NameKey.parse(projectName);
     if (localFS.createProject(projectNameKey, RefNames.HEAD)) {
+      projectCache.evict(projectNameKey);
       projectIndexer.index(projectNameKey);
       return true;
     }
