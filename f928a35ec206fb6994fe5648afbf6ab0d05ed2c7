@@ -26,6 +26,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3add63bb_e80b4a51",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-08T14:07:01Z",
+      "side": 1,
+      "message": "Nit: why does this method need the _Single_ qualifier? Isn\u0027t it implicit if we call this method `fireRefUpdate`? Even if we had a method to fire several ref updates I think it would be enough to use the plural form `fireRefUpdates` rather than `fireMultipleRefUpdates`.",
+      "range": {
+        "startLine": 199,
+        "startChar": 15,
+        "endLine": 199,
+        "endChar": 34
+      },
+      "revId": "f928a35ec206fb6994fe5648afbf6ab0d05ed2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dad746c_97afef18",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-08T14:07:01Z",
+      "side": 1,
+      "message": "This output is non-deterministic, isn\u0027t it? Wouldn\u0027t it be better to add another discriminator to make the output deterministic?",
+      "revId": "f928a35ec206fb6994fe5648afbf6ab0d05ed2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c943a61c_7307148c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 22
