@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2200524_d4cd2bbc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-08T16:42:26Z",
+      "side": 1,
+      "message": "This threw me at first, I didn\u0027t immediately notice that it was a different variable to `resultSuccessful`. Maybe we could call it `batchResultSuccessful` for clarity?",
+      "revId": "b6e70ec53cc19adf4bbc00057bd47d847c748bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "225112e9_dd1f5d24",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-08T16:42:26Z",
+      "side": 1,
+      "message": "If we hit the first condition (`RefNames.isNoteDbMetaRef(refName)`) does this guarantee `revisionData` is present? I don\u0027t see an explicit check for it, and its presence not obvious (to me at least).",
+      "revId": "b6e70ec53cc19adf4bbc00057bd47d847c748bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35f5bec1_01dc142f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-08T16:42:26Z",
+      "side": 1,
+      "message": "Just thinking out loud, but it looks to me like the general approach here is to send the max number of objects, ignoring failures. In which case is there a way we can throw this at the end rather than in here? That might allow more objects to be sent across. Downside might be code complexity (I haven\u0027t written it out), but I thought it\u0027s worth asking the question.",
+      "revId": "b6e70ec53cc19adf4bbc00057bd47d847c748bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
