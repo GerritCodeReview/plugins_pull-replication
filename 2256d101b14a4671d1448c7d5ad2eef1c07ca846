@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16f78cc6_902f5644",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-09T12:19:54Z",
+      "side": 1,
+      "message": "Ah yes, my bad - we shouldn\u0027t have it in the loop. We are still calling these methods unnecessary though if we end up in the `else` branch though. Maybe they\u0027re cheap and we don\u0027t care too much, in which case this works; otherwise we could assign these to private methods, so we would only evaluate them in the branch they\u0027re required. Either works for me.\n\nI like the different log lines - I think it\u0027ll be easier to follow what\u0027s happening 😊",
+      "parentUuid": "9834dbef_126d2748",
+      "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "291ffeac_68caf285",
