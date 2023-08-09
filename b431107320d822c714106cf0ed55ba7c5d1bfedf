@@ -813,6 +813,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7130bc31_7fe5c254",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-09T11:55:44Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f51bf6c2_74512b5c",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "b431107320d822c714106cf0ed55ba7c5d1bfedf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3b94a7d_4d5bdfca",
