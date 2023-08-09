@@ -16,6 +16,24 @@
       "message": "As this is the first pass, we thought we\u0027d simply retry all the refs. And as a follow up, we will work on retrying only the ones that failed (or were never tried). But let me know if you see any issues with the current solution.",
       "revId": "02d116a485b42d1da2226a65dcb5fa59e201424c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55bf8e33_18e72ed4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T09:44:43Z",
+      "side": 1,
+      "message": "https://issues.gerritcodereview.com/u/2/issues/295030056",
+      "parentUuid": "5bcf115a_98db4e6d",
+      "revId": "02d116a485b42d1da2226a65dcb5fa59e201424c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

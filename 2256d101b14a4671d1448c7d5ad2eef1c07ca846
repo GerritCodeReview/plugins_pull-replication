@@ -104,6 +104,24 @@
       "parentUuid": "291ffeac_68caf285",
       "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a44f4016_440a0590",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T09:44:43Z",
+      "side": 1,
+      "message": "https://issues.gerritcodereview.com/u/2/issues/295030056",
+      "parentUuid": "ccc36be1_f5783438",
+      "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
