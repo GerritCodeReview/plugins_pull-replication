@@ -243,6 +243,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b5024e1_bf52404a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-09T11:53:54Z",
+      "side": 1,
+      "message": "But the idea is that it doesn\u0027t metter which one Gerrit Core is using, we support both",
+      "parentUuid": "e3f91454_605eed5e",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 129,
+        "endChar": 96
+      },
+      "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c88635d9_bda7d6c4",
@@ -887,6 +911,30 @@
       "side": 1,
       "message": "Yes, it\u0027s testing RefUpdateEvent instead of BatchRefUpdateEvent",
       "parentUuid": "42908026_9b8882f3",
+      "range": {
+        "startLine": 199,
+        "startChar": 14,
+        "endLine": 199,
+        "endChar": 62
+      },
+      "revId": "24100c6fe10f76378e621b7d1d92c3ee33bdf3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5b4bae4_b65c6601",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-09T11:53:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c6ef53a0_382d0e6d",
       "range": {
         "startLine": 199,
         "startChar": 14,
