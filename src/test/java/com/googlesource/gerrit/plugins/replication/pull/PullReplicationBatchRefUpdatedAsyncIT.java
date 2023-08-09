@@ -28,8 +28,13 @@ import org.eclipse.jgit.util.FS;
     name = "pull-replication",
     sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
-public class PullReplicationAsyncIT extends PullReplicationITAbstract {
+public class PullReplicationBatchRefUpdatedAsyncIT extends PullReplicationITAbstract {
   @Inject private SitePaths sitePaths;
+
+  @Override
+  protected boolean useBatchRefUpdateEvent() {
+    return true;
+  }
 
   @Override
   public void setUpTestPlugin() throws Exception {
