@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef5f99e0_259172bf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T09:31:11Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "6480ea9f_933b1a6c",
+      "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9614eb0_3ac36387",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9834dbef_126d2748",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T09:31:11Z",
+      "side": 1,
+      "message": "`filteredRefsBatch` is used to calculate the `batchApplyObjectStr`, however I have refactored the code in such way that makes more sense now (IMO). Moving the `filteredRefsBatch` and `batchApplyObjectStr` to your suggested place is inefficient as its inside the L500 for loop, which means we would recalculate them for every `apiUrl`.",
+      "parentUuid": "f9614eb0_3ac36387",
+      "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "291ffeac_68caf285",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-08-08T17:40:23Z",
       "side": 1,
       "message": "Is this going to be addressed anywhere in this change, or another one? These tend to be forgotten and stay with the code. I think this would better be expressed as a comment/ticket than a TODO here.",
+      "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccc36be1_f5783438",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T09:31:11Z",
+      "side": 1,
+      "message": "The plan was always to tackle this in a follow up change (see also https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/378274/comment/5bcf115a_98db4e6d/), however we paused further development work as we already had raised quite a few meaty changes. I will get a card raised though so we won\u0027t forget.",
+      "parentUuid": "291ffeac_68caf285",
       "revId": "2256d101b14a4671d1448c7d5ad2eef1c07ca846",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
