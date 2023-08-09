@@ -33,6 +33,24 @@
       "message": "What is the benefit of replacing the parameter `TypeLiteral\u003cT\u003e typeLiteral` by `Type typeToken`?",
       "revId": "ae9763d81478e1b552847c6354403a4bec311fb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dde4a6f_d4ed278c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T16:05:20Z",
+      "side": 1,
+      "message": "This was required because of L243 - 244. We now have the need to serialize the json back to a `List`, which is not a `TypeLiteral`.",
+      "parentUuid": "0515e710_4b1f64ad",
+      "revId": "ae9763d81478e1b552847c6354403a4bec311fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

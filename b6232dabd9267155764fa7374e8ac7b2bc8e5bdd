@@ -16,6 +16,24 @@
       "message": "Is this related with this change?",
       "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "156a08f6_1cc19ce4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T16:05:20Z",
+      "side": 0,
+      "message": "Sort of - I would have to change this line anyway for the test to pass, but this verification offers absolutely nothing. But I just spotted the change in L218, which is redundant, and I removed it.",
+      "parentUuid": "fe5da795_0d3adb6c",
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
