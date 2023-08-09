@@ -16,6 +16,24 @@
       "message": "could we combine L118 and L119 using the `projectCache.evictAndReindex` method?\n\nAlternatively, could we use the `projectCache.remove` method, which also removes the project name from the `ALL` key, and then performs the eviction and reindexing?",
       "revId": "82f574533c541f7be9530ed0803a83f13ee0fa94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5f59cd8_54b270a0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-09T07:40:56Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "718ba972_0c067839",
+      "revId": "82f574533c541f7be9530ed0803a83f13ee0fa94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
