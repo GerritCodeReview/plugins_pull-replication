@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe5da795_0d3adb6c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-08-09T15:53:24Z",
+      "side": 0,
+      "message": "Is this related with this change?",
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
