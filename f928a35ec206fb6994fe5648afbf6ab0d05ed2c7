@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90bab11c_d97ffc6b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T06:09:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2bbb421_10530b11",
+      "range": {
+        "startLine": 181,
+        "startChar": 16,
+        "endLine": 181,
+        "endChar": 25
+      },
+      "revId": "f928a35ec206fb6994fe5648afbf6ab0d05ed2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3add63bb_e80b4a51",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-08-08T14:07:01Z",
       "side": 1,
       "message": "Nit: why does this method need the _Single_ qualifier? Isn\u0027t it implicit if we call this method `fireRefUpdate`? Even if we had a method to fire several ref updates I think it would be enough to use the plural form `fireRefUpdates` rather than `fireMultipleRefUpdates`.",
+      "range": {
+        "startLine": 199,
+        "startChar": 15,
+        "endLine": 199,
+        "endChar": 34
+      },
+      "revId": "f928a35ec206fb6994fe5648afbf6ab0d05ed2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8afa3694_e0aa652b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T06:09:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3add63bb_e80b4a51",
       "range": {
         "startLine": 199,
         "startChar": 15,
@@ -66,6 +114,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6dd22ae0_f9c9520d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T06:09:50Z",
+      "side": 1,
+      "message": "I believe this is a different change that we re-used here, so I dont have context. However, why do you think its non-deterministic? No matter how many times you call the method for two refs A and B, the (comparison) result will always be the same.",
+      "parentUuid": "0dad746c_97afef18",
+      "revId": "f928a35ec206fb6994fe5648afbf6ab0d05ed2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c943a61c_7307148c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 22
@@ -77,6 +143,30 @@
       "writtenOn": "2023-08-03T12:34:44Z",
       "side": 1,
       "message": "nit: `refUpdateAttribute`",
+      "range": {
+        "startLine": 592,
+        "startChar": 57,
+        "endLine": 592,
+        "endChar": 66
+      },
+      "revId": "f928a35ec206fb6994fe5648afbf6ab0d05ed2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dddbd30_d5c21eff",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-09T06:09:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c943a61c_7307148c",
       "range": {
         "startLine": 592,
         "startChar": 57,
