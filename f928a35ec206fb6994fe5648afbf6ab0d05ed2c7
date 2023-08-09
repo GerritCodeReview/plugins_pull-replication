@@ -130,6 +130,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f999ae4_9265ac95",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-08-09T07:03:46Z",
+      "side": 1,
+      "message": "Come to think of it, maybe it\u0027s not non-deterministic, but rather depend on the input order? I meant the same set of inputs in different orders will be ordered based on whether they\u0027re notedb meta refs, but the secondary ordering after that is non-deterministic; but actually looking at this again I don\u0027t think it is, rather it depends on the input order. I haven\u0027t verified it but I guess that makes sense, and it sounds like it\u0027s probably what we want. My bad 😊",
+      "parentUuid": "6dd22ae0_f9c9520d",
+      "revId": "f928a35ec206fb6994fe5648afbf6ab0d05ed2c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c943a61c_7307148c",
