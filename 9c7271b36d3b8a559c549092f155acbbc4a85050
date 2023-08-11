@@ -135,6 +135,30 @@
       },
       "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f2e2b5f_5c510f57",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchReplicationMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-11T06:39:35Z",
+      "side": 1,
+      "message": "Good idea let\u0027s try to implement that",
+      "parentUuid": "21497a39_7a6dfe6b",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 54
+      },
+      "revId": "9c7271b36d3b8a559c549092f155acbbc4a85050",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
