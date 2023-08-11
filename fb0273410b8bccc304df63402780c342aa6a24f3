@@ -342,6 +342,30 @@
       },
       "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b91ad51_066e3df6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-11T05:58:04Z",
+      "side": 1,
+      "message": "I\u0027ve added the `Release-Notes` in the description, if that\u0027s not enough please let me know.",
+      "parentUuid": "1788f6ab_fd6c8af6",
+      "range": {
+        "startLine": 337,
+        "startChar": 11,
+        "endLine": 337,
+        "endChar": 16
+      },
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
