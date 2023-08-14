@@ -118,6 +118,30 @@
       },
       "revId": "9d1a4b7cc267a3901155f5545802fada139190c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "242f5007_22425e68",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-14T06:30:05Z",
+      "side": 1,
+      "message": "`jgit` follows different formatting rules as it originates (and is actively developed) under the `Eclipse` umbrella.",
+      "parentUuid": "817a7654_c873245f",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 3
+      },
+      "revId": "9d1a4b7cc267a3901155f5545802fada139190c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
