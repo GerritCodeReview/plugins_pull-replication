@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "db5a1440_c9e821e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-14T14:33:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ba7b39c_35eb19f2",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 147
+      },
+      "revId": "c7cd0e07257746477e5e69d24046aebcd7ec7bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c8bf3f1d_ed058a23",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -121,6 +145,54 @@
       "range": {
         "startLine": 107,
         "startChar": 11,
+        "endLine": 108,
+        "endChar": 37
+      },
+      "revId": "c7cd0e07257746477e5e69d24046aebcd7ec7bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9db5cb7_fa611ed4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/CGitFetch.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-14T14:33:45Z",
+      "side": 1,
+      "message": "`pass.getValue()` returns char[] instead of String but I extracted this check to a helper method",
+      "parentUuid": "20e7c8f0_7fc9c89d",
+      "range": {
+        "startLine": 107,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 37
+      },
+      "revId": "c7cd0e07257746477e5e69d24046aebcd7ec7bbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "338372e7_3e220a68",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/CGitFetch.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-14T14:33:45Z",
+      "side": 1,
+      "message": "what we would like to configure here?",
+      "parentUuid": "bab294a5_adf3a57b",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
         "endLine": 108,
         "endChar": 37
       },
