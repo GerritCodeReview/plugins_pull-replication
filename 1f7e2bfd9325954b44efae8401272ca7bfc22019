@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebc15cc3_5f36c083",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T11:19:55Z",
+      "side": 1,
+      "message": "Could the `if(source.enableBatchedRefs())` ending `}` finish here? From here and below we execute the individual apply object, which is done in two cases:\n- fallback if the batch is not there\n- use it directly if the batch was disabled",
+      "revId": "1f7e2bfd9325954b44efae8401272ca7bfc22019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5c43f95_f605d13d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T11:19:55Z",
+      "side": 1,
+      "message": "Is this related?",
+      "range": {
+        "startLine": 532,
+        "startChar": 0,
+        "endLine": 534,
+        "endChar": 68
+      },
+      "revId": "1f7e2bfd9325954b44efae8401272ca7bfc22019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9552f2bd_f13db9ed",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T11:19:55Z",
+      "side": 1,
+      "message": "This isn\u0027t a fallback, what about `using`?",
+      "range": {
+        "startLine": 561,
+        "startChar": 70,
+        "endLine": 561,
+        "endChar": 85
+      },
+      "revId": "1f7e2bfd9325954b44efae8401272ca7bfc22019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a529120_995389db",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T11:19:55Z",
+      "side": 1,
+      "message": "What if this call fails? Should we continue with the rest of the refs in the batch?",
+      "range": {
+        "startLine": 568,
+        "startChar": 16,
+        "endLine": 568,
+        "endChar": 30
+      },
+      "revId": "1f7e2bfd9325954b44efae8401272ca7bfc22019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c084ec8d_a7389550",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T11:19:55Z",
+      "side": 1,
+      "message": "Align formatting with the rest of the options.\n\nDo we want to also mention the fallback mechanism?\n(if the batch API is not found on the endpoint, fallback to the single apply object mechanism)",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 559,
+        "endChar": 49
+      },
+      "revId": "1f7e2bfd9325954b44efae8401272ca7bfc22019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
