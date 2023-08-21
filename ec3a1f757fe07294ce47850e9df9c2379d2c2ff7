@@ -16,6 +16,23 @@
       "message": "Can anyone help to review this change and submit?",
       "revId": "ec3a1f757fe07294ce47850e9df9c2379d2c2ff7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78d7a2a3_7dc5d165",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-21T09:32:46Z",
+      "side": 1,
+      "message": "I am surprised this was not caught with tests, can we add one for this use-case?",
+      "revId": "ec3a1f757fe07294ce47850e9df9c2379d2c2ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
