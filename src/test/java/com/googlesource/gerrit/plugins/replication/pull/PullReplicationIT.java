@@ -31,6 +31,7 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -297,7 +298,9 @@ public class PullReplicationIT extends PullReplicationSetupBase {
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldCreateNewProject() throws Exception {
+    NameKey parentProject = createTestProject(project.get() + "_parent");
     NameKey projectToCreate = Project.nameKey(project.get() + "_created");
+    String projectDescription = project.get() + " description";
 
     setReplicationSource(TEST_REPLICATION_REMOTE, "", Optional.of(projectToCreate.get()));
     config.save();
@@ -311,6 +314,10 @@ public class PullReplicationIT extends PullReplicationSetupBase {
     client.initProject(projectToCreate, new URIish(source.getApis().get(0)));
 
     waitUntil(() -> repoManager.list().contains(projectToCreate));
+
+    ProjectInfo projectInfo = gApi.projects().name(projectToCreate.get()).get();
+    assertThat(projectInfo.description).isEqualTo(projectDescription);
+    assertThat(projectInfo.parent).isEqualTo(parentProject);
   }
 
   @Test

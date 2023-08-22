@@ -134,11 +134,21 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
    */
   @Override
   public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
-    String url = formatInitProjectUrl(uri.toString(), project);
-    HttpPut put = new HttpPut(url);
-    put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
-    put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
-    return executeRequest(put, bearerTokenProvider.get(), uri);
+    String url = formatInitProjectUrl(targetUri.toString(), project.getProject());
+    HttpPost post = new HttpPost(url);
+    post.setEntity(
+        new StringEntity(
+            String.format(
+                "{\"label\":\"%s\", \"ref_name\": \"refs/meta/config\", \"async\":false}",
+                instanceId),
+            StandardCharsets.UTF_8));
+    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    post.addHeader(new BasicHeader("Accept", MediaType.PLAIN_TEXT_UTF_8.toString()));
+    post.addHeader(
+        PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
+        Long.toString(System.currentTimeMillis() * 1000000L));
+
+    return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
 
   /* (non-Javadoc)
