@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
-import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
@@ -81,6 +80,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private static final Pattern projectNameInitProjectUrl =
       Pattern.compile(".*/init-project/([^/]+.git)");
 
+  private static final Gson gson = OutputFormat.JSON.newGsonBuilder().create();
+
   private FetchAction fetchAction;
   private ApplyObjectAction applyObjectAction;
   private ApplyObjectsAction applyObjectsAction;
@@ -88,7 +89,6 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private UpdateHeadAction updateHEADAction;
   private ProjectDeletionAction projectDeletionAction;
   private ProjectCache projectCache;
-  private Gson gson;
   private String pluginName;
   private final Provider<CurrentUser> currentUserProvider;
 
@@ -111,7 +111,6 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.projectDeletionAction = projectDeletionAction;
     this.projectCache = projectCache;
     this.pluginName = pluginName;
-    this.gson = OutputFormat.JSON.newGsonBuilder().create();
     this.currentUserProvider = currentUserProvider;
   }
 
@@ -194,16 +193,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   }
 
   private void doInitProject(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
-      throws RestApiException, IOException, PermissionBackendException {
-
-    IdString id = getInitProjectName(httpRequest).get();
-    String projectName = id.get();
-    if (projectInitializationAction.initProject(projectName)) {
-      setResponse(
-          httpResponse, HttpServletResponse.SC_CREATED, "Project " + projectName + " initialized");
-      return;
-    }
-    throw new InitProjectException(projectName);
+      throws IOException, ServletException {
+    projectInitializationAction.service(httpRequest, httpResponse);
   }
 
   @SuppressWarnings("unchecked")
@@ -272,7 +263,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     }
   }
 
-  private <T> T readJson(HttpServletRequest httpRequest, TypeLiteral<T> typeLiteral)
+  static <T> T readJson(HttpServletRequest httpRequest, TypeLiteral<T> typeLiteral)
       throws IOException, BadRequestException {
 
     try (BufferedReader br = httpRequest.getReader();

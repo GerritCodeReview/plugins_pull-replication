@@ -4,7 +4,6 @@ import static com.google.common.net.HttpHeaders.ACCEPT;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -174,15 +173,12 @@ public class PullReplicationFilterTest {
 
     when(request.getRequestURI()).thenReturn(INIT_PROJECT_URI);
     when(request.getHeader(ACCEPT)).thenReturn(MediaType.PLAIN_TEXT_UTF_8.toString());
-    when(projectInitializationAction.initProject(PROJECT_NAME_GIT)).thenReturn(true);
-    when(response.getWriter()).thenReturn(printWriter);
 
     final PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
     pullReplicationFilter.doFilter(request, response, filterChain);
 
-    verify(request, times(5)).getRequestURI();
-    verify(projectInitializationAction).initProject(eq(PROJECT_NAME_GIT));
-    verify(response).getWriter();
+    verify(request, atLeastOnce()).getRequestURI();
+    verify(projectInitializationAction).service(any(), any());
   }
 
   @Test
@@ -251,19 +247,6 @@ public class PullReplicationFilterTest {
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verify(response).setStatus(HttpServletResponse.SC_BAD_REQUEST);
-  }
-
-  @Test
-  public void shouldBe500WhenProjectCannotBeInitiated() throws Exception {
-    when(request.getRequestURI()).thenReturn(INIT_PROJECT_URI);
-    when(request.getHeader(ACCEPT)).thenReturn(MediaType.PLAIN_TEXT_UTF_8.toString());
-    when(projectInitializationAction.initProject(PROJECT_NAME_GIT)).thenReturn(false);
-    when(response.getOutputStream()).thenReturn(outputStream);
-
-    final PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
-    pullReplicationFilter.doFilter(request, response, filterChain);
-
-    verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
   }
 
   @Test
