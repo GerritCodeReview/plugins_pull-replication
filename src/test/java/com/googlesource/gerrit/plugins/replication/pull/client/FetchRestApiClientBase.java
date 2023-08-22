@@ -388,7 +388,7 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldCallInitProjectEndpoint() throws IOException, URISyntaxException {
 
-    objectUnderTest.initProject(Project.nameKey("test_repo"), new URIish(api));
+    objectUnderTest.initProject(Project.nameKey("test_repo"), new URIish(api), 0L, null);
 
     verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any());
 
