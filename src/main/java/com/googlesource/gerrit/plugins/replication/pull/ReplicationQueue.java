@@ -30,6 +30,7 @@ import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
@@ -505,7 +506,9 @@ public class ReplicationQueue
   private HttpResult initProject(
       Project.NameKey project, URIish uri, FetchApiClient fetchClient, HttpResult result)
       throws IOException, ClientProtocolException {
-    HttpResult initProjectResult = fetchClient.initProject(project, uri);
+    CreateProjectArgs createArgs = new CreateProjectArgs();
+    createArgs.setProjectName(project);
+    HttpResult initProjectResult = fetchClient.initProject(createArgs, uri);
     if (initProjectResult.isSuccessful()) {
       result = fetchClient.callFetch(project, FetchOne.ALL_REFS, uri);
     } else {
