@@ -15,8 +15,10 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
@@ -372,7 +374,8 @@ public class ReplicationQueue
               if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
                   && revision.size() == 1) {
                 List<RevisionData> allRevisions =
-                    fetchWholeMetaHistory(project, refName, revision.get(0));
+                    fetchWholeMetaHistory(
+                        revReaderProvider.get(), project, refName, revision.get(0));
                 repLog.info(
                     "Pull replication REST API apply object to {} for {}:{} - {}",
                     apiUrl,
@@ -422,11 +425,14 @@ public class ReplicationQueue
     return resultIsSuccessful;
   }
 
-  private List<RevisionData> fetchWholeMetaHistory(
-      NameKey project, String refName, RevisionData revision)
+  @VisibleForTesting
+  public static List<RevisionData> fetchWholeMetaHistory(
+      RevisionReader revisionReader,
+      NameKey project,
+      String refName,
+      @Nullable RevisionData revision)
       throws RepositoryNotFoundException, MissingObjectException, IncorrectObjectTypeException,
           CorruptObjectException, IOException {
-    RevisionReader revisionReader = revReaderProvider.get();
     Optional<RevisionData> revisionDataWithParents =
         revisionReader.read(project, refName, Integer.MAX_VALUE);
 
@@ -439,7 +445,11 @@ public class ReplicationQueue
       revisionReader.read(project, parentObjectId, refName, 0).ifPresent(revisionDataBuilder::add);
     }
 
-    revisionDataBuilder.add(revision);
+    if (revision != null) {
+      revisionDataBuilder.add(revision);
+    } else {
+      revisionDataBuilder.add(revisionReader.read(project, null, refName, 0).get());
+    }
 
     return revisionDataBuilder.build();
   }
@@ -505,7 +515,17 @@ public class ReplicationQueue
   private HttpResult initProject(
       Project.NameKey project, URIish uri, FetchApiClient fetchClient, HttpResult result)
       throws IOException, ClientProtocolException {
-    HttpResult initProjectResult = fetchClient.initProject(project, uri);
+    Optional<RevisionData> revisionData =
+        revReaderProvider.get().read(project, null, RefNames.REFS_CONFIG, 0);
+
+    List<RevisionData> revisionDataList = Collections.emptyList();
+    if (revisionData.isPresent()) {
+      revisionDataList =
+          fetchWholeMetaHistory(
+              revReaderProvider.get(), project, RefNames.REFS_CONFIG, revisionData.get());
+    }
+    HttpResult initProjectResult =
+        fetchClient.initProject(project, uri, System.currentTimeMillis(), revisionDataList);
     if (initProjectResult.isSuccessful()) {
       result = fetchClient.callFetch(project, FetchOne.ALL_REFS, uri);
     } else {

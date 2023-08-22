@@ -70,7 +70,7 @@ public class FetchCommand implements Command {
     fetch(name, label, refName, SYNC, Optional.empty());
   }
 
-  private void fetch(
+  public void fetch(
       Project.NameKey name,
       String label,
       String refName,

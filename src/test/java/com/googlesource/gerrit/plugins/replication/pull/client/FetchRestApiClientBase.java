@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Collections;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
@@ -388,18 +389,18 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldCallInitProjectEndpoint() throws IOException, URISyntaxException {
 
-    objectUnderTest.initProject(Project.nameKey("test_repo"), new URIish(api));
+    objectUnderTest.initProject(Project.nameKey("test_repo"), new URIish(api), 0L, Collections.emptyList());
 
-    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any());
+    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
-    HttpPut httpPut = httpPutCaptor.getValue();
-    assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
-    assertThat(httpPut.getURI().getPath())
+    HttpPost httpPost = httpPostCaptor.getValue();
+    assertThat(httpPost.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPost.getURI().getPath())
         .isEqualTo(
             String.format(
                 "%s/plugins/pull-replication/init-project/test_repo.git",
                 urlAuthenticationPrefix()));
-    assertAuthentication(httpPut);
+    assertAuthentication(httpPost);
   }
 
   @Test
