@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.event;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyBoolean;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -217,7 +218,7 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(projectInitializationAction).initProject(String.format("%s.git", TEST_PROJECT));
+    verify(projectInitializationAction).initProject(String.format("%s.git", TEST_PROJECT), true);
   }
 
   @Test
@@ -231,7 +232,7 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(projectInitializationAction, never()).initProject(any());
+    verify(projectInitializationAction, never()).initProject(any(), anyBoolean());
   }
 
   @Test
@@ -245,7 +246,7 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(projectInitializationAction, never()).initProject(any());
+    verify(projectInitializationAction, never()).initProject(any(), anyBoolean());
   }
 
   @Test
