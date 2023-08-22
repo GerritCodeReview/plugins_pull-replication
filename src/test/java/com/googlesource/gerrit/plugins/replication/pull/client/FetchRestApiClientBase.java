@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.server.project.CreateProjectArgs;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
@@ -388,7 +389,9 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldCallInitProjectEndpoint() throws IOException, URISyntaxException {
 
-    objectUnderTest.initProject(Project.nameKey("test_repo"), new URIish(api));
+    CreateProjectArgs createArgs = new CreateProjectArgs();
+    createArgs.setProjectName("test_repo");
+    objectUnderTest.initProject(createArgs, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any());
 

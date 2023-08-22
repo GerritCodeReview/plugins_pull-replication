@@ -26,6 +26,7 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.config.GerritInstanceId;
+import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
@@ -133,8 +134,8 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
    */
   @Override
-  public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
-    String url = formatInitProjectUrl(uri.toString(), project);
+  public HttpResult initProject(CreateProjectArgs project, URIish uri) throws IOException {
+    String url = formatInitProjectUrl(uri.toString(), project.getProject());
     HttpPut put = new HttpPut(url);
     put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
     put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
