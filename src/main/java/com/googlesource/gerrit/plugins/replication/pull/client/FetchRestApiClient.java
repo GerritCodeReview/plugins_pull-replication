@@ -23,6 +23,7 @@ import com.google.common.net.MediaType;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.config.GerritInstanceId;
@@ -133,12 +134,20 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
    */
   @Override
-  public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
+  public HttpResult initProject(
+      Project.NameKey project, URIish uri, long eventCreatedOn, List<RevisionData> revisionData)
+      throws IOException {
     String url = formatInitProjectUrl(uri.toString(), project);
-    HttpPut put = new HttpPut(url);
-    put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
-    put.addHeader(new BasicHeader("Content-Type", MediaType.PLAIN_TEXT_UTF_8.toString()));
-    return executeRequest(put, bearerTokenProvider.get(), uri);
+
+    RevisionData[] inputData = new RevisionData[revisionData.size()];
+    RevisionsInput input =
+        new RevisionsInput(
+            instanceId, RefNames.REFS_CONFIG, eventCreatedOn, revisionData.toArray(inputData));
+    HttpPost post = new HttpPost(url);
+    post.setEntity(new StringEntity(GSON.toJson(input)));
+    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+
+    return executeRequest(post, bearerTokenProvider.get(), uri);
   }
 
   /* (non-Javadoc)
