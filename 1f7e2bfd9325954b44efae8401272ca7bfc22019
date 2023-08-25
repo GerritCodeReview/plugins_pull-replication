@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65a0e5b0_5c254e41",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-25T15:02:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5c43f95_f605d13d",
+      "range": {
+        "startLine": 532,
+        "startChar": 0,
+        "endLine": 534,
+        "endChar": 68
+      },
+      "revId": "1f7e2bfd9325954b44efae8401272ca7bfc22019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9552f2bd_f13db9ed",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-08-15T11:19:55Z",
       "side": 1,
       "message": "This isn\u0027t a fallback, what about `using`?",
+      "range": {
+        "startLine": 561,
+        "startChar": 70,
+        "endLine": 561,
+        "endChar": 85
+      },
+      "revId": "1f7e2bfd9325954b44efae8401272ca7bfc22019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88b077c6_0fc9608a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-25T15:02:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9552f2bd_f13db9ed",
       "range": {
         "startLine": 561,
         "startChar": 70,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d6b6ea3_cdced533",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-25T15:02:29Z",
+      "side": 1,
+      "message": "we break add fallback to fetch",
+      "parentUuid": "9a529120_995389db",
+      "range": {
+        "startLine": 568,
+        "startChar": 16,
+        "endLine": 568,
+        "endChar": 30
+      },
+      "revId": "1f7e2bfd9325954b44efae8401272ca7bfc22019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c084ec8d_a7389550",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-08-15T11:19:55Z",
       "side": 1,
       "message": "Align formatting with the rest of the options.\n\nDo we want to also mention the fallback mechanism?\n(if the batch API is not found on the endpoint, fallback to the single apply object mechanism)",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 559,
+        "endChar": 49
+      },
+      "revId": "1f7e2bfd9325954b44efae8401272ca7bfc22019",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a991736_9ca1fbc7",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-25T15:02:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c084ec8d_a7389550",
       "range": {
         "startLine": 553,
         "startChar": 0,
