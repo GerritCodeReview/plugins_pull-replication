@@ -20,6 +20,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6e0dd24c_eae117e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-26T14:54:21Z",
+      "side": 1,
+      "message": "extra",
+      "range": {
+        "startLine": 12,
+        "startChar": 4,
+        "endLine": 12,
+        "endChar": 7
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b54095d7_b3a02326",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-26T14:54:21Z",
+      "side": 1,
+      "message": "Does this become static just for testing?\n\nCan we just make it public for testing so we won\u0027t need to pass the `RevisionReader`?",
+      "range": {
+        "startLine": 429,
+        "startChar": 2,
+        "endLine": 429,
+        "endChar": 15
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c803b06_1a075df3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-26T14:54:21Z",
+      "side": 1,
+      "message": "Shall we pass the provider instead? So we consistently use the provider in this class in general?",
+      "range": {
+        "startLine": 430,
+        "startChar": 6,
+        "endLine": 430,
+        "endChar": 36
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9a03cf3a_d325aad0",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 9
@@ -36,6 +105,46 @@
         "startChar": 7,
         "endLine": 437,
         "endChar": 65
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e86c66a_a83aba96",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-26T14:54:21Z",
+      "side": 1,
+      "message": "This won\u0027t cover the case of a new project with history, right?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14c590ef_9a29ae17",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-26T14:54:21Z",
+      "side": 1,
+      "message": "I don\u0027t see where this is needed. Maybe I am just missing it.",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 8
       },
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -66,6 +175,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ad3848d_38487d90",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-26T14:54:21Z",
+      "side": 1,
+      "message": "+1\n\nI think we missed to remove it in this change [1].\n\nIt is the only one which hasn\u0027t been removed:\n\n```\n\u003e find .  -type f -name *Action.java -exec grep -E \"extends .*Servlet\"  {}  \\;\npublic class ProjectInitializationAction extends HttpServlet {\n```\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/380275",
+      "parentUuid": "1e87d7d2_de835e42",
+      "range": {
+        "startLine": 55,
+        "startChar": 49,
+        "endLine": 55,
+        "endChar": 60
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1737aaeb_a3193077",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 9
@@ -77,6 +210,30 @@
       "writtenOn": "2023-08-25T10:07:13Z",
       "side": 1,
       "message": "but do we need to keep those PUT and POST if requests are handled in the PullReplicationFilter?",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 23
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21c7e230_87a7ea6f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-26T14:54:21Z",
+      "side": 1,
+      "message": "We can just handle the 2 versions of the calls in `PullReplicationFilter#doFilter`, which is where we have the dispatch logic at the moment.\n\n`doPut` and `doPost` can go or the method name modified to avoid confusion.",
+      "parentUuid": "1737aaeb_a3193077",
       "range": {
         "startLine": 88,
         "startChar": 0,
@@ -128,6 +285,46 @@
         "startChar": 8,
         "endLine": 176,
         "endChar": 67
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "646433a9_c5d34988",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-26T14:54:21Z",
+      "side": 1,
+      "message": "Don\u0027t we need a reindex here?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe89f220_02044af5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-26T14:54:21Z",
+      "side": 1,
+      "message": "You could move this catch at L#134 and return.",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 215,
+        "endChar": 5
       },
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
