@@ -17,7 +17,10 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
 import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
 import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -73,6 +76,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -257,7 +261,19 @@ public class Source {
   public synchronized int shutdown() {
     int cnt = 0;
     if (pool != null) {
-      cnt = pool.shutdownNow().size();
+      try {
+        // TODO: shutDownDrainTimeout
+        waitUntil(this::isDrained, Duration.ofSeconds(300));
+        pool.shutdown();
+        // TODO: shutDownExecutionTimeout
+        if (!pool.awaitTermination(5, TimeUnit.MINUTES)) {
+          logger.atSevere().log("Waited for 5 minutes, but not all tasks were terminated.");
+          cnt = pool.shutdownNow().size();
+        }
+      } catch (InterruptedException e) {
+        logger.atSevere().withCause(e).log("Interrupted during termination.");
+        cnt = pool.shutdownNow().size();
+      }
       pool = null;
     }
     if (httpClient != null) {
@@ -270,6 +286,29 @@ public class Source {
     }
 
     return cnt;
+  }
+
+  private boolean isDrained() {
+    int numberOfPending = pending.size();
+    int numberOfInFlight = inFlight.size();
+
+    logger.atInfo().atMostEvery(5, SECONDS).log(
+        String.format(
+            "Wait for %d pending and %d in-flight tasks to complete",
+            numberOfPending, numberOfInFlight));
+
+    return numberOfPending == 0 && numberOfInFlight == 0;
+  }
+
+  private static void waitUntil(Supplier<Boolean> waitCondition, Duration timeout)
+      throws InterruptedException {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    while (!waitCondition.get()) {
+      if (stopwatch.elapsed().compareTo(timeout) > 0) {
+        throw new InterruptedException();
+      }
+      MILLISECONDS.sleep(50);
+    }
   }
 
   private boolean shouldReplicate(ProjectState state, CurrentUser user)
