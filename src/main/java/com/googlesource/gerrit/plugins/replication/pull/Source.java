@@ -120,6 +120,7 @@ public class Source {
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private CloseableHttpClient httpClient;
   private final DeleteProjectTask.Factory deleteProjectFactory;
+  private final ReplicationQueueMetrics queueMetrics;
 
   protected enum RetryReason {
     TRANSPORT_ERROR,
@@ -149,7 +150,8 @@ public class Source {
       GroupBackend groupBackend,
       ReplicationStateListeners stateLog,
       GroupIncludeCache groupIncludeCache,
-      DynamicItem<EventDispatcher> eventDispatcher) {
+      DynamicItem<EventDispatcher> eventDispatcher,
+      ReplicationQueueMetrics queueMetrics) {
     config = cfg;
     this.eventDispatcher = eventDispatcher;
     gitManager = gitRepositoryManager;
@@ -157,6 +159,7 @@ public class Source {
     this.userProvider = userProvider;
     this.projectCache = projectCache;
     this.stateLog = stateLog;
+    this.queueMetrics = queueMetrics;
 
     CurrentUser remoteUser;
     if (!cfg.getAuthGroupNames().isEmpty()) {
@@ -403,6 +406,7 @@ public class Source {
 
     repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
     if (!shouldReplicate(project, ref, state)) {
+      queueMetrics.incrementTaskNotScheduled(this);
       return CompletableFuture.completedFuture(null);
     }
 
@@ -418,14 +422,17 @@ public class Source {
             if (head != null
                 && head.isSymbolic()
                 && RefNames.REFS_CONFIG.equals(head.getLeaf().getName())) {
+              queueMetrics.incrementTaskNotScheduled(this);
               return CompletableFuture.completedFuture(null);
             }
           } catch (IOException err) {
             stateLog.error(String.format("cannot check type of project %s", project), err, state);
+            queueMetrics.incrementTaskNotScheduled(this);
             return CompletableFuture.completedFuture(null);
           }
         } catch (IOException err) {
           stateLog.error(String.format("source project %s not available", project), err, state);
+          queueMetrics.incrementTaskNotScheduled(this);
           return CompletableFuture.completedFuture(null);
         }
       }
@@ -440,9 +447,13 @@ public class Source {
         e.addState(ref, state);
         pending.put(uri, e);
         f = pool.schedule(e, isSyncCall(replicationType) ? 0 : config.getDelay(), TimeUnit.SECONDS);
+        queueMetrics.incrementTaskScheduled(this);
       } else if (!e.getRefs().contains(ref)) {
         addRef(e, ref);
         e.addState(ref, state);
+        queueMetrics.incrementTaskMerged(this);
+      } else {
+        queueMetrics.incrementTaskNotScheduled(this);
       }
       state.increaseFetchTaskCount(project.get(), ref);
       repLog.info("scheduled {}:{} => {} to run after {}s", e, ref, project, config.getDelay());
@@ -454,12 +465,14 @@ public class Source {
     @SuppressWarnings("unused")
     ScheduledFuture<?> ignored =
         pool.schedule(deleteProjectFactory.create(this, uri, project), 0, TimeUnit.SECONDS);
+    queueMetrics.incrementTaskScheduled(this);
   }
 
   void fetchWasCanceled(FetchOne fetchOp) {
     synchronized (stateLock) {
       URIish uri = fetchOp.getURI();
       pending.remove(uri);
+      queueMetrics.incrementTaskCancelled(this);
     }
   }
 
@@ -523,6 +536,8 @@ public class Source {
                   fetchOp.getTaskIdHex(), fetchOp.getURI(), pendingFetchOp.getTaskIdHex()),
               fetchOp.getStatesAsArray());
 
+          queueMetrics.incrementTaskRescheduled(this);
+
         } else {
           // The one pending is one that is NOT retrying, it was just
           // scheduled believing no problem would happen. The one pending
@@ -547,6 +562,8 @@ public class Source {
                   "[%s] Merging the pending fetch from [%s] with task [%s] and rescheduling",
                   pendingFetchOp.getTaskIdHex(), pendingFetchOp.getURI(), fetchOp.getTaskIdHex()),
               pendingFetchOp.getStatesAsArray());
+
+          queueMetrics.incrementTaskMerged(this);
         }
       }
 
@@ -554,6 +571,7 @@ public class Source {
         pending.put(uri, fetchOp);
         switch (reason) {
           case COLLISION:
+            queueMetrics.incrementTaskRescheduled(this);
             pool.schedule(fetchOp, config.getRescheduleDelay(), TimeUnit.SECONDS);
             break;
           case TRANSPORT_ERROR:
@@ -564,15 +582,19 @@ public class Source {
                     ? RefUpdate.Result.NOT_ATTEMPTED
                     : RefUpdate.Result.REJECTED_OTHER_REASON;
             postReplicationFailedEvent(fetchOp, trackingRefUpdate);
+            queueMetrics.incrementTaskFailed(this);
+
             if (fetchOp.setToRetry()) {
               postReplicationScheduledEvent(fetchOp);
               pool.schedule(fetchOp, config.getRetryDelay(), TimeUnit.MINUTES);
+              queueMetrics.incrementTaskRetrying(this);
             } else {
               fetchOp.canceledByReplication();
               pending.remove(uri);
               stateLog.error(
                   "Fetch from " + fetchOp.getURI() + " cancelled after maximum number of retries",
                   fetchOp.getStatesAsArray());
+              queueMetrics.incrementTaskCancelledMaxRetries(this);
             }
             break;
         }
@@ -800,6 +822,14 @@ public class Source {
       logger.atSevere().withCause(e).log(
           "Could not schedule HEAD pull-replication for project %s", project.get());
     }
+  }
+
+  long inflightTasksCount() {
+    return inFlight.size();
+  }
+
+  long pendingTasksCount() {
+    return pending.size();
   }
 
   private static boolean matches(URIish uri, String urlMatch) {
