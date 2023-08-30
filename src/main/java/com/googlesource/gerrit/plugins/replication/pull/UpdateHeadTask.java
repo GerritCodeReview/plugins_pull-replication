@@ -27,7 +27,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import java.io.IOException;
 import org.eclipse.jgit.transport.URIish;
 
-public class UpdateHeadTask implements Runnable {
+public class UpdateHeadTask implements Runnable, Completable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final FetchApiClient.Factory fetchClientFactory;
   private final Source source;
@@ -35,6 +35,7 @@ public class UpdateHeadTask implements Runnable {
   private final Project.NameKey project;
   private final String newHead;
   private final int id;
+  private boolean completed;
 
   interface Factory {
     UpdateHeadTask create(Source source, URIish apiURI, Project.NameKey project, String newHead);
@@ -64,6 +65,7 @@ public class UpdateHeadTask implements Runnable {
       if (!httpResult.isSuccessful()) {
         throw new IOException(httpResult.getMessage().orElse("Unknown"));
       }
+      completed = true;
       logger.atFine().log(
           "Successfully updated HEAD of project %s on remote %s",
           project.get(), apiURI.toASCIIString());
@@ -82,5 +84,10 @@ public class UpdateHeadTask implements Runnable {
     return String.format(
         "[%s] update-head %s at %s to %s",
         HexFormat.fromInt(id), project.get(), apiURI.toASCIIString(), newHead);
+  }
+
+  @Override
+  public boolean hasCompleted() {
+    return completed;
   }
 }
