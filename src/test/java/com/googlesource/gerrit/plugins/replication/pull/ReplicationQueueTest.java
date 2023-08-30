@@ -98,6 +98,7 @@ public class ReplicationQueueTest {
   @Mock ApplyObjectsRefsFilter applyObjectsRefsFilter;
   ApplyObjectMetrics applyObjectMetrics;
   FetchReplicationMetrics fetchMetrics;
+  ReplicationQueueMetrics queueMetrics;
   ShutdownState shutdownState;
 
   @Captor ArgumentCaptor<String> stringCaptor;
@@ -158,6 +159,7 @@ public class ReplicationQueueTest {
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
     fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
+    queueMetrics = new ReplicationQueueMetrics("pull-replication", new DisabledMetricMaker());
     shutdownState = new ShutdownState();
 
     objectUnderTest =
@@ -171,6 +173,7 @@ public class ReplicationQueueTest {
             () -> revReader,
             applyObjectMetrics,
             fetchMetrics,
+            queueMetrics,
             LOCAL_INSTANCE_ID,
             applyObjectsRefsFilter,
             shutdownState);
@@ -348,6 +351,7 @@ public class ReplicationQueueTest {
             () -> revReader,
             applyObjectMetrics,
             fetchMetrics,
+            queueMetrics,
             LOCAL_INSTANCE_ID,
             applyObjectsRefsFilter,
             shutdownState);

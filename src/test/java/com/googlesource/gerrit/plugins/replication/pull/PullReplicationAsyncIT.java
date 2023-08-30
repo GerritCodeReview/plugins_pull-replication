@@ -26,7 +26,8 @@ import org.eclipse.jgit.util.FS;
 @UseLocalDisk
 @TestPlugin(
     name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
+    sysModule =
+        "com.googlesource.gerrit.plugins.replication.pull.PullReplicationITAbstract$PullReplicationTestModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
 public class PullReplicationAsyncIT extends PullReplicationITAbstract {
   @Inject private SitePaths sitePaths;
