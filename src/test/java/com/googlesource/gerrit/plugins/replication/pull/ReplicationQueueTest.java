@@ -98,7 +98,11 @@ public class ReplicationQueueTest {
   @Mock ApplyObjectsRefsFilter applyObjectsRefsFilter;
   ApplyObjectMetrics applyObjectMetrics;
   FetchReplicationMetrics fetchMetrics;
+<<<<<<< PATCH SET (beb306 Introduce replication queue metrics)
+  ReplicationQueueMetrics queueMetrics;
+=======
   ShutdownState shutdownState;
+>>>>>>> BASE      (5e282f Handle fetch tasks gracefully during shutdown)
 
   @Captor ArgumentCaptor<String> stringCaptor;
   @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
@@ -158,7 +162,11 @@ public class ReplicationQueueTest {
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
     fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
+<<<<<<< PATCH SET (beb306 Introduce replication queue metrics)
+    queueMetrics = new ReplicationQueueMetrics("pull-replication", new DisabledMetricMaker());
+=======
     shutdownState = new ShutdownState();
+>>>>>>> BASE      (5e282f Handle fetch tasks gracefully during shutdown)
 
     objectUnderTest =
         new ReplicationQueue(
@@ -171,6 +179,7 @@ public class ReplicationQueueTest {
             () -> revReader,
             applyObjectMetrics,
             fetchMetrics,
+            queueMetrics,
             LOCAL_INSTANCE_ID,
             applyObjectsRefsFilter,
             shutdownState);
@@ -348,6 +357,7 @@ public class ReplicationQueueTest {
             () -> revReader,
             applyObjectMetrics,
             fetchMetrics,
+            queueMetrics,
             LOCAL_INSTANCE_ID,
             applyObjectsRefsFilter,
             shutdownState);
