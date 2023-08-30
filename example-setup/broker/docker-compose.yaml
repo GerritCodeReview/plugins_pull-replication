@@ -21,7 +21,7 @@ services:
     build: .
     environment:
       - INSTANCE_ID=replica-1
-      - REPLICA=true
+      - REPLICA=false
       - REMOTE=primary
       - REMOTE_URL=gerrit1
       - DEBUG_PORT=5006

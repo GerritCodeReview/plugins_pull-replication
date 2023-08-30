@@ -14,9 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.event;
 
-import static com.googlesource.gerrit.plugins.replication.pull.ApplyObjectCacheModule.APPLY_OBJECTS_CACHE;
-import static java.util.Objects.requireNonNull;
-
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
@@ -48,9 +45,13 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
+import org.eclipse.jgit.lib.ObjectId;
+
 import java.io.IOException;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
+
+import static com.googlesource.gerrit.plugins.replication.pull.ApplyObjectCacheModule.APPLY_OBJECTS_CACHE;
+import static java.util.Objects.requireNonNull;
 
 public class StreamEventListener implements EventListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

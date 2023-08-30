@@ -14,18 +14,22 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
-import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
-
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.transport.TransportProvider;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.*;
+import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.Transport;
+import org.eclipse.jgit.transport.URIish;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
 public class JGitFetch implements Fetch {
   URIish uri;
@@ -47,6 +51,12 @@ public class JGitFetch implements Fetch {
 
   @Override
   public List<RefUpdateState> fetch(List<RefSpec> refs) throws IOException {
+    try {
+      repLog.warn("Sleeping for 1m....");
+      Thread.sleep(60000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     FetchResult res;
     try (Transport tn = transportProvider.open(git, uri)) {
       res = fetchVia(tn, refs);

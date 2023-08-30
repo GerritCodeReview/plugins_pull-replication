@@ -14,8 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import static java.util.stream.Collectors.toList;
-
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.flogger.FluentLogger;
@@ -26,9 +24,12 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+
 import java.util.List;
 import java.util.Objects;
-import org.eclipse.jgit.errors.ConfigInvalidException;
+
+import static java.util.stream.Collectors.toList;
 
 @Singleton
 public class SourcesCollection implements ReplicationSources {

@@ -14,8 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.ASYNC;
-
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -25,9 +23,12 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFilter;
+
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.ASYNC;
 
 public class OnStartStop implements LifecycleListener {
   private final AtomicReference<Future<?>> fetchAllFuture;

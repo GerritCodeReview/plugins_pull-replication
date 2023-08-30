@@ -9,13 +9,13 @@
     consumeStreamEvents = false
     eventBrokerTopic = gerrit
     syncRefs = "ALL REFS ASYNC"
-    maxApiPayloadSize = 40000
+    maxApiPayloadSize = 1
 [remote "$REMOTE"]
     url = http://$REMOTE_URL:8080/#{name}#.git
-    apiUrl = http://$REMOTE_URL:8080/
+    apiUrl = http://$REMOTE_URL:8580/
     fetch = +refs/*:refs/*
     mirror = true
-    timeout = 60 # In seconds
+    timeout = 120 # In seconds
     connectionTimeout = 120000 # In mseconds
     rescheduleDelay = 15
     replicationDelay = 1
