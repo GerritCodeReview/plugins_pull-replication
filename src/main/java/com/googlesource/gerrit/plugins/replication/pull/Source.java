@@ -254,7 +254,7 @@ public class Source {
 
   public void start(WorkQueue workQueue) {
     String poolName = "ReplicateFrom-" + config.getRemoteConfig().getName();
-    pool = workQueue.createQueue(config.getPoolThreads(), poolName);
+    pool = workQueue.createQueue(config.getPoolThreads(), poolName, true);
   }
 
   public synchronized int shutdown() {
