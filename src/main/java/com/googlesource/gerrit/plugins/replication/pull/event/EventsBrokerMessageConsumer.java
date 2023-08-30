@@ -24,22 +24,26 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.googlesource.gerrit.plugins.replication.pull.ShutdownState;
 import java.util.function.Consumer;
 
 public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleListener {
 
   private final DynamicItem<BrokerApi> eventsBroker;
   private final StreamEventListener eventListener;
+  private final ShutdownState shutdownState;
   private final String eventsTopicName;
 
   @Inject
   public EventsBrokerMessageConsumer(
       DynamicItem<BrokerApi> eventsBroker,
       StreamEventListener eventListener,
+      ShutdownState shutdownState,
       @Named(STREAM_EVENTS_TOPIC_NAME) String eventsTopicName) {
 
     this.eventsBroker = eventsBroker;
     this.eventListener = eventListener;
+    this.shutdownState = shutdownState;
     this.eventsTopicName = eventsTopicName;
   }
 
@@ -47,6 +51,7 @@ public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleLi
   public void accept(Event event) {
     try {
       eventListener.fetchRefsForEvent(event);
+      if (shutdownState.isShuttingDown()) stop();
     } catch (AuthException | PermissionBackendException e) {
       throw new EventRejectedException(event, e);
     }
@@ -59,6 +64,7 @@ public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleLi
 
   @Override
   public void stop() {
+    shutdownState.setIsShuttingDown(true);
     eventsBroker.get().disconnect();
   }
 }

@@ -79,6 +79,7 @@ public class ReplicationQueue
   private static final String REF_UDPATED_EVENT_TYPE = new RefUpdatedEvent().type;
   private static final String ZEROS_OBJECTID = ObjectId.zeroId().getName();
   private final ReplicationStateListener stateLog;
+  private final ShutdownState shutdownState;
 
   private final WorkQueue workQueue;
   private final DynamicItem<EventDispatcher> dispatcher;
@@ -107,11 +108,13 @@ public class ReplicationQueue
       ApplyObjectMetrics applyObjectMetrics,
       FetchReplicationMetrics fetchMetrics,
       @GerritInstanceId String instanceId,
-      ApplyObjectsRefsFilter applyObjectsRefsFilter) {
+      ApplyObjectsRefsFilter applyObjectsRefsFilter,
+      ShutdownState shutdownState) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
     stateLog = sl;
+    this.shutdownState = shutdownState;
     beforeStartupEventsQueue = Queues.newConcurrentLinkedQueue();
     this.fetchClientFactory = fetchClientFactory;
     this.refsFilter = refsFilter;
@@ -141,6 +144,7 @@ public class ReplicationQueue
   @Override
   public void stop() {
     running = false;
+    shutdownState.setIsShuttingDown(true);
     int discarded = sources.get().shutdown();
     if (discarded > 0) {
       repLog.warn("Canceled {} replication events during shutdown", discarded);
