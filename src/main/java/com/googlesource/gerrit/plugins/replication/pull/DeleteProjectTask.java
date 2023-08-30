@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import org.eclipse.jgit.transport.URIish;
 
-public class DeleteProjectTask implements Runnable {
+public class DeleteProjectTask implements Runnable, Completable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   interface Factory {
@@ -40,6 +40,7 @@ public class DeleteProjectTask implements Runnable {
   private final String uri;
   private final Project.NameKey project;
   private final FetchApiClient.Factory fetchClientFactory;
+  private boolean completed;
 
   @Inject
   DeleteProjectTask(
@@ -63,6 +64,7 @@ public class DeleteProjectTask implements Runnable {
       if (!httpResult.isSuccessful()) {
         throw new IOException(httpResult.getMessage().orElse("Unknown"));
       }
+      completed = true;
       logger.atFine().log("Successfully deleted project %s on remote %s", project.get(), uri);
     } catch (URISyntaxException | IOException e) {
       String errorMessage =
@@ -75,5 +77,10 @@ public class DeleteProjectTask implements Runnable {
   @Override
   public String toString() {
     return String.format("[%s] delete-project %s at %s", HexFormat.fromInt(id), project.get(), uri);
+  }
+
+  @Override
+  public boolean hasSucceeded() {
+    return completed;
   }
 }
