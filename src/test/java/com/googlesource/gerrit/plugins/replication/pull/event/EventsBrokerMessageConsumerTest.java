@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.googlesource.gerrit.plugins.replication.pull.ShutdownState;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,10 +38,13 @@ public class EventsBrokerMessageConsumerTest {
   @Mock DynamicItem<BrokerApi> eventsBroker;
 
   EventsBrokerMessageConsumer objectUnderTest;
+  ShutdownState shutdownState;
 
   @Before
   public void setup() {
-    objectUnderTest = new EventsBrokerMessageConsumer(eventsBroker, eventListener, "topicName");
+    shutdownState = new ShutdownState();
+    objectUnderTest =
+        new EventsBrokerMessageConsumer(eventsBroker, eventListener, shutdownState, "topicName");
   }
 
   @Test
