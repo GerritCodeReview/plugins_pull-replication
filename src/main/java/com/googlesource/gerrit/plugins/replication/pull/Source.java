@@ -17,7 +17,10 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
 import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
 import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -73,6 +76,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,6 +124,8 @@ public class Source {
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private CloseableHttpClient httpClient;
   private final DeleteProjectTask.Factory deleteProjectFactory;
+  private static final int DRAINED_CHECK_FREQUENCY_MS = 50;
+  private static final int DRAINED_LOGGING_FREQUENCY_SECS = 5;
 
   protected enum RetryReason {
     TRANSPORT_ERROR,
@@ -257,7 +263,13 @@ public class Source {
   public synchronized int shutdown() {
     int cnt = 0;
     if (pool != null) {
-      cnt = pool.shutdownNow().size();
+      try {
+        waitUntil(this::isDrained, Duration.ofSeconds(config.getShutDownDrainTimeout()));
+        cnt = pool.shutdownNow().size();
+      } catch (InterruptedException e) {
+        logger.atSevere().withCause(e).log("Interrupted during termination.");
+        cnt = pool.shutdownNow().size();
+      }
       pool = null;
     }
     if (httpClient != null) {
@@ -270,6 +282,34 @@ public class Source {
     }
 
     return cnt;
+  }
+
+  private boolean isDrained() {
+    int numberOfPending = pending.size();
+    int numberOfInFlight = inFlight.size();
+
+    boolean drained = numberOfPending == 0 && numberOfInFlight == 0;
+
+    if (!drained) {
+      logger.atWarning().atMostEvery(DRAINED_LOGGING_FREQUENCY_SECS, SECONDS).log(
+          String.format(
+              "Queue not drained: %d pending|%d in-flight", numberOfPending, numberOfInFlight));
+    } else {
+      logger.atWarning().log("Queue drained");
+    }
+
+    return drained;
+  }
+
+  private static void waitUntil(Supplier<Boolean> waitCondition, Duration timeout)
+      throws InterruptedException {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    while (!waitCondition.get()) {
+      if (stopwatch.elapsed().compareTo(timeout) > 0) {
+        throw new InterruptedException();
+      }
+      MILLISECONDS.sleep(DRAINED_CHECK_FREQUENCY_MS);
+    }
   }
 
   private boolean shouldReplicate(ProjectState state, CurrentUser user)

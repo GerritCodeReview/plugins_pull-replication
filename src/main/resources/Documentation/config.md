@@ -341,6 +341,32 @@ replication.maxApiPayloadSize
 
 	Default: 10000
 
+replication.shutDownDrainTimeout
+:   Maximum duration to wait for pending, retrying and executing fetch tasks to
+	complete after a request of plugin shutdown. Values should use common unit
+	suffixes to express their setting:
+
+	s, sec, second, seconds
+
+	m, min, minute, minutes
+
+	h, hr, hour, hours
+
+	d, day, days
+
+	w, week, weeks (1 week is treated as 7 days)
+
+	mon, month, months (1 month is treated as 30 days)
+
+	y, year, years (1 year is treated as 365 days)
+
+	If a unit suffix is not specified, seconds is assumed. If 0 is supplied, the maximum age
+	is infinite and items are never purged except when the cache is full.
+
+	Default is 60s.
+
+	Default: 5 minutes
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
