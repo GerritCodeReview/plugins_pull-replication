@@ -39,6 +39,30 @@
       },
       "revId": "07aee53e2f97e8b6ea83ea6de6a8a0831984bf6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "990eea92_c01bcfd2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T20:17:58Z",
+      "side": 1,
+      "message": "I agree, but I feel that having this one as well will make it more explicit to be unique across all the plugin. Also we use it in tests.",
+      "parentUuid": "78422bd7_d35eb7b6",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "07aee53e2f97e8b6ea83ea6de6a8a0831984bf6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
