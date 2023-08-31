@@ -25,6 +25,7 @@ gerrit_plugin(
 
 junit_tests(
     name = "pull_replication_tests",
+    size = "large",
     srcs = glob([
         "src/test/java/**/*Test.java",
     ]),
