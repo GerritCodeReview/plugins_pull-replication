@@ -300,6 +300,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b02780_cc1063a3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-31T19:13:53Z",
+      "side": 1,
+      "message": "I think this is already addressed in the latest patchset so I mark it as resolved",
+      "parentUuid": "e5d1d400_e1c543da",
+      "range": {
+        "startLine": 269,
+        "startChar": 8,
+        "endLine": 272,
+        "endChar": 9
+      },
+      "revId": "1430c3769f624150041688f961ee3bdd301bc031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80dd09d8_40cacce2",
