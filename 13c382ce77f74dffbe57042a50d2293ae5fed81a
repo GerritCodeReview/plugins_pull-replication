@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e03ec1d_fccc661d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T12:38:50Z",
+      "side": 1,
+      "message": "It is used from `ReplicationQueueMetrics`",
+      "parentUuid": "79b9514b_d36e944f",
+      "revId": "13c382ce77f74dffbe57042a50d2293ae5fed81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d26b9ec_5d7d5ebc",
