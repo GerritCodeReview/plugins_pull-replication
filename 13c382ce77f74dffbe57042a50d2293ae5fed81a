@@ -192,6 +192,29 @@
       },
       "revId": "13c382ce77f74dffbe57042a50d2293ae5fed81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de8c459b_eea1b961",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/UpdateHeadTask.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-31T12:42:31Z",
+      "side": 1,
+      "message": "Can this lead to tasks that never complete in case the IOE is thrown? So that `hasCompleted` always returns false? I am missing a bit of context tbh...",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 27
+      },
+      "revId": "13c382ce77f74dffbe57042a50d2293ae5fed81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
