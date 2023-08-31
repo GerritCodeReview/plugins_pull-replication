@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f13ec554_22cc96d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T19:57:55Z",
+      "side": 1,
+      "message": "I will address the metrics documentation as a separate change: I\u0027ve noticed there is zero documentation on the metrics produced, including the existing ones.",
+      "revId": "07aee53e2f97e8b6ea83ea6de6a8a0831984bf6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
