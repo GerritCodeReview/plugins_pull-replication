@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "63401d53_19be3d28",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T12:30:53Z",
+      "side": 1,
+      "message": "The all the other cases I see the `anyRefFailed` set to `true`, therefore means the replication task wasn\u0027t fully successful and it will be retried.",
+      "parentUuid": "94bd1ba2_98daf2ec",
+      "revId": "13c382ce77f74dffbe57042a50d2293ae5fed81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79b9514b_d36e944f",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 9
