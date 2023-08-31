@@ -16,6 +16,29 @@
       "message": "I will address the metrics documentation as a separate change: I\u0027ve noticed there is zero documentation on the metrics produced, including the existing ones.",
       "revId": "07aee53e2f97e8b6ea83ea6de6a8a0831984bf6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78422bd7_d35eb7b6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-08-31T20:16:04Z",
+      "side": 1,
+      "message": "Why we need that annotation? ReplicationQueue is binded as a singleton in PullReplicationModule",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "07aee53e2f97e8b6ea83ea6de6a8a0831984bf6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
