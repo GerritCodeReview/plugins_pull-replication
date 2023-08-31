@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventTypes;
@@ -68,18 +67,20 @@ import org.eclipse.jgit.util.FS;
 class PullReplicationModule extends AbstractModule {
   private final SitePaths site;
   private final Path cfgPath;
+  private final MetricMaker pluginMetricMaker;
 
   @Inject
-  public PullReplicationModule(SitePaths site) {
+  public PullReplicationModule(SitePaths site, MetricMaker pluginMetricMaker) {
     this.site = site;
     cfgPath = site.etc_dir.resolve("replication.config");
+    this.pluginMetricMaker = pluginMetricMaker;
   }
 
   @Override
   protected void configure() {
     bind(MetricMaker.class)
         .annotatedWith(Names.named(ReplicationQueueMetrics.REPLICATION_QUEUE_METRICS))
-        .to(metricMakerClass());
+        .toInstance(pluginMetricMaker);
 
     install(new PullReplicationGroupModule());
     bind(BearerTokenProvider.class).in(Scopes.SINGLETON);
@@ -159,10 +160,6 @@ class PullReplicationModule extends AbstractModule {
     EventTypes.register(FetchRefReplicatedEvent.TYPE, FetchRefReplicatedEvent.class);
     EventTypes.register(FetchRefReplicationDoneEvent.TYPE, FetchRefReplicationDoneEvent.class);
     EventTypes.register(FetchReplicationScheduledEvent.TYPE, FetchReplicationScheduledEvent.class);
-  }
-
-  protected Class<? extends MetricMaker> metricMakerClass() {
-    return DropWizardMetricMaker.class;
   }
 
   private FileBasedConfig getReplicationConfig() {
