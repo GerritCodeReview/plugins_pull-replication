@@ -16,6 +16,24 @@
       "message": "COuld we add some tests which are checking if we call correct metrics?",
       "revId": "c0a284628dbd44bd737e6cc95f9f00fe6ea66ca3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4b9bc31_018d3703",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T19:44:56Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "b5fc50e4_d72d838f",
+      "revId": "c0a284628dbd44bd737e6cc95f9f00fe6ea66ca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
