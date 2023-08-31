@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
@@ -57,15 +56,9 @@ import org.junit.Test;
 public abstract class PullReplicationITAbstract extends PullReplicationSetupBase {
 
   public static class PullReplicationTestModule extends PullReplicationModule {
-
     @Inject
-    public PullReplicationTestModule(SitePaths site) {
-      super(site);
-    }
-
-    @Override
-    protected Class<? extends MetricMaker> metricMakerClass() {
-      return InMemoryMetricMaker.class;
+    public PullReplicationTestModule(SitePaths site, InMemoryMetricMaker memMetric) {
+      super(site, memMetric);
     }
   }
 
