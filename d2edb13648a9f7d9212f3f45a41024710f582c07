@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43c0015e_79506d91",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T13:53:03Z",
+      "side": 1,
+      "message": "Not strictly needed, but it is worth adding it to document that the replication queue must be unique in the whole plugin.",
+      "revId": "d2edb13648a9f7d9212f3f45a41024710f582c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6b6b21b_23de04e4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T13:53:03Z",
+      "side": 1,
+      "message": "Not sure this is needed: the firing of a Gerrit event for replication doesn\u0027t necessarily mean that it is going to end up in the replication queue.",
+      "revId": "d2edb13648a9f7d9212f3f45a41024710f582c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
