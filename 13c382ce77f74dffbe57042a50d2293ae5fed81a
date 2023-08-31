@@ -215,6 +215,30 @@
       },
       "revId": "13c382ce77f74dffbe57042a50d2293ae5fed81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c928a23b_d65a6468",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/UpdateHeadTask.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-31T13:43:35Z",
+      "side": 1,
+      "message": "You are right, `complete` should be renamed to `succeeded`.\n\nThe tasks either are successful or not successful: by default they are unsuccessful until their main business login completes without exception.",
+      "parentUuid": "de8c459b_eea1b961",
+      "range": {
+        "startLine": 72,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 27
+      },
+      "revId": "13c382ce77f74dffbe57042a50d2293ae5fed81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
