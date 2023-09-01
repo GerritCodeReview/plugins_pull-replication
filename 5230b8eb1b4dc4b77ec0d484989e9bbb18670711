@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dda7a3e1_f56e1105",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-01T13:11:04Z",
+      "side": 1,
+      "message": "I will call it `eventBrokerGroupId` to be aligned with `eventBrokerTopic`",
+      "parentUuid": "85893157_e086bb99",
+      "range": {
+        "startLine": 158,
+        "startChar": 82,
+        "endLine": 158,
+        "endChar": 89
+      },
+      "revId": "5230b8eb1b4dc4b77ec0d484989e9bbb18670711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2574fe9e_f713cc42",
@@ -71,6 +95,30 @@
       "writtenOn": "2023-09-01T11:43:00Z",
       "side": 1,
       "message": "wrong import",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 48
+      },
+      "revId": "5230b8eb1b4dc4b77ec0d484989e9bbb18670711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0aebd81_0704036c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-01T13:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2574fe9e_f713cc42",
       "range": {
         "startLine": 30,
         "startChar": 0,
