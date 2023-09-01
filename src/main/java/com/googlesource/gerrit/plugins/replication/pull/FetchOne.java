@@ -177,7 +177,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   @Override
   public String toString() {
-    String print = "[" + taskIdHex + "] fetch " + uri;
+    String print = "[" + taskIdHex + "] fetch " + uri + "[" + String.join(",", delta) + "]";
 
     if (retryCount > 0) {
       print = "(retry " + retryCount + ") " + print;
