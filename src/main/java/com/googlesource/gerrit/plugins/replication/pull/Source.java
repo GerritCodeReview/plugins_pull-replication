@@ -264,16 +264,35 @@ public class Source {
   }
 
   public synchronized int shutdown() {
+    String remoteConfig = getRemoteConfigName();
+    int numberOfPending = pending.size();
+    int numberOfInFlight = inFlight.size();
+    repLog.info(
+        "[{}] Shutdown received, start draining {} pending and {} in-flight tasks",
+        remoteConfig,
+        numberOfPending,
+        numberOfInFlight);
     int cnt = 0;
     if (pool != null) {
       try {
         waitUntil(this::isDrained, Duration.ofSeconds(config.getShutDownDrainTimeout()));
         cnt = pool.shutdownNow().size();
       } catch (InterruptedException e) {
+        repLog.info("[{}] Draining failed", remoteConfig);
         logger.atSevere().withCause(e).log("Interrupted during termination.");
         cnt = pool.shutdownNow().size();
       }
       pool = null;
+      repLog.info(
+          "[{}] Draining completed - {} pending and {} in-flight tasks drained successfully",
+          remoteConfig,
+          numberOfPending,
+          numberOfInFlight);
+      try {
+        Thread.sleep(60000L);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
     if (httpClient != null) {
       try {
@@ -282,6 +301,10 @@ public class Source {
       } catch (IOException e) {
         logger.atSevere().withCause(e).log("Error occurred while closing HTTP client connections");
       }
+    }
+
+    if (cnt > 0) {
+      repLog.info("[{}] {} tasks were not stopped during shutdown", remoteConfig, cnt);
     }
 
     return cnt;
