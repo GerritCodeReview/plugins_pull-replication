@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.google.gerrit.entities.Project;
@@ -110,15 +109,27 @@ public class FetchOneTest {
 
   @Test
   public void shouldIncludeTheTaskIndexInItsStringRepresentation() {
-    String expected = "[" + objectUnderTest.getTaskIdHex() + "] fetch " + URI_PATTERN;
+    objectUnderTest.addRefs(Set.of("refs/heads/foo", "refs/heads/bar"));
+    String expected =
+        "["
+            + objectUnderTest.getTaskIdHex()
+            + "] fetch "
+            + URI_PATTERN
+            + " [refs/heads/bar,refs/heads/foo]";
 
     assertThat(objectUnderTest.toString()).isEqualTo(expected);
   }
 
   @Test
   public void shouldIncludeTheRetryCountInItsStringRepresentationWhenATaskIsRetried() {
+    objectUnderTest.addRefs(Set.of("refs/heads/bar", "refs/heads/foo"));
     objectUnderTest.setToRetry();
-    String expected = "(retry 1) [" + objectUnderTest.getTaskIdHex() + "] fetch " + URI_PATTERN;
+    String expected =
+        "(retry 1) ["
+            + objectUnderTest.getTaskIdHex()
+            + "] fetch "
+            + URI_PATTERN
+            + " [refs/heads/bar,refs/heads/foo]";
 
     assertThat(objectUnderTest.toString()).isEqualTo(expected);
   }
