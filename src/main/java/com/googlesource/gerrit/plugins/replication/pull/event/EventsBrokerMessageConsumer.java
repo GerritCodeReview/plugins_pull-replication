@@ -14,9 +14,13 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.event;
 
+import static com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule.STREAM_EVENTS_GROUP_ID;
 import static com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule.STREAM_EVENTS_TOPIC_NAME;
 
 import com.gerritforge.gerrit.eventbroker.BrokerApi;
+import com.gerritforge.gerrit.eventbroker.ExtendedBrokerApi;
+import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -29,22 +33,26 @@ import java.util.function.Consumer;
 
 public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleListener {
 
-  private final DynamicItem<BrokerApi> eventsBroker;
+  private final DynamicItem<BrokerApi>
+      eventsBroker; // this is injected as com.gerritforge.gerrit.eventbroker.InProcessBrokerApi
   private final StreamEventListener eventListener;
   private final ShutdownState shutdownState;
   private final String eventsTopicName;
+  private final String groupId;
 
   @Inject
   public EventsBrokerMessageConsumer(
       DynamicItem<BrokerApi> eventsBroker,
       StreamEventListener eventListener,
       ShutdownState shutdownState,
-      @Named(STREAM_EVENTS_TOPIC_NAME) String eventsTopicName) {
+      @Named(STREAM_EVENTS_TOPIC_NAME) String eventsTopicName,
+      @Nullable @Named(STREAM_EVENTS_GROUP_ID) String groupId) {
 
     this.eventsBroker = eventsBroker;
     this.eventListener = eventListener;
     this.shutdownState = shutdownState;
     this.eventsTopicName = eventsTopicName;
+    this.groupId = groupId;
   }
 
   @Override
@@ -59,7 +67,12 @@ public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleLi
 
   @Override
   public void start() {
-    eventsBroker.get().receiveAsync(eventsTopicName, this);
+    BrokerApi brokerApi = eventsBroker.get();
+    if (brokerApi instanceof ExtendedBrokerApi && !Strings.isNullOrEmpty(groupId)) {
+      ((ExtendedBrokerApi) brokerApi).receiveAsync(eventsTopicName, groupId, this);
+    } else {
+      brokerApi.receiveAsync(eventsTopicName, this);
+    }
   }
 
   @Override
