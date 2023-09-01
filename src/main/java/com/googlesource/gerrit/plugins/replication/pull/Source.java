@@ -89,6 +89,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.eclipse.jgit.errors.TransportException;
@@ -271,7 +272,9 @@ public class Source {
         cnt = pool.shutdownNow().size();
       } catch (InterruptedException e) {
         logger.atSevere().withCause(e).log("Interrupted during termination.");
-        cnt = pool.shutdownNow().size();
+        List<Runnable> fetchTasks = pool.shutdownNow();
+        logInterruptedShutdownStatus(fetchTasks);
+        cnt = fetchTasks.size();
       }
       pool = null;
     }
@@ -285,6 +288,19 @@ public class Source {
     }
 
     return cnt;
+  }
+
+  private void logInterruptedShutdownStatus(List<Runnable> fetchTasks) {
+    String neverExecutedTasks =
+        fetchTasks.stream().map(r -> r.toString()).collect(Collectors.joining(","));
+    String pendingTasks =
+        pending.values().stream().map(FetchOne::toString).collect(Collectors.joining(","));
+    String inFlightTasks =
+        inFlight.values().stream().map(FetchOne::toString).collect(Collectors.joining(","));
+
+    logger.atSevere().log("Never executed tasks: %s", neverExecutedTasks);
+    logger.atSevere().log("Pending tasks: %s", pendingTasks);
+    logger.atSevere().log("In-flight tasks: %s", inFlightTasks);
   }
 
   private boolean isDrained() {
@@ -927,13 +943,21 @@ public class Source {
   }
 
   private Runnable runWithMetrics(Runnable runnableTask) {
-    return () -> {
-      queueMetrics.incrementTaskStarted(Source.this);
-      runnableTask.run();
-      if (runnableTask instanceof Completable) {
-        if (((Completable) runnableTask).hasSucceeded()) {
-          queueMetrics.incrementTaskCompleted(Source.this);
+    return new Runnable() {
+      @Override
+      public void run() {
+        queueMetrics.incrementTaskStarted(Source.this);
+        runnableTask.run();
+        if (runnableTask instanceof Completable) {
+          if (((Completable) runnableTask).hasSucceeded()) {
+            queueMetrics.incrementTaskCompleted(Source.this);
+          }
         }
+      }
+
+      @Override
+      public String toString() {
+        return runnableTask.toString();
       }
     };
   }
