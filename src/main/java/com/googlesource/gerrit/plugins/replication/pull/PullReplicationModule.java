@@ -150,9 +150,12 @@ class PullReplicationModule extends AbstractModule {
 
     String eventBrokerTopic = replicationConfig.getString("replication", null, "eventBrokerTopic");
     if (replicationConfig.getBoolean("replication", "consumeStreamEvents", false)) {
-      install(new StreamEventModule());
-    } else if (eventBrokerTopic != null) {
-      install(new EventsBrokerConsumerModule(eventBrokerTopic));
+      install(new StreamEventModule()); //  internal broker (multi-site is consuming from kafka and
+      // producing in the internal bus)
+    } else if (eventBrokerTopic != null) { // kafka broker (no multi site)
+      install(
+          new EventsBrokerConsumerModule(
+              eventBrokerTopic, replicationConfig.getString("replication", null, "groupId")));
     }
 
     DynamicSet.setOf(binder(), ReplicationStateListener.class);
