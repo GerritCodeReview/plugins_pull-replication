@@ -14,12 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
-import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
-import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -72,6 +66,17 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.JGitFetch;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.URIish;
+import org.slf4j.Logger;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -89,16 +94,13 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.URIish;
-import org.slf4j.Logger;
+import java.util.stream.Collectors;
+
+import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
+import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Source {
   private static final Logger repLog = PullReplicationLogger.repLog;
@@ -271,7 +273,9 @@ public class Source {
         cnt = pool.shutdownNow().size();
       } catch (InterruptedException e) {
         logger.atSevere().withCause(e).log("Interrupted during termination.");
-        cnt = pool.shutdownNow().size();
+        List<Runnable> fetchTasks = pool.shutdownNow();
+        logInterruptedShutdownStatus(fetchTasks);
+        cnt = fetchTasks.size();
       }
       pool = null;
     }
@@ -285,6 +289,19 @@ public class Source {
     }
 
     return cnt;
+  }
+
+  private void logInterruptedShutdownStatus(List<Runnable> fetchTasks) {
+    String neverExecutedTasks =
+        fetchTasks.stream().map(r -> r.toString()).collect(Collectors.joining(","));
+    String pendingTasks =
+        pending.values().stream().map(FetchOne::toString).collect(Collectors.joining(","));
+    String inFlightTasks =
+        inFlight.values().stream().map(FetchOne::toString).collect(Collectors.joining(","));
+
+    logger.atSevere().log("Never executed tasks: %s", neverExecutedTasks);
+    logger.atSevere().log("Pending tasks: %s", pendingTasks);
+    logger.atSevere().log("In-flight tasks: %s", inFlightTasks);
   }
 
   private boolean isDrained() {
@@ -927,13 +944,21 @@ public class Source {
   }
 
   private Runnable runWithMetrics(Runnable runnableTask) {
-    return () -> {
-      queueMetrics.incrementTaskStarted(Source.this);
-      runnableTask.run();
-      if (runnableTask instanceof Completable) {
-        if (((Completable) runnableTask).hasSucceeded()) {
-          queueMetrics.incrementTaskCompleted(Source.this);
+    return new Runnable() {
+      @Override
+      public void run() {
+        queueMetrics.incrementTaskStarted(Source.this);
+        runnableTask.run();
+        if (runnableTask instanceof Completable) {
+          if (((Completable) runnableTask).hasSucceeded()) {
+            queueMetrics.incrementTaskCompleted(Source.this);
+          }
         }
+      }
+
+      @Override
+      public String toString() {
+        return runnableTask.toString();
       }
     };
   }
