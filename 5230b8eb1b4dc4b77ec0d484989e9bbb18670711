@@ -119,6 +119,29 @@
       "message": "the `instanceof` and the `casting` works, I made a simple test and works correctly.",
       "revId": "5230b8eb1b4dc4b77ec0d484989e9bbb18670711",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99e007df_ff353146",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-09-01T12:22:27Z",
+      "side": 1,
+      "message": "you mean is not null?",
+      "range": {
+        "startLine": 68,
+        "startChar": 51,
+        "endLine": 68,
+        "endChar": 80
+      },
+      "revId": "5230b8eb1b4dc4b77ec0d484989e9bbb18670711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
