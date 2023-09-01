@@ -16,7 +16,13 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyList;
+import static org.mockito.Mockito.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -30,7 +36,11 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.InexistentRefTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -110,15 +120,27 @@ public class FetchOneTest {
 
   @Test
   public void shouldIncludeTheTaskIndexInItsStringRepresentation() {
-    String expected = "[" + objectUnderTest.getTaskIdHex() + "] fetch " + URI_PATTERN;
+    objectUnderTest.addRefs(Set.of("refs/heads/foo", "refs/heads/bar"));
+    String expected =
+        "["
+            + objectUnderTest.getTaskIdHex()
+            + "] fetch "
+            + URI_PATTERN
+            + " [refs/heads/bar,refs/heads/foo]";
 
     assertThat(objectUnderTest.toString()).isEqualTo(expected);
   }
 
   @Test
   public void shouldIncludeTheRetryCountInItsStringRepresentationWhenATaskIsRetried() {
+    objectUnderTest.addRefs(Set.of("refs/heads/bar", "refs/heads/foo"));
     objectUnderTest.setToRetry();
-    String expected = "(retry 1) [" + objectUnderTest.getTaskIdHex() + "] fetch " + URI_PATTERN;
+    String expected =
+        "(retry 1) ["
+            + objectUnderTest.getTaskIdHex()
+            + "] fetch "
+            + URI_PATTERN
+            + " [refs/heads/bar,refs/heads/foo]";
 
     assertThat(objectUnderTest.toString()).isEqualTo(expected);
   }
