@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04a830e9_1fbc7556",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-01T11:31:41Z",
+      "side": 1,
+      "message": "This is first iteration WIP just to start having a look the shape.\n\nI have some questions:\n1. When a instance of Gerrit with pull replication `starts`, do we start consuming from the beginning if there are messages in the topic?\n2. when a instance of Gerrit with pull replication `restars`, do we start consuming from the beginning or from the index where it left? I would assume from the index.\n3. what happens if we have multi-site where in each site we have more than one master, they will have the same groupId configure so then the partitions are balance between both? or each other will have different groupId?",
+      "revId": "5230b8eb1b4dc4b77ec0d484989e9bbb18670711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
