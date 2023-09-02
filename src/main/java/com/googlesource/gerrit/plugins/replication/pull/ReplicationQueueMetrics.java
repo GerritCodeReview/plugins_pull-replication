@@ -52,6 +52,27 @@ public class ReplicationQueueMetrics {
   private final Counter1<String> tasksStarted;
   private final Set<RegistrationHandle> metricsHandles;
 
+  public class RunnableWithMetrics implements Runnable {
+    private final Source source;
+    private final Runnable runnable;
+
+    public RunnableWithMetrics(Source source, Runnable runnable) {
+      this.source = source;
+      this.runnable = runnable;
+    }
+
+    @Override
+    public void run() {
+      incrementTaskStarted(source);
+      runnable.run();
+      if (runnable instanceof Completable) {
+        if (((Completable) runnable).hasSucceeded()) {
+          incrementTaskCompleted(source);
+        }
+      }
+    }
+  }
+
   @Inject
   public ReplicationQueueMetrics(
       @PluginName String pluginName, @Named(REPLICATION_QUEUE_METRICS) MetricMaker metricMaker) {
@@ -243,5 +264,13 @@ public class ReplicationQueueMetrics {
 
   public void incrementTaskStarted(Source source) {
     tasksStarted.increment(source.getRemoteConfigName());
+  }
+
+  public Runnable runWithMetrics(Source source, Runnable runnableTask) {
+    if (runnableTask instanceof RunnableWithMetrics) {
+      return runnableTask;
+    }
+
+    return new RunnableWithMetrics(null, runnableTask);
   }
 }
