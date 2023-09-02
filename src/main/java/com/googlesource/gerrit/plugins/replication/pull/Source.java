@@ -504,7 +504,7 @@ public class Source {
         pending.put(uri, e);
         f =
             pool.schedule(
-                runWithMetrics(e),
+                queueMetrics.runWithMetrics(this, e),
                 isSyncCall(replicationType) ? 0 : config.getDelay(),
                 TimeUnit.SECONDS);
         queueMetrics.incrementTaskScheduled(this);
@@ -525,7 +525,9 @@ public class Source {
     @SuppressWarnings("unused")
     ScheduledFuture<?> ignored =
         pool.schedule(
-            runWithMetrics(deleteProjectFactory.create(this, uri, project)), 0, TimeUnit.SECONDS);
+            queueMetrics.runWithMetrics(this, deleteProjectFactory.create(this, uri, project)),
+            0,
+            TimeUnit.SECONDS);
     queueMetrics.incrementTaskScheduled(this);
   }
 
@@ -633,7 +635,10 @@ public class Source {
         switch (reason) {
           case COLLISION:
             queueMetrics.incrementTaskRescheduled(this);
-            pool.schedule(runWithMetrics(fetchOp), config.getRescheduleDelay(), TimeUnit.SECONDS);
+            pool.schedule(
+                queueMetrics.runWithMetrics(this, fetchOp),
+                config.getRescheduleDelay(),
+                TimeUnit.SECONDS);
             break;
           case TRANSPORT_ERROR:
           case REPOSITORY_MISSING:
@@ -878,7 +883,8 @@ public class Source {
       @SuppressWarnings("unused")
       ScheduledFuture<?> ignored =
           pool.schedule(
-              runWithMetrics(updateHeadFactory.create(this, apiURI, project, newHead)),
+              queueMetrics.runWithMetrics(
+                  this, updateHeadFactory.create(this, apiURI, project, newHead)),
               0,
               TimeUnit.SECONDS);
       queueMetrics.incrementTaskScheduled(this);
@@ -941,6 +947,8 @@ public class Source {
       Context.unsetLocalEvent();
     }
   }
+<<<<<<< PATCH SET (a37213 Fix completed tasks metrics)
+=======
 
   private Runnable runWithMetrics(Runnable runnableTask) {
     return new Runnable() {
@@ -961,4 +969,5 @@ public class Source {
       }
     };
   }
+>>>>>>> BASE      (777603 Log fetch tasks when graceful shutdown fails)
 }
