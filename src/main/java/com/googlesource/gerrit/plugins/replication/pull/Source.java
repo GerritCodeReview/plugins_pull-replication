@@ -504,7 +504,7 @@ public class Source {
         pending.put(uri, e);
         f =
             pool.schedule(
-                runWithMetrics(e),
+                queueMetrics.runWithMetrics(this, e),
                 isSyncCall(replicationType) ? 0 : config.getDelay(),
                 TimeUnit.SECONDS);
         queueMetrics.incrementTaskScheduled(this);
@@ -525,7 +525,9 @@ public class Source {
     @SuppressWarnings("unused")
     ScheduledFuture<?> ignored =
         pool.schedule(
-            runWithMetrics(deleteProjectFactory.create(this, uri, project)), 0, TimeUnit.SECONDS);
+            queueMetrics.runWithMetrics(this, deleteProjectFactory.create(this, uri, project)),
+            0,
+            TimeUnit.SECONDS);
     queueMetrics.incrementTaskScheduled(this);
   }
 
@@ -633,7 +635,10 @@ public class Source {
         switch (reason) {
           case COLLISION:
             queueMetrics.incrementTaskRescheduled(this);
-            pool.schedule(runWithMetrics(fetchOp), config.getRescheduleDelay(), TimeUnit.SECONDS);
+            pool.schedule(
+                queueMetrics.runWithMetrics(this, fetchOp),
+                config.getRescheduleDelay(),
+                TimeUnit.SECONDS);
             break;
           case TRANSPORT_ERROR:
           case REPOSITORY_MISSING:
@@ -878,7 +883,8 @@ public class Source {
       @SuppressWarnings("unused")
       ScheduledFuture<?> ignored =
           pool.schedule(
-              runWithMetrics(updateHeadFactory.create(this, apiURI, project, newHead)),
+              queueMetrics.runWithMetrics(
+                  this, updateHeadFactory.create(this, apiURI, project, newHead)),
               0,
               TimeUnit.SECONDS);
       queueMetrics.incrementTaskScheduled(this);
@@ -940,25 +946,5 @@ public class Source {
     } finally {
       Context.unsetLocalEvent();
     }
-  }
-
-  private Runnable runWithMetrics(Runnable runnableTask) {
-    return new Runnable() {
-      @Override
-      public void run() {
-        queueMetrics.incrementTaskStarted(Source.this);
-        runnableTask.run();
-        if (runnableTask instanceof Completable) {
-          if (((Completable) runnableTask).hasSucceeded()) {
-            queueMetrics.incrementTaskCompleted(Source.this);
-          }
-        }
-      }
-
-      @Override
-      public String toString() {
-        return runnableTask.toString();
-      }
-    };
   }
 }
