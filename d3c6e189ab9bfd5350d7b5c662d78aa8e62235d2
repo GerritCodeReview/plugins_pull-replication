@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "932cd73b_6640b7f9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-03T22:38:23Z",
+      "side": 1,
+      "message": "These should be stored on `repLog` which would end up in the `pull_replication_log`",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 64
+      },
+      "revId": "d3c6e189ab9bfd5350d7b5c662d78aa8e62235d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c940113_287381dd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-03T22:38:23Z",
+      "side": 1,
+      "message": "Is this related?",
+      "range": {
+        "startLine": 946,
+        "startChar": 0,
+        "endLine": 961,
+        "endChar": 7
+      },
+      "revId": "d3c6e189ab9bfd5350d7b5c662d78aa8e62235d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
