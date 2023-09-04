@@ -390,6 +390,30 @@
       },
       "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ef2a1e9_c49d3bae",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-04T15:20:19Z",
+      "side": 1,
+      "message": "`Release-Notes` are only used for the Gerrit releases.\n\nWe don\u0027t include non-core plugins in the Gerrit release notes AFAIK.\n\nI think it is fine to leave it to `false` so we can allow the migration transparently. If we want to emphasises more we are defaulting to `false` for back-compatibility we could make it more explicit in the documentation, something like:\n\n```\nThe default behaviour means one call to the apply object(s) endpoint per ref.\n\n*NOTE*: the default value is only needed for backwards compatibility to allow migrating transparently to the latest (version_number) pull-replication plugin version. Once the migration is over, this value should be set to `true` to leverage the performance improvements introduced by the `batch-apply-object` API.\n```\n\nIf we want to stress it more, maybe we can add a deprecation warning in the logs when the plugin starts up.",
+      "parentUuid": "3b91ad51_066e3df6",
+      "range": {
+        "startLine": 337,
+        "startChar": 11,
+        "endLine": 337,
+        "endChar": 16
+      },
+      "revId": "fb0273410b8bccc304df63402780c342aa6a24f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
