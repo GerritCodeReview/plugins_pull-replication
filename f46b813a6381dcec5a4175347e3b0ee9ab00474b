@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc7be54d_9ce79c4e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T22:05:20Z",
+      "side": 1,
+      "message": "It should be moved after L280",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 28
+      },
+      "revId": "f46b813a6381dcec5a4175347e3b0ee9ab00474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1bcce8b_c8fd77df",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T22:05:20Z",
+      "side": 1,
+      "message": "This should be configurable.",
+      "range": {
+        "startLine": 294,
+        "startChar": 0,
+        "endLine": 298,
+        "endChar": 7
+      },
+      "revId": "f46b813a6381dcec5a4175347e3b0ee9ab00474b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
