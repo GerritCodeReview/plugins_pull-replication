@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ccad503_c89f2c7d",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T21:32:13Z",
+      "side": 0,
+      "message": "d77b50afb3a8b856f4a8b78032a3d51fadd3e757",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "28d88d1972afc3651b9ff9c7f1e27aa750e42832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

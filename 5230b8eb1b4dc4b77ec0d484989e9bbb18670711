@@ -84,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7151c693_ef437587",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T21:32:13Z",
+      "side": 1,
+      "message": "Yes, AFAIK.",
+      "parentUuid": "07a97bf6_c89a495b",
+      "revId": "5230b8eb1b4dc4b77ec0d484989e9bbb18670711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2574fe9e_f713cc42",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
         "patchSetId": 2

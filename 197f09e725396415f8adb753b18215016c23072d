@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8ce8b74_51bbe889",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T21:32:13Z",
+      "side": 1,
+      "message": "LGTM overall, I am wondering if we want to fail as soon as possible if the configuration has a groupId but the broker doesn\u0027t support the extended interface having the groupId",
+      "revId": "197f09e725396415f8adb753b18215016c23072d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40ae1d0c_20c969f6",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T21:32:13Z",
+      "side": 1,
+      "message": "3.4.8",
+      "range": {
+        "startLine": 6,
+        "startChar": 50,
+        "endLine": 6,
+        "endChar": 57
+      },
+      "revId": "197f09e725396415f8adb753b18215016c23072d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f59bf96_cad239cc",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T21:32:13Z",
+      "side": 1,
+      "message": "Not needed anymore: the events-broker has now been published to Maven Central.\n\nSee:\nhttps://repo1.maven.org/maven2/com/gerritforge/events-broker/3.4.8/",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "197f09e725396415f8adb753b18215016c23072d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99fbdcba_3d584160",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T21:32:13Z",
+      "side": 1,
+      "message": "This assumes that pull-replication has direct access to the `ExtendedBrokerApi` instance definition. Should that be checked maybe during the module initialisation and, if that isn\u0027t the case, fail to load the plugin?",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 46
+      },
+      "revId": "197f09e725396415f8adb753b18215016c23072d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82878cbd_0e8951c4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T21:32:13Z",
+      "side": 1,
+      "message": "If `groupId` is not null but the broker does not implement the `ExtendedBrokerApi` I believe we should notify the issue rather than just ignoring the `groupId`, WDYT?",
+      "range": {
+        "startLine": 71,
+        "startChar": 50,
+        "endLine": 71,
+        "endChar": 81
+      },
+      "revId": "197f09e725396415f8adb753b18215016c23072d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
