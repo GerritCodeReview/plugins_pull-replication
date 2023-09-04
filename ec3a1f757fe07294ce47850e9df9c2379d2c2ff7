@@ -104,6 +104,24 @@
       "parentUuid": "8d2a56e9_65014c19",
       "revId": "ec3a1f757fe07294ce47850e9df9c2379d2c2ff7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f2fc8dc_ab91f830",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1160733
+      },
+      "writtenOn": "2023-09-04T11:34:22Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com",
+      "parentUuid": "f41702d6_3c3361fc",
+      "revId": "ec3a1f757fe07294ce47850e9df9c2379d2c2ff7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
