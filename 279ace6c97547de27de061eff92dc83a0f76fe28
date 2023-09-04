@@ -18,6 +18,46 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08e4de31_45614c8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "Thanks for proposing this and apologies for the late reply.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3140d4c_6d934d97",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "apply-object, git-fetch",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d150270_9dc878dd",
@@ -66,6 +106,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "29c8ac59_51a8f826",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "up to hours",
+      "parentUuid": "411b1f5f_84ffea35",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9fd13f8b_cf4cfb48",
         "filename": "DESIGN.md",
         "patchSetId": 4
@@ -82,6 +146,29 @@
         "startChar": 3,
         "endLine": 23,
         "endChar": 22
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bc7582d_49ee8b96",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "a few seconds",
+      "range": {
+        "startLine": 30,
+        "startChar": 49,
+        "endLine": 30,
+        "endChar": 63
       },
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -117,6 +204,80 @@
       "writtenOn": "2022-05-25T09:57:35Z",
       "side": 1,
       "message": "nit: trailing whitespace",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d93510fc_0a85a406",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "We should also mention the `apply-object` and the rationale of synchronous replication. With `apply-object` you can _accelerate_ the `git fetch` from seconds down to milliseconds (typically 100x faster).\n\nThe context is typically limited to the replication of `/meta` refs which are very small and updated very frequently.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fb94df1_189a7813",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "That\u0027s very unlikely, but possibly. The most frequent cause of failures has been so far the lock failure.",
+      "range": {
+        "startLine": 39,
+        "startChar": 68,
+        "endLine": 39,
+        "endChar": 95
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4400b34b_74fa2b19",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "I would also mention that all the retrying activity is carefully tracked by metrics, so that the Gerrit admin could set alerts when tasks are reaching their maximum retry counts.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f972c530_881b111d",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "We should mention here the `apply-objects` REST API call.",
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -186,6 +347,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eea8f25b_9348007a",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "That isn\u0027t implemented at the moment, but I agree with you that is desperately needed. Because we assume to have an external `events-broker` implementation, we can rely on it for managing the persistence of the retry operations.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 23
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7cf41f0e_ac4eaa37",
         "filename": "DESIGN.md",
         "patchSetId": 4
@@ -202,6 +386,53 @@
         "startChar": 49,
         "endLine": 74,
         "endChar": 80
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17ac96a7_793a06f1",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "That is achievable, but we do need to choose carefully the group-id and partition key, for not risking to block the entire replication queue in case of long replication tasks (e.g. minutes).",
+      "parentUuid": "7cf41f0e_ac4eaa37",
+      "range": {
+        "startLine": 74,
+        "startChar": 49,
+        "endLine": 74,
+        "endChar": 80
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57a855f2_22d78571",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "+1",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 66
       },
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -248,6 +479,98 @@
         "startChar": 26,
         "endLine": 88,
         "endChar": 34
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fb80933_a2c03b32",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "👍 this looks like a DLQ (dead-letter queue) where replication tasks can be periodically selected and put back into execution.",
+      "range": {
+        "startLine": 100,
+        "startChar": 50,
+        "endLine": 100,
+        "endChar": 72
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd419f7b_85defbe3",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "👍 that allows the Gerrit admin to inspect the topic easily and put alerts whenever the topic is not empty.",
+      "range": {
+        "startLine": 107,
+        "startChar": 48,
+        "endLine": 107,
+        "endChar": 71
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d75a8d97_71e4c2e1",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "This could be also managed in the topic key, doesn\u0027t have to be a separate topic per consumer. Each consumer could receive on their key.",
+      "range": {
+        "startLine": 110,
+        "startChar": 37,
+        "endLine": 110,
+        "endChar": 57
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef14130_32bfcd75",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-04T20:57:52Z",
+      "side": 1,
+      "message": "What would be the advance of this approach?",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 42
       },
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
