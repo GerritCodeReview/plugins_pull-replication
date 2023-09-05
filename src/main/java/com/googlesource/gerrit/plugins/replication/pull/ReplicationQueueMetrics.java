@@ -161,7 +161,7 @@ public class ReplicationQueueMetrics {
     tasksCancelledMaxRetries =
         registerMetric(
             metricMaker.newCounter(
-                "tasks/max_retries",
+                "tasks/failed_max_retries",
                 new Description("Replication tasks cancelled for maximum number of retries")
                     .setCumulative()
                     .setUnit(TASKS),

@@ -56,7 +56,7 @@ while the `<source>` represent the replication source endpoint.
 - `merged`: (counter) number of tasks not being executed because they had
   been consolidated with an existing scheduled task.
 
-- `max_retries`: (counter) number of tasks that have reached their maximum
+- `failed_max_retries`: (counter) number of tasks that have reached their maximum
   retry count but never succeeded.
 
 ### plugins/@PLUGIN@
