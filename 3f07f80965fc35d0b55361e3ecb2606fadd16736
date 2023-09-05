@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e091033_525870c9",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-05T13:44:02Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 12,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "3f07f80965fc35d0b55361e3ecb2606fadd16736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1686ae82_21efa5a7",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-05T13:44:02Z",
+      "side": 1,
+      "message": "events that have",
+      "range": {
+        "startLine": 15,
+        "startChar": 50,
+        "endLine": 15,
+        "endChar": 62
+      },
+      "revId": "3f07f80965fc35d0b55361e3ecb2606fadd16736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69824714_0ec437eb",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-05T13:44:02Z",
+      "side": 1,
+      "message": "represents",
+      "range": {
+        "startLine": 21,
+        "startChar": 51,
+        "endLine": 21,
+        "endChar": 60
+      },
+      "revId": "3f07f80965fc35d0b55361e3ecb2606fadd16736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8806e5ec_8d5aa6a1",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-05T13:44:02Z",
+      "side": 1,
+      "message": "or more refs",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "3f07f80965fc35d0b55361e3ecb2606fadd16736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78b40490_c041678c",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-05T13:44:02Z",
+      "side": 1,
+      "message": "This isn\u0027t needed?",
+      "range": {
+        "startLine": 25,
+        "startChar": 20,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "3f07f80965fc35d0b55361e3ecb2606fadd16736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26690acc_12a4cd43",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-05T13:44:02Z",
+      "side": 1,
+      "message": "These 2 have the same description?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 0
+      },
+      "revId": "3f07f80965fc35d0b55361e3ecb2606fadd16736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f77e522_43d89c97",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-05T13:44:02Z",
+      "side": 1,
+      "message": "Not sure this is needed?",
+      "range": {
+        "startLine": 55,
+        "startChar": 63,
+        "endLine": 55,
+        "endChar": 71
+      },
+      "revId": "3f07f80965fc35d0b55361e3ecb2606fadd16736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f353302_72427ef0",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-05T13:44:02Z",
+      "side": 1,
+      "message": "Should this be `failed_max_retries`, to hint more clearly that it\u0027s a problem with failures.",
+      "range": {
+        "startLine": 60,
+        "startChar": 3,
+        "endLine": 60,
+        "endChar": 14
+      },
+      "revId": "3f07f80965fc35d0b55361e3ecb2606fadd16736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
