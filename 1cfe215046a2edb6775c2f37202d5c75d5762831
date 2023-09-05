@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b6902395_d96a41bb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-05T15:41:44Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right. `callSendObject` can return an empty optional under certain circumstances (eg when `wouldFetchRef` returns false) which (as far as I understand the code) are not necessarily failures, yet here we are treating it as an error/abnormality. Not only that, we are breaking from the for loop (L481-483) and we are falling back to fetch.",
+      "revId": "1cfe215046a2edb6775c2f37202d5c75d5762831",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0430d94c_65ea7b76",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 19
