@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c4de747_043c1246",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-06T15:28:24Z",
+      "side": 1,
+      "message": "we need to build in event-broker 3.4.8.1: https://gerrit-review.googlesource.com/c/modules/events-broker/+/385257 and once is done i will change this.",
+      "parentUuid": "40ae1d0c_20c969f6",
+      "range": {
+        "startLine": 6,
+        "startChar": 50,
+        "endLine": 6,
+        "endChar": 57
+      },
+      "revId": "197f09e725396415f8adb753b18215016c23072d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f59bf96_cad239cc",
         "filename": "external_plugin_deps.bzl",
         "patchSetId": 5
@@ -54,6 +78,30 @@
       "writtenOn": "2023-09-04T21:32:13Z",
       "side": 1,
       "message": "Not needed anymore: the events-broker has now been published to Maven Central.\n\nSee:\nhttps://repo1.maven.org/maven2/com/gerritforge/events-broker/3.4.8/",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "197f09e725396415f8adb753b18215016c23072d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "424a4bd5_6333410e",
+        "filename": "external_plugin_deps.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-06T15:28:24Z",
+      "side": 1,
+      "message": "Read above.",
+      "parentUuid": "2f59bf96_cad239cc",
       "range": {
         "startLine": 7,
         "startChar": 8,
@@ -105,6 +153,30 @@
         "startChar": 50,
         "endLine": 71,
         "endChar": 81
+      },
+      "revId": "197f09e725396415f8adb753b18215016c23072d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfc47065_88ad4fff",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-06T15:28:24Z",
+      "side": 1,
+      "message": "I think that is a good point. Let me explore it.",
+      "parentUuid": "99fbdcba_3d584160",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 46
       },
       "revId": "197f09e725396415f8adb753b18215016c23072d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
