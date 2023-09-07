@@ -32,6 +32,7 @@ import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
@@ -65,6 +66,7 @@ import org.eclipse.jgit.transport.URIish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Singleton
 public class ReplicationQueue
     implements ObservableQueue,
         EventListener,
@@ -79,6 +81,7 @@ public class ReplicationQueue
   private static final String REF_UDPATED_EVENT_TYPE = new RefUpdatedEvent().type;
   private static final String ZEROS_OBJECTID = ObjectId.zeroId().getName();
   private final ReplicationStateListener stateLog;
+  private final ShutdownState shutdownState;
 
   private final WorkQueue workQueue;
   private final DynamicItem<EventDispatcher> dispatcher;
@@ -92,6 +95,7 @@ public class ReplicationQueue
   private Provider<RevisionReader> revReaderProvider;
   private final ApplyObjectMetrics applyObjectMetrics;
   private final FetchReplicationMetrics fetchMetrics;
+  private final ReplicationQueueMetrics queueMetrics;
   private final String instanceId;
   private ApplyObjectsRefsFilter applyObjectsRefsFilter;
 
@@ -106,18 +110,22 @@ public class ReplicationQueue
       Provider<RevisionReader> revReaderProvider,
       ApplyObjectMetrics applyObjectMetrics,
       FetchReplicationMetrics fetchMetrics,
+      ReplicationQueueMetrics queueMetrics,
       @GerritInstanceId String instanceId,
-      ApplyObjectsRefsFilter applyObjectsRefsFilter) {
+      ApplyObjectsRefsFilter applyObjectsRefsFilter,
+      ShutdownState shutdownState) {
     workQueue = wq;
     dispatcher = dis;
     sources = rd;
     stateLog = sl;
+    this.shutdownState = shutdownState;
     beforeStartupEventsQueue = Queues.newConcurrentLinkedQueue();
     this.fetchClientFactory = fetchClientFactory;
     this.refsFilter = refsFilter;
     this.revReaderProvider = revReaderProvider;
     this.applyObjectMetrics = applyObjectMetrics;
     this.fetchMetrics = fetchMetrics;
+    this.queueMetrics = queueMetrics;
     this.instanceId = instanceId;
     this.applyObjectsRefsFilter = applyObjectsRefsFilter;
   }
@@ -126,6 +134,7 @@ public class ReplicationQueue
   public void start() {
     if (!running) {
       sources.get().startup(workQueue);
+      queueMetrics.start(this);
       fetchCallsTimeout =
           2
               * sources.get().getAll().stream()
@@ -141,10 +150,12 @@ public class ReplicationQueue
   @Override
   public void stop() {
     running = false;
+    shutdownState.setIsShuttingDown(true);
     int discarded = sources.get().shutdown();
     if (discarded > 0) {
       repLog.warn("Canceled {} replication events during shutdown", discarded);
     }
+    queueMetrics.stop();
   }
 
   @Override
@@ -211,6 +222,8 @@ public class ReplicationQueue
           "Replication plugin did not finish startup before event, event replication is postponed",
           state);
       beforeStartupEventsQueue.add(event);
+
+      queueMetrics.incrementQueuedBeforStartup();
       return;
     }
     ForkJoinPool fetchCallsPool = null;
@@ -536,6 +549,10 @@ public class ReplicationQueue
             s ->
                 s.getApis()
                     .forEach(apiUrl -> s.scheduleUpdateHead(apiUrl, p, event.getNewHeadName())));
+  }
+
+  SourcesCollection sourcesCollection() {
+    return sources.get();
   }
 
   @AutoValue
