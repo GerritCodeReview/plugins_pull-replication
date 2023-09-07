@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60a72f86_e582db1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "Can you elaborate on this? What extra properties are you referring to, and are those properties available only via API creation?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e0dd24c_eae117e3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -37,6 +54,23 @@
         "endLine": 12,
         "endChar": 7
       },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "386e2458_7e4241d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "I must admit I don\u0027t understand the context well enough, so I don\u0027t know exactly what problem we are looking to solve, perhaps a more detailed explanation could help, or its one of those that we could do a talk about.\n\nThe code itself looks fine, but I am concerned about the response code when failing to create the project, and backwards compatibility with the put method.",
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -83,6 +117,23 @@
         "endLine": 430,
         "endChar": 36
       },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3c272d9_5039f41f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "can this be null? I thought the only way to obtain a `RevisionData` is through the `RevisionReader.read` which returns an optional. I could be wrong.",
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -199,6 +250,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f5e4230_2b44cabb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "nit: This comment does a great job explaining the deprecation of the `doPut`, but for those people who have context of the change. The description of the change provides enough documentation in my opinion, but i don\u0027t know if generally looking up the change to get all the relevant info is favoured over say a proper javadoc. I leave it up to you.",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1737aaeb_a3193077",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 9
@@ -269,6 +337,74 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "914a667a_41742547",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "There are a lot of things going on in this method, a comprehensive javadoc will be useful.",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da9cdbb4_8882fff9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "shouldn\u0027t we return (or throw exception) here?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea35978b_58d02ae6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "nit: `readJson` probably no longer belongs to `PullReplicationFilter`.",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9f0576a_3993e628",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "there are at least 2 nested `try` blocks, can we simplify the code by removing them and have the outer `try` (L127) handle all the exceptions?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35eaa25e_93151f4b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 9
@@ -303,6 +439,63 @@
       "writtenOn": "2023-08-26T14:54:21Z",
       "side": 1,
       "message": "Don\u0027t we need a reindex here?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9c76dd0_4bf8f21e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "Do we need to modify the `Context` either here or somewhere else in the method?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c336c51f_963b1a1e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "`Init`",
+      "range": {
+        "startLine": 193,
+        "startChar": 13,
+        "endLine": 193,
+        "endChar": 18
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37b81697_5cfe90c5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "this `return` can go.",
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -399,6 +592,47 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9cb4bf4_c2840cb2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "It is also used in ProjectInitialisationAction.",
+      "parentUuid": "ce5c7d18_ecfd27b1",
+      "range": {
+        "startLine": 266,
+        "startChar": 2,
+        "endLine": 266,
+        "endChar": 8
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94e4f757_b9fc5fc8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "this needs updating, as the method accepts more args now.",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7d75467_29c15ca6",
@@ -412,6 +646,24 @@
       "writtenOn": "2023-08-23T17:30:20Z",
       "side": 1,
       "message": "What if the remote is an older pull-replication implementation without the POST for creating a new project?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da75cb28_7c067e54",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "Yup, valid point, this will fail I believe. What we did with the batch ref update piece of work is use a flag in the replication config to indicate if the target supports the new endpoint.",
+      "parentUuid": "e7d75467_29c15ca6",
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -435,6 +687,40 @@
         "endLine": 151,
         "endChar": 65
       },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4c953e3_628c6a28",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "do we have access to the project cache? Can we assert the project exists in the cache with the right properties?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "963ce893_91ec97be",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 1,
+      "message": "we should also assert that the `refs/meta/config` is in the payload.",
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

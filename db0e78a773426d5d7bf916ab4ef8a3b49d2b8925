@@ -22,6 +22,23 @@
       },
       "revId": "db0e78a773426d5d7bf916ab4ef8a3b49d2b8925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0edb38fa_377acbac",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-07T10:59:50Z",
+      "side": 0,
+      "message": "The fact you have to remove this test (I don\u0027t see it recreated in any of the other tests you touched) suggests something is probably missing from the implementation. I would expect the test to remain intact, as we shouldn\u0027t have to change the return code on failures to init the project? What code do we return if we fail to init the project? Don\u0027t think its 500 anymore, is that acceptable?",
+      "revId": "db0e78a773426d5d7bf916ab4ef8a3b49d2b8925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
