@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -33,6 +34,7 @@ import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -47,6 +49,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.eclipse.jgit.transport.URIish;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -282,6 +285,25 @@ abstract class PullReplicationITBase extends PullReplicationSetupBase {
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
     }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  public void shouldCreateNewProject() throws Exception {
+    NameKey projectToCreate = Project.nameKey(project.get() + "_created");
+
+    setReplicationSource(TEST_REPLICATION_REMOTE, "", Optional.of(projectToCreate.get()));
+    config.save();
+    AutoReloadConfigDecorator autoReloadConfigDecorator =
+        getInstance(AutoReloadConfigDecorator.class);
+    autoReloadConfigDecorator.reload();
+    Source source =
+        getInstance(SourcesCollection.class).getByRemoteName(TEST_REPLICATION_REMOTE).get();
+
+    FetchApiClient client = getInstance(FetchApiClient.Factory.class).create(source);
+    client.initProject(projectToCreate, new URIish(source.getApis().get(0)));
+
+    waitUntil(() -> repoManager.list().contains(projectToCreate));
   }
 
   @Test

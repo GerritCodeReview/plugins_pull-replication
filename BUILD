@@ -12,6 +12,7 @@ gerrit_plugin(
         "Gerrit-InitStep: com.googlesource.gerrit.plugins.replication.pull.InitPlugin",
         "Gerrit-SshModule: com.googlesource.gerrit.plugins.replication.pull.SshModule",
         "Gerrit-HttpModule: com.googlesource.gerrit.plugins.replication.pull.api.HttpModule",
+        "Gerrit-ReloadMode: restart",
     ],
     resources = glob(["src/main/resources/**/*"]),
     deps = [
@@ -25,6 +26,7 @@ gerrit_plugin(
 
 junit_tests(
     name = "pull_replication_tests",
+    size = "large",
     srcs = glob([
         "src/test/java/**/*Test.java",
     ]),

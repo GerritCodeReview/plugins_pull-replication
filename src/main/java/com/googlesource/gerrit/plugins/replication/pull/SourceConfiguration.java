@@ -29,6 +29,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   static final int DEFAULT_MAX_CONNECTION_INACTIVITY_MS = 10000;
   static final int DEFAULT_CONNECTION_TIMEOUT_MS = 5000;
   static final int DEFAULT_CONNECTIONS_PER_ROUTE = 100;
+  static final int DEFAULT_DRAIN_SHUTDOWN_TIMEOUT_SECS = 300;
 
   private final int delay;
   private final int rescheduleDelay;
@@ -51,6 +52,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private final int maxConnectionsPerRoute;
   private final int maxConnections;
   private final int maxRetries;
+  private final int shutDownDrainTimeout;
   private int slowLatencyThreshold;
   private boolean useCGitClient;
   private int refsBatchSize;
@@ -97,6 +99,16 @@ public class SourceConfiguration implements RemoteConfiguration {
                 remoteConfig.getName(),
                 "slowLatencyThreshold",
                 DEFAULT_SLOW_LATENCY_THRESHOLD_SECS,
+                TimeUnit.SECONDS);
+
+    shutDownDrainTimeout =
+        (int)
+            ConfigUtil.getTimeUnit(
+                cfg,
+                "replication",
+                null,
+                "shutDownDrainTimeout",
+                DEFAULT_DRAIN_SHUTDOWN_TIMEOUT_SECS,
                 TimeUnit.SECONDS);
   }
 
@@ -220,5 +232,9 @@ public class SourceConfiguration implements RemoteConfiguration {
   @Override
   public boolean replicateNoteDbMetaRefs() {
     return true;
+  }
+
+  public int getShutDownDrainTimeout() {
+    return shutDownDrainTimeout;
   }
 }
