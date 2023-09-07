@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventTypes;
@@ -32,6 +33,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
+import com.google.inject.name.Names;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
@@ -65,15 +67,20 @@ import org.eclipse.jgit.util.FS;
 class PullReplicationModule extends AbstractModule {
   private final SitePaths site;
   private final Path cfgPath;
+  private final MetricMaker pluginMetricMaker;
 
   @Inject
-  public PullReplicationModule(SitePaths site) {
+  public PullReplicationModule(SitePaths site, MetricMaker pluginMetricMaker) {
     this.site = site;
     cfgPath = site.etc_dir.resolve("replication.config");
+    this.pluginMetricMaker = pluginMetricMaker;
   }
 
   @Override
   protected void configure() {
+    bind(MetricMaker.class)
+        .annotatedWith(Names.named(ReplicationQueueMetrics.REPLICATION_QUEUE_METRICS))
+        .toInstance(pluginMetricMaker);
 
     install(new PullReplicationGroupModule());
     bind(BearerTokenProvider.class).in(Scopes.SINGLETON);

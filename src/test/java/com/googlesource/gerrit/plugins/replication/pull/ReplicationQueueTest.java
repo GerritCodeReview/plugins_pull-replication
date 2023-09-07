@@ -98,6 +98,8 @@ public class ReplicationQueueTest {
   @Mock ApplyObjectsRefsFilter applyObjectsRefsFilter;
   ApplyObjectMetrics applyObjectMetrics;
   FetchReplicationMetrics fetchMetrics;
+  ReplicationQueueMetrics queueMetrics;
+  ShutdownState shutdownState;
 
   @Captor ArgumentCaptor<String> stringCaptor;
   @Captor ArgumentCaptor<Project.NameKey> projectNameKeyCaptor;
@@ -157,6 +159,8 @@ public class ReplicationQueueTest {
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
     fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
+    queueMetrics = new ReplicationQueueMetrics("pull-replication", new DisabledMetricMaker());
+    shutdownState = new ShutdownState();
 
     objectUnderTest =
         new ReplicationQueue(
@@ -169,8 +173,10 @@ public class ReplicationQueueTest {
             () -> revReader,
             applyObjectMetrics,
             fetchMetrics,
+            queueMetrics,
             LOCAL_INSTANCE_ID,
-            applyObjectsRefsFilter);
+            applyObjectsRefsFilter,
+            shutdownState);
   }
 
   @Test
@@ -345,12 +351,20 @@ public class ReplicationQueueTest {
             () -> revReader,
             applyObjectMetrics,
             fetchMetrics,
+            queueMetrics,
             LOCAL_INSTANCE_ID,
-            applyObjectsRefsFilter);
+            applyObjectsRefsFilter,
+            shutdownState);
     Event event = new TestEvent("refs/multi-site/version");
     objectUnderTest.onEvent(event);
 
     verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountInfo);
+  }
+
+  @Test
+  public void shouldSetShutdownStateWhenStopping() throws IOException {
+    objectUnderTest.stop();
+    assertThat(shutdownState.isShuttingDown()).isTrue();
   }
 
   @Test
