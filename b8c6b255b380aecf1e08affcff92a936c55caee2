@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f3cec49_caa2b080",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-07T07:46:48Z",
+      "side": 1,
+      "message": "Please include a meaningful headline, even in the first patch-set. The first head will stick as e-mail subject for the whole duration of the review, so I\u0027ll receive from now on __WIP__ even when you\u0027ll have amended it :-(\n\nMaybe is worth abandoning this and creating a brand-new change with a meaningful headline?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "b8c6b255b380aecf1e08affcff92a936c55caee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
