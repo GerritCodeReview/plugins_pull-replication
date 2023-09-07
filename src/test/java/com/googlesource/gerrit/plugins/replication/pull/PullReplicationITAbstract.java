@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
@@ -31,6 +32,8 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import java.io.IOException;
 import java.util.Collection;
@@ -51,6 +54,13 @@ import org.junit.Test;
 
 /** Base class to run regular and async acceptance tests */
 public abstract class PullReplicationITAbstract extends PullReplicationSetupBase {
+
+  public static class PullReplicationTestModule extends PullReplicationModule {
+    @Inject
+    public PullReplicationTestModule(SitePaths site, InMemoryMetricMaker memMetric) {
+      super(site, memMetric);
+    }
+  }
 
   @Override
   protected void setReplicationSource(
@@ -91,6 +101,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             sourceCommit.getId().getName(),
             TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
+    waitUntilReplicationCompleted(1);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
@@ -99,6 +110,13 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
     }
+  }
+
+  private void assertTasksMetricScheduledAndCompleted(int numTasks) {
+    assertTasksMetric("scheduled", numTasks);
+    assertTasksMetric("started", numTasks);
+    assertTasksMetric("completed", numTasks);
+    assertEmptyTasksMetric("failed");
   }
 
   @Test
@@ -124,6 +142,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             branchRevision,
             TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
+    waitUntilReplicationCompleted(1);
 
     try (Repository repo = repoManager.openRepository(project);
         Repository sourceRepo = repoManager.openRepository(project)) {
@@ -133,6 +152,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
     }
+
+    assertTasksMetricScheduledAndCompleted(1);
   }
 
   @Test
@@ -167,6 +188,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             branchRevision,
             TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
+    waitUntilReplicationCompleted(1);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, newBranch) != null);
@@ -193,6 +215,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             amendedCommit.getId().getName(),
             TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(forcedPushEvent);
+    waitUntilReplicationCompleted(2);
 
     try (Repository repo = repoManager.openRepository(project);
         Repository sourceRepo = repoManager.openRepository(project)) {
@@ -204,6 +227,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
                       .getName()
                       .equals(amendedCommit.getId().getName()));
     }
+
+    assertTasksMetricScheduledAndCompleted(2);
   }
 
   @Test
@@ -232,6 +257,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             sourceCommit.getId().getName(),
             TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
+    waitUntilReplicationCompleted(1);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
@@ -240,6 +266,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
     }
+
+    assertTasksMetricScheduledAndCompleted(1);
   }
 
   @Test
@@ -273,6 +301,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             branchRevision,
             TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
+    waitUntilReplicationCompleted(1);
 
     try (Repository repo = repoManager.openRepository(project);
         Repository sourceRepo = repoManager.openRepository(project)) {
@@ -282,6 +311,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
     }
+
+    assertTasksMetricScheduledAndCompleted(1);
   }
 
   @Test
@@ -309,8 +340,11 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     for (ProjectDeletedListener l : deletedListeners) {
       l.onProjectDeleted(event);
     }
+    waitUntilReplicationCompleted(1);
 
     waitUntil(() -> !repoManager.list().contains(project));
+
+    assertTasksMetricScheduledAndCompleted(1);
   }
 
   @Test
@@ -335,6 +369,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
     HeadUpdatedListener.Event event = new FakeHeadUpdateEvent(master, newBranch, testProjectName);
     pullReplicationQueue.onHeadUpdated(event);
+    waitUntilReplicationCompleted(1);
 
     waitUntil(
         () -> {
@@ -344,6 +379,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             return false;
           }
         });
+
+    assertTasksMetricScheduledAndCompleted(1);
   }
 
   @Ignore
@@ -365,6 +402,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             sourceCommit.getId().getName(),
             TEST_REPLICATION_REMOTE);
     pullReplicationQueue.onEvent(event);
+    waitUntilReplicationCompleted(1);
 
     try (Repository repo = repoManager.openRepository(project)) {
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
@@ -373,5 +411,28 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
     }
+  }
+
+  private void waitUntilReplicationCompleted(int expected) throws InterruptedException {
+    waitUntil(
+        () ->
+            inMemoryMetrics()
+                .counterValue("tasks/completed", TEST_REPLICATION_REMOTE)
+                .filter(counter -> counter == expected)
+                .isPresent());
+  }
+
+  private InMemoryMetricMaker inMemoryMetrics() {
+    return getInstance(InMemoryMetricMaker.class);
+  }
+
+  private void assertTasksMetric(String taskMetric, long value) {
+    assertThat(inMemoryMetrics().counterValue("tasks/" + taskMetric, TEST_REPLICATION_REMOTE))
+        .hasValue(value);
+  }
+
+  private void assertEmptyTasksMetric(String taskMetric) {
+    assertThat(inMemoryMetrics().counterValue("tasks/" + taskMetric, TEST_REPLICATION_REMOTE))
+        .isEmpty();
   }
 }

@@ -40,7 +40,7 @@ public class SourcesCollection implements ReplicationSources {
 
   private final Source.Factory sourceFactory;
   private volatile Map<String, Source> sources;
-  private boolean shuttingDown;
+  private final ShutdownState shutdownState;
   private final Provider<ReplicationQueue> replicationQueue;
 
   @Inject
@@ -49,9 +49,11 @@ public class SourcesCollection implements ReplicationSources {
       ConfigParser configParser,
       Source.Factory sourceFactory,
       EventBus eventBus,
-      Provider<ReplicationQueue> replicationQueue)
+      Provider<ReplicationQueue> replicationQueue,
+      ShutdownState shutdownState)
       throws ConfigInvalidException {
     this.sourceFactory = sourceFactory;
+    this.shutdownState = shutdownState;
     this.sources =
         allSources(sourceFactory, configParser.parseRemotes(replicationConfig.getConfig()));
     this.replicationQueue = replicationQueue;
@@ -78,7 +80,7 @@ public class SourcesCollection implements ReplicationSources {
 
   @Override
   public void startup(WorkQueue workQueue) {
-    shuttingDown = false;
+    shutdownState.setIsShuttingDown(false);
     for (Source cfg : sources.values()) {
       cfg.start(workQueue);
     }
@@ -99,9 +101,7 @@ public class SourcesCollection implements ReplicationSources {
    */
   @Override
   public int shutdown() {
-    synchronized (this) {
-      shuttingDown = true;
-    }
+    shutdownState.setIsShuttingDown(true);
 
     int discarded = 0;
     for (Source cfg : sources.values()) {
@@ -117,7 +117,7 @@ public class SourcesCollection implements ReplicationSources {
 
   @Subscribe
   public synchronized void onReload(List<RemoteConfiguration> sourceConfigurations) {
-    if (shuttingDown) {
+    if (shutdownState.isShuttingDown()) {
       logger.atWarning().log("Shutting down: configuration reload ignored");
       return;
     }

@@ -66,7 +66,7 @@ import org.eclipse.jgit.transport.URIish;
  * <p>Instance members are protected by the lock within FetchQueue. Callers must take that lock to
  * ensure they are working with a current view of the object.
  */
-public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
+public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completable {
   private final ReplicationStateListener stateLog;
   public static final String ALL_REFS = "..all..";
   static final String ID_KEY = "fetchOneId";
@@ -102,6 +102,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
   private final FetchFactory fetchFactory;
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
+  private boolean succeeded;
 
   @Inject
   FetchOne(
@@ -176,7 +177,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
 
   @Override
   public String toString() {
-    String print = "[" + taskIdHex + "] fetch " + uri;
+    String print = "[" + taskIdHex + "] fetch " + uri + " [" + String.join(",", delta) + "]";
 
     if (retryCount > 0) {
       print = "(retry " + retryCount + ") " + print;
@@ -491,6 +492,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
         case FORCED:
         case RENAMED:
         case FAST_FORWARD:
+          succeeded = true;
           break;
         case NOT_ATTEMPTED:
         case REJECTED:
@@ -567,5 +569,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning {
 
   public Optional<PullReplicationApiRequestMetrics> getRequestMetrics() {
     return apiRequestMetrics;
+  }
+
+  @Override
+  public boolean hasSucceeded() {
+    return succeeded;
   }
 }

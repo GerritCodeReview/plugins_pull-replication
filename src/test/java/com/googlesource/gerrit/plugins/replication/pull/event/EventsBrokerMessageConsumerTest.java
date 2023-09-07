@@ -18,12 +18,16 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.gerritforge.gerrit.eventbroker.BrokerApi;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.googlesource.gerrit.plugins.replication.pull.ShutdownState;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,13 +38,18 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class EventsBrokerMessageConsumerTest {
 
   @Mock private StreamEventListener eventListener;
-  @Mock DynamicItem<BrokerApi> eventsBroker;
+  @Mock DynamicItem<BrokerApi> eventsBrokerDynamicItem;
+  @Mock BrokerApi eventsBroker;
 
   EventsBrokerMessageConsumer objectUnderTest;
+  ShutdownState shutdownState;
 
   @Before
   public void setup() {
-    objectUnderTest = new EventsBrokerMessageConsumer(eventsBroker, eventListener, "topicName");
+    shutdownState = new ShutdownState();
+    objectUnderTest =
+        new EventsBrokerMessageConsumer(
+            eventsBrokerDynamicItem, eventListener, shutdownState, "topicName");
   }
 
   @Test
@@ -62,5 +71,17 @@ public class EventsBrokerMessageConsumerTest {
       throws AuthException, PermissionBackendException {
     doNothing().when(eventListener).fetchRefsForEvent(any());
     objectUnderTest.accept(new RefUpdatedEvent());
+  }
+
+  @Test
+  public void shouldStillAcceptLastEventDuringShutdownAndThenDisconnect()
+      throws AuthException, PermissionBackendException {
+    doNothing().when(eventListener).fetchRefsForEvent(any());
+    when(eventsBrokerDynamicItem.get()).thenReturn(eventsBroker);
+
+    shutdownState.setIsShuttingDown(true);
+
+    objectUnderTest.accept(new RefUpdatedEvent());
+    verify(eventsBroker, times(1)).disconnect();
   }
 }
