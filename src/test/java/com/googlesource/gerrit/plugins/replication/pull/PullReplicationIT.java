@@ -58,7 +58,8 @@ import org.junit.Test;
 @UseLocalDisk
 @TestPlugin(
     name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
+    sysModule =
+        "com.googlesource.gerrit.plugins.replication.pull.PullReplicationITAbstract$PullReplicationTestModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
 public class PullReplicationIT extends PullReplicationSetupBase {
 
