@@ -19,7 +19,7 @@ gerrit_plugin(
         "//lib/commons:io",
         "//plugins/replication",
         "@commons-lang3//jar",
-        "@events-broker//jar:neverlink",
+        "//plugins/events-broker",
     ],
 )
 
@@ -35,7 +35,7 @@ junit_tests(
         ":pull-replication__plugin",
         ":pull_replication_util",
         "//plugins/replication",
-        "@events-broker//jar",
+        "//plugins/events-broker",
     ],
 )
 
@@ -73,6 +73,6 @@ java_library(
     visibility = ["//visibility:public"],
     exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
         ":pull-replication__plugin",
-        "@events-broker//jar",
+        "//plugins/events-broker",
     ],
 )
