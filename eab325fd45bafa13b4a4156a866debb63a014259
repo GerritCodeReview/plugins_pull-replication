@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93977918_bd96a8d9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T23:26:55Z",
+      "side": 1,
+      "message": "```suggestion\n              replicationConfig));\n```",
+      "range": {
+        "startLine": 158,
+        "startChar": 14,
+        "endLine": 158,
+        "endChar": 84
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "154be4a8_435765da",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerConsumerModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T23:26:55Z",
+      "side": 1,
+      "message": "Just pass the whole config and leave the responsibility of the parsing to this module, this is how typically other parts of Gerrit also work.",
+      "range": {
+        "startLine": 29,
+        "startChar": 54,
+        "endLine": 29,
+        "endChar": 68
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8837ae8d_d898259e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerConsumerModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T23:26:55Z",
+      "side": 1,
+      "message": "There is no need of checking for null groupId.\n\n\n```suggestion\n    bind(String.class)\n        .annotatedWith(Names.named(STREAM_EVENTS_GROUP_ID))\n        .toProvider(Providers.of(config.getString(\"replication\", null, \"eventBrokerGroupId\")));\n```",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 5
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f19fd3de_dd765558",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T23:26:55Z",
+      "side": 1,
+      "message": "We should only check for `groupId \u003d\u003d null`, is there a possibility of been set to an empty string? where?",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 39
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23588311_eea631ca",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T23:26:55Z",
+      "side": 1,
+      "message": "```suggestion\n:\tOptional group id for consumers\n```",
+      "range": {
+        "startLine": 226,
+        "startChar": 2,
+        "endLine": 226,
+        "endChar": 54
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
