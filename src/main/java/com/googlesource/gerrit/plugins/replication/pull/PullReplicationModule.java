@@ -152,7 +152,10 @@ class PullReplicationModule extends AbstractModule {
     if (replicationConfig.getBoolean("replication", "consumeStreamEvents", false)) {
       install(new StreamEventModule());
     } else if (eventBrokerTopic != null) {
-      install(new EventsBrokerConsumerModule(eventBrokerTopic));
+      install(
+          new EventsBrokerConsumerModule(
+              eventBrokerTopic,
+              replicationConfig.getString("replication", null, "eventBrokerGroupId")));
     }
 
     DynamicSet.setOf(binder(), ReplicationStateListener.class);
