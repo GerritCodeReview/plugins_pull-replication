@@ -222,6 +222,10 @@ replication.eventBrokerTopic
 
 	Default: unset
 
+replication.eventBrokerGroupId
+:	Optional group id for consumers. It is utilized when the eventBrokerTopic
+	feature is enabled.
+
 replication.maxConnectionsPerRoute
 :	Maximum number of HTTP connections per one HTTP route.
 
