@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa711770_621262f8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-12T12:17:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93977918_bd96a8d9",
+      "range": {
+        "startLine": 158,
+        "startChar": 14,
+        "endLine": 158,
+        "endChar": 84
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "154be4a8_435765da",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-11T23:26:55Z",
       "side": 1,
       "message": "Just pass the whole config and leave the responsibility of the parsing to this module, this is how typically other parts of Gerrit also work.",
+      "range": {
+        "startLine": 29,
+        "startChar": 54,
+        "endLine": 29,
+        "endChar": 68
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ac8c1c2_462779ad",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerConsumerModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-12T12:17:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "154be4a8_435765da",
       "range": {
         "startLine": 29,
         "startChar": 54,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aae77e5_018315b8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerConsumerModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-12T12:17:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8837ae8d_d898259e",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 5
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f19fd3de_dd765558",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "157c0194_84246b5c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-12T12:17:32Z",
+      "side": 1,
+      "message": "it is read from configuration so I think is or null or some value.",
+      "parentUuid": "f19fd3de_dd765558",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 39
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23588311_eea631ca",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-09-11T23:26:55Z",
       "side": 1,
       "message": "```suggestion\n:\tOptional group id for consumers\n```",
+      "range": {
+        "startLine": 226,
+        "startChar": 2,
+        "endLine": 226,
+        "endChar": 54
+      },
+      "revId": "eab325fd45bafa13b4a4156a866debb63a014259",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf570951_a65a801c",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-12T12:17:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23588311_eea631ca",
       "range": {
         "startLine": 226,
         "startChar": 2,
