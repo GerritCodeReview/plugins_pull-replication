@@ -100,6 +100,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c7643c2_3313867b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T20:14:14Z",
+      "side": 1,
+      "message": "Additionally, shouldn\u0027t the default (aka. package) access be enough for testing? Unit tests should be in the same package anyway",
+      "parentUuid": "b54095d7_b3a02326",
+      "range": {
+        "startLine": 429,
+        "startChar": 2,
+        "endLine": 429,
+        "endChar": 15
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c803b06_1a075df3",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 9
@@ -405,6 +429,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "459fdd9a_168ac8e5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T20:14:14Z",
+      "side": 1,
+      "message": "Alternatively, nested `try` blocks can be extracted into private helper methods. This code will be easier to follow and more descriptive.",
+      "parentUuid": "e9f0576a_3993e628",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35eaa25e_93151f4b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 9
@@ -525,6 +567,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "91b91385_a8647dba",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T20:14:14Z",
+      "side": 1,
+      "message": "nit: personally, I\u0027m not really a found of _magic booleans_ in method signatures, especially in public API, would rather prefer having two methods `initProject()` and `initProjectWithReindex` calling a private `doInitProject` with a boolean flag.\n\nThis will also save you responding to questions about reindex above ;)",
+      "range": {
+        "startLine": 218,
+        "startChar": 49,
+        "endLine": 218,
+        "endChar": 64
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c4678eda_3e03563d",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
         "patchSetId": 9
@@ -536,6 +601,30 @@
       "writtenOn": "2023-08-25T10:07:13Z",
       "side": 1,
       "message": "is this change related?",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 83,
+        "endChar": 79
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58ddc3c0_c2759120",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T20:14:14Z",
+      "side": 1,
+      "message": "Yes, it\u0027s related, as `gson` is used in (now) static `readJson` method line 280",
+      "parentUuid": "c4678eda_3e03563d",
       "range": {
         "startLine": 83,
         "startChar": 1,
@@ -612,6 +701,23 @@
         "endLine": 266,
         "endChar": 8
       },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7cb07d7_4e5353b5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T20:14:14Z",
+      "side": 1,
+      "message": "I\u0027d consider creating something like `PayloadParser` class with static methods to parse each type. IMO this would make code easier to follow and save us from always using `TypeLiteral` eg:\n\n```\nclass PayloadParser {\n  static RevisionInput parseRevisionInput(HttpServletRequest httpRequest) {\n    return parse(httpRequest, TypeLiteral.get(RevisionInput.class));\n  }\n  \n  static HeadInput parseHeadInput(HttpServletRequest httpRequest) {\n    return parse(httprequest, TypeLiteral.get(HeadInput.class));\n  }\n\n  private static \u003cT\u003e T parse(HttpServletRequest httpRequest, TypeLiteral\u003cT\u003e typeLiteral) {\n    ...\n  }\n}\n\n```\n\nThis could be done as a follow-up change.",
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
