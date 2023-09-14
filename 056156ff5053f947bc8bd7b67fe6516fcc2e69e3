@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66bf73f7_d8780a19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-09-14T14:29:12Z",
+      "side": 1,
+      "message": "Ignore me 😊",
+      "parentUuid": "2f552585_3a7d37a5",
+      "revId": "056156ff5053f947bc8bd7b67fe6516fcc2e69e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dabfa935_7889f938",
