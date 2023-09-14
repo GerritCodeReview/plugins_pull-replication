@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "059e6821_53a1c654",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-14T16:55:48Z",
+      "side": 1,
+      "message": "nit: can we also provide information on how to fix this problem? Something like _please remove group id from configuration or use different event broker implementation_.\n\nIs this _unrecoverable_ error? Obviously, it\u0027s a _human error_ as it\u0027s a misconfiguration but, can\u0027t we just log the error and fall back to the old `BrockerApi` instead?",
+      "revId": "573b7b08f0bb17040fc2c792fcaf4f2eb119274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8f09fd9_2f78888d",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-14T16:55:48Z",
+      "side": 1,
+      "message": "nit: IMO we should add information that this option can be only used with event brokers that implement `ExtendedBrokerApi`.",
+      "revId": "573b7b08f0bb17040fc2c792fcaf4f2eb119274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
