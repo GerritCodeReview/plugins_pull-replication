@@ -46,6 +46,30 @@
       },
       "revId": "5d4c04f6db83bf7164cade410da7052c0db94c89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c449cb9_e20c92ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-15T08:41:07Z",
+      "side": 1,
+      "message": "It looks that the commit\u0027s description was screwed up. I fixed it.",
+      "parentUuid": "ebf520f3_f0dc67d1",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 43
+      },
+      "revId": "5d4c04f6db83bf7164cade410da7052c0db94c89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
