@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "345f16ea_9a12d2d3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-15T00:57:12Z",
+      "side": 1,
+      "message": "Is this to keep compatibility with older versions of eventsBroker?",
+      "range": {
+        "startLine": 57,
+        "startChar": 43,
+        "endLine": 57,
+        "endChar": 87
+      },
+      "revId": "2899d289c860f6e0f8ca02ac0a77785c30b50387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9579bbcf_97d9d37f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-09-15T00:57:12Z",
+      "side": 1,
+      "message": "```suggestion\n                  + \"Remove replication.eventBrokerGroupId from replication.config or install a newer version of event-broker plugin.\",\n```",
+      "range": {
+        "startLine": 61,
+        "startChar": 93,
+        "endLine": 61,
+        "endChar": 105
+      },
+      "revId": "2899d289c860f6e0f8ca02ac0a77785c30b50387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
