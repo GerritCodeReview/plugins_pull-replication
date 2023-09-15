@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ede29de9_64535155",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-15T01:01:05Z",
+      "side": 1,
+      "message": "Yep.",
+      "parentUuid": "345f16ea_9a12d2d3",
+      "range": {
+        "startLine": 57,
+        "startChar": 43,
+        "endLine": 57,
+        "endChar": 87
+      },
+      "revId": "2899d289c860f6e0f8ca02ac0a77785c30b50387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9579bbcf_97d9d37f",
@@ -42,6 +66,53 @@
         "startChar": 93,
         "endLine": 61,
         "endChar": 105
+      },
+      "revId": "2899d289c860f6e0f8ca02ac0a77785c30b50387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79f003ed_933a4b91",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-15T01:01:05Z",
+      "side": 1,
+      "message": "Well, not necessarily. Some of the plugins may never be adapted in stable-3.4 to the new interface, and that\u0027s fine.",
+      "parentUuid": "9579bbcf_97d9d37f",
+      "range": {
+        "startLine": 61,
+        "startChar": 93,
+        "endLine": 61,
+        "endChar": 105
+      },
+      "revId": "2899d289c860f6e0f8ca02ac0a77785c30b50387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2af750a_cebc9c0f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-15T01:01:05Z",
+      "side": 1,
+      "message": "This is typically done in the `start()` phase of the plugin.",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 5
       },
       "revId": "2899d289c860f6e0f8ca02ac0a77785c30b50387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
