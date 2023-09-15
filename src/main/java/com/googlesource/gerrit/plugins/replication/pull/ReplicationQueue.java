@@ -43,6 +43,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.client.HttpResultUtils;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
@@ -186,6 +187,9 @@ public class ReplicationQueue
     if (useBatchUpdateEvents) {
       if (e.type.equals(BATCH_REF_UPDATED_EVENT_TYPE)) {
         BatchRefUpdateEvent event = (BatchRefUpdateEvent) e;
+        repLog.info("Batch ref event received on project {} for refs: {}",
+            event.getProjectNameKey().get(),
+            String.join(",", event.getRefNames()));
 
         long eventCreatedOn = e.eventCreatedOn;
         List<ReferenceUpdatedEvent> refs =
@@ -467,14 +471,14 @@ public class ReplicationQueue
           result =
               Optional.of(
                   fetchClient.callBatchSendObject(project, filteredRefsBatch, eventCreatedOn, uri));
-          resultSuccessful = result.map(HttpResult::isSuccessful).orElse(false);
+          resultSuccessful = HttpResultUtils.isSuccessful(result);
           repLog.info(
               "Pull replication REST API batch apply object to {} COMPLETED for {}:[{}], HTTP  Result:"
                   + " {} - time:{} ms",
               apiUrl,
               project,
               batchApplyObjectStr,
-              result,
+              HttpResultUtils.status(result),
               apiTimer.stop() / 1000000.0);
         } else {
           repLog.info(
@@ -495,7 +499,7 @@ public class ReplicationQueue
                     batchApplyObject.isDelete(),
                     batchApplyObject.revisionData().map(ImmutableList::of).orElse(null));
 
-            resultSuccessful = result.map(HttpResult::isSuccessful).orElse(false);
+            resultSuccessful = HttpResultUtils.isSuccessful(result);
             if (!resultSuccessful) {
               break;
             }
@@ -503,13 +507,13 @@ public class ReplicationQueue
         }
 
         if (!resultSuccessful
-            && result.map(r -> r.isProjectMissing(project)).orElse(false)
+            && HttpResultUtils.isProjectMissing(result, project)
             && source.isCreateMissingRepositories()) {
           result = initProject(project, uri, fetchClient);
-          repLog.info("Missing project {} created, HTTP Result:{}", project, result);
+          repLog.info("Missing project {} created, HTTP Result:{}", project, HttpResultUtils.status(result));
         }
 
-        if (!resultSuccessful && result.map(HttpResult::isParentObjectMissing).orElse(false)) {
+        if (!resultSuccessful && HttpResultUtils.isParentObjectMissing(result)) {
           resultSuccessful = true;
           for (BatchApplyObjectData batchApplyObject : filteredRefsBatch) {
             String refName = batchApplyObject.refName();
@@ -530,7 +534,7 @@ public class ReplicationQueue
                       eventCreatedOn,
                       batchApplyObject.isDelete(),
                       allRevisions);
-              resultSuccessful = sendObjectResult.map(HttpResult::isSuccessful).orElse(false);
+              resultSuccessful = HttpResultUtils.isSuccessful(sendObjectResult);
               if (!resultSuccessful) {
                 break;
               }
@@ -619,26 +623,26 @@ public class ReplicationQueue
         Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
         result = Optional.of(fetchClient.callBatchFetch(project, filteredRefs, uri));
         long elapsedMs = TimeUnit.NANOSECONDS.toMillis(timer.stop());
-        boolean resultSuccessful = result.map(HttpResult::isSuccessful).orElse(false);
+        boolean resultSuccessful = HttpResultUtils.isSuccessful(result);
         repLog.info(
             "Pull replication REST API batch fetch to {} COMPLETED for {}:[{}], HTTP Result:"
                 + " {} - time:{} ms",
             apiUrl,
             project,
             refsStr,
-            result,
+            HttpResultUtils.status(result),
             elapsedMs);
         if (!resultSuccessful
-            && result.map(r -> r.isProjectMissing(project)).orElse(false)
+            && HttpResultUtils.isProjectMissing(result, project)
             && source.isCreateMissingRepositories()) {
           result = initProject(project, uri, fetchClient);
-          resultSuccessful = result.map(HttpResult::isSuccessful).orElse(false);
+          resultSuccessful = HttpResultUtils.isSuccessful(result);
         }
         if (!resultSuccessful) {
           stateLog.warn(
               String.format(
                   "Pull replication REST API batch fetch call failed. Endpoint url: %s, reason:%s",
-                  apiUrl, result.flatMap(HttpResult::getMessage).orElse("unknown")),
+                  apiUrl, HttpResultUtils.errorMsg(result)),
               state);
         }
         resultIsSuccessful &= resultSuccessful;
@@ -679,17 +683,17 @@ public class ReplicationQueue
             Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
             Optional<HttpResult> result = Optional.of(fetchClient.callFetch(project, refName, uri));
             long elapsedMs = TimeUnit.NANOSECONDS.toMillis(timer.stop());
-            boolean resultSuccessful = result.map(HttpResult::isSuccessful).orElse(false);
+            boolean resultSuccessful = HttpResultUtils.isSuccessful(result);
             repLog.info(
                 "Pull replication REST API fetch to {} COMPLETED for {}:{}, HTTP Result:"
                     + " {} - time:{} ms",
                 apiUrl,
                 project,
                 refName,
-                result,
+                HttpResultUtils.status(result),
                 elapsedMs);
             if (!resultSuccessful
-                && result.map(r -> r.isProjectMissing(project)).orElse(false)
+                && HttpResultUtils.isProjectMissing(result, project)
                 && source.isCreateMissingRepositories()) {
               result = initProject(project, uri, fetchClient);
             }
@@ -697,11 +701,11 @@ public class ReplicationQueue
               stateLog.warn(
                   String.format(
                       "Pull replication rest api fetch call failed. Endpoint url: %s, reason:%s",
-                      apiUrl, result.flatMap(HttpResult::getMessage).orElse("unknown")),
+                      apiUrl, HttpResultUtils.errorMsg(result)),
                   state);
             }
 
-            resultIsSuccessful &= result.map(HttpResult::isSuccessful).orElse(false);
+            resultIsSuccessful &= HttpResultUtils.isSuccessful(result);
           } catch (URISyntaxException e) {
             stateLog.error(
                 String.format("Cannot parse pull replication api url:%s", apiUrl), state);
