@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9038ae40_93d5874a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-15T00:51:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "059e6821_53a1c654",
+      "revId": "573b7b08f0bb17040fc2c792fcaf4f2eb119274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8f09fd9_2f78888d",
