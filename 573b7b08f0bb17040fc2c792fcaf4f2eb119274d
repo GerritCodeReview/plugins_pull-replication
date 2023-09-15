@@ -51,6 +51,24 @@
       "message": "nit: IMO we should add information that this option can be only used with event brokers that implement `ExtendedBrokerApi`.",
       "revId": "573b7b08f0bb17040fc2c792fcaf4f2eb119274d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1b01355_a88555c6",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-15T00:53:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8f09fd9_2f78888d",
+      "revId": "573b7b08f0bb17040fc2c792fcaf4f2eb119274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
