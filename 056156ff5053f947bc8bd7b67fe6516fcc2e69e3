@@ -56,6 +56,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1e84aeb_b7e474e3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-15T17:20:43Z",
+      "side": 1,
+      "message": "Now that we are not restricted by the `RestModifyView` interface, should we also change the return type from `Response\u003c?\u003e` to `Response\u003cString\u003e` or whatever type this method returns? This will allow us to get rid of the casting that happens on the return value of this method when called in PullReplicationFilter.",
+      "revId": "056156ff5053f947bc8bd7b67fe6516fcc2e69e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dabfa935_7889f938",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectDeletionAction.java",
         "patchSetId": 2
