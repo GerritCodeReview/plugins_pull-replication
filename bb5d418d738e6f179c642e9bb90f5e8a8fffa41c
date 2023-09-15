@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "131034d2_428bec5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-15T16:05:05Z",
+      "side": 1,
+      "message": "should `HttpResultUtils` go in another change?",
+      "revId": "bb5d418d738e6f179c642e9bb90f5e8a8fffa41c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
