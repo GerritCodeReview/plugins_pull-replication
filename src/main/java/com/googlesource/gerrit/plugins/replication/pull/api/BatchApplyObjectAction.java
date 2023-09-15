@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
+
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -23,6 +25,7 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Singleton
 class BatchApplyObjectAction implements RestModifyView<ProjectResource, List<RevisionInput>> {
@@ -37,6 +40,11 @@ class BatchApplyObjectAction implements RestModifyView<ProjectResource, List<Rev
   @Override
   public Response<?> apply(ProjectResource resource, List<RevisionInput> inputs)
       throws RestApiException {
+
+    repLog.info(
+        "Batch Apply object API from {} for refs {}",
+        resource.getNameKey(),
+        inputs.stream().map(RevisionInput::getRefName).collect(Collectors.joining(",")));
 
     List<Response<?>> allResponses = new ArrayList<>();
     for (RevisionInput input : inputs) {
