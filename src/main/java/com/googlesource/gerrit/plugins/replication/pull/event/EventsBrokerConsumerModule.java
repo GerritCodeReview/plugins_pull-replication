@@ -17,21 +17,28 @@ package com.googlesource.gerrit.plugins.replication.pull.event;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
+import com.google.inject.util.Providers;
+import org.eclipse.jgit.lib.Config;
 
 public class EventsBrokerConsumerModule extends LifecycleModule {
   public static final String STREAM_EVENTS_TOPIC_NAME = "stream_events_topic_name";
+  public static final String STREAM_EVENTS_GROUP_ID = "stream_events_group_id";
 
   private final String topicName;
+  private final Config config;
 
-  public EventsBrokerConsumerModule(String topicName) {
+  public EventsBrokerConsumerModule(String topicName, Config config) {
     this.topicName = topicName;
+    this.config = config;
   }
 
   @Override
   protected void configure() {
     bind(EventsBrokerMessageConsumer.class).in(Scopes.SINGLETON);
     bind(String.class).annotatedWith(Names.named(STREAM_EVENTS_TOPIC_NAME)).toInstance(topicName);
-
+    bind(String.class)
+        .annotatedWith(Names.named(STREAM_EVENTS_GROUP_ID))
+        .toProvider(Providers.of(config.getString("replication", null, "eventBrokerGroupId")));
     listener().to(EventsBrokerMessageConsumer.class);
   }
 }
