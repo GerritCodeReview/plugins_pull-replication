@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "debeb40e_aca944a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2023-09-28T18:24:32Z",
+      "side": 1,
+      "message": "Want Luca to confirm description here.",
+      "revId": "db3e0ea07784fbf20e9d846f3d37d920863a32a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
