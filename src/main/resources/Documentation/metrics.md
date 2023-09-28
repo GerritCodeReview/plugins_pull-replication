@@ -34,6 +34,8 @@ while the `<source>` represent the replication source endpoint.
 
 - `in_flight`: (gauge) number of tasks currently being executed.
 
+- `pending`: (gauge) number of tasks waiting to be executed.
+
 - `started`: (counter) number of tasks started.
 
 - `rescheduled`: (counter) number of tasks re-scheduled for execution.
