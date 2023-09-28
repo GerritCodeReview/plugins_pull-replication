@@ -52,6 +52,12 @@ public class BearerAuthenticationFilterTest {
   @Mock private FilterChain filterChain;
   private final String pluginName = "pull-replication";
 
+  private void authenticateAndFilter(String method, String uri, Optional<String> queryStringMaybe)
+      throws ServletException, IOException {
+    when(httpServletRequest.getMethod()).thenReturn(method);
+    authenticateAndFilter(uri, queryStringMaybe);
+  }
+
   private void authenticateAndFilter(String uri, Optional<String> queryStringMaybe)
       throws ServletException, IOException {
     final String bearerToken = "some-bearer-token";
@@ -107,7 +113,8 @@ public class BearerAuthenticationFilterTest {
 
   @Test
   public void shouldAuthenticateWhenUpdateHead() throws ServletException, IOException {
-    authenticateAndFilter("any-prefix/projects/my-project/HEAD", NO_QUERY_PARAMETERS);
+    authenticateAndFilter(
+        "PUT", "any-prefix/projects/my-project/pull-replication~HEAD", NO_QUERY_PARAMETERS);
   }
 
   @Test
