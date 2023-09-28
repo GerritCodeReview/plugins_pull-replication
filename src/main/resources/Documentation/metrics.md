@@ -44,7 +44,7 @@ while the `<source>` represent the replication source endpoint.
   error and none of the operations took place; a partial failure is when
   some of the operations in the tasks succeeded but other failed.
 
-- `retrying`: (counter) number of tasks being retired for execution.
+- `retrying`: (counter) number of tasks being retried for execution.
 
 - `not_scheduled`: (counter) number of tasks which have been discarded before
   being executed, because redundant (duplicate of existing scheduled tasks)
