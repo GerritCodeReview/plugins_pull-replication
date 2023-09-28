@@ -85,7 +85,7 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
 
     if (isBasicAuthenticationRequest(requestURI)) {
       filterChain.doFilter(servletRequest, servletResponse);
-    } else if (isPullReplicationApiRequest(requestURI)
+    } else if (isPullReplicationApiRequest(httpRequest.getMethod(), requestURI)
         || (isGitUploadPackRequest(httpRequest)
             && isAuthenticationHeaderWithBearerToken(authorizationHeader))) {
       if (isBearerTokenAuthenticated(authorizationHeader, bearerToken))
@@ -121,14 +121,15 @@ public class BearerAuthenticationFilter extends AllRequestFilter {
     return requestURI.startsWith("/a/");
   }
 
-  private boolean isPullReplicationApiRequest(String requestURI) {
+  private boolean isPullReplicationApiRequest(String requestMethod, String requestURI) {
     return (requestURI.contains(pluginName)
             && (requestURI.endsWith(String.format("/%s~apply-object", pluginName))
                 || requestURI.endsWith(String.format("/%s~apply-objects", pluginName))
                 || requestURI.endsWith(String.format("/%s~fetch", pluginName))
                 || requestURI.endsWith(String.format("/%s~delete-project", pluginName))
                 || requestURI.contains(String.format("/%s/init-project/", pluginName))))
-        || requestURI.matches(".*/projects/[^/]+/HEAD");
+        || (requestURI.matches(String.format(".*/projects/[^/]+/%s~HEAD", pluginName))
+            && "PUT".equals(requestMethod));
   }
 
   private Optional<String> extractBearerToken(String authorizationHeader) {
