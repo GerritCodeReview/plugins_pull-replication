@@ -222,6 +222,16 @@ replication.eventBrokerTopic
 
 	Default: unset
 
+replication.eventBrokerGroupId
+:	Optional group id for consumers. Used for keeping the offset of the
+	the last acked message on the topic with a specific group id; supported
+	only if the event-broker plugin supports the ExtendedBrokerApi
+	interface.
+	When not set, the messages received are acked using a global group id
+	shared by all subscribers in Gerrit.
+
+	Default: unset
+
 replication.maxConnectionsPerRoute
 :	Maximum number of HTTP connections per one HTTP route.
 
