@@ -35,7 +35,7 @@ junit_tests(
         ":pull-replication__plugin",
         ":pull_replication_util",
         "//plugins/replication",
-        "//plugins/events-broker",
+        "//modules/events-broker",
     ],
 )
 
@@ -73,12 +73,12 @@ java_library(
     visibility = ["//visibility:public"],
     exports = PLUGIN_DEPS + PLUGIN_TEST_DEPS + [
         ":pull-replication__plugin",
-        "//plugins/events-broker",
+        "//modules/events-broker",
     ],
 )
 
 java_library(
     name = "events-broker-neverlink",
     neverlink = 1,
-    exports = ["//plugins/events-broker"],
+    exports = ["//modules/events-broker"],
 )
