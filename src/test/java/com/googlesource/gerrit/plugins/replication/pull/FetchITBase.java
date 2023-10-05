@@ -66,7 +66,7 @@ public abstract class FetchITBase extends LightweightPluginDaemonTest {
     }
   }
 
-  Project.NameKey createTestProject(String name) throws Exception {
+  Project.NameKey createTestProject(String name) {
     return projectOperations.newProject().name(name).create();
   }
 }
