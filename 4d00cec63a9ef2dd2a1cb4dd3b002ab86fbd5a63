@@ -39,6 +39,24 @@
       "message": "Question as an ignorant in the use case and without context: Is not possible to split this change in multiple changes? I looks a lot to review.",
       "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "107fd45f_e6756f41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-05T07:58:05Z",
+      "side": 1,
+      "message": "There are a lot of classes involved on the recipient side in order to schedule a fetch task. I can\u0027t split it sorry, all these changes belong together. If you have to focus your review somewhere, I\u0027d say this is the `Source` and `ReplicationState` classes.",
+      "parentUuid": "0676ed04_6cdaeeb1",
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
