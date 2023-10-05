@@ -110,7 +110,6 @@ public class ReplicationQueueTest {
 
   @Mock Config config;
   ApplyObjectMetrics applyObjectMetrics;
-  FetchReplicationMetrics fetchMetrics;
   ReplicationQueueMetrics queueMetrics;
   ShutdownState shutdownState;
 
@@ -182,7 +181,6 @@ public class ReplicationQueueTest {
     when(applyObjectsRefsFilter.match(any())).thenReturn(false);
 
     applyObjectMetrics = new ApplyObjectMetrics("pull-replication", new DisabledMetricMaker());
-    fetchMetrics = new FetchReplicationMetrics("pull-replication", new DisabledMetricMaker());
     queueMetrics = new ReplicationQueueMetrics("pull-replication", new DisabledMetricMaker());
     shutdownState = new ShutdownState();
 
@@ -196,7 +194,6 @@ public class ReplicationQueueTest {
             refsFilter,
             () -> revReader,
             applyObjectMetrics,
-            fetchMetrics,
             queueMetrics,
             LOCAL_INSTANCE_ID,
             config,
@@ -228,7 +225,6 @@ public class ReplicationQueueTest {
             refsFilter,
             () -> revReader,
             applyObjectMetrics,
-            fetchMetrics,
             queueMetrics,
             LOCAL_INSTANCE_ID,
             config,
@@ -311,7 +307,6 @@ public class ReplicationQueueTest {
             refsFilter,
             () -> revReader,
             applyObjectMetrics,
-            fetchMetrics,
             queueMetrics,
             LOCAL_INSTANCE_ID,
             config,
@@ -518,7 +513,6 @@ public class ReplicationQueueTest {
             refsFilter,
             () -> revReader,
             applyObjectMetrics,
-            fetchMetrics,
             queueMetrics,
             LOCAL_INSTANCE_ID,
             config,

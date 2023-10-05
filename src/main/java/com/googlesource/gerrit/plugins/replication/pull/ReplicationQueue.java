@@ -100,7 +100,6 @@ public class ReplicationQueue
   private ExcludedRefsFilter refsFilter;
   private Provider<RevisionReader> revReaderProvider;
   private final ApplyObjectMetrics applyObjectMetrics;
-  private final FetchReplicationMetrics fetchMetrics;
   private final ReplicationQueueMetrics queueMetrics;
   private final String instanceId;
   private final boolean useBatchUpdateEvents;
@@ -116,7 +115,6 @@ public class ReplicationQueue
       ExcludedRefsFilter refsFilter,
       Provider<RevisionReader> revReaderProvider,
       ApplyObjectMetrics applyObjectMetrics,
-      FetchReplicationMetrics fetchMetrics,
       ReplicationQueueMetrics queueMetrics,
       @GerritInstanceId String instanceId,
       @GerritServerConfig Config gerritConfig,
@@ -132,7 +130,6 @@ public class ReplicationQueue
     this.refsFilter = refsFilter;
     this.revReaderProvider = revReaderProvider;
     this.applyObjectMetrics = applyObjectMetrics;
-    this.fetchMetrics = fetchMetrics;
     this.queueMetrics = queueMetrics;
     this.instanceId = instanceId;
     this.useBatchUpdateEvents =
@@ -624,9 +621,9 @@ public class ReplicationQueue
         Optional<HttpResult> result = Optional.empty();
         repLog.info(
             "Pull replication REST API batch fetch to {} for {}:[{}]", apiUrl, project, refsStr);
-        Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
+        long startTime = System.currentTimeMillis();
         result = Optional.of(fetchClient.callBatchFetch(project, filteredRefs, uri));
-        long elapsedMs = TimeUnit.NANOSECONDS.toMillis(timer.stop());
+        long endTime = System.currentTimeMillis();
         boolean resultSuccessful = HttpResultUtils.isSuccessful(result);
         repLog.info(
             "Pull replication REST API batch fetch to {} COMPLETED for {}:[{}], HTTP Result:"
@@ -635,7 +632,7 @@ public class ReplicationQueue
             project,
             refsStr,
             HttpResultUtils.status(result),
-            elapsedMs);
+            endTime - startTime);
         if (!resultSuccessful
             && HttpResultUtils.isProjectMissing(result, project)
             && source.isCreateMissingRepositories()) {
@@ -684,18 +681,18 @@ public class ReplicationQueue
             FetchApiClient fetchClient = fetchClientFactory.create(source);
             repLog.info(
                 "Pull replication REST API fetch to {} for {}:{}", apiUrl, project, refName);
-            Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
+            long startTime = System.currentTimeMillis();
             Optional<HttpResult> result = Optional.of(fetchClient.callFetch(project, refName, uri));
-            long elapsedMs = TimeUnit.NANOSECONDS.toMillis(timer.stop());
+            long endTime = System.currentTimeMillis();
             boolean resultSuccessful = HttpResultUtils.isSuccessful(result);
             repLog.info(
                 "Pull replication REST API fetch to {} COMPLETED for {}:{}, HTTP Result:"
-                    + " {} - time:{} ms",
+                    + " {} - time: {} ms",
                 apiUrl,
                 project,
                 refName,
                 HttpResultUtils.status(result),
-                elapsedMs);
+                endTime - startTime);
             if (!resultSuccessful
                 && HttpResultUtils.isProjectMissing(result, project)
                 && source.isCreateMissingRepositories()) {
