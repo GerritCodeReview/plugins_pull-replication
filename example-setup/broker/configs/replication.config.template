@@ -1,15 +1,14 @@
-[gerrit]
-    autoReload = true
-    replicateOnStartup = $REPLICATE_ON_STARTUP
 [replication]
+    instanceLabel = test-01
     excludeRefs = ^refs/users/\\d\\d/\\d+/edit-\\d+/\\d+$
     lockErrorMaxRetries = 5
     maxRetries = 100
     useCGitClient = false
     consumeStreamEvents = false
-    eventBrokerTopic = gerrit
     syncRefs = "ALL REFS ASYNC"
     maxApiPayloadSize = 40000
+    eventBrokerTopic = gerrit
+    eventBrokerGroupId = new-pull-replication-group-id-node-1
 [remote "$REMOTE"]
     url = http://$REMOTE_URL:8080/#{name}#.git
     apiUrl = http://$REMOTE_URL:8080/
