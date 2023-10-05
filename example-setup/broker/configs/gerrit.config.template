@@ -37,4 +37,3 @@
     enableAutoCommit = true
     autoCommitIntervalMs = 1000
     autoOffsetReset = latest
-    sendStreamEvents = true
