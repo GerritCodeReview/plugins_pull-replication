@@ -87,16 +87,6 @@ public class FetchReplicationMetrics {
   }
 
   /**
-   * Start the end-to-end replication latency timer from a source.
-   *
-   * @param name the source name.
-   * @return the timer context.
-   */
-  public Timer1.Context<String> startEnd2End(String name) {
-    return end2EndExecutionTime.start(name);
-  }
-
-  /**
    * Record the end-to-end replication latency timer from a source.
    *
    * @param name the source name.
