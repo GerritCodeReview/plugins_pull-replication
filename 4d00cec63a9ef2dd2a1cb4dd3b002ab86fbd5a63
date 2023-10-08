@@ -26,6 +26,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b08c446_e4b35a41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-08T19:01:14Z",
+      "side": 1,
+      "message": "Use imperative form in commit message.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59e90806_c8638485",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-08T19:01:14Z",
+      "side": 1,
+      "message": "What is a _sync_ ref? Do you mean a synchronous replication task instead?",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 34
+      },
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0676ed04_6cdaeeb1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 15
@@ -55,6 +101,63 @@
       "side": 1,
       "message": "There are a lot of classes involved on the recipient side in order to schedule a fetch task. I can\u0027t split it sorry, all these changes belong together. If you have to focus your review somewhere, I\u0027d say this is the `Source` and `ReplicationState` classes.",
       "parentUuid": "0676ed04_6cdaeeb1",
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ced2c8_670a8ea0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-08T19:01:14Z",
+      "side": 1,
+      "message": "Let\u0027s have a chat about this change: it looks way too big to me :-(",
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "709d19ae_88bb8739",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-08T19:01:14Z",
+      "side": 1,
+      "message": "What\u0027s the benefit of changing its position?",
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e64a8fd0_f88bc149",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-08T19:01:14Z",
+      "side": 1,
+      "message": "Nice refactoring, possibly worth its own change?",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 0
+      },
       "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
