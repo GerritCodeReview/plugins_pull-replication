@@ -78,31 +78,42 @@ public class FetchCommand implements Command {
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    ReplicationState state =
-        fetchReplicationStateFactory.create(
-            new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
+    Optional<ReplicationState> state =
+        fetchType == ReplicationType.ASYNC
+            ? Optional.of(
+                fetchReplicationStateFactory.create(
+                    new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get())))
+            : Optional.empty();
+
     Optional<Source> source =
         sources.getAll().stream().filter(s -> s.getRemoteConfigName().equals(label)).findFirst();
     if (!source.isPresent()) {
       String msg = String.format("Remote configuration section %s not found", label);
-      fetchStateLog.error(msg, state);
+      fetchStateLog.error(msg, state.orElse(null));
       throw new RemoteConfigurationMissingException(msg);
     }
 
     try {
-      state.markAllFetchTasksScheduled();
-      Future<?> future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
-      future.get(source.get().getTimeout(), TimeUnit.SECONDS);
+      if (state.isPresent()) {
+        ReplicationState rs = state.get();
+        rs.markAllFetchTasksScheduled();
+        Future<?> future = source.get().schedule(name, refName, rs, fetchType, apiRequestMetrics);
+        future.get(source.get().getTimeout(), TimeUnit.SECONDS);
+      } else {
+        source.get().fetchSync(name, refName, apiRequestMetrics);
+      }
     } catch (ExecutionException
         | IllegalStateException
         | TimeoutException
         | InterruptedException e) {
-      fetchStateLog.error("Exception during the fetch operation", e, state);
+      fetchStateLog.error("Exception during the fetch operation", e, state.orElse(null));
       throw e;
     }
 
     try {
-      state.waitForReplication(source.get().getTimeout());
+      if (state.isPresent()) {
+        state.get().waitForReplication(source.get().getTimeout());
+      }
     } catch (InterruptedException e) {
       writeStdErrSync("We are interrupted while waiting replication to complete");
       throw e;
