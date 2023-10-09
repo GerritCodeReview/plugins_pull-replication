@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -40,15 +41,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.eclipse.jgit.util.FS;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -60,6 +64,17 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     public PullReplicationTestModule(SitePaths site, InMemoryMetricMaker memMetric) {
       super(site, memMetric);
     }
+  }
+
+  protected boolean isAsyncReplication() {
+    FileBasedConfig config =
+        new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
+    try {
+      config.load();
+    } catch (IOException | ConfigInvalidException e) {
+      throw new IllegalStateException(e);
+    }
+    return !Strings.isNullOrEmpty(config.getString("replication", null, "syncRefs"));
   }
 
   @Override
@@ -113,10 +128,12 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
   }
 
   private void assertTasksMetricScheduledAndCompleted(int numTasks) {
-    assertTasksMetric("scheduled", numTasks);
-    assertTasksMetric("started", numTasks);
-    assertTasksMetric("completed", numTasks);
-    assertEmptyTasksMetric("failed");
+    if (isAsyncReplication()) {
+      assertTasksMetric("scheduled", numTasks);
+      assertTasksMetric("started", numTasks);
+      assertTasksMetric("completed", numTasks);
+      assertEmptyTasksMetric("failed");
+    }
   }
 
   @Test
@@ -414,12 +431,14 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
   }
 
   private void waitUntilReplicationCompleted(int expected) throws InterruptedException {
-    waitUntil(
-        () ->
-            inMemoryMetrics()
-                .counterValue("tasks/completed", TEST_REPLICATION_REMOTE)
-                .filter(counter -> counter == expected)
-                .isPresent());
+    if (isAsyncReplication()) {
+      waitUntil(
+          () ->
+              inMemoryMetrics()
+                  .counterValue("tasks/completed", TEST_REPLICATION_REMOTE)
+                  .filter(counter -> counter == expected)
+                  .isPresent());
+    }
   }
 
   private InMemoryMetricMaker inMemoryMetrics() {
