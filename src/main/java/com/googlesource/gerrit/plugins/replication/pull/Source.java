@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig.replaceName;
 import static com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.resolveNodeName;
-import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -446,10 +445,9 @@ public class Source {
       Project.NameKey project,
       String ref,
       ReplicationState state,
-      ReplicationType replicationType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
     URIish uri = getURI(project);
-    return schedule(project, ref, uri, state, replicationType, apiRequestMetrics);
+    return schedule(project, ref, uri, state, apiRequestMetrics, false);
   }
 
   public Future<?> schedule(
@@ -457,8 +455,8 @@ public class Source {
       String ref,
       URIish uri,
       ReplicationState state,
-      ReplicationType replicationType,
-      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics,
+      boolean now) {
 
     repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
     if (!shouldReplicate(project, ref, state)) {
@@ -505,7 +503,7 @@ public class Source {
         f =
             pool.schedule(
                 queueMetrics.runWithMetrics(this, e),
-                isSyncCall(replicationType) ? 0 : config.getDelay(),
+                now ? 0 : config.getDelay(),
                 TimeUnit.SECONDS);
         queueMetrics.incrementTaskScheduled(this);
       } else if (!e.getRefs().contains(ref)) {
@@ -519,6 +517,25 @@ public class Source {
       repLog.info("scheduled {}:{} => {} to run after {}s", e, ref, project, config.getDelay());
       return f;
     }
+  }
+
+  public Optional<FetchOne> fetchSync(
+      Project.NameKey project,
+      String ref,
+      URIish uri,
+      ReplicationState state,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+    if (shouldReplicate(project, ref)
+        && (config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))) {
+
+      FetchOne e = opFactory.create(project, uri, apiRequestMetrics);
+      e.addRef(ref);
+      e.addState(ref, state);
+      e.runSync();
+      return Optional.of(e);
+    }
+
+    return Optional.empty();
   }
 
   void scheduleDeleteProject(String uri, Project.NameKey project) {
@@ -542,10 +559,6 @@ public class Source {
   private void addRef(FetchOne e, String ref) {
     e.addRef(ref);
     postReplicationScheduledEvent(e, ref);
-  }
-
-  private boolean isSyncCall(ReplicationType replicationType) {
-    return SYNC.equals(replicationType);
   }
 
   /**

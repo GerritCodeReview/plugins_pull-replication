@@ -80,10 +80,7 @@ public final class StartFetchCommand extends SshCommand implements Command {
       projectFilter = new ReplicationFilter(projectPatterns);
     }
 
-    future =
-        fetchFactory
-            .create(urlMatch, projectFilter, state, replicationType(now))
-            .schedule(0, TimeUnit.SECONDS);
+    future = fetchFactory.create(urlMatch, projectFilter, state, now).schedule(0, TimeUnit.SECONDS);
 
     if (wait) {
       if (future != null) {
