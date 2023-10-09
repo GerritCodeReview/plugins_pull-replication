@@ -92,7 +92,11 @@ public class FetchAll implements Runnable {
     for (Source cfg : sources.getAll()) {
       if (cfg.wouldFetchProject(project)) {
         for (URIish uri : cfg.getURIs(project, urlMatch)) {
-          cfg.schedule(project, FetchOne.ALL_REFS, uri, state, replicationType, Optional.empty());
+        	if (replicationType == ReplicationType.ASYNC) {
+            cfg.schedule(project, FetchOne.ALL_REFS, uri, state, Optional.empty());
+        	} else {
+        		cfg.fetchSync(project, FetchOne.ALL_REFS, uri, state, Optional.empty());
+        	}
         }
       }
     }
