@@ -79,8 +79,10 @@ public class FetchCommand implements Command {
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
     ReplicationState state =
-        fetchReplicationStateFactory.create(
-            new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
+        fetchType == ReplicationType.ASYNC
+            ? fetchReplicationStateFactory.create(
+                new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()))
+            : null;
     Optional<Source> source = sources.getByRemoteName(label);
     if (!source.isPresent()) {
       String msg = String.format("Remote configuration section %s not found", label);
@@ -89,9 +91,14 @@ public class FetchCommand implements Command {
     }
 
     try {
-      state.markAllFetchTasksScheduled();
-      Future<?> future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
-      future.get(source.get().getTimeout(), TimeUnit.SECONDS);
+      if (state != null) {
+        state.markAllFetchTasksScheduled();
+        Future<?> future =
+            source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
+        future.get(source.get().getTimeout(), TimeUnit.SECONDS);
+      } else {
+        source.get().fetchSync(name, refName, apiRequestMetrics);
+      }
     } catch (ExecutionException
         | IllegalStateException
         | TimeoutException
@@ -101,7 +108,9 @@ public class FetchCommand implements Command {
     }
 
     try {
-      state.waitForReplication(source.get().getTimeout());
+      if (state != null) {
+        state.waitForReplication(source.get().getTimeout());
+      }
     } catch (InterruptedException e) {
       writeStdErrSync("We are interrupted while waiting replication to complete");
       throw e;
