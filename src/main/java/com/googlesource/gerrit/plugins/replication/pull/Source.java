@@ -519,6 +519,19 @@ public class Source {
     }
   }
 
+  public void fetchSync(
+      Project.NameKey project,
+      String ref,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+    if (((shouldReplicate(project, ref))
+        && (config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG)))) {
+
+      FetchOne e = opFactory.create(project, getURI(project), apiRequestMetrics);
+      e.addRef(ref);
+      e.run();
+    }
+  }
+
   void scheduleDeleteProject(String uri, Project.NameKey project) {
     @SuppressWarnings("unused")
     ScheduledFuture<?> ignored =
