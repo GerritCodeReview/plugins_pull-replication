@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "990ac429_c607cd6b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-09T22:54:54Z",
+      "side": 1,
+      "message": "There is no so much value here using `Optional\u003c\u003e` as we are forced to use a `state.orElse(null)` at L92",
+      "range": {
+        "startLine": 81,
+        "startChar": 5,
+        "endLine": 81,
+        "endChar": 30
+      },
+      "revId": "0f1e84309d6d38e443460eced05c5dc738e371be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
