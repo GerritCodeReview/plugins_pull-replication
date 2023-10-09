@@ -446,10 +446,9 @@ public class Source {
       Project.NameKey project,
       String ref,
       ReplicationState state,
-      ReplicationType replicationType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
     URIish uri = getURI(project);
-    return schedule(project, ref, uri, state, replicationType, apiRequestMetrics);
+    return schedule(project, ref, uri, state, apiRequestMetrics);
   }
 
   public Future<?> schedule(
@@ -457,7 +456,6 @@ public class Source {
       String ref,
       URIish uri,
       ReplicationState state,
-      ReplicationType replicationType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
 
     repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
@@ -504,9 +502,7 @@ public class Source {
         pending.put(uri, e);
         f =
             pool.schedule(
-                queueMetrics.runWithMetrics(this, e),
-                isSyncCall(replicationType) ? 0 : config.getDelay(),
-                TimeUnit.SECONDS);
+                queueMetrics.runWithMetrics(this, e), config.getDelay(), TimeUnit.SECONDS);
         queueMetrics.incrementTaskScheduled(this);
       } else if (!e.getRefs().contains(ref)) {
         addRef(e, ref);
@@ -519,6 +515,25 @@ public class Source {
       repLog.info("scheduled {}:{} => {} to run after {}s", e, ref, project, config.getDelay());
       return f;
     }
+  }
+
+  public Optional<FetchOne> fetchSync(
+      Project.NameKey project,
+      String ref,
+      URIish uri,
+      ReplicationState state,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+    if (shouldReplicate(project, ref)
+        && (config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))) {
+
+      FetchOne e = opFactory.create(project, uri, apiRequestMetrics);
+      e.addRef(ref);
+      e.addState(ref, state);
+      e.runSync();
+      return Optional.of(e);
+    }
+
+    return Optional.empty();
   }
 
   void scheduleDeleteProject(String uri, Project.NameKey project) {
