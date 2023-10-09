@@ -15,10 +15,10 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.ASYNC;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -72,7 +72,7 @@ public class FetchCommandTest {
     when(fetchReplicationStateFactory.create(any())).thenReturn(state);
     when(source.getRemoteConfigName()).thenReturn(label);
     when(sources.getAll()).thenReturn(Lists.newArrayList(source));
-    when(source.schedule(eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), any(), any()))
+    when(source.schedule(eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), any()))
         .thenReturn(CompletableFuture.completedFuture(null));
     objectUnderTest =
         new FetchCommand(fetchReplicationStateFactory, fetchStateLog, sources, eventDispatcher);
@@ -83,7 +83,17 @@ public class FetchCommandTest {
     objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
 
     verify(source, times(1))
-        .schedule(projectName, REF_NAME_TO_FETCH, state, ASYNC, Optional.of(apiRequestMetrics));
+        .schedule(
+            eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), eq(Optional.of(apiRequestMetrics)));
+  }
+
+  @Test
+  public void shouldNotScheduleAsyncTaskWhenFetchSync() throws Exception {
+    objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
+
+    verify(source, never())
+        .schedule(
+            eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), eq(Optional.of(apiRequestMetrics)));
   }
 
   @Test
