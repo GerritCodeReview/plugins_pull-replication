@@ -30,6 +30,7 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -61,26 +62,28 @@ public class FetchCommand implements Command {
       PullReplicationApiRequestMetrics apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    fetch(name, label, refName, ASYNC, Optional.of(apiRequestMetrics));
+    fetch(name, label, Set.of(refName), ASYNC, Optional.of(apiRequestMetrics));
   }
 
   public void fetchSync(Project.NameKey name, String label, String refName)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    fetch(name, label, refName, SYNC, Optional.empty());
+    fetch(name, label, Set.of(refName), SYNC, Optional.empty());
   }
 
   private void fetch(
       Project.NameKey name,
       String label,
-      String refName,
+      Set<String> refsNames,
       ReplicationType fetchType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
     ReplicationState state =
-        fetchReplicationStateFactory.create(
-            new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
+        fetchType == ReplicationType.ASYNC
+            ? fetchReplicationStateFactory.create(
+                new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()))
+            : null;
     Optional<Source> source = sources.getByRemoteName(label);
     if (!source.isPresent()) {
       String msg = String.format("Remote configuration section %s not found", label);
@@ -89,13 +92,24 @@ public class FetchCommand implements Command {
     }
 
     try {
-      state.markAllFetchTasksScheduled();
-      Future<?> future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
-      int timeout = source.get().getTimeout();
-      if (timeout == 0) {
-        future.get();
+      if (state != null) {
+        state.markAllFetchTasksScheduled();
+        Future<?> future = null;
+        for (String refName : refsNames) {
+        	future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);			
+		}
+        int timeout = source.get().getTimeout();
+        if (timeout == 0) {
+          if (future != null) { 
+        	  future.get();
+          }
+        } else {
+        	if(future != null) {
+          future.get(timeout, TimeUnit.SECONDS);
+        	}
+        }
       } else {
-        future.get(timeout, TimeUnit.SECONDS);
+        source.get().fetchSync(name, refsNames, apiRequestMetrics);
       }
     } catch (ExecutionException
         | IllegalStateException
@@ -106,7 +120,9 @@ public class FetchCommand implements Command {
     }
 
     try {
-      state.waitForReplication(source.get().getTimeout());
+      if (state != null) {
+        state.waitForReplication(source.get().getTimeout());
+      }
     } catch (InterruptedException e) {
       writeStdErrSync("We are interrupted while waiting replication to complete");
       throw e;
