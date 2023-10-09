@@ -36,6 +36,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConf
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import org.eclipse.jgit.errors.TransportException;
 
 public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private final FetchCommand command;
@@ -86,7 +87,8 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     } catch (InterruptedException
         | ExecutionException
         | IllegalStateException
-        | TimeoutException e) {
+        | TimeoutException
+        | TransportException e) {
       throw RestApiException.wrap(e.getMessage(), e);
     } catch (RemoteConfigurationMissingException e) {
       throw new UnprocessableEntityException(e.getMessage());
@@ -95,7 +97,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
 
   private Response<?> applySync(Project.NameKey project, Input input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
+          TimeoutException, TransportException {
     command.fetchSync(project, input.label, input.refName);
     return Response.created(input);
   }
