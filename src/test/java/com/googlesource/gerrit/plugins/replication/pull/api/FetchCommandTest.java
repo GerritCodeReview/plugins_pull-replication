@@ -113,7 +113,7 @@ public class FetchCommandTest {
     assertThrows(
         RemoteConfigurationMissingException.class,
         () -> objectUnderTest.fetchSync(projectName, "unknownLabel", REF_NAME_TO_FETCH));
-    verify(fetchStateLog, times(1)).error(anyString(), eq(state));
+    verify(fetchStateLog, times(1)).error(anyString(), eq(null));
   }
 
   @SuppressWarnings("unchecked")
