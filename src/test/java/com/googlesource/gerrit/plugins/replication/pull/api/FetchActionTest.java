@@ -38,6 +38,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
+import org.eclipse.jgit.errors.TransportException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -148,7 +149,7 @@ public class FetchActionTest {
   @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenPocessingInterrupted()
       throws RestApiException, InterruptedException, ExecutionException,
-          RemoteConfigurationMissingException, TimeoutException {
+          RemoteConfigurationMissingException, TimeoutException, TransportException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;
@@ -161,7 +162,7 @@ public class FetchActionTest {
   @Test(expected = UnprocessableEntityException.class)
   public void shouldThrowRestApiExceptionWhenNoSurceForGivenLabel()
       throws RestApiException, InterruptedException, ExecutionException,
-          RemoteConfigurationMissingException, TimeoutException {
+          RemoteConfigurationMissingException, TimeoutException, TransportException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = "non-existing-label";
     inputParams.refName = refName;
@@ -176,7 +177,7 @@ public class FetchActionTest {
   @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenIssueDuringPocessing()
       throws RestApiException, InterruptedException, ExecutionException,
-          RemoteConfigurationMissingException, TimeoutException {
+          RemoteConfigurationMissingException, TimeoutException, TransportException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;
@@ -191,7 +192,7 @@ public class FetchActionTest {
   @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenIssueWithUrlParam()
       throws RestApiException, InterruptedException, ExecutionException,
-          RemoteConfigurationMissingException, TimeoutException {
+          RemoteConfigurationMissingException, TimeoutException, TransportException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;
@@ -204,7 +205,7 @@ public class FetchActionTest {
   @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenTimeout()
       throws RestApiException, InterruptedException, ExecutionException,
-          RemoteConfigurationMissingException, TimeoutException {
+          RemoteConfigurationMissingException, TimeoutException, TransportException {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;

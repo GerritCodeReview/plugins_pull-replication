@@ -217,7 +217,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
             .collect(toList());
     config.setStringList("remote", remoteName, "url", replicaUrls);
     config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
-    config.setString("remote", remoteName, "fetch", "+refs/tags/*:refs/tags/*");
+    config.setString("remote", remoteName, "fetch", "+refs/*:refs/*");
     config.setInt("remote", remoteName, "timeout", 600);
     config.setInt("remote", remoteName, "replicationDelay", TEST_REPLICATION_DELAY);
     project.ifPresent(prj -> config.setString("remote", remoteName, "projects", prj));
