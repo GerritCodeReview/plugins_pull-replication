@@ -32,6 +32,7 @@ import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -66,19 +67,19 @@ public class FetchCommand implements Command {
       PullReplicationApiRequestMetrics apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    fetch(name, label, refName, ASYNC, Optional.of(apiRequestMetrics));
+    fetch(name, label, Set.of(refName), ASYNC, Optional.of(apiRequestMetrics));
   }
 
-  public void fetchSync(Project.NameKey name, String label, String refName)
+  public void fetchSync(Project.NameKey name, String label, Set<String> refsNames)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    fetch(name, label, refName, SYNC, Optional.empty());
+    fetch(name, label, refsNames, SYNC, Optional.empty());
   }
 
   private void fetch(
       Project.NameKey name,
       String label,
-      String refName,
+      Set<String> refsNames,
       ReplicationType fetchType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
@@ -96,18 +97,23 @@ public class FetchCommand implements Command {
     try {
       if (fetchType == ReplicationType.ASYNC) {
         state.markAllFetchTasksScheduled();
-        Future<?> future = source.get().schedule(name, refName, state, apiRequestMetrics);
+        Future<?> future = null;
+        for (String refName : refsNames) {
+          future = source.get().schedule(name, refName, state, apiRequestMetrics);
+        }
         int timeout = source.get().getTimeout();
         if (timeout == 0) {
-          future.get();
+          if (future != null) {
+            future.get();
+          }
         } else {
-          future.get(timeout, TimeUnit.SECONDS);
+          if (future != null) {
+            future.get(timeout, TimeUnit.SECONDS);
+          }
         }
       } else {
         Optional<FetchOne> maybeFetch =
-            source
-                .get()
-                .fetchSync(name, refName, source.get().getURI(name), state, apiRequestMetrics);
+            source.get().fetchSync(name, refsNames, source.get().getURI(name), apiRequestMetrics);
         if (maybeFetch.map(FetchOne::getFetchRefSpecs).filter(List::isEmpty).isPresent()) {
           fetchStateLog.warn(
               String.format(
