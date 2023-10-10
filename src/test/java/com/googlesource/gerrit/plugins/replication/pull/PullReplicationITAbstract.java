@@ -157,6 +157,32 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
   }
 
   @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  public void shouldFailReplicatingInexistentRepository() throws Exception {
+    String newBranch = "refs/heads/mybranch";
+    String branchRevision = "7bb81c29e14a4169e5ca4f43992094c209aae26c";
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+    FakeGitReferenceUpdatedEvent event =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
+    waitUntilReplicationFailed(1);
+
+    try (Repository repo = repoManager.openRepository(project);
+        Repository sourceRepo = repoManager.openRepository(project)) {
+
+      Ref targetBranchRef = getRef(repo, newBranch);
+      assertThat(targetBranchRef).isNull();
+    }
+  }
+
+  @Test
   @UseLocalDisk
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReplicateForceUpdatedBranch() throws Exception {
@@ -414,10 +440,18 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
   }
 
   private void waitUntilReplicationCompleted(int expected) throws Exception {
+    waitUntilReplicationTask("completed", expected);
+  }
+
+  private void waitUntilReplicationFailed(int expected) throws Exception {
+    waitUntilReplicationTask("failed", expected);
+  }
+
+  private void waitUntilReplicationTask(String status, int expected) throws Exception {
     waitUntil(
         () ->
             inMemoryMetrics()
-                .counterValue("tasks/completed", TEST_REPLICATION_REMOTE)
+                .counterValue("tasks/" + status, TEST_REPLICATION_REMOTE)
                 .filter(counter -> counter == expected)
                 .isPresent());
   }
