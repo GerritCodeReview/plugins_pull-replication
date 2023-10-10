@@ -18,7 +18,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -32,6 +31,7 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.transport.URIish;
@@ -44,6 +44,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class FetchCommandTest {
   private static final String REF_NAME_TO_FETCH = "refs/heads/master";
+  private static final String ALT_REF_NAME_TO_FETCH = "refs/heads/alt";
+  private static final Set<String> REFS_NAMES_TO_FETCH =
+      Set.of(REF_NAME_TO_FETCH, ALT_REF_NAME_TO_FETCH);
   @Mock ReplicationState state;
   @Mock ReplicationState.Factory fetchReplicationStateFactory;
   @Mock PullReplicationStateLogger fetchStateLog;
@@ -77,6 +80,11 @@ public class FetchCommandTest {
   }
 
   @Test
+  public void shouldScheduleRefFetch() throws Exception {
+    objectUnderTest.fetchSync(projectName, label, REFS_NAMES_TO_FETCH);
+  }
+
+  @Test
   public void shouldScheduleRefFetchWithDelay() throws Exception {
     objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
 
@@ -87,18 +95,24 @@ public class FetchCommandTest {
 
   @Test
   public void shouldNotScheduleAsyncTaskWhenFetchSync() throws Exception {
-    objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
+    objectUnderTest.fetchSync(projectName, label, REFS_NAMES_TO_FETCH);
+    verify(source, times(1)).fetchSync(projectName, REFS_NAMES_TO_FETCH, null, Optional.empty());
+  }
 
-    verify(source, never())
-        .schedule(
-            eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), eq(Optional.of(apiRequestMetrics)));
+  @Test
+  public void shouldMarkAllFetchTasksScheduled() throws Exception {
+    objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
+
+    verify(source, times(1))
+        .schedule(projectName, REF_NAME_TO_FETCH, state, Optional.of(apiRequestMetrics));
+    verify(state, times(1)).markAllFetchTasksScheduled();
   }
 
   @Test
   public void shouldUpdateStateWhenRemoteConfigNameIsMissing() {
     assertThrows(
         RemoteConfigurationMissingException.class,
-        () -> objectUnderTest.fetchSync(projectName, "unknownLabel", REF_NAME_TO_FETCH));
+        () -> objectUnderTest.fetchSync(projectName, "unknownLabel", REFS_NAMES_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(state));
   }
 }

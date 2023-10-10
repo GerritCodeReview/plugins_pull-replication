@@ -19,6 +19,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -51,14 +52,14 @@ public class BatchFetchActionTest {
   }
 
   @Test
-  public void shouldDelegateToFetchActionForEveryFetchInput() throws RestApiException {
+  public void shouldDelegateToFetchActionWithBatchInputForListOfFetchInput()
+      throws RestApiException {
     FetchAction.Input first = createInput(master);
     FetchAction.Input second = createInput(test);
 
     batchFetchAction.apply(projectResource, List.of(first, second));
 
-    verify(fetchAction).apply(projectResource, first);
-    verify(fetchAction).apply(projectResource, second);
+    verify(fetchAction).apply(eq(projectResource), any(FetchAction.BatchInput.class));
   }
 
   @Test
@@ -67,7 +68,7 @@ public class BatchFetchActionTest {
     FetchAction.Input first = createInput(master);
     FetchAction.Input second = createInput(test);
 
-    when(fetchAction.apply(any(), any()))
+    when(fetchAction.apply(any(ProjectResource.class), any(FetchAction.BatchInput.class)))
         .thenAnswer((Answer<Response<?>>) invocation -> Response.accepted("some-url"));
     Response<?> response = batchFetchAction.apply(projectResource, List.of(first, second));
 
@@ -75,40 +76,18 @@ public class BatchFetchActionTest {
   }
 
   @Test
-  public void shouldReturnAListWithAllResponsesOnSuccess() throws RestApiException {
+  public void shouldReturnAResponsesOnSuccess() throws RestApiException {
     FetchAction.Input first = createInput(master);
     FetchAction.Input second = createInput(test);
     String masterUrl = "master-url";
     String testUrl = "test-url";
-    Response.Accepted firstResponse = Response.accepted(masterUrl);
-    Response.Accepted secondResponse = Response.accepted(testUrl);
+    Response.Accepted batchResponse = Response.accepted(masterUrl);
 
-    when(fetchAction.apply(projectResource, first))
-        .thenAnswer((Answer<Response<?>>) invocation -> firstResponse);
-    when(fetchAction.apply(projectResource, second))
-        .thenAnswer((Answer<Response<?>>) invocation -> secondResponse);
+    when(fetchAction.apply(eq(projectResource), any(FetchAction.BatchInput.class)))
+        .thenAnswer((Answer<Response<?>>) invocation -> batchResponse);
     Response<?> response = batchFetchAction.apply(projectResource, List.of(first, second));
 
-    assertThat((List<Response<?>>) response.value())
-        .isEqualTo(List.of(firstResponse, secondResponse));
-  }
-
-  @Test
-  public void shouldReturnAMixOfSyncAndAsyncResponses() throws RestApiException {
-    FetchAction.Input async = createInput(master);
-    FetchAction.Input sync = createInput(test);
-    String masterUrl = "master-url";
-    Response.Accepted asyncResponse = Response.accepted(masterUrl);
-    Response<?> syncResponse = Response.created(sync);
-
-    when(fetchAction.apply(projectResource, async))
-        .thenAnswer((Answer<Response<?>>) invocation -> asyncResponse);
-    when(fetchAction.apply(projectResource, sync))
-        .thenAnswer((Answer<Response<?>>) invocation -> syncResponse);
-    Response<?> response = batchFetchAction.apply(projectResource, List.of(async, sync));
-
-    assertThat((List<Response<?>>) response.value())
-        .isEqualTo(List.of(asyncResponse, syncResponse));
+    assertThat(response.value()).isEqualTo(batchResponse);
   }
 
   @Test(expected = RestApiException.class)
@@ -117,9 +96,8 @@ public class BatchFetchActionTest {
     FetchAction.Input second = createInput(test);
     String masterUrl = "master-url";
 
-    when(fetchAction.apply(projectResource, first))
-        .thenAnswer((Answer<Response<?>>) invocation -> Response.accepted(masterUrl));
-    when(fetchAction.apply(projectResource, second)).thenThrow(new MergeConflictException("BOOM"));
+    when(fetchAction.apply(eq(projectResource), any(FetchAction.BatchInput.class)))
+        .thenThrow(new MergeConflictException("BOOM"));
 
     batchFetchAction.apply(projectResource, List.of(first, second));
   }
