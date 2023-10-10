@@ -16,6 +16,142 @@
       "message": "I\u0027ve simplified the approach and focused the change on the sole Batch/Sync operation. The Async schedule already accumulates all refs into a single replication task therefore doesn\u0027t really need any special treatment.",
       "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce570a7c_3f80092f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:43:03Z",
+      "side": 1,
+      "message": "I don\u0027t think this actually schedules all the sync ops into a single fetch task when the batch-fetch endpoint is called, because we never delegate to the newly-introduced FetchAction.apply method from BatchFetchAction class.",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4265e3d6_121119f1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:43:03Z",
+      "side": 1,
+      "message": "why a set as opposed to a list? A (hash)set will mess up the ordering of the refs, does it makes a difference?",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "089f784c_901eb51f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:43:03Z",
+      "side": 1,
+      "message": "L80-83 might be better as a static method in `Input` or `Inputs` class.",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cedb9bff_03611f20",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:43:03Z",
+      "side": 1,
+      "message": "This method needs to be called from `BatchFetchAction`, otherwise we never execute a single synchronous fetch task for all the refs in the batch, we execute one task per ref.",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ed8c40a_21adb3ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:43:03Z",
+      "side": 1,
+      "message": "this is redundant",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8864bec2_8bcad5aa",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:43:03Z",
+      "side": 1,
+      "message": "For the use case of a single ref, we go from Input to Inputs (L80-83) only to go back to Input (L132) and then create one task per ref. Why not simply modify the `FetchJob` to accept `Inputs`, and then you create one task for _all_ the refs in the batch? The scheduling code can handle multiple refs anyway. I know that async ops will _probably_ result in all replication getting scheduled in a single task, but still, why \"flood\" the executor service with tasks?",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54fea905_361ab515",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchActionTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:43:03Z",
+      "side": 1,
+      "message": "Another test that is missing, is calling the newly-introduced `apply` method with an `Inputs` object that contains _multiple_ refs.",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0caa84f8_96ed61e4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:43:03Z",
+      "side": 1,
+      "message": "A more accurate test is with a set that contains multiple elements.",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
