@@ -33,7 +33,6 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.project.ProjectResource;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.UnauthorizedAuthException;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
@@ -67,7 +66,7 @@ public class FetchActionTest {
   @Mock FetchPreconditions preConditions;
 
   @Before
-  public void setup() throws UnauthorizedAuthException {
+  public void setup() throws Exception {
     when(fetchJobFactory.create(any(), any(), any())).thenReturn(fetchJob);
     when(workQueue.getDefaultQueue()).thenReturn(exceutorService);
     when(urlFormatter.getRestUrl(anyString())).thenReturn(Optional.of(location));
@@ -89,7 +88,7 @@ public class FetchActionTest {
   }
 
   @Test
-  public void shouldReturnCreatedResponseCode() throws RestApiException {
+  public void shouldReturnCreatedResponseCode() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;
@@ -215,8 +214,7 @@ public class FetchActionTest {
   }
 
   @Test(expected = AuthException.class)
-  public void shouldThrowAuthExceptionWhenCallFetchActionCapabilityNotAssigned()
-      throws RestApiException {
+  public void shouldThrowAuthExceptionWhenCallFetchActionCapabilityNotAssigned() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;
@@ -227,7 +225,7 @@ public class FetchActionTest {
   }
 
   @Test
-  public void shouldReturnScheduledTaskForAsyncCall() throws RestApiException {
+  public void shouldReturnScheduledTaskForAsyncCall() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;

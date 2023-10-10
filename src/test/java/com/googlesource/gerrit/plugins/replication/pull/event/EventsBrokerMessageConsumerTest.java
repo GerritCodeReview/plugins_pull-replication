@@ -24,7 +24,6 @@ import static org.mockito.Mockito.when;
 
 import com.gerritforge.gerrit.eventbroker.BrokerApi;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.ShutdownState;
@@ -53,29 +52,25 @@ public class EventsBrokerMessageConsumerTest {
   }
 
   @Test
-  public void shouldRethrowExceptionWhenFetchThrowsAuthException()
-      throws AuthException, PermissionBackendException {
+  public void shouldRethrowExceptionWhenFetchThrowsAuthException() throws Exception {
     doThrow(PermissionBackendException.class).when(eventListener).fetchRefsForEvent(any());
     assertThrows(EventRejectedException.class, () -> objectUnderTest.accept(new RefUpdatedEvent()));
   }
 
   @Test
-  public void shouldRethrowExceptionWhenFetchThrowsPermissionBackendException()
-      throws AuthException, PermissionBackendException {
+  public void shouldRethrowExceptionWhenFetchThrowsPermissionBackendException() throws Exception {
     doThrow(PermissionBackendException.class).when(eventListener).fetchRefsForEvent(any());
     assertThrows(EventRejectedException.class, () -> objectUnderTest.accept(new RefUpdatedEvent()));
   }
 
   @Test
-  public void shouldNotThrowExceptionWhenFetchSucceed()
-      throws AuthException, PermissionBackendException {
+  public void shouldNotThrowExceptionWhenFetchSucceed() throws Exception {
     doNothing().when(eventListener).fetchRefsForEvent(any());
     objectUnderTest.accept(new RefUpdatedEvent());
   }
 
   @Test
-  public void shouldStillAcceptLastEventDuringShutdownAndThenDisconnect()
-      throws AuthException, PermissionBackendException {
+  public void shouldStillAcceptLastEventDuringShutdownAndThenDisconnect() throws Exception {
     doNothing().when(eventListener).fetchRefsForEvent(any());
     when(eventsBrokerDynamicItem.get()).thenReturn(eventsBroker);
 

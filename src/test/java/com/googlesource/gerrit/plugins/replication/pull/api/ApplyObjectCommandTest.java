@@ -78,7 +78,7 @@ public class ApplyObjectCommandTest {
   private ApplyObjectCommand objectUnderTest;
 
   @Before
-  public void setup() throws MissingParentObjectException, IOException {
+  public void setup() throws Exception {
     cache = CacheBuilder.newBuilder().build();
     RefUpdateState state = new RefUpdateState(TEST_REMOTE_NAME, RefUpdate.Result.NEW);
     when(eventDispatcherDataItem.get()).thenReturn(eventDispatcher);
@@ -112,8 +112,7 @@ public class ApplyObjectCommandTest {
   }
 
   @Test
-  public void shouldInsertIntoApplyObjectsCacheWhenApplyObjectIsSuccessful()
-      throws IOException, RefUpdateException, MissingParentObjectException {
+  public void shouldInsertIntoApplyObjectsCacheWhenApplyObjectIsSuccessful() throws Exception {
     RevisionData sampleRevisionData =
         createSampleRevisionData(sampleCommitObjectId, sampleTreeObjectId);
     RevisionData sampleRevisionData2 =
@@ -142,8 +141,7 @@ public class ApplyObjectCommandTest {
   }
 
   @Test(expected = RefUpdateException.class)
-  public void shouldNotInsertIntoApplyObjectsCacheWhenApplyObjectIsFailure()
-      throws IOException, RefUpdateException, MissingParentObjectException {
+  public void shouldNotInsertIntoApplyObjectsCacheWhenApplyObjectIsFailure() throws Exception {
     RevisionData sampleRevisionData =
         createSampleRevisionData(sampleCommitObjectId, sampleTreeObjectId);
     RefUpdateState failureState = new RefUpdateState(TEST_REMOTE_NAME, RefUpdate.Result.IO_FAILURE);

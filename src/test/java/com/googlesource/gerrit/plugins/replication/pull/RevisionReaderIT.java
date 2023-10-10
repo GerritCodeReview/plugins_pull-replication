@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Scopes;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
@@ -41,7 +40,6 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -178,20 +176,20 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     assertThat(parentObjectIds).hasSize(numberOfParents);
   }
 
-  private void addMultipleComments(int numberOfParents, Id changeId) throws RestApiException {
+  private void addMultipleComments(int numberOfParents, Id changeId) throws Exception {
     for (int i = 0; i < numberOfParents; i++) {
       addComment(changeId);
     }
   }
 
-  private void setReplicationConfig(int numberOfParents) throws IOException {
+  private void setReplicationConfig(int numberOfParents) throws Exception {
     FileBasedConfig config = (FileBasedConfig) replicationConfig.getConfig();
     config.setInt(
         "replication", null, RevisionReader.CONFIG_MAX_API_HISTORY_DEPTH, numberOfParents);
     config.save();
   }
 
-  private void addComment(Id changeId) throws RestApiException {
+  private void addComment(Id changeId) throws Exception {
     gApi.changes().id(changeId.get()).current().review(new ReviewInput().message("foo"));
   }
 
@@ -209,7 +207,7 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     }
   }
 
-  protected Optional<ObjectId> refObjectId(String refName) throws IOException {
+  protected Optional<ObjectId> refObjectId(String refName) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       return Optional.ofNullable(repo.exactRef(refName)).map(Ref::getObjectId);
     }
