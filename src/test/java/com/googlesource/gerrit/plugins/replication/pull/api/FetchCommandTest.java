@@ -16,9 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.ASYNC;
-import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.times;
@@ -38,7 +36,6 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
@@ -84,16 +81,6 @@ public class FetchCommandTest {
   }
 
   @Test
-  public void shouldScheduleRefFetch()
-      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
-    objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
-
-    verify(source, times(1))
-        .schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty());
-  }
-
-  @Test
   public void shouldScheduleRefFetchWithDelay()
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
@@ -104,64 +91,10 @@ public class FetchCommandTest {
   }
 
   @Test
-  public void shouldMarkAllFetchTasksScheduled()
-      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
-    objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
-
-    verify(source, times(1))
-        .schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty());
-    verify(state, times(1)).markAllFetchTasksScheduled();
-  }
-
-  @Test
   public void shouldUpdateStateWhenRemoteConfigNameIsMissing() {
     assertThrows(
         RemoteConfigurationMissingException.class,
         () -> objectUnderTest.fetchSync(projectName, "unknownLabel", REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(state));
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void shouldUpdateStateWhenInterruptedException() throws Exception {
-    when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new InterruptedException());
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
-        .thenReturn(future);
-
-    InterruptedException e =
-        assertThrows(
-            InterruptedException.class,
-            () -> objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH));
-    verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void shouldUpdateStateWhenExecutionException() throws Exception {
-    when(future.get(anyLong(), eq(TimeUnit.SECONDS)))
-        .thenThrow(new ExecutionException(new Exception()));
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
-        .thenReturn(future);
-
-    ExecutionException e =
-        assertThrows(
-            ExecutionException.class,
-            () -> objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH));
-    verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void shouldUpdateStateWhenTimeoutException() throws Exception {
-    when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new TimeoutException());
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
-        .thenReturn(future);
-
-    TimeoutException e =
-        assertThrows(
-            TimeoutException.class,
-            () -> objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH));
-    verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
   }
 }
