@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4077c579_d44ea310",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-10T00:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62e0861e_2658ad0c",
+      "range": {
+        "startLine": 14,
+        "startChar": 41,
+        "endLine": 14,
+        "endChar": 44
+      },
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b08c446_e4b35a41",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d1d3b27_9c9cce47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-10T00:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b08c446_e4b35a41",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59e90806_c8638485",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-10-08T19:01:14Z",
       "side": 1,
       "message": "What is a _sync_ ref? Do you mean a synchronous replication task instead?",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 34
+      },
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3990bef_27b666e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-10T00:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59e90806_c8638485",
       "range": {
         "startLine": 17,
         "startChar": 15,
@@ -139,6 +211,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67a96b6b_a6387b3a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-10T00:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "709d19ae_88bb8739",
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e64a8fd0_f88bc149",
@@ -152,6 +242,30 @@
       "writtenOn": "2023-10-08T19:01:14Z",
       "side": 1,
       "message": "Nice refactoring, possibly worth its own change?",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 0
+      },
+      "revId": "4d00cec63a9ef2dd2a1cb4dd3b002ab86fbd5a63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd6a2a59_e99d976e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-10T00:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e64a8fd0_f88bc149",
       "range": {
         "startLine": 185,
         "startChar": 0,
