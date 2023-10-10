@@ -539,19 +539,29 @@ public class Source {
       Project.NameKey project,
       String ref,
       URIish uri,
-      ReplicationState state,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
-    if (shouldReplicate(project, ref)
-        && (config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))) {
+    return fetchSync(project, Set.of(ref), uri, apiRequestMetrics);
+  }
 
-      FetchOne e = opFactory.create(project, uri, apiRequestMetrics);
-      e.addRef(ref);
-      e.addState(ref, state);
-      e.runSync();
-      return Optional.of(e);
+  public Optional<FetchOne> fetchSync(
+      Project.NameKey project,
+      Set<String> refs,
+      URIish uri,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+    Set<String> refsToReplicate =
+        refs.stream()
+            .filter(ref -> shouldReplicate(project, ref))
+            .filter(ref -> config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))
+            .collect(Collectors.toUnmodifiableSet());
+
+    if (refsToReplicate.isEmpty()) {
+      return Optional.empty();
     }
 
-    return Optional.empty();
+    FetchOne e = opFactory.create(project, uri, apiRequestMetrics);
+    e.addRefs(refsToReplicate);
+    e.runSync();
+    return Optional.of(e);
   }
 
   void scheduleDeleteProject(String uri, Project.NameKey project) {
