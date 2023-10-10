@@ -107,7 +107,11 @@ public class FetchActionTest {
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
 
-    assertThat((FetchAction.Input) response.value()).isEqualTo(inputParams);
+    FetchAction.BatchInput responseBatchInput = (FetchAction.BatchInput) response.value();
+
+    assertThat(responseBatchInput.label).isEqualTo(inputParams.label);
+    assertThat(responseBatchInput.async).isEqualTo(inputParams.async);
+    assertThat(responseBatchInput.refsNames).containsExactly(inputParams.refName);
   }
 
   @Test(expected = BadRequestException.class)
