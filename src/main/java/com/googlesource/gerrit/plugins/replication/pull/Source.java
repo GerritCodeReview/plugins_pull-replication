@@ -537,21 +537,23 @@ public class Source {
 
   public Optional<FetchOne> fetchSync(
       Project.NameKey project,
-      String ref,
+      Set<String> refs,
       URIish uri,
-      ReplicationState state,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
-    if (shouldReplicate(project, ref)
-        && (config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))) {
+    Set<String> refsToReplicate =
+        refs.stream()
+            .filter(ref -> shouldReplicate(project, ref))
+            .filter(ref -> config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))
+            .collect(Collectors.toUnmodifiableSet());
 
-      FetchOne e = opFactory.create(project, uri, apiRequestMetrics);
-      e.addRef(ref);
-      e.addState(ref, state);
-      e.runSync();
-      return Optional.of(e);
+    if (refsToReplicate.isEmpty()) {
+      return Optional.empty();
     }
 
-    return Optional.empty();
+    FetchOne e = opFactory.create(project, uri, apiRequestMetrics);
+    e.addRefs(refsToReplicate);
+    e.runSync();
+    return Optional.of(e);
   }
 
   void scheduleDeleteProject(String uri, Project.NameKey project) {

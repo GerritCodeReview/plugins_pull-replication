@@ -34,6 +34,7 @@ import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.project.ProjectResource;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
@@ -51,6 +52,7 @@ public class FetchActionTest {
   String label = "instance-2-label";
   String url = "file:///gerrit-host/instance-1/git/${name}.git";
   String refName = "refs/heads/master";
+  String altRefName = "refs/heads/alt";
   String location = "http://gerrit-host/a/config/server/tasks/08d173e9";
   int taskId = 1234;
 
@@ -88,12 +90,23 @@ public class FetchActionTest {
   }
 
   @Test
-  public void shouldReturnCreatedResponseCode() throws Exception {
+  public void shouldReturnCreatedResponseCodeForSingleRefFetchAction() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
+
+    assertThat(response.statusCode()).isEqualTo(SC_CREATED);
+  }
+
+  @Test
+  public void shouldReturnCreatedResponseCodeForBatchRefFetchAction() throws Exception {
+    FetchAction.BatchInput batchInputParams = new FetchAction.BatchInput();
+    batchInputParams.label = label;
+    batchInputParams.refsNames = Set.of(refName, altRefName);
+
+    Response<?> response = fetchAction.apply(projectResource, batchInputParams);
 
     assertThat(response.statusCode()).isEqualTo(SC_CREATED);
   }
@@ -107,7 +120,11 @@ public class FetchActionTest {
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
 
-    assertThat((FetchAction.Input) response.value()).isEqualTo(inputParams);
+    FetchAction.BatchInput responseBatchInput = (FetchAction.BatchInput) response.value();
+
+    assertThat(responseBatchInput.label).isEqualTo(inputParams.label);
+    assertThat(responseBatchInput.async).isEqualTo(inputParams.async);
+    assertThat(responseBatchInput.refsNames).containsExactly(inputParams.refName);
   }
 
   @Test(expected = BadRequestException.class)
