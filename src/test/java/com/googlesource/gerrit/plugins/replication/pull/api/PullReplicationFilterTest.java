@@ -130,13 +130,14 @@ public class PullReplicationFilterTest {
             .getBytes(StandardCharsets.UTF_8);
 
     defineBehaviours(payloadFetch, FETCH_URI);
-    when(fetchAction.apply(any(), any())).thenReturn(OK_RESPONSE);
+    when(fetchAction.apply(any(ProjectResource.class), any(FetchAction.Input.class)))
+        .thenReturn(OK_RESPONSE);
 
     PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
     pullReplicationFilter.doFilter(request, response, filterChain);
 
     verifyBehaviours();
-    verify(fetchAction).apply(any(ProjectResource.class), any());
+    verify(fetchAction).apply(any(ProjectResource.class), any(FetchAction.Input.class));
   }
 
   @Test
@@ -314,7 +315,7 @@ public class PullReplicationFilterTest {
             .getBytes(StandardCharsets.UTF_8);
 
     defineBehaviours(payloadFetchAction, FETCH_URI);
-    when(fetchAction.apply(any(), any()))
+    when(fetchAction.apply(any(ProjectResource.class), any(FetchAction.Input.class)))
         .thenThrow(new AuthException("The user is not authorised"));
     when(response.getOutputStream()).thenReturn(outputStream);
 
@@ -348,7 +349,7 @@ public class PullReplicationFilterTest {
             .getBytes(StandardCharsets.UTF_8);
 
     defineBehaviours(payloadFetchAction, FETCH_URI);
-    when(fetchAction.apply(any(), any()))
+    when(fetchAction.apply(any(), any(FetchAction.Input.class)))
         .thenThrow(new UnprocessableEntityException("Entity cannot be processed"));
     when(response.getOutputStream()).thenReturn(outputStream);
 
