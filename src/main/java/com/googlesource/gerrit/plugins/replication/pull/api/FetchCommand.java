@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.Command;
+import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
@@ -29,11 +30,14 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationType;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.transport.RefSpec;
 
 public class FetchCommand implements Command {
 
@@ -60,13 +64,13 @@ public class FetchCommand implements Command {
       String refName,
       PullReplicationApiRequestMetrics apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
+          TimeoutException, TransportException {
     fetch(name, label, refName, ASYNC, Optional.of(apiRequestMetrics));
   }
 
   public void fetchSync(Project.NameKey name, String label, String refName)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
+          TimeoutException, TransportException {
     fetch(name, label, refName, SYNC, Optional.empty());
   }
 
@@ -77,10 +81,12 @@ public class FetchCommand implements Command {
       ReplicationType fetchType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
+          TimeoutException, TransportException {
     ReplicationState state =
-        fetchReplicationStateFactory.create(
-            new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()));
+        fetchType == ReplicationType.ASYNC
+            ? fetchReplicationStateFactory.create(
+                new FetchResultProcessing.CommandProcessing(this, eventDispatcher.get()))
+            : null;
     Optional<Source> source = sources.getByRemoteName(label);
     if (!source.isPresent()) {
       String msg = String.format("Remote configuration section %s not found", label);
@@ -89,13 +95,25 @@ public class FetchCommand implements Command {
     }
 
     try {
-      state.markAllFetchTasksScheduled();
-      Future<?> future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
-      int timeout = source.get().getTimeout();
-      if (timeout == 0) {
-        future.get();
+      if (fetchType == ReplicationType.ASYNC) {
+        state.markAllFetchTasksScheduled();
+        Future<?> future =
+            source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
+        int timeout = source.get().getTimeout();
+        if (timeout == 0) {
+          future.get();
+        } else {
+          future.get(timeout, TimeUnit.SECONDS);
+        }
       } else {
-        future.get(timeout, TimeUnit.SECONDS);
+        Optional<FetchOne> maybeFetch = source.get().fetchSync(name, refName, apiRequestMetrics);
+        if (maybeFetch.map(FetchOne::getFetchRefSpecs).filter(List::isEmpty).isPresent()) {
+          fetchStateLog.error(
+              String.format(
+                  "[%s] Nothing to fetch, ref-specs is empty", maybeFetch.get().getTaskIdHex()));
+        } else if (maybeFetch.map(fetch -> !fetch.hasSucceeded()).orElse(false)) {
+          throw newTransportException(maybeFetch.get());
+        }
       }
     } catch (ExecutionException
         | IllegalStateException
@@ -106,11 +124,22 @@ public class FetchCommand implements Command {
     }
 
     try {
-      state.waitForReplication(source.get().getTimeout());
+      if (state != null) {
+        state.waitForReplication(source.get().getTimeout());
+      }
     } catch (InterruptedException e) {
       writeStdErrSync("We are interrupted while waiting replication to complete");
       throw e;
     }
+  }
+
+  private TransportException newTransportException(FetchOne fetchOne) {
+    List<RefSpec> fetchRefSpecs = fetchOne.getFetchRefSpecs();
+    String combinedErrorMessage =
+        fetchOne.getFetchFailures().stream()
+            .map(TransportException::getMessage)
+            .reduce("", (e1, e2) -> e1 + "\n" + e2);
+    return new TransportException(combinedErrorMessage + " trying to fetch " + fetchRefSpecs);
   }
 
   @Override
