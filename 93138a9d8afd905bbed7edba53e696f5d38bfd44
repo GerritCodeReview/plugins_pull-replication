@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66b0471f_fe8ce448",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:02:16Z",
+      "side": 1,
+      "message": "I think we don\u0027t handle FetchOne state correctly, and we might have impacted metrics recording.",
+      "revId": "93138a9d8afd905bbed7edba53e696f5d38bfd44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd3e0344_83cfd813",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:02:16Z",
+      "side": 1,
+      "message": "```suggestion\n    if ((shouldReplicate(project, ref)\n```",
+      "revId": "93138a9d8afd905bbed7edba53e696f5d38bfd44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15745f96_0174cbd2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:02:16Z",
+      "side": 1,
+      "message": "How has this been tested? I am worried that L532-533 may not be not enough, because FetchOne keeps some state in the `stateMap` variable and based on this state it keeps track of what is completed (see the `ReplicationState.notifyRefReplicated`) - we might need a call to `e.addState(...)` as well. Not sure if this is a problem here but it might be when we are dealing with multiple refs.\n\nAnother question, what is happening with metrics? I think this change stops tracking counters like the fetch task count etc?",
+      "revId": "93138a9d8afd905bbed7edba53e696f5d38bfd44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

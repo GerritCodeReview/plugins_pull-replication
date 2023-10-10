@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cad92004_155e7180",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-10T10:02:16Z",
+      "side": 0,
+      "message": "I believe these tests are still applicable for Async ops, unless they already exist?",
+      "revId": "4808c9144e4126aa3eb4af7b55cdccdbffaafd3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
