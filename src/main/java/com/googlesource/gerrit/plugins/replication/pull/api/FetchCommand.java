@@ -69,10 +69,15 @@ public class FetchCommand implements Command {
     fetch(name, label, refName, ASYNC, Optional.of(apiRequestMetrics));
   }
 
-  public void fetchSync(Project.NameKey name, String label, String refName)
+  public void fetchSync(Project.NameKey name, String label, Set<String> refsNames)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
+<<<<<<< PATCH SET (d970b7 Run synchronous fetch as a single FetchOp for all refs in a )
+          TimeoutException {
+    fetch(name, label, refsNames, SYNC, Optional.empty());
+=======
           TimeoutException, TransportException {
     fetch(name, label, refName, SYNC, Optional.empty());
+>>>>>>> BASE      (0c6865 Merge "Accept remotes without `fetch` option on primary")
   }
 
   private void fetch(
@@ -96,12 +101,31 @@ public class FetchCommand implements Command {
     try {
       if (fetchType == ReplicationType.ASYNC) {
         state.markAllFetchTasksScheduled();
+<<<<<<< PATCH SET (d970b7 Run synchronous fetch as a single FetchOp for all refs in a )
+        Future<?> future = null;
+        for (String refName : refsNames) {
+          future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
+        }
+=======
         Future<?> future = source.get().schedule(name, refName, state, apiRequestMetrics);
+>>>>>>> BASE      (0c6865 Merge "Accept remotes without `fetch` option on primary")
         int timeout = source.get().getTimeout();
         if (timeout == 0) {
+<<<<<<< PATCH SET (d970b7 Run synchronous fetch as a single FetchOp for all refs in a )
+          if (future != null) {
+            future.get();
+          }
+=======
           future.get();
+>>>>>>> BASE      (0c6865 Merge "Accept remotes without `fetch` option on primary")
         } else {
+<<<<<<< PATCH SET (d970b7 Run synchronous fetch as a single FetchOp for all refs in a )
+          if (future != null) {
+            future.get(timeout, TimeUnit.SECONDS);
+          }
+=======
           future.get(timeout, TimeUnit.SECONDS);
+>>>>>>> BASE      (0c6865 Merge "Accept remotes without `fetch` option on primary")
         }
       } else {
         Optional<FetchOne> maybeFetch =

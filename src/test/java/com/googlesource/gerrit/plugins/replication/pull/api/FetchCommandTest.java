@@ -32,6 +32,7 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.transport.URIish;
@@ -44,6 +45,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class FetchCommandTest {
   private static final String REF_NAME_TO_FETCH = "refs/heads/master";
+  private static final Set<String> REFS_NAMES_TO_FETCH = Set.of(REF_NAME_TO_FETCH);
   @Mock ReplicationState state;
   @Mock ReplicationState.Factory fetchReplicationStateFactory;
   @Mock PullReplicationStateLogger fetchStateLog;
@@ -77,6 +79,12 @@ public class FetchCommandTest {
   }
 
   @Test
+<<<<<<< PATCH SET (d970b7 Run synchronous fetch as a single FetchOp for all refs in a )
+  public void shouldScheduleRefFetch()
+      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
+          TimeoutException {
+    objectUnderTest.fetchSync(projectName, label, REFS_NAMES_TO_FETCH);
+=======
   public void shouldScheduleRefFetchWithDelay() throws Exception {
     objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
 
@@ -88,10 +96,36 @@ public class FetchCommandTest {
   @Test
   public void shouldNotScheduleAsyncTaskWhenFetchSync() throws Exception {
     objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
+>>>>>>> BASE      (0c6865 Merge "Accept remotes without `fetch` option on primary")
 
+<<<<<<< PATCH SET (d970b7 Run synchronous fetch as a single FetchOp for all refs in a )
+    verify(source, times(1)).fetchSync(projectName, REFS_NAMES_TO_FETCH, Optional.empty());
+  }
+
+  @Test
+  public void shouldScheduleRefFetchWithDelay()
+      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
+          TimeoutException {
+    objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
+
+    verify(source, times(1))
+        .schedule(projectName, REF_NAME_TO_FETCH, state, ASYNC, Optional.of(apiRequestMetrics));
+  }
+
+  @Test
+  public void shouldMarkAllFetchTasksScheduled()
+      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
+          TimeoutException {
+    objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
+
+    verify(source, times(1))
+        .schedule(projectName, REF_NAME_TO_FETCH, state, ASYNC, Optional.of(apiRequestMetrics));
+    verify(state, times(1)).markAllFetchTasksScheduled();
+=======
     verify(source, never())
         .schedule(
             eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), eq(Optional.of(apiRequestMetrics)));
+>>>>>>> BASE      (0c6865 Merge "Accept remotes without `fetch` option on primary")
   }
 
   @Test

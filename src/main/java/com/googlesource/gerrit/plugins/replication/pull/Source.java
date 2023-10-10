@@ -541,9 +541,33 @@ public class Source {
       URIish uri,
       ReplicationState state,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+<<<<<<< PATCH SET (d970b7 Run synchronous fetch as a single FetchOp for all refs in a )
+    fetchSync(project, Set.of(ref), apiRequestMetrics);
+  }
+=======
     if (shouldReplicate(project, ref)
         && (config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))) {
+>>>>>>> BASE      (0c6865 Merge "Accept remotes without `fetch` option on primary")
 
+<<<<<<< PATCH SET (d970b7 Run synchronous fetch as a single FetchOp for all refs in a )
+  public void fetchSync(
+      Project.NameKey project,
+      Set<String> refs,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+    Set<String> refsToReplicate =
+        refs.stream()
+            .filter(ref -> shouldReplicate(project, ref))
+            .filter(ref -> config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))
+            .collect(Collectors.toUnmodifiableSet());
+
+    if (refsToReplicate.isEmpty()) {
+      return;
+    }
+
+    FetchOne e = opFactory.create(project, getURI(project), apiRequestMetrics);
+    e.addRefs(refsToReplicate);
+    e.run();
+=======
       FetchOne e = opFactory.create(project, uri, apiRequestMetrics);
       e.addRef(ref);
       e.addState(ref, state);
@@ -552,6 +576,7 @@ public class Source {
     }
 
     return Optional.empty();
+>>>>>>> BASE      (0c6865 Merge "Accept remotes without `fetch` option on primary")
   }
 
   void scheduleDeleteProject(String uri, Project.NameKey project) {
