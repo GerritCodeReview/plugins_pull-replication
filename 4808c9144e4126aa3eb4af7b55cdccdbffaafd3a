@@ -16,6 +16,24 @@
       "message": "I believe these tests are still applicable for Async ops, unless they already exist?",
       "revId": "4808c9144e4126aa3eb4af7b55cdccdbffaafd3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44f52e74_240d7ece",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-10T19:13:33Z",
+      "side": 0,
+      "message": "Nope, because they\u0027ll never pass for async execution. When you schedule a replication task you don\u0027t know when it is going to be executed, so we cannot assume that the fetch is executed immediately afterwards.\n\nThese tests were rotten at the base, because they were checking the internal implementation of the sync fetching through the schedule of the source, which is an internal implementation detail.\n\nI believe that many tests in the pull-replication plugin should just be removed because they are massively reliant on the internal implementation details.\n\nI\u0027ll remove them anyway with Change 388998.",
+      "parentUuid": "cad92004_155e7180",
+      "revId": "4808c9144e4126aa3eb4af7b55cdccdbffaafd3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
