@@ -19,7 +19,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.googlesource.gerrit.plugins.replication.pull.Source.encode;
 import static com.googlesource.gerrit.plugins.replication.pull.Source.needsUrlEncoding;
 
-import java.net.URISyntaxException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
@@ -28,7 +27,7 @@ import org.junit.Test;
 public class FetchReplicationTest {
 
   @Test
-  public void testNeedsUrlEncoding() throws URISyntaxException {
+  public void testNeedsUrlEncoding() throws Exception {
     assertThat(needsUrlEncoding(new URIish("http://host/path"))).isTrue();
     assertThat(needsUrlEncoding(new URIish("https://host/path"))).isTrue();
     assertThat(needsUrlEncoding(new URIish("amazon-s3://config/bucket/path"))).isTrue();
@@ -48,7 +47,7 @@ public class FetchReplicationTest {
   }
 
   @Test
-  public void testRefsBatchSizeMustBeGreaterThanZero() throws URISyntaxException {
+  public void testRefsBatchSizeMustBeGreaterThanZero() throws Exception {
     Config cf = new Config();
     cf.setInt("remote", "test_config", "timeout", 0);
     cf.setInt("replication", null, "refsBatchSize", 0);
