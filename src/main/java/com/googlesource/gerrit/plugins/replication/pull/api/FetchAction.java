@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
@@ -35,8 +36,11 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.TransportException;
 
 @Singleton
@@ -67,25 +71,50 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     public boolean async;
   }
 
+  public static class BatchInput {
+    public String label;
+    public Set<String> refsNames;
+    public boolean async;
+
+    static BatchInput fromInput(Input... input) {
+      BatchInput batchInput = new BatchInput();
+      batchInput.async = input[0].async;
+      batchInput.label = input[0].label;
+      batchInput.refsNames = Stream.of(input).map(i -> i.refName).collect(Collectors.toSet());
+      return batchInput;
+    }
+  }
+
   @Override
   public Response<?> apply(ProjectResource resource, Input input) throws RestApiException {
+    return apply(resource, BatchInput.fromInput(input));
+  }
+
+  public Response<?> apply(ProjectResource resource, BatchInput batchInput)
+      throws RestApiException {
 
     if (!preConditions.canCallFetchApi()) {
       throw new AuthException("not allowed to call fetch command");
     }
     try {
-      if (Strings.isNullOrEmpty(input.label)) {
+      if (Strings.isNullOrEmpty(batchInput.label)) {
         throw new BadRequestException("Source label cannot be null or empty");
       }
 
-      if (Strings.isNullOrEmpty(input.refName)) {
+      if (batchInput.refsNames.isEmpty()) {
         throw new BadRequestException("Ref-update refname cannot be null or empty");
       }
 
-      if (input.async) {
-        return applyAsync(resource.getNameKey(), input);
+      for (String refName : batchInput.refsNames) {
+        if (Strings.isNullOrEmpty(refName)) {
+          throw new BadRequestException("Ref-update refname cannot be null or empty");
+        }
       }
-      return applySync(resource.getNameKey(), input);
+
+      if (batchInput.async) {
+        return applyAsync(resource.getNameKey(), batchInput);
+      }
+      return applySync(resource.getNameKey(), batchInput);
     } catch (InterruptedException
         | ExecutionException
         | IllegalStateException
@@ -97,22 +126,32 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  private Response<?> applySync(Project.NameKey project, Input input)
+  private Response<?> applySync(Project.NameKey project, BatchInput input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    command.fetchSync(project, input.label, input.refName);
+    command.fetchSync(project, input.label, input.refsNames);
     return Response.created(input);
   }
 
-  private Response.Accepted applyAsync(Project.NameKey project, Input input) {
-    @SuppressWarnings("unchecked")
-    WorkQueue.Task<Void> task =
-        (WorkQueue.Task<Void>)
-            workQueue
-                .getDefaultQueue()
-                .submit(
-                    fetchJobFactory.create(project, input, PullReplicationApiRequestMetrics.get()));
-    Optional<String> url =
+  @SuppressWarnings("unchecked")
+  private Response.Accepted applyAsync(Project.NameKey project, BatchInput batchInput) {
+    WorkQueue.Task<Void> task = null;
+    Optional<String> url;
+
+    for (String refName : batchInput.refsNames) {
+      Input input = new Input();
+      input.label = batchInput.label;
+      input.async = batchInput.async;
+      input.refName = refName;
+      task =
+          (Task<Void>)
+              workQueue
+                  .getDefaultQueue()
+                  .submit(
+                      fetchJobFactory.create(
+                          project, input, PullReplicationApiRequestMetrics.get()));
+    }
+    url =
         urlFormatter
             .get()
             .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
