@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed26b265_504c6efb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-10T16:45:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd3e0344_83cfd813",
+      "revId": "93138a9d8afd905bbed7edba53e696f5d38bfd44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15745f96_0174cbd2",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-10-10T10:02:16Z",
       "side": 1,
       "message": "How has this been tested? I am worried that L532-533 may not be not enough, because FetchOne keeps some state in the `stateMap` variable and based on this state it keeps track of what is completed (see the `ReplicationState.notifyRefReplicated`) - we might need a call to `e.addState(...)` as well. Not sure if this is a problem here but it might be when we are dealing with multiple refs.\n\nAnother question, what is happening with metrics? I think this change stops tracking counters like the fetch task count etc?",
+      "revId": "93138a9d8afd905bbed7edba53e696f5d38bfd44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34a55e28_a29d627a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-10T16:45:47Z",
+      "side": 1,
+      "message": "This isn\u0027t adding any new functionality but rather fixing an existing one that was already tested. You should never change tests and code at the same time when you perform perfactorings.\n\nYes, the current code could have more test coverage, but that\u0027s a different issue.\n\nActually there are few issues with the execution of `run()` here:\n- It uses a thread scoper, which isn\u0027t needed in the sync use-case\n- It still requests the runway, which could be potentially blocking or schedule a task with the call to `reschedule()` \n- Does not check for success and always return without throwing any exceptions.\n\nLet me introduce a new method more fit for purpose.\n\nLast but not least, the issue wasn\u0027t detected by existing tests, so you definitely have a point: the coverage needs improving.",
+      "parentUuid": "15745f96_0174cbd2",
       "revId": "93138a9d8afd905bbed7edba53e696f5d38bfd44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
