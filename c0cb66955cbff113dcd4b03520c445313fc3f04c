@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b865588_a590405c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-10T00:40:43Z",
+      "side": 0,
+      "message": "This reformat should be done as a separate change.",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 10
+      },
+      "revId": "c0cb66955cbff113dcd4b03520c445313fc3f04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
