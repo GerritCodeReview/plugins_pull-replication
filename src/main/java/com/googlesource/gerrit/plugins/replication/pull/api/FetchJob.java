@@ -21,6 +21,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import org.eclipse.jgit.errors.TransportException;
 
 public class FetchJob implements Runnable {
   private static final FluentLogger log = FluentLogger.forEnclosingClass();
@@ -54,7 +55,8 @@ public class FetchJob implements Runnable {
     } catch (InterruptedException
         | ExecutionException
         | RemoteConfigurationMissingException
-        | TimeoutException e) {
+        | TimeoutException
+        | TransportException e) {
       log.atSevere().withCause(e).log(
           "Exception during the async fetch call for project %s, label %s and ref name %s",
           project.get(), input.label, input.refName);
