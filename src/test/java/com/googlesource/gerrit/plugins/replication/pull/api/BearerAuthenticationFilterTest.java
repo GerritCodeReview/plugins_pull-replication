@@ -26,10 +26,8 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationInternalUser;
-import java.io.IOException;
 import java.util.Optional;
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
@@ -54,13 +52,13 @@ public class BearerAuthenticationFilterTest {
   private final String pluginName = "pull-replication";
 
   private void authenticateAndFilter(String method, String uri, Optional<String> queryStringMaybe)
-      throws ServletException, IOException {
+      throws Exception {
     when(httpServletRequest.getMethod()).thenReturn(method);
     authenticateAndFilter(uri, queryStringMaybe);
   }
 
   private void authenticateAndFilter(String uri, Optional<String> queryStringMaybe)
-      throws ServletException, IOException {
+      throws Exception {
     final String bearerToken = "some-bearer-token";
     when(httpServletRequest.getRequestURI()).thenReturn(uri);
     queryStringMaybe.ifPresent(qs -> when(httpServletRequest.getQueryString()).thenReturn(qs));
@@ -83,50 +81,49 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldAuthenticateWhenFetch() throws ServletException, IOException {
+  public void shouldAuthenticateWhenFetch() throws Exception {
     authenticateAndFilter("any-prefix/pull-replication~fetch", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWhenApplyObject() throws ServletException, IOException {
+  public void shouldAuthenticateWhenApplyObject() throws Exception {
     authenticateAndFilter("any-prefix/pull-replication~apply-object", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWhenApplyObjects() throws ServletException, IOException {
+  public void shouldAuthenticateWhenApplyObjects() throws Exception {
     authenticateAndFilter("any-prefix/pull-replication~apply-objects", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWhenDeleteProject() throws ServletException, IOException {
+  public void shouldAuthenticateWhenDeleteProject() throws Exception {
     authenticateAndFilter("any-prefix/pull-replication~delete-project", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWhenUpdateHead() throws ServletException, IOException {
+  public void shouldAuthenticateWhenUpdateHead() throws Exception {
     authenticateAndFilter(
         "PUT", "any-prefix/projects/my-project/pull-replication~HEAD", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWhenInitProject() throws ServletException, IOException {
+  public void shouldAuthenticateWhenInitProject() throws Exception {
     authenticateAndFilter(
         "any-prefix/pull-replication/init-project/my-project.git", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWhenGitUploadPacket() throws ServletException, IOException {
+  public void shouldAuthenticateWhenGitUploadPacket() throws Exception {
     authenticateAndFilter("any-prefix/git-upload-pack", NO_QUERY_PARAMETERS);
   }
 
   @Test
-  public void shouldAuthenticateWhenGitUploadPacketInQueryParameter()
-      throws ServletException, IOException {
+  public void shouldAuthenticateWhenGitUploadPacketInQueryParameter() throws Exception {
     authenticateAndFilter("any-prefix", GIT_UPLOAD_PACK_QUERY_PARAMETER);
   }
 
   @Test
-  public void shouldBe401WhenBearerTokenDoesNotMatch() throws ServletException, IOException {
+  public void shouldBe401WhenBearerTokenDoesNotMatch() throws Exception {
     when(httpServletRequest.getRequestURI()).thenReturn("any-prefix/pull-replication~fetch");
     when(httpServletRequest.getHeader("Authorization"))
         .thenReturn(String.format("Bearer %s", "some-different-bearer-token"));
@@ -146,7 +143,7 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldBe401WhenBearerTokenCannotBeExtracted() throws ServletException, IOException {
+  public void shouldBe401WhenBearerTokenCannotBeExtracted() throws Exception {
     when(httpServletRequest.getRequestURI()).thenReturn("any-prefix/pull-replication~fetch");
     when(httpServletRequest.getHeader("Authorization")).thenReturn("bearer token");
 
@@ -165,7 +162,7 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldBe401WhenNoAuthorizationHeaderInRequest() throws ServletException, IOException {
+  public void shouldBe401WhenNoAuthorizationHeaderInRequest() throws Exception {
     when(httpServletRequest.getRequestURI()).thenReturn("any-prefix/pull-replication~fetch");
 
     final BearerAuthenticationFilter filter =
@@ -182,7 +179,7 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldGoNextInChainWhenUriDoesNotMatch() throws ServletException, IOException {
+  public void shouldGoNextInChainWhenUriDoesNotMatch() throws Exception {
     when(httpServletRequest.getRequestURI()).thenReturn("any-url");
 
     final BearerAuthenticationFilter filter =
@@ -199,8 +196,7 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
-  public void shouldGoNextInChainWhenBasicAuthorizationIsRequired()
-      throws ServletException, IOException {
+  public void shouldGoNextInChainWhenBasicAuthorizationIsRequired() throws Exception {
     when(httpServletRequest.getRequestURI())
         .thenReturn("/a/projects/my-project/pull-replication~fetch");
 

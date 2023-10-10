@@ -19,11 +19,9 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static org.mockito.Mockito.*;
 
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
-import java.io.IOException;
 import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.junit.Before;
@@ -36,7 +34,7 @@ import org.mockito.stubbing.Answer;
 public class FetchRestApiClientWithBasicAuthenticationTest extends FetchRestApiClientBase {
 
   @Before
-  public void setup() throws ClientProtocolException, IOException {
+  public void setup() throws Exception {
     when(bearerTokenProvider.get()).thenReturn(Optional.empty());
     when(credentialProvider.supports(any()))
         .thenAnswer(

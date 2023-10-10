@@ -413,7 +413,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     }
   }
 
-  private void waitUntilReplicationCompleted(int expected) throws InterruptedException {
+  private void waitUntilReplicationCompleted(int expected) throws Exception {
     waitUntil(
         () ->
             inMemoryMetrics()
