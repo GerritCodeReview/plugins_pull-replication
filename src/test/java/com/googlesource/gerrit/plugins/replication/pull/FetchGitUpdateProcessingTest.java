@@ -20,11 +20,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.google.gerrit.server.events.EventDispatcher;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.CommandProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
-import java.net.URISyntaxException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
@@ -47,8 +45,7 @@ public class FetchGitUpdateProcessingTest {
   }
 
   @Test
-  public void headRefReplicatedInGitUpdateProcessing()
-      throws URISyntaxException, PermissionBackendException {
+  public void headRefReplicatedInGitUpdateProcessing() throws Exception {
     FetchRefReplicatedEvent expectedEvent =
         new FetchRefReplicatedEvent(
             "someProject",
@@ -67,8 +64,7 @@ public class FetchGitUpdateProcessingTest {
   }
 
   @Test
-  public void headRefReplicatedInCommandProcessing()
-      throws URISyntaxException, PermissionBackendException {
+  public void headRefReplicatedInCommandProcessing() throws Exception {
     FetchRefReplicatedEvent expectedEvent =
         new FetchRefReplicatedEvent(
             "someProject",
@@ -87,7 +83,7 @@ public class FetchGitUpdateProcessingTest {
   }
 
   @Test
-  public void changeRefReplicated() throws URISyntaxException, PermissionBackendException {
+  public void changeRefReplicated() throws Exception {
     FetchRefReplicatedEvent expectedEvent =
         new FetchRefReplicatedEvent(
             "someProject",
@@ -106,7 +102,7 @@ public class FetchGitUpdateProcessingTest {
   }
 
   @Test
-  public void onAllNodesReplicated() throws PermissionBackendException {
+  public void onAllNodesReplicated() throws Exception {
     FetchRefReplicationDoneEvent expectedDoneEvent =
         new FetchRefReplicationDoneEvent("someProject", "refs/heads/master", 5);
 

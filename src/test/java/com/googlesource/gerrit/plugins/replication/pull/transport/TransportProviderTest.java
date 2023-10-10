@@ -23,8 +23,6 @@ import static org.mockito.Mockito.when;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
@@ -65,7 +63,7 @@ public class TransportProviderTest {
   }
 
   @Test
-  public void shouldProvideTransportHttpWithBearerToken() throws URISyntaxException, IOException {
+  public void shouldProvideTransportHttpWithBearerToken() throws Exception {
     when(bearerTokenProvider.get()).thenReturn(Optional.of("some-bearer-token"));
 
     TransportProvider transportProvider =
@@ -80,8 +78,7 @@ public class TransportProviderTest {
   }
 
   @Test
-  public void shouldProvideNativeTransportWhenNoBearerTokenProvided()
-      throws URISyntaxException, IOException {
+  public void shouldProvideNativeTransportWhenNoBearerTokenProvided() throws Exception {
 
     when(bearerTokenProvider.get()).thenReturn(Optional.empty());
 
@@ -96,8 +93,7 @@ public class TransportProviderTest {
   }
 
   @Test
-  public void shouldProvideNativeTransportWhenNoHttpSchemeProvided()
-      throws URISyntaxException, IOException {
+  public void shouldProvideNativeTransportWhenNoHttpSchemeProvided() throws Exception {
     when(bearerTokenProvider.get()).thenReturn(Optional.of("some-bearer-token"));
 
     TransportProvider transportProvider =

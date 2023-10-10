@@ -21,8 +21,7 @@ import java.time.Duration;
 import java.util.function.Supplier;
 
 public class WaitUtil {
-  public static void waitUntil(Supplier<Boolean> waitCondition, Duration timeout)
-      throws InterruptedException {
+  public static void waitUntil(Supplier<Boolean> waitCondition, Duration timeout) throws Exception {
     Stopwatch stopwatch = Stopwatch.createStarted();
     while (!waitCondition.get()) {
       if (stopwatch.elapsed().compareTo(timeout) > 0) {
