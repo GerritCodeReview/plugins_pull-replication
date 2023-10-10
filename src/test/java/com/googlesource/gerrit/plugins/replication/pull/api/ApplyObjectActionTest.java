@@ -28,15 +28,11 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.UnauthorizedAuthException;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
@@ -91,14 +87,14 @@ public class ApplyObjectActionTest {
   @Mock FetchPreconditions preConditions;
 
   @Before
-  public void setup() throws UnauthorizedAuthException {
+  public void setup() throws Exception {
     when(preConditions.canCallFetchApi()).thenReturn(true);
 
     applyObjectAction = new ApplyObjectAction(applyObjectCommand, deleteRefCommand, preConditions);
   }
 
   @Test
-  public void shouldReturnCreatedResponseCode() throws RestApiException {
+  public void shouldReturnCreatedResponseCode() throws Exception {
     RevisionInput inputParams =
         new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
@@ -108,7 +104,7 @@ public class ApplyObjectActionTest {
   }
 
   @Test
-  public void shouldReturnCreatedResponseCodeForBlob() throws RestApiException {
+  public void shouldReturnCreatedResponseCodeForBlob() throws Exception {
     byte[] blobData = "foo".getBytes(StandardCharsets.UTF_8);
     RevisionInput inputParams =
         new RevisionInput(
@@ -191,8 +187,7 @@ public class ApplyObjectActionTest {
   }
 
   @Test(expected = AuthException.class)
-  public void shouldThrowAuthExceptionWhenCallFetchActionCapabilityNotAssigned()
-      throws RestApiException {
+  public void shouldThrowAuthExceptionWhenCallFetchActionCapabilityNotAssigned() throws Exception {
     RevisionInput inputParams =
         new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
@@ -202,8 +197,7 @@ public class ApplyObjectActionTest {
   }
 
   @Test(expected = ResourceConflictException.class)
-  public void shouldThrowResourceConflictExceptionWhenMissingParentObject()
-      throws RestApiException, IOException, RefUpdateException, MissingParentObjectException {
+  public void shouldThrowResourceConflictExceptionWhenMissingParentObject() throws Exception {
     RevisionInput inputParams =
         new RevisionInput(label, refName, DUMMY_EVENT_TIMESTAMP, createSampleRevisionData());
 
