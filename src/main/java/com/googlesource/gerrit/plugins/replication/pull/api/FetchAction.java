@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
@@ -34,7 +35,9 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.errors.TransportException;
@@ -67,25 +70,45 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     public boolean async;
   }
 
+  public static class Inputs {
+    public String label;
+    public Set<String> refsNames;
+    public boolean async;
+  }
+
   @Override
   public Response<?> apply(ProjectResource resource, Input input) throws RestApiException {
+    Inputs inputs = new Inputs();
+    inputs.async = input.async;
+    inputs.label = input.label;
+    inputs.refsNames = input.refName == null ? Collections.emptySet() : Set.of(input.refName);
+    return apply(resource, inputs);
+  }
+
+  public Response<?> apply(ProjectResource resource, Inputs inputs) throws RestApiException {
 
     if (!preConditions.canCallFetchApi()) {
       throw new AuthException("not allowed to call fetch command");
     }
     try {
-      if (Strings.isNullOrEmpty(input.label)) {
+      if (Strings.isNullOrEmpty(inputs.label)) {
         throw new BadRequestException("Source label cannot be null or empty");
       }
 
-      if (Strings.isNullOrEmpty(input.refName)) {
+      if (inputs.refsNames.isEmpty()) {
         throw new BadRequestException("Ref-update refname cannot be null or empty");
       }
 
-      if (input.async) {
-        return applyAsync(resource.getNameKey(), input);
+      for (String refName : inputs.refsNames) {
+        if (Strings.isNullOrEmpty(refName)) {
+          throw new BadRequestException("Ref-update refname cannot be null or empty");
+        }
       }
-      return applySync(resource.getNameKey(), input);
+
+      if (inputs.async) {
+        return applyAsync(resource.getNameKey(), inputs);
+      }
+      return applySync(resource.getNameKey(), inputs);
     } catch (InterruptedException
         | ExecutionException
         | IllegalStateException
@@ -97,22 +120,32 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     }
   }
 
-  private Response<?> applySync(Project.NameKey project, Input input)
+  private Response<?> applySync(Project.NameKey project, Inputs input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    command.fetchSync(project, input.label, input.refName);
+    command.fetchSync(project, input.label, input.refsNames);
     return Response.created(input);
   }
 
-  private Response.Accepted applyAsync(Project.NameKey project, Input input) {
-    @SuppressWarnings("unchecked")
-    WorkQueue.Task<Void> task =
-        (WorkQueue.Task<Void>)
-            workQueue
-                .getDefaultQueue()
-                .submit(
-                    fetchJobFactory.create(project, input, PullReplicationApiRequestMetrics.get()));
-    Optional<String> url =
+  @SuppressWarnings("unchecked")
+  private Response.Accepted applyAsync(Project.NameKey project, Inputs inputs) {
+    WorkQueue.Task<Void> task = null;
+    Optional<String> url = Optional.empty();
+    Input input = new Input();
+    input.label = inputs.label;
+    input.async = inputs.async;
+    for (String refName : inputs.refsNames) {
+
+      input.refName = refName;
+      task =
+          (Task<Void>)
+              workQueue
+                  .getDefaultQueue()
+                  .submit(
+                      fetchJobFactory.create(
+                          project, input, PullReplicationApiRequestMetrics.get()));
+    }
+    url =
         urlFormatter
             .get()
             .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));

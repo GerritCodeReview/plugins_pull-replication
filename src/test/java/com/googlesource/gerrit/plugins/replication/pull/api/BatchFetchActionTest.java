@@ -67,7 +67,7 @@ public class BatchFetchActionTest {
     FetchAction.Input first = createInput(master);
     FetchAction.Input second = createInput(test);
 
-    when(fetchAction.apply(any(), any()))
+    when(fetchAction.apply(any(ProjectResource.class), any(FetchAction.Input.class)))
         .thenAnswer((Answer<Response<?>>) invocation -> Response.accepted("some-url"));
     Response<?> response = batchFetchAction.apply(projectResource, List.of(first, second));
 
