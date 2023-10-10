@@ -44,7 +44,6 @@ import java.util.List;
 import java.util.Optional;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
@@ -181,17 +180,17 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   }
 
   protected HttpRequestBase withBasicAuthenticationAsAdmin(HttpRequestBase httpRequest)
-      throws AuthenticationException {
+      throws Exception {
     return withBasicAuthentication(httpRequest, admin);
   }
 
   protected HttpRequestBase withBasicAuthenticationAsUser(HttpRequestBase httpRequest)
-      throws AuthenticationException {
+      throws Exception {
     return withBasicAuthentication(httpRequest, user);
   }
 
   private HttpRequestBase withBasicAuthentication(HttpRequestBase httpRequest, TestAccount account)
-      throws AuthenticationException {
+      throws Exception {
     UsernamePasswordCredentials creds =
         new UsernamePasswordCredentials(account.username(), account.httpPassword());
     httpRequest.addHeader(new BasicScheme().authenticate(creds, httpRequest, null));
@@ -203,13 +202,12 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   }
 
   private void setReplicationSource(
-      String remoteName, String replicaSuffix, Optional<String> project) throws IOException {
+      String remoteName, String replicaSuffix, Optional<String> project) throws Exception {
     setReplicationSource(remoteName, Arrays.asList(replicaSuffix), project);
   }
 
   private void setReplicationSource(
-      String remoteName, List<String> replicaSuffixes, Optional<String> project)
-      throws IOException {
+      String remoteName, List<String> replicaSuffixes, Optional<String> project) throws Exception {
 
     List<String> replicaUrls =
         replicaSuffixes.stream()
@@ -226,7 +224,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
   }
 
   private void setReplicationCredentials(String remoteName, String username, String password)
-      throws IOException {
+      throws Exception {
     secureConfig.setString("remote", remoteName, "username", username);
     secureConfig.setString("remote", remoteName, "password", password);
     secureConfig.save();

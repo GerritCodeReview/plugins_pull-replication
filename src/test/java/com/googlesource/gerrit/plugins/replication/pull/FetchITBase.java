@@ -21,7 +21,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.function.Supplier;
@@ -50,11 +49,11 @@ public abstract class FetchITBase extends LightweightPluginDaemonTest {
     fetchFactory = plugin.getSysInjector().getInstance(FetchFactory.class);
   }
 
-  void waitUntil(Supplier<Boolean> waitCondition) throws InterruptedException {
+  void waitUntil(Supplier<Boolean> waitCondition) throws Exception {
     WaitUtil.waitUntil(waitCondition, TEST_TIMEOUT);
   }
 
-  Ref getRef(Repository repo, String branchName) throws IOException {
+  Ref getRef(Repository repo, String branchName) throws Exception {
     return repo.getRefDatabase().exactRef(branchName);
   }
 

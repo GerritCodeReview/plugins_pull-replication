@@ -66,8 +66,11 @@ public class ReplicationQueueMetrics {
       incrementTaskStarted(source);
       runnable.run();
       if (runnable instanceof Completable) {
-        if (((Completable) runnable).hasSucceeded()) {
+        Completable completedRunnable = (Completable) runnable;
+        if (completedRunnable.hasSucceeded()) {
           incrementTaskCompleted(source);
+        } else {
+          incrementTaskFailed(source);
         }
       }
     }

@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -251,7 +250,7 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     waitUntil(() -> sources.getAll().size() == 1);
   }
 
-  private Ref getRef(Repository repo, String branchName) throws IOException {
+  private Ref getRef(Repository repo, String branchName) throws Exception {
     return repo.getRefDatabase().exactRef(branchName);
   }
 
@@ -264,24 +263,24 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
     }
   }
 
-  private void setReplicationSource(String remoteName) throws IOException {
+  private void setReplicationSource(String remoteName) throws Exception {
     config.setBoolean("gerrit", null, "autoReload", true);
     config.save();
   }
 
-  private void setRemoteConfig(String replicaSuffix, Optional<String> project) throws IOException {
+  private void setRemoteConfig(String replicaSuffix, Optional<String> project) throws Exception {
     setRemoteConfig(remoteConfig, replicaSuffix, project);
   }
 
   private void setRemoteConfig(
       FileBasedConfig remoteConfig, String replicaSuffix, Optional<String> project)
-      throws IOException {
+      throws Exception {
     setRemoteConfig(remoteConfig, Arrays.asList(replicaSuffix), project);
   }
 
   private void setRemoteConfig(
       FileBasedConfig remoteConfig, List<String> replicaSuffixes, Optional<String> project)
-      throws IOException {
+      throws Exception {
     List<String> replicaUrls =
         replicaSuffixes.stream()
             .map(suffix -> gitPath.resolve("${name}" + suffix + ".git").toString())
@@ -296,13 +295,13 @@ public class PullReplicationFanoutConfigIT extends LightweightPluginDaemonTest {
   }
 
   private void setReplicationCredentials(String remoteName, String username, String password)
-      throws IOException {
+      throws Exception {
     secureConfig.setString("remote", remoteName, "username", username);
     secureConfig.setString("remote", remoteName, "password", password);
     secureConfig.save();
   }
 
-  private void waitUntil(Supplier<Boolean> waitCondition) throws InterruptedException {
+  private void waitUntil(Supplier<Boolean> waitCondition) throws Exception {
     WaitUtil.waitUntil(waitCondition, TEST_TIMEOUT);
   }
 
