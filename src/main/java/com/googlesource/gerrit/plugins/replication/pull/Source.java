@@ -523,21 +523,27 @@ public class Source {
       Project.NameKey project,
       String ref,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
-	  fetchSync(project, Set.of(ref), apiRequestMetrics);
+    fetchSync(project, Set.of(ref), apiRequestMetrics);
   }
-  
-  public void fetchSync(
-	      Project.NameKey project,
-	      Set<String> refs,
-	      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
-	    if (((shouldReplicate(project, ref))
-	        && (config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG)))) {
 
-	      FetchOne e = opFactory.create(project, getURI(project), apiRequestMetrics);
-	      e.addRefs(refs);
-	      e.run();
-	    }
-	  }
+  public void fetchSync(
+      Project.NameKey project,
+      Set<String> refs,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+    Set<String> refsToReplicate =
+        refs.stream()
+            .filter(ref -> shouldReplicate(project, ref))
+            .filter(ref -> config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))
+            .collect(Collectors.toUnmodifiableSet());
+
+    if (refsToReplicate.isEmpty()) {
+      return;
+    }
+
+    FetchOne e = opFactory.create(project, getURI(project), apiRequestMetrics);
+    e.addRefs(refsToReplicate);
+    e.run();
+  }
 
   void scheduleDeleteProject(String uri, Project.NameKey project) {
     @SuppressWarnings("unused")

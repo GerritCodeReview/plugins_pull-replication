@@ -65,10 +65,10 @@ public class FetchCommand implements Command {
     fetch(name, label, Set.of(refName), ASYNC, Optional.of(apiRequestMetrics));
   }
 
-  public void fetchSync(Project.NameKey name, String label, String refName)
+  public void fetchSync(Project.NameKey name, String label, Set<String> refsNames)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    fetch(name, label, Set.of(refName), SYNC, Optional.empty());
+    fetch(name, label, refsNames, SYNC, Optional.empty());
   }
 
   private void fetch(
@@ -96,17 +96,17 @@ public class FetchCommand implements Command {
         state.markAllFetchTasksScheduled();
         Future<?> future = null;
         for (String refName : refsNames) {
-        	future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);			
-		}
+          future = source.get().schedule(name, refName, state, fetchType, apiRequestMetrics);
+        }
         int timeout = source.get().getTimeout();
         if (timeout == 0) {
-          if (future != null) { 
-        	  future.get();
+          if (future != null) {
+            future.get();
           }
         } else {
-        	if(future != null) {
-          future.get(timeout, TimeUnit.SECONDS);
-        	}
+          if (future != null) {
+            future.get(timeout, TimeUnit.SECONDS);
+          }
         }
       } else {
         source.get().fetchSync(name, refsNames, apiRequestMetrics);

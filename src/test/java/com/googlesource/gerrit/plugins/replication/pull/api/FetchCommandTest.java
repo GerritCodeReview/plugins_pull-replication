@@ -33,6 +33,7 @@ import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.net.URISyntaxException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -47,6 +48,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class FetchCommandTest {
   private static final String REF_NAME_TO_FETCH = "refs/heads/master";
+  private static final Set<String> REFS_NAMES_TO_FETCH = Set.of(REF_NAME_TO_FETCH);
   @Mock ReplicationState state;
   @Mock ReplicationState.Factory fetchReplicationStateFactory;
   @Mock PullReplicationStateLogger fetchStateLog;
@@ -83,9 +85,9 @@ public class FetchCommandTest {
   public void shouldScheduleRefFetch()
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException {
-    objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
+    objectUnderTest.fetchSync(projectName, label, REFS_NAMES_TO_FETCH);
 
-    verify(source, times(1)).fetchSync(projectName, REF_NAME_TO_FETCH, Optional.empty());
+    verify(source, times(1)).fetchSync(projectName, REFS_NAMES_TO_FETCH, Optional.empty());
   }
 
   @Test
