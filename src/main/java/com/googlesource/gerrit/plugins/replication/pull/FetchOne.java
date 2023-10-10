@@ -573,6 +573,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   @Override
   public boolean hasSucceeded() {
-    return succeeded;
+    return succeeded || getFetchRefSpecs().isEmpty();
   }
 }
