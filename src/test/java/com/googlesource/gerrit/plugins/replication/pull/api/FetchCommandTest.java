@@ -34,7 +34,6 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -70,7 +69,7 @@ public class FetchCommandTest {
   FetchCommand objectUnderTest;
 
   @Before
-  public void setup() throws URISyntaxException {
+  public void setup() throws Exception {
     projectName = Project.nameKey("sample_project");
     uri = new URIish("file://sample_host/repository_path/repo.git");
     label = "instance-1-label";
@@ -85,9 +84,7 @@ public class FetchCommandTest {
   }
 
   @Test
-  public void shouldScheduleRefFetch()
-      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
+  public void shouldScheduleRefFetch() throws Exception {
     objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
 
     verify(source, times(1))
@@ -95,9 +92,7 @@ public class FetchCommandTest {
   }
 
   @Test
-  public void shouldScheduleRefFetchWithDelay()
-      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
+  public void shouldScheduleRefFetchWithDelay() throws Exception {
     objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
 
     verify(source, times(1))
@@ -105,9 +100,7 @@ public class FetchCommandTest {
   }
 
   @Test
-  public void shouldMarkAllFetchTasksScheduled()
-      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
+  public void shouldMarkAllFetchTasksScheduled() throws Exception {
     objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
 
     verify(source, times(1))
@@ -125,8 +118,7 @@ public class FetchCommandTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void shouldUpdateStateWhenInterruptedException()
-      throws InterruptedException, ExecutionException, TimeoutException {
+  public void shouldUpdateStateWhenInterruptedException() throws Exception {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new InterruptedException());
     when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
         .thenReturn(future);
@@ -140,8 +132,7 @@ public class FetchCommandTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void shouldUpdateStateWhenExecutionException()
-      throws InterruptedException, ExecutionException, TimeoutException {
+  public void shouldUpdateStateWhenExecutionException() throws Exception {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS)))
         .thenThrow(new ExecutionException(new Exception()));
     when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
@@ -156,8 +147,7 @@ public class FetchCommandTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void shouldUpdateStateWhenTimeoutException()
-      throws InterruptedException, ExecutionException, TimeoutException {
+  public void shouldUpdateStateWhenTimeoutException() throws Exception {
     when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new TimeoutException());
     when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
         .thenReturn(future);

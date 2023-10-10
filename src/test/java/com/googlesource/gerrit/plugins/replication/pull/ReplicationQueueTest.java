@@ -48,7 +48,6 @@ import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
@@ -59,8 +58,6 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import org.apache.http.client.ClientProtocolException;
-import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -111,7 +108,7 @@ public class ReplicationQueueTest {
   private Path pluginDataPath;
 
   @Before
-  public void setup() throws IOException, LargeObjectException {
+  public void setup() throws Exception {
     Path sitePath = createTempPath("site");
     sitePaths = new SitePaths(sitePath);
     Path pluginDataPath = createTempPath("data");
@@ -180,7 +177,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectWhenMetaRef() throws ClientProtocolException, IOException {
+  public void shouldCallSendObjectWhenMetaRef() throws Exception {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -189,8 +186,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldIgnoreEventWhenIsNotLocalInstanceId()
-      throws ClientProtocolException, IOException {
+  public void shouldIgnoreEventWhenIsNotLocalInstanceId() throws Exception {
     Event event = new TestEvent();
     event.instanceId = FOREIGN_INSTANCE_ID;
     objectUnderTest.start();
@@ -201,7 +197,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallInitProjectWhenProjectIsMissing() throws IOException {
+  public void shouldCallInitProjectWhenProjectIsMissing() throws Exception {
     Event event = new TestEvent("refs/changes/01/1/meta");
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isProjectMissing(any())).thenReturn(true);
@@ -214,7 +210,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
+  public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws Exception {
     Event event = new TestEvent("refs/changes/01/1/meta");
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isProjectMissing(any())).thenReturn(true);
@@ -227,7 +223,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectWhenPatchSetRef() throws ClientProtocolException, IOException {
+  public void shouldCallSendObjectWhenPatchSetRef() throws Exception {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -236,8 +232,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenIOException()
-      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+  public void shouldFallbackToCallFetchWhenIOException() throws Exception {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
@@ -249,8 +244,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenLargeRef()
-      throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException {
+  public void shouldFallbackToCallFetchWhenLargeRef() throws Exception {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
@@ -262,8 +256,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallFetchWhenParentObjectIsMissing()
-      throws ClientProtocolException, IOException {
+  public void shouldFallbackToCallFetchWhenParentObjectIsMissing() throws Exception {
     Event event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
@@ -279,7 +272,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnMetaRef()
-      throws ClientProtocolException, IOException {
+      throws Exception {
     Event event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
@@ -305,7 +298,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnAllowedRefs()
-      throws ClientProtocolException, IOException {
+      throws Exception {
     String refName = "refs/tags/test-tag";
     Event event = new TestEvent(refName);
     objectUnderTest.start();
@@ -332,7 +325,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldSkipEventWhenMultiSiteVersionRef() throws IOException {
+  public void shouldSkipEventWhenMultiSiteVersionRef() throws Exception {
     FileBasedConfig fileConfig =
         new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
     fileConfig.setString("replication", null, "excludeRefs", "refs/multi-site/version");
@@ -362,7 +355,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldSetShutdownStateWhenStopping() throws IOException {
+  public void shouldSetShutdownStateWhenStopping() throws Exception {
     objectUnderTest.stop();
     assertThat(shutdownState.isShuttingDown()).isTrue();
   }
@@ -376,7 +369,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallDeleteWhenReplicateProjectDeletionsTrue() throws IOException {
+  public void shouldCallDeleteWhenReplicateProjectDeletionsTrue() throws Exception {
     when(source.wouldDeleteProject(any())).thenReturn(true);
 
     String projectName = "testProject";
@@ -392,7 +385,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldNotCallDeleteWhenProjectNotToDelete() throws IOException {
+  public void shouldNotCallDeleteWhenProjectNotToDelete() throws Exception {
     when(source.wouldDeleteProject(any())).thenReturn(false);
 
     FakeProjectDeletedEvent event = new FakeProjectDeletedEvent("testProject");
@@ -404,7 +397,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldScheduleUpdateHeadWhenWouldFetchProject() throws IOException {
+  public void shouldScheduleUpdateHeadWhenWouldFetchProject() throws Exception {
     when(source.wouldFetchProject(any())).thenReturn(true);
 
     String projectName = "aProject";
@@ -420,7 +413,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldNotScheduleUpdateHeadWhenNotWouldFetchProject() throws IOException {
+  public void shouldNotScheduleUpdateHeadWhenNotWouldFetchProject() throws Exception {
     when(source.wouldFetchProject(any())).thenReturn(false);
 
     String projectName = "aProject";
@@ -431,7 +424,7 @@ public class ReplicationQueueTest {
     verify(source, never()).scheduleUpdateHead(any(), any(), any());
   }
 
-  protected static Path createTempPath(String prefix) throws IOException {
+  protected static Path createTempPath(String prefix) throws Exception {
     return createTempDirectory(prefix);
   }
 
