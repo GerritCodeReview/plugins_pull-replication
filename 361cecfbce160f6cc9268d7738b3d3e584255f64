@@ -88,6 +88,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "23732b35_a595c4af",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-11T10:58:58Z",
+      "side": 1,
+      "message": "as discussed offline there\u0027s a gap in the tests, the notification mechanism won\u0027t work for Sync operations because we are not updating the stateMap in FetchOne.",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a41c1d33_8ef85c97",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
         "patchSetId": 14
