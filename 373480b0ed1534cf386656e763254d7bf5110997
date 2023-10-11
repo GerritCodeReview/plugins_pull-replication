@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "062284ca_121d7401",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-11T18:20:22Z",
+      "side": 0,
+      "message": "Sure, but it is outside the scope of this change, which is just removing white-box tests.",
+      "parentUuid": "80b3b3cc_b828f8ff",
+      "revId": "373480b0ed1534cf386656e763254d7bf5110997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "498cb95c_a79ade6c",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-11T08:54:00Z",
       "side": 0,
       "message": "I think we might be missing a test that asserts that there\u0027s a finite waiting time for all tasks to complete (`verify(state).waitForReplication(...)`) - that\u0027s not an implementation detail IMO",
+      "revId": "373480b0ed1534cf386656e763254d7bf5110997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f3b416_bb94c93c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-11T18:20:22Z",
+      "side": 0,
+      "message": "Well, this test assumes that a sync replication is triggering an async task, which is an implementation detail.\n\nWith regards to missing tests, yes, we are missing many of them agreed. However, it is outside the scope of this change.",
+      "parentUuid": "498cb95c_a79ade6c",
       "revId": "373480b0ed1534cf386656e763254d7bf5110997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
