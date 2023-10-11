@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb1c684b_204039f6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationITAbstract.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-11T09:34:47Z",
+      "side": 1,
+      "message": "I have left this one intentionally, because of the `@Override` annotation. In Java you cannot override a method and then have a different set of declared exceptions.",
+      "parentUuid": "a7cecf66_22051dfe",
+      "revId": "373480b0ed1534cf386656e763254d7bf5110997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccdcd921_d5ea50dd",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-11T08:39:44Z",
       "side": 1,
       "message": "Missed this one",
+      "revId": "373480b0ed1534cf386656e763254d7bf5110997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44a35934_ffa80b02",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationSetupBase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-11T09:34:47Z",
+      "side": 1,
+      "message": "This isn\u0027t a test method though, I believe the generic `throws Exception` would make sense only in methods annotated with `@Test`, WDYT?",
+      "parentUuid": "ccdcd921_d5ea50dd",
       "revId": "373480b0ed1534cf386656e763254d7bf5110997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63b978bd_bb9d9e63",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-11T09:34:47Z",
+      "side": 1,
+      "message": "Sure, but that would be a separate change IMHO with a headline _\"Remove redundant throws declaration from test methods because the body does not declare any throwable\"_.",
+      "parentUuid": "1e24e95d_e98ce6cf",
+      "revId": "373480b0ed1534cf386656e763254d7bf5110997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7af053ff_c0a590f9",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-10-11T08:39:44Z",
       "side": 1,
       "message": "Missed this one?",
+      "revId": "373480b0ed1534cf386656e763254d7bf5110997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa407edf_da03094d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectCommandTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-11T09:34:47Z",
+      "side": 1,
+      "message": "Yep, good catch, let me fix it.",
+      "parentUuid": "7af053ff_c0a590f9",
       "revId": "373480b0ed1534cf386656e763254d7bf5110997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
