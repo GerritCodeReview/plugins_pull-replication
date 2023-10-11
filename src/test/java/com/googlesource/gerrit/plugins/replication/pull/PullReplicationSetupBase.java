@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -102,7 +101,7 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
     super.setUpTestPlugin();
   }
 
-  protected Ref getRef(Repository repo, String branchName) throws IOException {
+  protected Ref getRef(Repository repo, String branchName) throws Exception {
     return repo.getRefDatabase().exactRef(branchName);
   }
 
@@ -116,8 +115,7 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
   }
 
   protected void setReplicationSource(
-      String remoteName, String replicaSuffix, Optional<String> project)
-      throws IOException, ConfigInvalidException {
+      String remoteName, String replicaSuffix, Optional<String> project) throws Exception {
     setReplicationSource(remoteName, Arrays.asList(replicaSuffix), project);
   }
 
@@ -125,13 +123,13 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
       String remoteName, List<String> replicaSuffixes, Optional<String> project) throws IOException;
 
   protected void setReplicationCredentials(String remoteName, String username, String password)
-      throws IOException {
+      throws Exception {
     secureConfig.setString("remote", remoteName, "username", username);
     secureConfig.setString("remote", remoteName, "password", password);
     secureConfig.save();
   }
 
-  protected void waitUntil(Supplier<Boolean> waitCondition) throws InterruptedException {
+  protected void waitUntil(Supplier<Boolean> waitCondition) throws Exception {
     WaitUtil.waitUntil(waitCondition, TEST_TIMEOUT);
   }
 
