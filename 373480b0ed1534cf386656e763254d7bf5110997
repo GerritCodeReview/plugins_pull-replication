@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80b3b3cc_b828f8ff",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-11T08:54:00Z",
+      "side": 0,
+      "message": "this method name lies, we never assert on any delay. We should rename it to `shouldScheduleRefFetch`",
+      "revId": "373480b0ed1534cf386656e763254d7bf5110997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "498cb95c_a79ade6c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-11T08:54:00Z",
+      "side": 0,
+      "message": "I think we might be missing a test that asserts that there\u0027s a finite waiting time for all tasks to complete (`verify(state).waitForReplication(...)`) - that\u0027s not an implementation detail IMO",
+      "revId": "373480b0ed1534cf386656e763254d7bf5110997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
