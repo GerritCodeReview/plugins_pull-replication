@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a87277b_534164c6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchAll.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T10:17:00Z",
+      "side": 1,
+      "message": "Let me check.",
+      "parentUuid": "be32fb45_88b16974",
+      "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aa94cf88_fbe464bd",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 19
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "Sure, I believe the focus of this change isn\u0027t reaching 100% test coverage of this class, isn\u0027t it?",
       "parentUuid": "aa94cf88_fbe464bd",
+      "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d4161fd_544a23a4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T10:17:00Z",
+      "side": 1,
+      "message": "Marking as resolved, we already have an issue to increase the test quality and coverage on this plugin, which is outside the scope of this change.",
+      "parentUuid": "2234ae92_e4b3ca35",
       "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
