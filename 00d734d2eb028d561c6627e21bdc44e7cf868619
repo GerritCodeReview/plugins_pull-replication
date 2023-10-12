@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e091c75_8aca2d35",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-12T09:54:46Z",
+      "side": 0,
+      "message": "the `isSyncCall` method should be deleted.",
+      "revId": "00d734d2eb028d561c6627e21bdc44e7cf868619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

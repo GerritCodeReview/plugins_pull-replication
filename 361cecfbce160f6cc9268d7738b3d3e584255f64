@@ -125,6 +125,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a66ce0da_6151df1c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-12T09:54:46Z",
+      "side": 1,
+      "message": "ok, so we are saying we will not retry the failed SYNC fetch operation. But we are diverging from the existing approach (albeit for ASYNC fetch and i understand the semantics are different) which is to retry, unless the task was cancelled. I find this hard to understand, as the fact we are retrying suggests its an exception we think we can recover from. I think this needs to be documented somehow, because it creates confusion and it changes the user experience.",
+      "parentUuid": "45be74af_313827e8",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9d3dad2_9b59b9b9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-12T09:54:46Z",
+      "side": 1,
+      "message": "Based (also) on the above, I keep thinking that FetchOne is not the right abstraction for both SYNC and ASYNC fetch. I think we might need to split it in 2 classes, one for each type of replication.",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f468dc64_b2f764ed",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
         "patchSetId": 14
@@ -193,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa43bcf7_d0bbcd4c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-12T09:54:46Z",
+      "side": 1,
+      "message": "agreed, I see you fixed it by adding the call to `addState` (which I suspected would be necessary) as I assume the tests/assertions added in 389214 started failing for the SYNC fetch.",
+      "parentUuid": "7278e820_6d07d9c6",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a41c1d33_8ef85c97",
@@ -230,6 +283,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "530787e1_5e213c48",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-12T09:54:46Z",
+      "side": 1,
+      "message": "we do",
+      "parentUuid": "d582002c_95df1bd1",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aeb83769_6c72df4a",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
         "patchSetId": 14
@@ -259,6 +330,24 @@
       "side": 1,
       "message": "How can this be? If you look at L107 if `maybeFetch` is empty then we cannot enter this if condition.",
       "parentUuid": "aeb83769_6c72df4a",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e40568a0_890bce54",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-12T09:54:46Z",
+      "side": 1,
+      "message": "ah yes you\u0027re right, i misread it 😭",
+      "parentUuid": "0ebda5c1_bb58cfce",
       "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
