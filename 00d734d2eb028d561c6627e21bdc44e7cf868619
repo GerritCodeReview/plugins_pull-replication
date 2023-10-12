@@ -16,6 +16,23 @@
       "message": "It looks like we are NOT generating replication events for:\n- project deletions\n- head updates\n\nIs that normal?",
       "revId": "00d734d2eb028d561c6627e21bdc44e7cf868619",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29d9a041_6a8ec3f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-12T08:57:43Z",
+      "side": 1,
+      "message": "Looks good but we need to figure out the answer to your question.",
+      "revId": "00d734d2eb028d561c6627e21bdc44e7cf868619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
