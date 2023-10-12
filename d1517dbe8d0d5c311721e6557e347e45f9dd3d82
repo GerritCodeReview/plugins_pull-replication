@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2234ae92_e4b3ca35",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T10:14:10Z",
+      "side": 1,
+      "message": "Sure, I believe the focus of this change isn\u0027t reaching 100% test coverage of this class, isn\u0027t it?",
+      "parentUuid": "aa94cf88_fbe464bd",
+      "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0763af3_5cab9e2f",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
         "patchSetId": 19
@@ -48,6 +66,24 @@
       "writtenOn": "2023-10-12T09:54:46Z",
       "side": 1,
       "message": "I think some unit tests here are beneficial, because they _both_ document the code and have the potential to catch problems that higher level tests won\u0027t catch:\n- A test to verify we are not scheduling anything\n- Tests on how we handle errors/non-happy path",
+      "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be887190_54382080",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T10:14:10Z",
+      "side": 1,
+      "message": "\u003e I think some unit tests here are beneficial, because they _both_ document the code and have the potential to catch problems that higher level tests won\u0027t catch:\n\u003e - A test to verify we are not scheduling anything\n\nThat\u0027s an implementation detail: what happen if we change the scheduling mechanism? Why should the sync test-case have been amended?\n\n\u003e - Tests on how we handle errors/non-happy path\n\nSure, but how good are we in simulating them? Again, bear in mind that if the effort of writing the tests is higher than the effort and complexity of the implementation, we are just burning energy without producing much.",
+      "parentUuid": "b0763af3_5cab9e2f",
       "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

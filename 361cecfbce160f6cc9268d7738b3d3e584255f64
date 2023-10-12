@@ -160,6 +160,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "739c8e7f_0462a649",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T10:14:10Z",
+      "side": 1,
+      "message": "\u003e ok, so we are saying we will not retry the failed SYNC fetch operation.\n\nExactly, the sync operation doesn\u0027t have a scheduler and therefore does not do any retry.\n\n\u003e But we are diverging from the existing approach (albeit for ASYNC fetch and i understand the semantics are different) which is to retry\n\nYes, that was massively broken. A sync operation should either succeed, or fail.\n\n\u003e unless the task was cancelled. I find this hard to understand, as the fact we are retrying suggests its an exception we think we can recover from. I think this needs to be documented somehow, because it creates confusion and it changes the user experience.\n\nWell, the previous user experience was never going to work, isn\u0027t it?",
+      "parentUuid": "a66ce0da_6151df1c",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d3e727_bf396282",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T10:14:10Z",
+      "side": 1,
+      "message": "That could be done in master, where we have more space for refactoring.",
+      "parentUuid": "a9d3dad2_9b59b9b9",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f468dc64_b2f764ed",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
         "patchSetId": 14
@@ -295,6 +331,24 @@
       "side": 1,
       "message": "we do",
       "parentUuid": "d582002c_95df1bd1",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f9ea371_c2fe6f96",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T10:14:10Z",
+      "side": 1,
+      "message": "Let me take another look",
+      "parentUuid": "530787e1_5e213c48",
       "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
