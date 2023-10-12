@@ -140,6 +140,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37742be2_736e916b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T02:21:32Z",
+      "side": 1,
+      "message": "There isn\u0027t such thing as a sync task: the task is a asynchronous execution of a specific piece of work.\n\nExample: where is the apply-object task? It does not exist because it is a synchronous operation.\n\nAll REST-API have already an out-of-the-box metric tracking from Gerrit:\n- latency with percentiles\n- number of executions\n- failures\n\nWe don\u0027t have to reinvent the wheel for REST-API, they just work and are fully tracked.",
+      "parentUuid": "f468dc64_b2f764ed",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23732b35_a595c4af",
