@@ -357,7 +357,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
     } catch (NoRemoteRepositoryException | RemoteRepositoryException e) {
       // Tried to replicate to a remote via anonymous git:// but the repository
-      // does not exist.  In this case NoRemoteRepositoryException is not
+      // does not exist. In this case NoRemoteRepositoryException is not
       // raised.
       String msg = e.getMessage();
       repLog.error(
