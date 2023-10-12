@@ -16,6 +16,24 @@
       "message": "This needs to go, because you cannot schedule an sync replication anymore.",
       "revId": "09367afcb16495f5a9f14dd1906bfbe610e44e9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4740df62_02a9f3e1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-12T02:19:01Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "279c7dbc_2b050993",
+      "revId": "09367afcb16495f5a9f14dd1906bfbe610e44e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
