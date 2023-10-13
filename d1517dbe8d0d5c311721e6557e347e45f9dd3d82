@@ -140,6 +140,29 @@
       "parentUuid": "be887190_54382080",
       "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6355db7_74db76f0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-13T12:50:50Z",
+      "side": 1,
+      "message": "How about using `Collectors.joining()` instead? It should use a `StringBuilder` internally.\n\n\n```suggestion\n            .collect(Collectors.joining(\"\\n\"));\n```",
+      "range": {
+        "startLine": 138,
+        "startChar": 12,
+        "endLine": 138,
+        "endChar": 52
+      },
+      "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
