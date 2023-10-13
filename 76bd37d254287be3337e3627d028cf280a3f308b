@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d0bc541_7e4b78ce",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-13T11:10:30Z",
+      "side": 1,
+      "message": "remotely? We want to delete refs which are not present on the other site",
+      "range": {
+        "startLine": 528,
+        "startChar": 7,
+        "endLine": 528,
+        "endChar": 14
+      },
+      "revId": "76bd37d254287be3337e3627d028cf280a3f308b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
