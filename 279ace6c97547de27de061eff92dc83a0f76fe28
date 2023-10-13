@@ -35,6 +35,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14ba2177_395fc259",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "@sasa.zivkov@sap.com, first of all thank you for elaborating this document. I think is brilliant and very interesting. I have made some comments just with the intention of knowing more and to collaborate.\nI hope we can open the conversation and move forward to final solution.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3140d4c_6d934d97",
@@ -48,6 +65,30 @@
       "writtenOn": "2023-09-04T20:57:52Z",
       "side": 1,
       "message": "apply-object, git-fetch",
+      "range": {
+        "startLine": 6,
+        "startChar": 8,
+        "endLine": 6,
+        "endChar": 17
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "418048ba_de7d5eff",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c3140d4c_6d934d97",
       "range": {
         "startLine": 6,
         "startChar": 8,
@@ -284,6 +325,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84dc883b_3c5698dd",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "\u003e Listening on Gerrit events to create fetch tasks\n\nAre these fetch tasks executed sequentially or in parallel?",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c2ba12e3_0fad6663",
         "filename": "DESIGN.md",
         "patchSetId": 4
@@ -364,6 +422,57 @@
         "endLine": 67,
         "endChar": 23
       },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf4fbf4_622e8253",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "Is the `event broker flow` going to work in conjunction with the `http flow`? It would be good to have a brief clarification.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6935930_997efbdc",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "Probably most of the readers have already a strong knowledge on how pull-replication works in conjunction with events-broker and events-* (events-kafka, events-aws-kinesis,...). Unfortunately I have no deep knowledge of the current approach. For that reason, when the document exposes new solutions, as a reader I would appreciate some clarification to some questions (maybe too many and maybe some of them not important for the moment) that I consider relevant in the cases of introducing event-brokers in any system. These questions are the following:\n\n- Do we use only one topic? how many partitions do we need per topic? \n- given 2 events E1 and E2.  \n  - E1: `ref-updated: refs/changes/02/2/1 for repo1 and change 02` (patchset 1)\n  - E2: `ref-updated: refs/changes/02/2/2 for repo1 and change 02` (patchset 2)\n  \n  - Does the event E1 need to be produced before event E2? \n  - Does the event E1 need to be consumed before event E2?\n  - Does the event E1 need to be processed before event E2?\n  - How much can we parallelise between events? \n  - Can we have race conditions or data inconsistency if the processing is parallelised ? \n \n - What delivery semantics is defined for the producer and the consumer?:\n    - at most once\n    - at least once\n    - exactly once    \n\n- In case of of delivery semantics `at least once` in then consumer, is there a strategy defined to avoid re-processing already successfully processed events?.\n- What type of data retention policies does each type of topic (Gerrit event topics, Retry event topics) have?\n- There are other questions regarding security, data schema evolution, replay strategy, observability and monitoring that at this point are less important.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f7e4ee2_98ebfefb",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "Regarding the different solutions proposed: \n\nThe `first solution` looks to me difficult to implement (maybe i need some clarification):\n- The coexistence between the `Consumer` and `Retryer-Consumer` consumers as a part of the same consumer group looks difficult to me in conjunction with the management of the consumer offset.\n- Identify when an event has been successfully processed previously.\n\nThe `third solution` looks not bad but  I think that there are some important cons:\n- Provision and maintain different topics and their data.\n- The lifecycle of different consumers with different requirements as a part of the same JVM. \n- Too many points of failure\n\nThe `second solution` is my favourite. The cons would be similar to the ones in the third solution but the approach it is much simpler and the most important thing, the management of consumer offsets is very simple.",
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -463,6 +572,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ec0bfff_69ab6dc9",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "\u003e The \"Retryer-Consumer\" periodically retries from the last committed group offset. \n\nI assume that `Retryer-Consumer` consumer belongs to the same consumer group as `Consumer` and every X seconds is instantiated and start consuming from the last consumer group offset. \n\nWhat happens with `Consumer` consumer? if it is running then there will be 2 consumers in the same consumer group and they will split partitions.\n\nPlease, can you elaborate this a bit more?",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "127f992b_93bc7947",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "\u003e The retryer shall avoid re-processing already successfully processed events\n\nit would be interesting to elaborate this point. Any ideas about how to avoid re-processing?",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9af61760_61d3a355",
         "filename": "DESIGN.md",
         "patchSetId": 4
@@ -480,6 +623,40 @@
         "endLine": 88,
         "endChar": 34
       },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cfa6706_b99b9de2",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "I think I am struggling to see how is the coexistence of both consumers.\nMaybe you could add an example.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c2c8b39_42425e5e",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "Can we not commit the offset after consuming the event instead of after the processing the event? From my point of view having a `Retry-Topic` topic would simplify the management of the offset. From the \"Consumer\" consumer point of view, all the events are successful. Its responsibility is just to consume them.",
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -509,6 +686,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d224395b_83f5fc81",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "periodically? Some kind of exponential backoff retry policy? Maybe the document could explain more without going into much detail.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa24a10d_e30290f1",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "Can we have `race conditions`  when `Consumer` and `Retryer-Consumer` run fetch tasks for the same data? If there are race conditions, any ideas how to solve the problem?",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd419f7b_85defbe3",
         "filename": "DESIGN.md",
         "patchSetId": 4
@@ -532,6 +743,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7929c1a4_ed1ade21",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "cd419f7b_85defbe3",
+      "range": {
+        "startLine": 107,
+        "startChar": 48,
+        "endLine": 107,
+        "endChar": 71
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d75a8d97_71e4c2e1",
         "filename": "DESIGN.md",
         "patchSetId": 4
@@ -543,6 +778,30 @@
       "writtenOn": "2023-09-04T20:57:52Z",
       "side": 1,
       "message": "This could be also managed in the topic key, doesn\u0027t have to be a separate topic per consumer. Each consumer could receive on their key.",
+      "range": {
+        "startLine": 110,
+        "startChar": 37,
+        "endLine": 110,
+        "endChar": 57
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efa5f1f8_f3add943",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com do you mean to have 1 topic, 2 consumers that belong to different consumer groups (to avoid clashing with the indexes) and each one filter the events that are interested? That is an interesting idea but there are some pros and cons in my opinion. \nPros:\n- Easier infrastructure provision and maintenance\n\nCons:\n- In a high volume traffic of events, the `Retrier Consumer` consumer will have to read a lot of messages and filter them out which it could cause more resource consumption in terms of memory and CPU.",
+      "parentUuid": "d75a8d97_71e4c2e1",
       "range": {
         "startLine": 110,
         "startChar": 37,
@@ -595,6 +854,23 @@
         "endLine": 117,
         "endChar": 98
       },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9259188_ec98a91f",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-13T13:37:26Z",
+      "side": 1,
+      "message": "Another approach could be to have topics per type of errors.  \n\nFor example:\n\n- Topic `Network error`\n- Topic `Filesystem error`\n- Topic `Git error`\n- Topic `Others`\n\nTherefore when a `Fetch task` fails, the event will be sent to the topic related with that error.\n\nEach topic can have different configuration, requirements and retry policy.",
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
