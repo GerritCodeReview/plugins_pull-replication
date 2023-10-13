@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94b23e05_1048e2ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T18:50:40Z",
+      "side": 1,
+      "message": "Post-merge -1: we should have not broken the boundaries of the implementation on the ProjectInitAction",
+      "revId": "72b0860efbc2f72fc41679a24a271ddf42a55340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a5f6c3b_d5a9bb6c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T18:50:40Z",
+      "side": 1,
+      "message": "This should have not been make protected, we need to respect the boundaries of the component.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 11
+      },
+      "revId": "72b0860efbc2f72fc41679a24a271ddf42a55340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d96f8b8d_256a10d0",
@@ -67,6 +107,29 @@
         "startChar": 3,
         "endLine": 123,
         "endChar": 11
+      },
+      "revId": "72b0860efbc2f72fc41679a24a271ddf42a55340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d93579ce_249dbd1b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T18:50:40Z",
+      "side": 1,
+      "message": "This is breaking the encapsulation: we should just call the servlet.service(request,response)",
+      "range": {
+        "startLine": 160,
+        "startChar": 8,
+        "endLine": 160,
+        "endChar": 47
       },
       "revId": "72b0860efbc2f72fc41679a24a271ddf42a55340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
