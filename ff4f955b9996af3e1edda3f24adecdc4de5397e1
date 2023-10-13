@@ -412,6 +412,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc630c55_3e265b44",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-13T14:33:13Z",
+      "side": 1,
+      "message": "This is a code smell. `PullReplicationFilter` should do the parsing and call `ProjectInitializationAction.apply` or something similar. As we mentioned in the previous comments `ProjectInitializationAction` is not RESTApi endpoint anymore so we shouldn\u0027t have `doGet` and doPost methods",
+      "range": {
+        "startLine": 136,
+        "startChar": 9,
+        "endLine": 136,
+        "endChar": 40
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e9f0576a_3993e628",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 9
@@ -718,6 +741,48 @@
       "writtenOn": "2023-09-13T20:14:14Z",
       "side": 1,
       "message": "I\u0027d consider creating something like `PayloadParser` class with static methods to parse each type. IMO this would make code easier to follow and save us from always using `TypeLiteral` eg:\n\n```\nclass PayloadParser {\n  static RevisionInput parseRevisionInput(HttpServletRequest httpRequest) {\n    return parse(httpRequest, TypeLiteral.get(RevisionInput.class));\n  }\n  \n  static HeadInput parseHeadInput(HttpServletRequest httpRequest) {\n    return parse(httprequest, TypeLiteral.get(HeadInput.class));\n  }\n\n  private static \u003cT\u003e T parse(HttpServletRequest httpRequest, TypeLiteral\u003cT\u003e typeLiteral) {\n    ...\n  }\n}\n\n```\n\nThis could be done as a follow-up change.",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c17cc72_f593ad19",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-13T14:33:13Z",
+      "side": 1,
+      "message": "TBH that\u0027s not needed because `ProjectInitialisationAction` shouldn\u0027t parse json",
+      "parentUuid": "c7cb07d7_4e5353b5",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dbb1834_e27cb1cd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-13T14:33:13Z",
+      "side": 1,
+      "message": "Nope, this a code smell and it doesn\u0027t have to be used in the `ProjectInitialisationAction` because `ProjectInitialisationAction` doesn\u0027t need to parse json anymore. Check comments in `ProjectInitialisationAction`",
+      "parentUuid": "e9cb4bf4_c2840cb2",
+      "range": {
+        "startLine": 266,
+        "startChar": 2,
+        "endLine": 266,
+        "endChar": 8
+      },
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
