@@ -196,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ce4bdfc0_7b491546",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-13T06:08:26Z",
+      "side": 1,
+      "message": "So if I understand correctly we are saying we are retrying the ASYNC operation because the Locking failures could be the result of something going wrong during scheduling - and this is not something that can ever affect the SYNC operation which no longer uses the scheduler. \n\nIf the above statement is true, then it applies only to the if clause on L380 - there could be other reasons why a TransportException is thrown and the fact we are retrying in the else (L401) statement suggests it is generally a retryable exception. \n\nUnless we are saying that by design we don\u0027t want to retry SYNC operations, because it might negatively impact the overall performance.",
+      "parentUuid": "739c8e7f_0462a649",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f468dc64_b2f764ed",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
         "patchSetId": 14
@@ -349,6 +367,24 @@
       "side": 1,
       "message": "Let me take another look",
       "parentUuid": "530787e1_5e213c48",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdd763d0_61b61c5a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-13T06:08:26Z",
+      "side": 1,
+      "message": "https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.4/src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationStateLogger.java#32",
+      "parentUuid": "1f9ea371_c2fe6f96",
       "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
