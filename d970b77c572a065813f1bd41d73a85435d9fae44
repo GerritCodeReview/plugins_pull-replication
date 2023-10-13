@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f0f846e0_5e306b4d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-13T14:32:47Z",
+      "side": 1,
+      "message": "can we make both `Input` and `Inputs` immutable and add `copy()` method? This will save us from potential concurrent mutation issues (see my comment on L144).\n\nAlso how about renaming this to `BatchInput` to indicate batch operation?",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4265e3d6_121119f1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
         "patchSetId": 16
@@ -116,6 +133,29 @@
       "writtenOn": "2023-10-10T10:43:03Z",
       "side": 1,
       "message": "For the use case of a single ref, we go from Input to Inputs (L80-83) only to go back to Input (L132) and then create one task per ref. Why not simply modify the `FetchJob` to accept `Inputs`, and then you create one task for _all_ the refs in the batch? The scheduling code can handle multiple refs anyway. I know that async ops will _probably_ result in all replication getting scheduled in a single task, but still, why \"flood\" the executor service with tasks?",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8191fc3c_97834549",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-13T14:32:47Z",
+      "side": 1,
+      "message": "The `input` is passed by reference, and we actively change it\u0027s internal state in L137. This may cause concurrency issues, where some refs will be fetched multiple times where others will be ignored. We should rather _clone_ input before passing it.",
+      "range": {
+        "startLine": 144,
+        "startChar": 35,
+        "endLine": 144,
+        "endChar": 40
+      },
       "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
