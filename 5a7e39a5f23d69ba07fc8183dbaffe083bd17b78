@@ -16,6 +16,42 @@
       "message": "would it make sense to add the test `shouldNotPruneRefsWhenMirrorIsFalse` ?",
       "revId": "5a7e39a5f23d69ba07fc8183dbaffe083bd17b78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "980b8480_809ea9f8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/JGitFetchIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-13T15:51:41Z",
+      "side": 1,
+      "message": "I had initially added it, but it wasn\u0027t passing as I still had to pass it a different config flag. I think it\u0027s quite a bit of boilerplate to have different configs for the way this is setup (two files, maybe inheriting from the same base? I couldn\u0027t get the `GerritConfig` annotation to work). If you want to suggest a simple quick way of implementing it sure, otherwise I don\u0027t know if it\u0027s worth the time investment.",
+      "parentUuid": "3c443033_f537697e",
+      "revId": "5a7e39a5f23d69ba07fc8183dbaffe083bd17b78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b18ac9_bec232e2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/JGitFetchIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-13T15:51:41Z",
+      "side": 1,
+      "message": "Fair point, I thought at this point it wasn\u0027t worth the time investment, but maybe one for a follow-up change.",
+      "parentUuid": "3c443033_f537697e",
+      "revId": "5a7e39a5f23d69ba07fc8183dbaffe083bd17b78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
