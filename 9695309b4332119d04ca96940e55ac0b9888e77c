@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d113b1ae_d4ef14c7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-14T19:58:58Z",
+      "side": 1,
+      "message": "I agree, a more self-describing name would help readability. Let me do that.",
+      "parentUuid": "07c69d74_097dfcc1",
+      "revId": "9695309b4332119d04ca96940e55ac0b9888e77c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bcfd4af0_278fb09f",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
         "patchSetId": 24
