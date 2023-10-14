@@ -212,6 +212,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e82cd90_bf02e483",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-14T02:52:08Z",
+      "side": 1,
+      "message": "\u003e So if I understand correctly we are saying we are retrying the ASYNC operation because the Locking failures could be the result of something going wrong during scheduling - and this is not something that can ever affect the SYNC operation which no longer uses the scheduler. \n\nExactly, the retry mechanism makes sense *ONLY* when there is:\n- queue of tasks\n- async executor\n\nThe retry will get the configured retry delay and retry count and will keep on rescheduling the replication task until it will eventually succeed.\nYou could also set the retry to infinite and the replication will keep on retrying forever.\n\nThe above mechanism doesn\u0027t make sense for a blocking and synchronous REST-API call because the caller will never wait for a retry cycle as it would timeout before that anyway.\n\n\u003e If the above statement is true, then it applies only to the if clause on L380 - there could be other reasons why a TransportException is thrown and the fact we are retrying in the else (L401) statement suggests it is generally a retryable exception. \n\nNope, you are confusing two types of retries:\n\n- Retry due to a concurrency lock on the local repository L380 (see `e instanceof LockFailureException`)\n- Retry due to a generic failure on the remote operation L401\n\nHappy to have a chat next week during the day to explain how the plugin works and the different type of problems you may have during the execution of the replication tasks. \n\n\u003e Unless we are saying that by design we don\u0027t want to retry SYNC operations, because it might negatively impact the overall performance.\n\nLet me explain why the retry does not make sense during the execution of a replication through synchronous REST-API call:\n\nThe client logic does:\n- call the sync REST-API\n- if succeeds \u003d\u003e replication done\n- if fails (or timeouts) \u003d\u003e re-run the same REST-API in async mode\n\nThe client logic is designed in this way because the sync REST-API would block the Gerrit UI, therefore needs to *fail fast* otherwise would risk to collapse the Gerrit server HTTP thread pool because of the blocking of the incoming calls.\n\n*IF* you start a retry cycle on the server side with a delay (P.S. the *minimum* retry cycle is *1 minute* !) for a sync REST-API, the client would *always* timeout whilst the server will start a retry cycle without having a client to serve anyway.\n\nThen the client will trigger an async REST-API (because the sync REST-API timed out) and that would add to the existing replication task that went in retry mode.\n\nBottom line: there are now two different replication task for the same sync REST-API call that was retrying ... and if the retry is infinite, more REST-API calls will start creating many duplicate replication tasks that would always diverge.\n\nAgain, happy to have a session with you and explain how the replication mechanism works :-) we can also record it for future reference.",
+      "parentUuid": "ce4bdfc0_7b491546",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f468dc64_b2f764ed",
