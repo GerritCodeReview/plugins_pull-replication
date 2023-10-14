@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07c69d74_097dfcc1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-14T12:43:06Z",
+      "side": 1,
+      "message": "nit: How about having two public methods `sheduleNow()` and `sheduleDelayled()` or even `execute()` (`run()`?) and `schedule()`, then making this a private method that will be called with last argument set to `true`/`false`? This way the API will be more descriptive and we\u0027ll remove the _magic_ boolean argument from the public API.",
+      "revId": "9695309b4332119d04ca96940e55ac0b9888e77c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bcfd4af0_278fb09f",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
         "patchSetId": 24
