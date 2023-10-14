@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f271ca90_24124cb6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchAll.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-14T02:36:46Z",
+      "side": 1,
+      "message": "I was wrong in adapting this method: FetchAll is an asynchronous task anyway and will never be executed synchronously. I\u0027ve reverted these modifications.",
+      "parentUuid": "9a87277b_534164c6",
+      "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa94cf88_fbe464bd",
@@ -156,6 +174,24 @@
       "side": 1,
       "message": "\u003e It may be an implementation detail (even on that I don\u0027t entirely agree, I think its a design decision that concerns the user but I will accept it for the sake of the conversation), but its quite an important one which has the potential to severely degrade the performance of the plugin - and more importantly, it is not verified by _any_ test. Even if we change the scheduling mechanism, the only amendment for the sync test-case will need to be the method name on which we assert it was called zero times, a very small price to pay IMO for what we are gaining.\n\nOk, that makes sense in the direction of verifying that isn\u0027t async executed async in a different thread, which is a double-check of being *truly* sync.\n\n\u003e On your 2nd point I agree there is some effort as we will need 2 layers of mocking, you\u0027re right that it\u0027s more complex than the implementation itself (I thought it was low cost but didnt study the code well enough).\n\nExactly.",
       "parentUuid": "90356555_9cc8d265",
+      "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a26e64eb_950ec877",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-14T02:36:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd82e8e2_0fd128ca",
       "revId": "d1517dbe8d0d5c311721e6557e347e45f9dd3d82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
