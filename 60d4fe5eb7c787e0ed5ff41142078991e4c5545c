@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b04b3be3_d3790642",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-16T11:41:07Z",
+      "side": 1,
+      "message": "For those who reviewed the change 383734 I have created this change to allow us focusing in the use `ProjectInitializationAction` as HttpServlet instead of a service class.\n\nSome people might disagree that `ProjectInitializationAction` should not be servlet anymore.",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98787c6b_a0c9a0af",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-16T11:41:07Z",
+      "side": 1,
+      "message": "Can we remove this method? Or do we have old primaries using `put` instead of `post` when `init project` is replicated? Please, @luca.milanesio@gmail.com can you clarify that to me?",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56956f9f_d5b4a7e6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-16T11:41:07Z",
+      "side": 1,
+      "message": "I am not happy with the magic numbers but this change is not responsible of refactoring that.",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
