@@ -60,6 +60,7 @@ import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.util.FS;
 import org.junit.Before;
 import org.junit.Test;
@@ -150,7 +151,6 @@ public class ReplicationQueueTest {
     when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
     when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
-    when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
     when(applyObjectsRefsFilter.match(any())).thenReturn(false);
 
@@ -233,31 +233,31 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallFetchWhenIOException() throws Exception {
-    Event event = new TestEvent("refs/changes/01/1/meta");
+    RefUpdatedEvent event = new TestEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenThrow(IOException.class);
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verifyFallbackToRestApiClientFetchAsync(event);
   }
 
   @Test
   public void shouldFallbackToCallFetchWhenLargeRef() throws Exception {
-    Event event = new TestEvent("refs/changes/01/1/1");
+    RefUpdatedEvent event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenReturn(Optional.empty());
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verifyFallbackToRestApiClientFetchAsync(event);
   }
 
   @Test
   public void shouldFallbackToCallFetchWhenParentObjectIsMissing() throws Exception {
-    Event event = new TestEvent("refs/changes/01/1/1");
+    RefUpdatedEvent event = new TestEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(httpResult.isSuccessful()).thenReturn(false);
@@ -267,7 +267,7 @@ public class ReplicationQueueTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verifyFallbackToRestApiClientFetchAsync(event);
   }
 
   @Test
@@ -468,5 +468,15 @@ public class ReplicationQueueTest {
     public String getProjectName() {
       return projectName;
     }
+  }
+
+  private void verifyFallbackToRestApiClientFetchAsync(RefUpdatedEvent event) throws IOException {
+    verify(fetchRestApiClient)
+        .callFetch(
+            eq(event.getProjectNameKey()),
+            eq(event.getRefName()),
+            any(URIish.class),
+            any(Long.class),
+            eq(Optional.of(ReplicationType.ASYNC)));
   }
 }

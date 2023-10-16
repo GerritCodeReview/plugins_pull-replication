@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
@@ -288,7 +290,7 @@ public class ReplicationQueue
       }
 
       if (!callSuccessful) {
-        callFetch(source, project, refName, state);
+        callFetch(source, project, refName, state, Optional.of(ReplicationType.ASYNC));
       }
     };
   }
@@ -462,6 +464,15 @@ public class ReplicationQueue
 
   private boolean callFetch(
       Source source, Project.NameKey project, String refName, ReplicationState state) {
+    return callFetch(source, project, refName, state, Optional.empty());
+  }
+
+  private boolean callFetch(
+      Source source,
+      Project.NameKey project,
+      String refName,
+      ReplicationState state,
+      Optional<ReplicationType> replicationType) {
     boolean resultIsSuccessful = true;
     if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
       for (String apiUrl : source.getApis()) {
@@ -470,7 +481,13 @@ public class ReplicationQueue
           FetchApiClient fetchClient = fetchClientFactory.create(source);
           repLog.info("Pull replication REST API fetch to {} for {}:{}", apiUrl, project, refName);
           Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
-          HttpResult result = fetchClient.callFetch(project, refName, uri);
+          HttpResult result =
+              fetchClient.callFetch(
+                  project,
+                  refName,
+                  uri,
+                  MILLISECONDS.toNanos(System.currentTimeMillis()),
+                  replicationType);
           long elapsedMs = TimeUnit.NANOSECONDS.toMillis(timer.stop());
           boolean resultSuccessful = result.isSuccessful();
           repLog.info(
