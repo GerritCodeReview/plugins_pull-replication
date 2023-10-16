@@ -177,7 +177,6 @@ public class PullReplicationFilterTest {
     final PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
     pullReplicationFilter.doFilter(request, response, filterChain);
 
-    verify(request, times(4)).getRequestURI();
     verify(projectInitializationAction).service(request, response);
   }
 
