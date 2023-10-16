@@ -357,7 +357,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
     } catch (NoRemoteRepositoryException | RemoteRepositoryException e) {
       // Tried to replicate to a remote via anonymous git:// but the repository
-      // does not exist.  In this case NoRemoteRepositoryException is not
+      // does not exist. In this case NoRemoteRepositoryException is not
       // raised.
       String msg = e.getMessage();
       repLog.error(
@@ -439,6 +439,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       }
 
       runImpl();
+    } catch (IOException e) {
+      notifyRefReplicatedIOException();
+      throw e;
     }
   }
 
@@ -556,6 +559,19 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
     for (String doneRef : doneRefs) {
       stateMap.removeAll(doneRef);
+    }
+  }
+
+  private void notifyRefReplicatedIOException() {
+    for (Map.Entry<String, ReplicationState> entry : stateMap.entries()) {
+      entry
+          .getValue()
+          .notifyRefReplicated(
+              projectName.get(),
+              entry.getKey(),
+              uri,
+              ReplicationState.RefFetchResult.FAILED,
+              RefUpdate.Result.IO_FAILURE);
     }
   }
 
