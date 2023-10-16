@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "689b47c2_b8164312",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchAll.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-16T09:01:07Z",
+      "side": 1,
+      "message": "It is very confusing that there are 2 layers of delay;\n- One when scheduling the runnable (L65)\n- One when the runnable schedules the replication task (L88 \u0026 L90).\n\nIs this necessary?",
+      "revId": "85a92211ce272275ef8e11991a571ffeda6bff02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

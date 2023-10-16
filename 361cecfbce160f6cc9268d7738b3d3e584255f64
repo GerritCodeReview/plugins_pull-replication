@@ -230,6 +230,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67da3923_2b1587ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-16T09:01:07Z",
+      "side": 1,
+      "message": "Thanks for explaining this, I wasn\u0027t aware that if sync replication fails, it re-runs in async mode - now what you are doing makes total sense 👍",
+      "parentUuid": "3e82cd90_bf02e483",
+      "revId": "361cecfbce160f6cc9268d7738b3d3e584255f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f468dc64_b2f764ed",
