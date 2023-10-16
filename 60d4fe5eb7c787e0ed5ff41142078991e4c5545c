@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40224cdd_7da7bb08",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-16T13:55:31Z",
+      "side": 1,
+      "message": "Do you remember why this is `HttpServlet` instead of `RestModifyView` like we have in other actions, for example https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.6/src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java#38",
+      "range": {
+        "startLine": 44,
+        "startChar": 49,
+        "endLine": 44,
+        "endChar": 60
+      },
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98787c6b_a0c9a0af",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 1
@@ -31,6 +54,29 @@
       "writtenOn": "2023-10-16T11:41:07Z",
       "side": 1,
       "message": "Can we remove this method? Or do we have old primaries using `put` instead of `post` when `init project` is replicated? Please, @luca.milanesio@gmail.com can you clarify that to me?",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3f3c989_d97fde1c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-16T13:55:31Z",
+      "side": 1,
+      "message": "can this be private?",
+      "range": {
+        "startLine": 81,
+        "startChar": 17,
+        "endLine": 81,
+        "endChar": 28
+      },
       "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
