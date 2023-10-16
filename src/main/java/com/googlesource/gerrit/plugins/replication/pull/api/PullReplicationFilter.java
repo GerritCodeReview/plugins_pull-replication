@@ -55,7 +55,6 @@ import com.google.inject.TypeLiteral;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.InitProjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.UnauthorizedAuthException;
 import java.io.BufferedReader;
 import java.io.EOFException;
@@ -168,7 +167,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     } catch (ResourceConflictException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_CONFLICT, e.getMessage(), e.caching(), e);
-    } catch (InitProjectException | ResourceNotFoundException e) {
+    } catch (ResourceNotFoundException e) {
       RestApiServlet.replyError(
           httpRequest, httpResponse, SC_INTERNAL_SERVER_ERROR, e.getMessage(), e.caching(), e);
     } catch (NoSuchElementException e) {
