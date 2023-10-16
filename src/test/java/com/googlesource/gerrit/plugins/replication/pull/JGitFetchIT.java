@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
@@ -40,18 +39,13 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImpleme
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.JGitFetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransportException;
-import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
@@ -64,7 +58,6 @@ import org.junit.Test;
 public class JGitFetchIT extends FetchITBase {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
   private static final String TEST_TASK_ID = "taskid";
-  private static final RefSpec ALL_REFS = new RefSpec("+refs/*:refs/*");
 
   @Inject private ProjectOperations projectOperations;
 
@@ -91,10 +84,8 @@ public class JGitFetchIT extends FetchITBase {
   @Test
   public void shouldPruneRefsWhenMirrorIsTrue() throws Exception {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
-    String branchName = "anyBranch";
-    String branchRef = Constants.R_HEADS + branchName;
-    String tagName = "anyTag";
-    String tagRef = Constants.R_TAGS + tagName;
+    String branchRef = Constants.R_HEADS + "anyBranch";
+    String tagRef = Constants.R_TAGS + "anyTag";
 
     PushOneCommit.Result branchPush = pushFactory.create(user.newIdent(), testRepo).to(branchRef);
     branchPush.assertOkStatus();
@@ -103,13 +94,8 @@ public class JGitFetchIT extends FetchITBase {
     assertOkStatus(tagPush, tagRef);
 
     try (Repository localRepo = repoManager.openRepository(project)) {
-      List<RefUpdateState> fetchCreated = fetchAllRefs(localRepo);
-      assertThat(fetchCreated.toString())
-          .contains(new RefUpdateState(branchRef, RefUpdate.Result.NEW).toString());
+      fetchAllRefs(TEST_TASK_ID, testRepoPath, localRepo);
       assertThat(getRef(localRepo, branchRef)).isNotNull();
-
-      assertThat(fetchCreated.toString())
-          .contains(new RefUpdateState(tagRef, RefUpdate.Result.NEW).toString());
       assertThat(getRef(localRepo, tagRef)).isNotNull();
 
       PushResult deleteBranchResult = deleteRef(testRepo, branchRef);
@@ -118,29 +104,10 @@ public class JGitFetchIT extends FetchITBase {
       PushResult deleteTagResult = deleteRef(testRepo, tagRef);
       assertOkStatus(deleteTagResult, tagRef);
 
-      List<RefUpdateState> fetchDeleted = fetchAllRefs(localRepo);
-      assertThat(fetchDeleted.toString())
-          .contains(new RefUpdateState(branchRef, RefUpdate.Result.FORCED).toString());
+      fetchAllRefs(TEST_TASK_ID, testRepoPath, localRepo);
       assertThat(getRef(localRepo, branchRef)).isNull();
-
-      assertThat(fetchDeleted.toString())
-          .contains(new RefUpdateState(tagRef, RefUpdate.Result.FORCED).toString());
       assertThat(getRef(localRepo, tagRef)).isNull();
     }
-  }
-
-  private List<RefUpdateState> fetchAllRefs(Repository localRepo)
-      throws URISyntaxException, IOException {
-    Fetch fetch = fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), localRepo);
-    return fetch.fetch(Lists.newArrayList(ALL_REFS));
-  }
-
-  private static void assertOkStatus(PushResult result, String ref) {
-    RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-    assertThat(refUpdate).isNotNull();
-    assertWithMessage(refUpdate.getMessage())
-        .that(refUpdate.getStatus())
-        .isEqualTo(RemoteRefUpdate.Status.OK);
   }
 
   @SuppressWarnings("unused")

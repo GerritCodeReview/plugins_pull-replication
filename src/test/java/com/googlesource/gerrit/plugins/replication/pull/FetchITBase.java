@@ -14,6 +14,10 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+
+import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -21,11 +25,17 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.function.Supplier;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.URIish;
 
 public abstract class FetchITBase extends LightweightPluginDaemonTest {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
@@ -33,6 +43,7 @@ public abstract class FetchITBase extends LightweightPluginDaemonTest {
 
   private static final int TEST_REPLICATION_DELAY = 60;
   private static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2);
+  private static final RefSpec ALL_REFS = new RefSpec("+refs/*:refs/*");
 
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;
@@ -64,6 +75,21 @@ public abstract class FetchITBase extends LightweightPluginDaemonTest {
       logger.atSevere().withCause(e).log("failed to get ref %s in repo %s", branchName, repo);
       return null;
     }
+  }
+
+  protected void fetchAllRefs(String taskId, Path remotePath, Repository localRepo)
+      throws URISyntaxException, IOException {
+    fetchFactory
+        .create(taskId, new URIish(remotePath.toString()), localRepo)
+        .fetch(Lists.newArrayList(ALL_REFS));
+  }
+
+  protected static void assertOkStatus(PushResult result, String ref) {
+    RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
+    assertThat(refUpdate).isNotNull();
+    assertWithMessage(refUpdate.getMessage())
+        .that(refUpdate.getStatus())
+        .isEqualTo(RemoteRefUpdate.Status.OK);
   }
 
   Project.NameKey createTestProject(String name) {

@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
@@ -48,7 +47,6 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import org.eclipse.jgit.errors.TransportException;
@@ -61,7 +59,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,7 +71,6 @@ import org.junit.Test;
 public class CGitFetchIT extends FetchITBase {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
   private static final String TEST_TASK_ID = "taskid";
-  private static final RefSpec ALL_REFS = new RefSpec("+refs/*:refs/*");
 
   @Inject private ProjectOperations projectOperations;
 
@@ -261,7 +257,7 @@ public class CGitFetchIT extends FetchITBase {
     assertOkStatus(tagPush, TAG_REF);
 
     try (Repository localRepo = repoManager.openRepository(project)) {
-      fetchAllRefs(localRepo);
+      fetchAllRefs(TEST_TASK_ID, testRepoPath, localRepo);
       waitUntil(
           () ->
               checkedGetRef(localRepo, BRANCH_REF) != null
@@ -275,7 +271,7 @@ public class CGitFetchIT extends FetchITBase {
       PushResult deleteTagResult = deleteRef(testRepo, TAG_REF);
       assertOkStatus(deleteTagResult, TAG_REF);
 
-      fetchAllRefs(localRepo);
+      fetchAllRefs(TEST_TASK_ID, testRepoPath, localRepo);
       waitUntil(
           () ->
               checkedGetRef(localRepo, BRANCH_REF) == null
@@ -283,20 +279,6 @@ public class CGitFetchIT extends FetchITBase {
       assertThat(getRef(localRepo, BRANCH_REF)).isNull();
       assertThat(getRef(localRepo, TAG_REF)).isNull();
     }
-  }
-
-  private List<RefUpdateState> fetchAllRefs(Repository localRepo)
-      throws URISyntaxException, IOException {
-    Fetch fetch = fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), localRepo);
-    return fetch.fetch(Lists.newArrayList(ALL_REFS));
-  }
-
-  private static void assertOkStatus(PushResult result, String ref) {
-    RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
-    assertThat(refUpdate).isNotNull();
-    assertWithMessage(refUpdate.getMessage())
-        .that(refUpdate.getStatus())
-        .isEqualTo(RemoteRefUpdate.Status.OK);
   }
 
   @SuppressWarnings("unused")
