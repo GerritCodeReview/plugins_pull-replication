@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
-import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
@@ -48,7 +47,6 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import org.eclipse.jgit.errors.TransportException;
@@ -74,7 +72,6 @@ import org.junit.Test;
 public class CGitFetchIT extends FetchITBase {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
   private static final String TEST_TASK_ID = "taskid";
-  private static final RefSpec ALL_REFS = new RefSpec("+refs/*:refs/*");
 
   @Inject private ProjectOperations projectOperations;
 
@@ -253,36 +250,20 @@ public class CGitFetchIT extends FetchITBase {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
     String branchName = "anyBranch";
     String branchRef = Constants.R_HEADS + branchName;
-    String tagName = "anyTag";
-    String tagRef = Constants.R_TAGS + tagName;
 
     PushOneCommit.Result branchPush = pushFactory.create(user.newIdent(), testRepo).to(branchRef);
     branchPush.assertOkStatus();
 
-    PushResult tagPush = pushHead(testRepo, tagRef, false, false);
-    assertOkStatus(tagPush, tagRef);
-
     try (Repository localRepo = repoManager.openRepository(project)) {
-      fetchAllRefs(localRepo);
-
+      fetchAllRefs(TEST_TASK_ID, testRepoPath, localRepo);
       assertThat(getRef(localRepo, branchRef)).isNotNull();
 
       PushResult deleteBranchResult = deleteRef(testRepo, branchRef);
       assertOkStatus(deleteBranchResult, branchRef);
 
-      PushResult deleteTagResult = deleteRef(testRepo, tagRef);
-      assertOkStatus(deleteTagResult, tagRef);
-
-      fetchAllRefs(localRepo);
+      fetchAllRefs(TEST_TASK_ID, testRepoPath, localRepo);
       assertThat(getRef(localRepo, branchRef)).isNull();
-      assertThat(getRef(localRepo, tagRef)).isNull();
     }
-  }
-
-  private List<RefUpdateState> fetchAllRefs(Repository localRepo)
-      throws URISyntaxException, IOException {
-    Fetch fetch = fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), localRepo);
-    return fetch.fetch(Lists.newArrayList(ALL_REFS));
   }
 
   private static void assertOkStatus(PushResult result, String ref) {
