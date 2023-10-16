@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "582bd1f2_925b2b57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T21:12:36Z",
+      "side": 1,
+      "message": "Can you explain more the background of this commit?\nWhy are we doing this?\nHow was working before, or what wasn\u0027t working?\nWhat does this change introduce?",
+      "revId": "d9cfbf4dce0188f9864a5a3a3b51af202703457d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23974494_858218c9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/CGitFetchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T21:12:36Z",
+      "side": 1,
+      "message": "Where do you set mirror \u003d true in the test body? I just see this defined in the test module, which means it is applied to all tests.\n\nCan we also test that if mirror \u003d false the tags and branches aren\u0027t removed?",
+      "range": {
+        "startLine": 252,
+        "startChar": 29,
+        "endLine": 252,
+        "endChar": 45
+      },
+      "revId": "d9cfbf4dce0188f9864a5a3a3b51af202703457d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
