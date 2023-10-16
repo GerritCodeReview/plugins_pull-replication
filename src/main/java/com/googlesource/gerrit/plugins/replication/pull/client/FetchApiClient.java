@@ -31,6 +31,10 @@ public interface FetchApiClient {
     FetchApiClient create(Source source);
   }
 
+  HttpResult callFetchAsync(
+      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
+      throws ClientProtocolException, IOException;
+
   HttpResult callFetch(
       Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
       throws ClientProtocolException, IOException;
