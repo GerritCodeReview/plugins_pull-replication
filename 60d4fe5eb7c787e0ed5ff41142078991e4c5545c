@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef50797a_a9d709ae",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-16T14:42:23Z",
+      "side": 1,
+      "message": "I have no idea. Maybe @ponch78@gmail.com or @luca.milanesio@gmail.com can help us.",
+      "parentUuid": "40224cdd_7da7bb08",
+      "range": {
+        "startLine": 44,
+        "startChar": 49,
+        "endLine": 44,
+        "endChar": 60
+      },
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98787c6b_a0c9a0af",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 1
@@ -71,6 +95,30 @@
       "writtenOn": "2023-10-16T13:55:31Z",
       "side": 1,
       "message": "can this be private?",
+      "range": {
+        "startLine": 81,
+        "startChar": 17,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b9466ce_389572d2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-16T14:42:23Z",
+      "side": 1,
+      "message": "No, it cannot be, it is used: https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.6/src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java#150\n\nThe current design is not great because expose the same logic through 2 different APIs. I think we should do a refactoring in a follow-up change.",
+      "parentUuid": "f3f3c989_d97fde1c",
       "range": {
         "startLine": 81,
         "startChar": 17,
