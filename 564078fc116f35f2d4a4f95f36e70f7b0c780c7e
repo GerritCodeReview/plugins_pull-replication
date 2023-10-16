@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ccf535c_d5984f72",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-16T07:42:16Z",
+      "side": 1,
+      "message": "question: `InexistentRefTransportException` is a subclass of `IOException` do we need also notification about failure as it is done in line #443?",
+      "range": {
+        "startLine": 427,
+        "startChar": 13,
+        "endLine": 427,
+        "endChar": 44
+      },
+      "revId": "564078fc116f35f2d4a4f95f36e70f7b0c780c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
