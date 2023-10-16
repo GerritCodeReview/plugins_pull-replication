@@ -15,6 +15,10 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.GitUtil.deleteRef;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -22,12 +26,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
@@ -40,17 +48,22 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import org.eclipse.jgit.errors.TransportException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.URIish;
+import org.junit.Before;
 import org.junit.Test;
 
 @SkipProjectClone
@@ -61,6 +74,17 @@ import org.junit.Test;
 public class CGitFetchIT extends FetchITBase {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
   private static final String TEST_TASK_ID = "taskid";
+  private static final RefSpec ALL_REFS = new RefSpec("+refs/*:refs/*");
+
+  @Inject private ProjectOperations projectOperations;
+
+  @Before
+  public void allowRefDeletion() {
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allow(Permission.DELETE).ref("refs/*").group(adminGroupUuid()))
+        .update();
+  }
 
   @Test
   public void shouldFetchRef() throws Exception {
@@ -224,12 +248,58 @@ public class CGitFetchIT extends FetchITBase {
     }
   }
 
+  @Test
+  public void shouldPruneRefsWhenMirrorIsTrue() throws Exception {
+    testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
+    String branchName = "anyBranch";
+    String branchRef = Constants.R_HEADS + branchName;
+    String tagName = "anyTag";
+    String tagRef = Constants.R_TAGS + tagName;
+
+    PushOneCommit.Result branchPush = pushFactory.create(user.newIdent(), testRepo).to(branchRef);
+    branchPush.assertOkStatus();
+
+    PushResult tagPush = pushHead(testRepo, tagRef, false, false);
+    assertOkStatus(tagPush, tagRef);
+
+    try (Repository localRepo = repoManager.openRepository(project)) {
+      fetchAllRefs(localRepo);
+
+      assertThat(getRef(localRepo, branchRef)).isNotNull();
+
+      PushResult deleteBranchResult = deleteRef(testRepo, branchRef);
+      assertOkStatus(deleteBranchResult, branchRef);
+
+      PushResult deleteTagResult = deleteRef(testRepo, tagRef);
+      assertOkStatus(deleteTagResult, tagRef);
+
+      fetchAllRefs(localRepo);
+      assertThat(getRef(localRepo, branchRef)).isNull();
+      assertThat(getRef(localRepo, tagRef)).isNull();
+    }
+  }
+
+  private List<RefUpdateState> fetchAllRefs(Repository localRepo)
+      throws URISyntaxException, IOException {
+    Fetch fetch = fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), localRepo);
+    return fetch.fetch(Lists.newArrayList(ALL_REFS));
+  }
+
+  private static void assertOkStatus(PushResult result, String ref) {
+    RemoteRefUpdate refUpdate = result.getRemoteUpdate(ref);
+    assertThat(refUpdate).isNotNull();
+    assertWithMessage(refUpdate.getMessage())
+        .that(refUpdate.getStatus())
+        .isEqualTo(RemoteRefUpdate.Status.OK);
+  }
+
   @SuppressWarnings("unused")
   private static class TestModule extends FactoryModule {
     @Override
     protected void configure() {
       Config cf = new Config();
       cf.setInt("remote", "test_config", "timeout", 0);
+      cf.setBoolean("remote", "test_config", "mirror", true);
       try {
         RemoteConfig remoteConfig = new RemoteConfig(cf, "test_config");
         SourceConfiguration sourceConfig = new SourceConfiguration(remoteConfig, cf);
