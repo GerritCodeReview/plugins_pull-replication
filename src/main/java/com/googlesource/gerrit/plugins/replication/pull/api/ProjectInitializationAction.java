@@ -68,11 +68,9 @@ public class ProjectInitializationAction extends HttpServlet {
   protected void doPut(
       HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
       throws ServletException, IOException {
-
     if (!checkAcceptHeader(httpServletRequest, httpServletResponse)) {
       return;
     }
-
     String path = httpServletRequest.getRequestURI();
     String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
     try {
@@ -90,7 +88,6 @@ public class ProjectInitializationAction extends HttpServlet {
           "User not authorized to create project " + projectName);
       return;
     }
-
     setResponse(
         httpServletResponse,
         HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
