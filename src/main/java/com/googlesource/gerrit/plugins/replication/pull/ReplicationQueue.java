@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
@@ -38,6 +40,7 @@ import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.Gi
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
@@ -290,7 +293,7 @@ public class ReplicationQueue
       }
 
       if (!callSuccessful) {
-        callFetch(source, project, refName, state);
+        callFetch(source, project, refName, state, FetchRestApiClient.FORCE_ASYNC);
       }
     };
   }
@@ -336,7 +339,7 @@ public class ReplicationQueue
           state);
     }
 
-    return (source) -> callFetch(source, project, refName, state);
+    return (source) -> callFetch(source, project, refName, state, false);
   }
 
   private boolean callSendObject(
@@ -463,7 +466,11 @@ public class ReplicationQueue
   }
 
   private boolean callFetch(
-      Source source, Project.NameKey project, String refName, ReplicationState state) {
+      Source source,
+      Project.NameKey project,
+      String refName,
+      ReplicationState state,
+      boolean forceAsyncCall) {
     boolean resultIsSuccessful = true;
     if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
       for (String apiUrl : source.getApis()) {
@@ -472,7 +479,13 @@ public class ReplicationQueue
           FetchApiClient fetchClient = fetchClientFactory.create(source);
           repLog.info("Pull replication REST API fetch to {} for {}:{}", apiUrl, project, refName);
           Context<String> timer = fetchMetrics.startEnd2End(source.getRemoteConfigName());
-          HttpResult result = fetchClient.callFetch(project, refName, uri);
+          HttpResult result =
+              fetchClient.callFetch(
+                  project,
+                  refName,
+                  uri,
+                  MILLISECONDS.toNanos(System.currentTimeMillis()),
+                  forceAsyncCall);
           long elapsedMs = TimeUnit.NANOSECONDS.toMillis(timer.stop());
           boolean resultSuccessful = result.isSuccessful();
           repLog.info(
