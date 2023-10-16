@@ -63,6 +63,8 @@ import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.URIish;
 
 public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpResult> {
+  public static final boolean FORCE_ASYNC = true;
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   static String GERRIT_ADMIN_PROTOCOL_PREFIX = "gerrit+";
 
@@ -107,15 +109,28 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     this.urlAuthenticationPrefix = bearerTokenProvider.get().map(br -> "").orElse("a/");
   }
 
-  /* (non-Javadoc)
-   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#callFetch(com.google.gerrit.entities.Project.NameKey, java.lang.String, org.eclipse.jgit.transport.URIish)
-   */
   @Override
   public HttpResult callFetch(
-      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
+      NameKey project, String refName, URIish targetUri, long startTimeNanos)
+      throws ClientProtocolException, IOException {
+    return callFetch(project, refName, targetUri, startTimeNanos, !syncRefsFilter.match(refName));
+  }
+
+  @Override
+  public HttpResult callFetchAsync(
+      NameKey project, String refName, URIish targetUri, long startTimeNanos) throws IOException {
+    return callFetch(project, refName, targetUri, startTimeNanos, FORCE_ASYNC);
+  }
+
+  private HttpResult callFetch(
+      Project.NameKey project,
+      String refName,
+      URIish targetUri,
+      long startTimeNanos,
+      boolean callAsync)
       throws IOException {
     String url = formatUrl(targetUri.toString(), project, "fetch");
-    Boolean callAsync = !syncRefsFilter.match(refName);
+
     HttpPost post = new HttpPost(url);
     post.setEntity(
         new StringEntity(
