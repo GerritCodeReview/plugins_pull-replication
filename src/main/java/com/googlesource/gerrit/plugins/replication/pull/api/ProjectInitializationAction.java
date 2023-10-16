@@ -68,6 +68,39 @@ public class ProjectInitializationAction extends HttpServlet {
   protected void doPut(
       HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
       throws ServletException, IOException {
+    processRequest(httpServletRequest, httpServletResponse);
+  }
+
+  @Override
+  protected void doPost(
+      HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+      throws ServletException, IOException {
+    processRequest(httpServletRequest, httpServletResponse);
+  }
+
+  public boolean initProject(String projectName) throws AuthException, PermissionBackendException {
+    // When triggered internally(for example by consuming stream events) user is not provided
+    // and internal user is returned. Project creation should be always allowed for internal user.
+    if (!userProvider.get().isInternalUser()) {
+      permissionBackend.user(userProvider.get()).check(GlobalPermission.CREATE_PROJECT);
+    }
+    Optional<URIish> maybeUri = gerritConfigOps.getGitRepositoryURI(projectName);
+    if (!maybeUri.isPresent()) {
+      logger.atSevere().log("Cannot initialize project '%s'", projectName);
+      return false;
+    }
+    LocalFS localFS = new LocalFS(maybeUri.get());
+    Project.NameKey projectNameKey = Project.NameKey.parse(projectName);
+    if (localFS.createProject(projectNameKey, RefNames.HEAD)) {
+      projectIndexer.index(projectNameKey);
+      return true;
+    }
+    return false;
+  }
+
+  private void processRequest(
+      HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
+      throws ServletException, IOException {
 
     if (!checkAcceptHeader(httpServletRequest, httpServletResponse)) {
       return;
@@ -95,25 +128,5 @@ public class ProjectInitializationAction extends HttpServlet {
         httpServletResponse,
         HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
         "Cannot initialize project " + projectName);
-  }
-
-  public boolean initProject(String projectName) throws AuthException, PermissionBackendException {
-    // When triggered internally(for example by consuming stream events) user is not provided
-    // and internal user is returned. Project creation should be always allowed for internal user.
-    if (!userProvider.get().isInternalUser()) {
-      permissionBackend.user(userProvider.get()).check(GlobalPermission.CREATE_PROJECT);
-    }
-    Optional<URIish> maybeUri = gerritConfigOps.getGitRepositoryURI(projectName);
-    if (!maybeUri.isPresent()) {
-      logger.atSevere().log("Cannot initialize project '%s'", projectName);
-      return false;
-    }
-    LocalFS localFS = new LocalFS(maybeUri.get());
-    Project.NameKey projectNameKey = Project.NameKey.parse(projectName);
-    if (localFS.createProject(projectNameKey, RefNames.HEAD)) {
-      projectIndexer.index(projectNameKey);
-      return true;
-    }
-    return false;
   }
 }
