@@ -22,6 +22,30 @@
       },
       "revId": "564078fc116f35f2d4a4f95f36e70f7b0c780c7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92912041_40a94516",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T07:54:51Z",
+      "side": 1,
+      "message": "This is a special case though: you come here when the replication task even is clearly obsolete therefore it is going to be _corrected_ at L435 and the fetch is re-run without that ref.\n\nI am not sure it should be notified as an error though, because at the end of the day the replication task may even succeed.\n\nI would rather remove L434 in this case, but that could be done as a follow-up.",
+      "parentUuid": "5ccf535c_d5984f72",
+      "range": {
+        "startLine": 427,
+        "startChar": 13,
+        "endLine": 427,
+        "endChar": 44
+      },
+      "revId": "564078fc116f35f2d4a4f95f36e70f7b0c780c7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
