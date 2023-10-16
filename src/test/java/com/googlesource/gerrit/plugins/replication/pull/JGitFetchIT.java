@@ -106,10 +106,11 @@ public class JGitFetchIT extends FetchITBase {
       List<RefUpdateState> fetchCreated = fetchAllRefs(localRepo);
       assertThat(fetchCreated.toString())
           .contains(new RefUpdateState(branchRef, RefUpdate.Result.NEW).toString());
+      assertThat(getRef(localRepo, branchRef)).isNotNull();
+
       assertThat(fetchCreated.toString())
           .contains(new RefUpdateState(tagRef, RefUpdate.Result.NEW).toString());
-
-      assertThat(getRef(localRepo, branchRef)).isNotNull();
+      assertThat(getRef(localRepo, tagRef)).isNotNull();
 
       PushResult deleteBranchResult = deleteRef(testRepo, branchRef);
       assertOkStatus(deleteBranchResult, branchRef);
