@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4419fabd_47154695",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T21:05:55Z",
+      "side": 1,
+      "message": "LGTM, feel free to merge once the comments are addressed.",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40224cdd_7da7bb08",
@@ -55,6 +72,30 @@
       "side": 1,
       "message": "I have no idea. Maybe @ponch78@gmail.com or @luca.milanesio@gmail.com can help us.",
       "parentUuid": "40224cdd_7da7bb08",
+      "range": {
+        "startLine": 44,
+        "startChar": 49,
+        "endLine": 44,
+        "endChar": 60
+      },
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef8471c0_3832e4e2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T21:05:55Z",
+      "side": 1,
+      "message": "Yes, I do. The creation of a project was an existing REST-API in Gerrit primary, but did not exist in replicas. That\u0027s why it was only present as a Servlet and not as a REST-API.\n\nGerrit replicas do not have REST-API module loaded.",
+      "parentUuid": "ef50797a_a9d709ae",
       "range": {
         "startLine": 44,
         "startChar": 49,
@@ -118,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c194e2bb_6740a26e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T21:05:55Z",
+      "side": 1,
+      "message": "When you create a repository on a Gerrit primary, you use PUT, see [1].\nWe need to keep backward compatibility to manage the rolling upgrades.\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.8.2/rest-api-projects.html#create-project",
+      "parentUuid": "e077d686_e5a831bb",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3f3c989_d97fde1c",
@@ -165,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2afa4606_45f60fd2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T21:05:55Z",
+      "side": 1,
+      "message": "Yeah, let\u0027s not make this refactoring bigger.",
+      "parentUuid": "4b9466ce_389572d2",
+      "range": {
+        "startLine": 81,
+        "startChar": 17,
+        "endLine": 81,
+        "endChar": 28
+      },
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56956f9f_d5b4a7e6",
@@ -178,6 +261,24 @@
       "writtenOn": "2023-10-16T11:41:07Z",
       "side": 1,
       "message": "I am not happy with the magic numbers but this change is not responsible of refactoring that.",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01c098e4_a199cef7",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T21:05:55Z",
+      "side": 1,
+      "message": "Do we really need to verify that we call this method? The test should be focused on its expected outcome and NOT in the implementation details.\n\nJust remove L180 IMHO.",
+      "parentUuid": "56956f9f_d5b4a7e6",
       "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
