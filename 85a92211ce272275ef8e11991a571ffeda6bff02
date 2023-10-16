@@ -16,6 +16,24 @@
       "message": "It is very confusing that there are 2 layers of delay;\n- One when scheduling the runnable (L65)\n- One when the runnable schedules the replication task (L88 \u0026 L90).\n\nIs this necessary?",
       "revId": "85a92211ce272275ef8e11991a571ffeda6bff02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6782cbf_aad02fd0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchAll.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T14:12:48Z",
+      "side": 1,
+      "message": "\u003e It is very confusing that there are 2 layers of delay;\n\u003e - One when scheduling the runnable (L65)\n\nYes, that is always set to zero when invoked from the SSH command (see StartFetchCommand.java:83), so you can assume it is scheduled immediately.\n\n\u003e - One when the runnable schedules the replication task (L88 \u0026 L90).\n\nYes, that must be the delay configured in the replication.config, unless you specify `--now` in the SSH command.\n\n\u003e Is this necessary?\n\nYes, those are two different things for two different purposes. We can of course refactor the code on master.",
+      "parentUuid": "689b47c2_b8164312",
+      "revId": "85a92211ce272275ef8e11991a571ffeda6bff02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
