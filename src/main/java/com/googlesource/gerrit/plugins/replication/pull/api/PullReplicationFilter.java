@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
-import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
@@ -194,16 +193,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   }
 
   private void doInitProject(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
-      throws RestApiException, IOException, PermissionBackendException {
-
-    IdString id = getInitProjectName(httpRequest).get();
-    String projectName = id.get();
-    if (projectInitializationAction.initProject(projectName)) {
-      setResponse(
-          httpResponse, HttpServletResponse.SC_CREATED, "Project " + projectName + " initialized");
-      return;
-    }
-    throw new InitProjectException(projectName);
+      throws IOException, ServletException {
+    projectInitializationAction.service(httpRequest, httpResponse);
   }
 
   @SuppressWarnings("unchecked")
