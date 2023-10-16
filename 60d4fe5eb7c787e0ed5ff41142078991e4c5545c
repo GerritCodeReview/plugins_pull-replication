@@ -84,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aaa5ff12_4f9cec4a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-16T15:16:56Z",
+      "side": 1,
+      "message": "I have seen that in the Gerrit Rest API documentation for create projects that: https://gerrit-documentation.storage.googleapis.com/Documentation/3.6.7/rest-api-projects.html#create-project\nuses a `PUT` verb. So that makes me think that we could need to keep both `POST` and `PUT` verbs.",
+      "parentUuid": "98787c6b_a0c9a0af",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3f3c989_d97fde1c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 1
