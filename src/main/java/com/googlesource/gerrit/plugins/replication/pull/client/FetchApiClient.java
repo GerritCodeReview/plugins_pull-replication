@@ -18,10 +18,12 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationType;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.apache.http.client.ClientProtocolException;
 import org.eclipse.jgit.transport.URIish;
 
@@ -32,12 +34,21 @@ public interface FetchApiClient {
   }
 
   HttpResult callFetch(
-      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
+      Project.NameKey project,
+      String refName,
+      URIish targetUri,
+      long startTimeNanos,
+      Optional<ReplicationType> replicationTypeOverride)
       throws ClientProtocolException, IOException;
 
   default HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
       throws ClientProtocolException, IOException {
-    return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
+    return callFetch(
+        project,
+        refName,
+        targetUri,
+        MILLISECONDS.toNanos(System.currentTimeMillis()),
+        Optional.empty());
   }
 
   /**

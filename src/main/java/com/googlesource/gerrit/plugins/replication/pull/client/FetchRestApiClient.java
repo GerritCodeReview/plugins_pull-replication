@@ -34,6 +34,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationType;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
@@ -112,10 +113,17 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
    */
   @Override
   public HttpResult callFetch(
-      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
+      Project.NameKey project,
+      String refName,
+      URIish targetUri,
+      long startTimeNanos,
+      Optional<ReplicationType> replicationTypeOverride)
       throws IOException {
     String url = formatUrl(targetUri.toString(), project, "fetch");
-    Boolean callAsync = !syncRefsFilter.match(refName);
+    Boolean callAsync =
+        replicationTypeOverride
+            .map(rto -> rto == ReplicationType.ASYNC)
+            .orElseGet(() -> !syncRefsFilter.match(refName));
     HttpPost post = new HttpPost(url);
     post.setEntity(
         new StringEntity(
