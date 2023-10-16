@@ -18,11 +18,13 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationType;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.transport.URIish;
 
 public interface FetchApiClient {
@@ -32,22 +34,47 @@ public interface FetchApiClient {
   }
 
   HttpResult callFetch(
-      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
+      Project.NameKey project,
+      String refName,
+      URIish targetUri,
+      long startTimeNanos,
+      Optional<ReplicationType> replicationTypeOverride)
       throws IOException;
 
-  default HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+  default HttpResult callFetch(
+      Project.NameKey project,
+      String refName,
+      URIish targetUri,
+      Optional<ReplicationType> replicationTypeOverride)
       throws IOException {
-    return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
+    return callFetch(
+        project,
+        refName,
+        targetUri,
+        MILLISECONDS.toNanos(System.currentTimeMillis()),
+        replicationTypeOverride);
   }
 
   HttpResult callBatchFetch(
-      Project.NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
+      Project.NameKey project,
+      List<String> refsInBatch,
+      URIish targetUri,
+      long startTimeNanos,
+      Optional<ReplicationType> replicationTypeOverride)
       throws IOException;
 
   default HttpResult callBatchFetch(
-      Project.NameKey project, List<String> refsInBatch, URIish targetUri) throws IOException {
+      Project.NameKey project,
+      List<String> refsInBatch,
+      URIish targetUri,
+      Optional<ReplicationType> replicationTypeOverride)
+      throws IOException {
     return callBatchFetch(
-        project, refsInBatch, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
+        project,
+        refsInBatch,
+        targetUri,
+        MILLISECONDS.toNanos(System.currentTimeMillis()),
+        replicationTypeOverride);
   }
 
   HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;

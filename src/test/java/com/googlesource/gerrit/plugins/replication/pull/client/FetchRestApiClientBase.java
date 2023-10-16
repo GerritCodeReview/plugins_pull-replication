@@ -153,7 +153,8 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldCallFetchEndpoint() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -172,7 +173,8 @@ public abstract class FetchRestApiClientBase {
     objectUnderTest.callBatchFetch(
         Project.nameKey("test_repo"),
         List.of(refName, RefNames.REFS_HEADS + "test"),
-        new URIish(api));
+        new URIish(api),
+        Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -188,7 +190,8 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldByDefaultCallSyncFetchForAllRefs() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -213,7 +216,8 @@ public abstract class FetchRestApiClientBase {
             bearerTokenProvider,
             source);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -240,7 +244,8 @@ public abstract class FetchRestApiClientBase {
 
     String testRef = RefNames.REFS_HEADS + "test";
     List<String> refs = List.of(refName, testRef);
-    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
+    objectUnderTest.callBatchFetch(
+        Project.nameKey("test_repo"), refs, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -276,12 +281,14 @@ public abstract class FetchRestApiClientBase {
             bearerTokenProvider,
             source);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), Optional.empty());
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), metaRefName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), metaRefName, new URIish(api), Optional.empty());
     verify(httpClient, times(2)).execute(httpPostCaptor.capture(), any());
     httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedMetaRefPayload);
@@ -308,7 +315,7 @@ public abstract class FetchRestApiClientBase {
             source);
 
     objectUnderTest.callBatchFetch(
-        Project.nameKey("test_repo"), List.of(metaRefName), new URIish(api));
+        Project.nameKey("test_repo"), List.of(metaRefName), new URIish(api), Optional.empty());
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedMetaRefPayload);
@@ -317,7 +324,8 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldCallFetchEndpointWithPayload() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -330,7 +338,8 @@ public abstract class FetchRestApiClientBase {
 
     String testRef = RefNames.REFS_HEADS + "test";
     List<String> refs = List.of(refName, testRef);
-    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
+    objectUnderTest.callBatchFetch(
+        Project.nameKey("test_repo"), refs, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -365,7 +374,8 @@ public abstract class FetchRestApiClientBase {
             instanceId,
             bearerTokenProvider,
             source);
-    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
+    objectUnderTest.callBatchFetch(
+        Project.nameKey("test_repo"), refs, new URIish(api), Optional.empty());
 
     verify(httpClient, times(2)).execute(httpPostCaptor.capture(), any());
 
@@ -400,7 +410,8 @@ public abstract class FetchRestApiClientBase {
             instanceId,
             bearerTokenProvider,
             source);
-    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
+    objectUnderTest.callBatchFetch(
+        Project.nameKey("test_repo"), refs, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -414,7 +425,8 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldSetContentTypeHeader() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -426,7 +438,8 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldSetContentTypeHeaderInBatchFetch() throws Exception {
 
-    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), List.of(refName), new URIish(api));
+    objectUnderTest.callBatchFetch(
+        Project.nameKey("test_repo"), List.of(refName), new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -477,7 +490,8 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldSetContentTypeHeaderForSendObjectCall() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -547,7 +561,8 @@ public abstract class FetchRestApiClientBase {
             "",
             bearerTokenProvider,
             source);
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(
+        Project.nameKey("test_repo"), refName, new URIish(api), Optional.empty());
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 

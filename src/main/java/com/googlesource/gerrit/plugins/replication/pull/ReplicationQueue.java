@@ -341,9 +341,9 @@ public class ReplicationQueue
 
       if (!callSuccessful) {
         if (source.enableBatchedRefs()) {
-          callBatchFetch(source, project, refs, state);
+          callBatchFetch(source, project, refs, state, Optional.of(ReplicationType.ASYNC));
         } else {
-          callFetch(source, project, refs, state);
+          callFetch(source, project, refs, state, Optional.of(ReplicationType.ASYNC));
         }
       }
     };
@@ -362,12 +362,14 @@ public class ReplicationQueue
               .collect(Collectors.toList());
 
       if (!containsLargeRef(refsBatch)) {
-        return ((source) -> callBatchSendObject(source, project, refsBatch, eventCreatedOn, state));
+        return ((source) ->
+            callBatchSendObject(
+                source, project, refsBatch, eventCreatedOn, state, Optional.empty()));
       }
     } catch (UncheckedIOException e) {
       stateLog.error("Falling back to calling fetch", e, state);
     }
-    return ((source) -> callBatchFetch(source, project, refs, state));
+    return ((source) -> callBatchFetch(source, project, refs, state, Optional.empty()));
   }
 
   private BatchApplyObjectData toBatchApplyObject(
@@ -438,7 +440,8 @@ public class ReplicationQueue
       NameKey project,
       List<BatchApplyObjectData> refsBatch,
       long eventCreatedOn,
-      ReplicationState state)
+      ReplicationState state,
+      Optional<ReplicationType> replicationTypeOverride)
       throws MissingParentObjectException {
     boolean batchResultSuccessful = true;
 
@@ -507,7 +510,7 @@ public class ReplicationQueue
         if (!resultSuccessful
             && HttpResultUtils.isProjectMissing(result, project)
             && source.isCreateMissingRepositories()) {
-          result = initProject(project, uri, fetchClient);
+          result = initProject(project, uri, fetchClient, replicationTypeOverride);
           repLog.info(
               "Missing project {} created, HTTP Result:{}",
               project,
@@ -602,7 +605,8 @@ public class ReplicationQueue
       Source source,
       Project.NameKey project,
       List<ReferenceUpdatedEvent> refs,
-      ReplicationState state) {
+      ReplicationState state,
+      Optional<ReplicationType> replicationTypeOverride) {
 
     boolean resultIsSuccessful = true;
 
@@ -622,7 +626,9 @@ public class ReplicationQueue
         repLog.info(
             "Pull replication REST API batch fetch to {} for {}:[{}]", apiUrl, project, refsStr);
         long startTime = System.currentTimeMillis();
-        result = Optional.of(fetchClient.callBatchFetch(project, filteredRefs, uri));
+        result =
+            Optional.of(
+                fetchClient.callBatchFetch(project, filteredRefs, uri, replicationTypeOverride));
         long endTime = System.currentTimeMillis();
         boolean resultSuccessful = HttpResultUtils.isSuccessful(result);
         repLog.info(
@@ -636,7 +642,7 @@ public class ReplicationQueue
         if (!resultSuccessful
             && HttpResultUtils.isProjectMissing(result, project)
             && source.isCreateMissingRepositories()) {
-          result = initProject(project, uri, fetchClient);
+          result = initProject(project, uri, fetchClient, replicationTypeOverride);
           resultSuccessful = HttpResultUtils.isSuccessful(result);
         }
         if (!resultSuccessful) {
@@ -670,7 +676,8 @@ public class ReplicationQueue
       Source source,
       Project.NameKey project,
       List<ReferenceUpdatedEvent> refs,
-      ReplicationState state) {
+      ReplicationState state,
+      Optional<ReplicationType> replicationTypeOverride) {
     boolean resultIsSuccessful = true;
     for (ReferenceUpdatedEvent refEvent : refs) {
       String refName = refEvent.refName();
@@ -682,7 +689,8 @@ public class ReplicationQueue
             repLog.info(
                 "Pull replication REST API fetch to {} for {}:{}", apiUrl, project, refName);
             long startTime = System.currentTimeMillis();
-            Optional<HttpResult> result = Optional.of(fetchClient.callFetch(project, refName, uri));
+            Optional<HttpResult> result =
+                Optional.of(fetchClient.callFetch(project, refName, uri, replicationTypeOverride));
             long endTime = System.currentTimeMillis();
             boolean resultSuccessful = HttpResultUtils.isSuccessful(result);
             repLog.info(
@@ -696,7 +704,7 @@ public class ReplicationQueue
             if (!resultSuccessful
                 && HttpResultUtils.isProjectMissing(result, project)
                 && source.isCreateMissingRepositories()) {
-              result = initProject(project, uri, fetchClient);
+              result = initProject(project, uri, fetchClient, replicationTypeOverride);
             }
             if (!resultSuccessful) {
               stateLog.warn(
@@ -733,11 +741,17 @@ public class ReplicationQueue
   }
 
   private Optional<HttpResult> initProject(
-      Project.NameKey project, URIish uri, FetchApiClient fetchClient) throws IOException {
+      Project.NameKey project,
+      URIish uri,
+      FetchApiClient fetchClient,
+      Optional<ReplicationType> replicationTypeOverride)
+      throws IOException {
     HttpResult initProjectResult = fetchClient.initProject(project, uri);
     Optional<HttpResult> result = Optional.empty();
     if (initProjectResult.isSuccessful()) {
-      result = Optional.of(fetchClient.callFetch(project, FetchOne.ALL_REFS, uri));
+      result =
+          Optional.of(
+              fetchClient.callFetch(project, FetchOne.ALL_REFS, uri, replicationTypeOverride));
     } else {
       String errorMessage = initProjectResult.getMessage().map(e -> " - Error: " + e).orElse("");
       repLog.error("Cannot create project " + project + errorMessage);
