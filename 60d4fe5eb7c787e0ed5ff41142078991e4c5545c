@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e077d686_e5a831bb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-16T18:16:28Z",
+      "side": 1,
+      "message": "My previous comment makes no sense. please forget it but I would appreciate some help in the first question",
+      "parentUuid": "aaa5ff12_4f9cec4a",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f3f3c989_d97fde1c",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 1
