@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0220f38_03b30e2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T21:15:06Z",
+      "side": 1,
+      "message": "It isn\u0027t a good idea to perform refactoring on stable branches, we will make our lives so much difficult when merging this up.\n\nWhy not merging first and making this refactoring on master? Is it really needed on stable-3.4?",
+      "revId": "9dae90ec446dd5019810a32605e2f2a880d99fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
