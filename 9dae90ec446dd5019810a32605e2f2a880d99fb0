@@ -16,6 +16,24 @@
       "message": "It isn\u0027t a good idea to perform refactoring on stable branches, we will make our lives so much difficult when merging this up.\n\nWhy not merging first and making this refactoring on master? Is it really needed on stable-3.4?",
       "revId": "9dae90ec446dd5019810a32605e2f2a880d99fb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "182bcdb0_eebe89cf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-17T14:11:35Z",
+      "side": 1,
+      "message": "It\u0027s not necessary, it\u0027s just some code hygiene. It only touches test code, introduced as part of adding the mirror functionality (both JGit and CGit), so I don\u0027t think it\u0027ll cause us particular headaches.\n\nIf the JGit/CGit mirror functionality had been done in the same change, I think this would naturally have been part of that change, however as we split them we end up with some unnecessarily duplicated code.\n\nHaving said that I think I\u0027m going to squash this into the CGit client work, I think it probably belongs in there.",
+      "parentUuid": "c0220f38_03b30e2c",
+      "revId": "9dae90ec446dd5019810a32605e2f2a880d99fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
