@@ -40,6 +40,10 @@ public interface FetchApiClient {
     return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
 
+  HttpResult initProject(
+      Project.NameKey project, URIish uri, long eventCreatedOn, List<RevisionData> revisionData)
+      throws IOException;
+
   HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;
 
   HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
