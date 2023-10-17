@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -51,7 +50,6 @@ public class DeleteRefCommand {
   private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
   private final SourcesCollection sourcesCollection;
-  private final PermissionBackend permissionBackend;
   private final GitRepositoryManager gitManager;
 
   @Inject
@@ -59,14 +57,12 @@ public class DeleteRefCommand {
       PullReplicationStateLogger fetchStateLog,
       ProjectCache projectCache,
       SourcesCollection sourcesCollection,
-      PermissionBackend permissionBackend,
       DynamicItem<EventDispatcher> eventDispatcher,
       LocalGitRepositoryManagerProvider gitManagerProvider) {
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
     this.eventDispatcher = eventDispatcher;
     this.sourcesCollection = sourcesCollection;
-    this.permissionBackend = permissionBackend;
     this.gitManager = gitManagerProvider.get();
   }
 

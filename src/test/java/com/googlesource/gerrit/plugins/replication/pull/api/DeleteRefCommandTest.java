@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
@@ -71,7 +70,6 @@ public class DeleteRefCommandTest {
   @Mock private ProjectState projectState;
   @Mock private SourcesCollection sourceCollection;
   @Mock private Source source;
-  @Mock private PermissionBackend permissionBackend;
   @Mock private WithUser currentUser;
   @Mock private ForProject forProject;
   @Mock private ForRef forRef;
@@ -102,7 +100,6 @@ public class DeleteRefCommandTest {
             fetchStateLog,
             projectCache,
             sourceCollection,
-            permissionBackend,
             eventDispatcherDataItem,
             new LocalGitRepositoryManagerProvider(gitManager));
   }
