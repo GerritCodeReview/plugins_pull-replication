@@ -23,6 +23,7 @@ import com.google.common.net.MediaType;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.config.GerritInstanceId;
@@ -142,6 +143,27 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   }
 
   /* (non-Javadoc)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish, long, java.util.List<com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData>)
+   */
+  @Override
+  public HttpResult initProjectWithConfig(
+      NameKey project, URIish uri, long eventCreatedOn, List<RevisionData> revisionData)
+      throws IOException {
+    String url = formatInitProjectWithConfigUrl(uri.toString(), project);
+
+    RevisionData[] inputData = new RevisionData[revisionData.size()];
+    RevisionsInput input =
+        new RevisionsInput(
+            instanceId, RefNames.REFS_CONFIG, eventCreatedOn, revisionData.toArray(inputData));
+
+    HttpPut put = new HttpPut(url);
+    put.setEntity(new StringEntity(GSON.toJson(input)));
+    put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
+    put.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
+    return executeRequest(put, bearerTokenProvider.get(), uri);
+  }
+
+  /* (non-Javadoc)
    * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#deleteProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
    */
   @Override
@@ -228,6 +250,12 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   private String formatInitProjectUrl(String targetUri, Project.NameKey project) {
     return String.format(
         "%s/%splugins/%s/init-project/%s.git",
+        targetUri, urlAuthenticationPrefix, pluginName, Url.encode(project.get()));
+  }
+
+  private String formatInitProjectWithConfigUrl(String targetUri, Project.NameKey project) {
+    return String.format(
+        "%s/%splugins/%s/init-project-with-config/%s.git",
         targetUri, urlAuthenticationPrefix, pluginName, Url.encode(project.get()));
   }
 

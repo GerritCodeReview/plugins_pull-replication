@@ -40,6 +40,20 @@ public interface FetchApiClient {
     return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
 
+  /**
+   * Replicates the creation of a project, including the configuration stored in refs/meta/config.
+   *
+   * @param project The unique name of the project.
+   * @param uri The destination URI where the project and its configuration should be replicated.
+   * @param eventCreatedOn The timestamp indicating when the event occurred.
+   * @param revisionData A history of revision data related to the project.
+   * @return An HTTP result object providing information about the replication process.
+   * @throws IOException If an I/O error occurs during the replication.
+   */
+  HttpResult initProjectWithConfig(
+      Project.NameKey project, URIish uri, long eventCreatedOn, List<RevisionData> revisionData)
+      throws IOException;
+
   HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;
 
   HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
