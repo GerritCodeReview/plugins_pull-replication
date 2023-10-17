@@ -26,10 +26,7 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.http.auth.AuthenticationException;
-import org.apache.http.client.ClientProtocolException;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -173,8 +170,7 @@ public class UpdateHeadActionIT extends ActionITBase {
     shouldReturnOKForUserWithPullReplicationCapabilityTest();
   }
 
-  private void shouldReturnOKForUserWithPullReplicationCapabilityTest()
-      throws ClientProtocolException, IOException, AuthenticationException {
+  private void shouldReturnOKForUserWithPullReplicationCapabilityTest() throws Exception {
     projectOperations
         .allProjectsForUpdate()
         .add(

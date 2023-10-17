@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventDispatcher;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
@@ -38,12 +37,9 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
@@ -86,7 +82,7 @@ public class ApplyObjectCommandTest {
   private ApplyObjectCommand objectUnderTest;
 
   @Before
-  public void setup() throws MissingParentObjectException, IOException, URISyntaxException {
+  public void setup() throws Exception {
     cache = CacheBuilder.newBuilder().build();
     RefUpdateState state = new RefUpdateState(TEST_REMOTE_NAME, RefUpdate.Result.NEW);
     TEST_REMOTE_URI = new URIish("git://some.remote.uri");
@@ -103,9 +99,7 @@ public class ApplyObjectCommandTest {
   }
 
   @Test
-  public void shouldSendEventWhenApplyObject()
-      throws PermissionBackendException, IOException, RefUpdateException,
-          MissingParentObjectException {
+  public void shouldSendEventWhenApplyObject() throws Exception {
     RevisionData sampleRevisionData =
         createSampleRevisionData(sampleCommitObjectId, sampleTreeObjectId);
     objectUnderTest.applyObject(
@@ -125,8 +119,7 @@ public class ApplyObjectCommandTest {
   }
 
   @Test
-  public void shouldInsertIntoApplyObjectsCacheWhenApplyObjectIsSuccessful()
-      throws IOException, RefUpdateException, MissingParentObjectException {
+  public void shouldInsertIntoApplyObjectsCacheWhenApplyObjectIsSuccessful() throws Exception {
     RevisionData sampleRevisionData =
         createSampleRevisionData(sampleCommitObjectId, sampleTreeObjectId);
     RevisionData sampleRevisionData2 =
@@ -155,8 +148,7 @@ public class ApplyObjectCommandTest {
   }
 
   @Test(expected = RefUpdateException.class)
-  public void shouldNotInsertIntoApplyObjectsCacheWhenApplyObjectIsFailure()
-      throws IOException, RefUpdateException, MissingParentObjectException {
+  public void shouldNotInsertIntoApplyObjectsCacheWhenApplyObjectIsFailure() throws Exception {
     RevisionData sampleRevisionData =
         createSampleRevisionData(sampleCommitObjectId, sampleTreeObjectId);
     RefUpdateState failureState = new RefUpdateState(TEST_REMOTE_NAME, RefUpdate.Result.IO_FAILURE);

@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.net.URISyntaxException;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
@@ -57,7 +56,7 @@ public class ReplicationStateTest {
   }
 
   @Test
-  public void shouldFireEventsForReplicationOfOneRefToOneNode() throws URISyntaxException {
+  public void shouldFireEventsForReplicationOfOneRefToOneNode() throws Exception {
     URIish uri = new URIish("git://someHost/someRepo.git");
 
     // actual test
@@ -83,8 +82,7 @@ public class ReplicationStateTest {
   }
 
   @Test
-  public void shouldFireEventsForReplicationOfMultipleRefsToMultipleNodes()
-      throws URISyntaxException {
+  public void shouldFireEventsForReplicationOfMultipleRefsToMultipleNodes() throws Exception {
     URIish uri1 = new URIish("git://host1/someRepo.git");
     URIish uri2 = new URIish("git://host2/someRepo.git");
     URIish uri3 = new URIish("git://host3/someRepo.git");
@@ -173,7 +171,7 @@ public class ReplicationStateTest {
 
   @Test
   public void shouldFireEventsWhenSomeReplicationCompleteBeforeAllTasksAreScheduled()
-      throws URISyntaxException {
+      throws Exception {
     URIish uri1 = new URIish("git://host1/someRepo.git");
 
     // actual test

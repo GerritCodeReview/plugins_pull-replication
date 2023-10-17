@@ -15,12 +15,10 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.ASYNC;
-import static com.googlesource.gerrit.plugins.replication.pull.ReplicationType.SYNC;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -33,13 +31,9 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,48 +63,35 @@ public class FetchCommandTest {
   FetchCommand objectUnderTest;
 
   @Before
-  public void setup() throws URISyntaxException {
+  public void setup() throws Exception {
     projectName = Project.nameKey("sample_project");
     uri = new URIish("file://sample_host/repository_path/repo.git");
     label = "instance-1-label";
 
     when(fetchReplicationStateFactory.create(any())).thenReturn(state);
-    when(sources.getByRemoteName(label)).thenReturn(Optional.of(source));
-    when(source.schedule(eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), any(), any()))
+    when(sources.getByRemoteName(eq(label))).thenReturn(Optional.of(source));
+    when(source.schedule(eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), any()))
         .thenReturn(CompletableFuture.completedFuture(null));
     objectUnderTest =
         new FetchCommand(fetchReplicationStateFactory, fetchStateLog, sources, eventDispatcher);
   }
 
   @Test
-  public void shouldScheduleRefFetch()
-      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
-    objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
-
-    verify(source, times(1))
-        .schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty());
-  }
-
-  @Test
-  public void shouldScheduleRefFetchWithDelay()
-      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
+  public void shouldScheduleRefFetchWithDelay() throws Exception {
     objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
 
     verify(source, times(1))
-        .schedule(projectName, REF_NAME_TO_FETCH, state, ASYNC, Optional.of(apiRequestMetrics));
+        .schedule(
+            eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), eq(Optional.of(apiRequestMetrics)));
   }
 
   @Test
-  public void shouldMarkAllFetchTasksScheduled()
-      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException {
+  public void shouldNotScheduleAsyncTaskWhenFetchSync() throws Exception {
     objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH);
 
-    verify(source, times(1))
-        .schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty());
-    verify(state, times(1)).markAllFetchTasksScheduled();
+    verify(source, never())
+        .schedule(
+            eq(projectName), eq(REF_NAME_TO_FETCH), eq(state), eq(Optional.of(apiRequestMetrics)));
   }
 
   @Test
@@ -119,51 +100,5 @@ public class FetchCommandTest {
         RemoteConfigurationMissingException.class,
         () -> objectUnderTest.fetchSync(projectName, "unknownLabel", REF_NAME_TO_FETCH));
     verify(fetchStateLog, times(1)).error(anyString(), eq(state));
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void shouldUpdateStateWhenInterruptedException()
-      throws InterruptedException, ExecutionException, TimeoutException {
-    when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new InterruptedException());
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
-        .thenReturn(future);
-
-    InterruptedException e =
-        assertThrows(
-            InterruptedException.class,
-            () -> objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH));
-    verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void shouldUpdateStateWhenExecutionException()
-      throws InterruptedException, ExecutionException, TimeoutException {
-    when(future.get(anyLong(), eq(TimeUnit.SECONDS)))
-        .thenThrow(new ExecutionException(new Exception()));
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
-        .thenReturn(future);
-
-    ExecutionException e =
-        assertThrows(
-            ExecutionException.class,
-            () -> objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH));
-    verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
-  }
-
-  @SuppressWarnings("unchecked")
-  @Test
-  public void shouldUpdateStateWhenTimeoutException()
-      throws InterruptedException, ExecutionException, TimeoutException {
-    when(future.get(anyLong(), eq(TimeUnit.SECONDS))).thenThrow(new TimeoutException());
-    when(source.schedule(projectName, REF_NAME_TO_FETCH, state, SYNC, Optional.empty()))
-        .thenReturn(future);
-
-    TimeoutException e =
-        assertThrows(
-            TimeoutException.class,
-            () -> objectUnderTest.fetchSync(projectName, label, REF_NAME_TO_FETCH));
-    verify(fetchStateLog, times(1)).error(anyString(), eq(e), eq(state));
   }
 }

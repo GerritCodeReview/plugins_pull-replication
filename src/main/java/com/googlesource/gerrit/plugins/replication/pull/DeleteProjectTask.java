@@ -18,7 +18,11 @@ import static com.googlesource.gerrit.plugins.replication.pull.ReplicationQueue.
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.ioutil.HexFormat;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -26,6 +30,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.URIish;
 
 public class DeleteProjectTask implements Runnable, Completable {
@@ -40,17 +45,20 @@ public class DeleteProjectTask implements Runnable, Completable {
   private final String uri;
   private final Project.NameKey project;
   private final FetchApiClient.Factory fetchClientFactory;
+  private final DynamicItem<EventDispatcher> eventDispatcher;
   private boolean succeeded;
 
   @Inject
   DeleteProjectTask(
       FetchApiClient.Factory fetchClientFactory,
       IdGenerator ig,
+      DynamicItem<EventDispatcher> eventDispatcher,
       @Assisted Source source,
       @Assisted String uri,
       @Assisted Project.NameKey project) {
     this.fetchClientFactory = fetchClientFactory;
     this.id = ig.next();
+    this.eventDispatcher = eventDispatcher;
     this.uri = uri;
     this.source = source;
     this.project = project;
@@ -71,6 +79,30 @@ public class DeleteProjectTask implements Runnable, Completable {
           String.format("Cannot delete project %s on remote site %s.", project, uri);
       logger.atWarning().withCause(e).log("%s", errorMessage);
       repLog.warn(errorMessage);
+    } finally {
+      fireEvent();
+    }
+  }
+
+  private void fireEvent() {
+    try {
+      Context.setLocalEvent(true);
+      eventDispatcher
+          .get()
+          .postEvent(
+              new FetchRefReplicatedEvent(
+                  project.get(),
+                  RefNames.REFS_CONFIG,
+                  source.getURI(project),
+                  succeeded
+                      ? ReplicationState.RefFetchResult.SUCCEEDED
+                      : ReplicationState.RefFetchResult.FAILED,
+                  RefUpdate.Result.FORCED));
+    } catch (PermissionBackendException e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot post event for refs/meta/config on project %s", project.get());
+    } finally {
+      Context.unsetLocalEvent();
     }
   }
 

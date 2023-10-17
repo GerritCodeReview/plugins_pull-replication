@@ -293,22 +293,28 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     }
   }
 
+  public void runSync() {
+    try (TraceContext ctx = TraceContext.open().addTag(ID_KEY, HexFormat.fromInt(id))) {
+      doRunFetchOperation(ReplicationType.SYNC);
+    }
+  }
+
   public Set<TransportException> getFetchFailures() {
     return fetchFailures;
   }
 
   private void runFetchOperation() {
     try (TraceContext ctx = TraceContext.open().addTag(ID_KEY, HexFormat.fromInt(id))) {
-      doRunFetchOperation();
+      doRunFetchOperation(ReplicationType.ASYNC);
     }
   }
 
-  private void doRunFetchOperation() {
+  private void doRunFetchOperation(ReplicationType replicationType) {
     // Lock the queue, and remove ourselves, so we can't be modified once
     // we start replication (instead a new instance, with the same URI, is
     // created and scheduled for a future point in time.)
     //
-    if (!pool.requestRunway(this)) {
+    if (replicationType == ReplicationType.ASYNC && !pool.requestRunway(this)) {
       if (!canceled) {
         repLog.info(
             "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task [{}].",
@@ -321,8 +327,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     }
 
     repLog.info(
-        "[{}] Replication from {} started for refs [{}] ...",
+        "[{}] {} replication from {} started for refs [{}] ...",
         taskIdHex,
+        replicationType,
         uri,
         String.join(",", getRefs()));
     Timer1.Context<String> context = metrics.start(config.getName());
@@ -338,8 +345,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
               .flatMap(metrics -> metrics.stop(config.getName()))
               .map(NANOSECONDS::toMillis);
       repLog.info(
-          "[{}] Replication from {} completed in {}ms, {}ms delay, {} retries{}",
+          "[{}] {} replication from {} completed in {}ms, {}ms delay, {} retries{}",
           taskIdHex,
+          replicationType,
           uri,
           elapsed,
           delay,
@@ -357,7 +365,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
     } catch (NoRemoteRepositoryException | RemoteRepositoryException e) {
       // Tried to replicate to a remote via anonymous git:// but the repository
-      // does not exist.  In this case NoRemoteRepositoryException is not
+      // does not exist. In this case NoRemoteRepositoryException is not
       // raised.
       String msg = e.getMessage();
       repLog.error(
@@ -368,11 +376,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       repLog.error(
           String.format("Terminal failure. Cannot replicate [%s] from %s", taskIdHex, uri), e);
     } catch (TransportException e) {
-      if (e instanceof LockFailureException) {
+      repLog.error("[{}] Cannot replicate from {}: {}", taskIdHex, uri, e.getMessage());
+      if (replicationType == ReplicationType.ASYNC && e instanceof LockFailureException) {
         lockRetryCount++;
         // The LockFailureException message contains both URI and reason
         // for this failure.
-        repLog.error("[{}] Cannot replicate from {}: {}", taskIdHex, uri, e.getMessage());
 
         // The remote fetch operation should be retried.
         if (lockRetryCount <= maxLockRetries) {
@@ -390,11 +398,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
               taskIdHex,
               uri);
         }
-      } else {
+      } else if (replicationType == ReplicationType.ASYNC) {
         if (canceledWhileRunning.get()) {
           logCanceledWhileRunningException(e);
         } else {
-          repLog.error("Cannot replicate [{}] from {}", taskIdHex, uri, e);
           // The remote fetch operation should be retried.
           pool.reschedule(this, Source.RetryReason.TRANSPORT_ERROR);
         }
@@ -410,7 +417,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       if (git != null) {
         git.close();
       }
-      pool.notifyFinished(this);
+
+      if (replicationType == ReplicationType.ASYNC) {
+        pool.notifyFinished(this);
+      }
     }
   }
 
@@ -439,10 +449,13 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       }
 
       runImpl();
+    } catch (IOException e) {
+      notifyRefReplicatedIOException();
+      throw e;
     }
   }
 
-  private List<RefSpec> getFetchRefSpecs() {
+  public List<RefSpec> getFetchRefSpecs() {
     List<RefSpec> configRefSpecs = config.getFetchRefSpecs();
     if (delta.isEmpty()) {
       return configRefSpecs;
@@ -559,6 +572,19 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     }
   }
 
+  private void notifyRefReplicatedIOException() {
+    for (Map.Entry<String, ReplicationState> entry : stateMap.entries()) {
+      entry
+          .getValue()
+          .notifyRefReplicated(
+              projectName.get(),
+              entry.getKey(),
+              uri,
+              ReplicationState.RefFetchResult.FAILED,
+              RefUpdate.Result.IO_FAILURE);
+    }
+  }
+
   public static class LockFailureException extends TransportException {
     private static final long serialVersionUID = 1L;
 
@@ -573,6 +599,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   @Override
   public boolean hasSucceeded() {
-    return succeeded;
+    return succeeded || getFetchRefSpecs().isEmpty();
   }
 }

@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -31,35 +32,106 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.EventListener;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.eclipse.jgit.util.FS;
 import org.junit.Ignore;
 import org.junit.Test;
 
 /** Base class to run regular and async acceptance tests */
 public abstract class PullReplicationITAbstract extends PullReplicationSetupBase {
+  private BufferedEventListener eventListener;
 
   public static class PullReplicationTestModule extends PullReplicationModule {
     @Inject
     public PullReplicationTestModule(SitePaths site, InMemoryMetricMaker memMetric) {
       super(site, memMetric);
     }
+
+    @Override
+    protected void configure() {
+      super.configure();
+
+      DynamicSet.bind(binder(), EventListener.class)
+          .to(BufferedEventListener.class)
+          .asEagerSingleton();
+    }
+  }
+
+  @Singleton
+  public static class BufferedEventListener implements EventListener {
+
+    private final List<Event> eventsReceived;
+    private String eventTypeFilter;
+
+    @Inject
+    public BufferedEventListener() {
+      eventsReceived = new ArrayList<>();
+    }
+
+    @Override
+    public void onEvent(Event event) {
+      if (event.getType().equals(eventTypeFilter)) {
+        eventsReceived.add(event);
+      }
+    }
+
+    public void clearFilter(String expectedEventType) {
+      eventsReceived.clear();
+      eventTypeFilter = expectedEventType;
+    }
+
+    public int numEventsReceived() {
+      return eventsReceived.size();
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Event> Stream<T> eventsStream() {
+      return (Stream<T>) eventsReceived.stream();
+    }
+  }
+
+  @Override
+  protected void setUpTestPlugin(boolean loadExisting) throws Exception {
+    super.setUpTestPlugin(loadExisting);
+
+    eventListener = plugin.getSysInjector().getInstance(BufferedEventListener.class);
+  }
+
+  protected boolean isAsyncReplication() {
+    FileBasedConfig config =
+        new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
+    try {
+      config.load();
+    } catch (IOException | ConfigInvalidException e) {
+      throw new IllegalStateException(e);
+    }
+    return !Strings.isNullOrEmpty(config.getString("replication", null, "syncRefs"));
   }
 
   @Override
@@ -100,6 +172,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             ObjectId.zeroId().getName(),
             sourceCommit.getId().getName(),
             TEST_REPLICATION_REMOTE);
+
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onEvent(event);
     waitUntilReplicationCompleted(1);
 
@@ -110,13 +184,18 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
     }
+
+    assertThatEventListenerHasReceivedNumEvents(1);
+    assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
   }
 
   private void assertTasksMetricScheduledAndCompleted(int numTasks) {
-    assertTasksMetric("scheduled", numTasks);
-    assertTasksMetric("started", numTasks);
-    assertTasksMetric("completed", numTasks);
-    assertEmptyTasksMetric("failed");
+    if (isAsyncReplication()) {
+      assertTasksMetric("scheduled", numTasks);
+      assertTasksMetric("started", numTasks);
+      assertTasksMetric("completed", numTasks);
+      assertEmptyTasksMetric("failed");
+    }
   }
 
   @Test
@@ -141,6 +220,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             ObjectId.zeroId().getName(),
             branchRevision,
             TEST_REPLICATION_REMOTE);
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onEvent(event);
     waitUntilReplicationCompleted(1);
 
@@ -153,7 +233,39 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
     }
 
-    assertTasksMetricScheduledAndCompleted(1);
+    assertThatEventListenerHasReceivedNumEvents(1);
+    assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  public void shouldFailReplicatingInexistentRepository() throws Exception {
+    String newBranch = "refs/heads/mybranch";
+    String branchRevision = "7bb81c29e14a4169e5ca4f43992094c209aae26c";
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+    FakeGitReferenceUpdatedEvent event =
+        new FakeGitReferenceUpdatedEvent(
+            project,
+            newBranch,
+            ObjectId.zeroId().getName(),
+            branchRevision,
+            TEST_REPLICATION_REMOTE);
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
+    pullReplicationQueue.onEvent(event);
+    waitUntilReplicationFailed(1);
+
+    try (Repository repo = repoManager.openRepository(project);
+        Repository sourceRepo = repoManager.openRepository(project)) {
+
+      Ref targetBranchRef = getRef(repo, newBranch);
+      assertThat(targetBranchRef).isNull();
+    }
+
+    assertThatEventListenerHasReceivedNumEvents(2);
+    assertThatRefReplicatedEventsContainsExactlyStatuses(
+        ReplicationState.RefFetchResult.FAILED, ReplicationState.RefFetchResult.FAILED);
   }
 
   @Test
@@ -187,6 +299,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             ObjectId.zeroId().getName(),
             branchRevision,
             TEST_REPLICATION_REMOTE);
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onEvent(event);
     waitUntilReplicationCompleted(1);
 
@@ -197,6 +310,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
     }
+    assertThatEventListenerHasReceivedNumEvents(1);
+    assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
 
     TestRepository<InMemoryRepository> testProject = cloneProject(testProjectNameKey);
     fetch(testProject, RefNames.REFS_HEADS + "*:" + RefNames.REFS_HEADS + "*");
@@ -214,6 +329,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             branchRevision,
             amendedCommit.getId().getName(),
             TEST_REPLICATION_REMOTE);
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onEvent(forcedPushEvent);
     waitUntilReplicationCompleted(2);
 
@@ -229,6 +345,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     }
 
     assertTasksMetricScheduledAndCompleted(2);
+    assertThatEventListenerHasReceivedNumEvents(1);
+    assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
   }
 
   @Test
@@ -256,6 +374,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             ObjectId.zeroId().getName(),
             sourceCommit.getId().getName(),
             TEST_REPLICATION_REMOTE);
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onEvent(event);
     waitUntilReplicationCompleted(1);
 
@@ -268,6 +387,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     }
 
     assertTasksMetricScheduledAndCompleted(1);
+    assertThatEventListenerHasReceivedNumEvents(1);
+    assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
   }
 
   @Test
@@ -300,6 +421,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             ObjectId.zeroId().getName(),
             branchRevision,
             TEST_REPLICATION_REMOTE);
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onEvent(event);
     waitUntilReplicationCompleted(1);
 
@@ -313,6 +435,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     }
 
     assertTasksMetricScheduledAndCompleted(1);
+    assertThatEventListenerHasReceivedNumEvents(1);
+    assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
   }
 
   @Test
@@ -337,6 +461,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             return NotifyHandling.NONE;
           }
         };
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     for (ProjectDeletedListener l : deletedListeners) {
       l.onProjectDeleted(event);
     }
@@ -345,6 +470,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     waitUntil(() -> !repoManager.list().contains(project));
 
     assertTasksMetricScheduledAndCompleted(1);
+    assertThatEventListenerHasReceivedNumEvents(1);
+    assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
   }
 
   @Test
@@ -368,6 +495,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
         plugin.getSysInjector().getInstance(ReplicationQueue.class);
 
     HeadUpdatedListener.Event event = new FakeHeadUpdateEvent(master, newBranch, testProjectName);
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onHeadUpdated(event);
     waitUntilReplicationCompleted(1);
 
@@ -381,6 +509,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
         });
 
     assertTasksMetricScheduledAndCompleted(1);
+    assertThatEventListenerHasReceivedNumEvents(1);
+    assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
   }
 
   @Ignore
@@ -401,6 +531,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
             ObjectId.zeroId().getName(),
             sourceCommit.getId().getName(),
             TEST_REPLICATION_REMOTE);
+    eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onEvent(event);
     waitUntilReplicationCompleted(1);
 
@@ -411,15 +542,48 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId()).isEqualTo(sourceCommit.getId());
     }
+
+    assertThatEventListenerHasReceivedNumEvents(1);
+    assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
   }
 
-  private void waitUntilReplicationCompleted(int expected) throws InterruptedException {
-    waitUntil(
-        () ->
-            inMemoryMetrics()
-                .counterValue("tasks/completed", TEST_REPLICATION_REMOTE)
-                .filter(counter -> counter == expected)
-                .isPresent());
+  private void assertThatEventListenerHasReceivedNumEvents(int numExpectedEvents) {
+    assertThat(eventListener.numEventsReceived()).isEqualTo(numExpectedEvents);
+  }
+
+  private void assertThatRefReplicatedEventsContainsStatus(
+      ReplicationState.RefFetchResult refFetchResult) {
+    Stream<FetchRefReplicatedEvent> replicatedStream = eventListener.eventsStream();
+    assertThat(replicatedStream.map(FetchRefReplicatedEvent::getStatus))
+        .contains(refFetchResult.toString());
+  }
+
+  private void assertThatRefReplicatedEventsContainsExactlyStatuses(
+      ReplicationState.RefFetchResult... refFetchResult) {
+    List<String> expectedStatuses =
+        Stream.of(refFetchResult).map(Object::toString).collect(Collectors.toList());
+    Stream<FetchRefReplicatedEvent> replicatedStream = eventListener.eventsStream();
+    assertThat(replicatedStream.map(FetchRefReplicatedEvent::getStatus))
+        .containsExactlyElementsIn(expectedStatuses);
+  }
+
+  private void waitUntilReplicationCompleted(int expected) throws Exception {
+    waitUntilReplicationTask("completed", expected);
+  }
+
+  private void waitUntilReplicationFailed(int expected) throws Exception {
+    waitUntilReplicationTask("failed", expected);
+  }
+
+  private void waitUntilReplicationTask(String status, int expected) throws Exception {
+    if (isAsyncReplication()) {
+      waitUntil(
+          () ->
+              inMemoryMetrics()
+                  .counterValue("tasks/" + status, TEST_REPLICATION_REMOTE)
+                  .filter(counter -> counter == expected)
+                  .isPresent());
+    }
   }
 
   private InMemoryMetricMaker inMemoryMetrics() {
