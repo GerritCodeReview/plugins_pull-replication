@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34349aa5_17a6cf72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-17T07:58:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "b04b3be3_d3790642",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40224cdd_7da7bb08",
@@ -197,6 +215,24 @@
       "side": 1,
       "message": "When you create a repository on a Gerrit primary, you use PUT, see [1].\nWe need to keep backward compatibility to manage the rolling upgrades.\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.8.2/rest-api-projects.html#create-project",
       "parentUuid": "e077d686_e5a831bb",
+      "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8198473f_49d0e495",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-17T07:58:00Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com Are you saying that the creation of a project in primary and replica is using the same endpoint?",
+      "parentUuid": "c194e2bb_6740a26e",
       "revId": "60d4fe5eb7c787e0ed5ff41142078991e4c5545c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
