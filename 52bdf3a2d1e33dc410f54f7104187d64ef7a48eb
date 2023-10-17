@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9498214_9db1560a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigBase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T21:14:24Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "f5ba7abd_6b47032c",
+      "range": {
+        "startLine": 227,
+        "startChar": 86,
+        "endLine": 227,
+        "endChar": 97
+      },
+      "revId": "52bdf3a2d1e33dc410f54f7104187d64ef7a48eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2c9c21e_2ac88548",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8c61d42_7714b925",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigBase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T21:14:24Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "f2c9c21e_2ac88548",
+      "range": {
+        "startLine": 233,
+        "startChar": 13,
+        "endLine": 233,
+        "endChar": 24
+      },
+      "revId": "52bdf3a2d1e33dc410f54f7104187d64ef7a48eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c4d00eb_78df8e82",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-10-17T21:12:40Z",
       "side": 0,
       "message": "This isn\u0027t a test method, therefore should keep `IOException`",
+      "range": {
+        "startLine": 239,
+        "startChar": 13,
+        "endLine": 239,
+        "endChar": 24
+      },
+      "revId": "52bdf3a2d1e33dc410f54f7104187d64ef7a48eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad07d658_1e7cd06b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationFanoutConfigBase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T21:14:24Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "5c4d00eb_78df8e82",
       "range": {
         "startLine": 239,
         "startChar": 13,
