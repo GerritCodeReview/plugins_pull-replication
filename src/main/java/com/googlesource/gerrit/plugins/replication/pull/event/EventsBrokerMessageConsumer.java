@@ -19,7 +19,6 @@ import static com.googlesource.gerrit.plugins.replication.pull.event.EventsBroke
 
 import com.gerritforge.gerrit.eventbroker.BrokerApi;
 import com.gerritforge.gerrit.eventbroker.ExtendedBrokerApi;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -32,8 +31,6 @@ import com.googlesource.gerrit.plugins.replication.pull.ShutdownState;
 import java.util.function.Consumer;
 
 public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleListener {
-
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final DynamicItem<BrokerApi> eventsBrokerDi;
   private final StreamEventListener eventListener;
   private final ShutdownState shutdownState;
