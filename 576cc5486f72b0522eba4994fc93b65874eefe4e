@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "157aca56_6c9bdb04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T23:23:09Z",
+      "side": 1,
+      "message": "There isn\u0027t such thing as `sync` or `async` refs: all the refs updated in a batch are executed *ALL* or *NONE*. The issue in running as separate replication events was that they may have arrived at different times causing performance issues of multiple calls and consistency problems.\n\nSplitting them into two groups would partially mitigate the performance issue but would not resolve the consistency problems. What if one call succeeds and the second fails? The result would be a change in an inconsistent state, which is ultimately what we wanted to avoid.\n\nThis change isn\u0027t providing much benefit to me and needs to be reverted or amended to fix the problem.",
+      "range": {
+        "startLine": 14,
+        "startChar": 46,
+        "endLine": 15,
+        "endChar": 14
+      },
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b2f3e97_e81e3c72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T23:23:09Z",
+      "side": 1,
+      "message": "How do we know? The call is async so it may complete in 1 second, 1 minute, 1 hours, we don\u0027t know really.",
+      "range": {
+        "startLine": 17,
+        "startChar": 30,
+        "endLine": 17,
+        "endChar": 53
+      },
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fad51393_fcc095ba",
@@ -14,6 +60,23 @@
       "writtenOn": "2023-10-17T22:49:30Z",
       "side": 1,
       "message": "Post-merge -2: this is wrong. When we have a batch it should be executed as a whole. It doesn\u0027t make sense to have half sync and half async.",
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c31f76a_52eec233",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T23:23:09Z",
+      "side": 1,
+      "message": "Post-merge -2: this should have not been merged and needs to be fixed urgently on master.",
       "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
