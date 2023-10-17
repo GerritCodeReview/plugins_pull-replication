@@ -26,14 +26,11 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
@@ -44,7 +41,6 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
-import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -151,7 +147,7 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldDeleteRefForRefDeleteEvent() throws IOException, RestApiException {
+  public void shouldDeleteRefForRefDeleteEvent() throws Exception {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
@@ -209,8 +205,7 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldCreateProjectForProjectCreatedEvent()
-      throws AuthException, PermissionBackendException {
+  public void shouldCreateProjectForProjectCreatedEvent() throws Exception {
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.instanceId = REMOTE_INSTANCE_ID;
     event.projectName = TEST_PROJECT;
@@ -221,8 +216,7 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldNotCreateProjectWhenCreateMissingRepositoriesNotSet()
-      throws AuthException, PermissionBackendException {
+  public void shouldNotCreateProjectWhenCreateMissingRepositoriesNotSet() throws Exception {
     when(source.isCreateMissingRepositories()).thenReturn(false);
 
     ProjectCreatedEvent event = new ProjectCreatedEvent();
@@ -235,8 +229,7 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldNotCreateProjectWhenReplicationNotAllowed()
-      throws AuthException, PermissionBackendException {
+  public void shouldNotCreateProjectWhenReplicationNotAllowed() throws Exception {
     when(source.isCreateMissingRepositories()).thenReturn(false);
 
     ProjectCreatedEvent event = new ProjectCreatedEvent();
