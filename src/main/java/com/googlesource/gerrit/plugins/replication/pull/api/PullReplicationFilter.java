@@ -77,8 +77,6 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final Pattern projectNameInGerritUrl = Pattern.compile(".*/projects/([^/]+)/.*");
-  private static final Pattern projectNameInitProjectUrl =
-      Pattern.compile(".*/init-project/([^/]+.git)");
 
   private FetchAction fetchAction;
   private BatchFetchAction batchFetchAction;
@@ -323,17 +321,6 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
         }
       }
     }
-  }
-
-  /**
-   * Return project name from request URI. Request URI format:
-   * /a/projects/<project_name>/pull-replication~apply-object
-   *
-   * @param req
-   * @return project name
-   */
-  private Optional<IdString> getInitProjectName(HttpServletRequest req) {
-    return extractProjectName(req, projectNameInitProjectUrl);
   }
 
   private Optional<IdString> getProjectName(HttpServletRequest req) {
