@@ -887,6 +887,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb6accca_34bfa097",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-17T16:26:38Z",
+      "side": 1,
+      "message": "@christoforos.miliotis.dev@gmail.com, please can you have a look at this change 389774, specially this part of the code [1].\n\n\n[1]https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/389774/1/src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+      "parentUuid": "da75cb28_7c067e54",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d09f8fc8_27f68f6c",
@@ -940,6 +958,24 @@
       "writtenOn": "2023-09-07T10:59:50Z",
       "side": 1,
       "message": "we should also assert that the `refs/meta/config` is in the payload.",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55eddc17_8ba861f1",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-17T16:26:38Z",
+      "side": 1,
+      "message": "@christoforos.miliotis.dev@gmail.com please, can you have a look at this change 389554, specially this part of the code [1].\n\n[1] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/389774/1/src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
+      "parentUuid": "963ce893_91ec97be",
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

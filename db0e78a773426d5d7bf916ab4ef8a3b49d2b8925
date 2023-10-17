@@ -39,6 +39,24 @@
       "message": "The fact you have to remove this test (I don\u0027t see it recreated in any of the other tests you touched) suggests something is probably missing from the implementation. I would expect the test to remain intact, as we shouldn\u0027t have to change the return code on failures to init the project? What code do we return if we fail to init the project? Don\u0027t think its 500 anymore, is that acceptable?",
       "revId": "db0e78a773426d5d7bf916ab4ef8a3b49d2b8925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98775f63_3c518da9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-17T16:26:38Z",
+      "side": 0,
+      "message": "@christoforos.miliotis.dev@gmail.com this test has been removed as a part of the change 389554. The reason behind that is because now the logic to `init project` is done in the Java class `ProjectInitializationAction` [1] and not in the PullReplicationFilter [2]\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.6/src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java#68\n\n[2] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.6/src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilter.java#196",
+      "parentUuid": "0edb38fa_377acbac",
+      "revId": "db0e78a773426d5d7bf916ab4ef8a3b49d2b8925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
