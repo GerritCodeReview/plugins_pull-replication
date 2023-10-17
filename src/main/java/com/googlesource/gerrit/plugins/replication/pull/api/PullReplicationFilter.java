@@ -42,7 +42,6 @@ import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
@@ -213,7 +212,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @SuppressWarnings("unchecked")
   private Response<String> doApplyObject(HttpServletRequest httpRequest)
-      throws RestApiException, IOException, PermissionBackendException {
+      throws RestApiException, IOException {
     RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class).getType());
     IdString id = getProjectName(httpRequest).get();
 
@@ -222,7 +221,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @SuppressWarnings("unchecked")
   private Response<String> doApplyObjects(HttpServletRequest httpRequest)
-      throws RestApiException, IOException, PermissionBackendException {
+      throws RestApiException, IOException {
     RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class).getType());
     IdString id = getProjectName(httpRequest).get();
 
@@ -231,7 +230,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doBatchApplyObject(HttpServletRequest httpRequest)
-      throws RestApiException, IOException, PermissionBackendException {
+      throws RestApiException, IOException {
     TypeToken<List<RevisionInput>> collectionType = new TypeToken<>() {};
     List<RevisionInput> inputs = readJson(httpRequest, collectionType.getType());
     IdString id = getProjectName(httpRequest).get();
@@ -258,7 +257,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doFetch(HttpServletRequest httpRequest)
-      throws IOException, RestApiException, PermissionBackendException {
+      throws IOException, RestApiException {
     Input input = readJson(httpRequest, TypeLiteral.get(Input.class).getType());
     IdString id = getProjectName(httpRequest).get();
 
@@ -275,7 +274,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doBatchFetch(HttpServletRequest httpRequest)
-      throws IOException, RestApiException, PermissionBackendException {
+      throws IOException, RestApiException {
     TypeToken<List<Input>> collectionType = new TypeToken<>() {};
     List<Input> inputs = readJson(httpRequest, collectionType.getType());
     IdString id = getProjectName(httpRequest).get();
