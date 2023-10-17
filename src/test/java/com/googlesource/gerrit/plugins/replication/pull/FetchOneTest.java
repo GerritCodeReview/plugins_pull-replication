@@ -29,7 +29,6 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.InexistentRefTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
@@ -776,7 +775,7 @@ public class FetchOneTest {
     when(source.requestRunway(any())).thenReturn(allowed);
   }
 
-  private void setupGitRepoManagerMock() throws IOException {
+  private void setupGitRepoManagerMock() throws Exception {
     when(grm.openRepository(PROJECT_NAME)).thenReturn(repository);
   }
 
