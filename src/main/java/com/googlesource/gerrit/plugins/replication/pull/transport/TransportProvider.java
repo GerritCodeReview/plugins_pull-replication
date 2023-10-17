@@ -56,6 +56,7 @@ public class TransportProvider {
       throws NotSupportedException, TransportException {
     Transport tn = Transport.open(local, uri);
     tn.applyConfig(remoteConfig);
+    tn.setRemoveDeletedRefs(remoteConfig.isMirror());
     if (tn instanceof TransportHttp && bearerToken.isPresent()) {
       ((TransportHttp) tn)
           .setAdditionalHeaders(ImmutableMap.of(HDR_AUTHORIZATION, "Bearer " + bearerToken.get()));

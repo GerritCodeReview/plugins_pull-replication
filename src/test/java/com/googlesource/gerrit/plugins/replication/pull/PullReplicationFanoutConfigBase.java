@@ -17,12 +17,13 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.toList;
 
+import java.io.IOException;
+
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
@@ -224,19 +225,19 @@ abstract class PullReplicationFanoutConfigBase extends PullReplicationSetupBase 
     config.save();
   }
 
-  private void setRemoteConfig(String replicaSuffix, Optional<String> project) throws IOException {
+  private void setRemoteConfig(String replicaSuffix, Optional<String> project) throws Exception {
     setRemoteConfig(remoteConfig, replicaSuffix, project);
   }
 
   private void setRemoteConfig(
       FileBasedConfig remoteConfig, String replicaSuffix, Optional<String> project)
-      throws IOException {
+      throws Exception {
     setRemoteConfig(remoteConfig, Arrays.asList(replicaSuffix), project);
   }
 
   private void setRemoteConfig(
       FileBasedConfig remoteConfig, List<String> replicaSuffixes, Optional<String> project)
-      throws IOException {
+      throws Exception {
     List<String> replicaUrls =
         replicaSuffixes.stream()
             .map(suffix -> gitPath.resolve("${name}" + suffix + ".git").toString())

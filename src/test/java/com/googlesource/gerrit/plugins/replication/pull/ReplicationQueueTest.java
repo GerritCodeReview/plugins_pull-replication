@@ -50,7 +50,6 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
@@ -63,7 +62,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -124,7 +122,7 @@ public class ReplicationQueueTest {
   private Path pluginDataPath;
 
   @Before
-  public void setup() throws IOException, LargeObjectException {
+  public void setup() throws Exception {
     Path sitePath = createTempPath("site");
     sitePaths = new SitePaths(sitePath);
     Path pluginDataPath = createTempPath("data");
@@ -202,7 +200,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallBatchSendObjectWhenMetaRef() throws IOException {
+  public void shouldCallBatchSendObjectWhenMetaRef() throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -211,7 +209,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectWhenMetaRefAndRefUpdateEvent() throws IOException {
+  public void shouldCallSendObjectWhenMetaRefAndRefUpdateEvent() throws Exception {
     when(config.getBoolean("event", "stream-events", "enableBatchRefUpdatedEvents", false))
         .thenReturn(false);
 
@@ -239,7 +237,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldIgnoreEventWhenIsNotLocalInstanceId() throws IOException {
+  public void shouldIgnoreEventWhenIsNotLocalInstanceId() throws Exception {
     Event event = generateBatchRefUpdateEvent(TEST_REF_NAME);
     event.instanceId = FOREIGN_INSTANCE_ID;
     objectUnderTest.start();
@@ -249,7 +247,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallInitProjectWhenProjectIsMissing() throws IOException {
+  public void shouldCallInitProjectWhenProjectIsMissing() throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     when(batchHttpResult.isSuccessful()).thenReturn(false);
     when(batchHttpResult.isProjectMissing(any())).thenReturn(true);
@@ -262,7 +260,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectReorderingRefsHavingMetaAtTheEnd() throws IOException {
+  public void shouldCallSendObjectReorderingRefsHavingMetaAtTheEnd() throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta", "refs/changes/01/1/1");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -270,7 +268,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectKeepingMetaAtTheEnd() throws IOException {
+  public void shouldCallSendObjectKeepingMetaAtTheEnd() throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1", "refs/changes/01/1/meta");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -278,13 +276,8 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws IOException {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
-    when(batchHttpResult.isSuccessful()).thenReturn(false);
-    when(batchHttpResult.isProjectMissing(any())).thenReturn(true);
-    lenient().when(httpResult.isSuccessful()).thenReturn(false);
-    lenient().when(httpResult.isProjectMissing(any())).thenReturn(true);
-    when(source.isCreateMissingRepositories()).thenReturn(false);
+  public void shouldNotCallInitProjectWhenReplicateNewRepositoriesNotSet() throws Exception {
+    Event event = new TestEvent("refs/changes/01/1/meta");
 
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -293,7 +286,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallBatchSendObjectWhenPatchSetRefAndRefUpdateEvent() throws IOException {
+  public void shouldCallBatchSendObjectWhenPatchSetRefAndRefUpdateEvent() throws Exception {
     when(config.getBoolean("event", "stream-events", "enableBatchRefUpdatedEvents", false))
         .thenReturn(false);
 
@@ -312,16 +305,10 @@ public class ReplicationQueueTest {
             config,
             applyObjectsRefsFilter,
             shutdownState);
-
-    Event event = new TestEvent("refs/changes/01/1/1");
-    objectUnderTest.start();
-    objectUnderTest.onEvent(event);
-
-    verify(fetchRestApiClient).callBatchSendObject(any(), any(), anyLong(), any());
   }
 
   @Test
-  public void shouldCallBatchSendObjectWhenPatchSetRef() throws IOException {
+  public void shouldCallBatchSendObjectWhenPatchSetRef() throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
@@ -330,9 +317,9 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallBatchFetchWhenIOException()
-      throws IOException, LargeObjectException, RefUpdateException {
+  public void shouldFallbackToCallFetchWhenIOException() throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
+
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenThrow(IOException.class);
@@ -343,9 +330,9 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldFallbackToCallBatchFetchWhenLargeRef()
-      throws IOException, LargeObjectException, RefUpdateException {
+  public void shouldFallbackToCallBatchFetchWhenLargeRef() throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+
     objectUnderTest.start();
 
     when(revReader.read(any(), any(), anyString(), anyInt())).thenReturn(Optional.empty());
@@ -358,7 +345,7 @@ public class ReplicationQueueTest {
   @Test
   public void
       shouldFallbackToCallBatchFetchWhenParentObjectIsMissingAndRefDoesntMatchApplyObjectsRefsFilter()
-          throws IOException {
+          throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
@@ -373,7 +360,7 @@ public class ReplicationQueueTest {
   @Test
   public void
       shouldFallbackToApplyObjectsForEachRefWhenParentObjectIsMissingAndRefMatchesApplyObjectsRefFilter()
-          throws IOException {
+          throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1", "refs/changes/02/1/1");
     objectUnderTest.start();
 
@@ -390,7 +377,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallBatchFetchWhenParentObjectNotMissingButApplyObjectFails()
-      throws IOException {
+      throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
@@ -406,7 +393,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnMetaRef()
-      throws IOException {
+      throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
     objectUnderTest.start();
 
@@ -427,7 +414,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToApplyAllParentObjectsWhenParentObjectIsMissingOnAllowedRefs()
-      throws IOException {
+      throws Exception {
     String refName = "refs/tags/test-tag";
     Event event = generateBatchRefUpdateEvent(refName);
     objectUnderTest.start();
@@ -449,7 +436,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallSendObjectsIfBatchedRefsNotEnabledAtSource() throws IOException {
+  public void shouldCallSendObjectsIfBatchedRefsNotEnabledAtSource() throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     when(source.enableBatchedRefs()).thenReturn(false);
     objectUnderTest.start();
@@ -460,7 +447,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldCallFetchIfBatchedRefsNotEnabledAtSource() throws IOException {
+  public void shouldCallFetchIfBatchedRefsNotEnabledAtSource() throws Exception {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     when(source.enableBatchedRefs()).thenReturn(false);
     when(httpResult.isSuccessful()).thenReturn(false);
@@ -475,7 +462,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldCallBatchFetchForAllTheRefsInTheBatchIfApplyObjectFails()
-      throws IOException, URISyntaxException {
+      throws Exception, URISyntaxException {
     Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1", "refs/changes/02/1/1");
     when(batchHttpResult.isSuccessful()).thenReturn(false);
     when(batchHttpResult.isParentObjectMissing()).thenReturn(true);
@@ -495,7 +482,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldSkipEventWhenMultiSiteVersionRef() throws IOException {
+  public void shouldSkipEventWhenMultiSiteVersionRef() throws Exception {
     FileBasedConfig fileConfig =
         new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
     fileConfig.setString("replication", null, "excludeRefs", "refs/multi-site/version");
@@ -525,7 +512,7 @@ public class ReplicationQueueTest {
   }
 
   @Test
-  public void shouldSetShutdownStateWhenStopping() throws IOException {
+  public void shouldSetShutdownStateWhenStopping() throws Exception {
     objectUnderTest.stop();
     assertThat(shutdownState.isShuttingDown()).isTrue();
   }
@@ -594,7 +581,7 @@ public class ReplicationQueueTest {
     verify(source, never()).scheduleUpdateHead(any(), any(), any());
   }
 
-  protected static Path createTempPath(String prefix) throws IOException {
+  protected static Path createTempPath(String prefix) throws Exception {
     return createTempDirectory(prefix);
   }
 
@@ -619,7 +606,7 @@ public class ReplicationQueueTest {
     return event;
   }
 
-  private void verifySendObjectOrdering(String firstRef, String secondRef) throws IOException {
+  private void verifySendObjectOrdering(String firstRef, String secondRef) throws Exception {
     verify(fetchRestApiClient)
         .callBatchSendObject(any(), batchRefsCaptor.capture(), anyLong(), any());
     List<BatchApplyObjectData> batchRefs = batchRefsCaptor.getValue();
