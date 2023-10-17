@@ -79,6 +79,23 @@
       "message": "Post-merge -2: this should have not been merged and needs to be fixed urgently on master.",
       "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa8f0607_21de546d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T23:26:20Z",
+      "side": 1,
+      "message": "We should have involved also @marcin and @dani more actively, who are more aware of the issues associated with the pull-replication and batching consistency.\n\nI am sure that Darius and Ponch did their best to review this change, but possibly did not have enough background on the rationale behind the batching.",
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
