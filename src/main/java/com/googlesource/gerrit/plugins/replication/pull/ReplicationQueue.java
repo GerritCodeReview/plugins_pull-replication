@@ -518,7 +518,19 @@ public class ReplicationQueue
   private HttpResult initProject(
       Project.NameKey project, URIish uri, FetchApiClient fetchClient, HttpResult result)
       throws IOException, ClientProtocolException {
-    HttpResult initProjectResult = fetchClient.initProject(project, uri);
+    RevisionData revisionData =
+        revReaderProvider
+            .get()
+            .read(project, null, RefNames.REFS_CONFIG, 0)
+            .orElseThrow(
+                () ->
+                    new IllegalStateException(
+                        String.format("Project %s does not have refs/meta/config", project)));
+
+    List<RevisionData> revisionDataList =
+        fetchWholeMetaHistory(project, RefNames.REFS_CONFIG, revisionData);
+    HttpResult initProjectResult =
+        fetchClient.initProject(project, uri, System.currentTimeMillis(), revisionDataList);
     if (initProjectResult.isSuccessful()) {
       result = fetchClient.callFetch(project, FetchOne.ALL_REFS, uri);
     } else {
