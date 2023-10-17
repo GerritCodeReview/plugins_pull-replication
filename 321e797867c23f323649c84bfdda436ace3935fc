@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63634375_4654bea7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-17T18:47:51Z",
+      "side": 1,
+      "message": "I think I should add a log here.",
+      "revId": "321e797867c23f323649c84bfdda436ace3935fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
