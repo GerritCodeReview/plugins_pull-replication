@@ -25,7 +25,6 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.common.reflect.TypeToken;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.api.projects.HeadInput;
@@ -231,7 +230,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doBatchApplyObject(HttpServletRequest httpRequest)
       throws RestApiException, IOException {
-    TypeToken<List<RevisionInput>> collectionType = new TypeToken<>() {};
+    TypeLiteral<List<RevisionInput>> collectionType = new TypeLiteral<>() {};
     List<RevisionInput> inputs = readJson(httpRequest, collectionType.getType());
     IdString id = getProjectName(httpRequest).get();
 
@@ -275,7 +274,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doBatchFetch(HttpServletRequest httpRequest)
       throws IOException, RestApiException {
-    TypeToken<List<Input>> collectionType = new TypeToken<>() {};
+    TypeLiteral<List<Input>> collectionType = new TypeLiteral<>() {};
     List<Input> inputs = readJson(httpRequest, collectionType.getType());
     IdString id = getProjectName(httpRequest).get();
 
