@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b8cd2e1_2069f631",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T23:04:32Z",
+      "side": 1,
+      "message": "Need rebase on stable-3.6.",
+      "revId": "321e797867c23f323649c84bfdda436ace3935fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63634375_4654bea7",
@@ -14,6 +31,47 @@
       "writtenOn": "2023-10-17T18:47:51Z",
       "side": 1,
       "message": "I think I should add a log here.",
+      "revId": "321e797867c23f323649c84bfdda436ace3935fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df61688d_4858d2d6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T23:04:32Z",
+      "side": 1,
+      "message": "Yes, there should be a warning saying that the remote endpoint was not found hence we\u0027re running a fallback to the legacy one.",
+      "parentUuid": "63634375_4654bea7",
+      "revId": "321e797867c23f323649c84bfdda436ace3935fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a62da66_76f04fba",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T23:04:32Z",
+      "side": 1,
+      "message": "Where the revision data in the parameters? Just say `formatInitProjectUrl` is enough IMHO.",
+      "range": {
+        "startLine": 261,
+        "startChar": 37,
+        "endLine": 261,
+        "endChar": 53
+      },
       "revId": "321e797867c23f323649c84bfdda436ace3935fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
