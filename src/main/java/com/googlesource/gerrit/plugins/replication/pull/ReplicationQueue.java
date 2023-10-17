@@ -404,7 +404,7 @@ public class ReplicationQueue
       long eventCreatedOn,
       boolean isDelete,
       List<RevisionData> revision)
-      throws MissingParentObjectException, IOException {
+      throws IOException {
     String revisionDataStr =
         Optional.ofNullable(revision).orElse(ImmutableList.of()).stream()
             .map(RevisionData::toString)
