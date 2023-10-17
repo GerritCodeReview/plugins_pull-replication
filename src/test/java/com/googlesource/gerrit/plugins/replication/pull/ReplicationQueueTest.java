@@ -33,6 +33,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
@@ -147,7 +148,8 @@ public class ReplicationQueueTest {
         .when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
-    when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
+    when(fetchRestApiClient.initProject(any(), any(), anyLong(), any()))
+        .thenReturn(successfulHttpResult);
     when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
@@ -206,7 +208,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).initProject(any(), any());
+    verify(fetchRestApiClient).initProject(any(), any(), anyLong(), any());
   }
 
   @Test
@@ -219,7 +221,22 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient, never()).initProject(any(), any());
+    verify(fetchRestApiClient, never()).initProject(any(), any(), anyLong(), any());
+  }
+
+  @Test
+  public void shouldNotCallInitProjectWhenProjectWithoutConfiguration() throws Exception {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    when(httpResult.isSuccessful()).thenReturn(false);
+    when(httpResult.isProjectMissing(any())).thenReturn(true);
+    when(source.isCreateMissingRepositories()).thenReturn(true);
+    when(revReader.read(any(), any(), eq(RefNames.REFS_CONFIG), anyInt()))
+        .thenReturn(Optional.empty());
+
+    objectUnderTest.start();
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient, never()).initProject(any(), any(), anyLong(), any());
   }
 
   @Test
