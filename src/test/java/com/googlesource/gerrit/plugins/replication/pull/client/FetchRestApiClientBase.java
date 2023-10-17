@@ -34,9 +34,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjec
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -153,7 +151,7 @@ public abstract class FetchRestApiClientBase {
   protected abstract void assertAuthentication(HttpRequestBase httpRequest);
 
   @Test
-  public void shouldCallFetchEndpoint() throws IOException, URISyntaxException {
+  public void shouldCallFetchEndpoint() throws Exception {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -169,7 +167,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallBatchFetchEndpoint() throws IOException, URISyntaxException {
+  public void shouldCallBatchFetchEndpoint() throws Exception {
 
     objectUnderTest.callBatchFetch(
         Project.nameKey("test_repo"),
@@ -188,7 +186,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldByDefaultCallSyncFetchForAllRefs() throws IOException, URISyntaxException {
+  public void shouldByDefaultCallSyncFetchForAllRefs() throws Exception {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -199,7 +197,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallAsyncFetchForAllRefs() throws IOException, URISyntaxException {
+  public void shouldCallAsyncFetchForAllRefs() throws Exception {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"NO_SYNC_REFS"});
@@ -224,7 +222,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallAsyncBatchFetchForAllRefs() throws IOException, URISyntaxException {
+  public void shouldCallAsyncBatchFetchForAllRefs() throws Exception {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"NO_SYNC_REFS"});
@@ -259,7 +257,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallSyncFetchOnlyForMetaRef() throws IOException, URISyntaxException {
+  public void shouldCallSyncFetchOnlyForMetaRef() throws Exception {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
         "{\"label\":\"Replication\", \"ref_name\": \"" + metaRefName + "\", \"async\":false}";
@@ -290,7 +288,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallSyncBatchFetchOnlyForMetaRef() throws IOException, URISyntaxException {
+  public void shouldCallSyncBatchFetchOnlyForMetaRef() throws Exception {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
         "[{\"label\":\"Replication\", \"ref_name\": \"" + metaRefName + "\", \"async\":false}]";
@@ -317,7 +315,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallFetchEndpointWithPayload() throws IOException, URISyntaxException {
+  public void shouldCallFetchEndpointWithPayload() throws Exception {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -328,7 +326,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallBatchFetchEndpointWithPayload() throws IOException, URISyntaxException {
+  public void shouldCallBatchFetchEndpointWithPayload() throws Exception {
 
     String testRef = RefNames.REFS_HEADS + "test";
     List<String> refs = List.of(refName, testRef);
@@ -350,7 +348,7 @@ public abstract class FetchRestApiClientBase {
 
   @Test
   public void shouldExecuteOneFetchCallForAsyncAndOneForSyncRefsDuringBatchFetch()
-      throws IOException, URISyntaxException {
+      throws Exception {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/heads\\/test"});
@@ -385,8 +383,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldNotExecuteSyncFetchCallWhenAsyncCallFailsDuringBatchFetch()
-      throws IOException, URISyntaxException {
+  public void shouldNotExecuteSyncFetchCallWhenAsyncCallFailsDuringBatchFetch() throws Exception {
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/heads\\/test"});
     when(httpClient.execute(any(), any())).thenReturn(new HttpResult(500, Optional.of("BOOM")));
@@ -415,7 +412,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldSetContentTypeHeader() throws IOException, URISyntaxException {
+  public void shouldSetContentTypeHeader() throws Exception {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -427,7 +424,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldSetContentTypeHeaderInBatchFetch() throws IOException, URISyntaxException {
+  public void shouldSetContentTypeHeaderInBatchFetch() throws Exception {
 
     objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), List.of(refName), new URIish(api));
 
@@ -439,7 +436,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallSendObjectEndpoint() throws IOException, URISyntaxException {
+  public void shouldCallSendObjectEndpoint() throws Exception {
 
     objectUnderTest.callSendObject(
         Project.nameKey("test_repo"),
@@ -461,7 +458,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallSendObjectEndpointWithPayload() throws IOException, URISyntaxException {
+  public void shouldCallSendObjectEndpointWithPayload() throws Exception {
 
     objectUnderTest.callSendObject(
         Project.nameKey("test_repo"),
@@ -478,7 +475,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldSetContentTypeHeaderForSendObjectCall() throws IOException, URISyntaxException {
+  public void shouldSetContentTypeHeaderForSendObjectCall() throws Exception {
 
     objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
 
@@ -538,7 +535,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldUseReplicationLabelWhenProvided() throws IOException, URISyntaxException {
+  public void shouldUseReplicationLabelWhenProvided() throws Exception {
     when(config.getString("replication", null, "instanceLabel")).thenReturn(instanceId);
     FetchRestApiClient objectUnderTest =
         new FetchRestApiClient(
@@ -559,7 +556,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallInitProjectEndpoint() throws IOException, URISyntaxException {
+  public void shouldCallInitProjectEndpoint() throws Exception {
 
     objectUnderTest.initProject(Project.nameKey("test_repo"), new URIish(api));
 
@@ -576,7 +573,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallDeleteProjectEndpoint() throws IOException, URISyntaxException {
+  public void shouldCallDeleteProjectEndpoint() throws Exception {
 
     objectUnderTest.deleteProject(Project.nameKey("test_repo"), new URIish(api));
 
@@ -593,7 +590,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallUpdateHEADEndpoint() throws IOException, URISyntaxException {
+  public void shouldCallUpdateHEADEndpoint() throws Exception {
     String newHead = "newHead";
     String projectName = "aProject";
     objectUnderTest.updateHead(Project.nameKey(projectName), newHead, new URIish(api));
@@ -615,7 +612,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallBatchSendObjectEndpoint() throws IOException, URISyntaxException {
+  public void shouldCallBatchSendObjectEndpoint() throws Exception {
 
     List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
     batchApplyObjects.add(
@@ -637,8 +634,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallBatchApplyObjectEndpointWithAListOfRefsInPayload()
-      throws IOException, URISyntaxException {
+  public void shouldCallBatchApplyObjectEndpointWithAListOfRefsInPayload() throws Exception {
     List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
     RevisionData revisionA = createSampleRevisionData("a");
     RevisionData revisionB = createSampleRevisionData("b");
@@ -680,8 +676,7 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldCallBatchApplyObjectEndpointWithNoRevisionDataForDeletes()
-      throws IOException, URISyntaxException {
+  public void shouldCallBatchApplyObjectEndpointWithNoRevisionDataForDeletes() throws Exception {
     List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
     batchApplyObjects.add(BatchApplyObjectData.create(refName, Optional.empty(), true));
 
@@ -703,7 +698,7 @@ public abstract class FetchRestApiClientBase {
 
   @Test(expected = IllegalArgumentException.class)
   public void shouldThrowExceptionIfDeleteFlagIsSetButRevisionDataIsPresentForBatchSendEndpoint()
-      throws IOException, URISyntaxException {
+      throws Exception {
     List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
     batchApplyObjects.add(
         BatchApplyObjectData.create(refName, Optional.of(createSampleRevisionData()), true));
@@ -712,7 +707,7 @@ public abstract class FetchRestApiClientBase {
         Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
   }
 
-  public String readPayload(HttpPost entity) throws UnsupportedOperationException, IOException {
+  public String readPayload(HttpPost entity) throws Exception {
     ByteBuffer buf = IO.readWholeStream(entity.getEntity().getContent(), 1024);
     return RawParseUtils.decode(buf.array(), buf.arrayOffset(), buf.limit()).trim();
   }
