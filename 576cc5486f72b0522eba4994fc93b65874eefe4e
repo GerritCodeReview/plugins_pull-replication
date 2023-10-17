@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fad51393_fcc095ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-17T22:49:30Z",
+      "side": 1,
+      "message": "Post-merge -2: this is wrong. When we have a batch it should be executed as a whole. It doesn\u0027t make sense to have half sync and half async.",
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
