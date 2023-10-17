@@ -47,6 +47,10 @@ public class PullReplicationStateLogger implements ReplicationStateListener {
   }
 
   private void stateWriteErr(String msg, ReplicationState[] states) {
+    if (states == null) {
+      return;
+    }
+
     for (ReplicationState rs : states) {
       if (rs != null) {
         rs.writeStdErr(msg);
