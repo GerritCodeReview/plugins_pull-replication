@@ -309,7 +309,11 @@ public class PullReplicationIT extends PullReplicationSetupBase {
         getInstance(SourcesCollection.class).getByRemoteName(TEST_REPLICATION_REMOTE).get();
 
     FetchApiClient client = getInstance(FetchApiClient.Factory.class).create(source);
-    client.initProject(projectToCreate, new URIish(source.getApis().get(0)));
+    client.initProject(
+        projectToCreate,
+        new URIish(source.getApis().get(0)),
+        System.currentTimeMillis(),
+        Collections.emptyList());
 
     waitUntil(() -> repoManager.list().contains(projectToCreate));
   }
