@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static javax.servlet.http.HttpServletResponse.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -38,6 +39,7 @@ import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
+import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
@@ -383,6 +385,68 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
+  }
+
+  @Test
+  public void shouldCallInitProjectEndpointWithRevisionData()
+      throws IOException, URISyntaxException {
+    objectUnderTest.initProject(
+        Project.nameKey("test_repo"), new URIish(api), eventCreatedOn, Collections.emptyList());
+
+    verify(httpClient, times(1)).execute(httpPutCaptor.capture(), any());
+    HttpPut httpPut = httpPutCaptor.getValue();
+    String payload =
+        CharStreams.toString(
+            new InputStreamReader(httpPut.getEntity().getContent(), Charsets.UTF_8));
+    assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPut.getURI().getPath())
+        .isEqualTo(
+            String.format(
+                "%s/plugins/pull-replication/init-project/config/test_repo.git",
+                urlAuthenticationPrefix()));
+    assertThat(payload)
+        .isEqualTo(
+            String.format(
+                "{\"label\":\"Replication\",\"ref_name\":\"refs/meta/config\",\"event_created_on\":%d,\"revisions_data\":[]}",
+                eventCreatedOn));
+    assertAuthentication(httpPut);
+  }
+
+  @Test
+  public void shouldFallBackWhenInitProjectEndpointWithRevisionDataNotFound()
+      throws IOException, URISyntaxException {
+    HttpResult httpResultNotFound = new HttpResult(SC_NOT_FOUND, Optional.empty());
+    HttpResult httpResultOK = new HttpResult(SC_OK, Optional.empty());
+    when(httpClient.execute(any(HttpRequestBase.class), any()))
+        .thenReturn(httpResultNotFound)
+        .thenReturn(httpResultOK);
+    when(httpClientFactory.create(any())).thenReturn(httpClient);
+    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    objectUnderTest =
+        new FetchRestApiClient(
+            credentials,
+            httpClientFactory,
+            replicationConfig,
+            syncRefsFilter,
+            pluginName,
+            instanceId,
+            bearerTokenProvider,
+            source);
+
+    HttpResult httpResultUnderTest =
+        objectUnderTest.initProject(
+            Project.nameKey("test_repo"), new URIish(api), eventCreatedOn, Collections.emptyList());
+
+    assertThat(httpResultUnderTest.isSuccessful()).isTrue();
+    verify(httpClient, times(2)).execute(httpPutCaptor.capture(), any());
+    HttpPut httpPut = httpPutCaptor.getValue();
+    assertThat(httpPut.getURI().getHost()).isEqualTo("gerrit-host");
+    assertThat(httpPut.getURI().getPath())
+        .isEqualTo(
+            String.format(
+                "%s/plugins/pull-replication/init-project/test_repo.git",
+                urlAuthenticationPrefix()));
+    assertAuthentication(httpPut);
   }
 
   @Test
