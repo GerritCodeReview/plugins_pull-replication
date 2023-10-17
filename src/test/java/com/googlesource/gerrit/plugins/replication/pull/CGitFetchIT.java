@@ -86,7 +86,7 @@ public class CGitFetchIT extends FetchITBase {
   }
 
   @Test(expected = TransportException.class)
-  public void shouldThrowExecptionWhenRefDoesNotExists() throws Exception {
+  public void shouldThrowExceptionWhenRefDoesNotExists() throws Exception {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
     String nonExistingRef = "refs/changes/02/20000/1:refs/changes/02/20000/1";
     try (Repository repo = repoManager.openRepository(project)) {
@@ -101,7 +101,7 @@ public class CGitFetchIT extends FetchITBase {
   }
 
   @Test(expected = TransportException.class)
-  public void shouldThrowExecptionWhenSourceDoesNotExists() throws Exception {
+  public void shouldThrowExceptionWhenSourceDoesNotExists() throws Exception {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
     try (Repository repo = repoManager.openRepository(project)) {
 

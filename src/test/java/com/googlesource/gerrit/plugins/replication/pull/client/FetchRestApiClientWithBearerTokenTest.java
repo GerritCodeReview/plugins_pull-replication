@@ -19,7 +19,6 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static org.mockito.Mockito.*;
 
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
-import java.io.IOException;
 import java.util.Optional;
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
@@ -32,7 +31,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class FetchRestApiClientWithBearerTokenTest extends FetchRestApiClientBase {
 
   @Before
-  public void setup() throws IOException {
+  public void setup() throws Exception {
     when(bearerTokenProvider.get()).thenReturn(Optional.of("some-bearer-token"));
     when(replicationConfig.getConfig()).thenReturn(config);
     when(config.getStringList("replication", null, "syncRefs")).thenReturn(new String[0]);
