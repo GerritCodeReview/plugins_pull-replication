@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8473bf5a_bdfbe81e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-18T19:04:27Z",
+      "side": 1,
+      "message": "Good spot, thanks.",
+      "parentUuid": "ea536197_9a7e1363",
+      "revId": "8e80d88ef1672f42714d98a0ab5439420e2724b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a258871e_c7efd9f8",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/CGitFetchWithMirrorIT.java",
         "patchSetId": 7
