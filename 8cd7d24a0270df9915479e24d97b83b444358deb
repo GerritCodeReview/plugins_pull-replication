@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b3ec44c2_73abaa2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:23:51Z",
+      "side": 1,
+      "message": "\u003e My main concern is the cost of the fallback is too high and a flag in the config would have been a better choice, as it would allow us to make an early decision as to what endpoint to target.\n\nThe purpose of the `fallback` is mainly in cases of `Rolling Upgrade` where we need to ensure that backward compatibility is guaranteed. \nI don\u0027t see the value of a flag in the config. Where is that flag, in the Gerrit instance that behaves as a client or in the Gerrit instance that behaves as a server? \n\n\u003eAlso - a separate question for the gurus - this change is not complete as it is missing the client side implementation (which i see is done in a separate change) and it could therefore be a breaking change, if it was merged. Are we aiming for the minimum change which is complete, or we are happy to merge incomplete/half-baked changes (knowing that eventually the feature will be complete)?\n\nThe idea is to merge all the changes together as they belong to the same topic `init-project-with-project-config`. \n\nHappy to discuss all the points.",
+      "parentUuid": "2a6de69f_369f6846",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d980cbc7_0b3f46e1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-18T16:10:04Z",
       "side": 1,
       "message": "you can remove `ClientProtocolException` from the throws list.",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a149160_ee9fc027",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:23:51Z",
+      "side": 1,
+      "message": "You are right it is not needed but that should be done as a part of another change.",
+      "parentUuid": "d980cbc7_0b3f46e1",
       "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2023-10-18T16:10:04Z",
       "side": 1,
       "message": "I don\u0027t understand this logic well, but if the project config can inherit from the parent config, then perhaps the `maxParentObjectIds` (last arg) should not be zero.",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac14ddb5_9be699f7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:23:51Z",
+      "side": 1,
+      "message": "Definitively I need look at it.",
+      "parentUuid": "92445386_306cf325",
       "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
