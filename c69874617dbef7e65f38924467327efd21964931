@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b19be6f_edc97d23",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T11:41:04Z",
+      "side": 1,
+      "message": "In the E2E tests (Primary/Replica), I have done the Gerrit Replica returns 405 Method Not Allowed.",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
