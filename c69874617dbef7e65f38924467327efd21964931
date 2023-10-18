@@ -141,6 +141,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "568335b2_d11df425",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:32:10Z",
+      "side": 1,
+      "message": "I am happy to update it in the commit descriptions, methods, and endpoint in the chain of changes.",
+      "parentUuid": "76597836_5bc54a14",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b19be6f_edc97d23",
