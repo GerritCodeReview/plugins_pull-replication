@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "209861f5_ca6df9cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-18T16:17:53Z",
+      "side": 1,
+      "message": "nice 👍",
+      "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50bc9abb_83dcfc36",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/util/PayloadSerDes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-18T16:17:53Z",
+      "side": 1,
+      "message": "Since `PayloadSerDes` has no state, all the methods can be static and therefore you don\u0027t have to pass it as a dependency to `PullReplicationFilter` (and this will reduce the constructor arg list).",
+      "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
