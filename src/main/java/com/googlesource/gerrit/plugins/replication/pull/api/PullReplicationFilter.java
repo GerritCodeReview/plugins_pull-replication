@@ -80,6 +80,11 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private ProjectCache projectCache;
   private String pluginName;
   private final Provider<CurrentUser> currentUserProvider;
+<<<<<<< PATCH SET (78df8d Add endpoint that allows init project with configuration)
+  private final PayloadSerDes payloadSerDes;
+  private final ProjectInitializationWithConfigAction projectInitializationWithConfigAction;
+=======
+>>>>>>> BASE      (e595c2 Extract the ser/des of HTTP payloads to utilitily class)
 
   @Inject
   public PullReplicationFilter(
@@ -91,7 +96,13 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       ProjectDeletionAction projectDeletionAction,
       ProjectCache projectCache,
       @PluginName String pluginName,
+<<<<<<< PATCH SET (78df8d Add endpoint that allows init project with configuration)
+      Provider<CurrentUser> currentUserProvider,
+      PayloadSerDes payloadSerDes,
+      ProjectInitializationWithConfigAction projectInitializationWithConfigAction) {
+=======
       Provider<CurrentUser> currentUserProvider) {
+>>>>>>> BASE      (e595c2 Extract the ser/des of HTTP payloads to utilitily class)
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.applyObjectsAction = applyObjectsAction;
@@ -101,6 +112,11 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.projectCache = projectCache;
     this.pluginName = pluginName;
     this.currentUserProvider = currentUserProvider;
+<<<<<<< PATCH SET (78df8d Add endpoint that allows init project with configuration)
+    this.payloadSerDes = payloadSerDes;
+    this.projectInitializationWithConfigAction = projectInitializationWithConfigAction;
+=======
+>>>>>>> BASE      (e595c2 Extract the ser/des of HTTP payloads to utilitily class)
   }
 
   @Override
@@ -129,6 +145,12 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
           return;
         }
         doInitProject(httpRequest, httpResponse);
+      } else if (isInitProjectWithConfigAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
+        if (!checkAcceptHeader(httpRequest, httpResponse)) {
+          return;
+        }
+        doInitProjectWithConfig(httpRequest, httpResponse);
       } else if (isUpdateHEADAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         PayloadSerDes.writeResponse(httpResponse, doUpdateHEAD(httpRequest));
@@ -184,6 +206,12 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private void doInitProject(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
       throws IOException, ServletException {
     projectInitializationAction.service(httpRequest, httpResponse);
+  }
+
+  private void doInitProjectWithConfig(
+      HttpServletRequest httpRequest, HttpServletResponse httpResponse)
+      throws IOException, ServletException {
+    projectInitializationWithConfigAction.service(httpRequest, httpResponse);
   }
 
   @SuppressWarnings("unchecked")
@@ -297,5 +325,11 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
             .getRequestURI()
             .endsWith(String.format("/%s~" + DELETE_PROJECT_ENDPOINT, pluginName))
         && "DELETE".equals(httpRequest.getMethod());
+  }
+
+  private boolean isInitProjectWithConfigAction(HttpServletRequest httpRequest) {
+    return httpRequest
+        .getRequestURI()
+        .contains(String.format("/%s/" + INIT_PROJECT_WITH_CONFIG_ENDPOINT + "/", pluginName));
   }
 }
