@@ -69,6 +69,24 @@
       "parentUuid": "38a562c9_f03d2c1f",
       "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc8cb9b4_23ceaba7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/util/PayloadSerDes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:52:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e45476d6_1656c65c",
+      "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
