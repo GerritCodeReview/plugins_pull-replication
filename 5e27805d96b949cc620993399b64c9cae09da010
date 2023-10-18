@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1c03f1f_c09d31f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T14:33:22Z",
+      "side": 1,
+      "message": "This change will help the new endpoint (in the future change) to reuse the same code to deserialise payload and avoid marking methods as public to be reusable which is something not desirable.",
+      "revId": "5e27805d96b949cc620993399b64c9cae09da010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
