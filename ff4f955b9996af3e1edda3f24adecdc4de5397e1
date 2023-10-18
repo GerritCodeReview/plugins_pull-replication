@@ -122,6 +122,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a62345a9_893a1570",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T11:43:36Z",
+      "side": 1,
+      "message": "Please, can you review the change 389895",
+      "parentUuid": "1c7643c2_3313867b",
+      "range": {
+        "startLine": 429,
+        "startChar": 2,
+        "endLine": 429,
+        "endChar": 15
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c803b06_1a075df3",
@@ -135,6 +159,30 @@
       "writtenOn": "2023-08-26T14:54:21Z",
       "side": 1,
       "message": "Shall we pass the provider instead? So we consistently use the provider in this class in general?",
+      "range": {
+        "startLine": 430,
+        "startChar": 6,
+        "endLine": 430,
+        "endChar": 36
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c4270a7_28a6f05a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T11:43:36Z",
+      "side": 1,
+      "message": "Please, can you review the change 389895",
+      "parentUuid": "7c803b06_1a075df3",
       "range": {
         "startLine": 430,
         "startChar": 6,
@@ -162,6 +210,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbd06065_c133c8cc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T11:43:36Z",
+      "side": 1,
+      "message": "Please, can you review the change 389895",
+      "parentUuid": "e3c272d9_5039f41f",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a03cf3a_d325aad0",
@@ -185,6 +251,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d91b21c_dcfcc351",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T11:43:36Z",
+      "side": 1,
+      "message": "Please, can you review the change 389895",
+      "parentUuid": "9a03cf3a_d325aad0",
+      "range": {
+        "startLine": 437,
+        "startChar": 7,
+        "endLine": 437,
+        "endChar": 65
+      },
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e86c66a_a83aba96",
@@ -198,6 +288,24 @@
       "writtenOn": "2023-08-26T14:54:21Z",
       "side": 1,
       "message": "This won\u0027t cover the case of a new project with history, right?",
+      "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02ef74b3_8f6d7ad3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T11:43:36Z",
+      "side": 1,
+      "message": "Please, can you review the change 389895",
+      "parentUuid": "4e86c66a_a83aba96",
       "revId": "ff4f955b9996af3e1edda3f24adecdc4de5397e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
