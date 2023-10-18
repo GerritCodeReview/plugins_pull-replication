@@ -36,4 +36,5 @@ public interface PullReplicationEndpoints {
   public static final String FETCH_ENDPOINT = "fetch";
   public static final String INIT_PROJECT_ENDPOINT = "init-project";
   public static final String DELETE_PROJECT_ENDPOINT = "delete-project";
+  public static final String INIT_PROJECT_WITH_CONFIG_ENDPOINT = "init-project-config";
 }
