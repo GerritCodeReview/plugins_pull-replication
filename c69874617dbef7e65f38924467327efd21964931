@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b0ee749_ace6a751",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:05:06Z",
+      "side": 1,
+      "message": "You are correct. I will change it.",
+      "parentUuid": "4fe3f1bc_61a299be",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bc8b636d_cca76c11",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
         "patchSetId": 7
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "434d782a_3ce4b5c8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:05:06Z",
+      "side": 1,
+      "message": "I think you are right. I will change it.",
+      "parentUuid": "bc8b636d_cca76c11",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ddcfca10_9a5912ee",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
         "patchSetId": 7
@@ -65,6 +101,24 @@
       "writtenOn": "2023-10-18T15:46:44Z",
       "side": 1,
       "message": "```suggestion\n        \"%s/%splugins/%s/init-project-with-properties/%s.git\",\n```",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb9b4580_765bff17",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:05:06Z",
+      "side": 1,
+      "message": "Is it properties or configuration? What is the term in our domain model?",
+      "parentUuid": "ddcfca10_9a5912ee",
       "revId": "c69874617dbef7e65f38924467327efd21964931",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -100,6 +154,24 @@
       "side": 1,
       "message": "This is bizarre and confusing, i would expect a 404 to be returned. Perhaps we can code a bit more defensively here, ie check for both codes",
       "parentUuid": "6b19be6f_edc97d23",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0fc3a1b_5945acde",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:05:06Z",
+      "side": 1,
+      "message": "Initially, it was 404 but when I did the E2E I found that it was 405. Happy to become defensive. I will change it.",
+      "parentUuid": "cc7f0bf7_50a59696",
       "revId": "c69874617dbef7e65f38924467327efd21964931",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
