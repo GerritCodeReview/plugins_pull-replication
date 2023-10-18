@@ -51,6 +51,24 @@
       "parentUuid": "50bc9abb_83dcfc36",
       "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e45476d6_1656c65c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/util/PayloadSerDes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-18T16:51:26Z",
+      "side": 1,
+      "message": "yup, the `gson` and all the methods.",
+      "parentUuid": "38a562c9_f03d2c1f",
+      "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
