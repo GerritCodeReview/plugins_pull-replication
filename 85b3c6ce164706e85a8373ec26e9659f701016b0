@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e25dd71c_b2dc2ec2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-18T16:25:42Z",
+      "side": 1,
+      "message": "I think something needs to change, because it is not clear to the end user why you\u0027d choose this method over the other one. So I think a more descriptive method name is a good start, perhaps coupled with a javadoc.",
+      "parentUuid": "ac10ff27_00a7c0ca",
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25d5153a_030a868d",

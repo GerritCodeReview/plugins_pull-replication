@@ -125,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76597836_5bc54a14",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-18T16:25:42Z",
+      "side": 1,
+      "message": "this is a very good question. The ref which stores this information is `refs/meta/config`, the original change [1] refers in the title to \"project properties\" and in the UI we refer to \"Repository options\". Go figure 😂\n\n[1] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/383734]",
+      "parentUuid": "cb9b4580_765bff17",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b19be6f_edc97d23",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
         "patchSetId": 7
