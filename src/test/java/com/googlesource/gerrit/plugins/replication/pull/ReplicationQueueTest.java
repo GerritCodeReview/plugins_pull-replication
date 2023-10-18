@@ -147,7 +147,8 @@ public class ReplicationQueueTest {
         .when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
-    when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
+    when(fetchRestApiClient.initProject(any(), any(), anyLong(), any()))
+        .thenReturn(successfulHttpResult);
     when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
@@ -206,7 +207,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).initProject(any(), any());
+    verify(fetchRestApiClient).initProject(any(), any(), anyLong(), any());
   }
 
   @Test
@@ -219,7 +220,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient, never()).initProject(any(), any());
+    verify(fetchRestApiClient, never()).initProject(any(), any(), anyLong(), any());
   }
 
   @Test
