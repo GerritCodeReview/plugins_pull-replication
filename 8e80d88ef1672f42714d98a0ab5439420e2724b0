@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a258871e_c7efd9f8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/CGitFetchWithMirrorIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-18T11:38:55Z",
+      "side": 1,
+      "message": "Technically these can never fail, as we\u0027ll timeout in `waitUntil` when we fail. This pattern is taken from elsewhere, I assume to prevent races. In spite of that I still think we should keep the assertions as these display intent.",
+      "revId": "8e80d88ef1672f42714d98a0ab5439420e2724b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f25ceaf5_a615a1a0",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/JGitFetchIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-18T11:38:55Z",
+      "side": 1,
+      "message": "Some minor refactoring to this test as we\u0027ve moved some of the methods used into the parent class, so I took the opportunity to reduce some noise here.\n\nNote that there will be another change to address the missing test for the JGit client for when the mirror option is unset, as this has now been raised twice by @alvaro.vilaplana@gmail.com in the JGit change, and @luca.milanesio@gmail.com in this one.",
+      "revId": "8e80d88ef1672f42714d98a0ab5439420e2724b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

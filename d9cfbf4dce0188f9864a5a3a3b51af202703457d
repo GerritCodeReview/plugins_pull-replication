@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "912e51b8_0b5621e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-18T11:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "582bd1f2_925b2b57",
+      "revId": "d9cfbf4dce0188f9864a5a3a3b51af202703457d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23974494_858218c9",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-10-16T21:12:36Z",
       "side": 1,
       "message": "Where do you set mirror \u003d true in the test body? I just see this defined in the test module, which means it is applied to all tests.\n\nCan we also test that if mirror \u003d false the tags and branches aren\u0027t removed?",
+      "range": {
+        "startLine": 252,
+        "startChar": 29,
+        "endLine": 252,
+        "endChar": 45
+      },
+      "revId": "d9cfbf4dce0188f9864a5a3a3b51af202703457d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83ee677a_2c491dde",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/CGitFetchIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-18T11:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23974494_858218c9",
       "range": {
         "startLine": 252,
         "startChar": 29,
