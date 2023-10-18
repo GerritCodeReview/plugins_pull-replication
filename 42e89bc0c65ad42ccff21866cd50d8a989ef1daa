@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d5d62c_05ee1c38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T11:34:54Z",
+      "side": 1,
+      "message": "I have tested E2E:\n- Given the endpoint init-project-config is not implemented\n- And there is a fallback implemented\n- When create a project named `test-with-config`\n- Then `httpd_log`\n```\n172.22.0.2 [HTTP-95] - - [2023-10-18T11:31:54.708Z] \"POST /projects/test-with-config/pull-replication~apply-object HTTP/1.1\" 500 28 2 - \"Apache-HttpClient/4.5.2 (Java/11.0.17)\" 1 - 64960 -\n172.22.0.2 [HTTP-94] - - [2023-10-18T11:31:54.714Z] \"PUT /plugins/pull-replication/init-project-config/test-with-config.git HTTP/1.1\" 405 - 2 - \"Apache-HttpClient/4.5.2 (Java/11.0.17)\" 1 - 37480 -\n172.22.0.2 [HTTP-96] - - [2023-10-18T11:31:54.722Z] \"PUT /plugins/pull-replication/init-project/test-with-config.git HTTP/1.1\" 201 40 7 - \"Apache-HttpClient/4.5.2 (Java/11.0.17)\" 6 10 292880 -\n172.22.0.2 [HTTP-98] - - [2023-10-18T11:31:54.725Z] \"POST /projects/test-with-config/pull-replication~fetch HTTP/1.1\" 202 8 2 - \"Apache-HttpClient/4.5.2 (Java/11.0.17)\" 1 - 104768 -\n172.22.0.2 [HTTP-96] - - [2023-10-18T11:31:54.727Z] \"POST /projects/test-with-config/pull-replication~fetch HTTP/1.1\" 202 8 1 - \"Apache-HttpClient/4.5.2 (Java/11.0.17)\" - - 27904 -\n172.22.0.2 [HTTP-98] - - [2023-10-18T11:31:54.746Z] \"POST /projects/test-with-config/pull-replication~apply-object HTTP/1.1\" 201 127 6 - \"Apache-HttpClient/4.5.2 (Java/11.0.17)\" 5 10 310224 -\n```\n\n- Then `pull_replication_log`\n\n```\n[2023-10-18 11:31:54,725] scheduling replication http://gerrit1:8080/test-with-config.git:..all.. \u003d\u003e test-with-config\n[2023-10-18 11:31:54,726] scheduled [3d485aa7] fetch http://gerrit1:8080/test-with-config.git []:..all.. \u003d\u003e test-with-config to run after 1s\n[2023-10-18 11:31:54,727] scheduling replication http://gerrit1:8080/test-with-config.git:refs/meta/config \u003d\u003e test-with-config\n[2023-10-18 11:31:54,728] scheduled [3d485aa7] fetch http://gerrit1:8080/test-with-config.git []:refs/meta/config \u003d\u003e test-with-config to run after 1s\n[2023-10-18 11:31:54,742] Apply object API from test-with-config for primary:refs/heads/master - {commitObject\u003d6ce6c4a025ef0fa082369f12841be4fa2491991a (COMMIT) treeObject\u003d4b825dc642cb6eb9a060e54bf8d69288fbee4904 (TREE) }\n[2023-10-18 11:31:54,742] Apply object from primary for test-with-config:refs/heads/master - [{commitObject\u003d6ce6c4a025ef0fa082369f12841be4fa2491991a (COMMIT) treeObject\u003d4b825dc642cb6eb9a060e54bf8d69288fbee4904 (TREE) }]\n[2023-10-18 11:31:54,746] Apply object from primary for project test-with-config, ref name refs/heads/master completed in 3ms\n[2023-10-18 11:31:55,732] [3d485aa7] ASYNC replication from http://gerrit1:8080/test-with-config.git started for refs [..all..] ...\n[2023-10-18 11:31:55,734] [3d485aa7] Fetch references [+refs/*:refs/*] from http://gerrit1:8080/test-with-config.git\n[2023-10-18 11:31:55,779] [3d485aa7] Replication from http://gerrit1:8080/test-with-config.git completed in 47ms, 1006ms delay, 0 retries, E2E 1057ms\n```",
+      "revId": "42e89bc0c65ad42ccff21866cd50d8a989ef1daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
