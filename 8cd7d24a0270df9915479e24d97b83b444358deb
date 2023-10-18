@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "295feaf0_6b428bad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:35:03Z",
+      "side": 1,
+      "message": "\u003e it could therefore be a breaking change, if it was merged.\n\nTo clarify. This is NOT a breaking change. The fallback will ensure the backward compatibility. But as I said before, the idea is to merge all the changes together.",
+      "parentUuid": "b3ec44c2_73abaa2d",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d980cbc7_0b3f46e1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 5
