@@ -88,6 +88,7 @@ public class ReplicationQueueTest {
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
   @Mock HttpResult successfulHttpResult;
+  @Mock HttpResult fallbackHttpResult;
   @Mock HttpResult fetchHttpResult;
   @Mock RevisionData revisionDataWithParents;
   List<ObjectId> revisionDataParentObjectIds;
@@ -147,7 +148,8 @@ public class ReplicationQueueTest {
         .when(fetchRestApiClient.callSendObjects(any(), anyString(), anyLong(), any(), any()))
         .thenReturn(httpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
-    when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
+    when(fetchRestApiClient.initProjectWithConfig(any(), any(), anyLong(), any()))
+        .thenReturn(successfulHttpResult);
     when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
@@ -206,7 +208,8 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).initProject(any(), any());
+    verify(fetchRestApiClient).initProjectWithConfig(any(), any(), anyLong(), any());
+    verify(fetchRestApiClient, never()).initProject(any(), any());
   }
 
   @Test
@@ -219,7 +222,43 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
+    verify(fetchRestApiClient, never()).initProjectWithConfig(any(), any(), anyLong(), any());
     verify(fetchRestApiClient, never()).initProject(any(), any());
+  }
+
+  @Test
+  public void shouldCallInitProjectWithFallbackWhenEndpointNotFound() throws Exception {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    when(httpResult.isSuccessful()).thenReturn(false);
+    when(httpResult.isProjectMissing(any())).thenReturn(true);
+    when(source.isCreateMissingRepositories()).thenReturn(true);
+    when(fetchRestApiClient.initProjectWithConfig(any(), any(), anyLong(), any()))
+        .thenReturn(fallbackHttpResult);
+    when(fallbackHttpResult.isNotAllowed()).thenReturn(false);
+    when(fallbackHttpResult.isNotFound()).thenReturn(true);
+    when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
+    objectUnderTest.start();
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient).initProjectWithConfig(any(), any(), anyLong(), any());
+    verify(fetchRestApiClient).initProject(any(), any());
+  }
+
+  @Test
+  public void shouldCallInitProjectWithFallbackWhenEndpointNotAllowed() throws Exception {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    when(httpResult.isSuccessful()).thenReturn(false);
+    when(httpResult.isProjectMissing(any())).thenReturn(true);
+    when(source.isCreateMissingRepositories()).thenReturn(true);
+    when(fetchRestApiClient.initProjectWithConfig(any(), any(), anyLong(), any()))
+        .thenReturn(fallbackHttpResult);
+    when(fallbackHttpResult.isNotAllowed()).thenReturn(true);
+    when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
+    objectUnderTest.start();
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient).initProjectWithConfig(any(), any(), anyLong(), any());
+    verify(fetchRestApiClient).initProject(any(), any());
   }
 
   @Test
