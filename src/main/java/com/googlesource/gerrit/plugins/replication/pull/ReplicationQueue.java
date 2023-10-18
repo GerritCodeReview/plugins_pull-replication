@@ -518,7 +518,16 @@ public class ReplicationQueue
   private HttpResult initProject(
       Project.NameKey project, URIish uri, FetchApiClient fetchClient, HttpResult result)
       throws IOException, ClientProtocolException {
-    HttpResult initProjectResult = fetchClient.initProject(project, uri);
+    Optional<RevisionData> revisionData =
+        revReaderProvider.get().read(project, null, RefNames.REFS_CONFIG, 0);
+
+    List<RevisionData> revisionDataList =
+        revisionData.isPresent()
+            ? fetchWholeMetaHistory(project, RefNames.REFS_CONFIG, revisionData.get())
+            : Collections.emptyList();
+
+    HttpResult initProjectResult =
+        fetchClient.initProject(project, uri, System.currentTimeMillis(), revisionDataList);
     if (initProjectResult.isSuccessful()) {
       result = fetchClient.callFetch(project, FetchOne.ALL_REFS, uri);
     } else {
