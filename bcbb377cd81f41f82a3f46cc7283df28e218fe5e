@@ -16,6 +16,24 @@
       "message": "I have done a E2E tests and the PullReplicationFilter is checking is an init project operation in this way:\n\n```\nhttpRequest\n        .getRequestURI()\n        .contains(String.format(\"/%s/\" + INIT_PROJECT_ENDPOINT + \"/\", pluginName));\n```\n\nThis is not exhaustive and should be checked as before based on a regular expression.",
       "revId": "bcbb377cd81f41f82a3f46cc7283df28e218fe5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb8ba6cb_ad84f68c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T11:37:49Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7fa8b1f3_be5452ce",
+      "revId": "bcbb377cd81f41f82a3f46cc7283df28e218fe5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
