@@ -43,6 +43,7 @@ public class PullReplicationFilterTest {
   @Mock private ApplyObjectAction applyObjectAction;
   @Mock private ApplyObjectsAction applyObjectsAction;
   @Mock private ProjectInitializationAction projectInitializationAction;
+  @Mock private ProjectInitializationWithConfigAction projectInitializationWithConfigAction;
   @Mock private UpdateHeadAction updateHEADAction;
   @Mock private ProjectDeletionAction projectDeletionAction;
   @Mock private ProjectCache projectCache;
@@ -67,6 +68,9 @@ public class PullReplicationFilterTest {
   private final String INIT_PROJECT_URI =
       String.format("any-prefix/%s/init-project/%s", PLUGIN_NAME, PROJECT_NAME_GIT);
 
+  private final String INIT_PROJECT_WITH_CONFIGURATION_URI =
+      String.format("any-prefix/%s/init-project-config/%s", PLUGIN_NAME, PROJECT_NAME_GIT);
+
   private final Response OK_RESPONSE = Response.ok();
 
   private PullReplicationFilter createPullReplicationFilter() {
@@ -84,7 +88,8 @@ public class PullReplicationFilterTest {
         projectCache,
         PLUGIN_NAME,
         Providers.of(currentUser),
-        new PayloadSerDes());
+        new PayloadSerDes(),
+        projectInitializationWithConfigAction);
   }
 
   private void defineBehaviours(byte[] payload, String uri) throws Exception {
@@ -183,6 +188,18 @@ public class PullReplicationFilterTest {
   }
 
   @Test
+  public void shouldFilterProjectInitializationWithConfigAction() throws Exception {
+
+    when(request.getRequestURI()).thenReturn(INIT_PROJECT_WITH_CONFIGURATION_URI);
+    when(request.getHeader(ACCEPT)).thenReturn(MediaType.PLAIN_TEXT_UTF_8.toString());
+
+    final PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
+    pullReplicationFilter.doFilter(request, response, filterChain);
+
+    verify(projectInitializationWithConfigAction).service(request, response);
+  }
+
+  @Test
   public void shouldFilterUpdateHEADAction() throws Exception {
 
     byte[] payloadUpdateHead = "{\"ref\":\"some-ref\"}".getBytes(StandardCharsets.UTF_8);
@@ -208,7 +225,7 @@ public class PullReplicationFilterTest {
     final PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
     pullReplicationFilter.doFilter(request, response, filterChain);
 
-    verify(request, times(7)).getRequestURI();
+    verify(request, times(8)).getRequestURI();
     verify(projectCache).get(Project.nameKey(PROJECT_NAME));
     verify(projectDeletionAction).apply(any(ProjectResource.class), any());
     verify(response).getWriter();

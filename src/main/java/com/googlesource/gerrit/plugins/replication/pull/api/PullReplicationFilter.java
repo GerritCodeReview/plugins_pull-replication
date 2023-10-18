@@ -80,8 +80,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private ProjectCache projectCache;
   private String pluginName;
   private final Provider<CurrentUser> currentUserProvider;
-
   private final PayloadSerDes payloadSerDes;
+  private final ProjectInitializationWithConfigAction projectInitializationWithConfigAction;
 
   @Inject
   public PullReplicationFilter(
@@ -94,7 +94,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       ProjectCache projectCache,
       @PluginName String pluginName,
       Provider<CurrentUser> currentUserProvider,
-      PayloadSerDes payloadSerDes) {
+      PayloadSerDes payloadSerDes,
+      ProjectInitializationWithConfigAction projectInitializationWithConfigAction) {
     this.fetchAction = fetchAction;
     this.applyObjectAction = applyObjectAction;
     this.applyObjectsAction = applyObjectsAction;
@@ -105,6 +106,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.pluginName = pluginName;
     this.currentUserProvider = currentUserProvider;
     this.payloadSerDes = payloadSerDes;
+    this.projectInitializationWithConfigAction = projectInitializationWithConfigAction;
   }
 
   @Override
@@ -133,6 +135,12 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
           return;
         }
         doInitProject(httpRequest, httpResponse);
+      } else if (isInitProjectWithConfigAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
+        if (!checkAcceptHeader(httpRequest, httpResponse)) {
+          return;
+        }
+        doInitProjectWithConfig(httpRequest, httpResponse);
       } else if (isUpdateHEADAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         payloadSerDes.writeResponse(httpResponse, doUpdateHEAD(httpRequest));
@@ -188,6 +196,12 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private void doInitProject(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
       throws IOException, ServletException {
     projectInitializationAction.service(httpRequest, httpResponse);
+  }
+
+  private void doInitProjectWithConfig(
+      HttpServletRequest httpRequest, HttpServletResponse httpResponse)
+      throws IOException, ServletException {
+    projectInitializationWithConfigAction.service(httpRequest, httpResponse);
   }
 
   @SuppressWarnings("unchecked")
@@ -301,5 +315,11 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
             .getRequestURI()
             .endsWith(String.format("/%s~" + DELETE_PROJECT_ENDPOINT, pluginName))
         && "DELETE".equals(httpRequest.getMethod());
+  }
+
+  private boolean isInitProjectWithConfigAction(HttpServletRequest httpRequest) {
+    return httpRequest
+        .getRequestURI()
+        .contains(String.format("/%s/" + INIT_PROJECT_WITH_CONFIG_ENDPOINT + "/", pluginName));
   }
 }
