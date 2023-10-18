@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9015fec7_d74de454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T10:53:43Z",
+      "side": 1,
+      "message": "I changed the endpoint to `pull-replication/init-project-config/\u003cproject_name\u003e.git` because currently, PullReplicationFilter checks if it is an init project operation by checking if substring `pull-replication/init-project/` exists in the URL. My E2E tests showed that the previous version. `pull-replication/init-project/config/\u003cproject_name\u003e.git` was identified as the wrong endpoint. To avoid changing `PullReplicationFilter` I decided to go with this approach.",
+      "revId": "92111799ad02dab3fc2f4cd47a52d08663e95223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
