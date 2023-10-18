@@ -20,6 +20,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.util.Providers;
+import com.googlesource.gerrit.plugins.replication.pull.api.util.PayloadSerDes;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -82,7 +83,8 @@ public class PullReplicationFilterTest {
         projectDeletionAction,
         projectCache,
         PLUGIN_NAME,
-        Providers.of(currentUser));
+        Providers.of(currentUser),
+        new PayloadSerDes());
   }
 
   private void defineBehaviours(byte[] payload, String uri) throws Exception {
