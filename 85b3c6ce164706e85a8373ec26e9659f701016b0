@@ -1,6 +1,75 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d036c07b_9055a88f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T18:31:27Z",
+      "side": 1,
+      "message": "Is `.git` strictly needed? Gerrit project names do not end with `.git`",
+      "range": {
+        "startLine": 14,
+        "startChar": 61,
+        "endLine": 14,
+        "endChar": 65
+      },
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebdd971f_997463c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T18:31:27Z",
+      "side": 1,
+      "message": "older versions of `pull-replication` plugin",
+      "range": {
+        "startLine": 16,
+        "startChar": 54,
+        "endLine": 16,
+        "endChar": 70
+      },
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce0e4a2b_5b7ce259",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T18:31:27Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 17,
+        "startChar": 68,
+        "endLine": 17,
+        "endChar": 139
+      },
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e980868f_f582f04b",
@@ -67,6 +136,24 @@
       "side": 1,
       "message": "I think something needs to change, because it is not clear to the end user why you\u0027d choose this method over the other one. So I think a more descriptive method name is a good start, perhaps coupled with a javadoc.",
       "parentUuid": "ac10ff27_00a7c0ca",
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b55876d_dd49110d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T18:31:27Z",
+      "side": 1,
+      "message": "+1 for `initProjectWithConfig` (`refs/meta/config` is the project\u0027s configuration)",
+      "parentUuid": "e25dd71c_b2dc2ec2",
       "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

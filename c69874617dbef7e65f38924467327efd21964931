@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e303b0e1_0df684c6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T18:31:27Z",
+      "side": 1,
+      "message": "I believe that\u0027s auto-generated, see the other `non-Javadocs` on the rest of the class.",
+      "parentUuid": "976bb807_7ab05165",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fe3f1bc_61a299be",
