@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a6de69f_369f6846",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-18T16:10:04Z",
+      "side": 1,
+      "message": "My main concern is the cost of the fallback is too high and a flag in the config would have been a better choice, as it would allow us to make an early decision as to what endpoint to target.\n\nAlso - a separate question for the gurus - this change is not complete as it is missing the client side implementation (which i see is done in a separate change) and it could therefore be a breaking change, if it was merged. Are we aiming for the minimum change which is complete, or we are happy to merge incomplete/half-baked changes (knowing that _eventually_ the feature will be complete)?",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d980cbc7_0b3f46e1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-18T16:10:04Z",
+      "side": 1,
+      "message": "you can remove `ClientProtocolException` from the throws list.",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92445386_306cf325",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-18T16:10:04Z",
+      "side": 1,
+      "message": "I don\u0027t understand this logic well, but if the project config can inherit from the parent config, then perhaps the `maxParentObjectIds` (last arg) should not be zero.",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20ed4b61_bc59e1e5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-18T16:10:04Z",
+      "side": 1,
+      "message": "I think the fallback logic belongs in this method/class. It would be great if we had a way to make an early decision on which endpoint to use, because in the scenario where some nodes are running with this code and others dont, we have the following benefits:\n- We don\u0027t do a redundant network call, which is a waste and increases overall latency.\n- `fetchWholeMetaHistory` might be an expensive operation, which we will avoid performing for no reason.",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
