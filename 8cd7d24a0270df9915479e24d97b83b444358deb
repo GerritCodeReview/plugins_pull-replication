@@ -139,6 +139,24 @@
       "message": "I think the fallback logic belongs in this method/class. It would be great if we had a way to make an early decision on which endpoint to use, because in the scenario where some nodes are running with this code and others dont, we have the following benefits:\n- We don\u0027t do a redundant network call, which is a waste and increases overall latency.\n- `fetchWholeMetaHistory` might be an expensive operation, which we will avoid performing for no reason.",
       "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "798fb9e0_1eb539de",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-18T16:50:27Z",
+      "side": 1,
+      "message": "Yes, you are right. The fallback logic is here. \n\nAs I said above, the fallback is for `Rolling upgrades` situations where nodes are upgraded one after another. In that short period, backward compatibility needs to be guaranteed.\n\nI didn\u0027t see a situation where you deploy different versions of Gerrit inside your installation; maybe I need to be corrected.",
+      "parentUuid": "20ed4b61_bc59e1e5",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
