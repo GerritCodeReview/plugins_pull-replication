@@ -16,6 +16,24 @@
       "message": "I feel that we are going in the right direction!\n\nI know that I\u0027ve suggested this approach in another change. Now I think we can do even better than this.\n\nHow about adding a static method called `fromRequest(HttpServletRequest)` to all of the `*Input` classes? This way we\u0027ll keep the _deserializers_ in the same scope as the object itself.\n\nThen, we also need a way to convert an object to JSON. This could be done with `String toJson()` method, again on each `*Input` class.\n\nFinally, we also need a place for all the shared _utility_ code, maybe a `JsonUtil` class.\n\nThis for the `*Input` could look like:\n```java\npublic class HeadInput {\n  ...\n  public static HeadInput fromRequest(HttpServletRequest req) {\n    return JsonUtils.fromRequest(req, TypeLiteral.get(HeadInput.class));\n  }\n  \n  public String toJson() {\n    return JsonUtils.toJson(this);\n  }\n}\n```\n\nthen the utils class would be something like:\n```java\npublic class JsonUtils {\n  private static Gson gson \u003d OutputFormat.JSON.newGesonBuilder().create();\n\n  public static \u003cT\u003e T fromRequest(HttpServletRequest req, TypeLiteral\u003cT\u003e type) {\n    // magic code from PayloadSerDes.parse() goes here\n  }\n  \n  public static String toJson(Object obj) {\n    return gson.toJson(obj);\n  }\n}\n```\n\nIMO, this would be an even cleaner approach, and it\u0027s also easier to find and name things, so it should also be easier to maintain in the future.\n\nThe missing part in the above example is the `writeResponse` method. TBH, I\u0027m not a fan of `void` methods, but I can see a value in this one. Therefore probably would put it into its own utility class.",
       "revId": "50de0971324220c1fb2a787cc362c0aa8aff7195",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8984a839_efe0b50a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/util/PayloadSerDes.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T21:07:04Z",
+      "side": 1,
+      "message": "i agree with everything but I would prefer to do a proper refactoring in another change. \nThe purpose of this change is just to accommodate the fact of der/ser for the next change.\nAs I said, I agree that we can do better than this, but lets focus on the requirements that is to provide configuration as a part of the init project.\nwdyt?",
+      "parentUuid": "3f0acee4_4bd47b28",
+      "revId": "50de0971324220c1fb2a787cc362c0aa8aff7195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
