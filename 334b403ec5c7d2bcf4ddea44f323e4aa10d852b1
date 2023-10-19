@@ -20,6 +20,40 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9a9f2bcc_9bcae420",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T14:44:29Z",
+      "side": 1,
+      "message": "This list cannot be empty, at least it will have the revisionData L521.",
+      "revId": "334b403ec5c7d2bcf4ddea44f323e4aa10d852b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b32255e_26252a2b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T14:44:29Z",
+      "side": 1,
+      "message": "List\u003cRevisionData\u003e revisionData cannot be empty. It would be great to have types like cats `NonEmptyList`.",
+      "revId": "334b403ec5c7d2bcf4ddea44f323e4aa10d852b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5801fb47_ac0c5ede",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
         "patchSetId": 15
