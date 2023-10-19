@@ -16,6 +16,24 @@
       "message": "I think we should clean the test from this magic number. They dont provide any value IMO.",
       "revId": "d8f13626e1456d1b2be2e7a50d1e60332b70f7c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d5266e0_b3094256",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T11:41:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b097e4f5_f13de5bb",
+      "revId": "d8f13626e1456d1b2be2e7a50d1e60332b70f7c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
