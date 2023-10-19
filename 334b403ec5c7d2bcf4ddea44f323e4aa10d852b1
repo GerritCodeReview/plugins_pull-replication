@@ -20,6 +20,40 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f40e3783_cf044d95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-19T15:18:53Z",
+      "side": 1,
+      "message": "good stuff 👍",
+      "revId": "334b403ec5c7d2bcf4ddea44f323e4aa10d852b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b53ad82_10dbe05b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-19T15:18:53Z",
+      "side": 1,
+      "message": "```suggestion\n                        String.format(\"Project %s does not have %s\", project, RefNames.REFS_CONFIG)));\n```",
+      "revId": "334b403ec5c7d2bcf4ddea44f323e4aa10d852b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9a9f2bcc_9bcae420",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 15
