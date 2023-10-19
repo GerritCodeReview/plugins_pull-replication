@@ -56,6 +56,30 @@
       },
       "revId": "f1ac547409992ad5ede5a0da49040cc7946808a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba670aa2_d59057ef",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T11:21:55Z",
+      "side": 1,
+      "message": "We will have 2 different endpoints that represent the semantics of the operations, \n\n- old endpoint: \n  - semantic:  Init project WITHOUT configuration\n  - endpoint: /pull-replication/init-project/\u003cproject\u003e.git\n  - verb: PUT\n- new endpoint:\n  - semantic:  Init project WITH configuration\n  - endpoint: /pull-replication/init-project-with-config/\u003cproject\u003e.git\n  - verb: PUT  \n  - payload: JSON\n\n\nFor simplicity, let\u0027s assume that we have a primary/replica topology where `primary` node has the version of pull-replication with the new endpoint (client/server) and a `replica` has an old version of pull-replication without the new endpoint (client/server).\n\nBased on the tests done with the code in change 389916, when the primary makes a call to the new endpoint in the replica for `init project with configuration`, the replica will reply with `HTTP Status code 405 Not Allowed` and then the primary will fallback to the old endpoint and the `init project` request will be successful.",
+      "parentUuid": "2cbc58c8_f5dab4f3",
+      "range": {
+        "startLine": 53,
+        "startChar": 13,
+        "endLine": 53,
+        "endChar": 34
+      },
+      "revId": "f1ac547409992ad5ede5a0da49040cc7946808a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
