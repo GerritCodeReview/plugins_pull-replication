@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5b00d6be_10a2dc14",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T10:26:09Z",
+      "side": 1,
+      "message": "\u003e But could it not be the case that an org is running multiple gerrit nodes on different (yet somewhat compatible) versions by choice? We can\u0027t assume how short the rolling upgrade window will be. That window of time could be mins, hours, days, weeks or even months.\n\n@luca.milanesio@gmail.com please, can you provide us with some clarity on the debate? @christoforos.miliotis.dev@gmail.com raised fair concerns.",
+      "parentUuid": "6b1ba26f_58d07d29",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d980cbc7_0b3f46e1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 5
@@ -173,6 +191,24 @@
       "side": 1,
       "message": "Yes, you are right. The fallback logic is here. \n\nAs I said above, the fallback is for `Rolling upgrades` situations where nodes are upgraded one after another. In that short period, backward compatibility needs to be guaranteed.\n\nI didn\u0027t see a situation where you deploy different versions of Gerrit inside your installation; maybe I need to be corrected.",
       "parentUuid": "20ed4b61_bc59e1e5",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d02da3f_69e61b6a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T10:26:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "798fb9e0_1eb539de",
       "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

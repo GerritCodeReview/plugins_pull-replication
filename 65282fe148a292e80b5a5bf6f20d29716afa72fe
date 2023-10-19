@@ -16,6 +16,24 @@
       "message": "What would happen if the `revisionDataList` is empty? Do we still want to execute the call?",
       "revId": "65282fe148a292e80b5a5bf6f20d29716afa72fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "772ac981_5ab53796",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T10:26:09Z",
+      "side": 1,
+      "message": "Fair point. I need to look at it.",
+      "parentUuid": "c5a7edaa_0b543c0c",
+      "revId": "65282fe148a292e80b5a5bf6f20d29716afa72fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
