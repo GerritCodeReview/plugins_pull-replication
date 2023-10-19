@@ -16,6 +16,23 @@
       "message": "Investigating a test failure locally",
       "revId": "ca51dbe92999b9fed4618236dce4bc8992b267f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fe207fa_1adca11f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-19T15:36:50Z",
+      "side": 1,
+      "message": "@dariusjokilehto@gmail.com it still fails in CI...",
+      "revId": "ca51dbe92999b9fed4618236dce4bc8992b267f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
