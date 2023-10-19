@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "120ad27c_298821da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T11:08:58Z",
+      "side": 1,
+      "message": "Questions to help us to make a decision:\n\n- How many projects are created per day? \n- How long is the history of ref/meta/config when the project is created? Is it a performance issue?\n- Can we have a situation where we have different versions of the pull-replication plugin in a Gerrit installation?",
+      "parentUuid": "5b00d6be_10a2dc14",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d980cbc7_0b3f46e1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 5
@@ -174,6 +192,24 @@
       "side": 1,
       "message": "Definitively I need look at it.",
       "parentUuid": "92445386_306cf325",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6fedeeb_01febefe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T11:08:58Z",
+      "side": 1,
+      "message": "@christoforos.miliotis.dev@gmail.com let me review the code with you:\n\n```\n Optional\u003cRevisionData\u003e revisionData \u003d\n        revReaderProvider.get().read(project, null, RefNames.REFS_CONFIG, 0);\n```\n\n- The code above gets the revision data for the first commit `refs/meta/config`. Conceptually If I am not wrong, all the projects created in Gerrit will have the configuration: `refs/meta/config` so it is impossible to have an empty Option. In any case, to comply with the Data type Option, I guess we could call the old endpoint instead of the new one.\n\n\n```\nfetchWholeMetaHistory(project, RefNames.REFS_CONFIG, revisionData.get())\n```\n\n- The code above will collect \"all\" (I think there is a limit) the `refs/meta/config` history. I don\u0027t think that is an expensive operation because when you create a project, I believe the git history in this particular case is very small.",
+      "parentUuid": "ac14ddb5_9be699f7",
       "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
