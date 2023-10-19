@@ -32,6 +32,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.LocalFS;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
+<<<<<<< Updated upstream
+=======
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
+import com.googlesource.gerrit.plugins.replication.pull.api.util.PayloadSerDes;
+>>>>>>> Stashed changes
 import java.io.IOException;
 import java.util.Optional;
 import javax.servlet.ServletException;
@@ -76,7 +83,29 @@ public class ProjectInitializationAction extends HttpServlet {
     String path = httpServletRequest.getRequestURI();
     String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
     try {
+<<<<<<< Updated upstream
       if (initProject(projectName)) {
+=======
+      boolean result = true;
+      if (httpServletRequest.getContentLength() == 0) {
+        initProject(projectName);
+      } else {
+        initProjectWithoutIndex(projectName);
+        RevisionsInput input = PayloadSerDes.parseRevisionsInput(httpServletRequest);
+        // validate label and refName
+        input.validate();
+        applyObjectCommand.applyObjects(
+            Project.nameKey(projectName),
+            input.getRefName(),
+            input.getRevisionsData(),
+            input.getLabel(),
+            input.getEventCreatedOn());
+
+        projectCache.onCreateProject(Project.nameKey(projectName));
+      }
+
+      if (result) {
+>>>>>>> Stashed changes
         setResponse(
             httpServletResponse,
             HttpServletResponse.SC_CREATED,
@@ -97,7 +126,21 @@ public class ProjectInitializationAction extends HttpServlet {
         "Cannot initialize project " + projectName);
   }
 
+<<<<<<< Updated upstream
   public boolean initProject(String projectName) throws AuthException, PermissionBackendException {
+=======
+  public boolean initProjectWithoutIndex(String projectName)
+      throws AuthException, PermissionBackendException {
+    return initProject(projectName, false);
+  }
+
+  public boolean initProject(String projectName) throws AuthException, PermissionBackendException {
+    return initProject(projectName, true);
+  }
+
+  private boolean initProject(String projectName, boolean index)
+      throws AuthException, PermissionBackendException {
+>>>>>>> Stashed changes
     // When triggered internally(for example by consuming stream events) user is not provided
     // and internal user is returned. Project creation should be always allowed for internal user.
     if (!userProvider.get().isInternalUser()) {
