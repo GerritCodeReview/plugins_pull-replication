@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "62315dcb_21eed67a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T22:03:50Z",
+      "side": 1,
+      "message": "What about `refsMetaConfigRevisionData` ?",
+      "parentUuid": "add3e624_84a17bb7",
+      "revId": "334b403ec5c7d2bcf4ddea44f323e4aa10d852b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0b53ad82_10dbe05b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 15
