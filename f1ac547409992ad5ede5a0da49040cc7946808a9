@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e84eedcb_9238ab46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-19T11:01:28Z",
+      "side": 1,
+      "message": "This is a design decision. Which I think can be done in a simpler way. Do we have any recording with the reasoning why this approach was taken?",
+      "revId": "f1ac547409992ad5ede5a0da49040cc7946808a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eedb90f5_d4aebb28",
@@ -14,6 +31,29 @@
       "writtenOn": "2023-10-19T10:11:09Z",
       "side": 1,
       "message": "```suggestion\n   * @param revisionData A history of revisions for the refs/meta/config ref.\n```",
+      "revId": "f1ac547409992ad5ede5a0da49040cc7946808a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cbc58c8_f5dab4f3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-19T11:01:28Z",
+      "side": 1,
+      "message": "Is this really needed? Have we tried to send `refs/meta/config` json payload as a part of the same REST Api call? If other side is not supporting the configuration(rolling upgrade use case) it will just ignore it.",
+      "range": {
+        "startLine": 53,
+        "startChar": 13,
+        "endLine": 53,
+        "endChar": 34
+      },
       "revId": "f1ac547409992ad5ede5a0da49040cc7946808a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
