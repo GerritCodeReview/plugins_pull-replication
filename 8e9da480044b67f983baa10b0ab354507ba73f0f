@@ -16,6 +16,46 @@
       "message": "LGTM, @Luca?",
       "revId": "8e9da480044b67f983baa10b0ab354507ba73f0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72514692_355c056b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T22:24:59Z",
+      "side": 1,
+      "message": "LGTM, just the tests look like more unit-test of the FetchOne class, which is fine but the class should end with `Test`, would you agree?\n\nFeel free to merge when you believe the name is good enough.",
+      "revId": "8e9da480044b67f983baa10b0ab354507ba73f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a15697c1_276579c0",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/CGitFetchWithMirrorIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T22:24:59Z",
+      "side": 1,
+      "message": "This looks like more a unit-test of the FetchOne class, which is fine.\n\nShould the class name renamed to `CGitFetchWithMirrorTest` ?",
+      "range": {
+        "startLine": 42,
+        "startChar": 32,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "8e9da480044b67f983baa10b0ab354507ba73f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
