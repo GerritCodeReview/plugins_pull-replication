@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14a170f9_8e3ab45d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "Definitively not. The intention was to be aligned with the other `init project` endpoint: `pull-replication/init-project/\u003cproject_name\u003e.git`.",
+      "parentUuid": "d036c07b_9055a88f",
+      "range": {
+        "startLine": 14,
+        "startChar": 61,
+        "endLine": 14,
+        "endChar": 65
+      },
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebdd971f_997463c5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "567ad767_952cfbe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ebdd971f_997463c5",
+      "range": {
+        "startLine": 16,
+        "startChar": 54,
+        "endLine": 16,
+        "endChar": 70
+      },
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce0e4a2b_5b7ce259",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-10-18T18:31:27Z",
       "side": 1,
       "message": "nit: wrap long line",
+      "range": {
+        "startLine": 17,
+        "startChar": 68,
+        "endLine": 17,
+        "endChar": 139
+      },
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "129e4c4a_7ad8b182",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce0e4a2b_5b7ce259",
       "range": {
         "startLine": 17,
         "startChar": 68,
@@ -158,6 +230,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61f383f4_9e0eb982",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "I have renamed the method to `initProjectWithConfig` and provided Javadoc for that method. The `initProject` Javadoc should be added in another change.",
+      "parentUuid": "2b55876d_dd49110d",
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25d5153a_030a868d",
@@ -193,6 +283,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b039f9e7_d725b47b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a707cb29_bb51ff31",
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b592e69_c8af766a",
@@ -224,6 +332,24 @@
       "side": 1,
       "message": "Happy with your suggestion. I will change it.",
       "parentUuid": "3b592e69_c8af766a",
+      "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f58018af_2a7cbf56",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78e4ad68_ddc26680",
       "revId": "85b3c6ce164706e85a8373ec26e9659f701016b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

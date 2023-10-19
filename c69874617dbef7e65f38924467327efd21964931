@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ce08d19_c3393a3d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "f66536a3_1063ec01",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fe3f1bc_61a299be",
@@ -89,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e12a4d8_e59d7806",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b0ee749_ace6a751",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc8b636d_cca76c11",
@@ -120,6 +156,24 @@
       "side": 1,
       "message": "I think you are right. I will change it.",
       "parentUuid": "bc8b636d_cca76c11",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61d8fa99_f0949869",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "434d782a_3ce4b5c8",
       "revId": "c69874617dbef7e65f38924467327efd21964931",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -244,6 +298,24 @@
       "side": 1,
       "message": "Initially, it was 404 but when I did the E2E I found that it was 405. Happy to become defensive. I will change it.",
       "parentUuid": "cc7f0bf7_50a59696",
+      "revId": "c69874617dbef7e65f38924467327efd21964931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e749ede_d5436651",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-19T09:38:07Z",
+      "side": 1,
+      "message": "I will address this issue in the change 389895 as we agreed to remove the fallback from this part of the code.",
+      "parentUuid": "c0fc3a1b_5945acde",
       "revId": "c69874617dbef7e65f38924467327efd21964931",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
