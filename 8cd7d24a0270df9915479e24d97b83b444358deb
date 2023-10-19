@@ -283,6 +283,24 @@
       "parentUuid": "0d02da3f_69e61b6a",
       "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd8aad76_59e66032",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-19T11:16:53Z",
+      "side": 1,
+      "message": "Sorry I see it now it was added in the newest patchset",
+      "parentUuid": "8b85f180_6f758d64",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
