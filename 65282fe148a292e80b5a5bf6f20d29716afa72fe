@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5a7edaa_0b543c0c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-19T10:11:56Z",
+      "side": 1,
+      "message": "What would happen if the `revisionDataList` is empty? Do we still want to execute the call?",
+      "revId": "65282fe148a292e80b5a5bf6f20d29716afa72fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
