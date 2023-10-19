@@ -17,21 +17,28 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.LocalFS;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
+import com.googlesource.gerrit.plugins.replication.pull.api.util.PayloadSerDes;
 import java.io.IOException;
 import java.util.Optional;
 import javax.servlet.ServletException;
@@ -51,17 +58,23 @@ public class ProjectInitializationAction extends HttpServlet {
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
   private final ProjectIndexer projectIndexer;
+  private final ApplyObjectCommand applyObjectCommand;
+  private final ProjectCache projectCache;
 
   @Inject
   ProjectInitializationAction(
       GerritConfigOps gerritConfigOps,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
-      ProjectIndexer projectIndexer) {
+      ProjectIndexer projectIndexer,
+      ApplyObjectCommand applyObjectCommand,
+      ProjectCache projectCache) {
     this.gerritConfigOps = gerritConfigOps;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
     this.projectIndexer = projectIndexer;
+    this.applyObjectCommand = applyObjectCommand;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -76,13 +89,22 @@ public class ProjectInitializationAction extends HttpServlet {
     String path = httpServletRequest.getRequestURI();
     String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
     try {
-      if (initProject(projectName)) {
-        setResponse(
-            httpServletResponse,
-            HttpServletResponse.SC_CREATED,
-            "Project " + projectName + " initialized");
-        return;
+      if (httpServletRequest.getContentLength() == 0) {
+        if (!initProject(projectName)) {
+          setResponse(
+              httpServletResponse,
+              HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+              "Cannot initialize project " + projectName);
+          return;
+        }
+      } else {
+        processPayload(httpServletRequest, httpServletResponse, projectName);
       }
+      setResponse(
+          httpServletResponse,
+          HttpServletResponse.SC_CREATED,
+          "Project " + projectName + " initialized");
+      return;
     } catch (AuthException | PermissionBackendException e) {
       setResponse(
           httpServletResponse,
@@ -90,14 +112,60 @@ public class ProjectInitializationAction extends HttpServlet {
           "User not authorized to create project " + projectName);
       return;
     }
-
-    setResponse(
-        httpServletResponse,
-        HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-        "Cannot initialize project " + projectName);
   }
 
   public boolean initProject(String projectName) throws AuthException, PermissionBackendException {
+    return initProject(projectName, true);
+  }
+
+  private void processPayload(
+      HttpServletRequest httpServletRequest,
+      HttpServletResponse httpServletResponse,
+      String projectName)
+      throws AuthException, PermissionBackendException, IOException {
+
+    if (!initProjectWithoutIndex(projectName)) {
+      setResponse(
+          httpServletResponse,
+          HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+          "Cannot initialize project " + projectName);
+      return;
+    }
+
+    try {
+      RevisionsInput input = PayloadSerDes.parseRevisionsInput(httpServletRequest);
+      validateInput(input);
+      applyObjectCommand.applyObjects(
+          Project.nameKey(projectName),
+          input.getRefName(),
+          input.getRevisionsData(),
+          input.getLabel(),
+          input.getEventCreatedOn());
+      projectCache.onCreateProject(Project.nameKey(projectName));
+    } catch (BadRequestException e) {
+      logger.atSevere().withCause(e).log(
+          "Invalid request payload whilst creating project %s", projectName);
+      setResponse(
+          httpServletResponse, HttpServletResponse.SC_BAD_REQUEST, "Invalid request payload");
+    } catch (IllegalArgumentException e) {
+      logger.atSevere().withCause(e).log(
+          "Ref-update with invalid input whilst creating project %s", projectName);
+      setResponse(
+          httpServletResponse, HttpServletResponse.SC_BAD_REQUEST, "Invalid request payload");
+    } catch (RefUpdateException | MissingParentObjectException e) {
+      logger.atSevere().withCause(e).log(
+          "Error applying objects whilst creating project %s", projectName);
+      setResponse(httpServletResponse, HttpServletResponse.SC_CONFLICT, e.getMessage());
+    }
+  }
+
+  private boolean initProjectWithoutIndex(String projectName)
+      throws AuthException, PermissionBackendException {
+    return initProject(projectName, false);
+  }
+
+  private boolean initProject(String projectName, boolean index)
+      throws AuthException, PermissionBackendException {
     // When triggered internally(for example by consuming stream events) user is not provided
     // and internal user is returned. Project creation should be always allowed for internal user.
     if (!userProvider.get().isInternalUser()) {
@@ -115,5 +183,16 @@ public class ProjectInitializationAction extends HttpServlet {
       return true;
     }
     return false;
+  }
+
+  private void validateInput(RevisionsInput input) {
+    if (Strings.isNullOrEmpty(input.getLabel())) {
+      throw new IllegalArgumentException("Source label cannot be null or empty");
+    }
+
+    if (Strings.isNullOrEmpty(input.getRefName())) {
+      throw new IllegalArgumentException("Ref-update refname cannot be null or empty");
+    }
+    input.validate();
   }
 }
