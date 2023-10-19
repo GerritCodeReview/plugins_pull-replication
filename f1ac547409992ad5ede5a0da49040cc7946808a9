@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eedb90f5_d4aebb28",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-19T10:11:09Z",
+      "side": 1,
+      "message": "```suggestion\n   * @param revisionData A history of revisions for the refs/meta/config ref.\n```",
+      "revId": "f1ac547409992ad5ede5a0da49040cc7946808a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
