@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50e33108_b1eaca62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-19T10:57:08Z",
+      "side": 1,
+      "message": "According to our last conversation with @luca.milanesio@gmail.com and @christoforos.miliotis.dev@gmail.com this is a design decision which should be discussed with a wider audience to come up with the solution which suites our needs",
+      "parentUuid": "5b00d6be_10a2dc14",
+      "revId": "8cd7d24a0270df9915479e24d97b83b444358deb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d980cbc7_0b3f46e1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 5
