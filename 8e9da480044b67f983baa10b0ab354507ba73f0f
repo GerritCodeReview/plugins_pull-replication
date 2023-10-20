@@ -56,6 +56,30 @@
       },
       "revId": "8e9da480044b67f983baa10b0ab354507ba73f0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06a4d858_892fa11a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/CGitFetchWithMirrorIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-20T08:54:27Z",
+      "side": 1,
+      "message": "Yes, it\u0027s true this is testing CGit through Fetch(One), although it\u0027s also true that these follows the same pattern as the already existing `CGitFetchIT` and `JGitFetchIT`. I\u0027d like to keep this test analogous to `CGitFetchIT`, because the setup is the same, and the only difference between them is a single config value.\n\nDo you think we should rename them all to remove `IT`? They also rely on `FetchITBase` to set them up, do you mean they shouldn\u0027t?",
+      "parentUuid": "a15697c1_276579c0",
+      "range": {
+        "startLine": 42,
+        "startChar": 32,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "8e9da480044b67f983baa10b0ab354507ba73f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
