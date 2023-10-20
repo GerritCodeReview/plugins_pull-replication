@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3231d4fb_a9a59e89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-20T08:58:02Z",
+      "side": 1,
+      "message": "FWIW this is has already been done for 3.4 [1]. Maybe we should merge-up? Not sure what the convention is, but approving either way.\n\n[1] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/389703",
+      "revId": "5e1a750cfc6271e9e42534ba2ce0a43ba9197123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
