@@ -16,6 +16,98 @@
       "message": "I\u0027m happy to give +2 but there are some open comments",
       "revId": "b2b26660f4567fb5ae09660597fba24b24aa3562",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "467b2ae4_2833706a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-20T17:16:39Z",
+      "side": 1,
+      "message": "replicated from",
+      "range": {
+        "startLine": 47,
+        "startChar": 86,
+        "endLine": 47,
+        "endChar": 96
+      },
+      "revId": "b2b26660f4567fb5ae09660597fba24b24aa3562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec05c453_64346213",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-20T17:16:39Z",
+      "side": 1,
+      "message": "source",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "b2b26660f4567fb5ae09660597fba24b24aa3562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db567735_0bf0407d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-20T17:16:39Z",
+      "side": 1,
+      "message": "Which event? Can you clarify?",
+      "range": {
+        "startLine": 48,
+        "startChar": 61,
+        "endLine": 48,
+        "endChar": 66
+      },
+      "revId": "b2b26660f4567fb5ae09660597fba24b24aa3562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02c1054b_f1de57eb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-20T17:16:39Z",
+      "side": 1,
+      "message": "refsMetaConfigRevisionData",
+      "range": {
+        "startLine": 54,
+        "startChar": 83,
+        "endLine": 54,
+        "endChar": 95
+      },
+      "revId": "b2b26660f4567fb5ae09660597fba24b24aa3562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
