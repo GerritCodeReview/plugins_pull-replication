@@ -33,6 +33,24 @@
       "message": "@dariusjokilehto@gmail.com it still fails in CI...",
       "revId": "ca51dbe92999b9fed4618236dce4bc8992b267f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d57da172_bfd3064a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-20T08:36:52Z",
+      "side": 1,
+      "message": "@christoforos.miliotis.dev@gmail.com pointed me at change 388795 - checking that out and running `bazel test --runs_per_test\u003d5 --nocache_test_results plugins/pull-replication:src_test_java_com_googlesource_gerrit_plugins_replication_pull_PullReplicationIT` also manifested this same test failure.\n\nI suspect that change introduced an intermittent failure, and have raised an [issue](https://issues.gerritcodereview.com/issues/306442915) to deal with it.",
+      "parentUuid": "6fe207fa_1adca11f",
+      "revId": "ca51dbe92999b9fed4618236dce4bc8992b267f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
