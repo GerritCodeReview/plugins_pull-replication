@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b9d830e_171ecae1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-20T15:33:45Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com, please, this is coming from your change [1], and I would like to understand why the old version of the endpoint does project reindex, but it is unnecessary in the new version.\n\n[1] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/383734/9/src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java#128",
+      "revId": "3e17bd394077bef329da3c8c5d8700c9715477df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
