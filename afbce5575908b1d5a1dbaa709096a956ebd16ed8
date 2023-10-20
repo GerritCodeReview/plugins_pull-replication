@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec2a97f3_9514a3ef",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-20T12:53:32Z",
+      "side": 1,
+      "message": "The test will be implemented as a part of the change 390158.",
+      "parentUuid": "e67176c0_6a604d7c",
+      "range": {
+        "startLine": 315,
+        "startChar": 7,
+        "endLine": 317,
+        "endChar": 0
+      },
+      "revId": "afbce5575908b1d5a1dbaa709096a956ebd16ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "162605e4_77f6b334",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 17
