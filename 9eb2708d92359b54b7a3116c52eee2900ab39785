@@ -16,6 +16,23 @@
       "message": "I need to add a test but you can start reviewing the shape of the new logic",
       "revId": "9eb2708d92359b54b7a3116c52eee2900ab39785",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ac9225c_9aed476f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-20T12:52:06Z",
+      "side": 1,
+      "message": "I need to add a test.",
+      "revId": "9eb2708d92359b54b7a3116c52eee2900ab39785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
