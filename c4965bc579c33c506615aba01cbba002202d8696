@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95bc01b0_25133a82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-20T15:57:09Z",
+      "side": 1,
+      "message": "I have done some E2E tests:\n- multisite with 2 primaries running this version of the code \u003d\u003e The issue is not happening anymore and it looks ok.\n\n- multisite with primary 1 running the new version and primary 2 running the old version  \u003d\u003e  The issue is still happening, but the approach is backwards compatible\n\n- multisite with primary 1 running the old version and primary 2 running the new version  \u003d\u003e The issue is still happening, but the approach is backwards compatible\n\nIt would be great to pair with @ponch78@gmail.com to do a more exhaustive test.",
+      "revId": "c4965bc579c33c506615aba01cbba002202d8696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
