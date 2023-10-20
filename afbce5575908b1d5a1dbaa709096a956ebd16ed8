@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7a55ed9a_ca0f3a69",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-20T12:29:23Z",
+      "side": 1,
+      "message": "could we add test which is checking if the config was replicated?",
+      "range": {
+        "startLine": 315,
+        "startChar": 7,
+        "endLine": 317,
+        "endChar": 0
+      },
+      "revId": "afbce5575908b1d5a1dbaa709096a956ebd16ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "162605e4_77f6b334",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 17
