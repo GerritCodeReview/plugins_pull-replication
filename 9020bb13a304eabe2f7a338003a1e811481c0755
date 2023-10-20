@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7742c30c_b44ab201",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-20T08:59:28Z",
+      "side": 1,
+      "message": "We shouldn\u0027t do the same change with a different commit, that would cause conflicts when merged upstream.",
+      "revId": "9020bb13a304eabe2f7a338003a1e811481c0755",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
