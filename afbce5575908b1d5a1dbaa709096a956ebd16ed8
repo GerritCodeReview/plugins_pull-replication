@@ -22,6 +22,30 @@
       },
       "revId": "afbce5575908b1d5a1dbaa709096a956ebd16ed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56caf52a_f1a7605b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-20T08:23:39Z",
+      "side": 1,
+      "message": "I did an E2E test, and I could not replicate it however I am not in the position to say that it never occurs, but if you are, I am happy to remove it.",
+      "parentUuid": "162605e4_77f6b334",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 3
+      },
+      "revId": "afbce5575908b1d5a1dbaa709096a956ebd16ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "nit: unrelated change",
       "revId": "1f7827585f19425e13534fcf254a08483221aa23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e47673ba_6db25541",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/StartFetchCommand.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-20T08:23:39Z",
+      "side": 0,
+      "message": "I don\u0027t understand. `PullReplicationStateLogger` in my branch is the same as the one in origin/stable-3.6",
+      "parentUuid": "3dd266d4_c9e7bba6",
+      "revId": "1f7827585f19425e13534fcf254a08483221aa23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
