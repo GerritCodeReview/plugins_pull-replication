@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9223ea53_00f8efda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T12:00:32Z",
+      "side": 1,
+      "message": "E2E has been tested and I would like to test it with @ponch78@gmail.com.\nIt would be amazing to provide an IT test but pull-replication does not provide a mechanism to write IT tests that run 2 Gerrit instances, one primary and one replica.",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b5e1730_36cf6925",
