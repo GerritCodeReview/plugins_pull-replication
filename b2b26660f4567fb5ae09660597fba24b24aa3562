@@ -64,6 +64,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0860c870_a48a52cc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T07:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "467b2ae4_2833706a",
+      "range": {
+        "startLine": 47,
+        "startChar": 86,
+        "endLine": 47,
+        "endChar": 96
+      },
+      "revId": "b2b26660f4567fb5ae09660597fba24b24aa3562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "497fe888_c39f464b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T07:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec05c453_64346213",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "b2b26660f4567fb5ae09660597fba24b24aa3562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db567735_0bf0407d",
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60f40f2c_12cee477",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T07:53:09Z",
+      "side": 1,
+      "message": "The event I meant was \"init project event.\"",
+      "parentUuid": "db567735_0bf0407d",
+      "range": {
+        "startLine": 48,
+        "startChar": 61,
+        "endLine": 48,
+        "endChar": 66
+      },
+      "revId": "b2b26660f4567fb5ae09660597fba24b24aa3562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02c1054b_f1de57eb",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-10-20T17:16:39Z",
       "side": 1,
       "message": "refsMetaConfigRevisionData",
+      "range": {
+        "startLine": 54,
+        "startChar": 83,
+        "endLine": 54,
+        "endChar": 95
+      },
+      "revId": "b2b26660f4567fb5ae09660597fba24b24aa3562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9f7d182_5484b7a7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T07:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c1054b_f1de57eb",
       "range": {
         "startLine": 54,
         "startChar": 83,

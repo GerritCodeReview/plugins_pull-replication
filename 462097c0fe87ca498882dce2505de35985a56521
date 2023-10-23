@@ -35,6 +35,24 @@
       "parentUuid": "6e09cf11_1ab2526b",
       "revId": "462097c0fe87ca498882dce2505de35985a56521",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8abb4f6_6316abb1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/StartFetchCommand.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T07:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68dbd64b_4ba7ffb9",
+      "revId": "462097c0fe87ca498882dce2505de35985a56521",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
