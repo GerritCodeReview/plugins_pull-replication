@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b3d63b6_bf4f88a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T07:41:53Z",
+      "side": 1,
+      "message": "A reformatting made by @dariusjokilehto@gmail.com, change 389703, has been merged in stable-3.4. Do we want to abandon this change and merge up?",
+      "revId": "4ff694865da6448c70619bc5db5f340dede7c272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
