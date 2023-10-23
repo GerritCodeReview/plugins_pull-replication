@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c4d2f62_77dc8e3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T14:44:52Z",
+      "side": 1,
+      "message": "I would write something like:\n```\nThe revised logic safeguards the repository from corruption by mandating the order of insertion as follows:\n1. Blobs\n2. Trees\n3. Commits\n```",
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "eebfaa9a_a8ef7c15",
