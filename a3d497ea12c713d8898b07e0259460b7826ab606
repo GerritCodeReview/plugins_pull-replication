@@ -198,6 +198,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "706ac17b_261d55e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-23T17:19:13Z",
+      "side": 1,
+      "message": "@Marcin, can you check the formatting please?",
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "edeac5f5_ad88b98b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/StartFetchCommand.java",
         "patchSetId": 1
@@ -245,6 +262,24 @@
       "writtenOn": "2023-10-23T14:55:31Z",
       "side": 1,
       "message": "I think this line needs to be removed since newObjectID is a blob here and a ref shouldn\u0027t refer to a blob but to a commit or another ref",
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2c13f79_196d55b8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-23T17:19:13Z",
+      "side": 1,
+      "message": "This is not always the case though.\n`refs/sequences/{changes,accounts,grups}` in gerrit point to blobs directly, or `refs/multi-site/version` for example.\n\nIs that intention here, @maczech@gmail.com?",
+      "parentUuid": "6f9942b0_fa3cddae",
       "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
