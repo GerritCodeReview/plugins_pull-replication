@@ -87,6 +87,30 @@
       },
       "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87bea3c4_e5e773bb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T09:32:36Z",
+      "side": 1,
+      "message": "Good catch, thank you so much.",
+      "parentUuid": "3c8c2cd2_a6ef4350",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
