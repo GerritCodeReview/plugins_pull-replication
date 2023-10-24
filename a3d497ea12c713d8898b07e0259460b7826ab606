@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97cfdb52_ed39fa23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T12:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e99ee9f_eb7c1405",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4287b38e_d7cd49e0",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-23T14:55:31Z",
       "side": 1,
       "message": "not",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f0d1692_2e84d2ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T12:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4287b38e_d7cd49e0",
       "range": {
         "startLine": 10,
         "startChar": 17,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae2df9d9_0d4d9b61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T12:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "163e44fa_1797a03b",
+      "range": {
+        "startLine": 11,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee2f142e_280f9d74",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-10-23T14:55:31Z",
       "side": 1,
       "message": "a non",
+      "range": {
+        "startLine": 12,
+        "startChar": 55,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c386fe35_011d2814",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T12:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee2f142e_280f9d74",
       "range": {
         "startLine": 12,
         "startChar": 55,
@@ -133,6 +229,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64dc367b_87bff40e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T12:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "701991db_846b4447",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36680f7_51bb0e96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T12:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c4d2f62_77dc8e3f",
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54c39ff8_eb22d677",
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee0ed4b6_9e850188",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T12:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54c39ff8_eb22d677",
+      "range": {
+        "startLine": 16,
+        "startChar": 57,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b115f82f_3d61768f",
@@ -169,6 +331,30 @@
       "writtenOn": "2023-10-23T14:55:31Z",
       "side": 1,
       "message": "there\u0027s no guarantee it will be cleaned up by the next gc, that depends on the config option gc.pruneExpire \n\nhttps://git-scm.com/docs/git-config#Documentation/git-config.txt-gcpruneExpire",
+      "range": {
+        "startLine": 17,
+        "startChar": 12,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "a3d497ea12c713d8898b07e0259460b7826ab606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "911da684_abd2d60f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T12:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b115f82f_3d61768f",
       "range": {
         "startLine": 17,
         "startChar": 12,
