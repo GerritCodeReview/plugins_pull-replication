@@ -111,6 +111,29 @@
       },
       "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5171d1fc_f6d12335",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-24T09:34:28Z",
+      "side": 1,
+      "message": "nit: this was already discussed in the other change, but I\u0027d still prefer to have `input.toJson()` instead of using `GSON` here directly. This is something for the future, probably;)",
+      "range": {
+        "startLine": 154,
+        "startChar": 35,
+        "endLine": 154,
+        "endChar": 53
+      },
+      "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
