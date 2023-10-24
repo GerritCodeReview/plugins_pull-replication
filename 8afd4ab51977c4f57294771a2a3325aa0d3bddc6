@@ -63,6 +63,30 @@
       },
       "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c8c2cd2_a6ef4350",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T09:22:45Z",
+      "side": 1,
+      "message": "yes that\u0027s my understanding as well",
+      "parentUuid": "4d07493a_dde14a37",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
