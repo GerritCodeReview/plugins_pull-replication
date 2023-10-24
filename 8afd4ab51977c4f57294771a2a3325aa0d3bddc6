@@ -39,6 +39,30 @@
       },
       "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d07493a_dde14a37",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T09:11:22Z",
+      "side": 1,
+      "message": "Reviewing the description again, you are right. I think the description should be:\n```\nThe destination URI where the project and its configuration should be replicated to.\n```\n\nwdyt?",
+      "parentUuid": "2af6ad8e_0cb21264",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
