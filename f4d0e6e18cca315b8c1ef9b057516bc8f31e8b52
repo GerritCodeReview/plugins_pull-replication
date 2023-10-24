@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2f6de92_10011edb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "I have concerns on the body detection logic and caching.",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18942de7_7a6bfc89",
@@ -37,6 +54,40 @@
         "endLine": 93,
         "endChar": 63
       },
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d603072f_719a8c69",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "this logic should move in `processRequestWithConfiguration`, as it\u0027s the only place where it is used. Plus it reduces the number of args in the method signature.",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d8bc60d_25a14840",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "Hmmm, I dont think this catches all cases. `getContentLength()` can also return -1, if the length is not known. So I think the logic should be\n```\nhttpServletRequest.getContentLength() \u003e 0 ? processRequestWithConfiguration : processRequest\n```",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -66,6 +117,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1cfa1364_e96883da",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "it is a bit confusing that you are blanket-catching exceptions, but not handle them all. For example, `IOException` is simply re-thrown. I think it makes more sense to get rid of the `handleException` method and have multiple catch statements here.",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd8d0d88_9d7df6e7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "```suggestion\n      repLog.info(\"Init project API for {}\", gitRepositoryName);\n```",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b5e1730_36cf6925",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 12
@@ -77,6 +162,91 @@
       "writtenOn": "2023-10-23T10:59:53Z",
       "side": 1,
       "message": "These operations are not atomic, so the logic could init a project and fail in the apply object operation or the project caching step. @luca.milanesio@gmail.com, do we want to permit this type of inconsistency?",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84d07292_c0f8cc7b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "I think this is related to what you asked Alvaro in L140. If L144 succeeds, but subsequent operations fail, we are left in a state where the git directory is created, but its not indexed. Can this cause problems on future operations or change the user experience?",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a72db6bb_8d47920c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "Do we need to populate the cache? Shouldn\u0027t we be doing a reindexing as we do in L182? Will reindexing \"replace\" the need to cache? If we do need to cache, shouldn\u0027t we use `evictAndReindex` as we do on master?",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76d25c73_0c427afa",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "I feel L190-196 belong to the `RevisionsInput.validate()` method. It is weird that you are validating the input and in the end you \"revalidate\" it (by calling `input.validate()`). Besides, this will be useful in any other code that needs to validate the input.\n\nThe only meaningful check i can think of that can be applied here is to check that the ref is actually the meta config ref.",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e18ee743_c1533dd4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "```suggestion\n    repLog.error(\"Init Project API FAILED for {}\", projectName);\n```",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3be2883_4d6bdb32",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T10:17:39Z",
+      "side": 1,
+      "message": "I don\u0027t think we should provide a pre-defined error message here, as there could be multiple reasons why the failure occurred. I think its better to just use the exception message which will (hopefully) provide richer information.",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
