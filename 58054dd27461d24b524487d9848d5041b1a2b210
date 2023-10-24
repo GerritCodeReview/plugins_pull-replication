@@ -105,6 +105,24 @@
       "parentUuid": "e45476d6_1656c65c",
       "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b62a9e4_1fe30a4d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/util/PayloadSerDes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T09:20:52Z",
+      "side": 1,
+      "message": "This is a nit and I\u0027m happy to give +2 but I\u0027m not sure that it is a correct approach. I believe Alvaro was correct in his first approach. There is a reason why we use Guice and the DI concept. Using static helper classes in Java is an anti-pattern. Plus the class is still mark as a singleton even if we don\u0027t use it in Guice",
+      "parentUuid": "dc8cb9b4_23ceaba7",
+      "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
