@@ -75,6 +75,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "146620df_0254dc39",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18942de7_7a6bfc89",
+      "range": {
+        "startLine": 91,
+        "startChar": 3,
+        "endLine": 93,
+        "endChar": 63
+      },
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e6163fe_e29cf3be",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d603072f_719a8c69",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d8bc60d_25a14840",
@@ -88,6 +130,24 @@
       "writtenOn": "2023-10-24T10:17:39Z",
       "side": 1,
       "message": "Hmmm, I dont think this catches all cases. `getContentLength()` can also return -1, if the length is not known. So I think the logic should be\n```\nhttpServletRequest.getContentLength() \u003e 0 ? processRequestWithConfiguration : processRequest\n```",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9d75c3f_c7aa4403",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "You are correct. I will change it.",
+      "parentUuid": "5d8bc60d_25a14840",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +175,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83242472_b0a1d1a3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "I have removed the ternary operator, as you suggested, but for the moment, I don\u0027t see the necessity of introducing another method to check if there is a payload.",
+      "parentUuid": "4d99f5a2_e37c9b48",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 108,
+        "endChar": 0
+      },
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cfa1364_e96883da",
@@ -132,6 +216,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c749a58_aec9ae9b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "Your proposal is how it was before, but the code was difficult to read at that point. It looks like this refactoring is not making things more descriptive. I will catch all the checked exceptions here and we take it from there.",
+      "parentUuid": "1cfa1364_e96883da",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd8d0d88_9d7df6e7",
@@ -145,6 +247,24 @@
       "writtenOn": "2023-10-24T10:17:39Z",
       "side": 1,
       "message": "```suggestion\n      repLog.info(\"Init project API for {}\", gitRepositoryName);\n```",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54cf7336_e1783286",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd8d0d88_9d7df6e7",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -202,6 +322,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4327010_a501549d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com, please, can you provide some clarification?",
+      "parentUuid": "a72db6bb_8d47920c",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76d25c73_0c427afa",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 12
@@ -213,6 +351,24 @@
       "writtenOn": "2023-10-24T10:17:39Z",
       "side": 1,
       "message": "I feel L190-196 belong to the `RevisionsInput.validate()` method. It is weird that you are validating the input and in the end you \"revalidate\" it (by calling `input.validate()`). Besides, this will be useful in any other code that needs to validate the input.\n\nThe only meaningful check i can think of that can be applied here is to check that the ref is actually the meta config ref.",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e34414e_aa4ffc7e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "Let me have a look at it.",
+      "parentUuid": "76d25c73_0c427afa",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -234,6 +390,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71b952c1_af164bcb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e18ee743_c1533dd4",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3be2883_4d6bdb32",
@@ -247,6 +421,24 @@
       "writtenOn": "2023-10-24T10:17:39Z",
       "side": 1,
       "message": "I don\u0027t think we should provide a pre-defined error message here, as there could be multiple reasons why the failure occurred. I think its better to just use the exception message which will (hopefully) provide richer information.",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc58fa85_78a66f7d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T10:57:35Z",
+      "side": 1,
+      "message": "I think this method is adding confusion. As I mentioned, I will move all the catches.",
+      "parentUuid": "a3be2883_4d6bdb32",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
