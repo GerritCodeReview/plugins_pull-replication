@@ -16,6 +16,24 @@
       "message": "I guess you have no use case where a ref points to a tree otherwise this line should be moved down to before line 78 and assign the result of inserting the tree object to refHead after line 76 ?",
       "revId": "bd1376b1db1856c0516c41775df5d8fe4e37fa05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8173284_96b3c87f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ApplyObject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T13:42:54Z",
+      "side": 1,
+      "message": "Yes, I cannot think of any ref which is pointing to a tree. We are running pull-replication on prod and we never faced that use case. If you look at the original code we were ignoring tree object id",
+      "parentUuid": "5419dcce_4dc96e23",
+      "revId": "bd1376b1db1856c0516c41775df5d8fe4e37fa05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
