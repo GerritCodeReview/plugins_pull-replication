@@ -224,6 +224,24 @@
       "parentUuid": "6a1ae19c_a1df5595",
       "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "105a0759_6bec2856",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/util/PayloadSerDes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T09:42:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1a04067_c71ea4de",
+      "revId": "58054dd27461d24b524487d9848d5041b1a2b210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
