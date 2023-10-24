@@ -20,6 +20,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "18942de7_7a6bfc89",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-24T10:04:58Z",
+      "side": 1,
+      "message": "nit: how about extracting this into a private helper method eg. `getPojectName(HttpServletRequest)`",
+      "range": {
+        "startLine": 91,
+        "startChar": 3,
+        "endLine": 93,
+        "endChar": 63
+      },
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d99f5a2_e37c9b48",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-24T10:04:58Z",
+      "side": 1,
+      "message": "nit: I\u0027d extract that logic into a `private` `hasInitProject` method and use `if` statement instead of the ternary operator. IMO this way it would be cleaner and more readable even with all of the comments you added.",
+      "range": {
+        "startLine": 95,
+        "startChar": 5,
+        "endLine": 108,
+        "endChar": 0
+      },
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5b5e1730_36cf6925",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 12
