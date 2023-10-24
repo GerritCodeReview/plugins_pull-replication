@@ -33,6 +33,24 @@
       "message": "I would simply do\n\n```\ncatch (BadRequestException | IllegalArgumentException e) {\n   repLog.error(\"Init Project API FAILED for {} - {}\", gitRepositoryName, e);\n   setResponse(httpServletResponse, SC_BAD_REQUEST, e.getMessage())\n}\n```\n\nNo need to log twice with 2 different loggers. You can even take it a step further and extract the whole logic in a method and just provide the http status code, this will allow you to reuse it for handling also L135:\n```\nprivate void logExceptionAndUpdateResponse(Exception e, int statusCode, String repoName) {\n  repLog.error(\"Init Project API FAILED for {} - {}\", repoName, e);\n  setResponse(httpServletResponse, statusCode, e.getMessage())\n} \n```",
       "revId": "b9c0164d6f767f23fb33e8ddc206a8f952de3eac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69dc9566_284c7a25",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T13:08:13Z",
+      "side": 1,
+      "message": "I opted for extracting the logic into a method and call it in all the catches.",
+      "parentUuid": "4686f2ef_b9e5d182",
+      "revId": "b9c0164d6f767f23fb33e8ddc206a8f952de3eac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
