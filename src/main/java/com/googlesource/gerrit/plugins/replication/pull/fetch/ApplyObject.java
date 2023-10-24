@@ -64,10 +64,6 @@ public class ApplyObject {
                 throw new MissingParentObjectException(name, refSpec.getSource(), parent.getId());
               }
             }
-            refHead = newObjectID = oi.insert(commitObject.getType(), commitObject.getContent());
-
-            RevisionObjectData treeObject = revisionData.getTreeObject();
-            oi.insert(treeObject.getType(), treeObject.getContent());
           }
 
           for (RevisionObjectData rev : revisionData.getBlobs()) {
@@ -76,6 +72,13 @@ public class ApplyObject {
               newObjectID = blobObjectId;
             }
             refHead = newObjectID;
+          }
+
+          if (commitObject != null) {
+            RevisionObjectData treeObject = revisionData.getTreeObject();
+            oi.insert(treeObject.getType(), treeObject.getContent());
+
+            refHead = oi.insert(commitObject.getType(), commitObject.getContent());
           }
 
           oi.flush();
