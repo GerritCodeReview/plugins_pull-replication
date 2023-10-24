@@ -34,6 +34,24 @@
       "parentUuid": "2859d500_2df52f4e",
       "revId": "e8cdab6229859ba7213f34203b96211b2af44450",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48be46e2_79914352",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T17:00:37Z",
+      "side": 1,
+      "message": "I think you meant this:\n```\n    repLog.error(\"Init Project API FAILED for {}\", gitRepositoryName, e);\n\n```\nThis pattern is followed [1] and prints the stack trace alongside with the message provided.\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.6/src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java#109",
+      "parentUuid": "2859d500_2df52f4e",
+      "revId": "e8cdab6229859ba7213f34203b96211b2af44450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
