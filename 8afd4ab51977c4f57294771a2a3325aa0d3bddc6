@@ -134,6 +134,30 @@
       },
       "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b695f1e_a903c1b5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-24T09:40:42Z",
+      "side": 1,
+      "message": "I agree with you. Let\u0027s tackle it in another followup change.",
+      "parentUuid": "5171d1fc_f6d12335",
+      "range": {
+        "startLine": 154,
+        "startChar": 35,
+        "endLine": 154,
+        "endChar": 53
+      },
+      "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
