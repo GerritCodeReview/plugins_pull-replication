@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23a40c15_fdc8d8d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T09:05:37Z",
+      "side": 1,
+      "message": "just small nit",
+      "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2af6ad8e_0cb21264",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-24T09:05:37Z",
+      "side": 1,
+      "message": "I know that there was already a comment about that but shouldn\u0027t that be a destination? This is the url which we want to call to create project and apply config not the url we want to use to fetch from",
+      "range": {
+        "startLine": 47,
+        "startChar": 20,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "8afd4ab51977c4f57294771a2a3325aa0d3bddc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
