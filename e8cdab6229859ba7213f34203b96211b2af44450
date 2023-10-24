@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2859d500_2df52f4e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-24T16:12:44Z",
+      "side": 1,
+      "message": "```suggestion\n    repLog.error(\"Init Project API FAILED for {} - {}\", gitRepositoryName, e);\n```",
+      "revId": "e8cdab6229859ba7213f34203b96211b2af44450",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
