@@ -69,6 +69,24 @@
       "parentUuid": "7d83b300_e45a2baa",
       "revId": "a39a2561a612722d347738015935d4ed8943d95f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47237722_8887d3ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T15:09:40Z",
+      "side": 1,
+      "message": "It is a bit confusing because whatever text you add to the message, this is going to be logged before the event is added to the in-memory queue in L227.\n\nI would say something like that: `The updated log message now includes the event details within the message to enhance readability.`",
+      "parentUuid": "44445ac5_0f3b309a",
+      "revId": "a39a2561a612722d347738015935d4ed8943d95f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
