@@ -394,6 +394,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a390321_2f9d406a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-25T08:39:31Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com can you please elaborate?\nOn master we have introduced the project cache, as Alvaro is doing here, but we are calling `evictAndReindex` [1] rather than `onCreateProject`. The rationale is explained in the change. Is what we are doing on master wrong? Shouldn\u0027t we be doing the same here?\n\n[1] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/382077",
+      "parentUuid": "1d6c82c8_be59ae51",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76d25c73_0c427afa",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 12
