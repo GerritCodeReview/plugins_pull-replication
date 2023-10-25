@@ -214,11 +214,40 @@ public class ReplicationQueue
 
   private void fire(ReferenceUpdatedEvent event) {
     ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
-    fire(event, state);
+    if (sources.get().getAll().isEmpty()) {
+      repLog.debug("No replication sources configured -> skipping fetch");
+      return;
+    }
+
+    final Consumer<Source> callFunction =
+        callFunction(
+            Project.nameKey(event.projectName()),
+            event.objectId(),
+            event.refName(),
+            event.eventCreatedOn(),
+            event.isDelete(),
+            state);
+
+    fire(event, state, callFunction);
     state.markAllFetchTasksScheduled();
   }
 
-  private void fire(ReferenceUpdatedEvent event, ReplicationState state) {
+  private void fireFetchAsync(ReferenceUpdatedEvent event) {
+    ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
+    final Consumer<Source> fetchFunction =
+        (source) ->
+            callFetch(
+                source,
+                Project.nameKey(event.projectName()),
+                event.refName(),
+                state,
+                Optional.of(ReplicationType.ASYNC));
+    fire(event, state, fetchFunction);
+    state.markAllFetchTasksScheduled();
+  }
+
+  private void fire(
+      ReferenceUpdatedEvent event, ReplicationState state, Consumer<Source> callFunction) {
     if (!running) {
       stateLog.warn(
           "Replication plugin did not finish startup before event, event replication is postponed",
@@ -238,14 +267,6 @@ public class ReplicationQueue
       }
       fetchCallsPool = new ForkJoinPool(numSources);
 
-      final Consumer<Source> callFunction =
-          callFunction(
-              Project.nameKey(event.projectName()),
-              event.objectId(),
-              event.refName(),
-              event.eventCreatedOn(),
-              event.isDelete(),
-              state);
       fetchCallsPool
           .submit(() -> allSources.parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
@@ -551,7 +572,7 @@ public class ReplicationQueue
       String eventKey = String.format("%s:%s", event.projectName(), event.refName());
       if (!eventsReplayed.contains(eventKey)) {
         repLog.info("Firing pending task {}", event);
-        fire(event);
+        fireFetchAsync(event);
         eventsReplayed.add(eventKey);
       }
     }
