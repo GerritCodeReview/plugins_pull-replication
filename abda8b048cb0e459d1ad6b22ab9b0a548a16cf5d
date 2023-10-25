@@ -22,6 +22,30 @@
       },
       "revId": "abda8b048cb0e459d1ad6b22ab9b0a548a16cf5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "454669b8_650871b3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-25T08:59:55Z",
+      "side": 1,
+      "message": "+1 to that - I missed the fact that the Content-Length header may not be sent (although the vast majority of clients should send it if they follow the RFC standard). Although the Content-Type is not mandatory either, it _should_ be sent with the request so it\u0027s a safer choice for sure.",
+      "parentUuid": "6d0b5694_4b4674b1",
+      "range": {
+        "startLine": 98,
+        "startChar": 29,
+        "endLine": 98,
+        "endChar": 47
+      },
+      "revId": "abda8b048cb0e459d1ad6b22ab9b0a548a16cf5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
