@@ -52,6 +52,29 @@
       "parentUuid": "e47673ba_6db25541",
       "revId": "1f7827585f19425e13534fcf254a08483221aa23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b215b147_a0fbe629",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:23:03Z",
+      "side": 0,
+      "message": "This is *very important* because it will allow on the receiver-side to understand if there is a JSON body or not.",
+      "range": {
+        "startLine": 140,
+        "startChar": 50,
+        "endLine": 140,
+        "endChar": 76
+      },
+      "revId": "1f7827585f19425e13534fcf254a08483221aa23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
