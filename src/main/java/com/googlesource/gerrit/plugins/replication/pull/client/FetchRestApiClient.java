@@ -123,7 +123,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
                 "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
                 instanceId, refName, callAsync),
             StandardCharsets.UTF_8));
-    post.addHeader(new BasicHeader("Content-Type", "application/json"));
+    post.addHeader(new BasicHeader("Content-Type", MediaType.JSON_UTF_8.toString()));
     post.addHeader(
         PullReplicationApiRequestMetrics.HTTP_HEADER_X_START_TIME_NANOS,
         Long.toString(startTimeNanos));

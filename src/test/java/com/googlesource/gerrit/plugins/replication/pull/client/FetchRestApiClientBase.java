@@ -79,7 +79,7 @@ public abstract class FetchRestApiClientBase {
       "{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":false}";
   String expectedAsyncPayload =
       "{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":true}";
-  Header expectedHeader = new BasicHeader("Content-Type", "application/json");
+  Header expectedHeader = new BasicHeader("Content-Type", "application/json; charset=utf-8");
   SyncRefsFilter syncRefsFilter;
 
   String commitObjectId = "9f8d52853089a3cf00c02ff7bd0817bd4353a95a";
