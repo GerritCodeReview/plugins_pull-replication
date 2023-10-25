@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48ce1e73_72a8d07a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "I believe we need to tackle the compatibility use-case, where the client sends a text plan instead of a JSON object.",
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "535b9d69_506e85f7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of this internal method?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "943d1771_af78e368",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "```suggestion\n  private boolean initProjectWithConfiguration(\n```",
+      "range": {
+        "startLine": 149,
+        "startChar": 18,
+        "endLine": 149,
+        "endChar": 32
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88c70785_2d417ef6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "Why do we have this defensive cleanup? Is this for supporting older clients? If yes, add a `// TODO: to be removed once older clients are not supported anymore`",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 63
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcf31e48_12ef7d26",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "Input validation should happen *before doing anything else*, move it to L153",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 25
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "122b603f_34990365",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "Add also the reason: `Cannot parse the repository name into a URI`",
+      "range": {
+        "startLine": 185,
+        "startChar": 59,
+        "endLine": 185,
+        "endChar": 60
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

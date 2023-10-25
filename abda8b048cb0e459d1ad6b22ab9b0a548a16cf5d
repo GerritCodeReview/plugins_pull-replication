@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d0b5694_4b4674b1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "The content may or may not be provided with a length associated. That depends if the client is connected directly or through a proxy that does streaming or not.\n\nI believe we should instead look at the content type:\n- TEXT \u003d\u003e that\u0027s the old API without a body\n- JSON \u003d\u003e that\u0027s the new API with a body",
+      "range": {
+        "startLine": 98,
+        "startChar": 29,
+        "endLine": 98,
+        "endChar": 47
+      },
+      "revId": "abda8b048cb0e459d1ad6b22ab9b0a548a16cf5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

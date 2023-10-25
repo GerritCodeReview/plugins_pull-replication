@@ -288,6 +288,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9a45e966_5dbbafbf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "The project was just initialised and is empty, why would the addition of the extra object would fail? What would be the condition you evisage?",
+      "parentUuid": "5b5e1730_36cf6925",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84d07292_c0f8cc7b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 12
@@ -299,6 +317,24 @@
       "writtenOn": "2023-10-24T10:17:39Z",
       "side": 1,
       "message": "I think this is related to what you asked Alvaro in L140. If L144 succeeds, but subsequent operations fail, we are left in a state where the git directory is created, but its not indexed. Can this cause problems on future operations or change the user experience?",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0fc7595_dc848276",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "How can that happen? The repository is new, there is no concurrency, there is no existing data: how can the insertion of the objects fail?",
+      "parentUuid": "84d07292_c0f8cc7b",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -334,6 +370,24 @@
       "side": 1,
       "message": "@luca.milanesio@gmail.com, please, can you provide some clarification?",
       "parentUuid": "a72db6bb_8d47920c",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d6c82c8_be59ae51",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "Nope, the `onCreateProject` is doing whatever is needed. We should *NOT* copy\u0026paste the logic of Gerrit but leave to the event handlers to do their job.",
+      "parentUuid": "c4327010_a501549d",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -405,6 +459,24 @@
       "side": 1,
       "message": "Looking at the code:\n```\n    if (Strings.isNullOrEmpty(input.getLabel())) {\n      throw new IllegalArgumentException(\"Source label cannot be null or empty\");\n    }\n\n    if (Strings.isNullOrEmpty(input.getRefName())) {\n      throw new IllegalArgumentException(\"Ref-update refname cannot be null or empty\");\n    }\n```\nThose properties must be validated; otherwise, a runtime exception will be thrown behind L159.\n\nThe question is: can we refactor the RevisionsInput.validate() method to include these checks? Probably yes, but we should also do deeper refactoring in ApplicationObjectAction.java, as I noted in the comment above. I think that refactoring should not be done as a part of this change.\n\nI like checking if the ref is a ref meta config.\n\nI am open to hearing what @luca.milanesio@gmail.com and @maczech@gmail.com have to say about this.",
       "parentUuid": "272f1e40_ca9f9dc5",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87c81a3f_18574270",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:41:49Z",
+      "side": 1,
+      "message": "Done, like you did is enough. *Let\u0027s NOT* assume that this change has to fix all the code of the replication plugin. I like the fact that RevisionInput is untouched and I\u0027d like to tackle one problem at a time: one change \u003d one thing.",
+      "parentUuid": "d70b8188_9e0fb904",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
