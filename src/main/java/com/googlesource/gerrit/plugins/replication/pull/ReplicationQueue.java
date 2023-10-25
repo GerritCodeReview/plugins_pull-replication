@@ -219,7 +219,10 @@ public class ReplicationQueue
   private void fire(ReferenceUpdatedEvent event, ReplicationState state) {
     if (!running) {
       stateLog.warn(
-          "Replication plugin did not finish startup before event, event replication is postponed",
+          String.format(
+              "Replication plugin did not finish startup before event, event replication is postponed"
+                  + " for event %s",
+              event),
           state);
       beforeStartupEventsQueue.add(event);
 
