@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff07cde2_cd96d66a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-25T12:38:07Z",
+      "side": 1,
+      "message": "It\u0027s still WIP because we want to have a look if there is an easy way to test it. Currently we have a test which works but it\u0027s a white-box test:\n```\n  public void shouldProcessBeforeStartupEventsOnce() throws Exception {\n    Event event \u003d new TestEvent(\"refs/changes/01/1/meta\");\n    objectUnderTest.stop();\n    objectUnderTest.onEvent(event);\n    verify(fetchRestApiClient, never()).callSendObjects(any(), anyString(), anyLong(), any(), any());\n\n    objectUnderTest.start();\n    verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());\n\n    objectUnderTest.stop();\n    objectUnderTest.start();\n    verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());\n  }\n```",
+      "revId": "5662aa58aba50876c51767b3af6d54013c3a04f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72bf8021_aeb386c7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-25T12:38:07Z",
+      "side": 1,
+      "message": "we decided to use poll instead of peek and remove to make sure that if fire throws exception we do not get stuck on the event",
+      "range": {
+        "startLine": 537,
+        "startChar": 5,
+        "endLine": 537,
+        "endChar": 62
+      },
+      "revId": "5662aa58aba50876c51767b3af6d54013c3a04f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
