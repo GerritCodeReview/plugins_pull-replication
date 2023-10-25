@@ -306,6 +306,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f315b892_fd314e87",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T10:46:04Z",
+      "side": 1,
+      "message": "As I said below, there are four checked exceptions that indicate that logic might fail.",
+      "parentUuid": "9a45e966_5dbbafbf",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84d07292_c0f8cc7b",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 12
@@ -353,6 +371,24 @@
       "side": 1,
       "message": "After the repository is created, we are delegating to `applyObjects`. This method call can throw 3 different types of exceptions: IOException, RefUpdateException \u0026 MissingParentObjectException. I am not entirely sure how the last one can occur and perhaps it can\u0027t happen on an empty repo, however a RefUpdateException and the broader IOException can theoretically happen.",
       "parentUuid": "a0fc7595_dc848276",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "666caa8c_3583fcf8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T10:46:04Z",
+      "side": 1,
+      "message": "Definitively, there are four checked exceptions and actually, they are caught in the main flow. So conceptually there is a reason to think that we could end up with an inconsistent situation.",
+      "parentUuid": "1e38a7e7_4d30d4a0",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

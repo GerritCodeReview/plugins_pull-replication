@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33c5efe6_07b30e14",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T10:46:04Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "535b9d69_506e85f7",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 3
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "943d1771_af78e368",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-10-25T00:41:49Z",
       "side": 1,
       "message": "```suggestion\n  private boolean initProjectWithConfiguration(\n```",
+      "range": {
+        "startLine": 149,
+        "startChar": 18,
+        "endLine": 149,
+        "endChar": 32
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a020873_cdf3f0cb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T10:46:04Z",
+      "side": 1,
+      "message": "Good one. That made me improve the readability of the code.",
+      "parentUuid": "943d1771_af78e368",
       "range": {
         "startLine": 149,
         "startChar": 18,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c3adfb7_d210133f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T10:46:04Z",
+      "side": 1,
+      "message": "This is not a defensive cleanup. The init project endpoint is:\n```\npull-replication/init-project/foo.git\n```\n\nTo create the project in the FS the logic uses `foo.git`. However, the `applyObjectCommand.applyObjects` and `projectCache.onCreateProject` operations need `foo` without the suffix `.git`.",
+      "parentUuid": "88c70785_2d417ef6",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 157,
+        "endChar": 63
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcf31e48_12ef7d26",
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c7e48a2_cf9d9f88",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T10:46:04Z",
+      "side": 1,
+      "message": "Good one.",
+      "parentUuid": "fcf31e48_12ef7d26",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 25
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "122b603f_34990365",
@@ -123,6 +219,30 @@
       "writtenOn": "2023-10-25T00:41:49Z",
       "side": 1,
       "message": "Add also the reason: `Cannot parse the repository name into a URI`",
+      "range": {
+        "startLine": 185,
+        "startChar": 59,
+        "endLine": 185,
+        "endChar": 60
+      },
+      "revId": "ee632d23855ece2bce5ac88aeecf9b2d93b83d89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "378cd4fc_965491ca",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T10:46:04Z",
+      "side": 1,
+      "message": "This is not part of this change. I prefer to tackle another change.",
+      "parentUuid": "122b603f_34990365",
       "range": {
         "startLine": 185,
         "startChar": 59,
