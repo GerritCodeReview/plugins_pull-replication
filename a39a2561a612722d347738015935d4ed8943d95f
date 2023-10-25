@@ -51,6 +51,24 @@
       "message": "The second paragraph is a bit messy to me.\n\nmaybe: `Enhance the log message when an event is triggered while pull-replication is still in the loading process.`",
       "revId": "a39a2561a612722d347738015935d4ed8943d95f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44445ac5_0f3b309a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-25T14:20:48Z",
+      "side": 1,
+      "message": "That\u0027s incorrect we want to log the event details when event is added to in memory queue.",
+      "parentUuid": "7d83b300_e45a2baa",
+      "revId": "a39a2561a612722d347738015935d4ed8943d95f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
