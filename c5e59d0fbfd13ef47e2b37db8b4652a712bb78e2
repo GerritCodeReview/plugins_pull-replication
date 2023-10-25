@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38bc8961_50bd3c95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T16:05:09Z",
+      "side": 1,
+      "message": "I have concerns if the type `Optional\u003cReplicationType\u003e` is the right type.",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ede6736_dfe7f9fc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T16:05:09Z",
+      "side": 1,
+      "message": "I think it would be good to have a java doc in this method to provide more context.",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10cbf077_06ff1b0a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T16:05:09Z",
+      "side": 1,
+      "message": "IMO, the type `Optional\u003cReplicationType\u003e` is confusing because the possible values are:\n- None\n- Some(ASYNC)\n- Some(SYNC)\n\nBased on the code in ReplicationQueue L290 and L464 the value  Some(SYNC) is not going to be set (maybe I am wrong) ever therefore, I believe that the type `Optional\u003cReplicationType\u003e` is not the right type. For that reason, it would be more idiomatic to have a boolean that represents if you want to override the `fallback` to an `async fetch`.\n\nSomething like:\n```\nboolean callAsync \u003d replicationTypeOverride || !syncRefsFilter.match(refName);\n```",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b253852_4a2aa505",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T16:05:09Z",
+      "side": 1,
+      "message": "is it relevant in the test to `throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException` instead of `throws Exception`",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3fbddee_b727f73b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T16:05:09Z",
+      "side": 1,
+      "message": "The same as above.",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
