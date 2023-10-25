@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6f08cea_faca0066",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-25T14:16:43Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com WDYT? ^",
+      "parentUuid": "ff07cde2_cd96d66a",
+      "revId": "5662aa58aba50876c51767b3af6d54013c3a04f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72bf8021_aeb386c7",
