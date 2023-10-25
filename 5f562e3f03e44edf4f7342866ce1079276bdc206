@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e0f24e_76823750",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T07:56:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09eff479_67a4443b",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "5f562e3f03e44edf4f7342866ce1079276bdc206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e328654_0f8afc58",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-25T00:09:03Z",
       "side": 1,
       "message": "We are changing the content type from text to JSON, would the legacy endpoint accept it?",
+      "range": {
+        "startLine": 22,
+        "startChar": 47,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "5f562e3f03e44edf4f7342866ce1079276bdc206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59f09fca_adc78ce7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T07:56:17Z",
+      "side": 1,
+      "message": "Yes, it is accepted, I tested E2E and PullReplicationFilter does not check the content type of the endpoints that require a JSON body. Maybe is something that we should introduce to fail fast.",
+      "parentUuid": "2e328654_0f8afc58",
       "range": {
         "startLine": 22,
         "startChar": 47,
