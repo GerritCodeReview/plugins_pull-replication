@@ -105,6 +105,30 @@
       },
       "revId": "5662aa58aba50876c51767b3af6d54013c3a04f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6f4cadc_9b7d68c3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T15:12:22Z",
+      "side": 1,
+      "message": "Tx for the clarification. Very accurate.",
+      "parentUuid": "9782e122_615594c3",
+      "range": {
+        "startLine": 537,
+        "startChar": 5,
+        "endLine": 537,
+        "endChar": 62
+      },
+      "revId": "5662aa58aba50876c51767b3af6d54013c3a04f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
