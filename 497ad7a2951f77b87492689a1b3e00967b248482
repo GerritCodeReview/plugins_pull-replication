@@ -34,6 +34,24 @@
       "parentUuid": "43ae413f_5a07bd40",
       "revId": "497ad7a2951f77b87492689a1b3e00967b248482",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01c340ed_8cdfbf5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-25T16:30:56Z",
+      "side": 1,
+      "message": "We could indeed merge this first out of the topic, but IMO keeping it as a part of the topic helps to understand the type of technical problems we have been solving to achieve the requirements.",
+      "parentUuid": "1fd1f478_43fb9443",
+      "revId": "497ad7a2951f77b87492689a1b3e00967b248482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
