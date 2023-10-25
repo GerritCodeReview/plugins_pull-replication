@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43ae413f_5a07bd40",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-25T00:10:09Z",
+      "side": 1,
+      "message": "Is this needed in the same topic? It looks an unrelated refactoring.",
+      "revId": "497ad7a2951f77b87492689a1b3e00967b248482",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
