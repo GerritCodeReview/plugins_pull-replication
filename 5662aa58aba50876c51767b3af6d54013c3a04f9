@@ -63,6 +63,30 @@
       },
       "revId": "5662aa58aba50876c51767b3af6d54013c3a04f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9782e122_615594c3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-25T14:15:13Z",
+      "side": 1,
+      "message": "Yes, we will loose message exactly as we do now, plus:\n1. fire method doesn\u0027t declare any exceptions so only runtime exception can cause message to be lost\n2. this method doesn\u0027t have any retry mechanism, we can simulate that by adding event at the end of the queue but we can end up in endless loop. Actually our first approach was with peek and remove\n3. we should check if fireBeforeStartupEvents is not a blocking operation because it can delay the plugin startup in case of retries\n4. it\u0027s a memory queue so plugin restart during the startup will cause message lost anyway\n\nBut I agree we could have a separate change to improve that part of the code",
+      "parentUuid": "a7786e8b_00eebf18",
+      "range": {
+        "startLine": 537,
+        "startChar": 5,
+        "endLine": 537,
+        "endChar": 62
+      },
+      "revId": "5662aa58aba50876c51767b3af6d54013c3a04f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
