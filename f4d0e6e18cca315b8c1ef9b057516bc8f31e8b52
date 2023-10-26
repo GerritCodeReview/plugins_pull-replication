@@ -322,6 +322,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dba58b13_b2ad236b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T22:14:54Z",
+      "side": 1,
+      "message": "Sure, but there are unlisted unchecked exceptions that may result in any other line of code to fail anyway. If you see a use-case where it may fail, let\u0027s discuss, otherwise we can simply accept the condition.",
+      "parentUuid": "f315b892_fd314e87",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84d07292_c0f8cc7b",
@@ -389,6 +407,24 @@
       "side": 1,
       "message": "Definitively, there are four checked exceptions and actually, they are caught in the main flow. So conceptually there is a reason to think that we could end up with an inconsistent situation.",
       "parentUuid": "1e38a7e7_4d30d4a0",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "478ba267_38fd8756",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T22:14:54Z",
+      "side": 1,
+      "message": "Sure, but let\u0027s see things in real practical terms:\n- IOException: sure, the disk may fail or be full. The I/O on disk isn\u0027t transactional anyway, so we will be in the same situation even if we do something.\n- RefUpdateException: this may happen if the update was rejected because of locking, ref existing already. This is a brand-new repo, so this won\u0027t happen.\n- MissingParentObjectException: this is a new repo, there are no parent objects and we know we are missing it, and that\u0027s expected.\n\nResolving this for now, unless you have a *real production case* situation to cover, in that case list the real production case and we can re-discuss.",
+      "parentUuid": "666caa8c_3583fcf8",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -568,6 +604,24 @@
       "side": 1,
       "message": "In stable-3.9 negative cache was introduced in Gerrit Core[1]. But `onProjectCreate` wasn\u0027t updated to reflect the new functionality. That\u0027s why I did a quick fix to do `evictAndReindex`[2] but now if I think about it I believe we should fix the Gerrit Core. I\u0027ve put the comment on the original change to understand why they did it in that way[3]. If they agree that we have an issue I will prepare change for Gerrit 3.9.\n\nTo summarise up to gerrit 3.9 we should stick to `onCreateProject` on 3.9 if they would not agree to fix it in gerrit core we have to do `evictAndReindex`. But this can be done as a separate change\n\n1. https://gerrit-review.googlesource.com/c/gerrit/+/376576\n2. https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/382077\n3. https://gerrit-review.googlesource.com/c/gerrit/+/376576/comment/f597e6ef_24ec9ae0/",
       "parentUuid": "077222d5_6c56878c",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90eae609_0dd7f67a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T22:14:54Z",
+      "side": 1,
+      "message": "I agree with Marcin\u0027s analysis: we need to run `onProjectCreate` and leave to Gerrit to decide what to do.\n\nIf Gerrit decide to do the wrong thing, we need to fix Gerrit core. On stable-3.6 this is the correct method to call.",
+      "parentUuid": "a7ff9d4d_378ef94d",
       "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
