@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66bef6b3_0e3c6cf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-26T11:05:01Z",
+      "side": 1,
+      "message": "LGTM 👍",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ede6736_dfe7f9fc",
@@ -72,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1003986_89eb138e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-26T11:05:01Z",
+      "side": 1,
+      "message": "I personally like the implementation as-is. I think the optional replication type works quite nicely and doesn\u0027t bloat the api with additional methods (that to me are just more noise). But this is my personal preference and I appreciate you might disagree. \n\n@maczech@gmail.com why would you need a `callFetchSync` method? Nowhere in the code we call the `callFetch` with `ReplicationType.SYNC`.",
+      "parentUuid": "4afbc8a2_3c64f627",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b253852_4a2aa505",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 2
@@ -83,6 +118,24 @@
       "writtenOn": "2023-10-25T16:05:09Z",
       "side": 1,
       "message": "is it relevant in the test to `throws ClientProtocolException, IOException, LargeObjectException, RefUpdateException` instead of `throws Exception`",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef0878b0_0e708a16",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-26T11:05:01Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6b253852_4a2aa505",
       "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
