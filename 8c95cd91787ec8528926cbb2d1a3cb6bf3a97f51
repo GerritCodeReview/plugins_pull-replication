@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "180d40b8_83fc56f9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-26T10:48:02Z",
+      "side": 1,
+      "message": "nit: usually putting these type of information in the code is considered as a code smell. If in the future someone change the behaviour he needs to change that description as well if not this can misslead someone who will try to understand what this code does.\n\nBut again this is just a nit and it will not impact my voting",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 30
+      },
+      "revId": "8c95cd91787ec8528926cbb2d1a3cb6bf3a97f51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

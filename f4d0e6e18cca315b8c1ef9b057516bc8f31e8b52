@@ -466,6 +466,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "896c8882_3f654288",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-26T10:48:02Z",
+      "side": 1,
+      "message": "This change is targeting stable-3.6 but as I mentioned here[1] from stable-3.9 we have to do `evictAndReindex` if not because on negative caching project list will not be updated:\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/383734/comment/35eaa25e_93151f4b/",
+      "parentUuid": "5a390321_2f9d406a",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76d25c73_0c427afa",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 12
