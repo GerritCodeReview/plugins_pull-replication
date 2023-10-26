@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "444c803e_5ae1e339",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-26T09:48:27Z",
+      "side": 1,
+      "message": "\u003eHow can the events be processed multiple times? The fireBeforeStartupEvents is \u003ecalled only once by the start LifecycleListener, no?\n\nConfiguration auto-reload is triggered event time we modify the replication config. The difference is that auto-reload call stop/start and doesn\u0027t unload the plugin. This means that `beforeStartupEventsQueue` is not recreated and because we do not clean up the queue it will contain old events so we will send the same messages again\n\n\u003eEven if the event is processed multiple times, would that be an issue? I thought \u003ethat fetch operations were idempotent. Can you bring some example?\n\nIn this change we still call fire method which is doing apply-object or fetch. For apply-object we have SHA1 in the event so we will send the old ref value. There is a change to force fetch:\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/390981",
+      "parentUuid": "fff015b8_3c4eb5c3",
+      "range": {
+        "startLine": 12,
+        "startChar": 55,
+        "endLine": 13,
+        "endChar": 58
+      },
+      "revId": "39ed50189797c89d51675900971294947414a3dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e802db9_08000da6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -61,6 +85,24 @@
       "writtenOn": "2023-10-25T15:14:58Z",
       "side": 1,
       "message": "What is the plan for testing?",
+      "revId": "39ed50189797c89d51675900971294947414a3dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3883f03_6d06d7b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-26T09:48:27Z",
+      "side": 1,
+      "message": "It is tough to write a test for this specific condition and verifying it. We wrote some unit test but it\u0027s a white-box test and our current approach is to avoid those type of tests:\n\n```\n  public void shouldProcessBeforeStartupEventsOnce() throws Exception {\n    Event event \u003d new TestEvent(\"refs/changes/01/1/meta\");\n    objectUnderTest.stop();\n    objectUnderTest.onEvent(event);\n    verify(fetchRestApiClient, never()).callSendObjects(any(), anyString(), anyLong(), any(), any());\n\n    objectUnderTest.start();\n    verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());\n\n    objectUnderTest.stop();\n    objectUnderTest.start();\n    verify(fetchRestApiClient).callSendObjects(any(), anyString(), anyLong(), any(), any());\n  }\n```",
+      "parentUuid": "1e802db9_08000da6",
       "revId": "39ed50189797c89d51675900971294947414a3dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
