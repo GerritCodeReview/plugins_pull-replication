@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36331431_b6a41872",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T21:54:29Z",
+      "side": 1,
+      "message": "One suggestion to simplify the implementation, otherwise LGTM.",
+      "revId": "c2ea09378489889b89de5d56e231b88af97341b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16ff2c28_c0e94378",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T21:54:29Z",
+      "side": 1,
+      "message": "Just pass this as parameter to the `fire()` method: if you are passing a ASYNC replication you *have* to run a `callFetch` anyway.",
+      "range": {
+        "startLine": 244,
+        "startChar": 16,
+        "endLine": 244,
+        "endChar": 50
+      },
+      "revId": "c2ea09378489889b89de5d56e231b88af97341b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b56e3560_f8dee52d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T21:54:29Z",
+      "side": 1,
+      "message": "I don\u0027t believe we need this parametrisation after all: would you ever run anything different than a `callFetch` when you are executed ASYNC?",
+      "range": {
+        "startLine": 250,
+        "startChar": 59,
+        "endLine": 250,
+        "endChar": 88
+      },
+      "revId": "c2ea09378489889b89de5d56e231b88af97341b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
