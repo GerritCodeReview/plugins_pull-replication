@@ -538,6 +538,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "077222d5_6c56878c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-26T13:08:05Z",
+      "side": 1,
+      "message": "+1 \nI would like to understand what type of operations in terms of indexing and caching need to be executed when a `project init` operation is executed in the replica.",
+      "parentUuid": "0997d905_072fee3e",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76d25c73_0c427afa",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 12
