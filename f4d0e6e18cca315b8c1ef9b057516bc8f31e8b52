@@ -484,6 +484,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f534831_3944f2f4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-26T10:59:18Z",
+      "side": 1,
+      "message": "After second thought, maybe actual problem is in `projectCache.onCreateProject(Project.nameKey(projectName));`\nwhich is not removing project from non-existing projects cache.\nI will have a look in Gerrit Core and update",
+      "parentUuid": "896c8882_3f654288",
+      "revId": "f4d0e6e18cca315b8c1ef9b057516bc8f31e8b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76d25c73_0c427afa",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 12
