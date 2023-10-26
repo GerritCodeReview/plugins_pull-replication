@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12edaf0_5ee276f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-26T17:25:37Z",
+      "side": 1,
+      "message": "I\u0027m fine to give +2 but we still have some open comments",
+      "revId": "c05aca27db52a66bf12191aeb258c8e95b55cd0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
