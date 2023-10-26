@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4afbc8a2_3c64f627",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-26T10:30:58Z",
+      "side": 1,
+      "message": "Feature flags are not a great idea because they make code difficult to understand. Sometimes refactoring is so complex that there is no other way and that\u0027s fine. But here we could add two more default methods to make everything more clear:\n\n```\ndefault HttpResult callFetchSync(Project.NameKey project, String refName, URIish targetUri)\n      throws ClientProtocolException, IOException {\n    return callFetch(\n        project,\n        refName,\n        targetUri,\n        MILLISECONDS.toNanos(System.currentTimeMillis()),\n       Optional.of(ReplicationType.SYNC));\n  }\n  \n  default HttpResult callFetchAsync(Project.NameKey project, String refName, URIish targetUri)\n      throws ClientProtocolException, IOException {\n    return callFetch(\n        project,\n        refName,\n        targetUri,\n        MILLISECONDS.toNanos(System.currentTimeMillis()),\n       Optional.of(ReplicationType.ASYNC));\n  }\n\n```",
+      "parentUuid": "10cbf077_06ff1b0a",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b253852_4a2aa505",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 2
