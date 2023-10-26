@@ -161,6 +161,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42e035a1_8c5db623",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-26T12:16:03Z",
+      "side": 1,
+      "message": "\u003e Please, do not divert the conversation if a feature flag is good or bad option.\n\nOk, so where is the channel where we can discuss the code style? Code review is a good place to discuss those things the only thing we should have in mind is to be reasonable and do not block the approval of the change and this is exactly what I mentioned here:\n\n\u003ebut it\u0027s just a code style so I\u0027m not going to give negative voting because of that",
+      "parentUuid": "d015aa8e_315068ae",
+      "revId": "c5e59d0fbfd13ef47e2b37db8b4652a712bb78e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6b253852_4a2aa505",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 2
