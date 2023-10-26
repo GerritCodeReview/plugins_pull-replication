@@ -80,6 +80,30 @@
       },
       "revId": "8e9da480044b67f983baa10b0ab354507ba73f0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76586478_f2a84989",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/CGitFetchWithMirrorIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T22:20:04Z",
+      "side": 1,
+      "message": "Let\u0027s keep it as-is for consistency for now, it was just a nit anyway.",
+      "parentUuid": "06a4d858_892fa11a",
+      "range": {
+        "startLine": 42,
+        "startChar": 32,
+        "endLine": 42,
+        "endChar": 34
+      },
+      "revId": "8e9da480044b67f983baa10b0ab354507ba73f0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
