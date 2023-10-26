@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fff015b8_3c4eb5c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-26T07:56:16Z",
+      "side": 1,
+      "message": "Can you expand a bit on this?\n- How can the events be processed multiple times? The `fireBeforeStartupEvents` is called only once by the `start` `LifecycleListener`, no?\n\n- Even if the event is processed multiple times, would that be an issue? I thought that fetch operations were idempotent.  Can you bring some example?",
+      "range": {
+        "startLine": 12,
+        "startChar": 55,
+        "endLine": 13,
+        "endChar": 58
+      },
+      "revId": "39ed50189797c89d51675900971294947414a3dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1e802db9_08000da6",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
