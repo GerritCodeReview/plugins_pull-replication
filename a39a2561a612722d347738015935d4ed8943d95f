@@ -87,6 +87,24 @@
       "parentUuid": "44445ac5_0f3b309a",
       "revId": "a39a2561a612722d347738015935d4ed8943d95f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df1fadb0_bd72e560",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-26T09:38:25Z",
+      "side": 1,
+      "message": "I have been reading, and the main problem is the comas:\n\n```\nWhen pull-replication is not fully loaded, events are stored in\nthe memory queue. This fact is logged in the `pull_replication_log`\nfile. For better readability, add all information about the stored\nevent.\n```",
+      "parentUuid": "47237722_8887d3ca",
+      "revId": "a39a2561a612722d347738015935d4ed8943d95f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
