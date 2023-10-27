@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cddf5cc_01323254",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-27T16:02:24Z",
+      "side": 1,
+      "message": "nit: how about re-using the same variable as in the other file - `MediaType.JSON_UTF_8.toString()`?",
+      "range": {
+        "startLine": 82,
+        "startChar": 58,
+        "endLine": 82,
+        "endChar": 91
+      },
+      "revId": "d7de6b3ad22da653315768b09a0ca88fd3ada7b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
