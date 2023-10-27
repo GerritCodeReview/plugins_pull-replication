@@ -219,7 +219,10 @@ public class ReplicationQueue
   private void fire(ReferenceUpdatedEvent event, ReplicationState state) {
     if (!running) {
       stateLog.warn(
-          "Replication plugin did not finish startup before event, event replication is postponed",
+          String.format(
+              "Replication plugin did not finish startup before event, event replication is postponed"
+                  + " for event %s",
+              event),
           state);
       beforeStartupEventsQueue.add(event);
 
@@ -518,7 +521,20 @@ public class ReplicationQueue
   private HttpResult initProject(
       Project.NameKey project, URIish uri, FetchApiClient fetchClient, HttpResult result)
       throws IOException, ClientProtocolException {
-    HttpResult initProjectResult = fetchClient.initProject(project, uri);
+    RevisionData refsMetaConfigRevisionData =
+        revReaderProvider
+            .get()
+            .read(project, null, RefNames.REFS_CONFIG, 0)
+            .orElseThrow(
+                () ->
+                    new IllegalStateException(
+                        String.format(
+                            "Project %s does not have %s", project, RefNames.REFS_CONFIG)));
+
+    List<RevisionData> refsMetaConfigDataList =
+        fetchWholeMetaHistory(project, RefNames.REFS_CONFIG, refsMetaConfigRevisionData);
+    HttpResult initProjectResult =
+        fetchClient.initProject(project, uri, System.currentTimeMillis(), refsMetaConfigDataList);
     if (initProjectResult.isSuccessful()) {
       result = fetchClient.callFetch(project, FetchOne.ALL_REFS, uri);
     } else {

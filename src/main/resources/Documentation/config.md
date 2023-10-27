@@ -526,8 +526,7 @@ remote site.
 remote.NAME.mirror
 :	If true, replication will remove local branches and tags that are
 absent remotely or invisible to the replication (for example read access
-denied via `authGroup` option). Note that this option is currently
-implemented for the JGit client only.
+denied via `authGroup` option).
 
 	By default, false, do not remove remote branches or tags.
 
