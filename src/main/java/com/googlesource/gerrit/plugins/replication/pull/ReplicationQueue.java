@@ -82,6 +82,8 @@ public class ReplicationQueue
   private static final Integer DEFAULT_FETCH_CALLS_TIMEOUT = 0;
   private static final String REF_UDPATED_EVENT_TYPE = new RefUpdatedEvent().type;
   private static final String ZEROS_OBJECTID = ObjectId.zeroId().getName();
+  private static final boolean FIRE_WITH_APPLY_OBJECT = true;
+  private static final boolean FIRE_WITH_FETCH = false;
   private final ReplicationStateListener stateLog;
   private final ShutdownState shutdownState;
 
@@ -219,6 +221,10 @@ public class ReplicationQueue
   }
 
   private void fire(ReferenceUpdatedEvent event, ReplicationState state) {
+    fire(event, state, FIRE_WITH_APPLY_OBJECT);
+  }
+
+  private void fire(ReferenceUpdatedEvent event, ReplicationState state, boolean runApplyObject) {
     if (!running) {
       stateLog.warn(
           String.format(
@@ -248,7 +254,9 @@ public class ReplicationQueue
               event.refName(),
               event.eventCreatedOn(),
               event.isDelete(),
+              runApplyObject,
               state);
+
       fetchCallsPool
           .submit(() -> allSources.parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
@@ -272,9 +280,11 @@ public class ReplicationQueue
       String refName,
       long eventCreatedOn,
       boolean isDelete,
+      boolean runApplyObject,
       ReplicationState state) {
     CallFunction call =
-        getCallFunction(project, objectId, refName, eventCreatedOn, isDelete, state);
+        getCallFunction(
+            project, objectId, refName, eventCreatedOn, isDelete, runApplyObject, state);
 
     return (source) -> {
       boolean callSuccessful;
@@ -289,7 +299,7 @@ public class ReplicationQueue
         callSuccessful = false;
       }
 
-      if (!callSuccessful) {
+      if (runApplyObject && !callSuccessful) {
         callFetch(source, project, refName, state, Optional.of(ReplicationType.ASYNC));
       }
     };
@@ -301,7 +311,12 @@ public class ReplicationQueue
       String refName,
       long eventCreatedOn,
       boolean isDelete,
+      boolean runApplyObject,
       ReplicationState state) {
+    if (!runApplyObject) {
+      return (source) ->
+          callFetch(source, project, refName, state, Optional.of(ReplicationType.ASYNC));
+    }
     if (isDelete) {
       return ((source) ->
           callSendObject(source, project, refName, eventCreatedOn, isDelete, null, state));
@@ -568,7 +583,9 @@ public class ReplicationQueue
       String eventKey = String.format("%s:%s", event.projectName(), event.refName());
       if (!eventsReplayed.contains(eventKey)) {
         repLog.info("Firing pending task {}", event);
-        fire(event);
+        ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
+        fire(event, state, FIRE_WITH_FETCH);
+        state.markAllFetchTasksScheduled();
         eventsReplayed.add(eventKey);
       }
     }
