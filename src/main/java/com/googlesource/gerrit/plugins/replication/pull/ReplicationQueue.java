@@ -219,6 +219,11 @@ public class ReplicationQueue
   }
 
   private void fire(ReferenceUpdatedEvent event, ReplicationState state) {
+    fire(event, state, false);
+  }
+
+  private void fire(
+      ReferenceUpdatedEvent event, ReplicationState state, boolean isAsyncReplication) {
     if (!running) {
       stateLog.warn(
           String.format(
@@ -242,13 +247,22 @@ public class ReplicationQueue
       fetchCallsPool = new ForkJoinPool(numSources);
 
       final Consumer<Source> callFunction =
-          callFunction(
-              Project.nameKey(event.projectName()),
-              event.objectId(),
-              event.refName(),
-              event.eventCreatedOn(),
-              event.isDelete(),
-              state);
+          isAsyncReplication
+              ? (source) ->
+                  callFetch(
+                      source,
+                      Project.nameKey(event.projectName()),
+                      event.refName(),
+                      state,
+                      Optional.of(ReplicationType.ASYNC))
+              : callFunction(
+                  Project.nameKey(event.projectName()),
+                  event.objectId(),
+                  event.refName(),
+                  event.eventCreatedOn(),
+                  event.isDelete(),
+                  state);
+
       fetchCallsPool
           .submit(() -> allSources.parallelStream().forEach(callFunction))
           .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
@@ -554,7 +568,9 @@ public class ReplicationQueue
       String eventKey = String.format("%s:%s", event.projectName(), event.refName());
       if (!eventsReplayed.contains(eventKey)) {
         repLog.info("Firing pending task {}", event);
-        fire(event);
+        ReplicationState state = new ReplicationState(new GitUpdateProcessing(dispatcher.get()));
+        fire(event, state, true);
+        state.markAllFetchTasksScheduled();
         eventsReplayed.add(eventKey);
       }
     }
