@@ -52,6 +52,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d03170af_80732572",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T17:31:36Z",
+      "side": 1,
+      "message": "Thanks for the proposal @sasa.zivkov@sap.com\n\nI have left some comments on top of what people have already picked up on. I think it is quite important to add a section explaining how the plugin currently works, as this can help with the discussion. \n\nKeen to see how this progresses as from personal experience the pull-replication plugin has scope for a lot of improvement, in fact i am of the opinion that if we dont reduce its complexity then it will eventually fail.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3140d4c_6d934d97",
@@ -95,6 +112,40 @@
         "endLine": 6,
         "endChar": 17
       },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60e2abad_d1686c2c",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T17:31:36Z",
+      "side": 1,
+      "message": "```suggestion\n### Background - The traditional replication plugin\n```",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6ab8b5b_e02b261a",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T17:31:36Z",
+      "side": 1,
+      "message": "Let\u0027s add a link to the replication plugin.",
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -325,6 +376,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06cedef1_d2e2b70d",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T17:31:36Z",
+      "side": 1,
+      "message": "+1. We should actually describe -in detail- how the plugin currently works, and then explain what we are trying to achieve. Are we aiming for resilience, so the focus is on event persistence? Is latency a problem, or perhaps its throughput? Because we are already using git fetch AFAICT and the `apply-objects` endpoint also addresses a lot of latency problems. Would be good to understand where the problems are and why such problems exist.",
+      "parentUuid": "f972c530_881b111d",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84dc883b_3c5698dd",
         "filename": "DESIGN.md",
         "patchSetId": 4
@@ -382,6 +451,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3caa38f2_e4f69b4b",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T17:31:36Z",
+      "side": 1,
+      "message": "Exactly. To generalise a bit, this is a problem that none of the design ideas address, so it\u0027s worth exploring it more.",
+      "parentUuid": "8406d680_01921cf7",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "af6c97d3_7c510605",
         "filename": "DESIGN.md",
         "patchSetId": 4
@@ -428,6 +515,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe3b005b_9c3247e3",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T17:31:36Z",
+      "side": 1,
+      "message": "If its generally accepted that we can achieve resilience with an external events-broker, this should be made clear in the plugin docs. We can\u0027t claim the plugin provides resilient replication under all circumstances, but only when coupled with an external events-broker.",
+      "parentUuid": "eea8f25b_9348007a",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 23
+      },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aaf4fbf4_622e8253",
         "filename": "DESIGN.md",
         "patchSetId": 4
@@ -439,6 +550,23 @@
       "writtenOn": "2023-10-13T13:37:26Z",
       "side": 1,
       "message": "Is the `event broker flow` going to work in conjunction with the `http flow`? It would be good to have a brief clarification.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0076a7e8_f4f117b7",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T17:31:36Z",
+      "side": 1,
+      "message": "Atm the \"master\" node where the change occurred is executing logic which decides which endpoint to invoke (`apply-objects` vs `fetch`) on the receiver side. In the event broker flow, what type of message is the \"master\" node publishing?",
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -473,6 +601,24 @@
       "writtenOn": "2023-10-13T13:37:26Z",
       "side": 1,
       "message": "Regarding the different solutions proposed: \n\nThe `first solution` looks to me difficult to implement (maybe i need some clarification):\n- The coexistence between the `Consumer` and `Retryer-Consumer` consumers as a part of the same consumer group looks difficult to me in conjunction with the management of the consumer offset.\n- Identify when an event has been successfully processed previously.\n\nThe `third solution` looks not bad but  I think that there are some important cons:\n- Provision and maintain different topics and their data.\n- The lifecycle of different consumers with different requirements as a part of the same JVM. \n- Too many points of failure\n\nThe `second solution` is my favourite. The cons would be similar to the ones in the third solution but the approach it is much simpler and the most important thing, the management of consumer offsets is very simple.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3b35133_041acfa5",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T17:31:36Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c6935930_997efbdc",
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -831,6 +977,23 @@
         "endLine": 114,
         "endChar": 42
       },
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "459017a9_5e1f34af",
+        "filename": "DESIGN.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-10-30T17:31:36Z",
+      "side": 1,
+      "message": "unfortunately the images are on a grey background and they don\u0027t render well, it would be great if you could republish them on a white background.",
       "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
