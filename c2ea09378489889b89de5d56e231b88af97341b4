@@ -60,6 +60,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ece2c1e9_868ed94d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-30T17:43:31Z",
+      "side": 1,
+      "message": "I implemented that approach is patch set 3. Code is more compact but in my opinion logic is blur. You have to know that rule that if something is async it will go via fetch. In the place we call `fire()` it\u0027s very difficult to understand what is going to happen when the feature flag is set to `ASYNC`",
+      "parentUuid": "16ff2c28_c0e94378",
+      "range": {
+        "startLine": 244,
+        "startChar": 16,
+        "endLine": 244,
+        "endChar": 50
+      },
+      "revId": "c2ea09378489889b89de5d56e231b88af97341b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b56e3560_f8dee52d",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 2
@@ -71,6 +95,30 @@
       "writtenOn": "2023-10-26T21:54:29Z",
       "side": 1,
       "message": "I don\u0027t believe we need this parametrisation after all: would you ever run anything different than a `callFetch` when you are executed ASYNC?",
+      "range": {
+        "startLine": 250,
+        "startChar": 59,
+        "endLine": 250,
+        "endChar": 88
+      },
+      "revId": "c2ea09378489889b89de5d56e231b88af97341b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ca79558_d7bc52c8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-10-30T17:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b56e3560_f8dee52d",
       "range": {
         "startLine": 250,
         "startChar": 59,
