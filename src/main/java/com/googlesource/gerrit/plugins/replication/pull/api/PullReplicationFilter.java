@@ -18,12 +18,17 @@ import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_EN
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static javax.servlet.http.HttpServletResponse.SC_CREATED;
+import java.io.BufferedReader;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.Gson;
 
+import com.google.inject.TypeLiteral;
+import java.io.EOFException;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -38,25 +43,22 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
-import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.MalformedJsonException;
+import com.google.gerrit.json.OutputFormat;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.TypeLiteral;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.UnauthorizedAuthException;
-import java.io.BufferedReader;
-import java.io.EOFException;
+import com.googlesource.gerrit.plugins.replication.pull.api.util.PayloadSerDes;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
@@ -131,19 +133,19 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     try {
       if (isFetchAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
-        writeResponse(httpResponse, doFetch(httpRequest));
+        PayloadSerDes.writeResponse(httpResponse, doFetch(httpRequest));
       } else if (isBatchFetchAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
-        writeResponse(httpResponse, doBatchFetch(httpRequest));
+        PayloadSerDes.writeResponse(httpResponse, doFetch(httpRequest));
       } else if (isApplyObjectAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
-        writeResponse(httpResponse, doApplyObject(httpRequest));
+        PayloadSerDes.writeResponse(httpResponse, doApplyObject(httpRequest));
       } else if (isApplyObjectsAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
-        writeResponse(httpResponse, doApplyObjects(httpRequest));
+          PayloadSerDes.writeResponse(httpResponse, doApplyObjects(httpRequest));
       } else if (isBatchApplyObjectsAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
-        writeResponse(httpResponse, doBatchApplyObject(httpRequest));
+        PayloadSerDes.writeResponse(httpResponse, doApplyObjects(httpRequest));
       } else if (isInitProjectAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         if (!checkAcceptHeader(httpRequest, httpResponse)) {
@@ -152,10 +154,10 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
         doInitProject(httpRequest, httpResponse);
       } else if (isUpdateHEADAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
-        writeResponse(httpResponse, doUpdateHEAD(httpRequest));
+        PayloadSerDes.writeResponse(httpResponse, doUpdateHEAD(httpRequest));
       } else if (isDeleteProjectAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
-        writeResponse(httpResponse, doDeleteProject(httpRequest));
+        PayloadSerDes.writeResponse(httpResponse, doDeleteProject(httpRequest));
       } else {
         chain.doFilter(request, response);
       }
@@ -209,8 +211,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @SuppressWarnings("unchecked")
   private Response<String> doApplyObject(HttpServletRequest httpRequest)
-      throws RestApiException, IOException {
-    RevisionInput input = readJson(httpRequest, TypeLiteral.get(RevisionInput.class).getType());
+      throws RestApiException, IOException, PermissionBackendException {
+    RevisionInput input = PayloadSerDes.parseRevisionInput(httpRequest);
     IdString id = getProjectName(httpRequest).get();
 
     return (Response<String>) applyObjectAction.apply(parseProjectResource(id), input);
@@ -218,8 +220,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @SuppressWarnings("unchecked")
   private Response<String> doApplyObjects(HttpServletRequest httpRequest)
-      throws RestApiException, IOException {
-    RevisionsInput input = readJson(httpRequest, TypeLiteral.get(RevisionsInput.class).getType());
+      throws RestApiException, IOException, PermissionBackendException {
+    RevisionsInput input = PayloadSerDes.parseRevisionsInput(httpRequest);
     IdString id = getProjectName(httpRequest).get();
 
     return (Response<String>) applyObjectsAction.apply(parseProjectResource(id), input);
@@ -238,7 +240,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @SuppressWarnings("unchecked")
   private Response<String> doUpdateHEAD(HttpServletRequest httpRequest) throws Exception {
-    HeadInput input = readJson(httpRequest, TypeLiteral.get(HeadInput.class).getType());
+    HeadInput input = PayloadSerDes.parseHeadInput(httpRequest);
     IdString id = getProjectName(httpRequest).get();
 
     return (Response<String>) updateHEADAction.apply(parseProjectResource(id), input);
@@ -254,8 +256,8 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doFetch(HttpServletRequest httpRequest)
-      throws IOException, RestApiException {
-    Input input = readJson(httpRequest, TypeLiteral.get(Input.class).getType());
+      throws IOException, RestApiException, PermissionBackendException {
+    Input input = PayloadSerDes.parseInput(httpRequest);
     IdString id = getProjectName(httpRequest).get();
 
     return (Response<Map<String, Object>>) fetchAction.apply(parseProjectResource(id), input);
