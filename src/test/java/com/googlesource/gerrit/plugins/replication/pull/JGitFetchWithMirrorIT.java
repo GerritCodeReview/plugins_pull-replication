@@ -19,7 +19,6 @@ import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
@@ -27,15 +26,11 @@ import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.inject.Inject;
-import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.JGitFetch;
-import com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransportException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,8 +38,8 @@ import org.junit.Test;
 @UseLocalDisk
 @TestPlugin(
     name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.JGitFetchIT$TestModule")
-public class JGitFetchIT extends FetchITBase {
+    sysModule = "com.googlesource.gerrit.plugins.replication.pull.JGitFetchWithMirrorIT$TestModule")
+public class JGitFetchWithMirrorIT extends FetchITBase {
   private static final String TEST_REPLICATION_SUFFIX = "suffix1";
   private static final String TEST_TASK_ID = "taskid";
 
@@ -58,20 +53,8 @@ public class JGitFetchIT extends FetchITBase {
         .update();
   }
 
-  @Test(expected = PermanentTransportException.class)
-  public void shouldThrowPermanentTransportExceptionWhenRefDoesNotExists() throws Exception {
-
-    testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
-    String nonExistingRef = "refs/changes/02/20000/1:refs/changes/02/20000/1";
-    try (Repository repo = repoManager.openRepository(project)) {
-      Fetch objectUnderTest =
-          fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
-      objectUnderTest.fetch(Lists.newArrayList(new RefSpec(nonExistingRef)));
-    }
-  }
-
   @Test
-  public void shouldPruneRefsWhenMirrorIsUnset() throws Exception {
+  public void shouldPruneRefsWhenMirrorIsTrue() throws Exception {
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
     String branchRef = Constants.R_HEADS + "anyBranch";
     String tagRef = Constants.R_TAGS + "anyTag";
@@ -94,8 +77,8 @@ public class JGitFetchIT extends FetchITBase {
       assertOkStatus(deleteTagResult, tagRef);
 
       fetchAllRefs(TEST_TASK_ID, testRepoPath, localRepo);
-      assertThat(getRef(localRepo, branchRef)).isNotNull();
-      assertThat(getRef(localRepo, tagRef)).isNotNull();
+      assertThat(getRef(localRepo, branchRef)).isNull();
+      assertThat(getRef(localRepo, tagRef)).isNull();
     }
   }
 
@@ -110,6 +93,7 @@ public class JGitFetchIT extends FetchITBase {
     Config cf() {
       Config cf = new Config();
       cf.setInt("remote", "test_config", "timeout", 0);
+      cf.setBoolean("remote", "test_config", "mirror", true);
       return cf;
     }
   }

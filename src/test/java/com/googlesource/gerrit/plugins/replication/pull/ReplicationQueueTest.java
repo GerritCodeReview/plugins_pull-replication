@@ -20,6 +20,7 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyInt;
+import com.google.gerrit.entities.RefNames;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.lenient;
@@ -97,8 +98,8 @@ public class ReplicationQueueTest {
   @Mock AccountAttribute accountAttribute;
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
-  @Mock HttpResult successfulHttpResult;
   @Mock HttpResult fetchHttpResult;
+  @Mock HttpResult successfulHttpResult;
   @Mock HttpResult batchFetchHttpResult;
   @Mock RevisionData revisionDataWithParents;
   List<ObjectId> revisionDataParentObjectIds;
@@ -168,12 +169,12 @@ public class ReplicationQueueTest {
         .thenReturn(batchHttpResult);
     when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
     when(fetchRestApiClient.callBatchFetch(any(), any(), any())).thenReturn(batchFetchHttpResult);
-    when(fetchRestApiClient.initProject(any(), any())).thenReturn(successfulHttpResult);
-    when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
     when(batchHttpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(batchFetchHttpResult.isSuccessful()).thenReturn(true);
+    when(fetchRestApiClient.initProject(any(), any(), anyLong(), any())).thenReturn(successfulHttpResult);
+    when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
     when(batchHttpResult.isProjectMissing(any())).thenReturn(false);
     when(applyObjectsRefsFilter.match(any())).thenReturn(false);
@@ -256,7 +257,7 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient).initProject(any(), any());
+    verify(fetchRestApiClient).initProject(any(), any(), anyLong(), any());
   }
 
   @Test
@@ -282,7 +283,27 @@ public class ReplicationQueueTest {
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
 
-    verify(fetchRestApiClient, never()).initProject(any(), any());
+    verify(fetchRestApiClient, never()).initProject(any(), any(), anyLong(), any());
+  }
+
+  @Test
+  public void shouldNotCallInitProjectWhenProjectWithoutConfiguration() throws Exception {
+    Event event = new TestEvent("refs/changes/01/1/meta");
+    lenient().
+      when(httpResult.isSuccessful()).thenReturn(false);
+
+    lenient().
+      when(httpResult.isProjectMissing(any())).thenReturn(true);
+    lenient().
+      when(source.isCreateMissingRepositories()).thenReturn(true);
+    lenient().
+      when(revReader.read(any(), any(), eq(RefNames.REFS_CONFIG), anyInt()))
+        .thenReturn(Optional.empty());
+
+    objectUnderTest.start();
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient, never()).initProject(any(), any(), anyLong(), any());
   }
 
   @Test
