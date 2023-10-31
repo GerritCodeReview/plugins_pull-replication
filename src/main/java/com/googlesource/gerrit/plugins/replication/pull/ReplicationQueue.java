@@ -279,7 +279,10 @@ public class ReplicationQueue
   private void fire(ReferenceBatchUpdatedEvent event, ReplicationState state) {
     if (!running) {
       stateLog.warn(
-          "Replication plugin did not finish startup before event, event replication is postponed",
+          String.format(
+              "Replication plugin did not finish startup before event, event replication is postponed"
+                  + " for event %s",
+              event),
           state);
       beforeStartupEventsQueue.add(event);
 
@@ -507,7 +510,7 @@ public class ReplicationQueue
         if (!resultSuccessful
             && HttpResultUtils.isProjectMissing(result, project)
             && source.isCreateMissingRepositories()) {
-          result = initProject(project, uri, fetchClient);
+          result = initProject(project, uri, fetchClient, result);
           repLog.info(
               "Missing project {} created, HTTP Result:{}",
               project,
@@ -636,7 +639,7 @@ public class ReplicationQueue
         if (!resultSuccessful
             && HttpResultUtils.isProjectMissing(result, project)
             && source.isCreateMissingRepositories()) {
-          result = initProject(project, uri, fetchClient);
+          result = initProject(project, uri, fetchClient, result);
           resultSuccessful = HttpResultUtils.isSuccessful(result);
         }
         if (!resultSuccessful) {
@@ -696,7 +699,7 @@ public class ReplicationQueue
             if (!resultSuccessful
                 && HttpResultUtils.isProjectMissing(result, project)
                 && source.isCreateMissingRepositories()) {
-              result = initProject(project, uri, fetchClient);
+              result = initProject(project, uri, fetchClient, result);
             }
             if (!resultSuccessful) {
               stateLog.warn(
@@ -733,9 +736,22 @@ public class ReplicationQueue
   }
 
   private Optional<HttpResult> initProject(
-      Project.NameKey project, URIish uri, FetchApiClient fetchClient) throws IOException {
-    HttpResult initProjectResult = fetchClient.initProject(project, uri);
-    Optional<HttpResult> result = Optional.empty();
+      Project.NameKey project, URIish uri, FetchApiClient fetchClient, Optional<HttpResult> result)
+      throws IOException {
+    RevisionData refsMetaConfigRevisionData =
+        revReaderProvider
+            .get()
+            .read(project, null, RefNames.REFS_CONFIG, 0)
+            .orElseThrow(
+                () ->
+                    new IllegalStateException(
+                        String.format(
+                            "Project %s does not have %s", project, RefNames.REFS_CONFIG)));
+
+    List<RevisionData> refsMetaConfigDataList =
+        fetchWholeMetaHistory(project, RefNames.REFS_CONFIG, refsMetaConfigRevisionData);
+    HttpResult initProjectResult =
+        fetchClient.initProject(project, uri, System.currentTimeMillis(), refsMetaConfigDataList);
     if (initProjectResult.isSuccessful()) {
       result = Optional.of(fetchClient.callFetch(project, FetchOne.ALL_REFS, uri));
     } else {

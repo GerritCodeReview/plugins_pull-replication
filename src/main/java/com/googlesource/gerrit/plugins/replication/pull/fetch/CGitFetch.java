@@ -44,6 +44,7 @@ public class CGitFetch implements Fetch {
   private URIish uri;
   private int timeout;
   private final String taskIdHex;
+  private final boolean isMirror;
 
   @Inject
   public CGitFetch(
@@ -56,12 +57,17 @@ public class CGitFetch implements Fetch {
     this.taskIdHex = taskIdHex;
     this.uri = appendCredentials(uri, cpFactory.create(config.getRemoteConfig().getName()));
     this.timeout = config.getRemoteConfig().getTimeout();
+    this.isMirror = config.getRemoteConfig().isMirror();
   }
 
   @Override
   public List<RefUpdateState> fetch(List<RefSpec> refsSpec) throws IOException {
     List<String> refs = refsSpec.stream().map(s -> s.toString()).collect(Collectors.toList());
-    List<String> command = Lists.newArrayList("git", "fetch", uri.toPrivateASCIIString());
+    List<String> command = Lists.newArrayList("git", "fetch");
+    if (isMirror) {
+      command.add("--prune");
+    }
+    command.add(uri.toPrivateASCIIString());
     command.addAll(refs);
     ProcessBuilder pb = new ProcessBuilder().command(command).directory(localProjectDirectory);
     repLog.info("[{}] Fetch references {} from {}", taskIdHex, refs, uri);
