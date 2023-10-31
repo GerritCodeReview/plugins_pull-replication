@@ -14,14 +14,24 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.checkAcceptHeader;
 import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOps.setResponse;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.net.MediaType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -32,7 +42,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.LocalFS;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
+import com.googlesource.gerrit.plugins.replication.pull.api.util.PayloadSerDes;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -50,6 +66,8 @@ public class ProjectInitializationAction extends HttpServlet {
   private final GerritConfigOps gerritConfigOps;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
+  private final ProjectIndexer projectIndexer;
+  private final ApplyObjectCommand applyObjectCommand;
   private final ProjectCache projectCache;
 
   @Inject
@@ -57,10 +75,14 @@ public class ProjectInitializationAction extends HttpServlet {
       GerritConfigOps gerritConfigOps,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
+      ProjectIndexer projectIndexer,
+      ApplyObjectCommand applyObjectCommand,
       ProjectCache projectCache) {
     this.gerritConfigOps = gerritConfigOps;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
+    this.projectIndexer = projectIndexer;
+    this.applyObjectCommand = applyObjectCommand;
     this.projectCache = projectCache;
   }
 
@@ -73,47 +95,143 @@ public class ProjectInitializationAction extends HttpServlet {
       return;
     }
 
-    String path = httpServletRequest.getRequestURI();
-    String projectName = Url.decode(path.substring(path.lastIndexOf('/') + 1));
+    String gitRepositoryName = getGitRepositoryName(httpServletRequest);
     try {
-      if (initProject(projectName)) {
+      boolean initProjectStatus;
+      String contentType = httpServletRequest.getContentType();
+      if (checkContentType(contentType, MediaType.JSON_UTF_8)) {
+        // init project request includes project configuration in JSON format.
+        initProjectStatus = initProjectWithConfiguration(httpServletRequest, gitRepositoryName);
+      } else if (checkContentType(contentType, MediaType.PLAIN_TEXT_UTF_8)) {
+        // init project request does not include project configuration.
+        initProjectStatus = initProject(gitRepositoryName);
+      } else {
+        setResponse(
+            httpServletResponse,
+            SC_BAD_REQUEST,
+            String.format(
+                "Invalid Content Type. Only %s or %s is supported.",
+                MediaType.JSON_UTF_8.toString(), MediaType.PLAIN_TEXT_UTF_8.toString()));
+        return;
+      }
+
+      if (initProjectStatus) {
         setResponse(
             httpServletResponse,
             HttpServletResponse.SC_CREATED,
-            "Project " + projectName + " initialized");
+            "Project " + gitRepositoryName + " initialized");
         return;
       }
-    } catch (AuthException | PermissionBackendException e) {
+
       setResponse(
           httpServletResponse,
-          HttpServletResponse.SC_FORBIDDEN,
-          "User not authorized to create project " + projectName);
-      return;
+          HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+          "Cannot initialize project " + gitRepositoryName);
+    } catch (BadRequestException | IllegalArgumentException e) {
+      logExceptionAndUpdateResponse(httpServletResponse, e, SC_BAD_REQUEST, gitRepositoryName);
+    } catch (RefUpdateException | MissingParentObjectException e) {
+      logExceptionAndUpdateResponse(httpServletResponse, e, SC_CONFLICT, gitRepositoryName);
+    } catch (ResourceNotFoundException e) {
+      logExceptionAndUpdateResponse(
+          httpServletResponse, e, SC_INTERNAL_SERVER_ERROR, gitRepositoryName);
+    } catch (AuthException | PermissionBackendException e) {
+      logExceptionAndUpdateResponse(httpServletResponse, e, SC_FORBIDDEN, gitRepositoryName);
     }
-
-    setResponse(
-        httpServletResponse,
-        HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-        "Cannot initialize project " + projectName);
   }
 
-  public boolean initProject(String projectName) throws AuthException, PermissionBackendException {
+  public boolean initProject(String gitRepositoryName)
+      throws AuthException, PermissionBackendException {
+    if (initProject(gitRepositoryName, true)) {
+      repLog.info("Init project API from {}", gitRepositoryName);
+      return true;
+    }
+    return false;
+  }
+
+  private boolean initProjectWithConfiguration(
+      HttpServletRequest httpServletRequest, String gitRepositoryName)
+      throws AuthException, PermissionBackendException, IOException, BadRequestException,
+          MissingParentObjectException, RefUpdateException, ResourceNotFoundException {
+
+    RevisionsInput input = PayloadSerDes.parseRevisionsInput(httpServletRequest);
+    validateInput(input);
+    if (!initProject(gitRepositoryName, false)) {
+      return false;
+    }
+
+    String projectName = gitRepositoryName.replace(".git", "");
+    applyObjectCommand.applyObjects(
+        Project.nameKey(projectName),
+        input.getRefName(),
+        input.getRevisionsData(),
+        input.getLabel(),
+        input.getEventCreatedOn());
+    projectCache.onCreateProject(Project.nameKey(projectName));
+    repLog.info(
+        "Init project API from {} for {}:{} - {}",
+        input.getLabel(),
+        projectName,
+        input.getRefName(),
+        Arrays.toString(input.getRevisionsData()));
+    return true;
+  }
+
+  private boolean initProject(String gitRepositoryName, boolean needsProjectReindexing)
+      throws AuthException, PermissionBackendException {
     // When triggered internally(for example by consuming stream events) user is not provided
     // and internal user is returned. Project creation should be always allowed for internal user.
     if (!userProvider.get().isInternalUser()) {
       permissionBackend.user(userProvider.get()).check(GlobalPermission.CREATE_PROJECT);
     }
-    Optional<URIish> maybeUri = gerritConfigOps.getGitRepositoryURI(projectName);
+    Optional<URIish> maybeUri = gerritConfigOps.getGitRepositoryURI(gitRepositoryName);
     if (!maybeUri.isPresent()) {
-      logger.atSevere().log("Cannot initialize project '%s'", projectName);
+      logger.atSevere().log("Cannot initialize project '%s'", gitRepositoryName);
       return false;
     }
     LocalFS localFS = new LocalFS(maybeUri.get());
-    Project.NameKey projectNameKey = Project.NameKey.parse(projectName);
+    Project.NameKey projectNameKey = Project.NameKey.parse(gitRepositoryName);
     if (localFS.createProject(projectNameKey, RefNames.HEAD)) {
-      projectCache.evictAndReindex(projectNameKey);
+      if (needsProjectReindexing) {
+        projectCache.evictAndReindex(projectNameKey);
+      }
       return true;
     }
     return false;
+  }
+
+  private void validateInput(RevisionsInput input) {
+
+    if (Strings.isNullOrEmpty(input.getLabel())) {
+      throw new IllegalArgumentException("Source label cannot be null or empty");
+    }
+
+    if (!Objects.equals(input.getRefName(), RefNames.REFS_CONFIG)) {
+      throw new IllegalArgumentException(
+          String.format("Ref-update refname should be %s", RefNames.REFS_CONFIG));
+    }
+    input.validate();
+  }
+
+  private String getGitRepositoryName(HttpServletRequest httpServletRequest) {
+    String path = httpServletRequest.getRequestURI();
+    return Url.decode(path.substring(path.lastIndexOf('/') + 1));
+  }
+
+  private void logExceptionAndUpdateResponse(
+      HttpServletResponse httpServletResponse,
+      Exception e,
+      int statusCode,
+      String gitRepositoryName)
+      throws IOException {
+    repLog.error("Init Project API FAILED for {}", gitRepositoryName, e);
+    setResponse(httpServletResponse, statusCode, e.getMessage());
+  }
+
+  private boolean checkContentType(String contentType, MediaType mediaType) {
+    try {
+      return MediaType.parse(contentType).is(mediaType);
+    } catch (Exception e) {
+      return false;
+    }
   }
 }
