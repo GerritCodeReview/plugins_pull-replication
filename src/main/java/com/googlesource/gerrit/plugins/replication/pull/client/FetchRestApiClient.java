@@ -25,6 +25,7 @@ import com.google.common.net.MediaType;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.config.GerritInstanceId;
@@ -202,14 +203,29 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   }
 
   /* (non-Javadoc)
-   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish)
+   * @see com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient#initProject(com.google.gerrit.entities.Project.NameKey, org.eclipse.jgit.transport.URIish, long, java.util.List<com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData>)
    */
   @Override
-  public HttpResult initProject(Project.NameKey project, URIish uri) throws IOException {
+  public HttpResult initProject(
+      NameKey project,
+      URIish uri,
+      long eventCreatedOn,
+      List<RevisionData> refsMetaConfigRevisionData)
+      throws IOException {
     String url = formatInitProjectUrl(uri.toString(), project);
+
+    RevisionData[] inputData = new RevisionData[refsMetaConfigRevisionData.size()];
+    RevisionsInput input =
+        new RevisionsInput(
+            instanceId,
+            RefNames.REFS_CONFIG,
+            eventCreatedOn,
+            refsMetaConfigRevisionData.toArray(inputData));
+
     HttpPut put = new HttpPut(url);
+    put.setEntity(new StringEntity(GSON.toJson(input)));
     put.addHeader(new BasicHeader("Accept", MediaType.ANY_TEXT_TYPE.toString()));
-    put.addHeader(new BasicHeader(CONTENT_TYPE, MediaType.PLAIN_TEXT_UTF_8.toString()));
+    put.addHeader(new BasicHeader(CONTENT_TYPE, MediaType.JSON_UTF_8.toString()));
     return executeRequest(put, bearerTokenProvider.get(), uri);
   }
 
