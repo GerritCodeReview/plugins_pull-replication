@@ -510,7 +510,7 @@ public class ReplicationQueue
         if (!resultSuccessful
             && HttpResultUtils.isProjectMissing(result, project)
             && source.isCreateMissingRepositories()) {
-          result = initProject(project, uri, fetchClient, result);
+          result = initProject(project, uri, fetchClient);
           repLog.info(
               "Missing project {} created, HTTP Result:{}",
               project,
@@ -639,7 +639,7 @@ public class ReplicationQueue
         if (!resultSuccessful
             && HttpResultUtils.isProjectMissing(result, project)
             && source.isCreateMissingRepositories()) {
-          result = initProject(project, uri, fetchClient, result);
+          result = initProject(project, uri, fetchClient);
           resultSuccessful = HttpResultUtils.isSuccessful(result);
         }
         if (!resultSuccessful) {
@@ -699,7 +699,7 @@ public class ReplicationQueue
             if (!resultSuccessful
                 && HttpResultUtils.isProjectMissing(result, project)
                 && source.isCreateMissingRepositories()) {
-              result = initProject(project, uri, fetchClient, result);
+              result = initProject(project, uri, fetchClient);
             }
             if (!resultSuccessful) {
               stateLog.warn(
@@ -735,9 +735,15 @@ public class ReplicationQueue
     return maxRetries == 0 || attempt < maxRetries;
   }
 
+<<<<<<< HEAD
   private Optional<HttpResult> initProject(
-      Project.NameKey project, URIish uri, FetchApiClient fetchClient, Optional<HttpResult> result)
-      throws IOException {
+      Project.NameKey project, URIish uri, FetchApiClient fetchClient) throws IOException {
+    HttpResult initProjectResult = fetchClient.initProject(project, uri);
+    Optional<HttpResult> result = Optional.empty();
+=======
+  private HttpResult initProject(
+      Project.NameKey project, URIish uri, FetchApiClient fetchClient, HttpResult result)
+      throws IOException, ClientProtocolException {
     RevisionData refsMetaConfigRevisionData =
         revReaderProvider
             .get()
@@ -752,7 +758,7 @@ public class ReplicationQueue
         fetchWholeMetaHistory(project, RefNames.REFS_CONFIG, refsMetaConfigRevisionData);
     HttpResult initProjectResult =
         fetchClient.initProject(project, uri, System.currentTimeMillis(), refsMetaConfigDataList);
-
+>>>>>>> stable-3.8
     if (initProjectResult.isSuccessful()) {
       result = Optional.of(fetchClient.callFetch(project, FetchOne.ALL_REFS, uri));
     } else {

@@ -20,7 +20,6 @@ import static com.googlesource.gerrit.plugins.replication.pull.api.HttpServletOp
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -29,7 +28,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -45,7 +43,6 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.api.util.PayloadSerDes;
-import com.google.gerrit.index.project.ProjectIndexer;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
@@ -66,8 +63,11 @@ public class ProjectInitializationAction extends HttpServlet {
   private final GerritConfigOps gerritConfigOps;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
+<<<<<<< HEAD
+=======
   private final ProjectIndexer projectIndexer;
   private final ApplyObjectCommand applyObjectCommand;
+>>>>>>> stable-3.8
   private final ProjectCache projectCache;
 
   @Inject
@@ -75,14 +75,20 @@ public class ProjectInitializationAction extends HttpServlet {
       GerritConfigOps gerritConfigOps,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
+<<<<<<< HEAD
+=======
       ProjectIndexer projectIndexer,
       ApplyObjectCommand applyObjectCommand,
+>>>>>>> stable-3.8
       ProjectCache projectCache) {
     this.gerritConfigOps = gerritConfigOps;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
+<<<<<<< HEAD
+=======
     this.projectIndexer = projectIndexer;
     this.applyObjectCommand = applyObjectCommand;
+>>>>>>> stable-3.8
     this.projectCache = projectCache;
   }
 
@@ -131,8 +137,6 @@ public class ProjectInitializationAction extends HttpServlet {
       logExceptionAndUpdateResponse(httpServletResponse, e, SC_BAD_REQUEST, gitRepositoryName);
     } catch (RefUpdateException | MissingParentObjectException e) {
       logExceptionAndUpdateResponse(httpServletResponse, e, SC_CONFLICT, gitRepositoryName);
-    } catch (ResourceNotFoundException e) {
-      logExceptionAndUpdateResponse(httpServletResponse, e, SC_NOT_FOUND, gitRepositoryName);
     } catch (AuthException | PermissionBackendException e) {
       logExceptionAndUpdateResponse(httpServletResponse, e, SC_FORBIDDEN, gitRepositoryName);
     }
@@ -150,7 +154,7 @@ public class ProjectInitializationAction extends HttpServlet {
   private boolean initProjectWithConfiguration(
       HttpServletRequest httpServletRequest, String gitRepositoryName)
       throws AuthException, PermissionBackendException, IOException, BadRequestException,
-          MissingParentObjectException, RefUpdateException, ResourceNotFoundException {
+          MissingParentObjectException, RefUpdateException {
 
     RevisionsInput input = PayloadSerDes.parseRevisionsInput(httpServletRequest);
     validateInput(input);
@@ -190,9 +194,13 @@ public class ProjectInitializationAction extends HttpServlet {
     LocalFS localFS = new LocalFS(maybeUri.get());
     Project.NameKey projectNameKey = Project.NameKey.parse(gitRepositoryName);
     if (localFS.createProject(projectNameKey, RefNames.HEAD)) {
+<<<<<<< HEAD
+      projectCache.evictAndReindex(projectNameKey);
+=======
       if (needsProjectReindexing) {
         projectIndexer.index(projectNameKey);
       }
+>>>>>>> stable-3.8
       return true;
     }
     return false;

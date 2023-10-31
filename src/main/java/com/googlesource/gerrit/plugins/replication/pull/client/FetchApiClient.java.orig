@@ -40,6 +40,7 @@ public interface FetchApiClient {
     return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
 
+<<<<<<< HEAD
   HttpResult callBatchFetch(
       Project.NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
       throws IOException;
@@ -50,6 +51,8 @@ public interface FetchApiClient {
         project, refsInBatch, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }
 
+  HttpResult initProject(Project.NameKey project, URIish uri) throws IOException;
+=======
   /**
    * Replicates the creation of a project, including the configuration stored in refs/meta/config.
    *
@@ -66,6 +69,7 @@ public interface FetchApiClient {
       long eventCreatedOn,
       List<RevisionData> refsMetaConfigRevisionData)
       throws IOException;
+>>>>>>> stable-3.8
 
   HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
 
