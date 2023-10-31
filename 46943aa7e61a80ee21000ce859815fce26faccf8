@@ -22,6 +22,30 @@
       },
       "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b1b5ac2_ace38066",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-31T12:24:34Z",
+      "side": 1,
+      "message": "That is correct, as was discussed [in this comment](https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/391054/comment/72bf8021_aeb386c7/).\n\nWe could use `peek` and remove the event from the internal queue only when processed successfully. \nBut we would need to add a retry mechanism with a maximum number of attempts if the operation fails. This would avoid exactly the situation that the event is never removed from the queue as it was happening. \n\nWould it be best to do so on a different change?",
+      "parentUuid": "b5b5c92c_f8e06227",
+      "range": {
+        "startLine": 537,
+        "startChar": 44,
+        "endLine": 537,
+        "endChar": 51
+      },
+      "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
