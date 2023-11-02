@@ -16,6 +16,24 @@
       "message": "I never understood why when is true `needsProjectReindexing` the logic run `evictAndReindex` but when is false it is not. Please, can you elaborate for me? I would appreciate it. 2 lines.",
       "revId": "9a80746e206ee9eef5f975e972c0eb659dff1550",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "350f6671_d751fc78",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-11-02T20:46:24Z",
+      "side": 1,
+      "message": "Not sure I follow, to me it looks quite straight forward but maybe I\u0027m missing something.\n\nIf it needs to be reindexed, then run `evictAndReindex`, if not ,then don\u0027t do anything? \n\nIs the question why we are evicting?",
+      "parentUuid": "3573af6d_4bbe43ce",
+      "revId": "9a80746e206ee9eef5f975e972c0eb659dff1550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
