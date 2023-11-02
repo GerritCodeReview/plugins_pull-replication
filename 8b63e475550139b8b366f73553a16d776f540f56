@@ -16,6 +16,24 @@
       "message": "Please, can you explain why you keep this code in stable-3.8 against the one in stable-3.9?",
       "revId": "8b63e475550139b8b366f73553a16d776f540f56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6d03f8a_2fc74c43",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-02T14:15:00Z",
+      "side": 1,
+      "message": "Well, I was wrong 😊 good catch",
+      "parentUuid": "7fd9abd1_efa9966c",
+      "revId": "8b63e475550139b8b366f73553a16d776f540f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
