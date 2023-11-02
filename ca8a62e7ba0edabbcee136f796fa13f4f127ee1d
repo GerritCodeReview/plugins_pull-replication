@@ -39,6 +39,24 @@
       "message": "Why do we need the `Optional` effect here? Wouldn\u0027t it be simpler if the two-arg overload passed `ReplicationType.ASYNC` instead of `Optional.Empty`, and this overload expected `ReplicationType` as its third arg?\n\nThe behaviour would be the same - we\u0027d still default to async on the overloads (albeit more explicitly in the two-arg, but I don\u0027t think that\u0027s worse), this method would be more explicit in its requirement, and we wouldn\u0027t need `isAsyncReplicationType`.",
       "revId": "ca8a62e7ba0edabbcee136f796fa13f4f127ee1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5ad5ee2_47ea2da1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-02T18:16:33Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "83f5966e_8391931b",
+      "revId": "ca8a62e7ba0edabbcee136f796fa13f4f127ee1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
