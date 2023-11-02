@@ -46,6 +46,30 @@
       },
       "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47848b76_abd6d02d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-02T18:40:15Z",
+      "side": 1,
+      "message": "Wouldn\u0027t event application failure mean that repo is in an inconsistent state? Also is it possible that any future event for the same repo could succeed?\n\nIsn\u0027t there any strategy already on how to deal with failed events?",
+      "parentUuid": "8b1b5ac2_ace38066",
+      "range": {
+        "startLine": 537,
+        "startChar": 44,
+        "endLine": 537,
+        "endChar": 51
+      },
+      "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
