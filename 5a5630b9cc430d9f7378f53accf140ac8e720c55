@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2e48385b_0c9ecddf",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-11-02T20:50:43Z",
+      "side": 0,
+      "message": "@ponch78@gmail.com\n\u003e Mockito was complaining because the mocking wasn\u0027t necessary \n\nWhat exception was it throwing?",
+      "parentUuid": "baf94084_8d56537f",
+      "revId": "5a5630b9cc430d9f7378f53accf140ac8e720c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df511ab6_ede4f4a3",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 6
