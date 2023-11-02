@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "baf94084_8d56537f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-02T18:46:34Z",
+      "side": 0,
+      "message": "Those assertions where executed in previous stable versions. IMO I think we should have a look at it.",
+      "parentUuid": "872b7ab5_73664598",
+      "revId": "5a5630b9cc430d9f7378f53accf140ac8e720c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df511ab6_ede4f4a3",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 6
@@ -67,6 +85,24 @@
       "side": 0,
       "message": "Mockito was complaining because the mocking wasn\u0027t necessary and it was failing the test because of that. I wonder why they were needed before.",
       "parentUuid": "df511ab6_ede4f4a3",
+      "revId": "5a5630b9cc430d9f7378f53accf140ac8e720c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dec6c4e_a8898c32",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-02T18:46:34Z",
+      "side": 0,
+      "message": "The same as above.",
+      "parentUuid": "17239649_a71283a4",
       "revId": "5a5630b9cc430d9f7378f53accf140ac8e720c55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
