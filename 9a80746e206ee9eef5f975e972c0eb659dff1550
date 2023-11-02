@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3573af6d_4bbe43ce",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-02T18:48:47Z",
+      "side": 1,
+      "message": "I never understood why when is true `needsProjectReindexing` the logic run `evictAndReindex` but when is false it is not. Please, can you elaborate for me? I would appreciate it. 2 lines.",
+      "revId": "9a80746e206ee9eef5f975e972c0eb659dff1550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
