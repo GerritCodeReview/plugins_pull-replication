@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52aea102_65709921",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-02T18:59:07Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this give a false perception that replication works fine? \n\nUsers do use the sync replication for a reason. Secretly switching to async replication doesn\u0027t feel good.\n\nWhat will happen when the sync replication is constantly failing? Will we build up a backlog of async replications in the background?\n\nIMO we should at least log a warning and possibly have a configuration option to enable fallback to async replication.",
+      "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
