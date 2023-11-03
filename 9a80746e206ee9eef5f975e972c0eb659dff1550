@@ -34,6 +34,24 @@
       "parentUuid": "3573af6d_4bbe43ce",
       "revId": "9a80746e206ee9eef5f975e972c0eb659dff1550",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e35e396b_aee8bfd5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-03T09:06:26Z",
+      "side": 1,
+      "message": "Lets take the discussion out of this change.",
+      "parentUuid": "350f6671_d751fc78",
+      "revId": "9a80746e206ee9eef5f975e972c0eb659dff1550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
