@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5288c0d_38c9c8cc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-04T16:48:33Z",
+      "side": 0,
+      "message": "I am puzzled. These mocking are not needed in previous versions either.\n\nIn this change [1] in 3.8 I have removed the mocking as I did in this merge change, and the tests are passing, meaning the mocking is not needed.\n\nProbably we are stricter in the checking in 3.9? I still haven\u0027t figured it out. The mockito version hasn\u0027t changed in a while, so I don\u0027t think it is related. \n\n\u003e What exception was it throwing?\n\n```\nunnecessary Mockito stubbings(com.googlesource.gerrit.plugins.replication.pull.ReplicationQueueTest)\norg.mockito.exceptions.misusing.UnnecessaryStubbingException: \nUnnecessary stubbings detected in test class: ReplicationQueueTest\nClean \u0026 maintainable test code requires zero unnecessary code.\nFollowing stubbings are unnecessary (click to navigate to relevant line of code):\n  1. -\u003e at com.googlesource.gerrit.plugins.replication.pull.ReplicationQueueTest.shouldNotCallInitProjectWhenProjectWithoutConfiguration(ReplicationQueueTest.java:293)\n  2. -\u003e at com.googlesource.gerrit.plugins.replication.pull.ReplicationQueueTest.shouldNotCallInitProjectWhenProjectWithoutConfiguration(ReplicationQueueTest.java:295)\n  3. -\u003e at com.googlesource.gerrit.plugins.replication.pull.ReplicationQueueTest.shouldNotCallInitProjectWhenProjectWithoutConfiguration(ReplicationQueueTest.java:296)\n  4. -\u003e at com.googlesource.gerrit.plugins.replication.pull.ReplicationQueueTest.shouldNotCallInitProjectWhenProjectWithoutConfiguration(ReplicationQueueTest.java:297)\nPlease remove unnecessary stubbings or use \u0027lenient\u0027 strictness. More info: javadoc for UnnecessaryStubbingException class.\n\tat org.mockito.internal.runners.StrictRunner.run(StrictRunner.java:49)\n\tat org.mockito.junit.MockitoJUnitRunner.run(MockitoJUnitRunner.java:163)\n\tat org.junit.runners.Suite.runChild(Suite.java:128)\n\tat org.junit.runners.Suite.runChild(Suite.java:27)\n\tat org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)\n\tat org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)\n\tat org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)\n\tat org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)\n\tat org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)\n\tat org.junit.runners.ParentRunner.run(ParentRunner.java:363)\n\tat com.google.testing.junit.runner.internal.junit4.CancellableRequestFactory$CancellableRunner.run(CancellableRequestFactory.java:108)\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:137)\n\tat org.junit.runner.JUnitCore.run(JUnitCore.java:115)\n\tat com.google.testing.junit.runner.junit4.JUnit4Runner.run(JUnit4Runner.java:116)\n\tat com.google.testing.junit.runner.BazelTestRunner.runTestsInSuite(BazelTestRunner.java:145)\n\tat com.google.testing.junit.runner.BazelTestRunner.main(BazelTestRunner.java:76)\n```\n\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/391975",
+      "parentUuid": "2e48385b_0c9ecddf",
+      "revId": "5a5630b9cc430d9f7378f53accf140ac8e720c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df511ab6_ede4f4a3",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
         "patchSetId": 6
