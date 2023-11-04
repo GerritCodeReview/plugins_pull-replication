@@ -20,6 +20,7 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyInt;
+import com.google.gerrit.entities.RefNames;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.lenient;
@@ -98,6 +99,7 @@ public class ReplicationQueueTest {
   @Mock RevisionReader revReader;
   @Mock RevisionData revisionData;
   @Mock HttpResult fetchHttpResult;
+  @Mock HttpResult successfulHttpResult;
   @Mock HttpResult batchFetchHttpResult;
   @Mock RevisionData revisionDataWithParents;
   List<ObjectId> revisionDataParentObjectIds;
@@ -171,6 +173,8 @@ public class ReplicationQueueTest {
     when(batchHttpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(batchFetchHttpResult.isSuccessful()).thenReturn(true);
+    when(fetchRestApiClient.initProject(any(), any(), anyLong(), any())).thenReturn(successfulHttpResult);
+    when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
     when(batchHttpResult.isProjectMissing(any())).thenReturn(false);
     when(applyObjectsRefsFilter.match(any())).thenReturn(false);
@@ -285,6 +289,12 @@ public class ReplicationQueueTest {
   @Test
   public void shouldNotCallInitProjectWhenProjectWithoutConfiguration() throws Exception {
     Event event = new TestEvent("refs/changes/01/1/meta");
+    when(httpResult.isSuccessful()).thenReturn(false);
+
+    when(httpResult.isProjectMissing(any())).thenReturn(true);
+    when(source.isCreateMissingRepositories()).thenReturn(true);
+    when(revReader.read(any(), any(), eq(RefNames.REFS_CONFIG), anyInt()))
+        .thenReturn(Optional.empty());
 
     objectUnderTest.start();
     objectUnderTest.onEvent(event);
