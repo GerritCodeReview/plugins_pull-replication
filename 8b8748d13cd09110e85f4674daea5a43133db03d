@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7e54bc6_3a097697",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-05T17:26:35Z",
+      "side": 1,
+      "message": "Trying to test a simple scenario, i.e.: creating a new project, is not working 😞\n\nThis is what I see in the http-logs:\n\n```\n172.24.0.3 [HTTP-128] - - [2023-11-05T17:19:59.717Z] \"POST /projects/from-g2/pull-replication~apply-object HTTP/1.1\" 404 19 2 - \"Apache-HttpClient/4.5.2 (Java/17.0.9)\" 2 - 62312 -\n172.24.0.3 [HTTP-135] - - [2023-11-05T17:19:59.736Z] \"PUT /plugins/pull-replication/init-project/from-g2.git HTTP/1.1\" 201 31 15 - \"Apache-HttpClient/4.5.2 (Java/17.0.9)\" 14 10 557848 -\n172.24.0.3 [HTTP-128] - - [2023-11-05T17:19:59.737Z] \"POST /projects/from-g2/pull-replication~fetch HTTP/1.1\" 404 19 - - \"Apache-HttpClient/4.5.2 (Java/17.0.9)\" - - 24776 -\n172.24.0.3 [HTTP-135] - - [2023-11-05T17:19:59.739Z] \"POST /projects/from-g2/pull-replication~fetch HTTP/1.1\" 404 19 1 - \"Apache-HttpClient/4.5.2 (Java/17.0.9)\" - - 24784 -\n172.24.0.3 [HTTP-128] - - [2023-11-05T17:19:59.744Z] \"PUT /plugins/pull-replication/init-project/from-g2.git HTTP/1.1\" 500 - 3 - \"Apache-HttpClient/4.5.2 (Java/17.0.9)\" 2 - 281128 -\n172.24.0.3 [HTTP-131] - - [2023-11-05T17:19:59.762Z] \"POST /projects/from-g2/pull-replication~apply-object HTTP/1.1\" 404 19 - - \"Apache-HttpClient/4.5.2 (Java/17.0.9)\" - - 51168 -\n172.24.0.3 [HTTP-128] - - [2023-11-05T17:19:59.766Z] \"PUT /plugins/pull-replication/init-project/from-g2.git HTTP/1.1\" 500 - 2 - \"Apache-HttpClient/4.5.2 (Java/17.0.9)\" 2 - 280504 -\n172.24.0.3 [HTTP-135] - - [2023-11-05T17:19:59.768Z] \"POST /projects/from-g2/pull-replication~fetch HTTP/1.1\" 404 19 1 - \"Apache-HttpClient/4.5.2 (Java/17.0.9)\" - - 49904 -\n172.24.0.3 [HTTP-131] - - [2023-11-05T17:19:59.772Z] \"PUT /plugins/pull-replication/init-project/from-g2.git HTTP/1.1\" 500 - 3 - \"Apache-HttpClient/4.5.2 (Java/17.0.9)\" 2 - 281088 -\n\n```\n\nWhy do we have an `apply-object` before the `init-project`? Is that the expected behavior?\n\nThen in the error-logs it complains because the project is already there:\n\n```\n[2023-11-05T17:19:59.734Z] [HTTP-135] WARN  com.googlesource.gerrit.plugins.webhooks.EventHandler : Ignoring event for a non-existing project from-g2, com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent@eb12456f [CONTEXT PLUGIN\u003d\"webhooks\" ]\n[2023-11-05T17:19:59.743Z] [HTTP-128] WARN  org.eclipse.jetty.server.HttpChannel : /plugins/pull-replication/init-project/from-g2.git\njavax.servlet.ServletException: java.lang.IllegalStateException: Repository already exists: /var/gerrit/git/from-g2.git\n\tat com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationFilter.doFilter(PullReplicationFilter.java:195)\n```\t\n\nI am a bit confused. @maczech@gmail.com @alvaro.vilaplana@gmail.com I might have to pick your brain for a while to sort this out.",
+      "revId": "8b8748d13cd09110e85f4674daea5a43133db03d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
