@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8000af8_21786055",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-06T12:54:41Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "44e0e38c_d945c799",
+      "range": {
+        "startLine": 169,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 63
+      },
+      "revId": "9a80746e206ee9eef5f975e972c0eb659dff1550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3573af6d_4bbe43ce",
