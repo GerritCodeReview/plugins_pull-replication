@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "03f25c41_7405ab5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-06T12:58:20Z",
+      "side": 1,
+      "message": "nit: extra",
+      "revId": "d91a989ee8e30312453b2554851fe2b8b4996047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "733335d8_3c684359",
