@@ -16,6 +16,41 @@
       "message": "Wouldn\u0027t this give a false perception that replication works fine? \n\nUsers do use the sync replication for a reason. Secretly switching to async replication doesn\u0027t feel good.\n\nWhat will happen when the sync replication is constantly failing? Will we build up a backlog of async replications in the background?\n\nIMO we should at least log a warning and possibly have a configuration option to enable fallback to async replication.",
       "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2adfebb3_655817f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T12:31:07Z",
+      "side": 1,
+      "message": "\u003e Wouldn\u0027t this give a false perception that replication works fine? \n\nIt actually works fine: sync replication is a \"wish\" rather than a \"requirement\"\n\n\u003e Users do use the sync replication for a reason. Secretly switching to async replication doesn\u0027t feel good.\n\nWell, replication is an _eventually consistent_ strategy to align different sites. Synchronous replication is for minimising the split-brain alerts and lock errors, but it may fail.\n\nYou should never assume that all sites are always up-to-date and always responding quicklu.\n\n\u003e What will happen when the sync replication is constantly failing? Will we build up a backlog of async replications in the background?\n\nThat\u0027s not different on what happens when a site is down: the replication events will be queued and eventually executed.\n\n\u003e IMO we should at least log a warning and possibly have a configuration option to enable fallback to async replication.\n\nYou should never ever disable the fallback, so a config option would be a mistake IMHO. A warning isn\u0027t needed because the failure of the apply object is already flagged in the logs.",
+      "parentUuid": "52aea102_65709921",
+      "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db60a8bf_784c0e24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T12:31:07Z",
+      "side": 1,
+      "message": "Adding @matthias.sohn@gmail.com who has just been hit by this issue on eclipse.gerrithub.io 😞",
+      "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
