@@ -51,6 +51,23 @@
       "message": "Adding @matthias.sohn@gmail.com who has just been hit by this issue on eclipse.gerrithub.io 😞",
       "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faa14cb0_e5921d90",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-09T15:37:16Z",
+      "side": 1,
+      "message": "nit: I don\u0027t like to pass `Optinal`s as arguments. Can we assume that the default replication type is async? Then we can pass `ReplicationType.ASYNC` instead of `Optional.empty()` and have something like:\n\n```java\nBoolean callAsync \u003d Optional.of(resplicationType)\n    .map(rto \u003d\u003e rto \u003d\u003d Replicationatype.ASYNC)\n    .orElseGet(() \u003d\u003e !syncRefsFilter.match(refName));\n```\n\nFor better readability, we can also define `DEFAULT_REPLICATION_TYPE \u003d ReplicationType.ASYNC` and use that constant instead of `Optional.empty()`.\n\nWDYT?",
+      "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
