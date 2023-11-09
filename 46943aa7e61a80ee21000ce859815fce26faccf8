@@ -70,6 +70,30 @@
       },
       "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64c28c0f_ce03955f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-11-09T10:15:03Z",
+      "side": 1,
+      "message": "After the discussion with the team, we agree that it will be addressed as a separate change, described in [this ticket](https://issues.gerritcodereview.com/issues/309816640)",
+      "parentUuid": "47848b76_abd6d02d",
+      "range": {
+        "startLine": 537,
+        "startChar": 44,
+        "endLine": 537,
+        "endChar": 51
+      },
+      "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
