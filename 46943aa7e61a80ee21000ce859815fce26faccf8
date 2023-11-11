@@ -118,6 +118,30 @@
       },
       "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "519c1ccc_2bfab395",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-11T13:15:40Z",
+      "side": 1,
+      "message": "Shall we then use `.peek()` here then? What\u0027s the plan to move on?",
+      "parentUuid": "96afe258_e533308d",
+      "range": {
+        "startLine": 537,
+        "startChar": 44,
+        "endLine": 537,
+        "endChar": 51
+      },
+      "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
