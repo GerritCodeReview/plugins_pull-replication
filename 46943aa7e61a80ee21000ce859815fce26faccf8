@@ -142,6 +142,30 @@
       },
       "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daf38139_a222c888",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-13T08:50:13Z",
+      "side": 1,
+      "message": "Problem with`.peek()` is that if for any reason we cannot process a single message and we are failing constantly on that single one we will block processing of other messages as well. The best solution would be to pick the message try to process and if failed add message to the end of the queue. But again we don\u0027t want to suck forever in the loop, that\u0027s why we need number of retries.\n\nBut to close that change, if you think that `.peek` is better option we can change it and put removing message in the `try-finally` block. But behaviour will be very similar to what we have now",
+      "parentUuid": "519c1ccc_2bfab395",
+      "range": {
+        "startLine": 537,
+        "startChar": 44,
+        "endLine": 537,
+        "endChar": 51
+      },
+      "revId": "46943aa7e61a80ee21000ce859815fce26faccf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
