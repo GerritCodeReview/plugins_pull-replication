@@ -153,6 +153,24 @@
       "parentUuid": "1e802db9_08000da6",
       "revId": "39ed50189797c89d51675900971294947414a3dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a999c3e_6f43906b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-13T13:28:03Z",
+      "side": 1,
+      "message": "I don\u0027t believe we need to leak the implementation details in the tests: we just need to check that after the start of the plugin, if there were events before starting, the queue is empty.\n\nThe fact that we call `sendObjects()` as part of the replication of `refs/changes/01/1/meta` is unneeded and leaking implementation details.",
+      "parentUuid": "e3883f03_6d06d7b1",
+      "revId": "39ed50189797c89d51675900971294947414a3dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
