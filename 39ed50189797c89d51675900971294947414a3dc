@@ -171,6 +171,24 @@
       "parentUuid": "e3883f03_6d06d7b1",
       "revId": "39ed50189797c89d51675900971294947414a3dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c4509ac_0773d85a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T08:54:10Z",
+      "side": 1,
+      "message": "Marking as resolved, as adding white-box testing won\u0027t really make the one-liner change more robust IMHO.",
+      "parentUuid": "8a999c3e_6f43906b",
+      "revId": "39ed50189797c89d51675900971294947414a3dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
