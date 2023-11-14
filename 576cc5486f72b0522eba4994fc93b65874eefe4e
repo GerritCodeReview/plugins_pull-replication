@@ -96,6 +96,155 @@
       "message": "We should have involved also @marcin and @dani more actively, who are more aware of the issues associated with the pull-replication and batching consistency.\n\nI am sure that Darius and Ponch did their best to review this change, but possibly did not have enough background on the rationale behind the batching.",
       "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cc58be5_2810eef9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T21:37:00Z",
+      "side": 1,
+      "message": "Post-merge -2: this is breaking the batching consistency.",
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b17af7bc_09037a36",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T21:37:00Z",
+      "side": 1,
+      "message": "I believe the client should just obey to the caller and receive all the associated parameters, including the sync vs. async request.\n\n`ReplicationType` (`SYNC` vs. `ASYNC`) should be a parameter passed to this function.",
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "964d3539_90592bbf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T21:37:00Z",
+      "side": 1,
+      "message": "This is always `true`, see L155, can be replaced with a constant.",
+      "range": {
+        "startLine": 156,
+        "startChar": 63,
+        "endLine": 156,
+        "endChar": 68
+      },
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "055c5b57_024fb903",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T21:37:00Z",
+      "side": 1,
+      "message": "This is always `!true` therefore `false`, can be replaced with a literal.",
+      "range": {
+        "startLine": 157,
+        "startChar": 62,
+        "endLine": 157,
+        "endChar": 68
+      },
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e0e40ac_9e3f21a8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T21:37:00Z",
+      "side": 1,
+      "message": "This can be checked at the beginning, `if(refsInBatch.isEmpty())`",
+      "range": {
+        "startLine": 158,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 5
+      },
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a36d3a1_13988060",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T21:37:00Z",
+      "side": 1,
+      "message": "They look identical to me: just send the whole set of refs in both cases.\nThe complete set is either all sync or all async, so if you send all of them you cover both cases.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 5
+      },
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f653078d_a1ec3b61",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T21:37:00Z",
+      "side": 1,
+      "message": "Why splitting the batch? If you send 1/2 of the batch sync and 1/2 of the batch async, you would risk to have inconsistent data until the async operation completes.\n\nIf a Gerrit admin enables the processing in batch then expects to solve the inconsistencies caused by replicating refs one-by-one.\n\nThis split into two makes the synchronous replication effectively useless: replicating something *early* means breaking consistency, so the batching isn\u0027t possible.\n\nWe need to make a choice here: what is more important? Respecting the will of sync vs. async or breaking Gerrit consistency?\n\nTopic open for discussion :-)\n\nP.S. I am surprised this was not coming out of the review process: what went wrong?",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 189,
+        "endChar": 5
+      },
+      "revId": "576cc5486f72b0522eba4994fc93b65874eefe4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
