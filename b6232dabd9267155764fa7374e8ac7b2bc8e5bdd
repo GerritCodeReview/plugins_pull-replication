@@ -1,5 +1,224 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dc52550_0c98f017",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 38
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "Post-merge -1: I believe overall this change was too big and therefore the review was lengthy, difficult and, still, not accurate enough.\n\nSee my post-merge feedback. In the future we should aim to smaller changes and easier to review.",
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02b7407c_3271dba7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "```suggestion\n                          \"Ref event to be replicated: {} on project {}:{} - {} \u003d\u003e {}\",\n```",
+      "range": {
+        "startLine": 186,
+        "startChar": 37,
+        "endLine": 186,
+        "endChar": 46
+      },
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "719d4819_8e344269",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "As we apply the whole batch atomically, the sorting shouldn\u0027t really matter: either the batch update is wholly replicated or not.",
+      "range": {
+        "startLine": 194,
+        "startChar": 17,
+        "endLine": 194,
+        "endChar": 62
+      },
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c81251e_08070578",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "This is not respecting the contract with the payload size: if I have a batch of 10 commits, each one pointing to a 1MByte of Git objects, then the overall size is 10 x 1MByte \u003d 10MBytes.\n\nBut if I set 1MByte as max payload, the above will go through regardless.\n\nWe should have sum all of the sizes of the Git objects and compared that number with the maximum payload configured.",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 347,
+        "endChar": 7
+      },
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aba8668_0f431d43",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "```suggestion\n    if (event.isDelete()) {\n      return BatchApplyObjectData.createDelete(event.refName());\n    }\n```\n\nThe code as it is today is quite hard to read and confusing: much better to provide a self-explanatory method that makes clear that we are creating a delete operation to execute.",
+      "range": {
+        "startLine": 356,
+        "startChar": 4,
+        "endLine": 359,
+        "endChar": 5
+      },
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fae8331_3b1eb6a0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "We know this is not a delete, just remove the parameter.",
+      "range": {
+        "startLine": 363,
+        "startChar": 77,
+        "endLine": 363,
+        "endChar": 93
+      },
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "747e3d6b_d2470496",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "Would this be caught for retries or just thrown upstream? I am worried we may miss the event and not retry anymore.",
+      "range": {
+        "startLine": 371,
+        "startChar": 6,
+        "endLine": 371,
+        "endChar": 40
+      },
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86826b77_855a702b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "The name and the body aren\u0027t fully aligned: not having a revision data associated may or may not be caused by a large set of objects. Also the `e.isDelete()` has nothing to do with the size of the associated objects.\n\nLastly, the wording _large ref_ is misleading here: it isn\u0027t the ref that is large but the associated Git objects pointed by its commits that are large.",
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "258f50b7_0d8c4e55",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "This is breaking the batch through: it should instead just added to the batch and retried.",
+      "range": {
+        "startLine": 538,
+        "startChar": 0,
+        "endLine": 547,
+        "endChar": 29
+      },
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e1db1c2_2d0fd86a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectData.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-14T15:09:07Z",
+      "side": 1,
+      "message": "The name is misleading: this does not represent a batch of refs operations, I do not see any list of refs or objects, but it is a single update.",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 42
+      },
+      "revId": "b6232dabd9267155764fa7374e8ac7b2bc8e5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
