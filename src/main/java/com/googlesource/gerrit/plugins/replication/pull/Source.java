@@ -906,6 +906,10 @@ public class Source {
     return config.replicateProjectDeletions();
   }
 
+  public boolean isMirror() {
+    return config.getRemoteConfig().isMirror();
+  }
+
   void scheduleUpdateHead(String apiUrl, Project.NameKey project, String newHead) {
     try {
       URIish apiURI = new URIish(apiUrl);
