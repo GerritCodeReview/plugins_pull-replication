@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74e9279e_b620f259",
+        "filename": "example-setup/http/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-11-15T17:32:37Z",
+      "side": 1,
+      "message": "shouldn\u0027t we point to a stable version, rather than an rc?",
+      "revId": "b26e38f92ed3ea8c747a45e92b6437ad3f1f2a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
