@@ -69,6 +69,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cfdc472_493f0064",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-15T10:25:34Z",
+      "side": 1,
+      "message": "Thanks everyone for your comments so far. I cannot tell when I will have time to answer/address the comments but will try to not postpone that for too long.",
+      "revId": "279ace6c97547de27de061eff92dc83a0f76fe28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3140d4c_6d934d97",
