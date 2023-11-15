@@ -906,6 +906,10 @@ public class Source {
     return config.replicateProjectDeletions();
   }
 
+  public boolean isMirror() {
+    return config.getRemoteConfig().isMirror();
+  }
+
   public boolean enableBatchedRefs() {
     return config.enableBatchedRefs();
   }
