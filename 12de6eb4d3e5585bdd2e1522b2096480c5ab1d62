@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69c82551_c247f8f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-15T14:47:38Z",
+      "side": 1,
+      "message": "Just a small nit, everything else looks good 👍",
+      "revId": "12de6eb4d3e5585bdd2e1522b2096480c5ab1d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88aba107_b682ec2d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-15T14:47:38Z",
+      "side": 1,
+      "message": "I remember that you asked, but thinking again it would be very useful to track in the replication_log that the event has been discarded because the source is not mirroring.",
+      "revId": "12de6eb4d3e5585bdd2e1522b2096480c5ab1d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
