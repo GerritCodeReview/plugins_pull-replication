@@ -33,6 +33,24 @@
       "message": "I remember that you asked, but thinking again it would be very useful to track in the replication_log that the event has been discarded because the source is not mirroring.",
       "revId": "12de6eb4d3e5585bdd2e1522b2096480c5ab1d62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a1f2244_ded11314",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-15T14:55:37Z",
+      "side": 1,
+      "message": "Yes, IMO logging this makes even more sense when you consider the fact that we already have \"traces\" of that event in the log file. If we just ignore it (as we do right now), the trail in logs will be \"broken\" and confusing. I\u0027ll add a log here.",
+      "parentUuid": "88aba107_b682ec2d",
+      "revId": "12de6eb4d3e5585bdd2e1522b2096480c5ab1d62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
