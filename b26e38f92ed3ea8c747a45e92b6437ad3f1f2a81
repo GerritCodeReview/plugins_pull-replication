@@ -16,6 +16,24 @@
       "message": "shouldn\u0027t we point to a stable version, rather than an rc?",
       "revId": "b26e38f92ed3ea8c747a45e92b6437ad3f1f2a81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a4fcb27_aeefc8fd",
+        "filename": "example-setup/http/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-15T17:37:42Z",
+      "side": 1,
+      "message": "there\u0027s no stable version yet, only an RC. Also, we should be verifying the stable branch of `pull-replication` with the matching stable of Gerrit. As here we\u0027re on 3.9, it should also run with the latest 3.9 of Gerrit, which is as of now an `rc4`",
+      "parentUuid": "74e9279e_b620f259",
+      "revId": "b26e38f92ed3ea8c747a45e92b6437ad3f1f2a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
