@@ -16,6 +16,24 @@
       "message": "Invalid issue number: it should be Issue 308448333",
       "revId": "c0daae444531be2a5a86922920a1147b6eabe70c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9b9523d_eb5d27d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-16T20:40:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a9f0059_8b103d84",
+      "revId": "c0daae444531be2a5a86922920a1147b6eabe70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
