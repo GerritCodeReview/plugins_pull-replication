@@ -763,7 +763,8 @@ public class ReplicationQueue
 
   private void fireBeforeStartupEvents() {
     Set<String> eventsReplayed = new HashSet<>();
-    for (ReferenceBatchUpdatedEvent event : beforeStartupEventsQueue) {
+    ReferenceBatchUpdatedEvent event;
+    while ((event = beforeStartupEventsQueue.poll()) != null) {
       String eventKey =
           String.format(
               "%s:%s",
