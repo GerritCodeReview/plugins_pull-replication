@@ -57,6 +57,24 @@
       "parentUuid": "83f5966e_8391931b",
       "revId": "ca8a62e7ba0edabbcee136f796fa13f4f127ee1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c688f565_8c16aad6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-16T16:49:40Z",
+      "side": 1,
+      "message": "Ok, I replace Optional with boolean feature flag",
+      "parentUuid": "a5ad5ee2_47ea2da1",
+      "revId": "ca8a62e7ba0edabbcee136f796fa13f4f127ee1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
