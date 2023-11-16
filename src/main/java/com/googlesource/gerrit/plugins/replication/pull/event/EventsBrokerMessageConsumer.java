@@ -28,6 +28,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.googlesource.gerrit.plugins.replication.pull.ShutdownState;
+import java.io.IOException;
 import java.util.function.Consumer;
 
 public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleListener {
@@ -57,7 +58,7 @@ public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleLi
     try {
       eventListener.fetchRefsForEvent(event);
       if (shutdownState.isShuttingDown()) stop();
-    } catch (AuthException | PermissionBackendException e) {
+    } catch (AuthException | PermissionBackendException | IOException e) {
       throw new EventRejectedException(event, e);
     }
   }
