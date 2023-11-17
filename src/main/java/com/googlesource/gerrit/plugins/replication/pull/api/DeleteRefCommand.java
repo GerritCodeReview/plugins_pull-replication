@@ -68,6 +68,18 @@ public class DeleteRefCommand {
 
   public void deleteRef(Project.NameKey name, String refName, String sourceLabel)
       throws IOException, RestApiException {
+    Source source =
+        sourcesCollection
+            .getByRemoteName(sourceLabel)
+            .orElseThrow(
+                () ->
+                    new IllegalStateException(
+                        String.format("Could not find URI for %s remote", sourceLabel)));
+    if (!source.isMirror()) {
+      repLog.info(
+          "Ignoring ref {} deletion from project {}, as mirror option is false", refName, name);
+      return;
+    }
     try {
       repLog.info("Delete ref from {} for project {}, ref name {}", sourceLabel, name, refName);
       Optional<ProjectState> projectState = projectCache.get(name);
@@ -81,13 +93,6 @@ public class DeleteRefCommand {
         return;
       }
 
-      Source source =
-          sourcesCollection
-              .getByRemoteName(sourceLabel)
-              .orElseThrow(
-                  () ->
-                      new IllegalStateException(
-                          String.format("Could not find URI for %s remote", sourceLabel)));
       URIish sourceUri = source.getURI(name);
 
       try {
