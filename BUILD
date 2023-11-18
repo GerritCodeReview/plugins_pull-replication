@@ -20,7 +20,6 @@ gerrit_plugin(
         "//lib/commons:io",
         "//plugins/delete-project",
         "//plugins/replication",
-        "@commons-lang3//jar",
     ],
 )
 
@@ -36,8 +35,8 @@ junit_tests(
         ":pull-replication__plugin",
         ":pull_replication_util",
         "//plugins/delete-project",
-        "//plugins/replication",
         "//plugins/events-broker",
+        "//plugins/replication",
     ],
 )
 
