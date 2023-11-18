@@ -19,7 +19,6 @@ gerrit_plugin(
         ":events-broker-neverlink",
         "//lib/commons:io",
         "//plugins/replication",
-        "@commons-lang3//jar",
     ],
 )
 
@@ -34,8 +33,8 @@ junit_tests(
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
         ":pull_replication_util",
-        "//plugins/replication",
         "//plugins/events-broker",
+        "//plugins/replication",
     ],
 )
 
