@@ -33,6 +33,24 @@
       "message": "If I remember correctly, there was an issue with the version of commons-lang3 that failed to decode characters with a certain encoding, preventing clones of specific repos. @luca.milanesio@gmail.com might have a better recollection though.",
       "revId": "1996db69a99d1e4f14c7553c893dea2f74b8fea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb35c200_18b3df05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-19T08:09:41Z",
+      "side": 1,
+      "message": "Thanks for more background.\n\nI still don\u0027t see how the original commit can influence different versions of commons-lang3 or fix classpath collisions? \n\nEither way, the same version 3.8.1 is shaded in the pull-replication plugin, that is already included in release.war, and thus is visible to all plugins, as it\u0027s loaded by the parent classloader:\n\n```\n  $ unzip -t gerrit-war-3.4.8.war | grep commons-lang\n    testing: WEB-INF/lib/commons-lang-2.6.jar   OK\n    testing: WEB-INF/lib/commons-lang3-3.8.1.jar   OK\n```",
+      "parentUuid": "b602dcb0_32746447",
+      "revId": "1996db69a99d1e4f14c7553c893dea2f74b8fea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
