@@ -16,6 +16,23 @@
       "message": "CI failure seems to be unrelated:\n\n\n```\nThere was 1 failure:\n1) shouldReplicateProjectDeletion(com.googlesource.gerrit.plugins.replication.pull.PullReplicationIT)\nvalue of: numEventsReceived()\nexpected: 1\nbut was : 0\n\tat com.googlesource.gerrit.plugins.replication.pull.PullReplicationITAbstract.assertThatEventListenerHasReceivedNumEvents(PullReplicationITAbstract.java:551)\n\tat com.googlesource.gerrit.plugins.replication.pull.PullReplicationITAbstract.shouldReplicateProjectDeletion(PullReplicationITAbstract.java:473)\n\nFAILURES!!!\nTests run: 8,  Failures: 1\n```",
       "revId": "1996db69a99d1e4f14c7553c893dea2f74b8fea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b602dcb0_32746447",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-11-19T07:40:07Z",
+      "side": 1,
+      "message": "If I remember correctly, there was an issue with the version of commons-lang3 that failed to decode characters with a certain encoding, preventing clones of specific repos. @luca.milanesio@gmail.com might have a better recollection though.",
+      "revId": "1996db69a99d1e4f14c7553c893dea2f74b8fea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
