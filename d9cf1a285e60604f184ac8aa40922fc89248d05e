@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4277d6c8_5ce31512",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T08:53:34Z",
+      "side": 1,
+      "message": "It it should not be an _instead-of_ but just the skip of apply-object altogether.\n\nThe apply-object is a performance optimisation, which needs to be skipped in this case because it isn\u0027t applicable.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43cb6383_205e39e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T08:53:34Z",
+      "side": 1,
+      "message": "This is the wrong logic: the fallback is implemented already, we must just skip the apply object during replay with a simple flag.",
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1397773_4f241a59",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T08:53:34Z",
+      "side": 1,
+      "message": "```suggestion\n    fire(event, state, true);\n```",
+      "range": {
+        "startLine": 222,
+        "startChar": 23,
+        "endLine": 222,
+        "endChar": 28
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49b5fe91_9bf39b35",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T08:53:34Z",
+      "side": 1,
+      "message": "```suggestion\n      ReferenceUpdatedEvent event, ReplicationState state, boolean runApplyObject) {\n```",
+      "range": {
+        "startLine": 226,
+        "startChar": 67,
+        "endLine": 226,
+        "endChar": 85
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "865da419_68876bc6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T08:53:34Z",
+      "side": 1,
+      "message": "No, the fallback logic isn\u0027t done at this level but down in the `callFunction` implementation.",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 25
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fe24a9d_2c366b1f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T08:53:34Z",
+      "side": 1,
+      "message": "add the `runApplyObject` parameter here",
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a69c9ca8_a37d2fb6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T08:53:34Z",
+      "side": 1,
+      "message": "```suggestion\n        if (runApplyObject) {\n          callSuccessful \u003d call.call(source);\n        }\n```",
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0428f42b_1856dbd6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T08:53:34Z",
+      "side": 1,
+      "message": "```suggestion\n      if (!runApplyObject || !callSuccessful) {\n```",
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
