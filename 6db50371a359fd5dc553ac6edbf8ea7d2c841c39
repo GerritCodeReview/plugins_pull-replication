@@ -86,6 +86,24 @@
       "parentUuid": "faa14cb0_e5921d90",
       "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdd1966f_931e6e2b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-20T13:40:23Z",
+      "side": 1,
+      "message": "\u003e \u003e nit: I don\u0027t like to pass `Optinal`s as arguments. \n\u003e \n\u003e Is this just a general preference or a guideline you saw somewhere?\n\u003e I personally prefer Optional\u003c\u003e rather than nulls.\n\nHaving an `Optional\u003c\u003e` type as a parameter will not prevent anyone from passing `null` as its value. This means that you have two _undefined_ states:\n* `null` value,\n* `Optional.absent().\n\nAFAIR, libraries like JGit assume that all parameters have _non-null_ value **unless** they\u0027re annotated with `@Nullable`, which IMO is a much better approach, than passing `Optional\u003c\u003e`.\n\nAdditionally, InteliJ IDEA is marking all `Optional\u003c\u003e` parameters as warnings:\n\u003e Optional was designed to provide a limited mechanism for library method return types in which a clear way to represent \"no result\" was needed.\nUsing a field with the java.util.Optional type is also problematic if the class needs to be Serializable, as java.util.Optional is not serializable.\n\nFinally, `Optional.absent()` is a lot of letters to type ;) and visually takes more space. Ideally, we\u0027d have another method that skips it and provides a default value.\n\n\u003e \u003eCan we assume that the default replication type is async?\n\u003e \n\u003e The default is taken from the replication.config, so that\u0027s not an option.\n\nWe can still inject it, and use that as _default_. It shouldn\u0027t matter where that value is coming from.\n\n\u003e \u003e Then we can pass `ReplicationType.ASYNC` instead of `Optional.empty()` and have something like:\n\u003e \u003e \n\u003e \u003e ```java\n\u003e \u003e Boolean callAsync \u003d Optional.of(resplicationType)\n\u003e \u003e     .map(rto \u003d\u003e rto \u003d\u003d Replicationatype.ASYNC)\n\u003e \u003e     .orElseGet(() \u003d\u003e !syncRefsFilter.match(refName));\n\u003e \u003e ```\n\u003e \u003e \n\u003e \u003e For better readability, we can also define `DEFAULT_REPLICATION_TYPE \u003d ReplicationType.ASYNC` and use that constant instead of `Optional.empty()`.\n\u003e \n\u003e We could instead define a `ReplicationType.AUTO` which means that is read from config, WDYT?\n\nWouldn\u0027t that mean that then `auto` will also be a valid option in the config? AFAIR, when enums are defined as configuration options, all of the defined values can be used in the config. That would create more confusion than it solves. Would rather have a constant.",
+      "parentUuid": "5cff6d45_4b0cd1bc",
+      "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
