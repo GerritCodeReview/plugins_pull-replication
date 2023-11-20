@@ -89,6 +89,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc1fe9c1_ec7c8a4e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-20T17:21:37Z",
+      "side": 1,
+      "message": "nit: how about having two methods, `fire` (or `fireViaFetch`) and `fireViaApplyObject`? this way we\u0027ll get rid of that magic _true_ or _false_ at the end. Sure, this is only a private method, but IMO this would make the code easier to understand. WDYT?",
+      "parentUuid": "49b5fe91_9bf39b35",
+      "range": {
+        "startLine": 226,
+        "startChar": 67,
+        "endLine": 226,
+        "endChar": 85
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "865da419_68876bc6",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 4
@@ -140,6 +164,24 @@
       "writtenOn": "2023-11-20T08:53:34Z",
       "side": 1,
       "message": "```suggestion\n        if (runApplyObject) {\n          callSuccessful \u003d call.call(source);\n        }\n```",
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1f203c4_d6f4ef4b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-20T17:21:37Z",
+      "side": 1,
+      "message": "nit: I\u0027d put that `if` around the `try-catch` block so that we don\u0027t even enter it when `runApplyObject` is false.",
+      "parentUuid": "a69c9ca8_a37d2fb6",
       "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
