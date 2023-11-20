@@ -68,6 +68,24 @@
       "message": "nit: I don\u0027t like to pass `Optinal`s as arguments. Can we assume that the default replication type is async? Then we can pass `ReplicationType.ASYNC` instead of `Optional.empty()` and have something like:\n\n```java\nBoolean callAsync \u003d Optional.of(resplicationType)\n    .map(rto \u003d\u003e rto \u003d\u003d Replicationatype.ASYNC)\n    .orElseGet(() \u003d\u003e !syncRefsFilter.match(refName));\n```\n\nFor better readability, we can also define `DEFAULT_REPLICATION_TYPE \u003d ReplicationType.ASYNC` and use that constant instead of `Optional.empty()`.\n\nWDYT?",
       "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cff6d45_4b0cd1bc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T11:17:16Z",
+      "side": 1,
+      "message": "\u003e nit: I don\u0027t like to pass `Optinal`s as arguments. \n\nIs this just a general preference or a guideline you saw somewhere?\nI personally prefer Optional\u003c\u003e rather than nulls.\n\n\u003eCan we assume that the default replication type is async?\n\nThe default is taken from the replication.config, so that\u0027s not an option.\n\n\u003e Then we can pass `ReplicationType.ASYNC` instead of `Optional.empty()` and have something like:\n\u003e \n\u003e ```java\n\u003e Boolean callAsync \u003d Optional.of(resplicationType)\n\u003e     .map(rto \u003d\u003e rto \u003d\u003d Replicationatype.ASYNC)\n\u003e     .orElseGet(() \u003d\u003e !syncRefsFilter.match(refName));\n\u003e ```\n\u003e \n\u003e For better readability, we can also define `DEFAULT_REPLICATION_TYPE \u003d ReplicationType.ASYNC` and use that constant instead of `Optional.empty()`.\n\nWe could instead define a `ReplicationType.AUTO` which means that is read from config, WDYT?",
+      "parentUuid": "faa14cb0_e5921d90",
+      "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
