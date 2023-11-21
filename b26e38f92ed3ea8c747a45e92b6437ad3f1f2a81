@@ -34,6 +34,24 @@
       "parentUuid": "74e9279e_b620f259",
       "revId": "b26e38f92ed3ea8c747a45e92b6437ad3f1f2a81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a2a249f_a6e3ef4d",
+        "filename": "example-setup/http/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-11-21T12:39:49Z",
+      "side": 1,
+      "message": "Sure, my point is that the example setup can be used by anyone and its best to point to a gerrit version that we know is stable, rather than an rc. Anyway, minor point.",
+      "parentUuid": "3a4fcb27_aeefc8fd",
+      "revId": "b26e38f92ed3ea8c747a45e92b6437ad3f1f2a81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
