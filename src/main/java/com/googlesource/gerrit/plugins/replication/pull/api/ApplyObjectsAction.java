@@ -68,8 +68,8 @@ public class ApplyObjectsAction implements RestModifyView<ProjectResource, Revis
 
       repLog.info(
           "Apply object API from {} for {}:{} - {}",
-          resource.getNameKey(),
           input.getLabel(),
+          resource.getNameKey(),
           input.getRefName(),
           Arrays.toString(input.getRevisionsData()));
 
@@ -77,8 +77,8 @@ public class ApplyObjectsAction implements RestModifyView<ProjectResource, Revis
         deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
         repLog.info(
             "Apply object API - REF DELETED - from {} for {}:{}",
-            resource.getNameKey(),
             input.getLabel(),
+            resource.getNameKey(),
             input.getRefName());
         return Response.withStatusCode(HttpServletResponse.SC_NO_CONTENT, "");
       }
