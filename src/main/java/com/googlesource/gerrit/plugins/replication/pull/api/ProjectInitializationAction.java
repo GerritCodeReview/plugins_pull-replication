@@ -160,6 +160,9 @@ public class ProjectInitializationAction extends HttpServlet {
     }
 
     String projectName = gitRepositoryName.replace(".git", "");
+    // Make sure that any negative caching on the project is evicted, otherwise the subsequent
+    // applyObjects would fail
+    projectCache.evict(Project.nameKey(projectName));
     applyObjectCommand.applyObjects(
         Project.nameKey(projectName),
         input.getRefName(),
