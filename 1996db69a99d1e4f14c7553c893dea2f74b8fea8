@@ -51,6 +51,23 @@
       "parentUuid": "b602dcb0_32746447",
       "revId": "1996db69a99d1e4f14c7553c893dea2f74b8fea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "695247fc_8cbd5bd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-11-22T17:40:08Z",
+      "side": 1,
+      "message": "What you\u0027re saying makes sense, I can\u0027t recall any more context on the change being reverted.",
+      "revId": "1996db69a99d1e4f14c7553c893dea2f74b8fea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
