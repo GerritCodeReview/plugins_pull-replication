@@ -158,17 +158,16 @@ public class ProjectInitializationAction extends HttpServlet {
     if (!initProject(gitRepositoryName, false)) {
       return false;
     }
-
     String projectName = gitRepositoryName.replace(".git", "");
+    // Make sure that any negative caching on the project is evicted, otherwise the subsequent
+    // applyObjects would fail
+    projectCache.evict(Project.nameKey(projectName));
     applyObjectCommand.applyObjects(
         Project.nameKey(projectName),
         input.getRefName(),
         input.getRevisionsData(),
         input.getLabel(),
         input.getEventCreatedOn());
-    // XXX: The cache eviction is needed temporarily until Issue 308448333 won't be fixed.
-    // Once the fix will be in place, `onCreateProject` will take care of evicting the cache.
-    projectCache.evict(Project.nameKey(projectName));
     projectCache.onCreateProject(Project.nameKey(projectName));
     repLog.info(
         "Init project API from {} for {}:{} - {}",
