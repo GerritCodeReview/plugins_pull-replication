@@ -486,17 +486,9 @@ public class Source {
         e = pending.get(uri);
       }
       if (e == null) {
-        try (Repository git = gitManager.openRepository(project)) {
-          try {
-            Ref head = git.exactRef(Constants.HEAD);
-            if (head != null
-                && head.isSymbolic()
-                && RefNames.REFS_CONFIG.equals(head.getLeaf().getName())) {
-              queueMetrics.incrementTaskNotScheduled(this);
-              return CompletableFuture.completedFuture(null);
-            }
-          } catch (IOException err) {
-            stateLog.error(String.format("cannot check type of project %s", project), err, state);
+        try {
+          gitManager.openRepository(project);
+          if (RefNames.REFS_CONFIG.equals(ref)) {
             queueMetrics.incrementTaskNotScheduled(this);
             return CompletableFuture.completedFuture(null);
           }
