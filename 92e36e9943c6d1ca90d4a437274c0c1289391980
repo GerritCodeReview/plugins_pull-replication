@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a671550b_5e3652f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-23T14:01:56Z",
+      "side": 1,
+      "message": "\u003e he cache could have a negative hit\n\n@luca.milanesio@gmail.com please, could you explain me why is that? for learning purposes.",
+      "revId": "92e36e9943c6d1ca90d4a437274c0c1289391980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a08654f5_9ed33d44",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-23T14:01:56Z",
+      "side": 1,
+      "message": "I think this out of the scope of this change.",
+      "revId": "92e36e9943c6d1ca90d4a437274c0c1289391980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
