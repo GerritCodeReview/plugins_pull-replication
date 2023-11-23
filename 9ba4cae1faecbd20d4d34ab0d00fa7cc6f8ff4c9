@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e0bcc646_c1b4dbb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1160733
+      },
+      "writtenOn": "2023-11-23T08:14:08Z",
+      "side": 1,
+      "message": "Can you give me some pointer why we should check the HEAD file when the Source fetch some refs setting replicatePermissions\u003dfalse? @luca.milanesio@gmail.com",
+      "revId": "9ba4cae1faecbd20d4d34ab0d00fa7cc6f8ff4c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "078f6ed3_4e64a952",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
         "patchSetId": 2
