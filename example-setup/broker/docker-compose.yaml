@@ -11,6 +11,7 @@ services:
       - BROKER_HOST=broker
       - BROKER_PORT=9092
       - REPLICATE_ON_STARTUP=false
+      - MIRROR=true
     ports:
       - "8080:8080"
       - "29418:29418"
@@ -28,6 +29,7 @@ services:
       - BROKER_HOST=broker
       - BROKER_PORT=9092
       - REPLICATE_ON_STARTUP=true
+      - MIRROR=true
     ports:
       - "8081:8080"
       - "29419:29418"

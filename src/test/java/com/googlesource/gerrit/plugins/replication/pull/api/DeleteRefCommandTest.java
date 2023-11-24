@@ -19,6 +19,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.entities.Project;
@@ -106,6 +107,8 @@ public class DeleteRefCommandTest {
 
   @Test
   public void shouldSendEventWhenDeletingRef() throws Exception {
+    when(source.isMirror()).thenReturn(true);
+
     objectUnderTest.deleteRef(TEST_PROJECT_NAME, TEST_REF_NAME, TEST_SOURCE_LABEL);
 
     verify(eventDispatcher).postEvent(eventCaptor.capture());
@@ -117,7 +120,17 @@ public class DeleteRefCommandTest {
   }
 
   @Test
+  public void shouldNotSendNotSendEventWhenMirroringIsDisabled() throws Exception {
+    when(source.isMirror()).thenReturn(false);
+
+    objectUnderTest.deleteRef(TEST_PROJECT_NAME, TEST_REF_NAME, TEST_SOURCE_LABEL);
+
+    verifyNoInteractions(eventDispatcher);
+  }
+
+  @Test
   public void shouldHandleNonExistingRef() throws Exception {
+    when(source.isMirror()).thenReturn(true);
     when(refDb.exactRef(anyString())).thenReturn(null);
 
     objectUnderTest.deleteRef(TEST_PROJECT_NAME, NON_EXISTING_REF_NAME, TEST_SOURCE_LABEL);

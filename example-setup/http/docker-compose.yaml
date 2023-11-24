@@ -9,6 +9,7 @@ services:
       - REMOTE_URL=gerrit2
       - DEBUG_PORT=5005
       - REPLICATE_ON_STARTUP=false
+      - MIRROR=true
     ports:
       - "8080:8080"
       - "29418:29418"
@@ -22,6 +23,7 @@ services:
       - REMOTE_URL=gerrit1
       - DEBUG_PORT=5006
       - REPLICATE_ON_STARTUP=true
+      - MIRROR=true
     ports:
       - "8081:8080"
       - "29419:29418"

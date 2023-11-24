@@ -13,7 +13,7 @@
     url = http://$REMOTE_URL:8080/#{name}#.git
     apiUrl = http://$REMOTE_URL:8080
     fetch = +refs/*:refs/*
-    mirror = true
+    mirror = $MIRROR
     timeout = 60 # In seconds
     connectionTimeout = 120000 # In mseconds
     rescheduleDelay = 15
