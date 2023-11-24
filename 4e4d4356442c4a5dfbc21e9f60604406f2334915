@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24e0e878_a2bb339c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-24T10:13:46Z",
+      "side": 1,
+      "message": "Please, look at my comment in this change: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/394396?tab\u003dcomments",
+      "revId": "4e4d4356442c4a5dfbc21e9f60604406f2334915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
