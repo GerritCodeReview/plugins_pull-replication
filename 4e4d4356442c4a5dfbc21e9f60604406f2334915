@@ -16,6 +16,24 @@
       "message": "Please, look at my comment in this change: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/394396?tab\u003dcomments",
       "revId": "4e4d4356442c4a5dfbc21e9f60604406f2334915",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afb66f29_e654b6f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-24T10:14:07Z",
+      "side": 1,
+      "message": "It is not resolved.",
+      "parentUuid": "24e0e878_a2bb339c",
+      "revId": "4e4d4356442c4a5dfbc21e9f60604406f2334915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
