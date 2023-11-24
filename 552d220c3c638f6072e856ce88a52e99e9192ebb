@@ -16,6 +16,24 @@
       "message": "remove one parenthesis on the left:\n```\nverifyNoInteractions(wq, rd, dis, sl, fetchClientFactory, accountAttribute);\n```",
       "revId": "552d220c3c638f6072e856ce88a52e99e9192ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c377e0d_b5a6fa23",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-24T15:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35f6c611_0d295026",
+      "revId": "552d220c3c638f6072e856ce88a52e99e9192ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
