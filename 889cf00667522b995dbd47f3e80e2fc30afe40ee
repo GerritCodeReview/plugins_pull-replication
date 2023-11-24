@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "976e6c06_ad88b8cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-24T10:12:19Z",
+      "side": 1,
+      "message": "It looks that `Gerrit stable-3.9` has `mockito 5.6` [1] and that version [2] does not have the method `verifyZeroInteractions`.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.9/tools/deps.bzl#546\n[2] https://github.com/mockito/mockito/blob/v5.6.0/src/main/java/org/mockito/Mockito.java",
+      "revId": "889cf00667522b995dbd47f3e80e2fc30afe40ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
