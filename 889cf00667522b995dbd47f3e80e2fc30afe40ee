@@ -34,6 +34,24 @@
       "parentUuid": "976e6c06_ad88b8cd",
       "revId": "889cf00667522b995dbd47f3e80e2fc30afe40ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e158157f_387bba63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-24T10:35:53Z",
+      "side": 1,
+      "message": "As soon as the change 394723 is merged you can rebase and you should be fine.",
+      "parentUuid": "a8224560_e34a4bfb",
+      "revId": "889cf00667522b995dbd47f3e80e2fc30afe40ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
