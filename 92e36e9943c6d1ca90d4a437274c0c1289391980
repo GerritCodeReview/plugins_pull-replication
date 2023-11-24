@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b3a85a6_104a7c16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-24T01:10:07Z",
+      "side": 1,
+      "message": "\u003e \u003e he cache could have a negative hit\n\u003e \n\u003e @luca.milanesio@gmail.com please, could you explain me why is that? for learning purposes.\n\nGerrit v3.9 introduced the caching of a project not found. Even if the repository is then created on the filesystem, Gerrit would not be able to see it until one of the two is done:\n- call to onProjectCreate() \n- call to evict()",
+      "parentUuid": "a671550b_5e3652f3",
+      "revId": "92e36e9943c6d1ca90d4a437274c0c1289391980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a08654f5_9ed33d44",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-23T14:01:56Z",
       "side": 1,
       "message": "I think this out of the scope of this change.",
+      "revId": "92e36e9943c6d1ca90d4a437274c0c1289391980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e9b8f0_ae9ae781",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-24T01:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a08654f5_9ed33d44",
       "revId": "92e36e9943c6d1ca90d4a437274c0c1289391980",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
