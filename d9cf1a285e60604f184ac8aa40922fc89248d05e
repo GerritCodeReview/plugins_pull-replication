@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e790686c_61fd4cf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-27T16:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4277d6c8_5ce31512",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 13
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "43cb6383_205e39e4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -54,6 +78,30 @@
       "writtenOn": "2023-11-20T08:53:34Z",
       "side": 1,
       "message": "```suggestion\n    fire(event, state, true);\n```",
+      "range": {
+        "startLine": 222,
+        "startChar": 23,
+        "endLine": 222,
+        "endChar": 28
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aec0b358_962b296b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-27T16:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1397773_4f241a59",
       "range": {
         "startLine": 222,
         "startChar": 23,
@@ -159,6 +207,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f473f794_18cb3540",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-27T16:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7195f514_e2112111",
+      "range": {
+        "startLine": 226,
+        "startChar": 67,
+        "endLine": 226,
+        "endChar": 85
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "865da419_68876bc6",
@@ -182,6 +254,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ff3e8d5_24a7ea12",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-27T16:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "865da419_68876bc6",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 25
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6fe24a9d_2c366b1f",
@@ -195,6 +291,24 @@
       "writtenOn": "2023-11-20T08:53:34Z",
       "side": 1,
       "message": "add the `runApplyObject` parameter here",
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "201358b2_2e1beec1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-27T16:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fe24a9d_2c366b1f",
       "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -234,6 +348,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e63922_900e1bc6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-27T16:15:34Z",
+      "side": 1,
+      "message": "that\u0027s not correct, we need to do it in the `getCallFunction` or before calling it because there we are reading the data from the local repo. If we know that we don\u0027t want to send apply-object what\u0027s the point of reading data from the repo",
+      "parentUuid": "d1f203c4_d6f4ef4b",
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0428f42b_1856dbd6",
@@ -247,6 +379,24 @@
       "writtenOn": "2023-11-20T08:53:34Z",
       "side": 1,
       "message": "```suggestion\n      if (!runApplyObject || !callSuccessful) {\n```",
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97016660_3752f5e1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-27T16:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0428f42b_1856dbd6",
       "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
