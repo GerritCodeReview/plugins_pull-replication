@@ -113,6 +113,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04035a96_17b66a25",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-27T13:35:38Z",
+      "side": 1,
+      "message": "this is more or less what I implemented in patchset 1, plus I\u0027m suggesting that for the parent change as well. But looks like to get +2 we need to follow magic true or false",
+      "parentUuid": "dc1fe9c1_ec7c8a4e",
+      "range": {
+        "startLine": 226,
+        "startChar": 67,
+        "endLine": 226,
+        "endChar": 85
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "865da419_68876bc6",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 4
