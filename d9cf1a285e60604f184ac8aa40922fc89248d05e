@@ -137,6 +137,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7195f514_e2112111",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-27T15:25:51Z",
+      "side": 1,
+      "message": "\u003e this is more or less what I implemented in patchset 1\n\nI don\u0027t see any split between `fire` and `fireViaFetch` in PS1: we just need to make sure that the fire for replayed events doesn\u0027t go through apply-object, which is straightforward. Do you want me to propose an alternative patch?\n\nI believe what @dariusz.luksza@gmail.com means is to avoid using _magic_ booleans but rather capture the different behaviour in the method name.\n\n\u003e plus I\u0027m suggesting that for the parent change as well. But looks like to get +2 we need to follow magic true or false\n\nCan you elaborate on the magic? If you\u0027d like to make constants more readable you can just use also enums or self-documenting constants.\n\nExample:\n```java\nprivate static final FIRE_WITH_APPLY_OBJECT \u003d true;\nprivate static final FIRE_WITH_FETCH \u003d false;\n```\n\nThe above would suffice and isn\u0027t magic IMHO.",
+      "parentUuid": "04035a96_17b66a25",
+      "range": {
+        "startLine": 226,
+        "startChar": 67,
+        "endLine": 226,
+        "endChar": 85
+      },
+      "revId": "d9cf1a285e60604f184ac8aa40922fc89248d05e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "865da419_68876bc6",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 4
