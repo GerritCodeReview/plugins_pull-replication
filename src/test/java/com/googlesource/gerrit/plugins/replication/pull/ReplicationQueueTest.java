@@ -26,7 +26,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.common.base.Suppliers;
@@ -527,7 +527,7 @@ public class ReplicationQueueTest {
     Event event = generateBatchRefUpdateEvent("refs/multi-site/version");
     objectUnderTest.onEvent(event);
 
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountAttribute);
+    verifyNoInteractions(wq, rd, dis, sl, fetchClientFactory, accountAttribute);
   }
 
   @Test
@@ -541,7 +541,7 @@ public class ReplicationQueueTest {
     Event event = generateBatchRefUpdateEvent("refs/starred-changes/41/2941/1000000");
     objectUnderTest.onEvent(event);
 
-    verifyZeroInteractions(wq, rd, dis, sl, fetchClientFactory, accountAttribute);
+    verifyNoInteractions(wq, rd, dis, sl, fetchClientFactory, accountAttribute);
   }
 
   @Test
