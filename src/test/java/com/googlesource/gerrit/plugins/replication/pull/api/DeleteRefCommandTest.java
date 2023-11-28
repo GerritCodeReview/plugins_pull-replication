@@ -41,7 +41,6 @@ import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
@@ -78,7 +77,6 @@ public class DeleteRefCommandTest {
   @Mock private RefUpdate refUpdate;
   @Mock private Repository repository;
   @Mock private Ref currentRef;
-  @Mock private RefDatabase refDb;
   @Captor ArgumentCaptor<Event> eventCaptor;
 
   private DeleteRefCommand objectUnderTest;
@@ -92,8 +90,7 @@ public class DeleteRefCommandTest {
     when(source.getURI(TEST_PROJECT_NAME)).thenReturn(TEST_REMOTE_URI);
     when(gitManager.openRepository(any())).thenReturn(repository);
     when(repository.updateRef(any())).thenReturn(refUpdate);
-    when(repository.getRefDatabase()).thenReturn(refDb);
-    when(refDb.exactRef(anyString())).thenReturn(currentRef);
+    when(repository.exactRef(anyString())).thenReturn(currentRef);
     when(refUpdate.delete()).thenReturn(Result.FORCED);
 
     objectUnderTest =
@@ -131,8 +128,7 @@ public class DeleteRefCommandTest {
   @Test
   public void shouldHandleNonExistingRef() throws Exception {
     when(source.isMirror()).thenReturn(true);
-    when(refDb.exactRef(anyString())).thenReturn(null);
-
+    when(repository.exactRef(anyString())).thenReturn(null);
     objectUnderTest.deleteRef(TEST_PROJECT_NAME, NON_EXISTING_REF_NAME, TEST_SOURCE_LABEL);
 
     verify(eventDispatcher, never()).postEvent(any());
