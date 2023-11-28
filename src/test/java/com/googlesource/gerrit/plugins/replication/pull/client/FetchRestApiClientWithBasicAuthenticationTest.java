@@ -39,7 +39,7 @@ public class FetchRestApiClientWithBasicAuthenticationTest extends FetchRestApiC
   @Before
   public void setup() throws Exception {
     when(bearerTokenProvider.get()).thenReturn(Optional.empty());
-    when(credentialProvider.supports(any()))
+    when(credentialProvider.supports(any(CredentialItem[].class)))
         .thenAnswer(
             new Answer<Boolean>() {
 
@@ -54,7 +54,7 @@ public class FetchRestApiClientWithBasicAuthenticationTest extends FetchRestApiC
               }
             });
 
-    when(credentialProvider.get(any(), any(CredentialItem.class))).thenReturn(true);
+    when(credentialProvider.get(any(), any(CredentialItem[].class))).thenReturn(true);
     when(credentials.create(anyString())).thenReturn(credentialProvider);
     when(replicationConfig.getConfig()).thenReturn(config);
     when(config.getStringList("replication", null, "syncRefs")).thenReturn(new String[0]);
