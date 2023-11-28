@@ -95,7 +95,7 @@ public class StreamEventListener implements EventListener {
   public void onEvent(Event event) {
     try {
       fetchRefsForEvent(event);
-    } catch (AuthException | PermissionBackendException e) {
+    } catch (AuthException | PermissionBackendException | IOException e) {
       logger.atSevere().withCause(e).log(
           "This is the event handler of Gerrit's event-bus. It isn't"
               + "supposed to throw any exception, otherwise the other handlers "
@@ -103,7 +103,8 @@ public class StreamEventListener implements EventListener {
     }
   }
 
-  public void fetchRefsForEvent(Event event) throws AuthException, PermissionBackendException {
+  public void fetchRefsForEvent(Event event)
+      throws AuthException, PermissionBackendException, IOException {
     if (instanceId.equals(event.instanceId) || !shouldReplicateProject(event)) {
       return;
     }
@@ -153,7 +154,7 @@ public class StreamEventListener implements EventListener {
             projectCreatedEvent.instanceId,
             projectCreatedEvent.getProjectNameKey(),
             metrics);
-      } catch (AuthException | PermissionBackendException e) {
+      } catch (AuthException | PermissionBackendException | IOException e) {
         logger.atSevere().withCause(e).log(
             "Cannot initialise project:%s", projectCreatedEvent.projectName);
         throw e;

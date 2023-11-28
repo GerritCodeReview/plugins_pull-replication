@@ -94,7 +94,7 @@ public class ApplyObject {
         return new RefUpdateState(refSpec.getSource(), result);
       }
     } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(IdString.fromDecoded(name.get()));
+      throw new ResourceNotFoundException(IdString.fromDecoded(name.get()), e);
     }
   }
 }

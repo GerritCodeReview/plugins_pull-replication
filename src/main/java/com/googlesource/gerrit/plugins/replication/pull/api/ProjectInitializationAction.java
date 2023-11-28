@@ -140,7 +140,7 @@ public class ProjectInitializationAction extends HttpServlet {
   }
 
   public boolean initProject(String gitRepositoryName)
-      throws AuthException, PermissionBackendException {
+      throws AuthException, PermissionBackendException, IOException {
     if (initProject(gitRepositoryName, true)) {
       repLog.info("Init project API from {}", gitRepositoryName);
       return true;
@@ -166,9 +166,6 @@ public class ProjectInitializationAction extends HttpServlet {
         input.getRevisionsData(),
         input.getLabel(),
         input.getEventCreatedOn());
-    // XXX: The cache eviction is needed temporarily until Issue 308448333 won't be fixed.
-    // Once the fix will be in place, `onCreateProject` will take care of evicting the cache.
-    projectCache.evict(Project.nameKey(projectName));
     projectCache.onCreateProject(Project.nameKey(projectName));
     repLog.info(
         "Init project API from {} for {}:{} - {}",
@@ -180,7 +177,7 @@ public class ProjectInitializationAction extends HttpServlet {
   }
 
   private boolean initProject(String gitRepositoryName, boolean needsProjectReindexing)
-      throws AuthException, PermissionBackendException {
+      throws AuthException, PermissionBackendException, IOException {
     // When triggered internally(for example by consuming stream events) user is not provided
     // and internal user is returned. Project creation should be always allowed for internal user.
     if (!userProvider.get().isInternalUser()) {
@@ -195,7 +192,7 @@ public class ProjectInitializationAction extends HttpServlet {
     Project.NameKey projectNameKey = Project.NameKey.parse(gitRepositoryName);
     if (localFS.createProject(projectNameKey, RefNames.HEAD)) {
       if (needsProjectReindexing) {
-        projectCache.evictAndReindex(projectNameKey);
+        projectCache.onCreateProject(projectNameKey);
       }
       return true;
     }
