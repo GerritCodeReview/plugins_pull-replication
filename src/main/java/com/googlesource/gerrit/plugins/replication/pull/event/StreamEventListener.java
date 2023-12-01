@@ -24,13 +24,16 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.ProjectEvent;
+import com.google.gerrit.server.events.ProjectHeadUpdatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -47,6 +50,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.api.UpdateHeadCommand;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
 import java.util.Optional;
@@ -59,6 +63,7 @@ public class StreamEventListener implements EventListener {
   private final DeleteRefCommand deleteCommand;
   private final ExcludedRefsFilter refsFilter;
   private final Factory fetchJobFactory;
+  private final UpdateHeadCommand updateHeadCommand;
   private final ProjectInitializationAction projectInitializationAction;
   private final Provider<PullReplicationApiRequestMetrics> metricsProvider;
   private final SourcesCollection sources;
@@ -70,6 +75,7 @@ public class StreamEventListener implements EventListener {
   public StreamEventListener(
       @Nullable @GerritInstanceId String instanceId,
       DeleteRefCommand deleteCommand,
+      UpdateHeadCommand updateHeadCommand,
       ProjectInitializationAction projectInitializationAction,
       WorkQueue workQueue,
       FetchJob.Factory fetchJobFactory,
@@ -79,6 +85,7 @@ public class StreamEventListener implements EventListener {
       @Named(APPLY_OBJECTS_CACHE) Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache) {
     this.instanceId = instanceId;
     this.deleteCommand = deleteCommand;
+    this.updateHeadCommand = updateHeadCommand;
     this.projectInitializationAction = projectInitializationAction;
     this.workQueue = workQueue;
     this.fetchJobFactory = fetchJobFactory;
@@ -158,6 +165,14 @@ public class StreamEventListener implements EventListener {
         logger.atSevere().withCause(e).log(
             "Cannot initialise project:%s", projectCreatedEvent.projectName);
         throw e;
+      }
+    } else if (event instanceof ProjectHeadUpdatedEvent) {
+      ProjectHeadUpdatedEvent headUpdatedEvent = (ProjectHeadUpdatedEvent) event;
+      try {
+        updateHeadCommand.doUpdate(headUpdatedEvent.getProjectNameKey(), headUpdatedEvent.newHead);
+      } catch (UnprocessableEntityException | ResourceNotFoundException e) {
+        logger.atSevere().withCause(e).log(
+            "Failed to update HEAD on project: %s", headUpdatedEvent.projectName);
       }
     }
   }
