@@ -29,6 +29,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
+import com.google.gerrit.server.events.ProjectHeadUpdatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
@@ -40,6 +41,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
+import com.googlesource.gerrit.plugins.replication.pull.api.UpdateHeadCommand;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.ObjectId;
@@ -66,6 +68,7 @@ public class StreamEventListenerTest {
   @Mock private ScheduledExecutorService executor;
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
+  @Mock private UpdateHeadCommand updateHeadCommand;
   @Mock private DeleteRefCommand deleteRefCommand;
   @Captor ArgumentCaptor<Input> inputCaptor;
   @Mock private PullReplicationApiRequestMetrics metrics;
@@ -92,6 +95,7 @@ public class StreamEventListenerTest {
         new StreamEventListener(
             INSTANCE_ID,
             deleteRefCommand,
+            updateHeadCommand,
             projectInitializationAction,
             workQueue,
             fetchJobFactory,
@@ -310,5 +314,18 @@ public class StreamEventListenerTest {
     objectUnderTest.onEvent(event);
 
     verify(executor).submit(any(FetchJob.class));
+  }
+
+  @Test
+  public void shouldUpdateProjectHeadOnProjectHeadUpdatedEvent() throws Exception {
+    ProjectHeadUpdatedEvent event = new ProjectHeadUpdatedEvent();
+    event.projectName = TEST_PROJECT;
+    event.oldHead = "refs/heads/master";
+    event.newHead = "ref/heads/main";
+    event.instanceId = REMOTE_INSTANCE_ID;
+
+    objectUnderTest.onEvent(event);
+
+    verify(updateHeadCommand).doUpdate(event.getProjectNameKey(), event.newHead);
   }
 }
