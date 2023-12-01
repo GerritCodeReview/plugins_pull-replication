@@ -23,6 +23,8 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -58,7 +60,11 @@ public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleLi
     try {
       eventListener.fetchRefsForEvent(event);
       if (shutdownState.isShuttingDown()) stop();
-    } catch (AuthException | PermissionBackendException | IOException e) {
+    } catch (AuthException
+        | PermissionBackendException
+        | IOException
+        | UnprocessableEntityException
+        | ResourceNotFoundException e) {
       throw new EventRejectedException(event, e);
     }
   }
