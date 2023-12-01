@@ -64,16 +64,16 @@ final class ListCommand extends SshCommand {
     }
   }
 
-  private void addQueueDetails(StringBuilder out, Collection<FetchOne> values) {
-    for (FetchOne f : values) {
+  private void addQueueDetails(StringBuilder out, Collection<ReplicationRunnable> values) {
+    for (ReplicationRunnable f : values) {
       out.append("  ").append(f.toString()).append("\n");
     }
   }
 
-  private void addQueueDetails(JsonObject obj, String key, Collection<FetchOne> values) {
+  private void addQueueDetails(JsonObject obj, String key, Collection<ReplicationRunnable> values) {
     if (values.size() > 0) {
       JsonArray list = new JsonArray();
-      for (FetchOne f : values) {
+      for (ReplicationRunnable f : values) {
         list.add(new JsonPrimitive(f.toString()));
       }
       obj.add(key, list);

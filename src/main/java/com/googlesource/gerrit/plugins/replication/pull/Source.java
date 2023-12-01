@@ -110,8 +110,8 @@ public class Source {
   private final ReplicationStateListener stateLog;
   private final UpdateHeadTask.Factory updateHeadFactory;
   private final Object stateLock = new Object();
-  private final Map<URIish, FetchOne> pending = new HashMap<>();
-  private final Map<URIish, FetchOne> inFlight = new HashMap<>();
+  private final Map<URIish, ReplicationRunnable> pending = new HashMap<>();
+  private final Map<URIish, ReplicationRunnable> inFlight = new HashMap<>();
   private final FetchOne.Factory opFactory;
   private final GitRepositoryManager gitManager;
   private final PermissionBackend permissionBackend;
@@ -134,10 +134,11 @@ public class Source {
   }
 
   public static class QueueInfo {
-    public final Map<URIish, FetchOne> pending;
-    public final Map<URIish, FetchOne> inFlight;
+    public final Map<URIish, ReplicationRunnable> pending;
+    public final Map<URIish, ReplicationRunnable> inFlight;
 
-    public QueueInfo(Map<URIish, FetchOne> pending, Map<URIish, FetchOne> inFlight) {
+    public QueueInfo(
+        Map<URIish, ReplicationRunnable> pending, Map<URIish, ReplicationRunnable> inFlight) {
       this.pending = ImmutableMap.copyOf(pending);
       this.inFlight = ImmutableMap.copyOf(inFlight);
     }
@@ -292,9 +293,13 @@ public class Source {
     String neverExecutedTasks =
         fetchTasks.stream().map(r -> r.toString()).collect(Collectors.joining(","));
     String pendingTasks =
-        pending.values().stream().map(FetchOne::toString).collect(Collectors.joining(","));
+        pending.values().stream()
+            .map(ReplicationRunnable::toString)
+            .collect(Collectors.joining(","));
     String inFlightTasks =
-        inFlight.values().stream().map(FetchOne::toString).collect(Collectors.joining(","));
+        inFlight.values().stream()
+            .map(ReplicationRunnable::toString)
+            .collect(Collectors.joining(","));
 
     repLog.error("Never executed tasks: {}", neverExecutedTasks);
     repLog.error("Pending tasks: {}", pendingTasks);
@@ -481,7 +486,7 @@ public class Source {
     }
 
     if (!config.replicatePermissions()) {
-      FetchOne e;
+      ReplicationRunnable e;
       synchronized (stateLock) {
         e = pending.get(uri);
       }
@@ -509,7 +514,7 @@ public class Source {
     }
 
     synchronized (stateLock) {
-      FetchOne e = pending.get(uri);
+      ReplicationRunnable e = pending.get(uri);
       Future<?> f = CompletableFuture.completedFuture(null);
       if (e == null || e.isRetrying()) {
         e = opFactory.create(project, uri, apiRequestMetrics);
@@ -535,7 +540,7 @@ public class Source {
     }
   }
 
-  public Optional<FetchOne> fetchSync(
+  public Optional<ReplicationRunnable> fetchSync(
       Project.NameKey project,
       String ref,
       URIish uri,
@@ -544,7 +549,7 @@ public class Source {
     if (shouldReplicate(project, ref)
         && (config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))) {
 
-      FetchOne e = opFactory.create(project, uri, apiRequestMetrics);
+      ReplicationRunnable e = opFactory.create(project, uri, apiRequestMetrics);
       e.addRef(ref);
       e.addState(ref, state);
       e.runSync();
@@ -564,7 +569,7 @@ public class Source {
     queueMetrics.incrementTaskScheduled(this);
   }
 
-  void fetchWasCanceled(FetchOne fetchOp) {
+  void fetchWasCanceled(ReplicationRunnable fetchOp) {
     synchronized (stateLock) {
       URIish uri = fetchOp.getURI();
       pending.remove(uri);
@@ -572,7 +577,7 @@ public class Source {
     }
   }
 
-  private void addRef(FetchOne e, String ref) {
+  private void addRef(ReplicationRunnable e, String ref) {
     e.addRef(ref);
     postReplicationScheduledEvent(e, ref);
   }
@@ -598,10 +603,10 @@ public class Source {
    *
    * @param fetchOp The FetchOp instance to be scheduled.
    */
-  void reschedule(FetchOne fetchOp, RetryReason reason) {
+  void reschedule(ReplicationRunnable fetchOp, RetryReason reason) {
     synchronized (stateLock) {
       URIish uri = fetchOp.getURI();
-      FetchOne pendingFetchOp = pending.get(uri);
+      ReplicationRunnable pendingFetchOp = pending.get(uri);
 
       if (pendingFetchOp != null) {
         // There is one FetchOp instance already pending to same URI.
@@ -697,7 +702,7 @@ public class Source {
     }
   }
 
-  boolean requestRunway(FetchOne op) {
+  boolean requestRunway(ReplicationRunnable op) {
     synchronized (stateLock) {
       if (op.wasCanceled()) {
         return false;
@@ -711,11 +716,11 @@ public class Source {
     return true;
   }
 
-  Optional<FetchOne> getInFlight(URIish uri) {
+  Optional<ReplicationRunnable> getInFlight(URIish uri) {
     return Optional.ofNullable(inFlight.get(uri));
   }
 
-  void notifyFinished(FetchOne op) {
+  void notifyFinished(ReplicationRunnable op) {
     synchronized (stateLock) {
       inFlight.remove(op.getURI());
     }
@@ -938,11 +943,11 @@ public class Source {
     return uri.toString().contains(urlMatch);
   }
 
-  private void postReplicationScheduledEvent(FetchOne fetchOp) {
+  private void postReplicationScheduledEvent(ReplicationRunnable fetchOp) {
     postReplicationScheduledEvent(fetchOp, null);
   }
 
-  private void postReplicationScheduledEvent(FetchOne fetchOp, String inputRef) {
+  private void postReplicationScheduledEvent(ReplicationRunnable fetchOp, String inputRef) {
     Set<String> refs = inputRef == null ? fetchOp.getRefs() : ImmutableSet.of(inputRef);
     Project.NameKey project = fetchOp.getProjectNameKey();
     for (String ref : refs) {
@@ -956,7 +961,7 @@ public class Source {
     }
   }
 
-  private void postReplicationFailedEvent(FetchOne fetchOp, RefUpdate.Result result) {
+  private void postReplicationFailedEvent(ReplicationRunnable fetchOp, RefUpdate.Result result) {
     Project.NameKey project = fetchOp.getProjectNameKey();
     try {
       Context.setLocalEvent(true);

@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
-import com.google.gerrit.server.git.ProjectRunnable;
 import com.google.gerrit.server.git.WorkQueue.CanceledWhileRunning;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.logging.TraceContext;
@@ -67,7 +66,7 @@ import org.eclipse.jgit.transport.URIish;
  * <p>Instance members are protected by the lock within FetchQueue. Callers must take that lock to
  * ensure they are working with a current view of the object.
  */
-public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completable {
+public class FetchOne implements ReplicationRunnable, CanceledWhileRunning, Completable {
   private final ReplicationStateListener stateLog;
   public static final String ALL_REFS = "..all..";
   static final String ID_KEY = "fetchOneId";
@@ -186,29 +185,29 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return print;
   }
 
-  boolean isRetrying() {
+  public boolean isRetrying() {
     return retrying;
   }
 
-  boolean setToRetry() {
+  public boolean setToRetry() {
     retrying = true;
     retryCount++;
     return maxRetries == 0 || retryCount <= maxRetries;
   }
 
-  void canceledByReplication() {
+  public void canceledByReplication() {
     canceled = true;
   }
 
-  boolean wasCanceled() {
+  public boolean wasCanceled() {
     return canceled;
   }
 
-  URIish getURI() {
+  public URIish getURI() {
     return uri;
   }
 
-  void addRef(String ref) {
+  public void addRef(String ref) {
     if (ALL_REFS.equals(ref)) {
       delta.clear();
       fetchAllRefs = true;
@@ -219,11 +218,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     }
   }
 
-  Set<String> getRefs() {
+  public Set<String> getRefs() {
     return fetchAllRefs ? Sets.newHashSet(ALL_REFS) : delta;
   }
 
-  void addRefs(Set<String> refs) {
+  public void addRefs(Set<String> refs) {
     if (!fetchAllRefs) {
       for (String ref : refs) {
         addRef(ref);
@@ -231,15 +230,15 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     }
   }
 
-  void addState(String ref, ReplicationState state) {
+  public void addState(String ref, ReplicationState state) {
     stateMap.put(ref, state);
   }
 
-  ListMultimap<String, ReplicationState> getStates() {
+  public ListMultimap<String, ReplicationState> getStates() {
     return stateMap;
   }
 
-  ReplicationState[] getStatesAsArray() {
+  public ReplicationState[] getStatesAsArray() {
     Set<ReplicationState> statesSet = new HashSet<>();
     statesSet.addAll(stateMap.values());
     return statesSet.toArray(new ReplicationState[statesSet.size()]);
@@ -250,11 +249,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return states.toArray(new ReplicationState[states.size()]);
   }
 
-  void addStates(ListMultimap<String, ReplicationState> states) {
+  public void addStates(ListMultimap<String, ReplicationState> states) {
     stateMap.putAll(states);
   }
 
-  void removeStates() {
+  public void removeStates() {
     stateMap.clear();
   }
 
@@ -321,7 +320,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
             "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task [{}].",
             taskIdHex,
             uri,
-            pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
+            pool.getInFlight(getURI()).map(ReplicationRunnable::getTaskIdHex).orElse("<unknown>"));
         pool.reschedule(this, Source.RetryReason.COLLISION);
       }
       return;

@@ -22,9 +22,9 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.Command;
-import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationRunnable;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationType;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
@@ -104,11 +104,14 @@ public class FetchCommand implements Command {
           future.get(timeout, TimeUnit.SECONDS);
         }
       } else {
-        Optional<FetchOne> maybeFetch =
+        Optional<ReplicationRunnable> maybeFetch =
             source
                 .get()
                 .fetchSync(name, refName, source.get().getURI(name), state, apiRequestMetrics);
-        if (maybeFetch.map(FetchOne::getFetchRefSpecs).filter(List::isEmpty).isPresent()) {
+        if (maybeFetch
+            .map(ReplicationRunnable::getFetchRefSpecs)
+            .filter(List::isEmpty)
+            .isPresent()) {
           fetchStateLog.warn(
               String.format(
                   "[%s] Nothing to fetch, ref-specs is empty", maybeFetch.get().getTaskIdHex()));
@@ -134,7 +137,7 @@ public class FetchCommand implements Command {
     }
   }
 
-  private TransportException newTransportException(FetchOne fetchOne) {
+  private TransportException newTransportException(ReplicationRunnable fetchOne) {
     List<RefSpec> fetchRefSpecs = fetchOne.getFetchRefSpecs();
     String combinedErrorMessage =
         fetchOne.getFetchFailures().stream()
