@@ -104,6 +104,24 @@
       "parentUuid": "5cff6d45_4b0cd1bc",
       "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "215fc2fa_815d1795",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-02T12:40:45Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e nit: I don\u0027t like to pass `Optinal`s as arguments. \n\u003e \u003e \n\u003e \u003e Is this just a general preference or a guideline you saw somewhere?\n\u003e \u003e I personally prefer Optional\u003c\u003e rather than nulls.\n\u003e \n\u003e Having an `Optional\u003c\u003e` type as a parameter will not prevent anyone from passing `null` as its value. This means that you have two _undefined_ states:\n\u003e * `null` value,\n\u003e * `Optional.absent().\n\nThe parameter isn\u0027t nullable: so passing `null` is not allowed. If anyone does it, then isn\u0027t a supported invocation and should throw an NPE as any other Java methods that are not expecting nullable parameters.\n\n\u003e AFAIR, libraries like JGit assume that all parameters have _non-null_ value **unless** they\u0027re annotated with `@Nullable`, which IMO is a much better approach, than passing `Optional\u003c\u003e`.\n\nI believe is a personal preference. This is not a core plugin or part of Gerrit or JGit, so it remains a preference of the original plugin author, which is me :-)\nI am coming from a Scala background and prefer Optionals to nulls, but that\u0027s just me. As every preference, there isn\u0027t right or wrong in either of them.\n\n\n\u003e Additionally, InteliJ IDEA is marking all `Optional\u003c\u003e` parameters as warnings:\n\u003e \u003e Optional was designed to provide a limited mechanism for library method return types in which a clear way to represent \"no result\" was needed.\n\nInteresting, do you have links and references to the anti-pattern?\n\n\u003e Using a field with the java.util.Optional type is also problematic if the class needs to be Serializable, as java.util.Optional is not serializable.\n\nYes, that\u0027s a good point. Maybe we should just stop using java.util.Optional and revert to the Guava\u0027s equivalent, which is serialisable.\nhttps://guava.dev/releases/19.0/api/docs/com/google/common/base/Optional.html\n\n\u003e \n\u003e Finally, `Optional.absent()` is a lot of letters to type ;) and visually takes more space. Ideally, we\u0027d have another method that skips it and provides a default value.\n\nYou can import statically `Optional.absent` and type just `absent()` only 2 chars more than typing `null`.\n\n\u003e \u003e \u003eCan we assume that the default replication type is async?\n\u003e \u003e \n\u003e \u003e The default is taken from the replication.config, so that\u0027s not an option.\n\u003e \n\u003e We can still inject it, and use that as _default_. It shouldn\u0027t matter where that value is coming from.\n\nNo so simple though, as it could also be define on a per-source basis.\nI prefer simpler solutions, which is the optional argument here.\n\nI am also open to use Enums, which are more readable and are serialisable.\n\n\u003e \u003e \u003e Then we can pass `ReplicationType.ASYNC` instead of `Optional.empty()` and have something like:\n\u003e \u003e \u003e \n\u003e \u003e \u003e ```java\n\u003e \u003e \u003e Boolean callAsync \u003d Optional.of(resplicationType)\n\u003e \u003e \u003e     .map(rto \u003d\u003e rto \u003d\u003d Replicationatype.ASYNC)\n\u003e \u003e \u003e     .orElseGet(() \u003d\u003e !syncRefsFilter.match(refName));\n\u003e \u003e \u003e ```\n\u003e \u003e \u003e \n\u003e \u003e \u003e For better readability, we can also define `DEFAULT_REPLICATION_TYPE \u003d ReplicationType.ASYNC` and use that constant instead of `Optional.empty()`.\n\u003e \u003e \n\u003e \u003e We could instead define a `ReplicationType.AUTO` which means that is read from config, WDYT?\n\u003e \n\u003e Wouldn\u0027t that mean that then `auto` will also be a valid option in the config? AFAIR, when enums are defined as configuration options, all of the defined values can be used in the config. That would create more confusion than it solves. Would rather have a constant.\n\nTrue.",
+      "parentUuid": "bdd1966f_931e6e2b",
+      "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
