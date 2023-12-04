@@ -22,6 +22,23 @@
       },
       "revId": "3720dfea1d687a83e185a5230bef2333f8d16f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8ad1ef8_1f23a9e3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-04T08:55:34Z",
+      "side": 1,
+      "message": "We should check if updateHeadCommand succeeded, see UpdateHeadCommand.java:61",
+      "revId": "3720dfea1d687a83e185a5230bef2333f8d16f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
