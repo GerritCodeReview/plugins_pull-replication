@@ -35,16 +35,7 @@ import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Names;
-import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
-import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
-import com.googlesource.gerrit.plugins.replication.ConfigParser;
-import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.FanoutReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.MainReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ObservableQueue;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
-import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
+import com.googlesource.gerrit.plugins.replication.*;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationGroupModule;
@@ -78,6 +69,8 @@ class PullReplicationModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    bind(TransportFactory.class).to(TransportFactoryImpl.class).in(Scopes.SINGLETON);
+    bind(FetchRefsDatabase.class).to(FetchRefsDatabaseImpl.class).in(Scopes.SINGLETON);
     bind(MetricMaker.class)
         .annotatedWith(Names.named(ReplicationQueueMetrics.REPLICATION_QUEUE_METRICS))
         .toInstance(pluginMetricMaker);
