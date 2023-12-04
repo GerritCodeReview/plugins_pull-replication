@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.base.Suppliers;
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -49,12 +50,14 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
@@ -82,6 +85,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final RemoteConfig config;
   private final PerThreadRequestScope.Scoper threadScoper;
 
+  private final FetchRefsDatabase fetchRefsDatabase;
   private final Project.NameKey projectName;
   private final URIish uri;
   private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
@@ -105,6 +109,16 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
 
+  private final Supplier<List<RefSpec>> fetchRefSpecsSupplier =
+      Suppliers.memoize(
+          () -> {
+            try {
+              return computeFetchRefSpecs();
+            } catch (IOException e) {
+              throw new RuntimeException("Could not compute refs specs to fetch", e);
+            }
+          });
+
   @Inject
   FetchOne(
       GitRepositoryManager grm,
@@ -115,6 +129,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       ReplicationStateListeners sl,
       FetchReplicationMetrics m,
       FetchFactory fetchFactory,
+      FetchRefsDatabase fetchRefsDatabase,
       @Assisted Project.NameKey d,
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -122,6 +137,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     pool = s;
     config = c.getRemoteConfig();
     threadScoper = ts;
+    this.fetchRefsDatabase = fetchRefsDatabase;
     projectName = d;
     uri = u;
     lockRetryCount = 0;
@@ -439,9 +455,28 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     repLog.info("[{}] Cannot replicate from {}. It was canceled while running", taskIdHex, uri, e);
   }
 
+  /**
+   * Return the list of refSpecs to fetch, possibly after having been filtered.
+   *
+   * <p>When {@link FetchOne#delta} is empty and no {@link FetchOne#replicationFetchFilter} was
+   * provided, the configured refsSpecs is returned.
+   *
+   * <p>When {@link FetchOne#delta} is empty and {@link FetchOne#replicationFetchFilter} was
+   * provided, the configured refsSpecs is expanded to the delta of refs that requires fetching:
+   * that is, refs that are not already up-to-date. The result is then passed to the filter.
+   *
+   * <p>When {@link FetchOne#delta} is not empty and {@link FetchOne#replicationFetchFilter} was
+   * provided, the filtered refsSpecs are returned.
+   *
+   * @return The list of refSpecs to fetch
+   */
+  public List<RefSpec> getFetchRefSpecs() {
+    return fetchRefSpecsSupplier.get();
+  }
+
   private List<RefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
+    List<RefSpec> fetchRefSpecs = fetchRefSpecsSupplier.get();
 
     try {
       updateStates(fetch.fetch(fetchRefSpecs));
@@ -467,24 +502,57 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return fetchRefSpecs;
   }
 
-  public List<RefSpec> getFetchRefSpecs() {
+  private List<RefSpec> computeFetchRefSpecs() throws IOException {
     List<RefSpec> configRefSpecs = config.getFetchRefSpecs();
-    if (delta.isEmpty()) {
+
+    if (delta.isEmpty() && replicationFetchFilter().isEmpty()) {
       return configRefSpecs;
     }
 
-    return runRefsFilter(delta).stream()
+    return runRefsFilter(computeDelta(configRefSpecs)).stream()
         .map(ref -> refToFetchRefSpec(ref, configRefSpecs))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
   }
 
-  private Set<String> runRefsFilter(Set<String> refs) {
+  private Set<String> computeDelta(List<RefSpec> configRefSpecs) throws IOException {
+    if (!delta.isEmpty()) {
+      return delta;
+    }
+    Map<String, Ref> localRefsMap = fetchRefsDatabase.getLocalRefsMap(git);
+    Map<String, Ref> remoteRefsMap = fetchRefsDatabase.getRemoteRefsMap(git, uri);
+
+    return remoteRefsMap.keySet().stream()
+        .filter(
+            srcRef -> {
+              // that match our configured refSpecs
+              return refToFetchRefSpec(srcRef, configRefSpecs)
+                  .flatMap(
+                      spec ->
+                          shouldBeFetched(srcRef, localRefsMap, remoteRefsMap)
+                              ? Optional.of(srcRef)
+                              : Optional.empty())
+                  .isPresent();
+            })
+        .collect(Collectors.toSet());
+  }
+
+  private boolean shouldBeFetched(
+      String srcRef, Map<String, Ref> localRefsMap, Map<String, Ref> remoteRefsMap) {
+    // If we don't have it locally
+    return localRefsMap.get(srcRef) == null
+        // OR we have it, but with a different localRefsMap value
+        || !localRefsMap.get(srcRef).getObjectId().equals(remoteRefsMap.get(srcRef).getObjectId());
+  }
+
+  private Optional<ReplicationFetchFilter> replicationFetchFilter() {
     return Optional.ofNullable(replicationFetchFilter)
-        .flatMap(filter -> Optional.ofNullable(filter.get()))
-        .map(f -> f.filter(this.projectName.get(), refs))
-        .orElse(refs);
+        .flatMap(filter -> Optional.ofNullable(filter.get()));
+  }
+
+  private Set<String> runRefsFilter(Set<String> refs) {
+    return replicationFetchFilter().map(f -> f.filter(this.projectName.get(), refs)).orElse(refs);
   }
 
   private Optional<RefSpec> refToFetchRefSpec(String ref, List<RefSpec> configRefSpecs) {
