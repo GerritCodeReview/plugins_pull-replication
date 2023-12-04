@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3c8616b_c5bc437f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-04T10:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a365cf9_56a76636",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "3720dfea1d687a83e185a5230bef2333f8d16f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8ad1ef8_1f23a9e3",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-12-04T08:55:34Z",
       "side": 1,
       "message": "We should check if updateHeadCommand succeeded, see UpdateHeadCommand.java:61",
+      "revId": "3720dfea1d687a83e185a5230bef2333f8d16f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c6230b7_65ef22f3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-04T10:05:14Z",
+      "side": 1,
+      "message": "the `updateHeadCommand.doUpdate()` will throw an `UnprocessableEntityException` or `ResourceNotFoundException` exception when the update fails. We don\u0027t need to do anything here, as the above exceptions will break the method flow and propagate. Only the successful result will return `200 OK` response.\n\nThis behaves the same way as the previous implementation without the need for additional `try-catch-rethrow` logic here.",
+      "parentUuid": "b8ad1ef8_1f23a9e3",
       "revId": "3720dfea1d687a83e185a5230bef2333f8d16f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
