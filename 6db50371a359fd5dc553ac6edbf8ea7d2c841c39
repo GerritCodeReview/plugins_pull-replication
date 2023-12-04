@@ -122,6 +122,24 @@
       "parentUuid": "bdd1966f_931e6e2b",
       "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "590a0d6b_c333643e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-04T09:57:22Z",
+      "side": 1,
+      "message": "\u003e \u003e Additionally, InteliJ IDEA is marking all `Optional\u003c\u003e` parameters as warnings:\n\u003e \u003e \u003e Optional was designed to provide a limited mechanism for library method return types in which a clear way to represent \"no result\" was needed.\n\u003e \n\u003e Interesting, do you have links and references to the anti-pattern?\n\u003e \n\nHere you have a Sonar rule specification:\n\nhttps://rules.sonarsource.com/java/RSPEC-3553/",
+      "parentUuid": "215fc2fa_815d1795",
+      "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
