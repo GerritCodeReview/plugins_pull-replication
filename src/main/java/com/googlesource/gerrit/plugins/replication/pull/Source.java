@@ -57,6 +57,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
+import com.google.inject.Scopes;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.servlet.RequestScoped;
@@ -197,6 +198,7 @@ public class Source {
                 install(new FactoryModuleBuilder().build(DeleteProjectTask.Factory.class));
                 Class<? extends Fetch> clientClass =
                     cfg.useCGitClient() ? CGitFetch.class : JGitFetch.class;
+                bind(FetchRefsDatabase.class).to(FetchRefsDatabaseImpl.class).in(Scopes.SINGLETON);
                 install(
                     new FactoryModuleBuilder()
                         .implement(Fetch.class, BatchFetchClient.class)
