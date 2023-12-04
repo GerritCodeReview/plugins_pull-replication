@@ -35,9 +35,11 @@ import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.InexistentRefTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -45,10 +47,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.PackProtocolException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
+import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,6 +71,8 @@ public class FetchOneTest {
   private final String URI_PATTERN = "http://test.com/" + TEST_PROJECT_NAME + ".git";
   private final TestMetricMaker testMetricMaker = new TestMetricMaker();
 
+  private final RefSpec ALL_REFS_SPEC = new RefSpec("refs/*:refs/*");
+
   @Mock private GitRepositoryManager grm;
   @Mock private Repository repository;
   @Mock private Source source;
@@ -77,6 +84,9 @@ public class FetchOneTest {
   @Mock private PullReplicationApiRequestMetrics pullReplicationApiRequestMetrics;
   @Mock private RemoteConfig remoteConfig;
   @Mock private DynamicItem<ReplicationFetchFilter> replicationFilter;
+  @Mock private FetchRefsDatabase fetchRefsDatabase;
+
+  @Mock private Transport transport;
 
   private URIish urIish;
   private FetchOne objectUnderTest;
@@ -98,7 +108,7 @@ public class FetchOneTest {
     pullReplicationApiRequestMetrics = mock(PullReplicationApiRequestMetrics.class);
     remoteConfig = mock(RemoteConfig.class);
     replicationFilter = mock(DynamicItem.class);
-
+    fetchRefsDatabase = mock(FetchRefsDatabase.class);
     when(sourceConfiguration.getRemoteConfig()).thenReturn(remoteConfig);
     when(idGenerator.next()).thenReturn(1);
     int maxLockRetries = 1;
@@ -114,6 +124,7 @@ public class FetchOneTest {
             replicationStateListeners,
             fetchReplicationMetrics,
             fetchFactory,
+            fetchRefsDatabase,
             PROJECT_NAME,
             urIish,
             Optional.of(pullReplicationApiRequestMetrics));
@@ -324,6 +335,73 @@ public class FetchOneTest {
     verify(states.get(1))
         .notifyRefReplicated(
             TEST_PROJECT_NAME, filteredRef, urIish, ReplicationState.RefFetchResult.FAILED, null);
+  }
+
+  @Test
+  public void fetchWithoutDelta_shouldPassNewRefsToFilter() throws Exception {
+    setupMocks(true);
+    String REMOTE_REF = "refs/heads/remote";
+    Set<String> remoteRefs = Set.of(REMOTE_REF);
+    Map<String, Ref> localRefsMap = Map.of();
+    Map<String, Ref> remoteRefsMap = Map.of(REMOTE_REF, mock(Ref.class));
+    setupRemoteConfigMock(List.of(ALL_REFS_SPEC));
+    setupFetchRefsDatabaseMock(localRefsMap, remoteRefsMap);
+    ReplicationFetchFilter mockFilter = setupReplicationFilterMock(remoteRefs);
+
+    objectUnderTest.run();
+
+    verify(mockFilter).filter(TEST_PROJECT_NAME, remoteRefs);
+  }
+
+  @Test
+  public void fetchWithoutDelta_shouldPassUpdatedRefsToFilter() throws Exception {
+    setupMocks(true);
+    String REF = "refs/heads/someRef";
+    Set<String> remoteRefs = Set.of(REF);
+    Map<String, Ref> localRefsMap =
+        Map.of(REF, mockRef("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+    Map<String, Ref> remoteRefsMap =
+        Map.of(REF, mockRef("badc0feebadc0feebadc0feebadc0feebadc0fee"));
+    setupRemoteConfigMock(List.of(ALL_REFS_SPEC));
+    setupFetchRefsDatabaseMock(localRefsMap, remoteRefsMap);
+    ReplicationFetchFilter mockFilter = setupReplicationFilterMock(remoteRefs);
+
+    objectUnderTest.run();
+
+    verify(mockFilter).filter(TEST_PROJECT_NAME, remoteRefs);
+  }
+
+  @Test
+  public void fetchWithoutDelta_shouldNotPassUpToDateRefsToFilter() throws Exception {
+    setupMocks(true);
+    String REF = "refs/heads/someRef";
+    Set<String> remoteRefs = Set.of(REF);
+    Ref refValue = mockRef("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    Map<String, Ref> localRefsMap = Map.of(REF, refValue);
+    Map<String, Ref> remoteRefsMap = Map.of(REF, refValue);
+    setupRemoteConfigMock(List.of(ALL_REFS_SPEC));
+    setupFetchRefsDatabaseMock(localRefsMap, remoteRefsMap);
+    ReplicationFetchFilter mockFilter = setupReplicationFilterMock(remoteRefs);
+
+    objectUnderTest.run();
+
+    verify(mockFilter).filter(TEST_PROJECT_NAME, Set.of());
+  }
+
+  @Test
+  public void fetchWithoutDelta_shouldNotPassRefsNonMatchingConfigToFilter() throws Exception {
+    setupMocks(true);
+    String REF = "refs/non-dev/someRef";
+    Set<String> remoteRefs = Set.of(REF);
+    RefSpec DEV_REFS_SPEC = new RefSpec("refs/dev/*:refs/dev/*");
+
+    setupRemoteConfigMock(List.of(DEV_REFS_SPEC));
+    setupFetchRefsDatabaseMock(Map.of(), Map.of(REF, mock(Ref.class)));
+    ReplicationFetchFilter mockFilter = setupReplicationFilterMock(remoteRefs);
+
+    objectUnderTest.run();
+
+    verify(mockFilter).filter(TEST_PROJECT_NAME, Set.of());
   }
 
   @Test
@@ -727,10 +805,7 @@ public class FetchOneTest {
         List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()),
         Optional.of(List.of(TEST_REF)));
     objectUnderTest.addRefs(refSpecs);
-    objectUnderTest.setReplicationFetchFilter(replicationFilter);
-    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
-    when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, refSpecs)).thenReturn(Collections.emptySet());
+    setupReplicationFilterMock(Collections.emptySet());
 
     objectUnderTest.run();
 
@@ -787,6 +862,26 @@ public class FetchOneTest {
 
   private void setupGitRepoManagerMock() throws Exception {
     when(grm.openRepository(PROJECT_NAME)).thenReturn(repository);
+  }
+
+  private Ref mockRef(String objectIdStr) {
+    Ref r = mock(Ref.class);
+    when(r.getObjectId()).thenReturn(ObjectId.fromString(objectIdStr));
+    return r;
+  }
+
+  private void setupFetchRefsDatabaseMock(Map<String, Ref> local, Map<String, Ref> remote)
+      throws IOException {
+    when(fetchRefsDatabase.getLocalRefsMap(repository)).thenReturn(local);
+    when(fetchRefsDatabase.getRemoteRefsMap(repository, urIish)).thenReturn(remote);
+  }
+
+  private ReplicationFetchFilter setupReplicationFilterMock(Set<String> inRefs) {
+    objectUnderTest.setReplicationFetchFilter(replicationFilter);
+    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
+    when(replicationFilter.get()).thenReturn(mockFilter);
+    when(mockFilter.filter(TEST_PROJECT_NAME, inRefs)).thenReturn(inRefs);
+    return mockFilter;
   }
 
   private List<ReplicationState> createTestStates(String ref, int numberOfStates) {
