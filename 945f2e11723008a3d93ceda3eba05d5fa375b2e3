@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eed4ae9d_d21a5922",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-04T17:51:29Z",
+      "side": 1,
+      "message": "well, it is not needed for the Gerrit web UI, but IMO it makes sense to have it for the `git log` as it makes it easier when you are looking at the git history to click on the link, instead of _copy, go to browser, open new tab, navigate to gerrit-review, paste.\n\nIMO it doesn\u0027t hurt to have the direct link in the commit message.",
+      "parentUuid": "7b2e562c_5541098c",
+      "revId": "945f2e11723008a3d93ceda3eba05d5fa375b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0fb5faa_ab4cdb17",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2023-12-04T17:21:37Z",
       "side": 1,
       "message": "I dont think you need [1] link here.",
+      "revId": "945f2e11723008a3d93ceda3eba05d5fa375b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba253f2a_1ddc7422",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-04T17:51:29Z",
+      "side": 1,
+      "message": "Seem the other comment: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/396077/comment/7b2e562c_5541098c/",
+      "parentUuid": "d0fb5faa_ab4cdb17",
       "revId": "945f2e11723008a3d93ceda3eba05d5fa375b2e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2023-12-04T17:21:37Z",
       "side": 1,
       "message": "What I understand from the commit message is that the `fetch property` should be defined only when the node is a Gerrit replica instance.\n\nI think the `if statement` should be:\n\n```\nif (isReplica \u0026\u0026 c.getFetchRefSpecs().isEmpty()){\n    throw new ConfigInvalidException(\n            String.format(\"You must specify a valid refSpec for this remote\"));\n}\n```",
+      "revId": "945f2e11723008a3d93ceda3eba05d5fa375b2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "429fc156_dba41ccb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-04T17:51:29Z",
+      "side": 1,
+      "message": "Done, you\u0027re right",
+      "parentUuid": "c01d3d3c_54450d22",
       "revId": "945f2e11723008a3d93ceda3eba05d5fa375b2e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
