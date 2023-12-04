@@ -45,6 +45,8 @@ import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
+import com.googlesource.gerrit.plugins.replication.TransportFactory;
+import com.googlesource.gerrit.plugins.replication.TransportFactoryImpl;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationGroupModule;
@@ -78,6 +80,8 @@ class PullReplicationModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    bind(TransportFactory.class).to(TransportFactoryImpl.class).in(Scopes.SINGLETON);
+    bind(FetchRefsDatabase.class).to(FetchRefsDatabaseImpl.class).in(Scopes.SINGLETON);
     bind(MetricMaker.class)
         .annotatedWith(Names.named(ReplicationQueueMetrics.REPLICATION_QUEUE_METRICS))
         .toInstance(pluginMetricMaker);
