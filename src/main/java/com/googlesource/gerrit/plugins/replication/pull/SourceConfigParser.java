@@ -59,7 +59,7 @@ public class SourceConfigParser implements ConfigParser {
       }
 
       // fetch source has to be specified.
-      if (c.getFetchRefSpecs().isEmpty()) {
+      if (!isReplica && c.getFetchRefSpecs().isEmpty()) {
         throw new ConfigInvalidException(
             String.format("You must specify a valid refSpec for this remote"));
       }
