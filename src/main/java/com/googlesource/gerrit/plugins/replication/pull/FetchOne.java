@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.TransportFactory;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -55,11 +57,10 @@ import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.TransportException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.transport.*;
 
 /**
  * A pull from remote operation started by command-line.
@@ -82,6 +83,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final RemoteConfig config;
   private final PerThreadRequestScope.Scoper threadScoper;
 
+  private final TransportFactory transportFactory;
   private final Project.NameKey projectName;
   private final URIish uri;
   private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
@@ -104,6 +106,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
+  private List<RefSpec> fetchRefSpecs;
 
   @Inject
   FetchOne(
@@ -115,6 +118,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       ReplicationStateListeners sl,
       FetchReplicationMetrics m,
       FetchFactory fetchFactory,
+      TransportFactory transportFactory,
       @Assisted Project.NameKey d,
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -122,6 +126,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     pool = s;
     config = c.getRemoteConfig();
     threadScoper = ts;
+    this.transportFactory = transportFactory;
     projectName = d;
     uri = u;
     lockRetryCount = 0;
@@ -439,9 +444,13 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     repLog.info("[{}] Cannot replicate from {}. It was canceled while running", taskIdHex, uri, e);
   }
 
+  public List<RefSpec> getFetchRefSpecs() {
+    return fetchRefSpecs;
+  }
+
   private List<RefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
+    fetchRefSpecs = computeFetchRefSpecs();
 
     try {
       updateStates(fetch.fetch(fetchRefSpecs));
@@ -467,17 +476,50 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return fetchRefSpecs;
   }
 
-  public List<RefSpec> getFetchRefSpecs() {
+  public List<RefSpec> computeFetchRefSpecs() throws IOException {
     List<RefSpec> configRefSpecs = config.getFetchRefSpecs();
-    if (delta.isEmpty()) {
-      return configRefSpecs;
-    }
 
-    return runRefsFilter(delta).stream()
+    return runRefsFilter(delta.isEmpty() ? computeDelta(configRefSpecs) : delta).stream()
         .map(ref -> refToFetchRefSpec(ref, configRefSpecs))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
+  }
+
+  private Set<String> computeDelta(List<RefSpec> configRefSpecs) throws IOException {
+    try (Transport tn = transportFactory.open(git, uri)) {
+
+      Map<String, Ref> local =
+          git.getRefDatabase().getRefs().stream().collect(toMap(Ref::getName, r -> r));
+      Map<String, Ref> remotes = listRemote(tn);
+
+      // TODO: Should deal with mirror configuration
+      // For each ref existing in our source
+      return remotes.keySet().stream()
+          .filter(
+              srcRef -> {
+                // that match our configured refSpecs
+                return refToFetchRefSpec(srcRef, configRefSpecs)
+                    .flatMap(
+                        spec -> {
+                          boolean shouldBeFetched =
+                              // If we don't have it locally
+                              local.get(srcRef) == null
+                                  // OR we have a different local value
+                                  || local.get(srcRef) != remotes.get(srcRef);
+                          return shouldBeFetched ? Optional.of(srcRef) : Optional.empty();
+                        })
+                    .isPresent();
+              })
+          .collect(Collectors.toSet());
+    }
+  }
+
+  private Map<String, Ref> listRemote(Transport tn)
+      throws NotSupportedException, TransportException {
+    try (FetchConnection fc = tn.openFetch()) {
+      return fc.getRefsMap();
+    }
   }
 
   private Set<String> runRefsFilter(Set<String> refs) {

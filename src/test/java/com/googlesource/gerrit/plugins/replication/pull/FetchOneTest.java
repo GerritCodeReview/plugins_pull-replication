@@ -30,26 +30,20 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.util.IdGenerator;
+import com.googlesource.gerrit.plugins.replication.TransportFactory;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.InexistentRefTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.PackProtocolException;
-import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.URIish;
+import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.transport.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -77,6 +71,9 @@ public class FetchOneTest {
   @Mock private PullReplicationApiRequestMetrics pullReplicationApiRequestMetrics;
   @Mock private RemoteConfig remoteConfig;
   @Mock private DynamicItem<ReplicationFetchFilter> replicationFilter;
+  @Mock private TransportFactory transportFactory;
+
+  @Mock private Transport transport;
 
   private URIish urIish;
   private FetchOne objectUnderTest;
@@ -98,6 +95,17 @@ public class FetchOneTest {
     pullReplicationApiRequestMetrics = mock(PullReplicationApiRequestMetrics.class);
     remoteConfig = mock(RemoteConfig.class);
     replicationFilter = mock(DynamicItem.class);
+    transportFactory = mock(TransportFactory.class);
+    FetchConnection fetchConnection = mock(FetchConnection.class);
+    RefDatabase refDatabase = mock(RefDatabase.class);
+    Ref localRef = mock(Ref.class);
+    Ref remoteRef = mock(Ref.class);
+    when(transportFactory.open(repository, urIish)).thenReturn(transport);
+    when(repository.getRefDatabase()).thenReturn(refDatabase);
+    when(refDatabase.getRefs()).thenReturn(List.of(localRef));
+    when(localRef.getName()).thenReturn("refs/heads/master");
+    when(transport.openFetch()).thenReturn(fetchConnection);
+    when(fetchConnection.getRefsMap()).thenReturn(Map.of("refs/heads/master", remoteRef));
 
     when(sourceConfiguration.getRemoteConfig()).thenReturn(remoteConfig);
     when(idGenerator.next()).thenReturn(1);
@@ -114,6 +122,7 @@ public class FetchOneTest {
             replicationStateListeners,
             fetchReplicationMetrics,
             fetchFactory,
+            transportFactory,
             PROJECT_NAME,
             urIish,
             Optional.of(pullReplicationApiRequestMetrics));
