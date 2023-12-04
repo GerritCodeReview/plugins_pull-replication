@@ -39,6 +39,16 @@ A regular expression pattern starts with `^` and a wildcard pattern ends
 with a `*`. If the pattern starts with `^` and ends with `*`, it is
 treated as a regular expression.
 
+FILTERING
+---------
+If the `fetch-filter` is enabled, this command will compare all remote refs
+that match the configured refSpecs against the local refs and select only
+the ones that are not already up-to-date.
+
+The resulting refs list will then be passed to the provided `fetch-filter`
+implementation (see [extension-point.md](./extension-point.md))
+documentation for more information on this.
+
 ACCESS
 ------
 Caller must be a member of the privileged 'Administrators' group,
