@@ -63,6 +63,19 @@ while the `<source>` represent the replication source endpoint.
 - `failed_max_retries`: (counter) number of tasks that have reached their maximum
   retry count but never succeeded.
 
+### plugins/@PLUGIN@/fetch/refs/<metric>/<source>
+
+Number of refs included in the Git fetch operation.
+
+The `<metric>` field can have one of the values described here below,
+while the `<source>` represent the replication source endpoint.
+
+- `started`: (counter) number of refs for which fetch operation have started.
+
+- `completed`: (counter) number of refs for which fetch operation have completed.
+
+- `failed`: (counter) number of refs for which fetch operation have failed.
+
 ### plugins/@PLUGIN@
 
 - `apply_object_latency`: (timer) execution time statistics for the

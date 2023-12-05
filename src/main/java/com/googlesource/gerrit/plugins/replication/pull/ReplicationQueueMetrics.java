@@ -52,6 +52,10 @@ public class ReplicationQueueMetrics {
   private final Counter1<String> tasksStarted;
   private final Set<RegistrationHandle> metricsHandles;
 
+  private final Counter1<String> refsFetchStarted;
+  private final Counter1<String> refsFetchCompleted;
+  private final Counter1<String> refsFetchFailed;
+
   public class RunnableWithMetrics implements Runnable {
     private final Source source;
     private final Runnable runnable;
@@ -64,13 +68,17 @@ public class ReplicationQueueMetrics {
     @Override
     public void run() {
       incrementTaskStarted(source);
+      incrementFetchRefsStarted(source, runnable);
+
       runnable.run();
       if (runnable instanceof Completable) {
         Completable completedRunnable = (Completable) runnable;
         if (completedRunnable.hasSucceeded()) {
           incrementTaskCompleted(source);
+          incrementFetchRefsCompleted(source, runnable);
         } else {
           incrementTaskFailed(source);
+          incrementFetchRefsFailed(source, runnable);
         }
       }
     }
@@ -166,6 +174,31 @@ public class ReplicationQueueMetrics {
             metricMaker.newCounter(
                 "tasks/failed_max_retries",
                 new Description("Replication tasks cancelled for maximum number of retries")
+                    .setCumulative()
+                    .setUnit(TASKS),
+                sourceField));
+
+    refsFetchStarted =
+        registerMetric(
+            metricMaker.newCounter(
+                "fetch/refs/started",
+                new Description("Refs for which fetch operation have started")
+                    .setCumulative()
+                    .setUnit(TASKS),
+                sourceField));
+    refsFetchCompleted =
+        registerMetric(
+            metricMaker.newCounter(
+                "fetch/refs/completed",
+                new Description("Refs for which fetch operation have completed")
+                    .setCumulative()
+                    .setUnit(TASKS),
+                sourceField));
+    refsFetchFailed =
+        registerMetric(
+            metricMaker.newCounter(
+                "fetch/refs/failed",
+                new Description("Refs for which fetch operation have failed")
                     .setCumulative()
                     .setUnit(TASKS),
                 sourceField));
@@ -267,6 +300,27 @@ public class ReplicationQueueMetrics {
 
   public void incrementTaskStarted(Source source) {
     tasksStarted.increment(source.getRemoteConfigName());
+  }
+
+  public void incrementFetchRefsStarted(Source source, Runnable runnableTask) {
+    if (runnableTask instanceof FetchOne) {
+      refsFetchStarted.incrementBy(
+          source.getRemoteConfigName(), ((FetchOne) runnableTask).getRefs().size());
+    }
+  }
+
+  public void incrementFetchRefsCompleted(Source source, Runnable runnableTask) {
+    if (runnableTask instanceof FetchOne) {
+      refsFetchCompleted.incrementBy(
+          source.getRemoteConfigName(), ((FetchOne) runnableTask).getRefs().size());
+    }
+  }
+
+  public void incrementFetchRefsFailed(Source source, Runnable runnableTask) {
+    if (runnableTask instanceof FetchOne) {
+      refsFetchFailed.incrementBy(
+          source.getRemoteConfigName(), ((FetchOne) runnableTask).getRefs().size());
+    }
   }
 
   public Runnable runWithMetrics(Source source, Runnable runnableTask) {
