@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "69ea31bc_5ed59a1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-06T11:22:53Z",
+      "side": 1,
+      "message": "Needs to be:\n- Moved to stable-3.7 (3.6 is EOL now)\n- Rebased and conflicts resolved.",
+      "parentUuid": "12f034ad_00da45ea",
+      "revId": "d76a4c26956e3c00869e88d107055fc23125cb24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "855886ad_83c491e6",
         "filename": "src/main/resources/Documentation/config.md",
         "patchSetId": 3
