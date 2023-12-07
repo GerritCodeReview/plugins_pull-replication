@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d01c1c2_ca1ef85f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-07T16:21:37Z",
+      "side": 1,
+      "message": "Nice 👍",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "144932a3_5d7b04bc",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-07T16:21:37Z",
+      "side": 1,
+      "message": "We should also mention the difference between this metric and the task metrics.",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5364eb36_77942898",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-07T16:21:37Z",
+      "side": 1,
+      "message": "We should explain why the metric does not make sense for apply-object, as otherwise users can misunderstand what it tracks.",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e52a93c_29b3cc15",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-07T16:21:37Z",
+      "side": 1,
+      "message": "name",
+      "range": {
+        "startLine": 71,
+        "startChar": 54,
+        "endLine": 71,
+        "endChar": 62
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
