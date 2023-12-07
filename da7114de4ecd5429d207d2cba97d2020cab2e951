@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c96593f_120ee5dd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-07T13:09:38Z",
+      "side": 1,
+      "message": "`allFetchRemotes` is already filtering the remotes for just the ones containing a non empty `fetch refspecs`, so filterling this later at L62 is pointless.",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "da7114de4ecd5429d207d2cba97d2020cab2e951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49289b44_ce1af5ea",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-07T13:09:38Z",
+      "side": 1,
+      "message": "Allowing pull-replication remotes without any _explicit_ `fetch refsSpec` is going to implicitly cause them to be loaded by the push-replication:\n\nThe push replication ignores any `fetch` remote [1] only when a `fetch` exists.\nIf no `fetch` exists it will imply a push with `refs/*:refs/*` refsSpecs [2].\n\nThis might be dangerous and unwanted.\n \n[1] https://gerrit.googlesource.com/plugins/replication/+/refs/heads/stable-3.5/src/main/java/com/googlesource/gerrit/plugins/replication/DestinationConfigParser.java#59\n\n[2] https://gerrit.googlesource.com/plugins/replication/+/refs/heads/stable-3.5/src/main/java/com/googlesource/gerrit/plugins/replication/DestinationConfigParser.java#71",
+      "revId": "da7114de4ecd5429d207d2cba97d2020cab2e951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
