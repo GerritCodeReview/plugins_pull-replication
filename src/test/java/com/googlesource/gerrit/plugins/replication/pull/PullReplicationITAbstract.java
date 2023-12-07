@@ -34,13 +34,13 @@ import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigModule;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,8 +70,9 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
 
   public static class PullReplicationTestModule extends PullReplicationModule {
     @Inject
-    public PullReplicationTestModule(SitePaths site, InMemoryMetricMaker memMetric) {
-      super(site, memMetric);
+    public PullReplicationTestModule(
+        ReplicationConfigModule configModule, InMemoryMetricMaker memMetric) {
+      super(configModule, memMetric);
     }
 
     @Override
