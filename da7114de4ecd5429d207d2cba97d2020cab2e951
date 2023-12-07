@@ -3,6 +3,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9a2328f_b149f640",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-07T15:42:22Z",
+      "side": 1,
+      "message": "We should actually mention that this change is applicable only on a primary-replica context.",
+      "revId": "da7114de4ecd5429d207d2cba97d2020cab2e951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99fb7b90_585eeb0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-07T15:42:22Z",
+      "side": 1,
+      "message": "nit: properties",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "da7114de4ecd5429d207d2cba97d2020cab2e951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beb592d7_08d530c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-07T15:42:22Z",
+      "side": 1,
+      "message": "Please add a test to cover your changes. I have spent a lot of time reading and re-reading the code and the issue to understand what we want to achieve, the code looks simple but it can be tricky to figure out what is allowed and what is not. A test would make this much easier to understand.\n\nI also think that we should either log a warning, or throw an exception, if the primary specifies the `remote.name.fetch` setting in a primary/replica setup. Probably a warning, as we wouldn\u0027t want to impact the users.",
+      "revId": "da7114de4ecd5429d207d2cba97d2020cab2e951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c96593f_120ee5dd",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
         "patchSetId": 2
@@ -26,6 +83,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0e1f91e1_bbea19af",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-07T15:42:22Z",
+      "side": 1,
+      "message": "in fact, the way the code is currently written, I dont think you will even go into L57 if the `fetch refspecs` is left empty/undefined. So I think you should (at least) change the logic in `allFetchRemotes`",
+      "parentUuid": "4c96593f_120ee5dd",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "da7114de4ecd5429d207d2cba97d2020cab2e951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49289b44_ce1af5ea",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
         "patchSetId": 2
@@ -37,6 +118,24 @@
       "writtenOn": "2023-12-07T13:09:38Z",
       "side": 1,
       "message": "Allowing pull-replication remotes without any _explicit_ `fetch refsSpec` is going to implicitly cause them to be loaded by the push-replication:\n\nThe push replication ignores any `fetch` remote [1] only when a `fetch` exists.\nIf no `fetch` exists it will imply a push with `refs/*:refs/*` refsSpecs [2].\n\nThis might be dangerous and unwanted.\n \n[1] https://gerrit.googlesource.com/plugins/replication/+/refs/heads/stable-3.5/src/main/java/com/googlesource/gerrit/plugins/replication/DestinationConfigParser.java#59\n\n[2] https://gerrit.googlesource.com/plugins/replication/+/refs/heads/stable-3.5/src/main/java/com/googlesource/gerrit/plugins/replication/DestinationConfigParser.java#71",
+      "revId": "da7114de4ecd5429d207d2cba97d2020cab2e951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c4d5233_64251edf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-07T15:42:22Z",
+      "side": 1,
+      "message": "The config is so badly designed, that it blows my mind. Look at how a change in pull replication config can actually affect push replication, and thankfully you spotted it, because it is very easy to go unnoticed. Why can\u0027t we simply have a push and a pull replication section in the config file? That would simplify everything.",
+      "parentUuid": "49289b44_ce1af5ea",
       "revId": "da7114de4ecd5429d207d2cba97d2020cab2e951",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
