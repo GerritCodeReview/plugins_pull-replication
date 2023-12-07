@@ -23,14 +23,18 @@ import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
+import com.googlesource.gerrit.plugins.replication.FileConfigResource;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigImpl;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -117,7 +121,9 @@ public abstract class FetchITBase extends LightweightPluginDaemonTest {
       try {
         RemoteConfig remoteConfig = new RemoteConfig(cf(), "test_config");
         SourceConfiguration sourceConfig = new SourceConfiguration(remoteConfig, cf());
-        bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
+        DynamicItem.itemOf(binder(), ReplicationConfigOverrides.class);
+        bind(ConfigResource.class).to(FileConfigResource.class);
+        bind(ReplicationConfig.class).to(ReplicationConfigImpl.class);
         bind(CredentialsFactory.class)
             .to(AutoReloadSecureCredentialsFactoryDecorator.class)
             .in(Scopes.SINGLETON);

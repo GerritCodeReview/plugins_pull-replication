@@ -28,7 +28,7 @@ import com.google.common.net.MediaType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
@@ -67,7 +67,7 @@ public abstract class FetchRestApiClientBase {
   @Mock HttpClient httpClient;
   @Mock SourceHttpClient.Factory httpClientFactory;
   @Mock FileBasedConfig config;
-  @Mock ReplicationFileBasedConfig replicationConfig;
+  @Mock ReplicationConfig replicationConfig;
   @Mock Source source;
   @Mock BearerTokenProvider bearerTokenProvider;
   @Captor ArgumentCaptor<HttpPost> httpPostCaptor;
@@ -116,7 +116,8 @@ public abstract class FetchRestApiClientBase {
           + treeObjectId
           + "\n"
           + "parent 983ff1a3cf74725a53a5dec8d0c06122128f5a8d\n"
-          + "author Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac> 1610578648 +0100\n"
+          + "author Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac> 1610578648"
+          + " +0100\n"
           + "committer Gerrit Code Review <root@maczech-XPS-15> 1610578648 +0100\n"
           + "\n"
           + "Update patch set 1\n"
