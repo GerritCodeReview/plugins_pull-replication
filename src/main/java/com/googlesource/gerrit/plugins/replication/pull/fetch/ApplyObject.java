@@ -20,6 +20,7 @@ import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingLatestPatchSetException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -43,7 +44,7 @@ public class ApplyObject {
   }
 
   public RefUpdateState apply(Project.NameKey name, RefSpec refSpec, RevisionData[] revisionsData)
-      throws MissingParentObjectException, IOException {
+      throws MissingParentObjectException, IOException, MissingLatestPatchSetException {
     try (Repository git = gitManager.openRepository(name)) {
 
       ObjectId refHead = null;
@@ -61,6 +62,13 @@ public class ApplyObject {
                 throw new MissingParentObjectException(name, refSpec.getSource(), parent.getId());
               }
             }
+
+            StringBuffer error = new StringBuffer();
+            if (!ChangeMetaCommitValidator.isValid(
+                git, refSpec.getSource(), commit, error::append)) {
+              throw new MissingLatestPatchSetException(name, refSpec.getSource(), error.toString());
+            }
+
             refHead = newObjectID = oi.insert(commitObject.getType(), commitObject.getContent());
 
             RevisionObjectData treeObject = revisionData.getTreeObject();

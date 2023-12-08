@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.Url;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.util.Optional;
@@ -35,12 +36,14 @@ public class ApplyObjectActionIT extends ActionITBase {
             + TEST_REPLICATION_REMOTE
             + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
 
-    String refName = createRef();
-    Optional<RevisionData> revisionDataOption = createRevisionData(refName);
+    String metaRefName = createRef();
+    String patchSetRefName = metaRefName.replace(RefNames.META_SUFFIX, "/1");
+    Optional<RevisionData> revisionDataOption = createRevisionData(patchSetRefName);
     assertThat(revisionDataOption.isPresent()).isTrue();
 
     RevisionData revisionData = revisionDataOption.get();
-    String sendObjectPayload = createPayload(payloadWithAsyncFieldTemplate, refName, revisionData);
+    String sendObjectPayload =
+        createPayload(payloadWithAsyncFieldTemplate, patchSetRefName, revisionData);
 
     httpClientFactory
         .create(source)
