@@ -107,6 +107,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06aad24b_54be91a8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-08T10:26:59Z",
+      "side": 1,
+      "message": "\u003e `allFetchRemotes` is already filtering the remotes for just the ones containing a non empty `fetch refspecs`, so filterling this later at L62 is pointless.\n\nyou\u0027re right @syntonyze@gmail.com, the `allFetchRemotes` should remove all remotes without `refspec`. I don\u0027t know why this ticket was created as that code was there since the `SourceConfigParser` was created in May 2020.\n\nI\u0027m going to abandon this change and hope we can get more details on the ticket.",
+      "parentUuid": "0e1f91e1_bbea19af",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 52
+      },
+      "revId": "da7114de4ecd5429d207d2cba97d2020cab2e951",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49289b44_ce1af5ea",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
         "patchSetId": 2
