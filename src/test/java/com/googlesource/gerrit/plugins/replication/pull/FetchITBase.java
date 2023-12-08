@@ -29,6 +29,8 @@ import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
+import com.googlesource.gerrit.plugins.replication.FileConfigResource;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
@@ -117,6 +119,7 @@ public abstract class FetchITBase extends LightweightPluginDaemonTest {
       try {
         RemoteConfig remoteConfig = new RemoteConfig(cf(), "test_config");
         SourceConfiguration sourceConfig = new SourceConfiguration(remoteConfig, cf());
+        bind(ConfigResource.class).to(FileConfigResource.class);
         bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
         bind(CredentialsFactory.class)
             .to(AutoReloadSecureCredentialsFactoryDecorator.class)

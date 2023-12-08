@@ -35,6 +35,8 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.Sequence;
 import com.google.inject.Scopes;
+import com.googlesource.gerrit.plugins.replication.FileConfigResource;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
@@ -305,6 +307,7 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
   private static class TestModule extends FactoryModule {
     @Override
     protected void configure() {
+      bind(ConfigResource.class).to(FileConfigResource.class);
       bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
       bind(RevisionReader.class).in(Scopes.SINGLETON);
       bind(ApplyObject.class);
