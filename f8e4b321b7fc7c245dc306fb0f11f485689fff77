@@ -20,6 +20,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c15a45f_7ad6a4d1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-08T11:25:08Z",
+      "side": 1,
+      "message": "nit: This could maybe be written like this to avoid some repetition:\n\n```\nprivate void incrementFetchRefsCounter(\n    Source source, Runnable runnableTask, Counter1\u003cString\u003e counter) {\n  if (runnableTask instanceof FetchOne) {\n    counter.incrementBy(\n        source.getRemoteConfigName(), ((FetchOne) runnableTask).getRefs().size());\n  }\n}\n\npublic void incrementFetchRefsStarted(Source source, Runnable runnableTask) {\n  incrementFetchRefsCounter(source, runnableTask, refsFetchStarted);\n}\n\npublic void incrementFetchRefsCompleted(Source source, Runnable runnableTask) {\n  incrementFetchRefsCounter(source, runnableTask, refsFetchCompleted);\n}\n\npublic void incrementFetchRefsFailed(Source source, Runnable runnableTask) {\n  incrementFetchRefsCounter(source, runnableTask, refsFetchFailed);\n}\n```\n\nI didn\u0027t test it :P",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 3
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5066ff_0cabc8fa",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-08T11:25:08Z",
+      "side": 1,
+      "message": "Should we consider this as a fetch failure? We are bailing out so the fetch is not happening.",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "144932a3_5d7b04bc",
         "filename": "src/main/resources/Documentation/metrics.md",
         "patchSetId": 1
@@ -54,6 +94,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97df1017_a473d8f6",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-08T11:25:08Z",
+      "side": 1,
+      "message": "I\u0027d say `Cumulative number of refs`",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4e52a93c_29b3cc15",
         "filename": "src/main/resources/Documentation/metrics.md",
         "patchSetId": 1
@@ -71,6 +128,23 @@
         "endLine": 71,
         "endChar": 62
       },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b656525_20115aae",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-08T11:25:08Z",
+      "side": 1,
+      "message": "nit: Can we add an example of metrics to see what it looks like? It seems we don\u0027t usually do it in this file, but I think it might be useful",
       "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
