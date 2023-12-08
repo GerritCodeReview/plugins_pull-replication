@@ -19,6 +19,7 @@ import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLo
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.PreconditionFailedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -27,6 +28,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingLatestPatchSetException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
@@ -130,6 +132,15 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           input.getRevisionData(),
           e);
       throw new UnprocessableEntityException(e.getMessage());
+    } catch (MissingLatestPatchSetException e) {
+      repLog.error(
+          "Apply object API *FAILED* from {} for {}:{} - {}",
+          input.getLabel(),
+          resource.getNameKey(),
+          input.getRefName(),
+          input.getRevisionData(),
+          e);
+      throw new PreconditionFailedException(e.getMessage());
     }
   }
 }
