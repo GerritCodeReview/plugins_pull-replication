@@ -61,6 +61,9 @@ public class ApplyObject {
                 throw new MissingParentObjectException(name, refSpec.getSource(), parent.getId());
               }
             }
+
+            ChangeMetaCommitValidator.validate(git, refSpec.getSource(), commit);
+
             refHead = newObjectID = oi.insert(commitObject.getType(), commitObject.getContent());
 
             RevisionObjectData treeObject = revisionData.getTreeObject();
