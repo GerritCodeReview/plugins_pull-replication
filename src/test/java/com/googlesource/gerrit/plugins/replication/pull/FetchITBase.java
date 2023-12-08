@@ -23,12 +23,15 @@ import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
+import com.googlesource.gerrit.plugins.replication.DefaultConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.FileConfigResource;
 import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
@@ -119,6 +122,8 @@ public abstract class FetchITBase extends LightweightPluginDaemonTest {
       try {
         RemoteConfig remoteConfig = new RemoteConfig(cf(), "test_config");
         SourceConfiguration sourceConfig = new SourceConfiguration(remoteConfig, cf());
+        DynamicItem.itemOf(binder(), ReplicationConfigOverrides.class);
+        DynamicItem.bind(binder(), ReplicationConfigOverrides.class).to(DefaultConfigOverrides.class);
         bind(ConfigResource.class).to(FileConfigResource.class);
         bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
         bind(CredentialsFactory.class)
