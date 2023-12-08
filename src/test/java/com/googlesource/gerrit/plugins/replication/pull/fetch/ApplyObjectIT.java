@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
@@ -42,6 +43,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.RevisionReader;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingLatestPatchSetException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import java.util.List;
 import java.util.Optional;
@@ -75,7 +77,9 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     testRepo = cloneProject(createTestProject(testRepoProjectName));
 
     Result pushResult = createChange();
-    String refName = RefNames.changeMetaRef(pushResult.getChange().getId());
+    Change.Id changeId = pushResult.getChange().getId();
+    String refName = RefNames.changeMetaRef(changeId);
+    String patchSetRefName = RefNames.patchSetRef(PatchSet.id(changeId, 1));
 
     RefSpec refSpec = new RefSpec(refName);
     Optional<RevisionData> revisionData;
@@ -83,6 +87,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
 
     try (Repository repo = repoManager.openRepository(testRepoKey)) {
       revisionData = reader.read(testRepoKey, repo.exactRef(refName).getObjectId(), refName, 0);
+      objectUnderTest.apply(project, new RefSpec(patchSetRefName), toArray(revisionData));
       objectUnderTest.apply(project, refSpec, toArray(revisionData));
     }
 
@@ -124,6 +129,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
 
     Result pushResult = createChange();
     Change.Id changeId = pushResult.getChange().getId();
+    String patchSetRefname = RefNames.patchSetRef(PatchSet.id(changeId, 1));
     String refName = RefNames.changeMetaRef(changeId);
     RefSpec refSpec = new RefSpec(refName);
 
@@ -131,6 +137,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     try (Repository repo = repoManager.openRepository(testRepoKey)) {
       Optional<RevisionData> revisionData =
           reader.read(testRepoKey, repo.exactRef(refName).getObjectId(), refName, 0);
+      objectUnderTest.apply(project, new RefSpec(patchSetRefname), toArray(revisionData));
       objectUnderTest.apply(project, refSpec, toArray(revisionData));
     }
 
@@ -177,6 +184,27 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
       RefSpec refSpec = new RefSpec(refName);
       assertThrows(
           MissingParentObjectException.class,
+          () -> objectUnderTest.apply(project, refSpec, toArray(revisionData)));
+    }
+  }
+
+  @Test
+  public void shouldThrowExceptionWhenPatchSetIsMissing() throws Exception {
+    String testRepoProjectName = project + TEST_REPLICATION_SUFFIX;
+    NameKey createTestProject = createTestProject(testRepoProjectName);
+    try (Repository repo = repoManager.openRepository(createTestProject)) {
+      testRepo = cloneProject(createTestProject);
+
+      Result pushResult = createChange();
+      Change.Id changeId = pushResult.getChange().getId();
+      String refName = RefNames.changeMetaRef(changeId);
+
+      Optional<RevisionData> revisionData =
+          reader.read(createTestProject, repo.exactRef(refName).getObjectId(), refName, 0);
+
+      RefSpec refSpec = new RefSpec(refName);
+      assertThrows(
+          MissingLatestPatchSetException.class,
           () -> objectUnderTest.apply(project, refSpec, toArray(revisionData)));
     }
   }

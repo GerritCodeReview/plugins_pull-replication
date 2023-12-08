@@ -35,7 +35,7 @@ public class ApplyObjectActionIT extends ActionITBase {
             + TEST_REPLICATION_REMOTE
             + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
 
-    String refName = createRef();
+    String refName = firstPatchSetForChangeMetaRef(createRef());
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
     assertThat(revisionDataOption.isPresent()).isTrue();
 
@@ -57,7 +57,7 @@ public class ApplyObjectActionIT extends ActionITBase {
             + TEST_REPLICATION_REMOTE
             + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
-    String refName = createRef();
+    String refName = firstPatchSetForChangeMetaRef(createRef());
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
     assertThat(revisionDataOption.isPresent()).isTrue();
 
@@ -225,7 +225,7 @@ public class ApplyObjectActionIT extends ActionITBase {
             + TEST_REPLICATION_REMOTE
             + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
-    String refName = createRef();
+    String refName = firstPatchSetForChangeMetaRef(createRef());
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
     assertThat(revisionDataOption.isPresent()).isTrue();
 
