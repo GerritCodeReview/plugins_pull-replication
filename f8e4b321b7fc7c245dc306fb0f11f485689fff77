@@ -20,6 +20,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a6084aaa_558ebe56",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-10T21:05:16Z",
+      "side": 1,
+      "message": "Isn\u0027t the unit `refs` as opposed to `tasks`?",
+      "range": {
+        "startLine": 187,
+        "startChar": 29,
+        "endLine": 187,
+        "endChar": 34
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e5f2534_e36827dc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-10T21:05:16Z",
+      "side": 1,
+      "message": "When fetching all refs, this will be counted as `1` (there will only be the `..all..` placeholder.\nIs this the intended behaviour? if so, it should be documented WDYT?",
+      "range": {
+        "startLine": 315,
+        "startChar": 65,
+        "endLine": 315,
+        "endChar": 75
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c15a45f_7ad6a4d1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueMetrics.java",
         "patchSetId": 1
@@ -127,6 +173,29 @@
         "startChar": 54,
         "endLine": 71,
         "endChar": 62
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c4c577f_dbe248dd",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-10T21:05:16Z",
+      "side": 1,
+      "message": "represents",
+      "range": {
+        "startLine": 71,
+        "startChar": 21,
+        "endLine": 71,
+        "endChar": 30
       },
       "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
