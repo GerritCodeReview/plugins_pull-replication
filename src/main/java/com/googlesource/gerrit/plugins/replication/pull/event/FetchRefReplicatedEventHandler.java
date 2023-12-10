@@ -52,7 +52,7 @@ public class FetchRefReplicatedEventHandler implements EventListener {
           fetchRefReplicatedEvent.getRefName(), projectNameKey.get());
       Change.Id changeId = Change.Id.fromRef(fetchRefReplicatedEvent.getRefName());
       if (changeId != null) {
-        changeIndexer.index(projectNameKey, changeId);
+        changeIndexer.indexAsync(projectNameKey, changeId);
       } else {
         logger.atWarning().log(
             "Couldn't get changeId from refName. Skipping indexing of change %s for project %s",
