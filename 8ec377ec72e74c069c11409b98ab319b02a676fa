@@ -22,6 +22,30 @@
       },
       "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "054a3d30_258cfebe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-11T11:39:02Z",
+      "side": 1,
+      "message": "\u003e It LGTM, I just want to ensure I understand this correctly. The `/meta` will be replicated at some point by a fetch.\n\nCorrect.\n\n\u003e This means we might end up with the latest patchset being replicated but not with the last `/meta`, which is better than the contrary, which would lead to the list of issues you mentioned\n\nCorrect, even if falling back to async replication involves also batching by definition. If you have two replication tasks for the same repo, they are aggregated. If they end up in different batches, they could still end up with the same issue, but that\u0027s a different discussion.\n\nFor the guarantee to be kept in the same batch, we need to have the batch-ref-update replication event, which is only from v3.9 onwards.\n\n\n\u003e This would work for busy repositories since at some point a fetch will bring in the latest `/meta`, correct?\n\nBusy or not busy, it will eventually be replicated.\n\n\u003e I wonder if it makes sense, maybe as a follow up if this is not enough, to add a retry mechanism to see if the PS at some point has been fetched before giving up.\n\nWe do have it already: every async replication task has already a retry mechanism implemented.\n \n\u003e I guess it really depends on the profile of the traffic, since, depending on how long the fetches normally take, the retry might not be effective.\n\nNope, high or low traffic, the retry mechanism is still there and will be used.",
+      "parentUuid": "5c7f8a3f_322f4203",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
