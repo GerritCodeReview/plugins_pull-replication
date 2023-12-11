@@ -48,6 +48,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de0b83f4_30a5706a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-11T11:53:38Z",
+      "side": 1,
+      "message": "Addressed with I000011f",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35d2283c_343ea161",
@@ -61,6 +78,24 @@
       "writtenOn": "2023-12-11T11:41:22Z",
       "side": 1,
       "message": "2023",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24635c06_d4743450",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-11T11:53:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35d2283c_343ea161",
       "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -82,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d40e1768_603b1fcb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-11T11:53:38Z",
+      "side": 1,
+      "message": "\u003e An empty patchset means the we haven\u0027t processed the patchset ref yet\n\nNo, that means the update of the `/meta` ref does not refer to a patch-set.\n\n\u003e so the meta ref is the first ref we are processing? If that\u0027s the case does it not mean we are running the same inconsistency risk?\n\nWell, if the \u0027/meta` ref doesn\u0027t point to any patch-set, there is nothing to fail on.",
+      "parentUuid": "e5cee575_2fca75d6",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fcd53995_e82df50b",
@@ -99,6 +152,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e61cb744_8a54667f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-11T11:53:38Z",
+      "side": 1,
+      "message": "\u003e the `patchSetCommit` is only necessary for logging\n\nNo, it isn\u0027t just for logging but also for making sure that we can read the BLOB and parse it as a valid commit object.\n\n\u003e so two questions:\n\u003e - If we fail to calculate it (ie the `parseCommit` throws an error) do we still consider the commit to be valid?\n\nNo, throwing the exception would make the apply-object fail with a 500, which is what we want.\n\n\u003e - How expensive is it to calculate the `patchSetCommit`? Do we really need to do it, especially since we are logging at FINE level?\n\nThe cost to perform this is a valid point and yes, it could be expensive. However, the drawback of not doing it is to accept an update of the \u0027/meta` that would lead to an inconsistency. Therefore, it\u0027s a cost worth spending on it.",
+      "parentUuid": "fcd53995_e82df50b",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "effc6bf3_ecffe1e9",
@@ -112,6 +183,24 @@
       "writtenOn": "2023-12-11T11:41:22Z",
       "side": 1,
       "message": "adding the project name in the log might also be useful",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c07e2f72_6bddaf4d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-11T11:53:38Z",
+      "side": 1,
+      "message": "We don\u0027t have the project name here, but I agree that having the repository would help. Added.",
+      "parentUuid": "effc6bf3_ecffe1e9",
       "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
