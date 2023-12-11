@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a53a2bd_4d4cb961",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6084aaa_558ebe56",
+      "range": {
+        "startLine": 187,
+        "startChar": 29,
+        "endLine": 187,
+        "endChar": 34
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e5f2534_e36827dc",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-12-10T21:05:16Z",
       "side": 1,
       "message": "When fetching all refs, this will be counted as `1` (there will only be the `..all..` placeholder.\nIs this the intended behaviour? if so, it should be documented WDYT?",
+      "range": {
+        "startLine": 315,
+        "startChar": 65,
+        "endLine": 315,
+        "endChar": 75
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c27b564d_9787a6ef",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "I think it is fine to count `..all..` as `1`. This metrics are made to track if fetches finished successfully. So if we have task with single `..all..` ref spec when it\u0027s completed it\u0027s still single ref spec so count will match",
+      "parentUuid": "2e5f2534_e36827dc",
       "range": {
         "startLine": 315,
         "startChar": 65,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f944c9c4_0f376161",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c15a45f_7ad6a4d1",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 3
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b5066ff_0cabc8fa",
@@ -100,6 +172,24 @@
       "writtenOn": "2023-12-08T11:25:08Z",
       "side": 1,
       "message": "Should we consider this as a fetch failure? We are bailing out so the fetch is not happening.",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c0decf7_5c6bcd09",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "here we are stopping the retry. We already increased the refs failed metric in L681",
+      "parentUuid": "7b5066ff_0cabc8fa",
       "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -155,6 +245,60 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e84f12d_997e6af6",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "Not sure how and why we should do that, we have different name for each of the metrics plus we have description for both `task` and `fetch` if you think description is not clear enough you can propose change.",
+      "parentUuid": "144932a3_5d7b04bc",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15f4d306_d65e82d5",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97df1017_a473d8f6",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31117555_9a030b7a",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "But it is already mentioned in the metric name and in the description that it is related to the `Git fetch operation` so I\u0027m not sure how this can be mixed with `apply-object`",
+      "parentUuid": "5364eb36_77942898",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e52a93c_29b3cc15",
@@ -201,6 +345,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d739dadd_5a9a4936",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "Good catch, this was a copy and paste from the tasks metrics",
+      "parentUuid": "4c4c577f_dbe248dd",
+      "range": {
+        "startLine": 71,
+        "startChar": 21,
+        "endLine": 71,
+        "endChar": 30
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fc4f113_ea92a2d8",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e52a93c_29b3cc15",
+      "range": {
+        "startLine": 71,
+        "startChar": 54,
+        "endLine": 71,
+        "endChar": 62
+      },
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b656525_20115aae",
@@ -214,6 +406,24 @@
       "writtenOn": "2023-12-08T11:25:08Z",
       "side": 1,
       "message": "nit: Can we add an example of metrics to see what it looks like? It seems we don\u0027t usually do it in this file, but I think it might be useful",
+      "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "359e64cd_cb7eb242",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-11T12:40:41Z",
+      "side": 1,
+      "message": "I\u0027m fine adding that as a follow up to all metrics to keep the file consistent",
+      "parentUuid": "6b656525_20115aae",
       "revId": "f8e4b321b7fc7c245dc306fb0f11f485689fff77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
