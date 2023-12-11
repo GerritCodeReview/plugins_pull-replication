@@ -82,6 +82,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39306b6d_c779ffd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-11T16:42:19Z",
+      "side": 1,
+      "message": "Just a few post merge questions",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35d2283c_343ea161",
@@ -113,6 +130,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "35d2283c_343ea161",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16bf9e1e_99bb6211",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-11T16:42:19Z",
+      "side": 1,
+      "message": "Don\u0027t think this was actually done?",
+      "parentUuid": "24635c06_d4743450",
       "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -189,6 +224,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09940cd9_f08ce4a9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-11T16:42:19Z",
+      "side": 1,
+      "message": "What are the instances in which this could fail? As Chris, slightly concerned of the performance implications of doing this, so wondering why would we have the latest patchset but have an invalid commit? \n\nThe error we\u0027re trying to fix is here \"MissingLatestPatchset\", it looks like we have that, is checking that the commit is valid also necessary?",
+      "parentUuid": "e61cb744_8a54667f",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "effc6bf3_ecffe1e9",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
         "patchSetId": 4
@@ -218,6 +271,29 @@
       "side": 1,
       "message": "We don\u0027t have the project name here, but I agree that having the repository would help. Added.",
       "parentUuid": "effc6bf3_ecffe1e9",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66468e75_3f9e47fb",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectActionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-11T16:42:19Z",
+      "side": 1,
+      "message": "Not sure I understand why this needs changing if nothing else in the test has changed?",
+      "range": {
+        "startLine": 38,
+        "startChar": 21,
+        "endLine": 38,
+        "endChar": 64
+      },
       "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
