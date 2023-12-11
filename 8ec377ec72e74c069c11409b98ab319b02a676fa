@@ -46,6 +46,74 @@
       },
       "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35d2283c_343ea161",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-11T11:41:22Z",
+      "side": 1,
+      "message": "2023",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5cee575_2fca75d6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-11T11:41:22Z",
+      "side": 1,
+      "message": "An empty patchset means the we haven\u0027t processed the patchset ref yet, so the meta ref is the first ref we are processing? If that\u0027s the case does it not mean we are running the same inconsistency risk?",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fcd53995_e82df50b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-11T11:41:22Z",
+      "side": 1,
+      "message": "the `patchSetCommit` is only necessary for logging, so two questions:\n- If we fail to calculate it (ie the `parseCommit` throws an error) do we still consider the commit to be valid?\n- How expensive is it to calculate the `patchSetCommit`? Do we really need to do it, especially since we are logging at FINE level?",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "effc6bf3_ecffe1e9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-11T11:41:22Z",
+      "side": 1,
+      "message": "adding the project name in the log might also be useful",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
