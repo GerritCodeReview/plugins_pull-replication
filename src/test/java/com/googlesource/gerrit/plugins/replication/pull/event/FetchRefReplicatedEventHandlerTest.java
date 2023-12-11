@@ -58,7 +58,7 @@ public class FetchRefReplicatedEventHandlerTest {
               sourceUri,
               ReplicationState.RefFetchResult.SUCCEEDED,
               RefUpdate.Result.FAST_FORWARD));
-      verify(changeIndexerMock, times(1)).index(eq(projectNameKey), eq(changeId));
+      verify(changeIndexerMock, times(1)).indexAsync(eq(projectNameKey), eq(changeId));
     } finally {
       Context.unsetLocalEvent();
     }
