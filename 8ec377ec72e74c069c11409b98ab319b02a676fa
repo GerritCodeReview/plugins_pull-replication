@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7f8a3f_322f4203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-11T08:58:25Z",
+      "side": 1,
+      "message": "It LGTM, I just want to ensure I understand this correctly. The `/meta` will be replicated at some point by a fetch. This means we might end up with the latest patchset being replicated but not with the last `/meta`, which is better than the contrary, which would lead to the list of issues you mentioned\n\nThis would work for busy repositories since at some point a fetch will bring in the latest `/meta`, correct?\n\nI wonder if it makes sense, maybe as a follow up if this is not enough, to add a retry mechanism to see if the PS at some point has been fetched before giving up. I guess it really depends on the profile of the traffic, since, depending on how long the fetches normally take, the retry might not be effective.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 0
+      },
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
