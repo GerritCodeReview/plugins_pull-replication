@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -56,8 +56,8 @@ class ChangeMetaCommitValidator {
 
     RevCommit patchSetCommit = repo.parseCommit(patchSetObjectId.get());
     logger.atFine().log(
-        "Change ref %s has latest patch-set %d and is successfully resolved to %s with commit %s",
-        refName, latestPatchSet.getAsInt(), patchSetObjectId.get().getName(), patchSetCommit);
+        "Change on repository %s ref %s has latest patch-set %d and is successfully resolved to %s with commit %s",
+        repo, refName, latestPatchSet.getAsInt(), patchSetObjectId.get().getName(), patchSetCommit);
 
     return true;
   }
