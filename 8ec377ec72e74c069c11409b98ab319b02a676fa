@@ -152,6 +152,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53e43fc5_394c82a9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-11T17:40:50Z",
+      "side": 1,
+      "message": "Done in the follow-up, the change was merged already.",
+      "parentUuid": "16bf9e1e_99bb6211",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5cee575_2fca75d6",
@@ -236,6 +254,24 @@
       "side": 1,
       "message": "What are the instances in which this could fail? As Chris, slightly concerned of the performance implications of doing this, so wondering why would we have the latest patchset but have an invalid commit? \n\nThe error we\u0027re trying to fix is here \"MissingLatestPatchset\", it looks like we have that, is checking that the commit is valid also necessary?",
       "parentUuid": "e61cb744_8a54667f",
+      "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc3ecf4e_2544149f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/fetch/ChangeMetaCommitValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-11T17:40:50Z",
+      "side": 1,
+      "message": "\u003e What are the instances in which this could fail? As Chris, slightly concerned of the performance implications of doing this, so wondering why would we have the latest patchset but have an invalid commit? \n\nThe issue could be if the commit object is not fully resolved for some reasons, and by replicating the `/meta` we would again risk to trigger a `StorageException` upon reindex.\n\n\u003e The error we\u0027re trying to fix is here \"MissingLatestPatchset\", it looks like we have that, is checking that the commit is valid also necessary?\n\nYes, because otherwise the reindex would still fail with a `StorageException` as mentioned.",
+      "parentUuid": "09940cd9_f08ce4a9",
       "revId": "8ec377ec72e74c069c11409b98ab319b02a676fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
