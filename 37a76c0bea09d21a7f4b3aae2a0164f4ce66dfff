@@ -152,6 +152,74 @@
       "message": "does `fc.getRefsMap()` work like `git ls-remote`?",
       "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b0472c2_2a2e73b6",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T14:40:49Z",
+      "side": 1,
+      "message": "Looking these tests, you are asserting in the `ReplicationFilter.filter` method. I think that the test name should have this pattern:\n\n`shouldFilterNewRefsWhenFetchingWithoutDelta`\n\nmaybe I am missing something.",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a97c04b_23426a20",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T14:40:49Z",
+      "side": 1,
+      "message": "nit: remoteRefsMap",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd784d07_1016cfe9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T14:40:49Z",
+      "side": 1,
+      "message": "nit: REMOTE_REF",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b74be42_32e5ba81",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T14:40:49Z",
+      "side": 1,
+      "message": "nit: REMOTE_REF",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
