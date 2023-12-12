@@ -22,6 +22,30 @@
       },
       "revId": "16869cfb9a27262f2cd8e2fbab9ec5c565a2d572",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cd2d0bb_50916192",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefsDatabaseImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T11:58:33Z",
+      "side": 1,
+      "message": "\u003e Do you guys suggest this should be addressed as part of this change?\n\nApologise but I got confused with the wording. Do you mean solve the problem about the blobs not being returned as a part of this change? I guess that feature is needed as a part of this solution, am I right? Maybe another change in the same topic?",
+      "parentUuid": "07423f37_ef7edf8a",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 58
+      },
+      "revId": "16869cfb9a27262f2cd8e2fbab9ec5c565a2d572",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

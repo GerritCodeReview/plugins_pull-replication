@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af224937_61f8394f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T11:58:33Z",
+      "side": 1,
+      "message": "This paragraph looks is a bit redundant because the second paragraph:\n```\nA typical case for this is for the multi-site plugin to verify that the refs\nbeing fetched are actually needed and not out-of-sync with the global-refdb\n(details on such implementation can be found at If60f5f5ea).\n```",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "213e6fef_5da4ee34",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T11:58:33Z",
+      "side": 1,
+      "message": "nit: localRefsMap",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7be177ec_c9963c55",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T11:58:33Z",
+      "side": 1,
+      "message": "nit: remoteRefsMap",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03e0be18_244971fb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T11:58:33Z",
+      "side": 1,
+      "message": "why do you define `localOnly` and in lines L513 and L515 you use to `local`. I am a bit confused.",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6b78dc7_d8c17810",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T11:58:33Z",
+      "side": 1,
+      "message": "Can you know work with the idea of combining maps [1]?\n\nReference:\n[1]https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html#putAll(java.util.Map)",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "777cde4e_9c3395dd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T11:58:33Z",
+      "side": 1,
+      "message": "nit: to improve readability maybe L510 would go to a private method.",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1710ecec_46c89dd7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T11:58:33Z",
+      "side": 1,
+      "message": "I dont understand this part. if you are candidate to be fetched or candidate to be removed, you are filter? those conditions look opposite to me.... I guess I am missing something.",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2204aba1_210aa985",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefsDatabaseImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T11:58:33Z",
+      "side": 1,
+      "message": "does `fc.getRefsMap()` work like `git ls-remote`?",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
