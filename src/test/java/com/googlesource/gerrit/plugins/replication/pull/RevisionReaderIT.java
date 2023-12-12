@@ -36,12 +36,12 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.Sequence;
 import com.google.inject.Scopes;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfigOverrides;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
+import com.googlesource.gerrit.plugins.replication.ConfigResourceBasedReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.DefaultConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.FileConfigResource;
-import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
@@ -65,12 +65,13 @@ import org.junit.Test;
 public class RevisionReaderIT extends LightweightPluginDaemonTest {
   RevisionReader objectUnderTest;
 
-  ReplicationFileBasedConfig replicationConfig;
+  ConfigResourceBasedReplicationConfig replicationConfig;
 
   @Before
   public void setup() {
     objectUnderTest = plugin.getSysInjector().getInstance(RevisionReader.class);
-    replicationConfig = plugin.getSysInjector().getInstance(ReplicationFileBasedConfig.class);
+    replicationConfig =
+        plugin.getSysInjector().getInstance(ConfigResourceBasedReplicationConfig.class);
   }
 
   @Test
@@ -310,10 +311,9 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
   private static class TestModule extends FactoryModule {
     @Override
     protected void configure() {
-      DynamicItem.itemOf(binder(), ReplicationConfigOverrides.class);
       DynamicItem.bind(binder(), ReplicationConfigOverrides.class).to(DefaultConfigOverrides.class);
       bind(ConfigResource.class).to(FileConfigResource.class);
-      bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
+      bind(ReplicationConfig.class).to(ConfigResourceBasedReplicationConfig.class);
       bind(RevisionReader.class).in(Scopes.SINGLETON);
       bind(ApplyObject.class);
     }

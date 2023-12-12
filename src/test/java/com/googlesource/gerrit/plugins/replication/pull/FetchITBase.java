@@ -29,13 +29,13 @@ import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfigOverrides;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
+import com.googlesource.gerrit.plugins.replication.ConfigResourceBasedReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.DefaultConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.FileConfigResource;
-import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchClientImplementation;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -123,9 +123,10 @@ public abstract class FetchITBase extends LightweightPluginDaemonTest {
         RemoteConfig remoteConfig = new RemoteConfig(cf(), "test_config");
         SourceConfiguration sourceConfig = new SourceConfiguration(remoteConfig, cf());
         DynamicItem.itemOf(binder(), ReplicationConfigOverrides.class);
-        DynamicItem.bind(binder(), ReplicationConfigOverrides.class).to(DefaultConfigOverrides.class);
+        DynamicItem.bind(binder(), ReplicationConfigOverrides.class)
+            .to(DefaultConfigOverrides.class);
         bind(ConfigResource.class).to(FileConfigResource.class);
-        bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
+        bind(ReplicationConfig.class).to(ConfigResourceBasedReplicationConfig.class);
         bind(CredentialsFactory.class)
             .to(AutoReloadSecureCredentialsFactoryDecorator.class)
             .in(Scopes.SINGLETON);
