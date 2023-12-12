@@ -28,7 +28,7 @@ import com.google.common.net.MediaType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.ConfigResourceBasedReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
@@ -67,7 +67,8 @@ public abstract class FetchRestApiClientBase {
   @Mock HttpClient httpClient;
   @Mock SourceHttpClient.Factory httpClientFactory;
   @Mock FileBasedConfig config;
-  @Mock ReplicationFileBasedConfig replicationConfig;
+  @Mock
+  ConfigResourceBasedReplicationConfig replicationConfig;
   @Mock Source source;
   @Mock BearerTokenProvider bearerTokenProvider;
   @Captor ArgumentCaptor<HttpPost> httpPostCaptor;
