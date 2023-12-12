@@ -22,6 +22,30 @@
       },
       "revId": "ac8938a63a719a8ae905154a7656ada7a91f3510",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c9aa0c2_204894f3",
+        "filename": "src/main/resources/Documentation/metrics.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-12T08:17:40Z",
+      "side": 1,
+      "message": "True, maybe worth rebasing this change against your refactoring of the pull-replication start `..all..` change?",
+      "parentUuid": "14087dde_b27b74ae",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 59
+      },
+      "revId": "ac8938a63a719a8ae905154a7656ada7a91f3510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
