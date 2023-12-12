@@ -103,6 +103,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fb24bf6_978cec87",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T16:39:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "777cde4e_9c3395dd",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "704002ec_6f780c14",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T16:39:02Z",
+      "side": 1,
+      "message": "I think this code has space for refactoring to make the code easier to  understand clearer.\n\nAn example of refactoring could be:\n\n```suggestion\nreturn refToFetchRefSpec(srcRef, configRefSpecs)\n  .flatMap(\n    spec -\u003e {\n      \n      boolean isRefValid \u003d remotes.containsKey(srcRef) \u0026\u0026\n     (!local.containsKey(srcRef) ||\n      !sameRefInLocalAndRemote(local, remotes, srcRef));\n      \n      boolean isLocalOnly \u003d localOnly.contains(srcRef);\n      \n      Optional\u003cString\u003e result \u003d (isRefValid || isLocalOnly)\n                            ? Optional.of(srcRef)\n                            : Optional.empty();\n\n      return result;\n   }).isPresent();\n```\n\nwhere `sameRefInLocalAndRemote` could be:\n```\n  private boolean sameRefInLocalAndRemote(Map\u003cString, Ref\u003e local, Map\u003cString, Ref\u003e remotes, String srcRef) {\n    return local\n        .get(srcRef)\n        .getObjectId()\n        .equals(remotes.get(srcRef).getObjectId());\n  }\n```",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1710ecec_46c89dd7",
@@ -116,6 +151,24 @@
       "writtenOn": "2023-12-12T11:58:33Z",
       "side": 1,
       "message": "I dont understand this part. if you are candidate to be fetched or candidate to be removed, you are filter? those conditions look opposite to me.... I guess I am missing something.",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "381cd63a_2e8e7bb4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-12T16:39:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "1710ecec_46c89dd7",
       "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
