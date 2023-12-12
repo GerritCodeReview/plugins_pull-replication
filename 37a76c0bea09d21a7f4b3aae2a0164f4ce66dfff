@@ -122,6 +122,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "64e57590_287f6e2e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefsDatabaseImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-12T13:10:42Z",
+      "side": 1,
+      "message": "why does this need to be split into an interface and implementation?",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2204aba1_210aa985",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefsDatabaseImpl.java",
         "patchSetId": 6
