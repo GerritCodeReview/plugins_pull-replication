@@ -158,6 +158,24 @@
       "parentUuid": "590a0d6b_c333643e",
       "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15859527_6de6be13",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-12T08:56:26Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Additionally, InteliJ IDEA is marking all `Optional\u003c\u003e` parameters as warnings:\n\u003e \u003e \u003e \u003e Optional was designed to provide a limited mechanism for library method return types in which a clear way to represent \"no result\" was needed.\n\u003e \u003e \n\u003e \u003e Interesting, do you have links and references to the anti-pattern?\n\u003e \u003e \n\u003e \n\u003e Here you have a Sonar rule specification:\n\u003e \n\u003e https://rules.sonarsource.com/java/RSPEC-3553/\n\nI may disagree with Sonar, but not making it a big deal anyway. Let me amend and introduce a different method for when the parameter is not passed. With regards to checking nulls of a parameter that isn\u0027t nullable, that\u0027s a bug of the caller not the receiver.",
+      "parentUuid": "590a0d6b_c333643e",
+      "revId": "6db50371a359fd5dc553ac6edbf8ea7d2c841c39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
