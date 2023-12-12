@@ -21,6 +21,7 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -43,6 +44,7 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.LocalFS;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingLatestPatchSetException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.api.util.PayloadSerDes;
@@ -136,6 +138,9 @@ public class ProjectInitializationAction extends HttpServlet {
           httpServletResponse, e, SC_INTERNAL_SERVER_ERROR, gitRepositoryName);
     } catch (AuthException | PermissionBackendException e) {
       logExceptionAndUpdateResponse(httpServletResponse, e, SC_FORBIDDEN, gitRepositoryName);
+    } catch (MissingLatestPatchSetException e) {
+      logExceptionAndUpdateResponse(
+          httpServletResponse, e, SC_PRECONDITION_FAILED, gitRepositoryName);
     }
   }
 
@@ -151,7 +156,8 @@ public class ProjectInitializationAction extends HttpServlet {
   private boolean initProjectWithConfiguration(
       HttpServletRequest httpServletRequest, String gitRepositoryName)
       throws AuthException, PermissionBackendException, IOException, BadRequestException,
-          MissingParentObjectException, RefUpdateException, ResourceNotFoundException {
+          MissingParentObjectException, RefUpdateException, ResourceNotFoundException,
+          MissingLatestPatchSetException {
 
     RevisionsInput input = PayloadSerDes.parseRevisionsInput(httpServletRequest);
     validateInput(input);
