@@ -16,6 +16,24 @@
       "message": "same as on change 396480, we should remove event from `beforeStartupEventsQueue` unconditionally.",
       "revId": "4dde4d14ef84665df0b7d8acbf9f8ab2707a6bb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a58e3933_04741143",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-12-13T08:11:11Z",
+      "side": 1,
+      "message": "Thank you.",
+      "parentUuid": "1c85aef0_486cc832",
+      "revId": "4dde4d14ef84665df0b7d8acbf9f8ab2707a6bb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
