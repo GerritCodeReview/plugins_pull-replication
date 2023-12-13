@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f6e05f76_16c3fcf4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-13T14:42:55Z",
+      "side": 1,
+      "message": "to provide backward compatibility could we calculate fetchRefSpecs when fetchRefSpecs is not instantiated. With current implementation it can return null value",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 450,
+        "endChar": 3
+      },
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "213e6fef_5da4ee34",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 6
