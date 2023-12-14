@@ -83,6 +83,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1b67ba4_4441b5a4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T20:11:57Z",
+      "side": 1,
+      "message": "Discussed f2f.\nIt would be wrong to _compute_ delta when `getFetchRefSpecs` is called as that should be only an accessor.\n\nAdditionally, `getFetchRefSpecs` is called only when FetchOne is running, so this is currently back-compatible.\n\nAnnotated with `@Nullable` and documented behaviour.",
+      "parentUuid": "4a33fa87_1cab4d9f",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 450,
+        "endChar": 3
+      },
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "213e6fef_5da4ee34",
