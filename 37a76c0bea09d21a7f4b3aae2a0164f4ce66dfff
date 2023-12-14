@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44263ac7_6583b7ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af224937_61f8394f",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6e05f76_16c3fcf4",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-12-13T14:42:55Z",
       "side": 1,
       "message": "to provide backward compatibility could we calculate fetchRefSpecs when fetchRefSpecs is not instantiated. With current implementation it can return null value",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 450,
+        "endChar": 3
+      },
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a33fa87_1cab4d9f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "\u003e ...could we calculate fetchRefSpecs when fetchRefSpecs is not instantiated\n\nCan you elaborate on this, I am not sure I get your point.",
+      "parentUuid": "f6e05f76_16c3fcf4",
       "range": {
         "startLine": 448,
         "startChar": 0,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e74b8df_0359570d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "213e6fef_5da4ee34",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7be177ec_c9963c55",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-12-12T11:58:33Z",
       "side": 1,
       "message": "nit: remoteRefsMap",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b957f2e_01ec9a98",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7be177ec_c9963c55",
       "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -94,6 +172,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6eefe032_44ec44ea",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "I am using `local` when I want to find out if a ref exists locally.\nI am using `onlyLocal` when I want to find out if a ref exists _only_ locally (and not remotely too), because in that case it might be marked for removal.\n\nHope it makes sense, otherwise let\u0027s catchup.",
+      "parentUuid": "03e0be18_244971fb",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6b78dc7_d8c17810",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 6
@@ -105,6 +201,24 @@
       "writtenOn": "2023-12-12T11:58:33Z",
       "side": 1,
       "message": "Can you know work with the idea of combining maps [1]?\n\nReference:\n[1]https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html#putAll(java.util.Map)",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4cc2f8a_7d1de0d1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "Not sure what you mean.\n`localOnly` is not the union of the maps, is the diff.\n\nLet\u0027s catch up on this.",
+      "parentUuid": "b6b78dc7_d8c17810",
       "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -161,6 +275,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78c96ee2_674cafa3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "704002ec_6f780c14",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1710ecec_46c89dd7",
@@ -213,6 +345,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "758400bb_5f8e2b3e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefsDatabaseImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "Good point, leftover 😊\nRemoved now.",
+      "parentUuid": "64e57590_287f6e2e",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2204aba1_210aa985",
@@ -226,6 +376,24 @@
       "writtenOn": "2023-12-12T11:58:33Z",
       "side": 1,
       "message": "does `fc.getRefsMap()` work like `git ls-remote`?",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "956e2fa2_43d8d1a6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefsDatabaseImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "Yep exactly.",
+      "parentUuid": "2204aba1_210aa985",
       "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -249,6 +417,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "adac5d77_0d371ee9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "The filtering is implemented as an extension point (for example by the multi-site).\n\nSo the filtering itself is irrelevant for the purpose of the test because different implementations or none can be provided.\n\nThe test intends to ensure that when a fetch without delta (that is, _all_ refs matching the refspecs in the config) is executed, the expected refs are *passed to the filter*.\n\nI fear that if we rename the tests as `shouldFilterNewRefsWhenFetchingWithoutDelta`, it will emphasize on the _filtering_ itself, which is not the aim of this test.\n\nHope it makes sense, otherwise let\u0027s catch up.",
+      "parentUuid": "5b0472c2_2a2e73b6",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a97c04b_23426a20",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
         "patchSetId": 6
@@ -260,6 +446,24 @@
       "writtenOn": "2023-12-12T14:40:49Z",
       "side": 1,
       "message": "nit: remoteRefsMap",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ff7f193_0c13a338",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a97c04b_23426a20",
       "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -281,6 +485,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b3ac44_8d0ba3e9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "This ref also exists locally, so I wouldn\u0027t name it `REMOTE_REF`.\nLet me change the ref name itself to something more generic.",
+      "parentUuid": "dd784d07_1016cfe9",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b74be42_32e5ba81",
@@ -294,6 +516,24 @@
       "writtenOn": "2023-12-12T14:40:49Z",
       "side": 1,
       "message": "nit: REMOTE_REF",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8a4b302_9e8953fe",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b74be42_32e5ba81",
       "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

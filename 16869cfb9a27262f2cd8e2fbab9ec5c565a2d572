@@ -46,6 +46,30 @@
       },
       "revId": "16869cfb9a27262f2cd8e2fbab9ec5c565a2d572",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db6971b6_b6ede32e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefsDatabaseImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T16:32:31Z",
+      "side": 1,
+      "message": "My bad, this was not a problem.\nI was not using the bearer token when authenticating to the source.\nFixed now.",
+      "parentUuid": "7cd2d0bb_50916192",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 58
+      },
+      "revId": "16869cfb9a27262f2cd8e2fbab9ec5c565a2d572",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
