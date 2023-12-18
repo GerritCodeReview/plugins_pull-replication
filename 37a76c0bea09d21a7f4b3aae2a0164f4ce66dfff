@@ -212,6 +212,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10c9e28f_9f87c4ab",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-18T18:58:51Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "6eefe032_44ec44ea",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6b78dc7_d8c17810",
@@ -243,6 +261,24 @@
       "side": 1,
       "message": "Not sure what you mean.\n`localOnly` is not the union of the maps, is the diff.\n\nLet\u0027s catch up on this.",
       "parentUuid": "b6b78dc7_d8c17810",
+      "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fead14d6_4be2a94d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-18T18:58:51Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "e4cc2f8a_7d1de0d1",
       "revId": "37a76c0bea09d21a7f4b3aae2a0164f4ce66dfff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
