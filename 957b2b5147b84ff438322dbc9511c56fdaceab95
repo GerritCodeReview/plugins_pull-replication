@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e8d5318_67a826c8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-20T18:45:15Z",
+      "side": 1,
+      "message": "How can this be thrown out of a `initProject()`?",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 46
+      },
+      "revId": "957b2b5147b84ff438322dbc9511c56fdaceab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2b1afc1_ae694136",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-20T18:45:15Z",
+      "side": 1,
+      "message": "Can this really happen in real-life?",
+      "range": {
+        "startLine": 154,
+        "startChar": 58,
+        "endLine": 154,
+        "endChar": 90
+      },
+      "revId": "957b2b5147b84ff438322dbc9511c56fdaceab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
