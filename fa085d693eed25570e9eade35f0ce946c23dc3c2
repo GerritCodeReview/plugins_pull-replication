@@ -1,12 +1,9 @@
 {
   "checks": {
     "gerritforge:pull-replication-3852e64366bb37d13b8baf8af9b15cfd38eb9227": {
-      "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/plugin-pull-replication-verifier/job/75%252F389375%252F1/1/console",
-      "started": "2023-10-13T10:38:58Z",
-      "finished": "2023-10-13T10:47:57Z",
+      "state": "NOT_STARTED",
       "created": "2023-10-13T10:38:58Z",
-      "updated": "2023-10-13T10:47:57Z"
+      "updated": "2023-12-20T10:27:32Z"
     },
     "gerritforge:pull-replication-format-3852e64366bb37d13b8baf8af9b15cfd38eb9227": {
       "state": "SUCCESSFUL",
