@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dc7e4423_7c411c1b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-21T12:59:19Z",
+      "side": 1,
+      "message": "Check my answer to the other comment. I know that in theory it should not happen but I preferred to not mute any exceptions and make sure that we always notify about failed project init even if in theory it should not happen",
+      "parentUuid": "9e8d5318_67a826c8",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 46
+      },
+      "revId": "957b2b5147b84ff438322dbc9511c56fdaceab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a2b1afc1_ae694136",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-20T18:45:15Z",
       "side": 1,
       "message": "Can this really happen in real-life?",
+      "range": {
+        "startLine": 154,
+        "startChar": 58,
+        "endLine": 154,
+        "endChar": 90
+      },
+      "revId": "957b2b5147b84ff438322dbc9511c56fdaceab95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "767c586c_b82b0c28",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-21T12:59:19Z",
+      "side": 1,
+      "message": "Not sure if that can happen in real life but now `applyObjects` throws `MissingLatestPatchSetException` so we either catch it and re-throw different type of exception or we just throw it here and decide what to do with it in the place where we handling all other exceptions. We can also log it and not re-throw because if theory it shouldn\u0027t happened.\nI preferred to throw it anyway to make sure that in any case we would not mute any error",
+      "parentUuid": "a2b1afc1_ae694136",
       "range": {
         "startLine": 154,
         "startChar": 58,
