@@ -229,4 +229,9 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     secureConfig.setString("remote", remoteName, "password", password);
     secureConfig.save();
   }
+
+  protected String firstPatchSetForChangeMetaRef(String metaRefName) {
+    String patchSetRefName = metaRefName.replace(RefNames.META_SUFFIX, "/1");
+    return patchSetRefName;
+  }
 }
