@@ -27,12 +27,15 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.net.MediaType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.events.NewProjectCreatedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -69,6 +72,7 @@ public class ProjectInitializationAction extends HttpServlet {
   private final ProjectIndexer projectIndexer;
   private final ApplyObjectCommand applyObjectCommand;
   private final ProjectCache projectCache;
+  private final DynamicSet<NewProjectCreatedListener> newProjectCreatedListeners;
 
   @Inject
   ProjectInitializationAction(
@@ -77,13 +81,15 @@ public class ProjectInitializationAction extends HttpServlet {
       PermissionBackend permissionBackend,
       ProjectIndexer projectIndexer,
       ApplyObjectCommand applyObjectCommand,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      DynamicSet<NewProjectCreatedListener> newProjectCreatedListeners) {
     this.gerritConfigOps = gerritConfigOps;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
     this.projectIndexer = projectIndexer;
     this.applyObjectCommand = applyObjectCommand;
     this.projectCache = projectCache;
+    this.newProjectCreatedListeners = newProjectCreatedListeners;
   }
 
   @Override
@@ -167,6 +173,10 @@ public class ProjectInitializationAction extends HttpServlet {
         input.getLabel(),
         input.getEventCreatedOn());
     projectCache.onCreateProject(Project.nameKey(projectName));
+    // In case pull-replication is used in conjunction with multi-site, by convention the remote
+    // label is populated with the instanceId. That's why we are passing input.getLabel()
+    // to the Event to notify
+    notifyListenersOfNewProjectCreation(projectName, input.getLabel());
     repLog.info(
         "Init project API from {} for {}:{} - {}",
         input.getLabel(),
@@ -232,6 +242,40 @@ public class ProjectInitializationAction extends HttpServlet {
       return MediaType.parse(contentType).is(mediaType);
     } catch (Exception e) {
       return false;
+    }
+  }
+
+  private void notifyListenersOfNewProjectCreation(String projectName, String instanceId) {
+    NewProjectCreatedListener.Event newProjectCreatedEvent =
+        new Event(RefNames.REFS_CONFIG, projectName, instanceId);
+    newProjectCreatedListeners.forEach(l -> l.onNewProjectCreated(newProjectCreatedEvent));
+  }
+
+  private static class Event extends AbstractNoNotifyEvent
+      implements NewProjectCreatedListener.Event {
+    private final String headName;
+    private final String projectName;
+    private final String instanceId;
+
+    public Event(String headName, String projectName, String maybeInstanceId) {
+      this.headName = headName;
+      this.projectName = projectName;
+      this.instanceId = maybeInstanceId;
+    }
+
+    @Override
+    public String getHeadName() {
+      return headName;
+    }
+
+    @Override
+    public String getProjectName() {
+      return projectName;
+    }
+
+    @Override
+    public String getInstanceId() {
+      return instanceId;
     }
   }
 }
