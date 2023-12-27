@@ -26,6 +26,70 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c12bb50_41e76872",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T21:58:46Z",
+      "side": 1,
+      "message": "Agreed, we should focus on the rationale but not in _one specific test-case_ that this fix is addressing.\n\nWhat about saying that _\"All plugins that are reacting on the creation of a project were not able to detect the ones created via replication, with unpredictable consequences\"_",
+      "parentUuid": "1df1b399_5ad66624",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3734f4ce_4c894c1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T21:58:46Z",
+      "side": 1,
+      "message": "That is only *one special case* but you may have other listeners that would be interested to know that a project was created.",
+      "range": {
+        "startLine": 24,
+        "startChar": 30,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5b029a5_a0d351c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T21:58:46Z",
+      "side": 1,
+      "message": "Do you foresee an easy way to test this?",
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ab7dfe7_d230abd7",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 3
@@ -54,6 +118,29 @@
       "writtenOn": "2023-12-27T18:12:46Z",
       "side": 1,
       "message": "If we bail out here we are not propagating any event, still the project might be created by the `initProject`.\n\nI think we should have it in the `initProject` as well.",
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9583a4b8_e85a929d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T21:58:46Z",
+      "side": 1,
+      "message": "It may not be obvious to the reader of this piece of code that the input label is actually the instance-id. Maybe worth a comment here?",
+      "range": {
+        "startLine": 176,
+        "startChar": 53,
+        "endLine": 176,
+        "endChar": 69
+      },
       "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
