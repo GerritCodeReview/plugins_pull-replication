@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70ce2d20_207fcf14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T16:38:26Z",
+      "side": 1,
+      "message": "That\u0027s correct, I\u0027ve updated the description to make it explicit.",
+      "parentUuid": "93bea275_1154ac33",
+      "revId": "a49f5b7f2c05e7012911617adf718197baabe71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "464b8337_cb0ef645",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-12-27T11:27:09Z",
       "side": 1,
       "message": "\u003e it is possible that the \"project-created\"\nstream event will be consumed by node 2.\n\nThis is because multi-site is involved, right?",
+      "revId": "a49f5b7f2c05e7012911617adf718197baabe71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fc61f20_e3239718",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T16:38:26Z",
+      "side": 1,
+      "message": "Correct, and there\u0027s no guarantee which node will receive what message from the broker.",
+      "parentUuid": "464b8337_cb0ef645",
       "revId": "a49f5b7f2c05e7012911617adf718197baabe71b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -65,6 +101,24 @@
       "writtenOn": "2023-12-27T11:27:09Z",
       "side": 1,
       "message": "Please, can you explain the E2E that you have done to verify this?",
+      "revId": "a49f5b7f2c05e7012911617adf718197baabe71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66941746_bdbf2088",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T16:38:26Z",
+      "side": 1,
+      "message": "I\u0027ve replicated the setup as I mention it in the commit description, I reproduced the error, and then I tested with the code fixes and verified the project shows up in the UI in all nodes.",
+      "parentUuid": "69266833_284b6479",
       "revId": "a49f5b7f2c05e7012911617adf718197baabe71b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
