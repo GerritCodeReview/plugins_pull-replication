@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "93bea275_1154ac33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-27T11:27:09Z",
+      "side": 1,
+      "message": "\u003e Assume nodes 1 and 2 in site A and node 3 in site B\nFor my knowledge, we assume that multi-site is in place, right?",
+      "revId": "a49f5b7f2c05e7012911617adf718197baabe71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "464b8337_cb0ef645",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-27T11:27:09Z",
+      "side": 1,
+      "message": "\u003e it is possible that the \"project-created\"\nstream event will be consumed by node 2.\n\nThis is because multi-site is involved, right?",
+      "revId": "a49f5b7f2c05e7012911617adf718197baabe71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3e6aed36_a0acde17",
@@ -14,6 +48,23 @@
       "writtenOn": "2023-12-27T10:58:57Z",
       "side": 1,
       "message": "Build failure is expected until this chain is merged: https://gerrit-review.googlesource.com/c/gerrit/+/398917",
+      "revId": "a49f5b7f2c05e7012911617adf718197baabe71b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69266833_284b6479",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-27T11:27:09Z",
+      "side": 1,
+      "message": "Please, can you explain the E2E that you have done to verify this?",
       "revId": "a49f5b7f2c05e7012911617adf718197baabe71b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
