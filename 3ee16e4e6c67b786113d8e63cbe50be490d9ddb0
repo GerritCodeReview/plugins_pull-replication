@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df1b399_5ad66624",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-27T18:12:46Z",
+      "side": 1,
+      "message": "I would leave the details of reproducing the bug in the issue tracker.\n\nMaybe you can mention that this can lead to issues when having a complex setup with HA + MS. I would focus the description on explaining we weren\u0027t sending events once the project was created.",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ab7dfe7_d230abd7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-27T18:12:46Z",
+      "side": 1,
+      "message": "We have already some IT tests for the `ProjectInitializationAction`. Might be worth cover this case as well.",
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e6a7019_0e1540ec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-27T18:12:46Z",
+      "side": 1,
+      "message": "If we bail out here we are not propagating any event, still the project might be created by the `initProject`.\n\nI think we should have it in the `initProject` as well.",
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
