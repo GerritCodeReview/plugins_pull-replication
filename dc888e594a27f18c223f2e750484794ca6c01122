@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbac7b64_97e47818",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-28T12:09:40Z",
+      "side": 1,
+      "message": "nit: private",
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0173a0aa_c4f7ce0a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-28T12:09:40Z",
+      "side": 1,
+      "message": "Why extends `AbstractNoNotifyEvent`?",
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
