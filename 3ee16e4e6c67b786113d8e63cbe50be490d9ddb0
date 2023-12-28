@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdbc6b2b_9ddf1104",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-28T10:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c12bb50_41e76872",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 22,
+        "endChar": 0
+      },
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3734f4ce_4c894c1b",
@@ -61,6 +85,30 @@
       "writtenOn": "2023-12-27T21:58:46Z",
       "side": 1,
       "message": "That is only *one special case* but you may have other listeners that would be interested to know that a project was created.",
+      "range": {
+        "startLine": 24,
+        "startChar": 30,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c45cd337_618a3cbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-28T10:07:23Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3734f4ce_4c894c1b",
       "range": {
         "startLine": 24,
         "startChar": 30,
@@ -88,6 +136,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "369499c7_0023dd4e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-28T10:07:23Z",
+      "side": 1,
+      "message": "I have manually tested it.",
+      "parentUuid": "d5b029a5_a0d351c6",
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ab7dfe7_d230abd7",
@@ -101,6 +167,24 @@
       "writtenOn": "2023-12-27T18:12:46Z",
       "side": 1,
       "message": "We have already some IT tests for the `ProjectInitializationAction`. Might be worth cover this case as well.",
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa1119e8_f06c92ab",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-28T10:07:23Z",
+      "side": 1,
+      "message": "Yes, I looked into those tests but they are quite geared towards the endpoint itself, not any side operations. I don\u0027t know how to check in the test that a listener was invoked, but if you are aware of any existing tests that do anything similar, feel free to let me know so I can take a look for inspiration.",
+      "parentUuid": "9ab7dfe7_d230abd7",
       "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -124,6 +208,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "075a5c30_aeee8d31",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-28T10:07:23Z",
+      "side": 1,
+      "message": "\u003e I think we should have it in the initProject as well.\n\nNo, it needs to be in one place only, why notify the listener multiple times of the same event? It then becomes noise. In addition, if `initProject` fails, most likely the project is not created. And actually, the \"proper\" place would be the `LocalFS.createProject`, if you want to send the event after the (even bare) repo is created.I think it makes sense to have it where it currently is, ie sent after a project is successfully created. IMO this also tells a more accurate tale to the listeners of the event.",
+      "parentUuid": "7e6a7019_0e1540ec",
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9583a4b8_e85a929d",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 3
@@ -135,6 +237,30 @@
       "writtenOn": "2023-12-27T21:58:46Z",
       "side": 1,
       "message": "It may not be obvious to the reader of this piece of code that the input label is actually the instance-id. Maybe worth a comment here?",
+      "range": {
+        "startLine": 176,
+        "startChar": 53,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d20df43a_6520f0c9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-28T10:07:23Z",
+      "side": 1,
+      "message": "I dont see a value in the comment here. The method signature already tells you this is the instance id\n```\nprivate void notifyListenersOfNewProjectCreation(String projectName, String instanceId) {}\n```\nLastly, it is also used 3 lines above without any comment.",
+      "parentUuid": "9583a4b8_e85a929d",
       "range": {
         "startLine": 176,
         "startChar": 53,
