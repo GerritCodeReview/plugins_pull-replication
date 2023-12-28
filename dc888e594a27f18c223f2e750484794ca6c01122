@@ -51,6 +51,24 @@
       "parentUuid": "0173a0aa_c4f7ce0a",
       "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c448b34e_29d46688",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-28T12:50:57Z",
+      "side": 1,
+      "message": "I don\u0027t know if it is wrong, it was curiosity. Maybe @ponch78@gmail.com can help us with that.",
+      "parentUuid": "af8f176b_e43ca8be",
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
