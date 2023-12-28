@@ -226,6 +226,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b17c56f7_f02e6b83",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-28T10:59:23Z",
+      "side": 1,
+      "message": "\u003e I think we should have it in the initProject as well.\n\nSorry I said \"as well\", but I meant \"instead\".\n\nUnless I am missing something al line 108 to 114 we do:\n\n```\nif (checkContentType(contentType, MediaType.JSON_UTF_8)) {\n    // init project request includes project configuration in JSON format.\n    initProjectStatus \u003d initProjectWithConfiguration(httpServletRequest, gitRepositoryName);\n} else if (checkContentType(contentType, MediaType.PLAIN_TEXT_UTF_8)) {\n    // init project request does not include project configuration.\n    initProjectStatus \u003d initProject(gitRepositoryName);\n}\n```\n\nThat means that _unless_ we create a project with configuration we don\u0027t want to notify the project creation. Is that what we want?",
+      "parentUuid": "075a5c30_aeee8d31",
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9583a4b8_e85a929d",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
         "patchSetId": 3
