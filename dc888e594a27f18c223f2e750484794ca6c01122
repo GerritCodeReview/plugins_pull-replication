@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84c8d6f1_0beb5470",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-29T20:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdc10b91_a1eb94c8",
+      "range": {
+        "startLine": 10,
+        "startChar": 66,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbac7b64_97e47818",
@@ -227,6 +251,24 @@
       "side": 1,
       "message": "The incoming API does not support the notification options of `NotifyHandling` therefore the `NoNotify` in the abstract class name.\n\nThe choice is therefore correct.",
       "parentUuid": "c448b34e_29d46688",
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "696a8e86_5264fc51",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-29T20:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbac7b64_97e47818",
       "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
