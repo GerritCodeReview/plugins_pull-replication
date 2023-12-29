@@ -675,4 +675,14 @@ public class ReplicationQueueTest {
       return projectName;
     }
   }
+
+  private void verifyFallbackToRestApiClientFetchAsync(RefUpdatedEvent event) throws IOException {
+    verify(fetchRestApiClient)
+        .callFetch(
+            eq(event.getProjectNameKey()),
+            eq(event.getRefName()),
+            any(URIish.class),
+            any(Long.class),
+            eq(FetchRestApiClient.FORCE_ASYNC));
+  }
 }
