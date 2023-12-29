@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "910ae964_2b3817b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-29T13:57:40Z",
+      "side": 1,
+      "message": "\u003e Well, they will also receive the information about the instance-id of the event so can differentiate between events created by a user-initiated creation rather than replication-created one.\n\nThere\u0027s another [change](https://gerrit-review.googlesource.com/c/plugins/multi-site/+/399617) for the `multi-site` plugin that uses `instanceId` to ignore project created events. Based on that I think that _others_ may also need similar updates.\n\n\u003e Not propagating the creation is the bug we are fixing here. Do you have a real example of when this is a problem?\n\nNo, I don\u0027t have real-world examples, just an itch that this could be problematic.\n\nI don\u0027t know if there\u0027s a good solution for this, as the `replication` plugin does not have the release notes. I also feel a good practice to not break others\u0027 stuff, but we don\u0027t have a good way of communicating such changes... maybe a simple announcement on the repo-discuss is the best what we could do.\n\nI may also over-estimating the impact of this change ;)",
+      "parentUuid": "767572d2_55fbce13",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdc10b91_a1eb94c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
