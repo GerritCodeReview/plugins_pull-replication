@@ -547,7 +547,8 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     assertThatRefReplicatedEventsContainsStatus(ReplicationState.RefFetchResult.SUCCEEDED);
   }
 
-  private void assertThatEventListenerHasReceivedNumEvents(int numExpectedEvents) {
+  private void assertThatEventListenerHasReceivedNumEvents(int numExpectedEvents) throws Exception {
+    waitUntil(() -> eventListener.numEventsReceived() >= numExpectedEvents);
     assertThat(eventListener.numEventsReceived()).isEqualTo(numExpectedEvents);
   }
 
