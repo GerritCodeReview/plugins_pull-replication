@@ -260,6 +260,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c281f53b_4d701654",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-29T13:11:22Z",
+      "side": 1,
+      "message": "Marking as resolved, as all questions have been answered. I agree with Chris that this is a change for master only, therefore the legacy endpoint should not be considered as it will be unused in master.",
+      "parentUuid": "c68f68b2_5e961c4f",
+      "revId": "3ee16e4e6c67b786113d8e63cbe50be490d9ddb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9583a4b8_e85a929d",

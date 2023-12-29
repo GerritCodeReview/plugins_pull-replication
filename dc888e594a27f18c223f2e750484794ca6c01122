@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "767572d2_55fbce13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-29T13:11:22Z",
+      "side": 1,
+      "message": "\u003e In case when they would modify the repository content (eg. create new refs or commits in the meta namespace) this may lead to conflicts.\n\nWell, they will also receive the information about the instance-id of the event so can differentiate between events created by a user-initiated creation rather than replication-created one.\n\n\u003e Imagine a situation when the multi-site plugin creates refs/meta/multisite on multiple nodes. then when replication kicks in we\u0027ll get conflicts.\n\nThat\u0027s an hypothetical situation that does not happen at the moment. The multi-site has protection against split-brain anyway, should this bug be introduced in the multi-site code.\n\n\u003e We don\u0027t know what this event is used by all of the plugins out there, maybe this should be configurable behaviour to propagate this event?\n\nNot propagating the creation is the bug we are fixing here. Do you have a real example of when this is a problem? \n\nP.S. This is not a core plugin of Gerrit Code Review and isn\u0027t mentioned in the release notes.",
+      "parentUuid": "4aa8c530_6dafa0f1",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdc10b91_a1eb94c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -137,6 +161,24 @@
       "side": 1,
       "message": "I don\u0027t know if it is wrong, it was curiosity. Maybe @ponch78@gmail.com can help us with that.",
       "parentUuid": "af8f176b_e43ca8be",
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c92ee03_d7bf781f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-29T13:11:22Z",
+      "side": 1,
+      "message": "The incoming API does not support the notification options of `NotifyHandling` therefore the `NoNotify` in the abstract class name.\n\nThe choice is therefore correct.",
+      "parentUuid": "c448b34e_29d46688",
       "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
