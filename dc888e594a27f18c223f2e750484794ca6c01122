@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ff130e1_0ca335c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-29T18:31:48Z",
+      "side": 1,
+      "message": "\u003e \u003e Well, they will also receive the information about the instance-id of the event so can differentiate between events created by a user-initiated creation rather than replication-created one.\n\u003e \n\u003e There\u0027s another [change](https://gerrit-review.googlesource.com/c/plugins/multi-site/+/399617) for the `multi-site` plugin that uses `instanceId` to ignore project created events. Based on that I think that _others_ may also need similar updates.\n\nSure, happy to fix all the _others_ on their master branch.\n\n\u003e \u003e Not propagating the creation is the bug we are fixing here. Do you have a real example of when this is a problem?\n\u003e \n\u003e No, I don\u0027t have real-world examples, just an itch that this could be problematic.\n\nAck.\n\n\u003e I don\u0027t know if there\u0027s a good solution for this, as the `replication` plugin does not have the release notes. I also feel a good practice to not break others\u0027 stuff, but we don\u0027t have a good way of communicating such changes... maybe a simple announcement on the repo-discuss is the best what we could do.\n\u003e I may also over-estimating the impact of this change ;)\n\nWe do not even do these announcements on the mailing list when we merge some code that is fixing some bug. We have a bug and a change that fixes it.\nWe never announced new releases of multi-site, but we will be happy to share the new features at the next user summit :-)\n\nMarking this as resolved, feel free to re-open should you have more details of what to fix on other plugins.",
+      "parentUuid": "910ae964_2b3817b3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdc10b91_a1eb94c8",
