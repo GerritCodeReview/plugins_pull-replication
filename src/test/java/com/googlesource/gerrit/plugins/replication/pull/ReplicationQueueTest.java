@@ -176,6 +176,7 @@ public class ReplicationQueueTest {
     when(batchHttpResult.isSuccessful()).thenReturn(true);
     when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(batchFetchHttpResult.isSuccessful()).thenReturn(true);
+
     when(httpResult.isProjectMissing(any())).thenReturn(false);
     when(batchHttpResult.isProjectMissing(any())).thenReturn(false);
     when(applyObjectsRefsFilter.match(any())).thenReturn(false);
@@ -674,5 +675,15 @@ public class ReplicationQueueTest {
     public String getProjectName() {
       return projectName;
     }
+  }
+
+  private void verifyFallbackToRestApiClientFetchAsync(RefUpdatedEvent event) throws IOException {
+    verify(fetchRestApiClient)
+        .callFetch(
+            eq(event.getProjectNameKey()),
+            eq(event.getRefName()),
+            any(URIish.class),
+            any(Long.class),
+            eq(FetchRestApiClient.FORCE_ASYNC));
   }
 }

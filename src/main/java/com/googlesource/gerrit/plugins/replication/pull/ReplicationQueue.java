@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
@@ -42,6 +43,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjec
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResultUtils;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
@@ -346,7 +348,7 @@ public class ReplicationQueue
         if (source.enableBatchedRefs()) {
           callBatchFetch(source, project, refs, state);
         } else {
-          callFetch(source, project, refs, state);
+          callFetch(source, project, refs, state, FetchRestApiClient.FORCE_ASYNC);
         }
       }
     };
