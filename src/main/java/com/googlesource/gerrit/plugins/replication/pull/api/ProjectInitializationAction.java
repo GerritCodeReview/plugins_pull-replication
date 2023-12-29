@@ -43,6 +43,7 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.LocalFS;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingLatestPatchSetException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.api.util.PayloadSerDes;
@@ -160,12 +161,23 @@ public class ProjectInitializationAction extends HttpServlet {
     }
 
     String projectName = gitRepositoryName.replace(".git", "");
-    applyObjectCommand.applyObjects(
-        Project.nameKey(projectName),
-        input.getRefName(),
-        input.getRevisionsData(),
-        input.getLabel(),
-        input.getEventCreatedOn());
+    try {
+      applyObjectCommand.applyObjects(
+          Project.nameKey(projectName),
+          input.getRefName(),
+          input.getRevisionsData(),
+          input.getLabel(),
+          input.getEventCreatedOn());
+    } catch (MissingLatestPatchSetException e) {
+      repLog.error(
+          "Init project API FAILED from {} for {} - configuration data cannot contain change meta refs: {}:{}",
+          input.getLabel(),
+          projectName,
+          input.getRefName(),
+          Arrays.toString(input.getRevisionsData()),
+          e);
+      throw new BadRequestException("Configuration data cannot contain change meta refs", e);
+    }
     projectCache.onCreateProject(Project.nameKey(projectName));
     repLog.info(
         "Init project API from {} for {}:{} - {}",

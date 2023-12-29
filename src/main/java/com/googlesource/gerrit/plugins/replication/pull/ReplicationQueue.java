@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Queues;
@@ -42,6 +44,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjec
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
+import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResultUtils;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
@@ -57,7 +60,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -304,7 +306,7 @@ public class ReplicationQueue
               Project.nameKey(event.projectName()), event.refs(), event.eventCreatedOn(), state);
       fetchCallsPool
           .submit(() -> allSources.parallelStream().forEach(callFunction))
-          .get(fetchCallsTimeout, TimeUnit.MILLISECONDS);
+          .get(fetchCallsTimeout, MILLISECONDS);
     } catch (InterruptedException | ExecutionException | TimeoutException e) {
       stateLog.error(
           String.format(
@@ -346,7 +348,7 @@ public class ReplicationQueue
         if (source.enableBatchedRefs()) {
           callBatchFetch(source, project, refs, state);
         } else {
-          callFetch(source, project, refs, state);
+          callFetch(source, project, refs, state, FetchRestApiClient.FORCE_ASYNC);
         }
       }
     };
@@ -673,7 +675,8 @@ public class ReplicationQueue
       Source source,
       Project.NameKey project,
       List<ReferenceUpdatedEvent> refs,
-      ReplicationState state) {
+      ReplicationState state,
+      boolean forceAsyncCall) {
     boolean resultIsSuccessful = true;
     for (ReferenceUpdatedEvent refEvent : refs) {
       String refName = refEvent.refName();
@@ -685,7 +688,14 @@ public class ReplicationQueue
             repLog.info(
                 "Pull replication REST API fetch to {} for {}:{}", apiUrl, project, refName);
             long startTime = System.currentTimeMillis();
-            Optional<HttpResult> result = Optional.of(fetchClient.callFetch(project, refName, uri));
+            Optional<HttpResult> result =
+                Optional.of(
+                    fetchClient.callFetch(
+                        project,
+                        refName,
+                        uri,
+                        MILLISECONDS.toNanos(System.currentTimeMillis()),
+                        forceAsyncCall));
             long endTime = System.currentTimeMillis();
             boolean resultSuccessful = HttpResultUtils.isSuccessful(result);
             repLog.info(
