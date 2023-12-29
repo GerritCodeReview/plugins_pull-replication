@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4aa8c530_6dafa0f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-29T12:06:10Z",
+      "side": 1,
+      "message": "at least we should mark this as breaking(?) change... or some sort of warning in the \"release notes\"",
+      "parentUuid": "517190bd_96f0ddab",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "dc888e594a27f18c223f2e750484794ca6c01122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fdc10b91_a1eb94c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
