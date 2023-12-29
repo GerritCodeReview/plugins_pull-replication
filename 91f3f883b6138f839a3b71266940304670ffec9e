@@ -69,6 +69,24 @@
       "message": "nit: empty line",
       "revId": "91f3f883b6138f839a3b71266940304670ffec9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0100d463_09b2b841",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-29T23:49:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5afc53dd_b4c2361a",
+      "revId": "91f3f883b6138f839a3b71266940304670ffec9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
