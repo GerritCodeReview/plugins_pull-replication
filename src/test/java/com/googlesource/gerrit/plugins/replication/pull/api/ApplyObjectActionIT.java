@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.util.Optional;
@@ -27,21 +29,25 @@ import org.junit.Test;
 
 public class ApplyObjectActionIT extends ActionITBase {
 
+  private static final String REFS_HEADS_MASTER = RefNames.REFS_HEADS + "master";
+
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldAcceptPayloadWithAsyncField() throws Exception {
+    createTestProjectWithReplicationSuffix();
     String payloadWithAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
             + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
 
-    String refName = firstPatchSetForChangeMetaRef(createRef());
-    Optional<RevisionData> revisionDataOption = createRevisionData(refName);
+    Optional<RevisionData> revisionDataOption = createRevisionData(REFS_HEADS_MASTER);
     assertThat(revisionDataOption.isPresent()).isTrue();
 
     RevisionData revisionData = revisionDataOption.get();
-    String sendObjectPayload = createPayload(payloadWithAsyncFieldTemplate, refName, revisionData);
+    String sendObjectPayload =
+        createPayload(payloadWithAsyncFieldTemplate, REFS_HEADS_MASTER, revisionData);
 
+    deleteTestProjectBranch(REFS_HEADS_MASTER);
     httpClientFactory
         .create(source)
         .execute(
@@ -52,19 +58,20 @@ public class ApplyObjectActionIT extends ActionITBase {
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldAcceptPayloadWithoutAsyncField() throws Exception {
+    createTestProjectWithReplicationSuffix();
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
             + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
-    String refName = firstPatchSetForChangeMetaRef(createRef());
-    Optional<RevisionData> revisionDataOption = createRevisionData(refName);
+    Optional<RevisionData> revisionDataOption = createRevisionData(REFS_HEADS_MASTER);
     assertThat(revisionDataOption.isPresent()).isTrue();
 
     RevisionData revisionData = revisionDataOption.get();
     String sendObjectPayload =
-        createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
+        createPayload(payloadWithoutAsyncFieldTemplate, REFS_HEADS_MASTER, revisionData);
 
+    deleteTestProjectBranch(REFS_HEADS_MASTER);
     httpClientFactory
         .create(source)
         .execute(
@@ -76,19 +83,20 @@ public class ApplyObjectActionIT extends ActionITBase {
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   @GerritConfig(name = "container.replica", value = "true")
   public void shouldAcceptPayloadWhenNodeIsAReplica() throws Exception {
+    createTestProjectWithReplicationSuffix();
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
             + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
-    String refName = createRef();
-    Optional<RevisionData> revisionDataOption = createRevisionData(refName);
+    Optional<RevisionData> revisionDataOption = createRevisionData(REFS_HEADS_MASTER);
     assertThat(revisionDataOption.isPresent()).isTrue();
 
     RevisionData revisionData = revisionDataOption.get();
     String sendObjectPayload =
-        createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
+        createPayload(payloadWithoutAsyncFieldTemplate, REFS_HEADS_MASTER, revisionData);
 
+    deleteTestProjectBranch(REFS_HEADS_MASTER);
     httpClientFactory
         .create(source)
         .execute(
@@ -219,20 +227,21 @@ public class ApplyObjectActionIT extends ActionITBase {
   @GerritConfig(name = "container.replica", value = "false")
   @GerritConfig(name = "auth.bearerToken", value = "some-bearer-token")
   public void shouldAcceptPayloadWhenNodeIsAPrimaryWithBearerToken() throws Exception {
+    createTestProjectWithReplicationSuffix();
     url = getURLWithoutAuthenticationPrefix(project.get());
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
             + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
-    String refName = firstPatchSetForChangeMetaRef(createRef());
-    Optional<RevisionData> revisionDataOption = createRevisionData(refName);
+    Optional<RevisionData> revisionDataOption = createRevisionData(REFS_HEADS_MASTER);
     assertThat(revisionDataOption.isPresent()).isTrue();
 
     RevisionData revisionData = revisionDataOption.get();
     String sendObjectPayload =
-        createPayload(payloadWithoutAsyncFieldTemplate, refName, revisionData);
+        createPayload(payloadWithoutAsyncFieldTemplate, REFS_HEADS_MASTER, revisionData);
 
+    deleteTestProjectBranch(REFS_HEADS_MASTER);
     httpClientFactory
         .create(source)
         .execute(
@@ -257,5 +266,13 @@ public class ApplyObjectActionIT extends ActionITBase {
     return String.format(
         "%s/a/projects/%s/pull-replication~apply-object",
         adminRestSession.url(), Url.encode(projectName));
+  }
+
+  private void createTestProjectWithReplicationSuffix() throws Exception {
+    createTestProject(project.get() + TEST_REPLICATION_SUFFIX);
+  }
+
+  private void deleteTestProjectBranch(String branchRefName) throws RestApiException {
+    gApi.projects().name(project.get()).branch(branchRefName).delete();
   }
 }

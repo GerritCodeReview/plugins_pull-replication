@@ -197,7 +197,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     return httpRequest;
   }
 
-  private Project.NameKey createTestProject(String name) throws Exception {
+  protected Project.NameKey createTestProject(String name) throws Exception {
     return projectOperations.newProject().name(name).parent(project).create();
   }
 
