@@ -16,6 +16,23 @@
       "message": "LGTM. \n\nPersonally I think we should have 2 changes here:\n- Extracting the logic into the Java class UpdateHeadCommand.\n- Handle `ProjectHeadUpdatedEvent` event.",
       "revId": "6f8b60a489fc6432f24085070f371871b0f7e642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dcfa919_dcf5e8d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-30T00:51:55Z",
+      "side": 1,
+      "message": "There is way too much refactoring for a stable-3.7 branch. Merging pull-replication upstream is a real pain, due to the massive refactoring of the code on stable-3.9.\n\nMoving it to master and rebasing with conflicts.",
+      "revId": "6f8b60a489fc6432f24085070f371871b0f7e642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
