@@ -51,6 +51,24 @@
       "parentUuid": "e81e9ff7_64f36160",
       "revId": "6f8b60a489fc6432f24085070f371871b0f7e642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a8bf62e_d873132c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-30T09:54:12Z",
+      "side": 1,
+      "message": "sure, here\u0027s the refactoring:\n\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/399917",
+      "parentUuid": "31cb9a87_6fb6a66a",
+      "revId": "6f8b60a489fc6432f24085070f371871b0f7e642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

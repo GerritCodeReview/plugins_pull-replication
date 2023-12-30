@@ -116,6 +116,24 @@
       "message": "We should also throw the exception as in L167, or, alternatively, create a follow-up change when we do not throw any exception in the event listeners and remove the L167.",
       "revId": "3720dfea1d687a83e185a5230bef2333f8d16f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f832b95_3da0fbd4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-30T09:54:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b0c7e69_ed9deef2",
+      "revId": "3720dfea1d687a83e185a5230bef2333f8d16f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
