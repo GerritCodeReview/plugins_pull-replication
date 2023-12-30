@@ -167,14 +167,15 @@ public class ReplicationQueueTest {
     lenient()
         .when(fetchRestApiClient.callBatchSendObject(any(), any(), anyLong(), any()))
         .thenReturn(batchHttpResult);
-    when(fetchRestApiClient.callFetch(any(), anyString(), any())).thenReturn(fetchHttpResult);
+    when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong(), anyBoolean()))
+        .thenReturn(fetchHttpResult);
     when(fetchRestApiClient.callBatchFetch(any(), any(), any())).thenReturn(batchFetchHttpResult);
     when(fetchRestApiClient.initProject(any(), any(), anyLong(), any()))
         .thenReturn(successfulHttpResult);
     when(successfulHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isSuccessful()).thenReturn(true);
-    when(batchHttpResult.isSuccessful()).thenReturn(true);
-    when(fetchHttpResult.isSuccessful()).thenReturn(true);
+    lenient().when(batchHttpResult.isSuccessful()).thenReturn(true);
+    lenient().when(fetchHttpResult.isSuccessful()).thenReturn(true);
     when(batchFetchHttpResult.isSuccessful()).thenReturn(true);
     when(httpResult.isProjectMissing(any())).thenReturn(false);
     when(batchHttpResult.isProjectMissing(any())).thenReturn(false);
@@ -337,7 +338,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldFallbackToCallFetchWhenIOException() throws Exception {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
+    BatchRefUpdateEvent event = generateBatchRefUpdateEvent("refs/changes/01/1/meta");
 
     objectUnderTest.start();
 
@@ -397,7 +398,7 @@ public class ReplicationQueueTest {
   @Test
   public void shouldFallbackToCallBatchFetchWhenParentObjectNotMissingButApplyObjectFails()
       throws Exception {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    BatchRefUpdateEvent event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     objectUnderTest.start();
 
     when(batchHttpResult.isSuccessful()).thenReturn(false);
@@ -467,7 +468,7 @@ public class ReplicationQueueTest {
 
   @Test
   public void shouldCallFetchIfBatchedRefsNotEnabledAtSource() throws Exception {
-    Event event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
+    BatchRefUpdateEvent event = generateBatchRefUpdateEvent("refs/changes/01/1/1");
     when(source.enableBatchedRefs()).thenReturn(false);
     when(httpResult.isSuccessful()).thenReturn(false);
     when(httpResult.isParentObjectMissing()).thenReturn(false);
@@ -476,7 +477,7 @@ public class ReplicationQueueTest {
     objectUnderTest.onEvent(event);
 
     verify(fetchRestApiClient, never()).callBatchFetch(any(), any(), any());
-    verify(fetchRestApiClient).callFetch(any(), anyString(), any());
+    verifyFallbackToRestApiClientFetchAsync(event);
   }
 
   @Test
@@ -674,5 +675,16 @@ public class ReplicationQueueTest {
     public String getProjectName() {
       return projectName;
     }
+  }
+
+  private void verifyFallbackToRestApiClientFetchAsync(BatchRefUpdateEvent event)
+      throws IOException {
+    verify(fetchRestApiClient)
+        .callFetch(
+            eq(event.getProjectNameKey()),
+            eq(event.getRefNames().get(0)),
+            any(URIish.class),
+            any(Long.class),
+            eq(FetchRestApiClient.FORCE_ASYNC));
   }
 }

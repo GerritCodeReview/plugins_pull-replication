@@ -40,6 +40,7 @@ import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
+import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingLatestPatchSetException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
@@ -91,7 +92,7 @@ public class ApplyObjectCommand {
       String sourceLabel,
       long eventCreatedOn)
       throws IOException, RefUpdateException, MissingParentObjectException,
-          ResourceNotFoundException {
+          ResourceNotFoundException, MissingLatestPatchSetException {
     applyObjects(name, refName, new RevisionData[] {revisionsData}, sourceLabel, eventCreatedOn);
   }
 
@@ -102,7 +103,7 @@ public class ApplyObjectCommand {
       String sourceLabel,
       long eventCreatedOn)
       throws IOException, RefUpdateException, MissingParentObjectException,
-          ResourceNotFoundException {
+          ResourceNotFoundException, MissingLatestPatchSetException {
 
     repLog.info(
         "Apply object from {} for {}:{} - {}",

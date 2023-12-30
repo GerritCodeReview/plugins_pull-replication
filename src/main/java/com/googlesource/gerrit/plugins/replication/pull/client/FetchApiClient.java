@@ -32,12 +32,17 @@ public interface FetchApiClient {
   }
 
   HttpResult callFetch(
-      Project.NameKey project, String refName, URIish targetUri, long startTimeNanos)
+      Project.NameKey project,
+      String refName,
+      URIish targetUri,
+      long startTimeNanos,
+      boolean forceAsyncFetch)
       throws IOException;
 
   default HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
       throws IOException {
-    return callFetch(project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
+    return callFetch(
+        project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()), false);
   }
 
   HttpResult callBatchFetch(

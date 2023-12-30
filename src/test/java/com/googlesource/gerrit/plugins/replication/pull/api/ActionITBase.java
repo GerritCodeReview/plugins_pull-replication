@@ -197,7 +197,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     return httpRequest;
   }
 
-  private Project.NameKey createTestProject(String name) throws Exception {
+  protected Project.NameKey createTestProject(String name) throws Exception {
     return projectOperations.newProject().name(name).parent(project).create();
   }
 
@@ -228,5 +228,10 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
     secureConfig.setString("remote", remoteName, "username", username);
     secureConfig.setString("remote", remoteName, "password", password);
     secureConfig.save();
+  }
+
+  protected String firstPatchSetForChangeMetaRef(String metaRefName) {
+    String patchSetRefName = metaRefName.replace(RefNames.META_SUFFIX, "/1");
+    return patchSetRefName;
   }
 }
