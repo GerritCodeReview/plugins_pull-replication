@@ -34,6 +34,24 @@
       "parentUuid": "b7dd38b8_a4a4df84",
       "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e55cf80f_f994b489",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-30T01:44:04Z",
+      "side": 1,
+      "message": "We want to avoid adding `fetch` in replicas, as documented in Issue 40015281, isn\u0027t it?\n\nReplicas do not support the replication plugin, because they would never ever accept any updates.\n\nThe scenario therefore where we do not have `fetch` (replicas) and the replication plugin things this is a push target just does not exist.\n\n@syntonyze@gmail.com do you see any other gothas?",
+      "parentUuid": "76bd980d_1d649361",
+      "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
