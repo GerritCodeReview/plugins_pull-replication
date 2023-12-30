@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "415b0155_a9b2f00e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/UpdateHeadCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-12-30T17:52:07Z",
+      "side": 1,
+      "message": "nit: consider turning it into `Singleton` as:\n1. at least once instance of it will be held by `UpdateHeadAction` (which is a `Singleton` itself)\n2. it looks stateless to me\n3. it can be safely shared with `StreamEventListener` (regardless the number of instances of it)",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 30
+      },
+      "revId": "244ce4ee94b1b5b65c4c531f1b3fbcb4713986c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
