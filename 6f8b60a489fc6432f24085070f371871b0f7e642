@@ -33,6 +33,24 @@
       "message": "There is way too much refactoring for a stable-3.7 branch. Merging pull-replication upstream is a real pain, due to the massive refactoring of the code on stable-3.9.\n\nMoving it to master and rebasing with conflicts.",
       "revId": "6f8b60a489fc6432f24085070f371871b0f7e642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31cb9a87_6fb6a66a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-30T00:57:49Z",
+      "side": 1,
+      "message": "+1, never mix refactoring with features 😊 (I have have a T-Shirt with it)",
+      "parentUuid": "e81e9ff7_64f36160",
+      "revId": "6f8b60a489fc6432f24085070f371871b0f7e642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
