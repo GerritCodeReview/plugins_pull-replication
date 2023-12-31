@@ -71,6 +71,24 @@
       "parentUuid": "63172ce9_98cf1dd4",
       "revId": "04f3622fd82db12bc06443909f234a9300100ccb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bdec5a0_9398db21",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-31T10:51:58Z",
+      "side": 1,
+      "message": "hopefully, it\u0027s 1.7",
+      "parentUuid": "2eb41994_87cbab21",
+      "revId": "04f3622fd82db12bc06443909f234a9300100ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
