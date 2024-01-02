@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "209605dc_366ea475",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-02T11:32:49Z",
+      "side": 1,
+      "message": "+1, also Gerrit isn\u0027t able to index the change by bug because it is in the wrong place.",
+      "parentUuid": "c2864eb8_57bf7fe7",
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fdc3e3d9_9aba7b0e",
@@ -88,6 +106,30 @@
       "writtenOn": "2023-12-19T06:03:20Z",
       "side": 1,
       "message": "do we really need this case? will be base any other logic on the fact that `getFetchRefSpecs()` is `null`?\n\nIf there\u0027s no case that would benefit from `null`, wy not initialise `fetchRefSpecs` with an empty list?",
+      "range": {
+        "startLine": 460,
+        "startChar": 5,
+        "endLine": 461,
+        "endChar": 58
+      },
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f251bcb_18336e5f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-02T11:32:49Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "a7f1c8f9_4465e5b4",
       "range": {
         "startLine": 460,
         "startChar": 5,
