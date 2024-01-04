@@ -443,6 +443,8 @@ remote.NAME.fetch
   the replication using standard `replication` plugin when the plugin
   is also installed.
 
+  Default on replica: refs/*:refs/*
+
 [2]: #example_file
 
 remote.NAME.timeout
