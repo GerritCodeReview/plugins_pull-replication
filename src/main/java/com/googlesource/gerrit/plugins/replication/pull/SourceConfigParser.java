@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 
@@ -86,13 +87,10 @@ public class SourceConfigParser implements ConfigParser {
     for (String name : names) {
       try {
         final RemoteConfig remoteConfig = new RemoteConfig(cfg, name);
-        if (!isReplica || !remoteConfig.getFetchRefSpecs().isEmpty()) {
-          result.add(remoteConfig);
-        } else {
-          logger.atFine().log(
-              "Skip loading of remote [remote \"%s\"], since it has no 'fetch' configuration",
-              name);
+        if (remoteConfig.getFetchRefSpecs().isEmpty()) {
+          remoteConfig.setFetchRefSpecs(List.of(new RefSpec("refs/*:refs/*")));
         }
+        result.add(remoteConfig);
       } catch (URISyntaxException e) {
         throw new ConfigInvalidException(
             String.format("remote %s has invalid URL in %s", name, cfg));
