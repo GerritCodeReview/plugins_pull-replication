@@ -70,6 +70,24 @@
       "parentUuid": "e55cf80f_f994b489",
       "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33652c62_bda26fbb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-04T11:54:27Z",
+      "side": 1,
+      "message": "\u003e \u003e We want to avoid adding fetch in replicas, as documented in Issue 40015281, isn\u0027t it?\n\u003e \n\u003e @luca.milanesio@gmail.com I think is the opposite. In primary we want to make sure that we will never fetch from replica so we want to remove `url` and `fetch` params but still be able to send apply object or fetch rest api calls. You can see it in the code in L89:\n\u003e ```\n\u003e  if (!isReplica || !remoteConfig.getFetchRefSpecs().isEmpty()) {\n\u003e ```\n\u003e if we are not replica we don\u0027t care if fetch refs spec is empty or not.\n\n+1\n\n\u003e On primary having pull and push replication plugins together is a valid use case.\n\nTrue.\n\n\u003e This means that point 5 from @syntonyze@gmail.com comment is valid. If on primary someone remove `fetch` but keep url it will be treated as valid push replication destination with `refs/*:refs/*` refspec.\n\nTrue, but this is master and therefore it is just something we want to make the Gerrit admin aware of. Why not just adding a note to the documentation with that?\n\nWe also need to make sure that `replication.\u003cremote\u003e.fetch` has a default value, as the replication plugin has. The fetch configuration also determines if a replication should happen or not with a specific ref. If fetch is empty, then we need to define and document a default value.",
+      "parentUuid": "8848b026_be219d51",
+      "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
