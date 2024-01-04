@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6717c809_6b403be0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-04T13:21:40Z",
+      "side": 1,
+      "message": "\u003e Introduction of a default value for the \u0027fetch\u0027 configuration\n\nThre\u0027s already a default `ref/*:ref/*` in the `replication` plugin, should we use the same here?",
+      "parentUuid": "613195c3_c9de4272",
+      "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7dd38b8_a4a4df84",
