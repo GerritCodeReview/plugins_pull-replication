@@ -52,6 +52,24 @@
       "parentUuid": "76bd980d_1d649361",
       "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8848b026_be219d51",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-04T11:20:17Z",
+      "side": 1,
+      "message": "\u003e We want to avoid adding fetch in replicas, as documented in Issue 40015281, isn\u0027t it?\n\n@luca.milanesio@gmail.com I think is the opposite. In primary we want to make sure that we will never fetch from replica so we want to remove `url` and `fetch` params but still be able to send apply object or fetch rest api calls. You can see it in the code in L89:\n```\n if (!isReplica || !remoteConfig.getFetchRefSpecs().isEmpty()) {\n```\nif we are not replica we don\u0027t care if fetch refs spec is empty or not.\n\nOn primary having pull and push replication plugins together is a valid use case. This means that point 5 from @syntonyze@gmail.com comment is valid. If on primary someone remove `fetch` but keep url it will be treated as valid push replication destination with `refs/*:refs/*` refspec",
+      "parentUuid": "e55cf80f_f994b489",
+      "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
