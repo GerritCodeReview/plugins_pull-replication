@@ -127,6 +127,10 @@ gerrit.autoReload
 	the replication plugin. When the reload takes place, pending replication
 	events based on old settings are discarded. By default, false.
 
+gerrit.defaultForceUpdate
+:	If true, the default fetch refspec will be set to use forced update to
+	the local repository when no refspec is given.  By default, false.
+
 replication.lockErrorMaxRetries
 :	Number of times to retry a replication operation if a lock
 	error is detected.
@@ -442,6 +446,9 @@ remote.NAME.fetch
 >  NOTE: When using the pull-replication and replication plugins together,
 >  **NOT having** a `fetch` configuration for a remote, will also enable
 >  the standard _push_ replication for that remote.
+
+  Default: refs/*:refs/*, with the force fetch set to
+    `gerrit.defaultForceUpdate`
 
 [2]: #example_file
 

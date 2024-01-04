@@ -19,14 +19,17 @@ import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritIsReplica;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 
@@ -35,10 +38,13 @@ public class SourceConfigParser implements ConfigParser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private boolean isReplica;
+  private Provider<ReplicationConfig> replicationConfigProvider;
 
   @Inject
-  SourceConfigParser(@GerritIsReplica Boolean isReplica) {
+  SourceConfigParser(
+      @GerritIsReplica Boolean isReplica, Provider<ReplicationConfig> replicationConfigProvider) {
     this.isReplica = isReplica;
+    this.replicationConfigProvider = replicationConfigProvider;
   }
 
   /* (non-Javadoc)
@@ -86,13 +92,14 @@ public class SourceConfigParser implements ConfigParser {
     for (String name : names) {
       try {
         final RemoteConfig remoteConfig = new RemoteConfig(cfg, name);
-        if (!isReplica || !remoteConfig.getFetchRefSpecs().isEmpty()) {
-          result.add(remoteConfig);
-        } else {
-          logger.atFine().log(
-              "Skip loading of remote [remote \"%s\"], since it has no 'fetch' configuration",
-              name);
+        if (remoteConfig.getFetchRefSpecs().isEmpty()) {
+          remoteConfig.setFetchRefSpecs(
+              List.of(
+                  new RefSpec()
+                      .setSourceDestination("refs/*", "refs/*")
+                      .setForceUpdate(replicationConfigProvider.get().isDefaultForceUpdate())));
         }
+        result.add(remoteConfig);
       } catch (URISyntaxException e) {
         throw new ConfigInvalidException(
             String.format("remote %s has invalid URL in %s", name, cfg));
