@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e66356_f74197b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-04T18:44:45Z",
+      "side": 1,
+      "message": "The default value on replicas feels like a separate feature, I\u0027ll update the documentation on this one and open a follow-up change with the default value.",
+      "parentUuid": "049ba0c0_1d640572",
+      "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7dd38b8_a4a4df84",
