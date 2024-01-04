@@ -443,6 +443,9 @@ remote.NAME.fetch
 >  **NOT having** a `fetch` configuration for a remote, will also enable
 >  the standard _push_ replication for that remote.
 
+  Default: refs/*:refs/*, with the force push set to
+    `gerrit.defaultForceUpdate`
+
 [2]: #example_file
 
 remote.NAME.timeout
