@@ -46,6 +46,30 @@
       },
       "revId": "47bc61b8d3350f56992b3cf7252962ae8c4f526f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf1040b3_f9df55ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-08T10:55:23Z",
+      "side": 1,
+      "message": "OK, so it looks like we can assume the default of `refs/*:refs/*` on the primary and replica. This means that the `remotes.NAME.fetch` will not be required anymore (which still satisfies issue 40015281). Even with the default value, the remote configuration **without** `uri` will still be ignored on replicas (as coded in `SourceCOnfigParser:58`.",
+      "parentUuid": "8d98c927_bfbe8bf7",
+      "range": {
+        "startLine": 12,
+        "startChar": 51,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "47bc61b8d3350f56992b3cf7252962ae8c4f526f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
