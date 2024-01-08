@@ -56,19 +56,19 @@ public class FetchRestApiClientWithBasicAuthenticationTest extends FetchRestApiC
 
     when(credentialProvider.get(any(), any(CredentialItem[].class))).thenReturn(true);
     when(credentials.create(anyString())).thenReturn(credentialProvider);
-    when(replicationConfig.getConfig()).thenReturn(config);
+    when(configResource.getConfig()).thenReturn(config);
     when(config.getStringList("replication", null, "syncRefs")).thenReturn(new String[0]);
     when(source.getRemoteConfigName()).thenReturn("Replication");
 
     HttpResult httpResult = new HttpResult(SC_CREATED, Optional.of("result message"));
     when(httpClient.execute(any(HttpRequestBase.class), any())).thenReturn(httpResult);
     when(httpClientFactory.create(any())).thenReturn(httpClient);
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    syncRefsFilter = new SyncRefsFilter(configResource);
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
             httpClientFactory,
-            replicationConfig,
+            configResource,
             syncRefsFilter,
             pluginName,
             instanceId,

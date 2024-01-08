@@ -16,7 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.filter;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.AccessSection;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
@@ -39,7 +39,7 @@ public abstract class RefsFilter {
 
   private final List<String> refsPatterns;
 
-  public RefsFilter(ReplicationConfig replicationConfig) {
+  public RefsFilter(ConfigResource replicationConfig) {
     refsPatterns = getRefNamePatterns(replicationConfig.getConfig());
   }
 

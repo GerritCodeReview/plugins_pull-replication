@@ -33,8 +33,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
@@ -89,7 +89,7 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   FetchRestApiClient(
       CredentialsFactory credentials,
       SourceHttpClient.Factory httpClientFactory,
-      ReplicationConfig replicationConfig,
+      ConfigResource replicationConfig,
       SyncRefsFilter syncRefsFilter,
       @PluginName String pluginName,
       @Nullable @GerritInstanceId String instanceId,

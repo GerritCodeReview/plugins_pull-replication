@@ -47,8 +47,7 @@ import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Provider;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.FileConfigResource;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
@@ -127,8 +126,7 @@ public class ReplicationQueueTest {
     Path sitePath = createTempPath("site");
     sitePaths = new SitePaths(sitePath);
     Path pluginDataPath = createTempPath("data");
-    ReplicationConfig replicationConfig = new ReplicationFileBasedConfig(sitePaths, pluginDataPath);
-    refsFilter = new ExcludedRefsFilter(replicationConfig);
+    refsFilter = new ExcludedRefsFilter(new FileConfigResource(sitePaths));
     when(source.getConnectionTimeout()).thenReturn(CONNECTION_TIMEOUT);
     when(source.wouldFetchProject(any())).thenReturn(true);
     when(source.wouldFetchRef(anyString())).thenReturn(true);
@@ -507,8 +505,7 @@ public class ReplicationQueueTest {
         new FileBasedConfig(sitePaths.etc_dir.resolve("replication.config").toFile(), FS.DETECTED);
     fileConfig.setString("replication", null, "excludeRefs", "refs/multi-site/version");
     fileConfig.save();
-    ReplicationConfig replicationConfig = new ReplicationFileBasedConfig(sitePaths, pluginDataPath);
-    refsFilter = new ExcludedRefsFilter(replicationConfig);
+    refsFilter = new ExcludedRefsFilter(new FileConfigResource(sitePaths));
 
     objectUnderTest =
         new ReplicationQueue(

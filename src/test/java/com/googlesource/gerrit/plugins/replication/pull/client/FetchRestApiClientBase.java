@@ -27,8 +27,8 @@ import com.google.common.io.CharStreams;
 import com.google.common.net.MediaType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
@@ -67,7 +67,7 @@ public abstract class FetchRestApiClientBase {
   @Mock HttpClient httpClient;
   @Mock SourceHttpClient.Factory httpClientFactory;
   @Mock FileBasedConfig config;
-  @Mock ReplicationFileBasedConfig replicationConfig;
+  @Mock ConfigResource configResource;
   @Mock Source source;
   @Mock BearerTokenProvider bearerTokenProvider;
   @Captor ArgumentCaptor<HttpPost> httpPostCaptor;
@@ -214,12 +214,12 @@ public abstract class FetchRestApiClientBase {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"NO_SYNC_REFS"});
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    syncRefsFilter = new SyncRefsFilter(configResource);
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
             httpClientFactory,
-            replicationConfig,
+            configResource,
             syncRefsFilter,
             pluginName,
             instanceId,
@@ -239,12 +239,12 @@ public abstract class FetchRestApiClientBase {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"NO_SYNC_REFS"});
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    syncRefsFilter = new SyncRefsFilter(configResource);
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
             httpClientFactory,
-            replicationConfig,
+            configResource,
             syncRefsFilter,
             pluginName,
             instanceId,
@@ -277,12 +277,12 @@ public abstract class FetchRestApiClientBase {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    syncRefsFilter = new SyncRefsFilter(configResource);
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
             httpClientFactory,
-            replicationConfig,
+            configResource,
             syncRefsFilter,
             pluginName,
             instanceId,
@@ -308,12 +308,12 @@ public abstract class FetchRestApiClientBase {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    syncRefsFilter = new SyncRefsFilter(configResource);
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
             httpClientFactory,
-            replicationConfig,
+            configResource,
             syncRefsFilter,
             pluginName,
             instanceId,
@@ -365,14 +365,14 @@ public abstract class FetchRestApiClientBase {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/heads\\/test"});
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    syncRefsFilter = new SyncRefsFilter(configResource);
     String testRef = RefNames.REFS_HEADS + "test";
     List<String> refs = List.of(refName, testRef);
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
             httpClientFactory,
-            replicationConfig,
+            configResource,
             syncRefsFilter,
             pluginName,
             instanceId,
@@ -400,14 +400,14 @@ public abstract class FetchRestApiClientBase {
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/heads\\/test"});
     when(httpClient.execute(any(), any())).thenReturn(new HttpResult(500, Optional.of("BOOM")));
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    syncRefsFilter = new SyncRefsFilter(configResource);
     String testRef = RefNames.REFS_HEADS + "test";
     List<String> refs = List.of(refName, testRef);
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
             httpClientFactory,
-            replicationConfig,
+            configResource,
             syncRefsFilter,
             pluginName,
             instanceId,
@@ -507,7 +507,7 @@ public abstract class FetchRestApiClientBase {
             new FetchRestApiClient(
                 credentials,
                 httpClientFactory,
-                replicationConfig,
+                configResource,
                 syncRefsFilter,
                 pluginName,
                 null,
@@ -523,7 +523,7 @@ public abstract class FetchRestApiClientBase {
             new FetchRestApiClient(
                 credentials,
                 httpClientFactory,
-                replicationConfig,
+                configResource,
                 syncRefsFilter,
                 pluginName,
                 " ",
@@ -539,7 +539,7 @@ public abstract class FetchRestApiClientBase {
             new FetchRestApiClient(
                 credentials,
                 httpClientFactory,
-                replicationConfig,
+                configResource,
                 syncRefsFilter,
                 pluginName,
                 "",
@@ -554,7 +554,7 @@ public abstract class FetchRestApiClientBase {
         new FetchRestApiClient(
             credentials,
             httpClientFactory,
-            replicationConfig,
+            configResource,
             syncRefsFilter,
             pluginName,
             "",

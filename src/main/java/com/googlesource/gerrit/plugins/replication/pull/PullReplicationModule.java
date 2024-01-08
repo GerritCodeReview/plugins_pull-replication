@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static com.googlesource.gerrit.plugins.replication.FanoutConfigResource.CONFIG_DIR;
 import static com.googlesource.gerrit.plugins.replication.StartReplicationCapability.START_REPLICATION;
 import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
 
@@ -23,6 +24,7 @@ import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.SitePaths;
@@ -38,12 +40,14 @@ import com.google.inject.name.Names;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.FanoutReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.MainReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.FanoutConfigResource;
+import com.googlesource.gerrit.plugins.replication.FileConfigResource;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigImpl;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
@@ -136,17 +140,16 @@ class PullReplicationModule extends AbstractModule {
 
     bind(ConfigParser.class).to(SourceConfigParser.class).in(Scopes.SINGLETON);
 
+    DynamicItem.itemOf(binder(), ReplicationConfigOverrides.class);
+    bind(ConfigResource.class).to(getConfigResourceClass());
     Config replicationConfig = getReplicationConfig();
     if (replicationConfig.getBoolean("gerrit", "autoReload", false)) {
-      bind(ReplicationConfig.class)
-          .annotatedWith(MainReplicationConfig.class)
-          .to(getReplicationConfigClass());
       bind(ReplicationConfig.class).to(AutoReloadConfigDecorator.class).in(Scopes.SINGLETON);
       bind(LifecycleListener.class)
           .annotatedWith(UniqueAnnotations.create())
           .to(AutoReloadConfigDecorator.class);
     } else {
-      bind(ReplicationConfig.class).to(getReplicationConfigClass()).in(Scopes.SINGLETON);
+      bind(ReplicationConfig.class).to(ReplicationConfigImpl.class).in(Scopes.SINGLETON);
     }
 
     String eventBrokerTopic = replicationConfig.getString("replication", null, "eventBrokerTopic");
@@ -174,10 +177,10 @@ class PullReplicationModule extends AbstractModule {
     return config;
   }
 
-  private Class<? extends ReplicationConfig> getReplicationConfigClass() {
-    if (Files.exists(site.etc_dir.resolve("replication"))) {
-      return FanoutReplicationConfig.class;
+  private Class<? extends ConfigResource> getConfigResourceClass() {
+    if (Files.exists(site.etc_dir.resolve(CONFIG_DIR))) {
+      return FanoutConfigResource.class;
     }
-    return ReplicationFileBasedConfig.class;
+    return FileConfigResource.class;
   }
 }

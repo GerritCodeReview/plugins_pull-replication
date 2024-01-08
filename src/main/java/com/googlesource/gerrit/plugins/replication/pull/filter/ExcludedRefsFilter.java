@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.RefNames;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
@@ -28,7 +28,7 @@ public class ExcludedRefsFilter extends RefsFilter {
       new String[] {RefNames.REFS_CACHE_AUTOMERGE + "*", RefNames.REFS_STARRED_CHANGES + "*"};
 
   @Inject
-  public ExcludedRefsFilter(ReplicationConfig replicationConfig) {
+  public ExcludedRefsFilter(ConfigResource replicationConfig) {
     super(replicationConfig);
   }
 

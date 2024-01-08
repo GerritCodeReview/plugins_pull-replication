@@ -35,19 +35,19 @@ public class FetchRestApiClientWithBearerTokenTest extends FetchRestApiClientBas
   @Before
   public void setup() throws Exception {
     when(bearerTokenProvider.get()).thenReturn(Optional.of("some-bearer-token"));
-    when(replicationConfig.getConfig()).thenReturn(config);
+    when(configResource.getConfig()).thenReturn(config);
     when(config.getStringList("replication", null, "syncRefs")).thenReturn(new String[0]);
     HttpResult httpResult = new HttpResult(SC_CREATED, Optional.of("result message"));
     when(httpClient.execute(any(HttpRequestBase.class), any())).thenReturn(httpResult);
     when(httpClientFactory.create(any())).thenReturn(httpClient);
 
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
+    syncRefsFilter = new SyncRefsFilter(configResource);
 
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
             httpClientFactory,
-            replicationConfig,
+            configResource,
             syncRefsFilter,
             pluginName,
             instanceId,

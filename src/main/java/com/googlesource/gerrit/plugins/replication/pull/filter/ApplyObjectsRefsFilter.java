@@ -17,14 +17,14 @@ package com.googlesource.gerrit.plugins.replication.pull.filter;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class ApplyObjectsRefsFilter extends RefsFilter {
   @Inject
-  public ApplyObjectsRefsFilter(ReplicationConfig replicationConfig) {
+  public ApplyObjectsRefsFilter(ConfigResource replicationConfig) {
     super(replicationConfig);
   }
 

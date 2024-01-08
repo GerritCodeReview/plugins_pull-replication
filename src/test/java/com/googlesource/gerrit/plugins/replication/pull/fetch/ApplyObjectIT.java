@@ -36,10 +36,14 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
+import com.googlesource.gerrit.plugins.replication.ConfigResource;
+import com.googlesource.gerrit.plugins.replication.FileConfigResource;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationFileBasedConfig;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigImpl;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.pull.RevisionReader;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
@@ -256,7 +260,9 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
   private static class TestModule extends FactoryModule {
     @Override
     protected void configure() {
-      bind(ReplicationConfig.class).to(ReplicationFileBasedConfig.class);
+      bind(ConfigResource.class).to(FileConfigResource.class);
+      DynamicItem.itemOf(binder(), ReplicationConfigOverrides.class);
+      bind(ReplicationConfig.class).to(ReplicationConfigImpl.class).in(Scopes.SINGLETON);
       bind(RevisionReader.class).in(Scopes.SINGLETON);
       bind(ApplyObject.class);
     }
