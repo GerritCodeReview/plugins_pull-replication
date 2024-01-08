@@ -22,6 +22,30 @@
       },
       "revId": "47bc61b8d3350f56992b3cf7252962ae8c4f526f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d98c927_bfbe8bf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-08T08:48:21Z",
+      "side": 1,
+      "message": "\u003e How can the client determine if he needs to perform an apply-object for a ref-update?\n\nI can answer myself: it could be the other side receiving the apply-object API to decide whether to execute or ignore the request, based on its `fetch` configuration.",
+      "parentUuid": "7d1c2236_8a4c633a",
+      "range": {
+        "startLine": 12,
+        "startChar": 51,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "47bc61b8d3350f56992b3cf7252962ae8c4f526f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
