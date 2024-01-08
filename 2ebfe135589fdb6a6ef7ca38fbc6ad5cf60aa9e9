@@ -33,6 +33,24 @@
       "message": "This is duplicating https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/400819",
       "revId": "2ebfe135589fdb6a6ef7ca38fbc6ad5cf60aa9e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0599de7_bbd9a34d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-08T15:51:41Z",
+      "side": 1,
+      "message": "Thanks, abandoning then 😊",
+      "parentUuid": "a4839327_49e36afe",
+      "revId": "2ebfe135589fdb6a6ef7ca38fbc6ad5cf60aa9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
