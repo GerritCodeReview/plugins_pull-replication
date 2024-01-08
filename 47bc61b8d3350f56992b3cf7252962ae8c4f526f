@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d1c2236_8a4c633a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-08T08:46:14Z",
+      "side": 1,
+      "message": "Well, `fetch` also determines what to replicate and what NOT to replicate. Imagine we want to replicate only the `refs/heads/*` but not the `refs/tags/*`. If we don\u0027t have a `fetch` section and there is no default, how can the client determine if he needs to perform an apply-object for a ref-update?",
+      "range": {
+        "startLine": 12,
+        "startChar": 51,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "47bc61b8d3350f56992b3cf7252962ae8c4f526f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
