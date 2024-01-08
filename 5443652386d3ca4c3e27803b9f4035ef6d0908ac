@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "06a50793_9d039532",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-08T19:45:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "209605dc_366ea475",
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fdc3e3d9_9aba7b0e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 12
@@ -140,6 +158,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1932649_0d4c12f9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-08T19:45:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "291817ea_625123e5",
+      "range": {
+        "startLine": 461,
+        "startChar": 53,
+        "endLine": 461,
+        "endChar": 57
+      },
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5acf4f81_33f98c13",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-08T19:45:05Z",
+      "side": 1,
+      "message": "The list of refsSpecs is computed for the first time when the `FetchOne` is executed.\n\nThis is because, at runtime, the list of remotes needs to be fetched and compared to the local list of refs.\n\nIf this method were called before the execution of the `FetchOne`, the list of refs would still be unknown and thus I believe returning `null` is correct: it signals that refs specs have not been computed yet, so a value cannot be returned.\n\nA similar approach would be to return `Optional`, but semantically they are equivalent.\n\nIf we were to return an empty list, it would not be possible to distinguish the case where *nothing* needed to be fetched.",
+      "parentUuid": "2f251bcb_18336e5f",
+      "range": {
+        "startLine": 460,
+        "startChar": 5,
+        "endLine": 461,
+        "endChar": 58
+      },
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ac3dba3_88ca2e56",
@@ -182,6 +248,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e727de1_b6b0ee88",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-08T19:45:05Z",
+      "side": 1,
+      "message": "`fetchRefSpecs` are computed at L472 [1], when the `FetchOne` is run.\nThis is because, at runtime, the list of remotes needs to be fetched and compared to the local list of refs.\n\nIf this method was called before the execution of the `FetchOne, the list of refs would still be unknown and thus return null.\n\nI tried to explain this in the line above:\n\n```\n   * \u003cp\u003eNote that, the computation of the refsSpecs to fetch happens when {@link FetchOne} is first\n   * executed, prior to that this method will return {@code null}.\n```\n\nIf it\u0027s not clear, hopefully, it makes sense.\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/changes/40/396040/12/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java#472",
+      "parentUuid": "315216cd_e3bdaf1c",
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "330159c1_b866afa4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-08T19:45:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ac3dba3_88ca2e56",
+      "range": {
+        "startLine": 463,
+        "startChar": 47,
+        "endLine": 463,
+        "endChar": 51
+      },
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca5d6509_6889b322",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 12
@@ -193,6 +301,30 @@
       "writtenOn": "2023-12-19T06:03:20Z",
       "side": 1,
       "message": "nit: why not having this as `Optional\u003cList\u003cRefSpec\u003e\u003e` and get rid of the `@Nullable`?",
+      "range": {
+        "startLine": 465,
+        "startChar": 3,
+        "endLine": 465,
+        "endChar": 11
+      },
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "742df6e2_e6dd03e7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-08T19:45:05Z",
+      "side": 1,
+      "message": "No particular reason, this being Java, I think it is reasonable to use null values as opposed to `Optional`.\n\nWe use both `Optional` and `@Nullable` extensively in the Gerrit code base, just comes down to style and readability.",
+      "parentUuid": "ca5d6509_6889b322",
       "range": {
         "startLine": 465,
         "startChar": 3,
@@ -226,6 +358,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52e05809_7aeb8fed",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-08T19:45:05Z",
+      "side": 1,
+      "message": "Good shout",
+      "parentUuid": "e48a8588_e4b5124f",
+      "range": {
+        "startLine": 505,
+        "startChar": 25,
+        "endLine": 505,
+        "endChar": 79
+      },
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2d4f450_7f8915f6",
@@ -239,6 +395,24 @@
       "writtenOn": "2023-12-19T06:03:20Z",
       "side": 1,
       "message": "nit: unnecessary empty line",
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c36d9420_3ea649f5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefsDatabase.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-08T19:45:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2d4f450_7f8915f6",
       "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
