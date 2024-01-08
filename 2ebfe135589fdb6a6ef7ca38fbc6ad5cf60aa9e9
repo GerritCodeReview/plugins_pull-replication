@@ -16,6 +16,23 @@
       "message": "Failures can be observed at [1]\n\n\n[1]https://gerrit-ci.gerritforge.com/view/Plugins-master/job/plugin-pull-replication-bazel-master/80/console",
       "revId": "2ebfe135589fdb6a6ef7ca38fbc6ad5cf60aa9e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4839327_49e36afe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-08T15:32:10Z",
+      "side": 1,
+      "message": "This is duplicating https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/400819",
+      "revId": "2ebfe135589fdb6a6ef7ca38fbc6ad5cf60aa9e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
