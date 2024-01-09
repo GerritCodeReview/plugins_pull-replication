@@ -177,6 +177,24 @@
       "parentUuid": "33652c62_bda26fbb",
       "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "846bdf2e_908e2b1b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-09T09:48:45Z",
+      "side": 1,
+      "message": "Just to add my 2p, I don\u0027t understand why we are opening this up to misconfiguration. \n\n\u003e but this is master and therefore it is just something we want to make the Gerrit admin aware of. Why not just adding a note to the documentation with that?\n\nIf I am not mistaken, there are no release notes for the plugin, so how will the Gerrit admin become aware of this change?",
+      "parentUuid": "9d914489_3987d7d1",
+      "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
