@@ -376,7 +376,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       repLog.error(
           String.format("Terminal failure. Cannot replicate [%s] from %s", taskIdHex, uri), e);
     } catch (TransportException e) {
-      repLog.error("[{}] Cannot replicate from {}: {}", taskIdHex, uri, e.getMessage());
+      repLog.error("[{}] Cannot replicate from {}: {}. Caused by: {}", taskIdHex, uri, e.getMessage(), e.getStackTrace());
       if (replicationType == ReplicationType.ASYNC && e instanceof LockFailureException) {
         lockRetryCount++;
         // The LockFailureException message contains both URI and reason
