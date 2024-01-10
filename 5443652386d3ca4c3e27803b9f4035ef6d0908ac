@@ -208,6 +208,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d3331358_08c50535",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-10T17:07:13Z",
+      "side": 1,
+      "message": "\u003e The list of refsSpecs is computed for the first time when the `FetchOne` is executed.\n\u003e \n\u003e This is because, at runtime, the list of remotes needs to be fetched and compared to the local list of refs.\n\u003e \n\u003e If this method were called before the execution of the `FetchOne`, the list of refs would still be unknown and thus I believe returning `null` is correct: it signals that refs specs have not been computed yet, so a value cannot be returned.\n\nShould therefore throw an exception in that case? Is that a valid use case asking for the refs if the FetchOne wasn\u0027t executed?",
+      "parentUuid": "5acf4f81_33f98c13",
+      "range": {
+        "startLine": 460,
+        "startChar": 5,
+        "endLine": 461,
+        "endChar": 58
+      },
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ac3dba3_88ca2e56",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 12
