@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c70f64c_79549d1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2024-01-10T16:48:56Z",
+      "side": 1,
+      "message": "nit: this is redundant because is in the commit message.",
+      "revId": "5301b71d9dd4d9e2d03040e5d465c8e6560389e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
