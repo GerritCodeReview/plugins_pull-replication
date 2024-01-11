@@ -52,6 +52,24 @@
       "message": "I have seen other examples like:\n```\nrepLog.error(\n          String.format(\"Terminal failure. Cannot replicate [%s] from %s\", taskIdHex, uri), e);\n```",
       "revId": "d2905047940794a9d667ae8f758344f8525f00a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0405f07e_c90fbfff",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2024-01-11T17:05:39Z",
+      "side": 1,
+      "message": "Good catch, looks like when logging exceptions we should use that form.",
+      "parentUuid": "c2b67b45_2db4b1b9",
+      "revId": "d2905047940794a9d667ae8f758344f8525f00a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
