@@ -254,6 +254,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c756b582_047ba0fb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-11T21:12:10Z",
+      "side": 1,
+      "message": "As discussed, I have implemented `fetchRefSpecs` as a memoized value so that returning `null` is no longer necessary.\nWe will compute the relevant refSpecs once: subsequent calls will just be getting the value.",
+      "parentUuid": "7fbc0a52_da3acb60",
+      "range": {
+        "startLine": 460,
+        "startChar": 5,
+        "endLine": 461,
+        "endChar": 58
+      },
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ac3dba3_88ca2e56",
