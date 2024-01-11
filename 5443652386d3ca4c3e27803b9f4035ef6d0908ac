@@ -232,6 +232,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fbc0a52_da3acb60",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-11T19:55:59Z",
+      "side": 1,
+      "message": "\u003e Should therefore throw an exception in that case? Is that a valid use case asking for the refs if the FetchOne wasn\u0027t executed?\n\nThinking more deeply about this, I think the `getFetchRefSpecs()` could return the value, when no `expansion` was needed.\n\nSo:\n- If `fetchRefpecs !\u003d null` just return it, as it does now.\n- If `fetchRefSpecs \u003d\u003d null` and\n  - `delta not empty`, return `delta`.\n  - `delta is empty` and we don\u0027t need any expansion (i.e. no filter): return config refspecs.\n  - `delta is empty` but we need expansion: throw exception.\n  \nThis will ensure that in cases where no filter is configured it behaves as it does today and it only throws when it cannot provide a list of refs yet.\n\nWDYT @luca.milanesio@gmail.com?",
+      "parentUuid": "d3331358_08c50535",
+      "range": {
+        "startLine": 460,
+        "startChar": 5,
+        "endLine": 461,
+        "endChar": 58
+      },
+      "revId": "5443652386d3ca4c3e27803b9f4035ef6d0908ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3ac3dba3_88ca2e56",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 12
