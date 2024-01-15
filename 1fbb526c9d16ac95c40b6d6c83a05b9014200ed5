@@ -195,6 +195,24 @@
       "parentUuid": "9d914489_3987d7d1",
       "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7afe6192_9c695a69",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-15T09:05:33Z",
+      "side": 1,
+      "message": "Release notes are only available for core plugins and pull-replication is not one of them at this stage.\n\nThe approach for Gerrit admins is to go through plugin changes and to test them as part of their cut over plan.",
+      "parentUuid": "846bdf2e_908e2b1b",
+      "revId": "1fbb526c9d16ac95c40b6d6c83a05b9014200ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
