@@ -46,6 +46,53 @@
       },
       "revId": "0966fd3f124641b88ae909cfbff4435f6c13ae54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86c7f705_4e02df38",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-15T12:27:44Z",
+      "side": 1,
+      "message": "Thank you for clarification.",
+      "parentUuid": "661a0f53_f07ba755",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 91,
+        "endChar": 79
+      },
+      "revId": "0966fd3f124641b88ae909cfbff4435f6c13ae54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c20662d5_a0a82c99",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-15T12:27:44Z",
+      "side": 1,
+      "message": "I\u0027ve noticed that replication plugin also uses the gerrit.defaultForceUpdate param \n\n\u003e gerrit.defaultForceUpdate : If true, the default push refspec will be set to use forced update to the remote when no refspec is given. By default, false.\n\nHave you consider using it in pull-replication as well? Code could look like this:\n```\n  remoteConfig.addFetchRefSpec(\n            new RefSpec()\n                .setSourceDestination(\"refs/*\", \"refs/*\")\n                .setForceUpdate(defaultForceUpdate)); \n```",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 79
+      },
+      "revId": "0966fd3f124641b88ae909cfbff4435f6c13ae54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
