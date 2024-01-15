@@ -18,6 +18,7 @@ import static com.googlesource.gerrit.plugins.replication.StartReplicationCapabi
 import static com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability.CALL_FETCH_ACTION;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
@@ -33,6 +34,7 @@ import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Names;
+import com.googlesource.gerrit.plugins.healthcheck.HealthCheckExtensionApiModule;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
@@ -49,10 +51,12 @@ import com.googlesource.gerrit.plugins.replication.pull.client.SourceHttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule;
 import com.googlesource.gerrit.plugins.replication.pull.event.StreamEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationHealthCheckModule;
 import org.eclipse.jgit.lib.Config;
 
 class PullReplicationModule extends AbstractModule {
 
+  private static final FluentLogger flogger = FluentLogger.forEnclosingClass();
   private final MetricMaker pluginMetricMaker;
   private final ReplicationConfigModule configModule;
 
@@ -137,5 +141,13 @@ class PullReplicationModule extends AbstractModule {
     EventTypes.register(FetchRefReplicatedEvent.TYPE, FetchRefReplicatedEvent.class);
     EventTypes.register(FetchRefReplicationDoneEvent.TYPE, FetchRefReplicationDoneEvent.class);
     EventTypes.register(FetchReplicationScheduledEvent.TYPE, FetchReplicationScheduledEvent.class);
+
+    try {
+      HealthCheckExtensionApiModule.class.getName();
+      install(new PullReplicationHealthCheckModule());
+    } catch (Throwable e) {
+      flogger.atFine().withCause(e).log(
+          "Skipping registration of pull replication health checks, is healthcheck plugin installed?");
+    }
   }
 }
