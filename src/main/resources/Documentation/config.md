@@ -439,6 +439,10 @@ remote.NAME.fetch
 	when `replicatePermissions` is true, even if the push refspec
 	is 'all refs'.
 
+>  NOTE: When using the pull-replication and replication plugins together,
+>  **NOT having** a `fetch` configuration for a remote, will also enable
+>  the standard _push_ replication for that remote.
+
 [2]: #example_file
 
 remote.NAME.timeout
