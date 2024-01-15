@@ -33,6 +33,7 @@ import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Names;
+import com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
@@ -137,5 +138,7 @@ class PullReplicationModule extends AbstractModule {
     EventTypes.register(FetchRefReplicatedEvent.TYPE, FetchRefReplicatedEvent.class);
     EventTypes.register(FetchRefReplicationDoneEvent.TYPE, FetchRefReplicationDoneEvent.class);
     EventTypes.register(FetchReplicationScheduledEvent.TYPE, FetchReplicationScheduledEvent.class);
+
+    DynamicSet.bind(binder(), HealthCheck.class).to(CustomPullReplicationCheck.class);
   }
 }
