@@ -49,6 +49,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.SourceHttpClient;
 import com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule;
 import com.googlesource.gerrit.plugins.replication.pull.event.StreamEventModule;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationHealthCheckModule;
 import org.eclipse.jgit.lib.Config;
 
 class PullReplicationModule extends AbstractModule {
@@ -137,5 +138,7 @@ class PullReplicationModule extends AbstractModule {
     EventTypes.register(FetchRefReplicatedEvent.TYPE, FetchRefReplicatedEvent.class);
     EventTypes.register(FetchRefReplicationDoneEvent.TYPE, FetchRefReplicationDoneEvent.class);
     EventTypes.register(FetchReplicationScheduledEvent.TYPE, FetchReplicationScheduledEvent.class);
+
+    install(new PullReplicationHealthCheckModule());
   }
 }
