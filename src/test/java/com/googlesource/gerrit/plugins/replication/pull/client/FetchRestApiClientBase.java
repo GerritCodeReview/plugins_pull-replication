@@ -360,46 +360,10 @@ public abstract class FetchRestApiClientBase {
   }
 
   @Test
-  public void shouldExecuteOneFetchCallForAsyncAndOneForSyncRefsDuringBatchFetch()
-      throws Exception {
+  public void shouldMarkAllRefsAsSyncWhenTheBatchContainsAtLeastOneSyncRef() throws Exception {
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/heads\\/test"});
-    syncRefsFilter = new SyncRefsFilter(replicationConfig);
-    String testRef = RefNames.REFS_HEADS + "test";
-    List<String> refs = List.of(refName, testRef);
-    objectUnderTest =
-        new FetchRestApiClient(
-            credentials,
-            httpClientFactory,
-            replicationConfig,
-            syncRefsFilter,
-            pluginName,
-            instanceId,
-            bearerTokenProvider,
-            source);
-    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
-
-    verify(httpClient, times(2)).execute(httpPostCaptor.capture(), any());
-
-    List<HttpPost> httpPosts = httpPostCaptor.getAllValues();
-    String expectedSyncPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \""
-            + refs.get(1)
-            + "\", \"async\":false}"
-            + "]";
-    String expectedAsyncPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":true}]";
-
-    assertThat(readPayload(httpPosts.get(0))).isEqualTo(expectedAsyncPayload);
-    assertThat(readPayload(httpPosts.get(1))).isEqualTo(expectedSyncPayload);
-  }
-
-  @Test
-  public void shouldNotExecuteSyncFetchCallWhenAsyncCallFailsDuringBatchFetch() throws Exception {
-    when(config.getStringList("replication", null, "syncRefs"))
-        .thenReturn(new String[] {"^refs\\/heads\\/test"});
-    when(httpClient.execute(any(), any())).thenReturn(new HttpResult(500, Optional.of("BOOM")));
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
     String testRef = RefNames.REFS_HEADS + "test";
     List<String> refs = List.of(refName, testRef);
@@ -417,11 +381,18 @@ public abstract class FetchRestApiClientBase {
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
-    HttpPost httpPost = httpPostCaptor.getValue();
-    String expectedAsyncPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":true}]";
+    List<HttpPost> httpPosts = httpPostCaptor.getAllValues();
+    String expectedSyncPayload =
+        "["
+            + "{\"label\":\"Replication\", \"ref_name\": \""
+            + refName
+            + "\", \"async\":false},"
+            + "{\"label\":\"Replication\", \"ref_name\": \""
+            + refs.get(1)
+            + "\", \"async\":false}"
+            + "]";
 
-    assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
+    assertThat(readPayload(httpPosts.get(0))).isEqualTo(expectedSyncPayload);
   }
 
   @Test
