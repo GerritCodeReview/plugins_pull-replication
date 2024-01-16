@@ -615,7 +615,11 @@ remote.NAME.enableBatchedRefs
 	over, this value should be set to `true` to leverage the
 	performance improvements introduced by the `batch-apply-object` API.
 
-	By default, false.
+>	*NOTE*: if any ref from a single batch matches `replication.syncRefs`
+>	filter, all refs in that batch are going to be fetched synchronously as
+>	a single git fetch operation.
+> 
+>	By default, false.
 
 Directory `replication`
 --------------------
