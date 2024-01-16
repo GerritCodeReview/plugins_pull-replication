@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5eaa8a2_313f131d",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-16T13:59:46Z",
+      "side": 1,
+      "message": "we should document the defaultForceUpdate same as we did will other params we inherited from replication plugin, check `gerrit.autoReload` for example",
+      "range": {
+        "startLine": 447,
+        "startChar": 4,
+        "endLine": 447,
+        "endChar": 31
+      },
+      "revId": "38546b079cd498c7497aed0af9735654e6d9d946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
