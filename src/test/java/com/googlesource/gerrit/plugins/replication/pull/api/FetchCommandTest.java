@@ -84,7 +84,7 @@ public class FetchCommandTest {
 
   @Test
   public void shouldScheduleRefFetchWithDelay() throws Exception {
-    objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
+    objectUnderTest.fetchAsync(projectName, label, Set.of(REF_NAME_TO_FETCH), apiRequestMetrics);
 
     verify(source, times(1))
         .schedule(
@@ -99,7 +99,7 @@ public class FetchCommandTest {
 
   @Test
   public void shouldMarkAllFetchTasksScheduled() throws Exception {
-    objectUnderTest.fetchAsync(projectName, label, REF_NAME_TO_FETCH, apiRequestMetrics);
+    objectUnderTest.fetchAsync(projectName, label, Set.of(REF_NAME_TO_FETCH), apiRequestMetrics);
 
     verify(source, times(1))
         .schedule(projectName, REF_NAME_TO_FETCH, state, Optional.of(apiRequestMetrics));
