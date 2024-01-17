@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "666d17ec_a2618bf2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T20:20:48Z",
+      "side": 1,
+      "message": "The `HealthCheckExtensionApiModule` is an arbitrary name that might change or be moved in the future, inadvertently breaking this code.\n\nHow about testing for the `Healthcheck` class to be defined, that\u0027s the one we are registering a new component for at L35, so we can rely on its name safely.",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef6578ef_e93d6b09",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
         "patchSetId": 3
@@ -14,6 +31,47 @@
       "writtenOn": "2024-01-17T18:04:46Z",
       "side": 1,
       "message": "we need to somehow check if the healthcheck plugin is loaded, one way this can be done is by checking for the presence of a class known to be part of the healthcheck plugin (here, the `HealthCheckExtensionApiModule`), but let me know if there\u0027s a different (better) way.",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b72d626_1670de42",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T20:20:48Z",
+      "side": 1,
+      "message": "Yep, I think this is a sensible approach.\nWe already use this in multi-site for example [1].\nI also used a similar approach here [2].\n\n[1] https://gerrit.googlesource.com/plugins/multi-site/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/multisite/PluginModule.java#95\n\n[2] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/373474",
+      "parentUuid": "ef6578ef_e93d6b09",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd4f8b19_0f790bef",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T20:20:48Z",
+      "side": 1,
+      "message": "Consider catching specifically `NoClassDefFoundError | ClassNotFoundException e` here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 22
+      },
       "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
