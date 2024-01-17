@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9750973_ad1a0dfd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T09:39:52Z",
+      "side": 1,
+      "message": "I don\u0027t think this is needed anymore, correct?",
+      "revId": "d964f87d7271512dd5a866ba9e42f04484cac3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
