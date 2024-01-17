@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc265e40_51e885dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T11:24:22Z",
+      "side": 1,
+      "message": "nice one!",
+      "revId": "a758d3629a9ff0f8a92d61cfcea5bf4153714300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d714b5c_cfd6dea2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T11:24:22Z",
+      "side": 1,
+      "message": "no need to increase visibility",
+      "revId": "a758d3629a9ff0f8a92d61cfcea5bf4153714300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
