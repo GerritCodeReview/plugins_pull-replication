@@ -160,17 +160,14 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
       NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
       throws IOException {
     boolean callAsync = !containsSyncFetchRef(refsInBatch);
+    String refsNamesBody = refsInBatch.stream().collect(Collectors.joining("\",\"", "\"", "\""));
     String msgBody =
-        refsInBatch.stream()
-            .map(
-                refName ->
-                    String.format(
-                        "{\"label\":\"%s\", \"ref_name\": \"%s\", \"async\":%s}",
-                        instanceId, refName, callAsync))
-            .collect(Collectors.joining(","));
+        String.format(
+            "{\"label\":\"%s\", \"refs_names\": [ %s ], \"async\":%s}",
+            instanceId, refsNamesBody, callAsync);
 
     String url = formatUrl(targetUri.toString(), project, "batch-fetch");
-    HttpPost post = createPostRequest(url, "[" + msgBody + "]", startTimeNanos);
+    HttpPost post = createPostRequest(url, msgBody, startTimeNanos);
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
 

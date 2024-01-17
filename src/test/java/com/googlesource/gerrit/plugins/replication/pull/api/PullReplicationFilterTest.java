@@ -143,16 +143,11 @@ public class PullReplicationFilterTest {
   @Test
   public void shouldFilterBatchFetchAction() throws Exception {
     byte[] payloadBatchFetch =
-        ("[{"
+        ("{"
                 + "\"label\":\"Replication\", "
-                + "\"ref_name\": \"refs/heads/master\", "
+                + "\"refs_names\": [ \"refs/heads/master\" , \"refs/heads/test\" ], "
                 + "\"async\":false"
-                + "},"
-                + "{"
-                + "\"label\":\"Replication\", "
-                + "\"ref_name\": \"refs/heads/test\", "
-                + "\"async\":false"
-                + "}]")
+                + "}")
             .getBytes(StandardCharsets.UTF_8);
 
     defineBehaviours(payloadBatchFetch, BATCH_FETCH_URI);
