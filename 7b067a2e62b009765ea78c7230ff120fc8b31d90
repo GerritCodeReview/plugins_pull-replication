@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65624831_54a55a74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T16:22:36Z",
+      "side": 1,
+      "message": "I actually did not, good point! Let me do this now",
+      "parentUuid": "6360dd42_847eded2",
+      "revId": "7b067a2e62b009765ea78c7230ff120fc8b31d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1aaf12e3_73c3c6c2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
         "patchSetId": 2
@@ -49,6 +67,30 @@
       "writtenOn": "2024-01-17T16:12:08Z",
       "side": 1,
       "message": "why the suffix `-tasks`?",
+      "range": {
+        "startLine": 34,
+        "startChar": 28,
+        "endLine": 34,
+        "endChar": 43
+      },
+      "revId": "7b067a2e62b009765ea78c7230ff120fc8b31d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7c0f769_081af74f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T16:22:36Z",
+      "side": 1,
+      "message": "Because it better identifies the check. Also, it gives us more flexibility, in the future we might add more pull-replication checks.",
+      "parentUuid": "1aaf12e3_73c3c6c2",
       "range": {
         "startLine": 34,
         "startChar": 28,
