@@ -245,6 +245,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71e3bbc4_7c9e191c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T02:06:29Z",
+      "side": 1,
+      "message": "Done with I1b8fcb0b",
+      "parentUuid": "8f3a84a3_84f2c519",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8191fc3c_97834549",
