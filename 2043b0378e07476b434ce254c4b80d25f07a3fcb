@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efff6da1_21c57db3",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T10:05:08Z",
+      "side": 1,
+      "message": "fetch",
+      "range": {
+        "startLine": 131,
+        "startChar": 23,
+        "endLine": 131,
+        "endChar": 27
+      },
+      "revId": "2043b0378e07476b434ce254c4b80d25f07a3fcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4086b039_e60242e4",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T10:05:08Z",
+      "side": 1,
+      "message": "In this context, the update is the _local_ repo, not the remote",
+      "range": {
+        "startLine": 131,
+        "startChar": 55,
+        "endLine": 132,
+        "endChar": 22
+      },
+      "revId": "2043b0378e07476b434ce254c4b80d25f07a3fcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1726ecce_5c4ff18e",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T10:05:08Z",
+      "side": 1,
+      "message": "fetch",
+      "range": {
+        "startLine": 450,
+        "startChar": 41,
+        "endLine": 450,
+        "endChar": 45
+      },
+      "revId": "2043b0378e07476b434ce254c4b80d25f07a3fcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
