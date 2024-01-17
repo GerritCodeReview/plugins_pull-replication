@@ -33,6 +33,24 @@
       "message": "no need to increase visibility",
       "revId": "a758d3629a9ff0f8a92d61cfcea5bf4153714300",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f599cbdd_0dbc079a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T15:34:18Z",
+      "side": 1,
+      "message": "It is used in StreamEventListener.java:L248",
+      "parentUuid": "4d714b5c_cfd6dea2",
+      "revId": "a758d3629a9ff0f8a92d61cfcea5bf4153714300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
