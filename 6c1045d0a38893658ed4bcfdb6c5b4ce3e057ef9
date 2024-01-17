@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "684c3e24_9fa89823",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T10:44:30Z",
+      "side": 1,
+      "message": "Overall looks good, but I don\u0027t understand the choice to discard all the futures returned while scheduling and only focus on the last one.",
+      "revId": "6c1045d0a38893658ed4bcfdb6c5b4ce3e057ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f1469d4_7aed5370",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T10:44:30Z",
+      "side": 1,
+      "message": "is this method used anywhere? I think it can be removed?",
+      "revId": "6c1045d0a38893658ed4bcfdb6c5b4ce3e057ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff7e9bbb_5e37a126",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T10:44:30Z",
+      "side": 1,
+      "message": "Why do you keep reassigning the future after each schedule operation, and only wait for the last schedule operation to finish? \nThe schedule operation can return an already completed future, or it can schedule a computation for execution. So the wait time will certainly vary here.\n\nIMO you should create a list of futures, create a future for each scheduling op and add it to the list, and then wait for every future to finish.",
+      "revId": "6c1045d0a38893658ed4bcfdb6c5b4ce3e057ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16c74e30_03a51cfb",
