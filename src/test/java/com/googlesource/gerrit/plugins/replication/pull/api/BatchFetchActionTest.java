@@ -19,7 +19,6 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,7 +26,7 @@ import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ProjectResource;
-import java.util.List;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,54 +51,49 @@ public class BatchFetchActionTest {
   }
 
   @Test
-  public void shouldDelegateToFetchActionWithBatchInputForListOfFetchInput()
-      throws RestApiException {
-    FetchAction.Input first = createInput(master);
-    FetchAction.Input second = createInput(test);
+  public void shouldDelegateToFetchActionForEveryFetchInput() throws RestApiException {
+    FetchAction.BatchInput batchInput = createBatchInput(master, test);
 
-    batchFetchAction.apply(projectResource, List.of(first, second));
+    batchFetchAction.apply(projectResource, batchInput);
 
-    verify(fetchAction).apply(eq(projectResource), any(FetchAction.BatchInput.class));
+    verify(fetchAction).apply(projectResource, batchInput);
   }
 
   @Test
   public void shouldReturnOkResponseCodeWhenAllInputsAreProcessedSuccessfully()
       throws RestApiException {
-    FetchAction.Input first = createInput(master);
-    FetchAction.Input second = createInput(test);
+    FetchAction.BatchInput batchInput = createBatchInput(master, test);
 
     when(fetchAction.apply(any(ProjectResource.class), any(FetchAction.BatchInput.class)))
         .thenAnswer((Answer<Response<?>>) invocation -> Response.accepted("some-url"));
-    Response<?> response = batchFetchAction.apply(projectResource, List.of(first, second));
+    Response<?> response = batchFetchAction.apply(projectResource, batchInput);
 
     assertThat(response.statusCode()).isEqualTo(SC_OK);
   }
 
   @Test
-  public void shouldReturnAResponsesOnSuccess() throws RestApiException {
-    FetchAction.Input first = createInput(master);
-    FetchAction.Input second = createInput(test);
+  public void shouldReturnAListWithAllResponsesOnSuccess() throws RestApiException {
+    FetchAction.BatchInput batchInput = createBatchInput(master, test);
+
     String masterUrl = "master-url";
-    String testUrl = "test-url";
-    Response.Accepted batchResponse = Response.accepted(masterUrl);
+    Response.Accepted firstResponse = Response.accepted(masterUrl);
 
-    when(fetchAction.apply(eq(projectResource), any(FetchAction.BatchInput.class)))
-        .thenAnswer((Answer<Response<?>>) invocation -> batchResponse);
-    Response<?> response = batchFetchAction.apply(projectResource, List.of(first, second));
+    when(fetchAction.apply(projectResource, batchInput))
+        .thenAnswer((Answer<Response<?>>) invocation -> firstResponse);
+    Response<?> response = batchFetchAction.apply(projectResource, batchInput);
 
-    assertThat(response.value()).isEqualTo(batchResponse);
+    assertThat(response.value()).isEqualTo(firstResponse);
   }
 
   @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenProcessingFailsForAnInput() throws RestApiException {
-    FetchAction.Input first = createInput(master);
-    FetchAction.Input second = createInput(test);
+    FetchAction.BatchInput batchInput = createBatchInput(master, test);
     String masterUrl = "master-url";
 
-    when(fetchAction.apply(eq(projectResource), any(FetchAction.BatchInput.class)))
+    when(fetchAction.apply(projectResource, batchInput))
         .thenThrow(new MergeConflictException("BOOM"));
 
-    batchFetchAction.apply(projectResource, List.of(first, second));
+    batchFetchAction.apply(projectResource, batchInput);
   }
 
   private FetchAction.Input createInput(String refName) {
@@ -107,5 +101,12 @@ public class BatchFetchActionTest {
     input.label = label;
     input.refName = refName;
     return input;
+  }
+
+  private FetchAction.BatchInput createBatchInput(String... refNames) {
+    FetchAction.BatchInput batchInput = new FetchAction.BatchInput();
+    batchInput.label = label;
+    batchInput.refsNames = Set.of(refNames);
+    return batchInput;
   }
 }
