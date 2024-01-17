@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3d375d9_63791a63",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:45:48Z",
+      "side": 1,
+      "message": "unrelated: consider adding a follow-up change to add the `neverlink` to also `delete-project` and `replication`.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "72c32add_3a3fbddc",
         "filename": "BUILD",
         "patchSetId": 3
@@ -26,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3db27a3a_69ed4117",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:45:48Z",
+      "side": 1,
+      "message": "This can be conditioned on whether the `healthcheck` plugin is installed or not.\nAlso considering referring to the module class through reflection, as it would contain references to the `healthcheck` plugin.",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 52
+      },
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "666d17ec_a2618bf2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
         "patchSetId": 3
@@ -37,6 +83,24 @@
       "writtenOn": "2024-01-17T20:20:48Z",
       "side": 1,
       "message": "The `HealthCheckExtensionApiModule` is an arbitrary name that might change or be moved in the future, inadvertently breaking this code.\n\nHow about testing for the `Healthcheck` class to be defined, that\u0027s the one we are registering a new component for at L35, so we can rely on its name safely.",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d64796a2_5b2e09fc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:45:48Z",
+      "side": 1,
+      "message": "We have the healthcheck plugin as a dependency, let\u0027s just refer to the class directly instead, WDYT?",
+      "parentUuid": "666d17ec_a2618bf2",
       "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -78,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da081c56_5c7c323f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:45:48Z",
+      "side": 1,
+      "message": "I do not follow: why would you load this module and not having the healthcheck plugin loaded? What\u0027s the use-case?\n\nI believe we can safely assume that the healthcheck plugin *is loaded* because it exposes an `ApiModule` and we depend on it at build time.",
+      "parentUuid": "6b72d626_1670de42",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd4f8b19_0f790bef",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
         "patchSetId": 3
@@ -89,6 +171,30 @@
       "writtenOn": "2024-01-17T20:20:48Z",
       "side": 1,
       "message": "Consider catching specifically `NoClassDefFoundError | ClassNotFoundException e` here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 22
+      },
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b28eefdd_4b1a9169",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:45:48Z",
+      "side": 1,
+      "message": "I would disagree with this catch: let\u0027s make the process to throw the exception and blow up. It is *very dangerous* to start anyway and not having the healthcheck protection, if this module is loaded.\n\nThe Gerrit admin may thing _\"It\u0027s all fine\"_ but in reality the check hasn\u0027t been registered and the startup process did not wait for the pull-replication to give its green light.\n\n@christoforos.miliotis.dev@gmail.com @syntonyze@gmail.com would you agree? What\u0027s the benefit of loading this module and not having the check registered?",
+      "parentUuid": "cd4f8b19_0f790bef",
       "range": {
         "startLine": 36,
         "startChar": 13,
