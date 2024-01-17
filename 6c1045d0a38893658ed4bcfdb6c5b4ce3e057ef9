@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16c74e30_03a51cfb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-17T10:13:09Z",
+      "side": 1,
+      "message": "we\u0027ll only wait for the last feature here, in a situation when three refs `A`, `B` and `C` need to be synchronised and the feature for the `C` finishes first, we may end up in an \"inconsistent\" state, as synchronisation of `A` and `B` will be still going and can end up in a failure.\n\nWe should create here a `List\u003cFuture\u003c?\u003e\u003e` and then use `CompletableFuture.allOf()` to ensure that all `refs` are properly synchronized or revert all when any has failed.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 9
+      },
+      "revId": "6c1045d0a38893658ed4bcfdb6c5b4ce3e057ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
