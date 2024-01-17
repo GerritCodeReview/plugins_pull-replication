@@ -72,6 +72,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07ca3e79_ec122440",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T21:08:30Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "3db27a3a_69ed4117",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 52
+      },
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "666d17ec_a2618bf2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
         "patchSetId": 3
@@ -101,6 +125,24 @@
       "side": 1,
       "message": "We have the healthcheck plugin as a dependency, let\u0027s just refer to the class directly instead, WDYT?",
       "parentUuid": "666d17ec_a2618bf2",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87f0d68f_8fb7e548",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T21:08:30Z",
+      "side": 1,
+      "message": "Good suggestion +1",
+      "parentUuid": "d64796a2_5b2e09fc",
       "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -160,6 +202,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f075b1b_ea55ddf8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T21:08:30Z",
+      "side": 1,
+      "message": "@christoforos.miliotis.dev@gmail.com wrote the code so that the `Guice` Module is always `install`ed (see PullReplicationModule.java#L142), but effectively does nothing unless the healthcheck plugin is loaded.\n\nAn alternative approach would be to install it conditionally\n\n```\nif(healthcheckPluginIsLoaded) { install(PullReplicationCheckModule) }\n```\n\nIs that what you are suggesting?",
+      "parentUuid": "da081c56_5c7c323f",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cd4f8b19_0f790bef",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
         "patchSetId": 3
@@ -195,6 +255,30 @@
       "side": 1,
       "message": "I would disagree with this catch: let\u0027s make the process to throw the exception and blow up. It is *very dangerous* to start anyway and not having the healthcheck protection, if this module is loaded.\n\nThe Gerrit admin may thing _\"It\u0027s all fine\"_ but in reality the check hasn\u0027t been registered and the startup process did not wait for the pull-replication to give its green light.\n\n@christoforos.miliotis.dev@gmail.com @syntonyze@gmail.com would you agree? What\u0027s the benefit of loading this module and not having the check registered?",
       "parentUuid": "cd4f8b19_0f790bef",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 22
+      },
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6032145a_8d4912f7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-17T21:08:30Z",
+      "side": 1,
+      "message": "The current implementation _always_ installs the module and then (in its configuration logic) decides what to do.\nIf I understand your point, you are suggesting installing this Module, just when the Healthcheck is also installed.\n\nIf that\u0027s the case, then it makes sense to me.",
+      "parentUuid": "b28eefdd_4b1a9169",
       "range": {
         "startLine": 36,
         "startChar": 13,
