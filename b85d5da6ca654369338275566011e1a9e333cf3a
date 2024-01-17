@@ -9,12 +9,12 @@
       "updated": "2024-01-17T01:16:35Z"
     },
     "gerritforge:pull-replication-format-3852e64366bb37d13b8baf8af9b15cfd38eb9227": {
-      "state": "RUNNING",
+      "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/plugin-pull-replication-verifier/job/21%252F378721%252F21/2/console",
       "started": "2024-01-17T01:25:49Z",
-      "finished": "2024-01-17T01:13:40Z",
+      "finished": "2024-01-17T01:25:57Z",
       "created": "2024-01-17T01:13:33Z",
-      "updated": "2024-01-17T01:25:49Z"
+      "updated": "2024-01-17T01:25:57Z"
     }
   }
 }
