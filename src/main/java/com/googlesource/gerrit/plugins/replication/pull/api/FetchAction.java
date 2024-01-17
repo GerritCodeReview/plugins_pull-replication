@@ -77,7 +77,11 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     public Set<String> refsNames;
     public boolean async;
 
+<<<<<<< PATCH SET (5a8173 Use native BatchInput for the sync batch-fetch REST-API)
+    public static BatchInput fromInput(Input input) {
+=======
     static BatchInput fromInput(Input... input) {
+>>>>>>> BASE      (adcf60 Call synchronous fetch for all refs in batch if any is marke)
       BatchInput batchInput = new BatchInput();
       batchInput.async = input[0].async;
       batchInput.label = input[0].label;
@@ -139,23 +143,14 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
 
   @SuppressWarnings("unchecked")
   private Response.Accepted applyAsync(Project.NameKey project, BatchInput batchInput) {
-    WorkQueue.Task<Void> task = null;
-    Optional<String> url;
-
-    for (String refName : batchInput.refsNames) {
-      Input input = new Input();
-      input.label = batchInput.label;
-      input.async = batchInput.async;
-      input.refName = refName;
-      task =
-          (Task<Void>)
-              workQueue
-                  .getDefaultQueue()
-                  .submit(
-                      fetchJobFactory.create(
-                          project, input, PullReplicationApiRequestMetrics.get()));
-    }
-    url =
+    WorkQueue.Task<Void> task =
+        (Task<Void>)
+            workQueue
+                .getDefaultQueue()
+                .submit(
+                    fetchJobFactory.create(
+                        project, batchInput, PullReplicationApiRequestMetrics.get()));
+    Optional<String> url =
         urlFormatter
             .get()
             .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
