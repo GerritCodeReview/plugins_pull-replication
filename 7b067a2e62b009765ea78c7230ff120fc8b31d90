@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "803cd105_a8624b81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T18:04:46Z",
+      "side": 1,
+      "message": "That was a good suggestion, as the pull-replication plugin failed to be loaded if the healthcheck plugin was missing. I have uploaded a fix for it, let me know what you think.",
+      "parentUuid": "65624831_54a55a74",
+      "revId": "7b067a2e62b009765ea78c7230ff120fc8b31d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1aaf12e3_73c3c6c2",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
         "patchSetId": 2

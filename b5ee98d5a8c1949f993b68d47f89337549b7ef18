@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef6578ef_e93d6b09",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T18:04:46Z",
+      "side": 1,
+      "message": "we need to somehow check if the healthcheck plugin is loaded, one way this can be done is by checking for the presence of a class known to be part of the healthcheck plugin (here, the `HealthCheckExtensionApiModule`), but let me know if there\u0027s a different (better) way.",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
