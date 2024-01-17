@@ -52,6 +52,7 @@ import com.google.gson.stream.MalformedJsonException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.BatchInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
@@ -274,11 +275,11 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   @SuppressWarnings("unchecked")
   private Response<Map<String, Object>> doBatchFetch(HttpServletRequest httpRequest)
       throws IOException, RestApiException {
-    TypeLiteral<List<Input>> collectionType = new TypeLiteral<>() {};
-    List<Input> inputs = readJson(httpRequest, collectionType.getType());
+    BatchInput batchInput = readJson(httpRequest, BatchInput.class);
     IdString id = getProjectName(httpRequest).get();
 
-    return (Response<Map<String, Object>>) batchFetchAction.apply(parseProjectResource(id), inputs);
+    return (Response<Map<String, Object>>)
+        batchFetchAction.apply(parseProjectResource(id), batchInput);
   }
 
   private <T> void writeResponse(HttpServletResponse httpResponse, Response<T> response)

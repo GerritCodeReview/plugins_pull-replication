@@ -21,10 +21,9 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.BatchInput;
-import java.util.List;
 
 @Singleton
-public class BatchFetchAction implements RestModifyView<ProjectResource, List<FetchAction.Input>> {
+public class BatchFetchAction implements RestModifyView<ProjectResource, BatchInput> {
   private final FetchAction fetchAction;
 
   @Inject
@@ -33,10 +32,8 @@ public class BatchFetchAction implements RestModifyView<ProjectResource, List<Fe
   }
 
   @Override
-  public Response<?> apply(ProjectResource resource, List<FetchAction.Input> inputs)
+  public Response<?> apply(ProjectResource resource, BatchInput batchInput)
       throws RestApiException {
-    return Response.ok(
-        fetchAction.apply(
-            resource, BatchInput.fromInput(inputs.toArray(new FetchAction.Input[0]))));
+    return Response.ok(fetchAction.apply(resource, batchInput));
   }
 }
