@@ -327,6 +327,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31b933d6_e789245e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchActionTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54fea905_361ab515",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0caa84f8_96ed61e4",
@@ -340,6 +358,24 @@
       "writtenOn": "2023-10-10T10:43:03Z",
       "side": 1,
       "message": "A more accurate test is with a set that contains multiple elements.",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f43a4ded_639da1d9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommandTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T20:05:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0caa84f8_96ed61e4",
       "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
