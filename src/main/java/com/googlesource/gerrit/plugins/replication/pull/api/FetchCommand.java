@@ -64,11 +64,11 @@ public class FetchCommand implements Command {
   public void fetchAsync(
       Project.NameKey name,
       String label,
-      String refName,
+      Set<String> refsNames,
       PullReplicationApiRequestMetrics apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    fetch(name, label, Set.of(refName), ASYNC, Optional.of(apiRequestMetrics));
+    fetch(name, label, refsNames, ASYNC, Optional.of(apiRequestMetrics));
   }
 
   public void fetchSync(Project.NameKey name, String label, Set<String> refsNames)

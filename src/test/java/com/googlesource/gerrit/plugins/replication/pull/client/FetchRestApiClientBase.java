@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.HttpDelete;
@@ -259,13 +260,13 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPost = httpPostCaptor.getValue();
     String expectedPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \""
+        "{\"label\":\"Replication\", \"refs_names\": [ "
+            + '"'
             + refName
-            + "\", \"async\":true},"
-            + "{\"label\":\"Replication\", \"ref_name\": \""
-            + refs.get(1)
-            + "\", \"async\":true}"
-            + "]";
+            + "\",\""
+            + testRef
+            + "\" ]"
+            + ", \"async\":true}";
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
   }
 
@@ -304,7 +305,7 @@ public abstract class FetchRestApiClientBase {
   public void shouldCallSyncBatchFetchOnlyForMetaRef() throws Exception {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \"" + metaRefName + "\", \"async\":false}]";
+        "{\"label\":\"Replication\", \"refs_names\": [ \"" + metaRefName + "\" ], \"async\":false}";
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
@@ -349,13 +350,12 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPost = httpPostCaptor.getValue();
     String expectedPayload =
-        "[{\"label\":\"Replication\", \"ref_name\": \""
+        "{\"label\":\"Replication\", \"refs_names\": [ "
+            + '"'
             + refName
-            + "\", \"async\":false},"
-            + "{\"label\":\"Replication\", \"ref_name\": \""
+            + "\",\""
             + refs.get(1)
-            + "\", \"async\":false}"
-            + "]";
+            + "\" ], \"async\":false}";
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
   }
 
@@ -383,14 +383,9 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPosts = httpPostCaptor.getValue();
     String expectedSyncPayload =
-        "["
-            + "{\"label\":\"Replication\", \"ref_name\": \""
-            + refName
-            + "\", \"async\":false},"
-            + "{\"label\":\"Replication\", \"ref_name\": \""
-            + refs.get(1)
-            + "\", \"async\":false}"
-            + "]";
+        "{\"label\":\"Replication\", \"refs_names\": [ "
+            + refs.stream().map(r -> '"' + r + '"').collect(Collectors.joining(","))
+            + " ], \"async\":false}";
 
     assertThat(readPayload(httpPosts)).isEqualTo(expectedSyncPayload);
   }

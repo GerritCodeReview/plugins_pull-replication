@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.BatchInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -28,38 +29,38 @@ public class FetchJob implements Runnable {
 
   public interface Factory {
     FetchJob create(
-        Project.NameKey project, FetchAction.Input input, PullReplicationApiRequestMetrics metrics);
+        Project.NameKey project, BatchInput input, PullReplicationApiRequestMetrics metrics);
   }
 
   private FetchCommand command;
   private Project.NameKey project;
-  private FetchAction.Input input;
+  private BatchInput batchInput;
   private final PullReplicationApiRequestMetrics metrics;
 
   @Inject
   public FetchJob(
       FetchCommand command,
       @Assisted Project.NameKey project,
-      @Assisted FetchAction.Input input,
+      @Assisted BatchInput batchInput,
       @Assisted PullReplicationApiRequestMetrics metrics) {
     this.command = command;
     this.project = project;
-    this.input = input;
+    this.batchInput = batchInput;
     this.metrics = metrics;
   }
 
   @Override
   public void run() {
     try {
-      command.fetchAsync(project, input.label, input.refName, metrics);
+      command.fetchAsync(project, batchInput.label, batchInput.refsNames, metrics);
     } catch (InterruptedException
         | ExecutionException
         | RemoteConfigurationMissingException
         | TimeoutException
         | TransportException e) {
       log.atSevere().withCause(e).log(
-          "Exception during the async fetch call for project %s, label %s and ref name %s",
-          project.get(), input.label, input.refName);
+          "Exception during the async fetch call for project %s, label %s and ref(s) name(s) %s",
+          project.get(), batchInput.label, batchInput.refsNames);
     }
   }
 }
