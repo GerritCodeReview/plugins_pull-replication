@@ -75,7 +75,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
     public Set<String> refsNames;
     public boolean async;
 
-    static BatchInput fromInput(Input input) {
+    public static BatchInput fromInput(Input input) {
       BatchInput batchInput = new BatchInput();
       batchInput.async = input.async;
       batchInput.label = input.label;
@@ -134,23 +134,14 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
 
   @SuppressWarnings("unchecked")
   private Response.Accepted applyAsync(Project.NameKey project, BatchInput batchInput) {
-    WorkQueue.Task<Void> task = null;
-    Optional<String> url;
-
-    for (String refName : batchInput.refsNames) {
-      Input input = new Input();
-      input.label = batchInput.label;
-      input.async = batchInput.async;
-      input.refName = refName;
-      task =
-          (Task<Void>)
-              workQueue
-                  .getDefaultQueue()
-                  .submit(
-                      fetchJobFactory.create(
-                          project, input, PullReplicationApiRequestMetrics.get()));
-    }
-    url =
+    WorkQueue.Task<Void> task =
+        (Task<Void>)
+            workQueue
+                .getDefaultQueue()
+                .submit(
+                    fetchJobFactory.create(
+                        project, batchInput, PullReplicationApiRequestMetrics.get()));
+    Optional<String> url =
         urlFormatter
             .get()
             .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));

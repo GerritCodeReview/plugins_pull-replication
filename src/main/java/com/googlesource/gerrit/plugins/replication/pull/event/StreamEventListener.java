@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.event;
 
 import static com.googlesource.gerrit.plugins.replication.pull.ApplyObjectCacheModule.APPLY_OBJECTS_CACHE;
+import static com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.BatchInput.fromInput;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
@@ -242,7 +243,9 @@ public class StreamEventListener implements EventListener {
     FetchAction.Input input = new FetchAction.Input();
     input.refName = refName;
     input.label = sourceInstanceId;
-    workQueue.getDefaultQueue().submit(fetchJobFactory.create(projectNameKey, input, metrics));
+    workQueue
+        .getDefaultQueue()
+        .submit(fetchJobFactory.create(projectNameKey, fromInput(input), metrics));
   }
 
   private String getProjectRepositoryName(ProjectCreatedEvent projectCreatedEvent) {
