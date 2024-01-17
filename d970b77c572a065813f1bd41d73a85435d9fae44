@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe0e25a1_92ee36f1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T00:56:22Z",
+      "side": 1,
+      "message": "\u003e can we make both `Input` and `Inputs` immutable and add `copy()` method? \n\nThat\u0027s not what we do in Gerrit for all REST-API.\n\n\u003e This will save us from potential concurrent mutation issues (see my comment on L144).\n\nThe variable isn\u0027t stored in the instance and every call will have a different one. How can you have two threads sharing the same? Every thread has its own stack with its own variable.\n\n\u003e Also how about renaming this to `BatchInput` to indicate batch operation?\n\nGood idea, done.",
+      "parentUuid": "f0f846e0_5e306b4d",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4265e3d6_121119f1",
@@ -65,6 +83,24 @@
       "writtenOn": "2023-10-10T10:43:03Z",
       "side": 1,
       "message": "why a set as opposed to a list? A (hash)set will mess up the ordering of the refs, does it makes a difference?",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57e38f15_d5de6eb3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T00:56:22Z",
+      "side": 1,
+      "message": "\u003e why a set as opposed to a list? A (hash)set will mess up the ordering of the refs, does it makes a difference?\n\nThe batch is executed as a whole, the ordering doesn\u0027t make any difference in the updates. I prefer a Set\u003c\u003e to prevent any expectation that you would be able to update one ref two times.",
+      "parentUuid": "4265e3d6_121119f1",
       "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +122,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2af4be4_9208e068",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T00:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "089f784c_901eb51f",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cedb9bff_03611f20",
@@ -103,6 +157,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4e9920b_8fa5d280",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T00:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cedb9bff_03611f20",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ed8c40a_21adb3ec",
@@ -116,6 +188,24 @@
       "writtenOn": "2023-10-10T10:43:03Z",
       "side": 1,
       "message": "this is redundant",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f640b9ef_4ab6b817",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T00:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ed8c40a_21adb3ec",
       "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -139,6 +229,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f3a84a3_84f2c519",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T00:56:22Z",
+      "side": 1,
+      "message": "No, they won\u0027t be executed one-by-one anyway: they\u0027ll be all aggregated to a single replication task.\n\nHowever, I agree we can refactor this step and having all the tasks aggregated at source. Will upload a follow-up change with the optimisation.",
+      "parentUuid": "8864bec2_8bcad5aa",
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8191fc3c_97834549",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
         "patchSetId": 16
@@ -150,6 +258,30 @@
       "writtenOn": "2023-10-13T14:32:47Z",
       "side": 1,
       "message": "The `input` is passed by reference, and we actively change it\u0027s internal state in L137. This may cause concurrency issues, where some refs will be fetched multiple times where others will be ignored. We should rather _clone_ input before passing it.",
+      "range": {
+        "startLine": 144,
+        "startChar": 35,
+        "endLine": 144,
+        "endChar": 40
+      },
+      "revId": "d970b77c572a065813f1bd41d73a85435d9fae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d05827_f445fafc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-17T00:56:22Z",
+      "side": 1,
+      "message": "Done, good catch.",
+      "parentUuid": "8191fc3c_97834549",
       "range": {
         "startLine": 144,
         "startChar": 35,
