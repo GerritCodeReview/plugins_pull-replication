@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b09c22a_45d9361a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T11:04:25Z",
+      "side": 1,
+      "message": "nice one",
+      "revId": "adcf6075164007179739a4f853b9e7ab94bb63f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adce17e5_1d7b040f",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T11:04:25Z",
+      "side": 1,
+      "message": "Formatting is off",
+      "revId": "adcf6075164007179739a4f853b9e7ab94bb63f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "294ed305_ee33ee44",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T11:04:25Z",
+      "side": 1,
+      "message": "all refs in that batch are going",
+      "range": {
+        "startLine": 612,
+        "startChar": 10,
+        "endLine": 612,
+        "endChar": 28
+      },
+      "revId": "adcf6075164007179739a4f853b9e7ab94bb63f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d61f7c5b_1144ac11",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T11:04:25Z",
+      "side": 1,
+      "message": "shouldMarkAllRefsAsSyncWhenTheBatchContainsAtLeastOneSyncRef",
+      "range": {
+        "startLine": 363,
+        "startChar": 14,
+        "endLine": 363,
+        "endChar": 66
+      },
+      "revId": "adcf6075164007179739a4f853b9e7ab94bb63f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
