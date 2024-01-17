@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c571476_0c57ec33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-17T13:09:19Z",
+      "side": 1,
+      "message": "I\u0027ve tested this by invoking the healthcheck endpoint and verifying that the `pull-replication-tasks` is included in the output.",
+      "revId": "7b067a2e62b009765ea78c7230ff120fc8b31d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
