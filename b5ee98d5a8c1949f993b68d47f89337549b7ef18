@@ -94,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18954fc4_0fe2fea2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-18T15:56:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07ca3e79_ec122440",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 52
+      },
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "666d17ec_a2618bf2",
@@ -143,6 +167,24 @@
       "side": 1,
       "message": "Good suggestion +1",
       "parentUuid": "d64796a2_5b2e09fc",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3326c5d8_18820268",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-18T15:56:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f0d68f_8fb7e548",
       "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -218,6 +260,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04b429c8_42a6f1ad",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-18T15:56:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f075b1b_ea55ddf8",
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cd4f8b19_0f790bef",
@@ -279,6 +339,30 @@
       "side": 1,
       "message": "The current implementation _always_ installs the module and then (in its configuration logic) decides what to do.\nIf I understand your point, you are suggesting installing this Module, just when the Healthcheck is also installed.\n\nIf that\u0027s the case, then it makes sense to me.",
       "parentUuid": "b28eefdd_4b1a9169",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 22
+      },
+      "revId": "b5ee98d5a8c1949f993b68d47f89337549b7ef18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4286bab_bf44ebe5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationHealthCheckModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-18T15:56:39Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com I don\u0027t follow, can you please clarify? The problem I am trying to address is avoid registering the pull-replication healthcheck, if the healthcheck plugin is not installed. Because if the healthcheck plugin is missing, the pull-replication will blow up and will not be loaded. Anyway I have adapted the code, so have another look and let me know if this is still an issue.",
+      "parentUuid": "6032145a_8d4912f7",
       "range": {
         "startLine": 36,
         "startChar": 13,
