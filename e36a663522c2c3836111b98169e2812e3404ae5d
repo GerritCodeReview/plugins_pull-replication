@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d415d42_aea1c3a3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T23:07:41Z",
+      "side": 1,
+      "message": "You cannot refer to the class statically in this way, otherwise if the healthcheck plugin isn\u0027t installed it would cause the `PullReplicationModule` class loading to fail as well.",
+      "revId": "e36a663522c2c3836111b98169e2812e3404ae5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b2b7711_24626d30",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T23:07:41Z",
+      "side": 1,
+      "message": "This module installation needs to happen purely via reflection.\n\n```suggestion\n      Class\u003cModule\u003e pullReplicationHealthCheckModuleClass \u003d Class.forName(\"com.googlesource.gerrit.plugins.healthcheck.HealthCheckExtensionApiModule\");\n      install(pullReplicationHealthCheckModuleClass.getInstance());\n```",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 54
+      },
+      "revId": "e36a663522c2c3836111b98169e2812e3404ae5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97c8ec41_df471b63",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-18T23:07:41Z",
+      "side": 1,
+      "message": "Can you narrow this to a more specific exception?",
+      "range": {
+        "startLine": 148,
+        "startChar": 13,
+        "endLine": 148,
+        "endChar": 24
+      },
+      "revId": "e36a663522c2c3836111b98169e2812e3404ae5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
