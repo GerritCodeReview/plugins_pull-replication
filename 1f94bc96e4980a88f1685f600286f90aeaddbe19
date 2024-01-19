@@ -16,6 +16,24 @@
       "message": "nit: IMO it makes sense to extract this into a standalone class as it\u0027s now used in different contexts.",
       "revId": "1f94bc96e4980a88f1685f600286f90aeaddbe19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f709e19c_acf0ebd9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-19T18:01:55Z",
+      "side": 1,
+      "message": "Sure, but I would do it consistently also for `Input` then, as a follow-up change.",
+      "parentUuid": "14238faf_c1bb0d23",
+      "revId": "1f94bc96e4980a88f1685f600286f90aeaddbe19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
