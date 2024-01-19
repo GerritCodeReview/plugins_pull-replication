@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "406dfe3c_17347da2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-19T09:29:44Z",
+      "side": 1,
+      "message": "No, it will not, it can only cause compile errors which ofc can\u0027t be the case as the healthcheck plugin is now a dependency.",
+      "parentUuid": "3d415d42_aea1c3a3",
+      "revId": "e36a663522c2c3836111b98169e2812e3404ae5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b2b7711_24626d30",
@@ -43,6 +61,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d3944ec_aa643aa9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-19T09:29:44Z",
+      "side": 1,
+      "message": "Can you please elaborate, I am confused? L147 won\u0027t be executed unless the healthcheck plugin is present, which will be true if L146 doesnt throw an exception. This satisfies the requirement, ie register the custom healthcheck (ie install the `PullReplicationHealthCheckModule` only if the healthcheck is installed. \n\nHere, you are suggesting to install the `HealthCheckExtensionApiModule` module only if the class is available - which you check via reflection?",
+      "parentUuid": "9b2b7711_24626d30",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 54
+      },
+      "revId": "e36a663522c2c3836111b98169e2812e3404ae5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "97c8ec41_df471b63",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
         "patchSetId": 5
@@ -54,6 +96,30 @@
       "writtenOn": "2024-01-18T23:07:41Z",
       "side": 1,
       "message": "Can you narrow this to a more specific exception?",
+      "range": {
+        "startLine": 148,
+        "startChar": 13,
+        "endLine": 148,
+        "endChar": 24
+      },
+      "revId": "e36a663522c2c3836111b98169e2812e3404ae5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2cde350_f62cce6f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-19T09:29:44Z",
+      "side": 1,
+      "message": "This shows intent; _whatever_ the error, we don\u0027t want the module to be installed, but we want the loading of the plugin to continue uninterrupted.",
+      "parentUuid": "97c8ec41_df471b63",
       "range": {
         "startLine": 148,
         "startChar": 13,
