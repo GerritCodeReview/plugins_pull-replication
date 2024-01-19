@@ -34,6 +34,24 @@
       "parentUuid": "14238faf_c1bb0d23",
       "revId": "1f94bc96e4980a88f1685f600286f90aeaddbe19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "853c5f18_00e18568",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-19T18:05:25Z",
+      "side": 1,
+      "message": "I\u0027d only do that for the DTO\u0027s that are used in multiple endpoints. When the `Input` is only used whin it\u0027s parent class it makes sense to keep it like that. Just a 2c",
+      "parentUuid": "f709e19c_acf0ebd9",
+      "revId": "1f94bc96e4980a88f1685f600286f90aeaddbe19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
