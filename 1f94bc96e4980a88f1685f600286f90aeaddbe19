@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec1ad4df_10ea3a01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-20T12:16:50Z",
+      "side": 1,
+      "message": "Test E2E and works as expected",
+      "revId": "1f94bc96e4980a88f1685f600286f90aeaddbe19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14238faf_c1bb0d23",
