@@ -379,6 +379,12 @@ replication.shutDownDrainTimeout
 
 	Default: 5 minutes
 
+remote.NAME.enableBatchedRefs
+:	Keep the same batch of ref-updates in the same replication unit of work
+	and independently from sync or async replication.
+
+	Default: true
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
@@ -603,23 +609,14 @@ remote.NAME.remoteNameStyle
 	everything from all remotes.
 
 remote.NAME.enableBatchedRefs
-:	Choose whether the batch-apply-object endpoint is enabled.
-	If you set this to `true`, then there will be a single call
-	to the batch-apply-object endpoint with all the refs from
-	the batch ref update included. The default behaviour means
-	one call to the apply object(s) endpoint per ref.
-
-	*NOTE*: the default value is only needed for backwards
-	compatibility to allow migrating transparently to the
-	latest pull-replication plugin version. Once the migration is
-	over, this value should be set to `true` to leverage the
-	performance improvements introduced by the `batch-apply-object` API.
+:	Keep the synchronous replication actions together as a single call
+	with all the refs included in the batch ref update.
 
 > *NOTE*: if any ref from a single batch matches [replication.syncRefs](#replication.syncRefs)
 > filter, all refs in that batch are going to be fetched synchronously as
 > a single git fetch operation.
 
-	By default, false.
+	By default, true.
 
 Directory `replication`
 --------------------
