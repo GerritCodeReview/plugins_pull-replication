@@ -121,7 +121,7 @@ public class SourceConfiguration implements RemoteConfiguration {
                 DEFAULT_DRAIN_SHUTDOWN_TIMEOUT_SECS,
                 TimeUnit.SECONDS);
 
-    enableBatchedRefs = cfg.getBoolean("remote", name, "enableBatchedRefs", false);
+    enableBatchedRefs = cfg.getBoolean("remote", name, "enableBatchedRefs", true);
     if (!enableBatchedRefs) {
       logger.atWarning().log(
           "You haven't enabled batched refs in the %s node, as such you are not "
