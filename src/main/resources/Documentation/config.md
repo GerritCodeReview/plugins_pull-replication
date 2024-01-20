@@ -375,6 +375,12 @@ replication.shutDownDrainTimeout
 
 	Default: 5 minutes
 
+remote.NAME.enableBatchedRefs
+:	Keep the same batch of ref-updates in the same replication unit of work
+	and independently from sync or async replication.
+
+	Default: true
+
 remote.NAME.url
 :	Address of the remote server to fetch from. Single URL can be
 	specified within a single remote block. A remote node can request
