@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d54e2dc2_3f1cc64b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T16:01:13Z",
+      "side": 1,
+      "message": "If we enable that by default we should make sure that Gerrit core enabl",
+      "revId": "b91f1dfe7c1f6de2a436b1a4c9e912c439a796a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
