@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29255f56_0bcfa2dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T17:45:26Z",
+      "side": 1,
+      "message": "It is mentioned as:\n\n_\"Also avoid scheduling a batch as a series of individual\nfetch operations of the individual refs, as a follow-up\nof the review of Ifd2a28a6.\"_",
+      "parentUuid": "8ea15e8a_4731d28e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "5ed4df219d93ed2cb2f0f40dd4b34a9f2df69cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cd70ab4_3cfc632b",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-01-22T15:58:16Z",
       "side": 1,
       "message": "nit: it can be replaced with `.collect(Collectors.joining(\"\\\",\\\"\", \"\\\"\", \"\\\"\"));`",
+      "range": {
+        "startLine": 164,
+        "startChar": 7,
+        "endLine": 164,
+        "endChar": 86
+      },
+      "revId": "5ed4df219d93ed2cb2f0f40dd4b34a9f2df69cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24ba66d9_7da2cb30",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T17:45:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cd70ab4_3cfc632b",
       "range": {
         "startLine": 164,
         "startChar": 7,
