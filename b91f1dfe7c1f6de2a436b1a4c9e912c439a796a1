@@ -39,6 +39,30 @@
       },
       "revId": "b91f1dfe7c1f6de2a436b1a4c9e912c439a796a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23f6d9aa_99bab895",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T17:56:05Z",
+      "side": 1,
+      "message": "\u003e In what cases should one disable this behaviour?\n\nIf you are migrating from an earlier version and not all nodes are yet migrated.\n\n\u003e Could you expand on why a Gerrit admin would want to tweak this argument?\n\nHonestly, no: a Gerrit admin should not mess up with this and rely on defaults, unless he really knows what he is doing and is accepting the temporarily inconsistency during migration, as he doesn\u0027t have a choice.\n\n\u003e If there is not valid use case, should this configuration then be removed altogether?\n\nMaybe in the next release, mentioning that interoperability with earlier versions isn\u0027t supported anymore.",
+      "parentUuid": "1a569532_220e16dd",
+      "range": {
+        "startLine": 605,
+        "startChar": 0,
+        "endLine": 607,
+        "endChar": 52
+      },
+      "revId": "b91f1dfe7c1f6de2a436b1a4c9e912c439a796a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
