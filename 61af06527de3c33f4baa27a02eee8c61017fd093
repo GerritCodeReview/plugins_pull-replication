@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1afd2f82_507703fa",
+        "filename": "BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-22T16:17:45Z",
+      "side": 1,
+      "message": "Could you format this with `buildifier`?",
+      "revId": "61af06527de3c33f4baa27a02eee8c61017fd093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e802d12_289b9b1f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-22T16:17:45Z",
+      "side": 1,
+      "message": "nit: The `getPeriodOfTime` follows the Java naming convention for the getter method of the `periodOfTime` field.\n\nHowever, the method is not a getter of that property, but rather a reader of the configuration field, this could be misleading and clash if we introduce an actual property-getter later on.\n\nHow about `periodOfTimeFromConfig`? or `readPeriodOfTimeFromConfig()` or something along these lines?",
+      "range": {
+        "startLine": 60,
+        "startChar": 15,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "61af06527de3c33f4baa27a02eee8c61017fd093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c26dde81_e42ea6e7",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-22T16:17:45Z",
+      "side": 1,
+      "message": "The documentation looks good and it adheres to the requirements of this task.\nHowever, this change does not provide any of this logic, rather, it just \"Read heathcheck settings from plugin configuration\" (as per the commit summary).\n\nShould we not describe this behaviour alongside the implementation that provides it, rather than this config-reading-specific change?",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 67
+      },
+      "revId": "61af06527de3c33f4baa27a02eee8c61017fd093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e170d921_3a64d1f9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-22T16:17:45Z",
+      "side": 1,
+      "message": "Since this change focuses on reading specific configurations, could we add a test to ensure we are reading the relevant config as expected?",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "61af06527de3c33f4baa27a02eee8c61017fd093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
