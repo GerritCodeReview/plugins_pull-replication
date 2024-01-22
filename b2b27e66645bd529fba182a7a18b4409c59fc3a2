@@ -16,6 +16,24 @@
       "message": "pull-replication relies on the replication plugin for reading and parsing the configuration. How can pull-replication work standalone then?",
       "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "083518e4_503920f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-22T22:14:33Z",
+      "side": 1,
+      "message": "It relies on the replication code as a dependency, true.\nIt does not require the replication plugin to be installed though, does it?",
+      "parentUuid": "f929b66b_b04b187b",
+      "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
