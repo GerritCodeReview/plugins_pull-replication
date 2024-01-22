@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "064379a0_d3478d2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T13:22:40Z",
+      "side": 1,
+      "message": "Yes, that was v3.9. This is master hence v3.10: we do not keep backward compatibility forever :-)",
+      "parentUuid": "46d7d939_e80e972c",
+      "revId": "2dbbcb6db61ee0b9c063b1e2d578ad7a2d6be3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd79778e_ff5ac888",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-01-22T08:58:04Z",
       "side": 1,
       "message": "this is already documented a bit further down",
+      "revId": "2dbbcb6db61ee0b9c063b1e2d578ad7a2d6be3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27c49f92_8c551a15",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T13:22:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd79778e_ff5ac888",
       "revId": "2dbbcb6db61ee0b9c063b1e2d578ad7a2d6be3a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
