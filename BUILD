@@ -39,6 +39,7 @@ junit_tests(
         "//plugins/delete-project",
         "//plugins/events-broker",
         "//plugins/replication",
+        "//plugins/healthcheck",
     ],
 )
 
