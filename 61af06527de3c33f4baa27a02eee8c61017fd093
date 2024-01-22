@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dc5e580_b77abf66",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T20:00:42Z",
+      "side": 1,
+      "message": "This can be inlined as it is the only reference to it, done.",
+      "parentUuid": "7e802d12_289b9b1f",
+      "range": {
+        "startLine": 60,
+        "startChar": 15,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "61af06527de3c33f4baa27a02eee8c61017fd093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c26dde81_e42ea6e7",
@@ -84,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "121165d1_cca1efce",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T20:00:42Z",
+      "side": 1,
+      "message": "I believe @christoforos.miliotis.dev@gmail.com wanted to split the change into multiple chunks, so possibly turning this as WIP and adding it to a topic with the change that uses the implementation?",
+      "parentUuid": "c26dde81_e42ea6e7",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 67
+      },
+      "revId": "61af06527de3c33f4baa27a02eee8c61017fd093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e170d921_3a64d1f9",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
         "patchSetId": 3
@@ -95,6 +143,30 @@
       "writtenOn": "2024-01-22T16:17:45Z",
       "side": 1,
       "message": "Since this change focuses on reading specific configurations, could we add a test to ensure we are reading the relevant config as expected?",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "61af06527de3c33f4baa27a02eee8c61017fd093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a322088_a370649e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T20:00:42Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "e170d921_3a64d1f9",
       "range": {
         "startLine": 33,
         "startChar": 13,

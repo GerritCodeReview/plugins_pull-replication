@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f714d67_70a3d87a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T20:00:42Z",
+      "side": 1,
+      "message": "\u003e Pending + inflight tasks, you mean. Hence why i used the more general term `-tasks`. Perhaps `-outstanding-tasks` is a better term here? WDYT?\n\n`-outstanding-tasks` looks good, let me amend it.",
+      "parentUuid": "7b05076b_4b629ac3",
+      "range": {
+        "startLine": 35,
+        "startChar": 56,
+        "endLine": 35,
+        "endChar": 62
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4068249b_f907faf5",
