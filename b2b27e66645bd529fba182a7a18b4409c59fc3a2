@@ -70,6 +70,24 @@
       "parentUuid": "6ecf7e07_cc999e4d",
       "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b0bf7f0_229f121e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T22:26:39Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e It relies on the replication code as a dependency, true.\n\u003e \u003e \u003e It does not require the replication plugin to be installed though, does it?\n\u003e \u003e \n\u003e \u003e All dependencies that are plugins or core Gerrit are always included with `neverlink`, therefore the actual plugin\u0027s classes are needed.\n\u003e \n\u003e pull-replication does not depend on the push replication as a `neverlink`ed dependency, though [1].\n\nOh, we are included the *full* replication and delete-project plugin 😮\nThat\u0027s a bug and should be fixed, otherwise we have the whole plugins included in pull-replication jar.\n\n\u003e I was under the impression that the pull-replication could have been installed with, *or without* the push replication plugin.\n\nSure, but it must be there at least as lib dependency.\n\n\u003e [1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/master/BUILD#23\n\nThat\u0027s a bug to be fixed.",
+      "parentUuid": "5b343056_cdf92c7e",
+      "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
