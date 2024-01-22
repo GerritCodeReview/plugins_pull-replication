@@ -22,7 +22,7 @@ import com.google.gerrit.acceptance.UseLocalDisk;
 @UseLocalDisk
 @TestPlugin(
     name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.TestPullReplicationModule",
+    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
 public class PullReplicationWithGitHttpTransportProtocolRefUpdatedIT
     extends PullReplicationWithGitHttpTransportProtocolBase {

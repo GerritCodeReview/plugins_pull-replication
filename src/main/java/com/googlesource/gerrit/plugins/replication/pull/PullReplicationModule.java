@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.events.ProjectDeletedListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.events.EventListener;
@@ -39,6 +40,7 @@ import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfigModule;
+import com.googlesource.gerrit.plugins.replication.ReplicationConfigOverrides;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
@@ -57,6 +59,7 @@ class PullReplicationModule extends AbstractModule {
 
   private static final FluentLogger flogger = FluentLogger.forEnclosingClass();
   private final MetricMaker pluginMetricMaker;
+  private DynamicItem<ReplicationConfigOverrides> configOverrides;
   private final ReplicationConfigModule configModule;
 
   @Inject
@@ -66,8 +69,16 @@ class PullReplicationModule extends AbstractModule {
     this.pluginMetricMaker = pluginMetricMaker;
   }
 
+  @Inject(optional = true)
+  public void setPreviousConfigOverrides(DynamicItem<ReplicationConfigOverrides> configOverrides) {
+    this.configOverrides = configOverrides;
+  }
+
   @Override
   protected void configure() {
+    if (configOverrides == null) {
+      DynamicItem.itemOf(binder(), ReplicationConfigOverrides.class);
+    }
     bind(MetricMaker.class)
         .annotatedWith(Names.named(ReplicationQueueMetrics.REPLICATION_QUEUE_METRICS))
         .toInstance(pluginMetricMaker);

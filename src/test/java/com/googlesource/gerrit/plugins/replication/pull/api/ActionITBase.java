@@ -62,7 +62,7 @@ import org.eclipse.jgit.util.FS;
 @UseLocalDisk
 @TestPlugin(
     name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.TestPullReplicationModule",
+    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
 public abstract class ActionITBase extends LightweightPluginDaemonTest {
   protected static final Optional<String> ALL_PROJECTS = Optional.empty();
