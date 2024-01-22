@@ -38,6 +38,7 @@ junit_tests(
         ":pull_replication_util",
         "//plugins/delete-project",
         "//plugins/events-broker",
+        "//plugins/healthcheck",
         "//plugins/replication",
     ],
 )
