@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46d7d939_e80e972c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-22T08:58:04Z",
+      "side": 1,
+      "message": "I thought this was disabled by default to maintain backwards compatibility",
+      "revId": "2dbbcb6db61ee0b9c063b1e2d578ad7a2d6be3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd79778e_ff5ac888",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-22T08:58:04Z",
+      "side": 1,
+      "message": "this is already documented a bit further down",
+      "revId": "2dbbcb6db61ee0b9c063b1e2d578ad7a2d6be3a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
