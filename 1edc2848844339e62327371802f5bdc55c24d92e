@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed2657b4_dfe07555",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T17:46:54Z",
+      "side": 1,
+      "message": "Don\u0027t need the starting `\u003e` at the beginning of the line.",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 622,
+        "endChar": 20
+      },
+      "revId": "1edc2848844339e62327371802f5bdc55c24d92e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
