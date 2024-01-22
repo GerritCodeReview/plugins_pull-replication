@@ -16,6 +16,29 @@
       "message": "If we enable that by default we should make sure that Gerrit core enabl",
       "revId": "b91f1dfe7c1f6de2a436b1a4c9e912c439a796a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a569532_220e16dd",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-22T16:27:32Z",
+      "side": 1,
+      "message": "In what cases should one disable this behaviour?\nCould you expand on why a Gerrit admin would want to tweak this argument?\n\nIf there is not valid use case, should this configuration then be removed altogether?",
+      "range": {
+        "startLine": 605,
+        "startChar": 0,
+        "endLine": 607,
+        "endChar": 52
+      },
+      "revId": "b91f1dfe7c1f6de2a436b1a4c9e912c439a796a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
