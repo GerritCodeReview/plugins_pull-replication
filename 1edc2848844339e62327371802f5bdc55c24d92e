@@ -46,6 +46,30 @@
       },
       "revId": "1edc2848844339e62327371802f5bdc55c24d92e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65ffba52_e174656b",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T19:42:04Z",
+      "side": 1,
+      "message": "Well, then it isn\u0027t consistent with the previous note isn\u0027t it? ;-)\n\nI\u0027m fine to merge it as-is, the docs would need a revamp anyway, the rendering is massively broken to me :-(",
+      "parentUuid": "e0475962_a211289a",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 622,
+        "endChar": 20
+      },
+      "revId": "1edc2848844339e62327371802f5bdc55c24d92e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
