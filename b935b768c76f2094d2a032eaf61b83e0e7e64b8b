@@ -1,0 +1,274 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cef32d19_2e40e367",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "```suggestion\n  public static final String HEALTHCHECK_NAME_SUFFIX \u003d \"-pending-tasks\";\n```\n\nThe check is giving the health status of pending tasks.",
+      "range": {
+        "startLine": 35,
+        "startChar": 56,
+        "endLine": 35,
+        "endChar": 62
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4068249b_f907faf5",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "I would avoid enumerating the details, what if tomorrow those settings are changing? Just provide the pointer saying that this check inherit all the standard properties of all other checks of the healthcheck plugin.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 177
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69025d2e_d5741385",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "Can you use a relative URL here?",
+      "range": {
+        "startLine": 20,
+        "startChar": 71,
+        "endLine": 20,
+        "endChar": 197
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbb01039_5e513ae2",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "This is specific for this plugin, therefore you should use `@PLUGIN@-pending-tasks` which is expanded at runtime with the name of the plugin.",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "093b3394_a95d68ae",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "Why in seconds? Gerrit allows to use generic time units, such as `5 sec` or `100 msec`",
+      "range": {
+        "startLine": 26,
+        "startChar": 44,
+        "endLine": 26,
+        "endChar": 54
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bb123f2_55ebb4f5",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7e06fe9_364a4416",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "+ `after the plugin startup`.\n\nYou should also mention that once the check succeeds after startup, it is automatically disabled.",
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1418ddf4_4b661fc0",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "`5 sec`",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 20
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0646635_3ae5b8b8",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "How is this relevant for the Gerrit admin?",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 164
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79a975e5_4a501083",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "The method is used only at L38, consider inlining there.",
+      "range": {
+        "startLine": 46,
+        "startChar": 19,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f72d999e_823a6e9b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "This is only used at L38 with the value of `new TestModule(List.of(\"foo\", \"bar/baz\"), 10L)`. You can just inline it at L47 then.",
+      "range": {
+        "startLine": 46,
+        "startChar": 32,
+        "endLine": 46,
+        "endChar": 57
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af057ffd_fbac46cf",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T15:09:09Z",
+      "side": 1,
+      "message": "Version isn\u0027t nullable.\n\n\n```suggestion\n              return \"\";\n```",
+      "range": {
+        "startLine": 70,
+        "startChar": 21,
+        "endLine": 70,
+        "endChar": 25
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
