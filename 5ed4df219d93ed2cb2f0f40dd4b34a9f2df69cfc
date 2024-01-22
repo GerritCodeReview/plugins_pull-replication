@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ea15e8a_4731d28e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T15:58:16Z",
+      "side": 1,
+      "message": "Could we also mention that it is covering the async fetch scheduling all refs together. It\u0027s not clear from the message",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 55
+      },
+      "revId": "5ed4df219d93ed2cb2f0f40dd4b34a9f2df69cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cd70ab4_3cfc632b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T15:58:16Z",
+      "side": 1,
+      "message": "nit: it can be replaced with `.collect(Collectors.joining(\"\\\",\\\"\", \"\\\"\", \"\\\"\"));`",
+      "range": {
+        "startLine": 164,
+        "startChar": 7,
+        "endLine": 164,
+        "endChar": 86
+      },
+      "revId": "5ed4df219d93ed2cb2f0f40dd4b34a9f2df69cfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
