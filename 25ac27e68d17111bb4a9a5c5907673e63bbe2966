@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32e12172_32b88e19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T15:59:40Z",
+      "side": 1,
+      "message": "Ok, looks like it\u0027s covered in https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/403217/7",
+      "parentUuid": "2faaa19e_6237d0dd",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "25ac27e68d17111bb4a9a5c5907673e63bbe2966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e9e716f_91de693b",
