@@ -88,6 +88,24 @@
       "parentUuid": "5b343056_cdf92c7e",
       "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50d7de62_fae98f0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-22T22:47:46Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e \u003e It relies on the replication code as a dependency, true.\n\u003e \u003e \u003e \u003e It does not require the replication plugin to be installed though, does it?\n\u003e \u003e \u003e \n\u003e \u003e \u003e All dependencies that are plugins or core Gerrit are always included with `neverlink`, therefore the actual plugin\u0027s classes are needed.\n\u003e \u003e \n\u003e \u003e pull-replication does not depend on the push replication as a `neverlink`ed dependency, though [1].\n\u003e \n\u003e Oh, we are included the *full* replication and delete-project plugin 😮\n\u003e That\u0027s a bug and should be fixed, otherwise we have the whole plugins included in pull-replication jar.\n\nI will create a bug for this.\n\n\u003e \n\u003e \u003e I was under the impression that the pull-replication could have been installed with, *or without* the push replication plugin.\n\u003e \n\u003e Sure, but it must be there at least as lib dependency.\n\nI don\u0027t think this was necessary until now (because of the missing `neverlink`, all classes were always available).\n\nThe problem now arises with the introduction of the classes bound by `ApiModule`, (which is very recent).\nBut this is a binding problem, not a class dependency one.\n\nAnyway, agreed that replication (and other plugins should be neverlinked), so this will be the case tomorrow, once we neverlink the `replication` plugin.\n\nThat change should also the update the documentation regarding this, because this was not clear (to me at least :P)\n\nIt works if replication is installed as a library *and* installing the Module.\n\n```\ninstallModule \u003d com.googlesource.gerrit.plugins.replication.ApiModule\n```\n\nBug created here [1]\n\n\n[1] https://issues.gerritcodereview.com/issues/321784350",
+      "parentUuid": "2b0bf7f0_229f121e",
+      "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
