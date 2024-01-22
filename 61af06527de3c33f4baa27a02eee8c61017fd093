@@ -175,6 +175,30 @@
       },
       "revId": "61af06527de3c33f4baa27a02eee8c61017fd093",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c079a0bf_651ebdc3",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-22T20:01:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a322088_a370649e",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "61af06527de3c33f4baa27a02eee8c61017fd093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
