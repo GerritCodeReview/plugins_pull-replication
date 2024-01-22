@@ -35,7 +35,7 @@ import org.junit.Test;
 @UseLocalDisk
 @TestPlugin(
     name = "pull-replication",
-    sysModule = "com.googlesource.gerrit.plugins.replication.pull.TestPullReplicationModule",
+    sysModule = "com.googlesource.gerrit.plugins.replication.pull.PullReplicationModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
 public abstract class PullReplicationWithGitHttpTransportProtocolBase
     extends PullReplicationSetupBase {
