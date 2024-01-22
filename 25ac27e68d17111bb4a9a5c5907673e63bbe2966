@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2faaa19e_6237d0dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T15:51:09Z",
+      "side": 1,
+      "message": "Why this change is covering only synchronous fetch? We have similar situation with async fetch. Is it going to be covered by a follow up change?",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "25ac27e68d17111bb4a9a5c5907673e63bbe2966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e9e716f_91de693b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T15:51:09Z",
+      "side": 1,
+      "message": "wrap long line",
+      "range": {
+        "startLine": 12,
+        "startChar": 64,
+        "endLine": 12,
+        "endChar": 74
+      },
+      "revId": "25ac27e68d17111bb4a9a5c5907673e63bbe2966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae125504_4692b7bb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T15:51:09Z",
+      "side": 1,
+      "message": "why we need that check? what if other inputs have null refName?",
+      "range": {
+        "startLine": 85,
+        "startChar": 10,
+        "endLine": 85,
+        "endChar": 34
+      },
+      "revId": "25ac27e68d17111bb4a9a5c5907673e63bbe2966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
