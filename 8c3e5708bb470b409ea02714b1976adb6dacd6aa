@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b2eab5d_0f366489",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T17:09:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6605ea75_e6f1a0d5",
+      "revId": "8c3e5708bb470b409ea02714b1976adb6dacd6aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "163b9dec_e31b9728",
@@ -60,6 +78,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8ea86b6a_f5f868be",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T17:09:40Z",
+      "side": 1,
+      "message": "Not sure if I understand. `replication.syncRefs` is in the same file. I used the same format as we have in L401",
+      "parentUuid": "5d93e11e_28a5b757",
+      "range": {
+        "startLine": 618,
+        "startChar": 48,
+        "endLine": 618,
+        "endChar": 94
+      },
+      "revId": "8c3e5708bb470b409ea02714b1976adb6dacd6aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b39abe4c_513d720a",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T17:09:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "163b9dec_e31b9728",
+      "revId": "8c3e5708bb470b409ea02714b1976adb6dacd6aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aee4ff3d_42c8af06",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
         "patchSetId": 10
@@ -71,6 +131,30 @@
       "writtenOn": "2024-01-22T15:56:34Z",
       "side": 1,
       "message": "nit: Why getting `allValues()`? At L395 we are only interested in one.\n\nConsider using `getValue()` here, or to make additional assertions on the number of captures",
+      "range": {
+        "startLine": 384,
+        "startChar": 46,
+        "endLine": 384,
+        "endChar": 61
+      },
+      "revId": "8c3e5708bb470b409ea02714b1976adb6dacd6aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d66e2232_35403932",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClientBase.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T17:09:40Z",
+      "side": 1,
+      "message": "Good catch! This was just leftover from the test refactoring. Before it was expecting both sync and async",
+      "parentUuid": "aee4ff3d_42c8af06",
       "range": {
         "startLine": 384,
         "startChar": 46,
