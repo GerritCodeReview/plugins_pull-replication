@@ -22,6 +22,30 @@
       },
       "revId": "1edc2848844339e62327371802f5bdc55c24d92e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0475962_a211289a",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-01-22T19:29:01Z",
+      "side": 1,
+      "message": "This was the suggestion from @syntonyze@gmail.com to properly render the note section",
+      "parentUuid": "ed2657b4_dfe07555",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 622,
+        "endChar": 20
+      },
+      "revId": "1edc2848844339e62327371802f5bdc55c24d92e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
