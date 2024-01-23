@@ -638,6 +638,16 @@ remote.NAME.fetchEvery
 >	*NOTE*: Scheduling is performed on plugin start therefore one needs to
 >	reload plugin when configuration gets changed.
 
+remote.NAME.username
+: Username to use for HTTP authentication on this remote. Can be used in replacement of the
+  secure.config information. In case of also existing in the secure.config, this information
+  is ignored.
+
+remote.NAME.password
+: Password to use for HTTP authentication on this remote. Can be used in replacement of the
+  secure.config information. In case of also existing in the secure.config, this information
+  is ignored.
+
 Directory `replication`
 --------------------
 The optional directory `$site_path/etc/replication` contains Git-style
@@ -717,8 +727,9 @@ File `secure.config`
 
 The optional file `$site_path/secure.config` is a Git-style config
 file that provides secure values that should not be world-readable,
-such as passwords. The HTTP authentication can be configured in 2 
-different flavours:
+such as passwords. To introduce encrypted information, please use the server
+side administrative tool [passwd](../../../Documentation/pgm-passwd.html).
+The HTTP authentication can be configured in 2 different flavours:
 
 *HTTP Bearer Token Authentication*
 

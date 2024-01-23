@@ -60,7 +60,10 @@ public class SourceConfiguration implements RemoteConfiguration {
   private boolean useCGitClient;
   private int refsBatchSize;
   private boolean enableBatchedRefs;
+
   private final long fetchEvery;
+  private final String username;
+  private final String password;
 
   public SourceConfiguration(RemoteConfig remoteConfig, Config cfg) {
     this.remoteConfig = remoteConfig;
@@ -103,6 +106,8 @@ public class SourceConfiguration implements RemoteConfiguration {
     maxRetries =
         getInt(
             remoteConfig, cfg, "replicationMaxRetries", cfg.getInt("replication", "maxRetries", 0));
+    username = cfg.getString("remote", name, "username");
+    password = cfg.getString("remote", name, "password");
     slowLatencyThreshold =
         (int)
             ConfigUtil.getTimeUnit(
@@ -270,5 +275,15 @@ public class SourceConfiguration implements RemoteConfiguration {
 
   public long fetchEvery() {
     return fetchEvery;
+  }
+
+  @Override
+  public String getUsername() {
+    return username;
+  }
+
+  @Override
+  public String getPassword() {
+    return password;
   }
 }
