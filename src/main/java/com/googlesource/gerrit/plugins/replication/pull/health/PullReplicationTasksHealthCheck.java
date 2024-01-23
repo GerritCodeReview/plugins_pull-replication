@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.health;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -24,6 +25,9 @@ import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.healthcheck.HealthCheckConfig;
 import com.googlesource.gerrit.plugins.healthcheck.check.AbstractHealthCheck;
 import com.googlesource.gerrit.plugins.replication.ConfigResource;
+import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
@@ -36,6 +40,7 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
   public static final String PERIOD_OF_TIME_FIELD = "periodOfTime";
   private final Set<String> projects;
   private final long periodOfTimeSec;
+  private final SourcesCollection sourcesCollection;
 
   @Inject
   public PullReplicationTasksHealthCheck(
@@ -43,7 +48,8 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
       HealthCheckConfig healthCheckConfig,
       ConfigResource configResource,
       @PluginName String name,
-      MetricMaker metricMaker) {
+      MetricMaker metricMaker,
+      SourcesCollection sourcesCollection) {
     super(executor, healthCheckConfig, name + HEALTHCHECK_NAME_SUFFIX, metricMaker);
     String healthCheckName = name + HEALTHCHECK_NAME_SUFFIX;
 
@@ -60,6 +66,7 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
             PERIOD_OF_TIME_FIELD,
             DEFAULT_PERIOD_OF_TIME_SECS,
             TimeUnit.SECONDS);
+    this.sourcesCollection = sourcesCollection;
   }
 
   public long getPeriodOfTimeSec() {
@@ -72,6 +79,22 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
 
   @Override
   protected Result doCheck() throws Exception {
-    return Result.PASSED;
+    List<Source> sources = sourcesCollection.getAll();
+    boolean hasNoOutstandingTasks =
+        sources.stream()
+            .allMatch(
+                source -> {
+                  if (projects.isEmpty()) {
+                    return source.pendingTasksCount() == 0 && source.inflightTasksCount() == 0;
+                  } else {
+                    return projects.stream()
+                        .allMatch(
+                            project ->
+                                source.pendingTasksCountForRepo(Project.nameKey(project)) == 0
+                                    && source.inflightTasksCountForRepo(Project.nameKey(project))
+                                        == 0);
+                  }
+                });
+    return hasNoOutstandingTasks ? Result.PASSED : Result.FAILED;
   }
 }
