@@ -124,6 +124,24 @@
       "parentUuid": "50d7de62_fae98f0d",
       "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bc19ec6_fc0aeb89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-01-23T15:09:42Z",
+      "side": 1,
+      "message": "\u003e \u003e I don\u0027t think this was necessary until now (because of the missing neverlink, all classes were always available).\n\u003e \n\u003e Correct me if I\u0027m wrong, but with the `neverlink` the `replication` plugin classes will be included in the `pull-replication` JAR file (resulting in aka. _shared jar_).\n\nIt is actually the other way around.\nWith the `neverlink` the `replication` plugin will *not* be included in the `pull-replication` JAR file. [1]\n\n[1] https://bazel.build/reference/be/java#java_import.neverlink\n\n\u003e \n\u003e With this approach when the `replication` jar is also present in the `plugins/` or `lib/` directory, we may end up with a \"broken classpath\", when classes in `replication` and `pull-replication` are coming from different versions. This may result in nasty bugs that are hard to track down and understand.\n\u003e \n\u003e I think, that this is an overseen that should be fixed. The culprit here is not \"external replication config\", but the wrong BUILD configuration.",
+      "parentUuid": "57b19684_3161f778",
+      "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
