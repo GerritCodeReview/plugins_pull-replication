@@ -142,6 +142,24 @@
       "parentUuid": "57b19684_3161f778",
       "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34ab0aa2_95f7ab0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-23T23:35:49Z",
+      "side": 1,
+      "message": "Exactly: we need to add `neverlink` to all inter-plugin dependencies, including the dependency to `replication` plugin.",
+      "parentUuid": "3bc19ec6_fc0aeb89",
+      "revId": "b2b27e66645bd529fba182a7a18b4409c59fc3a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
