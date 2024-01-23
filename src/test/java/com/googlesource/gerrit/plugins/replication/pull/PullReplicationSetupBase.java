@@ -14,6 +14,8 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
+import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Suppliers;
@@ -38,10 +40,12 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
@@ -178,5 +182,13 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
     event.submitter = Suppliers.ofInstance(new AccountAttribute(admin.id().get()));
     event.instanceId = instanceId;
     return event;
+  }
+
+  protected Ref createNewRef() throws Exception {
+    String newRef = "refs/heads/" + UUID.randomUUID();
+    RevCommit newCommit = testRepo.branch("HEAD").commit().create();
+    testRepo.branch(newRef).update(newCommit);
+    assertPushOk(pushOne(testRepo, newRef, newRef, false, false, List.of()), newRef);
+    return testRepo.getRepository().exactRef(newRef);
   }
 }
