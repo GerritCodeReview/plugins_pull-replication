@@ -617,6 +617,16 @@ remote.NAME.enableBatchedRefs
 
 	By default, false.
 
+remote.NAME.username
+: Username to use for HTTP authentication on this remote. Can be used in replacement of the
+  secure.config information. In case of also existing in the secure.config, this information
+  is ignored.
+
+remote.NAME.password
+: Password to use for HTTP authentication on this remote. Can be used in replacement of the
+  secure.config information. In case of also existing in the secure.config, this information
+  is ignored.
+
 Directory `replication`
 --------------------
 The optional directory `$site_path/etc/replication` contains Git-style
@@ -720,6 +730,13 @@ configuration, whilst for _bearer token_, it needs to be assigned to
 the `Pull-replication Internal User` user.
 
 [1] https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_accessDatabase
+
+
+NOTE: If the [secure-config][4] plugin is used, ensure that this information
+is encrypted. For this purpose, please use the server side administrative
+tool [passwd](../../../Documentation/pgm-passwd.html).
+
+[4]: https://gerrit.googlesource.com/plugins/secure-config/
 
 File `~/.ssh/config`
 --------------------
