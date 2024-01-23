@@ -16,6 +16,24 @@
       "message": "One thing I forgot to ask; what should we do when the `projects` setting is not specified? Should we skip the check and log a warning? The alternative could be to execute the check across all repos 😐 ? \n\nAs a side note, we might want to allow a regex as well in a future change.",
       "revId": "730ca86c8fd9e0cf423a76bb5305029deea18170",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "239772a2_b2f3d293",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-23T08:47:53Z",
+      "side": 1,
+      "message": "`projects` is a filter, if you don\u0027t have it, it means you don\u0027t filter by project. Does that make sense?",
+      "parentUuid": "9b79422d_ab9fcf1e",
+      "revId": "730ca86c8fd9e0cf423a76bb5305029deea18170",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
