@@ -932,12 +932,20 @@ public class Source {
     }
   }
 
-  long inflightTasksCount() {
+  public long inflightTasksCount() {
     return inFlight.size();
   }
 
-  long pendingTasksCount() {
+  public long pendingTasksCount() {
     return pending.size();
+  }
+
+  public boolean zeroPendingTasksForRepo(Project.NameKey project) {
+    return pending.values().stream().noneMatch(fetch -> fetch.getProjectNameKey().equals(project));
+  }
+
+  public boolean zeroInflightTasksForRepo(Project.NameKey project) {
+    return inFlight.values().stream().noneMatch(fetch -> fetch.getProjectNameKey().equals(project));
   }
 
   private static boolean matches(URIish uri, String urlMatch) {
