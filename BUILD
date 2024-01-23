@@ -51,6 +51,7 @@ junit_tests(
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
         ":pull_replication_util",
+        "//plugins/healthcheck",
         "//plugins/replication",
     ],
 ) for f in glob(["src/test/java/**/*IT.java"])]
@@ -68,6 +69,7 @@ java_library(
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
         "//plugins/delete-project",
+        "//plugins/healthcheck",
         "//plugins/replication",
     ],
 )
