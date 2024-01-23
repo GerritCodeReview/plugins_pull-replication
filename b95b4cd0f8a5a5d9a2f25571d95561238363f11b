@@ -22,6 +22,30 @@
       },
       "revId": "b95b4cd0f8a5a5d9a2f25571d95561238363f11b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "944dba7c_88d902dc",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-23T09:03:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c07e92b_306db67e",
+      "range": {
+        "startLine": 20,
+        "startChar": 23,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "b95b4cd0f8a5a5d9a2f25571d95561238363f11b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
