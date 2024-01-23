@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c07e92b_306db67e",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-23T08:49:11Z",
+      "side": 1,
+      "message": "Why? My understanding is that you would filter by project, if this setting is defined. If this is not defined, you just don\u0027t filter the replication tasks.",
+      "range": {
+        "startLine": 20,
+        "startChar": 23,
+        "endLine": 20,
+        "endChar": 51
+      },
+      "revId": "b95b4cd0f8a5a5d9a2f25571d95561238363f11b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
