@@ -721,6 +721,11 @@ the `Pull-replication Internal User` user.
 
 [1] https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_accessDatabase
 
+
+NOTE: If the secure config plugin is used, ensure that this information
+is encrypted. For this purpose, please use the server side administrative
+tool [passwd](../../../Documentation/pgm-passwd.html).
+
 File `~/.ssh/config`
 --------------------
 
