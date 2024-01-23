@@ -39,6 +39,7 @@ import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.ProjectEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.healthcheck.HealthCheckExtensionApiModule;
 import com.googlesource.gerrit.plugins.replication.ApiModule;
 import com.googlesource.gerrit.plugins.replication.AutoReloadConfigDecorator;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfigModule;
@@ -80,6 +81,7 @@ public abstract class PullReplicationITAbstract extends PullReplicationSetupBase
     protected void configure() {
       super.configure();
       install(new ApiModule());
+      install(new HealthCheckExtensionApiModule());
 
       DynamicSet.bind(binder(), EventListener.class)
           .to(BufferedEventListener.class)
