@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0693143_5977acec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-24T14:39:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "401c0a7a_9f873b58",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 25
+      },
+      "revId": "a4fc7c639ebeda1756649b912bf79f7c95472a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1da25c59_43f88e6f",
@@ -75,6 +99,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5946408b_b3f04e2c",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-24T14:39:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1da25c59_43f88e6f",
+      "revId": "a4fc7c639ebeda1756649b912bf79f7c95472a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0247aee_6c87c005",
@@ -88,6 +130,30 @@
       "writtenOn": "2024-01-23T14:39:54Z",
       "side": 1,
       "message": "Consider keeping the `shouldAlwaysPass()` test to test the result of the execution and introduce a new `shouldReadConfig()` (or something analogous) to assert configuration parsing.",
+      "range": {
+        "startLine": 39,
+        "startChar": 14,
+        "endLine": 39,
+        "endChar": 30
+      },
+      "revId": "a4fc7c639ebeda1756649b912bf79f7c95472a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "549f3e22_85ea4e21",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-24T14:39:17Z",
+      "side": 1,
+      "message": "this is addressed in a subsequent change.",
+      "parentUuid": "b0247aee_6c87c005",
       "range": {
         "startLine": 39,
         "startChar": 14,
