@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eda9c6a5_ed49bd63",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-01-25T12:23:21Z",
+      "side": 1,
+      "message": "this could be parallelized, but i am not convinced it will necessarily be faster due to the overhead of the thread management. The check is pretty fast anyway. I think it makes sense to leave it as is for now, rather than optimising prematurely. But something to keep in mind for the future.",
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
