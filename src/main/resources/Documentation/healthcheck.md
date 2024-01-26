@@ -14,6 +14,10 @@ lasts for at least N seconds (configurable)
 
 See [Healthcheck based on replication tasks](https://issues.gerritcodereview.com/issues/312895374) for more details.
 
+**It is worth noting that once the healthcheck eventually succeeds and
+the instance is marked healthy, the check is then skipped (ie any
+subsequent invocations will always mark the instance as healthy
+irrespective of any pending or inflight tasks being present).**
 
 Health check configuration
 --------------------------
