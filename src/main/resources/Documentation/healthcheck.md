@@ -9,6 +9,8 @@ is ready to receive write traffic. "Caught up" means:
 
 - All pending & in-flight replication tasks across all sources (and
 across a configurable set of repos) have completed
+- There are no queued replication tasks pending and the above condition
+lasts for at least N seconds (configurable)
 
 See [Healthcheck based on replication tasks](https://issues.gerritcodereview.com/issues/312895374) for more details.
 
@@ -26,10 +28,11 @@ of the `healthcheck` plugin. These are set in the `healthcheck` plugin's
 The health check can be configured as follows:
 - `healthcheck.@PLUGIN@-outstanding-tasks.projects`: The repo(s) that
 the health check will track outstanding replication tasks against.
-Multiple entries are supported.
+Multiple entries are supported. If not specified, all the outstanding
+replication tasks are tracked.
 - `healthcheck.@PLUGIN@-outstanding-tasks.periodOfTime`: The time for
 which the check needs to be successful, in order for the instance to be
-marked healthy. If the time unit is omitted it defaults to seconds.
+marked healthy. If the time unit is omitted it defaults to milliseconds.
 Values should use common unit suffixes to express their setting:
 
 * ms, milliseconds
@@ -37,6 +40,17 @@ Values should use common unit suffixes to express their setting:
 * m, min, minute, minutes
 * h, hr, hour, hours
 
+Default is 10s.
+
+This example config will report the node healthy when there are no
+pending tasks for the `foo` and `bar/baz` repos continuously for a
+period of 5 seconds after the plugin startup.
+```
+[healthcheck "pull-replication-tasks"]
+    projects = foo
+    projects = bar/baz
+    periodOfTime = 5 sec
+```
 
 Useful information
 ------------------
