@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.HEALTHCHECK_NAME_SUFFIX;
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.PERIOD_OF_TIME_FIELD;
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.PROJECTS_FILTER_FIELD;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 import com.google.common.base.Ticker;
@@ -177,6 +178,22 @@ public class PullReplicationTasksHealthCheckTest {
     PullReplicationTasksHealthCheck check =
         injector.getInstance(PullReplicationTasksHealthCheck.class);
 
+    assertThat(check.run().result).isEqualTo(HealthCheck.Result.PASSED);
+  }
+
+  @Test
+  public void shouldAlwaysReportHealthyAfterItHasCaughtUpWithOutstandingTasks() {
+    when(source.pendingTasksCount()).thenReturn(0L);
+    when(source.inflightTasksCount()).thenReturn(0L);
+
+    Injector injector = testInjector(new TestModule(List.of(), periodOfTimeMillisStr));
+    PullReplicationTasksHealthCheck check =
+        injector.getInstance(PullReplicationTasksHealthCheck.class);
+
+    assertThat(check.run().result).isEqualTo(HealthCheck.Result.FAILED);
+    assertThat(check.run().result).isEqualTo(HealthCheck.Result.PASSED);
+
+    lenient().when(source.pendingTasksCount()).thenReturn(1L);
     assertThat(check.run().result).isEqualTo(HealthCheck.Result.PASSED);
   }
 
