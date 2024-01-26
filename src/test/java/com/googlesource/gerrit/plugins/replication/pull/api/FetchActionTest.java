@@ -19,7 +19,9 @@ import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -32,6 +34,8 @@ import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.project.ProjectResource;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.BatchInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
 import java.util.Set;
@@ -57,8 +61,11 @@ public class FetchActionTest {
   int taskId = 1234;
 
   @Mock FetchCommand fetchCommand;
+  @Mock DeleteRefCommand deleteRefCommand;
   @Mock FetchJob fetchJob;
+  @Mock DeleteRefJob deleteRefJob;
   @Mock FetchJob.Factory fetchJobFactory;
+  @Mock DeleteRefJob.Factory deleteRefJobFactory;
   @Mock ProjectResource projectResource;
   @Mock WorkQueue workQueue;
   @Mock ScheduledExecutorService exceutorService;
@@ -70,6 +77,7 @@ public class FetchActionTest {
   @Before
   public void setup() throws Exception {
     when(fetchJobFactory.create(any(), any(), any())).thenReturn(fetchJob);
+    when(deleteRefJobFactory.create(any(), any())).thenReturn(deleteRefJob);
     when(workQueue.getDefaultQueue()).thenReturn(exceutorService);
     when(urlFormatter.getRestUrl(anyString())).thenReturn(Optional.of(location));
     when(exceutorService.submit(any(Runnable.class)))
@@ -86,7 +94,13 @@ public class FetchActionTest {
 
     fetchAction =
         new FetchAction(
-            fetchCommand, workQueue, urlFormatterDynamicItem, preConditions, fetchJobFactory);
+            fetchCommand,
+            deleteRefCommand,
+            workQueue,
+            urlFormatterDynamicItem,
+            preConditions,
+            fetchJobFactory,
+            deleteRefJobFactory);
   }
 
   @Test
@@ -104,11 +118,36 @@ public class FetchActionTest {
   public void shouldReturnCreatedResponseCodeForBatchRefFetchAction() throws Exception {
     FetchAction.BatchInput batchInputParams = new FetchAction.BatchInput();
     batchInputParams.label = label;
-    batchInputParams.refsNames = Set.of(refName, altRefName);
+    batchInputParams.refInputs = Set.of(RefInput.create(refName), RefInput.create(altRefName));
 
     Response<?> response = fetchAction.apply(projectResource, batchInputParams);
 
     assertThat(response.statusCode()).isEqualTo(SC_CREATED);
+  }
+
+  @Test
+  public void shouldDeleteRefSync() throws Exception {
+    FetchAction.BatchInput batchInputParams = new FetchAction.BatchInput();
+    batchInputParams.label = label;
+    batchInputParams.refInputs = Set.of(RefInput.create(refName, true));
+
+    Response<?> response = fetchAction.apply(projectResource, batchInputParams);
+    verify(deleteRefCommand).deleteRefsSync(any(), eq(Set.of(refName)), eq(label));
+
+    assertThat(response.statusCode()).isEqualTo(SC_CREATED);
+  }
+
+  @Test
+  public void shouldDeleteRefAsync() throws Exception {
+    FetchAction.BatchInput batchInputParams = new FetchAction.BatchInput();
+    batchInputParams.label = label;
+    batchInputParams.async = true;
+    batchInputParams.refInputs = Set.of(RefInput.create(refName, true));
+
+    Response<?> response = fetchAction.apply(projectResource, batchInputParams);
+    verify(deleteRefJobFactory).create(any(), eq(batchInputParams));
+
+    assertThat(response.statusCode()).isEqualTo(SC_ACCEPTED);
   }
 
   @SuppressWarnings("cast")
@@ -120,11 +159,11 @@ public class FetchActionTest {
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
 
-    FetchAction.BatchInput responseBatchInput = (FetchAction.BatchInput) response.value();
+    BatchInput responseBatchInput = (BatchInput) response.value();
 
     assertThat(responseBatchInput.label).isEqualTo(inputParams.label);
     assertThat(responseBatchInput.async).isEqualTo(inputParams.async);
-    assertThat(responseBatchInput.refsNames).containsExactly(inputParams.refName);
+    assertThat(responseBatchInput.refInputs).containsExactly(RefInput.create(inputParams.refName));
   }
 
   @Test(expected = BadRequestException.class)

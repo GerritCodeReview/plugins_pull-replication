@@ -145,7 +145,7 @@ public class PullReplicationFilterTest {
     byte[] payloadBatchFetch =
         ("{"
                 + "\"label\":\"Replication\", "
-                + "\"refs_names\": [ \"refs/heads/master\" , \"refs/heads/test\" ], "
+                + "\"ref_inputs\": [ {\"ref_name\":\"refs/heads/master\", \"is_delete\":false}, {\"ref_name\":\"refs/heads/test\", \"is_delete\":false} ], "
                 + "\"async\":false"
                 + "}")
             .getBytes(StandardCharsets.UTF_8);

@@ -22,11 +22,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.ProjectResource;
-import java.util.Set;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -103,10 +106,12 @@ public class BatchFetchActionTest {
     return input;
   }
 
+  @VisibleForTesting
   private FetchAction.BatchInput createBatchInput(String... refNames) {
     FetchAction.BatchInput batchInput = new FetchAction.BatchInput();
     batchInput.label = label;
-    batchInput.refsNames = Set.of(refNames);
+    batchInput.refInputs =
+        Arrays.stream(refNames).map(RefInput::create).collect(Collectors.toSet());
     return batchInput;
   }
 }
