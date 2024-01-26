@@ -16,7 +16,6 @@ package com.googlesource.gerrit.plugins.replication.pull.health;
 
 import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -30,8 +29,6 @@ import com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck;
 import com.googlesource.gerrit.plugins.replication.MergedConfigResource;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -40,7 +37,6 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
-  private static final FluentLogger flogger = FluentLogger.forEnclosingClass();
   private static final long DEFAULT_PERIOD_OF_TIME_SECS = 10L;
   public static final String HEALTHCHECK_NAME_SUFFIX = "-outstanding-tasks";
   public static final String PROJECTS_FILTER_FIELD = "projects";
@@ -50,6 +46,7 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
   private final SourcesCollection sourcesCollection;
   private final Ticker ticker;
   private Optional<Long> successfulSince = Optional.empty();
+  private boolean isCaughtUp;
 
   @Inject
   public PullReplicationTasksHealthCheck(
@@ -90,6 +87,9 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
 
   @Override
   protected Result doCheck() throws Exception {
+    if (isCaughtUp) {
+      return Result.PASSED;
+    }
     long checkTime = ticker.read();
     List<Source> sources = sourcesCollection.getAll();
     boolean hasNoOutstandingTasks =
@@ -112,24 +112,9 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
   }
 
   private HealthCheck.Result reportResult(long checkTime) {
-    Result result =
-        successfulSince
-            .filter(ss -> checkTime >= ss + periodOfTimeNanos)
-            .map(ss -> Result.PASSED)
-            .orElse(Result.FAILED);
-
-    if (successfulSince.isPresent()) {
-      if (result.equals(Result.PASSED)) {
-        flogger.atFine().log(
-            "Instance has caught up with all outstanding pull-replication tasks, so will be marked HEALTHY");
-      } else {
-        flogger.atFine().log(
-            "[STATUS: UNHEALTHY] Instance has been healthy since: %s, but needs to be consistently healthy until: %s so that it can be marked as healthy overall",
-            Instant.ofEpochMilli(Duration.ofNanos(successfulSince.get()).toMillis()),
-            Instant.ofEpochMilli(
-                Duration.ofNanos(successfulSince.get() + periodOfTimeNanos).toMillis()));
-      }
-    }
-    return result;
+    Optional<Result> maybePassed =
+        successfulSince.filter(ss -> checkTime >= ss + periodOfTimeNanos).map(ss -> Result.PASSED);
+    isCaughtUp = maybePassed.isPresent();
+    return maybePassed.orElse(Result.FAILED);
   }
 }
