@@ -40,6 +40,7 @@ import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfigModule;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchApiCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.auth.PullReplicationGroupModule;
@@ -82,6 +83,7 @@ class PullReplicationModule extends AbstractModule {
     bind(RevisionReader.class).in(Scopes.SINGLETON);
     bind(ApplyObject.class);
     install(new FactoryModuleBuilder().build(FetchJob.Factory.class));
+    install(new FactoryModuleBuilder().build(DeleteRefJob.Factory.class));
     install(new ApplyObjectCacheModule());
 
     install(
