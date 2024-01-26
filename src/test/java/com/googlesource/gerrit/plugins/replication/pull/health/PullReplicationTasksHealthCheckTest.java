@@ -20,6 +20,8 @@ import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplic
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.PROJECTS_FILTER_FIELD;
 import static org.mockito.Mockito.when;
 
+import com.google.common.base.Ticker;
+import com.google.common.testing.FakeTicker;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -33,6 +35,7 @@ import com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck;
 import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -48,7 +51,10 @@ public class PullReplicationTasksHealthCheckTest {
   private static final String PLUGIN_NAME = "pull-replication";
   private static final String SECTION_NAME = PLUGIN_NAME + HEALTHCHECK_NAME_SUFFIX;
 
-  private final int periodOfCheckSec = 10;
+  private final int periodOfTimeMillis = 10;
+  private final String periodOfTimeMillisStr = periodOfTimeMillis + " ms";
+  private final FakeTicker fakeTicker =
+      new FakeTicker().setAutoIncrementStep(Duration.ofMillis(periodOfTimeMillis + 1));
   @Mock private SourcesCollection sourcesCollection;
 
   @Mock private Source source;
@@ -62,13 +68,13 @@ public class PullReplicationTasksHealthCheckTest {
   @Test
   public void shouldReadConfig() {
     List<String> projectsToCheck = List.of("foo", "bar/baz");
-    Injector injector = testInjector(new TestModule(projectsToCheck, periodOfCheckSec + " sec"));
+    Injector injector = testInjector(new TestModule(projectsToCheck, periodOfTimeMillisStr));
 
     PullReplicationTasksHealthCheck check =
         injector.getInstance(PullReplicationTasksHealthCheck.class);
 
     assertThat(check.getProjects()).containsExactlyElementsIn(projectsToCheck);
-    assertThat(check.getPeriodOfTimeSec()).isEqualTo(periodOfCheckSec);
+    assertThat(check.getPeriodOfTimeNanos()).isEqualTo(periodOfTimeMillis * 1000000);
   }
 
   @Test
@@ -77,15 +83,18 @@ public class PullReplicationTasksHealthCheckTest {
     when(source.zeroPendingTasksForRepo(Project.nameKey(repo))).thenReturn(false).thenReturn(true);
     when(source.zeroInflightTasksForRepo(Project.nameKey(repo))).thenReturn(false).thenReturn(true);
 
-    Injector injector = testInjector(new TestModule(List.of(repo), periodOfCheckSec + " sec"));
+    Injector injector = testInjector(new TestModule(List.of(repo), periodOfTimeMillisStr));
 
     PullReplicationTasksHealthCheck check =
         injector.getInstance(PullReplicationTasksHealthCheck.class);
 
-    List<HealthCheck.Result> checkResults = runNTimes(3, check);
+    List<HealthCheck.Result> checkResults = runNTimes(4, check);
     assertThat(checkResults)
         .containsExactly(
-            HealthCheck.Result.FAILED, HealthCheck.Result.FAILED, HealthCheck.Result.PASSED);
+            HealthCheck.Result.FAILED,
+            HealthCheck.Result.FAILED,
+            HealthCheck.Result.FAILED,
+            HealthCheck.Result.PASSED);
   }
 
   @Test
@@ -94,14 +103,17 @@ public class PullReplicationTasksHealthCheckTest {
     when(source.pendingTasksCount()).thenReturn(1L).thenReturn(0L);
     when(source.inflightTasksCount()).thenReturn(1L).thenReturn(0L);
 
-    Injector injector = testInjector(new TestModule(noRepoFilter, periodOfCheckSec + " sec"));
+    Injector injector = testInjector(new TestModule(noRepoFilter, periodOfTimeMillisStr));
     PullReplicationTasksHealthCheck check =
         injector.getInstance(PullReplicationTasksHealthCheck.class);
 
-    List<HealthCheck.Result> checkResults = runNTimes(3, check);
+    List<HealthCheck.Result> checkResults = runNTimes(4, check);
     assertThat(checkResults)
         .containsExactly(
-            HealthCheck.Result.FAILED, HealthCheck.Result.FAILED, HealthCheck.Result.PASSED);
+            HealthCheck.Result.FAILED,
+            HealthCheck.Result.FAILED,
+            HealthCheck.Result.FAILED,
+            HealthCheck.Result.PASSED);
   }
 
   @Test
@@ -112,13 +124,14 @@ public class PullReplicationTasksHealthCheckTest {
     when(anotherSource.pendingTasksCount()).thenReturn(1L).thenReturn(0L);
     when(anotherSource.inflightTasksCount()).thenReturn(1L).thenReturn(0L);
 
-    Injector injector = testInjector(new TestModule(List.of(), periodOfCheckSec + " sec"));
+    Injector injector = testInjector(new TestModule(List.of(), periodOfTimeMillisStr));
     PullReplicationTasksHealthCheck check =
         injector.getInstance(PullReplicationTasksHealthCheck.class);
 
-    List<HealthCheck.Result> checkResults = runNTimes(5, check);
+    List<HealthCheck.Result> checkResults = runNTimes(6, check);
     assertThat(checkResults)
         .containsExactly(
+            HealthCheck.Result.FAILED,
             HealthCheck.Result.FAILED,
             HealthCheck.Result.FAILED,
             HealthCheck.Result.FAILED,
@@ -126,15 +139,56 @@ public class PullReplicationTasksHealthCheckTest {
             HealthCheck.Result.PASSED);
   }
 
+  @Test
+  public void shouldFailIfCheckDoesNotReportHealthyConsistentlyOverPeriodOfTime() {
+    String healthCheckPeriodOfTime = "50 ms";
+    when(source.pendingTasksCount()).thenReturn(0L).thenReturn(1L).thenReturn(0L);
+    when(source.inflightTasksCount()).thenReturn(0L);
+
+    Injector injector = testInjector(new TestModule(List.of(), healthCheckPeriodOfTime));
+    PullReplicationTasksHealthCheck check =
+        injector.getInstance(PullReplicationTasksHealthCheck.class);
+
+    List<HealthCheck.Result> checkResults = runNTimes(5, check);
+
+    assertThat(checkResults).doesNotContain(HealthCheck.Result.PASSED);
+  }
+
+  @Test
+  public void shouldFailOnFirstInvocationEvenIfThereAreNoOutstandingTasksAndANonZeroPeriodOfTime() {
+    when(source.pendingTasksCount()).thenReturn(0L);
+    when(source.inflightTasksCount()).thenReturn(0L);
+
+    Injector injector = testInjector(new TestModule(List.of(), periodOfTimeMillisStr));
+    PullReplicationTasksHealthCheck check =
+        injector.getInstance(PullReplicationTasksHealthCheck.class);
+
+    assertThat(check.run().result).isEqualTo(HealthCheck.Result.FAILED);
+  }
+
+  @Test
+  public void
+      shouldReportHealthyOnFirstInvocationIfThereAreNoOutstandingTasksAndAZeroPeriodOfTime() {
+    String zeroPeriodOfTime = "0 ms";
+    when(source.pendingTasksCount()).thenReturn(0L);
+    when(source.inflightTasksCount()).thenReturn(0L);
+
+    Injector injector = testInjector(new TestModule(List.of(), zeroPeriodOfTime));
+    PullReplicationTasksHealthCheck check =
+        injector.getInstance(PullReplicationTasksHealthCheck.class);
+
+    assertThat(check.run().result).isEqualTo(HealthCheck.Result.PASSED);
+  }
+
+  private Injector testInjector(AbstractModule testModule) {
+    return Guice.createInjector(new HealthCheckExtensionApiModule(), testModule);
+  }
+
   private List<HealthCheck.Result> runNTimes(int nTimes, PullReplicationTasksHealthCheck check) {
     List<HealthCheck.Result> results = new ArrayList<>();
     IntStream.rangeClosed(1, nTimes).mapToObj(i -> check.run().result).forEach(results::add);
 
     return results;
-  }
-
-  private Injector testInjector(AbstractModule testModule) {
-    return Guice.createInjector(new HealthCheckExtensionApiModule(), testModule);
   }
 
   private class TestModule extends AbstractModule {
@@ -170,6 +224,7 @@ public class PullReplicationTasksHealthCheckTest {
       bind(HealthCheckConfig.class).toInstance(healthCheckConfig);
       bind(String.class).annotatedWith(PluginName.class).toInstance(PLUGIN_NAME);
       bind(SourcesCollection.class).toInstance(sourcesCollection);
+      bind(Ticker.class).toInstance(fakeTicker);
     }
   }
 }
