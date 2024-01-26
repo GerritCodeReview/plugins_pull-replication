@@ -31,6 +31,7 @@ import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
@@ -42,6 +43,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.methods.HttpDelete;
@@ -81,9 +83,13 @@ public abstract class FetchRestApiClientBase {
   long eventCreatedOn = 1684875939;
 
   String expectedPayload =
-      "{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":false}";
+      "{\"label\":\"Replication\", \"ref_name\": \""
+          + refName
+          + "\", \"async\":false, \"is_delete\":false}";
   String expectedAsyncPayload =
-      "{\"label\":\"Replication\", \"ref_name\": \"" + refName + "\", \"async\":true}";
+      "{\"label\":\"Replication\", \"ref_name\": \""
+          + refName
+          + "\", \"async\":true, \"is_delete\":false}";
   Header expectedHeader = new BasicHeader("Content-Type", "application/json");
   SyncRefsFilter syncRefsFilter;
 
@@ -167,7 +173,7 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldCallFetchEndpoint() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, false, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -185,7 +191,7 @@ public abstract class FetchRestApiClientBase {
 
     objectUnderTest.callBatchFetch(
         Project.nameKey("test_repo"),
-        List.of(refName, RefNames.REFS_HEADS + "test"),
+        List.of(RefInput.create(refName), RefInput.create(RefNames.REFS_HEADS + "test")),
         new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
@@ -202,7 +208,7 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldByDefaultCallSyncFetchForAllRefs() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, false, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -227,7 +233,7 @@ public abstract class FetchRestApiClientBase {
             bearerTokenProvider,
             source);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, false, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -253,19 +259,21 @@ public abstract class FetchRestApiClientBase {
             source);
 
     String testRef = RefNames.REFS_HEADS + "test";
-    List<String> refs = List.of(refName, testRef);
+    List<RefInput> refs = refInputs(refName, testRef);
     objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     String expectedPayload =
-        "{\"label\":\"Replication\", \"refs_names\": [ "
-            + '"'
+        "{\"label\":\"Replication\", \"ref_inputs\": ["
+            + " {\"ref_name\":\""
             + refName
-            + "\",\""
+            + "\", \"is_delete\":false}"
+            + ",{\"ref_name\":\""
             + testRef
-            + "\" ]"
+            + "\", \"is_delete\":false}"
+            + " ]"
             + ", \"async\":true}";
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
   }
@@ -274,7 +282,9 @@ public abstract class FetchRestApiClientBase {
   public void shouldCallSyncFetchOnlyForMetaRef() throws Exception {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
-        "{\"label\":\"Replication\", \"ref_name\": \"" + metaRefName + "\", \"async\":false}";
+        "{\"label\":\"Replication\", \"ref_name\": \""
+            + metaRefName
+            + "\", \"async\":false, \"is_delete\":false}";
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
@@ -290,12 +300,12 @@ public abstract class FetchRestApiClientBase {
             bearerTokenProvider,
             source);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, false, new URIish(api));
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedAsyncPayload);
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), metaRefName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), metaRefName, false, new URIish(api));
     verify(httpClient, times(2)).execute(httpPostCaptor.capture(), any());
     httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedMetaRefPayload);
@@ -305,7 +315,10 @@ public abstract class FetchRestApiClientBase {
   public void shouldCallSyncBatchFetchOnlyForMetaRef() throws Exception {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
-        "{\"label\":\"Replication\", \"refs_names\": [ \"" + metaRefName + "\" ], \"async\":false}";
+        "{\"label\":\"Replication\", \"ref_inputs\": [ "
+            + "{\"ref_name\":\""
+            + metaRefName
+            + "\", \"is_delete\":false} ], \"async\":false}";
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
@@ -322,7 +335,7 @@ public abstract class FetchRestApiClientBase {
             source);
 
     objectUnderTest.callBatchFetch(
-        Project.nameKey("test_repo"), List.of(metaRefName), new URIish(api));
+        Project.nameKey("test_repo"), List.of(RefInput.create(metaRefName)), new URIish(api));
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
     HttpPost httpPost = httpPostCaptor.getValue();
     assertThat(readPayload(httpPost)).isEqualTo(expectedMetaRefPayload);
@@ -331,7 +344,7 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldCallFetchEndpointWithPayload() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, false, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -343,19 +356,23 @@ public abstract class FetchRestApiClientBase {
   public void shouldCallBatchFetchEndpointWithPayload() throws Exception {
 
     String testRef = RefNames.REFS_HEADS + "test";
-    List<String> refs = List.of(refName, testRef);
+    List<RefInput> refs = refInputs(refName, testRef);
     objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), refs, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
     HttpPost httpPost = httpPostCaptor.getValue();
     String expectedPayload =
-        "{\"label\":\"Replication\", \"refs_names\": [ "
-            + '"'
+        "{\"label\":\"Replication\", \"ref_inputs\": [ "
+            + "{\"ref_name\":\""
             + refName
-            + "\",\""
-            + refs.get(1)
-            + "\" ], \"async\":false}";
+            + "\", \"is_delete\":false}"
+            + ",{\"ref_name\":\""
+            + refs.get(1).refName()
+            + "\", \"is_delete\":"
+            + refs.get(1).isDelete()
+            + "}"
+            + " ], \"async\":false}";
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
   }
 
@@ -366,7 +383,7 @@ public abstract class FetchRestApiClientBase {
         .thenReturn(new String[] {"^refs\\/heads\\/test"});
     syncRefsFilter = new SyncRefsFilter(replicationConfig);
     String testRef = RefNames.REFS_HEADS + "test";
-    List<String> refs = List.of(refName, testRef);
+    List<RefInput> refs = refInputs(refName, testRef);
     objectUnderTest =
         new FetchRestApiClient(
             credentials,
@@ -383,8 +400,16 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPosts = httpPostCaptor.getValue();
     String expectedSyncPayload =
-        "{\"label\":\"Replication\", \"refs_names\": [ "
-            + refs.stream().map(r -> '"' + r + '"').collect(Collectors.joining(","))
+        "{\"label\":\"Replication\", \"ref_inputs\": [ "
+            + refs.stream()
+                .map(
+                    r ->
+                        "{\"ref_name\":\""
+                            + r.refName()
+                            + "\", \"is_delete\":"
+                            + r.isDelete()
+                            + "}")
+                .collect(Collectors.joining(","))
             + " ], \"async\":false}";
 
     assertThat(readPayload(httpPosts)).isEqualTo(expectedSyncPayload);
@@ -393,7 +418,7 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldSetContentTypeHeader() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, false, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -405,7 +430,8 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldSetContentTypeHeaderInBatchFetch() throws Exception {
 
-    objectUnderTest.callBatchFetch(Project.nameKey("test_repo"), List.of(refName), new URIish(api));
+    objectUnderTest.callBatchFetch(
+        Project.nameKey("test_repo"), refInputs(refName), new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -456,7 +482,7 @@ public abstract class FetchRestApiClientBase {
   @Test
   public void shouldSetContentTypeHeaderForSendObjectCall() throws Exception {
 
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, false, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -526,7 +552,7 @@ public abstract class FetchRestApiClientBase {
             "",
             bearerTokenProvider,
             source);
-    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, new URIish(api));
+    objectUnderTest.callFetch(Project.nameKey("test_repo"), refName, false, new URIish(api));
 
     verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
 
@@ -732,5 +758,9 @@ public abstract class FetchRestApiClientBase {
   private RevisionData createSampleRevisionData() {
     return createSampleRevisionData(
         commitObjectId, commitObject, treeObjectId, treeObject, blobObjectId, blobObject);
+  }
+
+  private List<RefInput> refInputs(String... refs) {
+    return Stream.of(refs).map(RefInput::create).collect(Collectors.toList());
   }
 }

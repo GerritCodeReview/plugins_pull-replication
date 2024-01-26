@@ -51,6 +51,7 @@ import com.googlesource.gerrit.plugins.replication.FileConfigResource;
 import com.googlesource.gerrit.plugins.replication.MergedConfigResource;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfigImpl;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
@@ -65,6 +66,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -173,7 +175,8 @@ public class ReplicationQueueTest {
     lenient()
         .when(fetchRestApiClient.callBatchSendObject(any(), any(), anyLong(), any()))
         .thenReturn(batchHttpResult);
-    when(fetchRestApiClient.callFetch(any(), anyString(), any(), anyLong(), anyBoolean()))
+    when(fetchRestApiClient.callFetch(
+            any(), anyString(), anyBoolean(), any(), anyLong(), anyBoolean()))
         .thenReturn(fetchHttpResult);
     when(fetchRestApiClient.callBatchFetch(any(), any(), any())).thenReturn(batchFetchHttpResult);
     when(fetchRestApiClient.initProject(any(), any(), anyLong(), any()))
@@ -398,7 +401,7 @@ public class ReplicationQueueTest {
 
     verify(fetchRestApiClient, times(2))
         .callSendObjects(any(), anyString(), anyLong(), any(), any());
-    verify(fetchRestApiClient, never()).callFetch(any(), anyString(), any());
+    verify(fetchRestApiClient, never()).callFetch(any(), anyString(), anyBoolean(), any());
   }
 
   @Test
@@ -503,7 +506,7 @@ public class ReplicationQueueTest {
     verify(fetchRestApiClient)
         .callBatchFetch(
             PROJECT,
-            List.of("refs/changes/01/1/1", "refs/changes/02/1/1"),
+            Stream.of("refs/changes/01/1/1", "refs/changes/02/1/1").map(RefInput::create).toList(),
             new URIish("http://localhost:18080"));
   }
 
@@ -693,6 +696,7 @@ public class ReplicationQueueTest {
         .callFetch(
             eq(event.getProjectNameKey()),
             eq(event.getRefNames().get(0)),
+            eq(false),
             any(URIish.class),
             any(Long.class),
             eq(FetchRestApiClient.FORCE_ASYNC));

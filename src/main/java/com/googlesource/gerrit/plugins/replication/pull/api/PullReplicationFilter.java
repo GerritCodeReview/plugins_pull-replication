@@ -117,7 +117,11 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.projectDeletionAction = projectDeletionAction;
     this.projectCache = projectCache;
     this.pluginName = pluginName;
-    this.gson = OutputFormat.JSON.newGsonBuilder().create();
+    this.gson =
+        OutputFormat.JSON
+            .newGsonBuilder()
+            .registerTypeAdapter(FetchAction.RefInput.class, new FetchAction.RefInputTypeAdapter())
+            .create();
     this.currentUserProvider = currentUserProvider;
   }
 

@@ -16,7 +16,9 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -30,11 +32,16 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -46,42 +53,122 @@ import org.eclipse.jgit.errors.TransportException;
 @Singleton
 public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private final FetchCommand command;
+  private final DeleteRefCommand deleteRefCommand;
   private final WorkQueue workQueue;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final FetchPreconditions preConditions;
   private final Factory fetchJobFactory;
+  private final DeleteRefJob.Factory deleteJobFactory;
 
   @Inject
   public FetchAction(
       FetchCommand command,
+      DeleteRefCommand deleteRefCommand,
       WorkQueue workQueue,
       DynamicItem<UrlFormatter> urlFormatter,
       FetchPreconditions preConditions,
-      FetchJob.Factory fetchJobFactory) {
+      FetchJob.Factory fetchJobFactory,
+      DeleteRefJob.Factory deleteJobFactory) {
     this.command = command;
+    this.deleteRefCommand = deleteRefCommand;
     this.workQueue = workQueue;
     this.urlFormatter = urlFormatter;
     this.preConditions = preConditions;
     this.fetchJobFactory = fetchJobFactory;
+    this.deleteJobFactory = deleteJobFactory;
   }
 
   public static class Input {
     public String label;
     public String refName;
     public boolean async;
+    public boolean isDelete;
+  }
+
+  @AutoValue
+  public abstract static class RefInput {
+    @Nullable
+    public abstract String refName();
+
+    public abstract boolean isDelete();
+
+    public static RefInput create(@Nullable String refName, boolean isDelete) {
+      return new AutoValue_FetchAction_RefInput(refName, isDelete);
+    }
+
+    public static RefInput create(@Nullable String refName) {
+      return new AutoValue_FetchAction_RefInput(refName, false);
+    }
+  }
+
+  public static class RefInputTypeAdapter extends TypeAdapter<RefInput> {
+    @Override
+    public void write(JsonWriter out, RefInput value) throws IOException {
+      out.beginObject();
+      out.name("ref_name").value(value.refName());
+      out.name("is_delete").value(value.isDelete());
+      out.endObject();
+    }
+
+    @Override
+    public RefInput read(JsonReader in) throws IOException {
+      if (in.peek() == JsonToken.NULL) {
+        in.nextNull();
+        return null;
+      }
+
+      in.beginObject();
+      String refName = null;
+      boolean isDelete = false;
+
+      while (in.hasNext()) {
+        String name = in.nextName();
+        switch (name) {
+          case "ref_name":
+            refName = in.nextString();
+            break;
+          case "is_delete":
+            isDelete = in.nextBoolean();
+            break;
+          default:
+            in.skipValue(); // Ignore unknown properties
+            break;
+        }
+      }
+
+      in.endObject();
+      return RefInput.create(refName, isDelete);
+    }
   }
 
   public static class BatchInput {
     public String label;
-    public Set<String> refsNames;
+    public Set<RefInput> refInputs;
     public boolean async;
 
     public static BatchInput fromInput(Input... input) {
       BatchInput batchInput = new BatchInput();
       batchInput.async = input[0].async;
       batchInput.label = input[0].label;
-      batchInput.refsNames = Stream.of(input).map(i -> i.refName).collect(Collectors.toSet());
+      batchInput.refInputs =
+          Stream.of(input)
+              .map(i -> RefInput.create(i.refName, i.isDelete))
+              .collect(Collectors.toSet());
       return batchInput;
+    }
+
+    public Set<String> getNonDeletedRefNames() {
+      return refInputs.stream()
+          .filter(r -> !r.isDelete())
+          .map(RefInput::refName)
+          .collect(Collectors.toSet());
+    }
+
+    public Set<String> getDeletedRefNames() {
+      return refInputs.stream()
+          .filter(RefInput::isDelete)
+          .map(RefInput::refName)
+          .collect(Collectors.toSet());
     }
   }
 
@@ -101,12 +188,12 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
         throw new BadRequestException("Source label cannot be null or empty");
       }
 
-      if (batchInput.refsNames.isEmpty()) {
+      if (batchInput.refInputs.isEmpty()) {
         throw new BadRequestException("Ref-update refname cannot be null or empty");
       }
 
-      for (String refName : batchInput.refsNames) {
-        if (Strings.isNullOrEmpty(refName)) {
+      for (RefInput input : batchInput.refInputs) {
+        if (Strings.isNullOrEmpty(input.refName())) {
           throw new BadRequestException("Ref-update refname cannot be null or empty");
         }
       }
@@ -129,7 +216,11 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private Response<?> applySync(Project.NameKey project, BatchInput input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    command.fetchSync(project, input.label, input.refsNames);
+    command.fetchSync(project, input.label, input.getNonDeletedRefNames());
+
+    if (!input.getDeletedRefNames().isEmpty()) {
+      deleteRefCommand.deleteRefsSync(project, input.getDeletedRefNames(), input.label);
+    }
     return Response.created(input);
   }
 
@@ -146,6 +237,10 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
         urlFormatter
             .get()
             .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
+
+    if (!batchInput.getDeletedRefNames().isEmpty()) {
+      workQueue.getDefaultQueue().submit(deleteJobFactory.create(project, batchInput));
+    }
     // We're in a HTTP handler, so must be present.
     checkState(url.isPresent());
     return Response.accepted(url.get());

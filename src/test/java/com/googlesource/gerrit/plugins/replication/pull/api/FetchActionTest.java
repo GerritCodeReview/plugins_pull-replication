@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.*;
 import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,8 +58,10 @@ public class FetchActionTest {
   int taskId = 1234;
 
   @Mock FetchCommand fetchCommand;
+  @Mock DeleteRefCommand deleteRefCommand;
   @Mock FetchJob fetchJob;
   @Mock FetchJob.Factory fetchJobFactory;
+  @Mock DeleteRefJob.Factory deleteRefJobFactory;
   @Mock ProjectResource projectResource;
   @Mock WorkQueue workQueue;
   @Mock ScheduledExecutorService exceutorService;
@@ -86,12 +89,18 @@ public class FetchActionTest {
 
     fetchAction =
         new FetchAction(
-            fetchCommand, workQueue, urlFormatterDynamicItem, preConditions, fetchJobFactory);
+            fetchCommand,
+            deleteRefCommand,
+            workQueue,
+            urlFormatterDynamicItem,
+            preConditions,
+            fetchJobFactory,
+            deleteRefJobFactory);
   }
 
   @Test
   public void shouldReturnCreatedResponseCodeForSingleRefFetchAction() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
@@ -102,9 +111,9 @@ public class FetchActionTest {
 
   @Test
   public void shouldReturnCreatedResponseCodeForBatchRefFetchAction() throws Exception {
-    FetchAction.BatchInput batchInputParams = new FetchAction.BatchInput();
+    BatchInput batchInputParams = new BatchInput();
     batchInputParams.label = label;
-    batchInputParams.refsNames = Set.of(refName, altRefName);
+    batchInputParams.refInputs = Set.of(RefInput.create(refName), RefInput.create(altRefName));
 
     Response<?> response = fetchAction.apply(projectResource, batchInputParams);
 
@@ -114,22 +123,22 @@ public class FetchActionTest {
   @SuppressWarnings("cast")
   @Test
   public void shouldReturnSourceUrlAndrefNameAsAResponseBody() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
     Response<?> response = fetchAction.apply(projectResource, inputParams);
 
-    FetchAction.BatchInput responseBatchInput = (FetchAction.BatchInput) response.value();
+    BatchInput responseBatchInput = (BatchInput) response.value();
 
     assertThat(responseBatchInput.label).isEqualTo(inputParams.label);
     assertThat(responseBatchInput.async).isEqualTo(inputParams.async);
-    assertThat(responseBatchInput.refsNames).containsExactly(inputParams.refName);
+    assertThat(responseBatchInput.refInputs).containsExactly(RefInput.create(inputParams.refName));
   }
 
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenMissingLabel() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.refName = refName;
 
     fetchAction.apply(projectResource, inputParams);
@@ -137,7 +146,7 @@ public class FetchActionTest {
 
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenEmptyLabel() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = "";
     inputParams.refName = refName;
 
@@ -146,7 +155,7 @@ public class FetchActionTest {
 
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenMissingrefName() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
 
     fetchAction.apply(projectResource, inputParams);
@@ -154,7 +163,7 @@ public class FetchActionTest {
 
   @Test(expected = BadRequestException.class)
   public void shouldThrowBadRequestExceptionWhenEmptyrefName() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = "";
 
@@ -163,7 +172,7 @@ public class FetchActionTest {
 
   @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenPocessingInterrupted() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
@@ -174,7 +183,7 @@ public class FetchActionTest {
 
   @Test(expected = UnprocessableEntityException.class)
   public void shouldThrowRestApiExceptionWhenNoSurceForGivenLabel() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = "non-existing-label";
     inputParams.refName = refName;
 
@@ -187,7 +196,7 @@ public class FetchActionTest {
 
   @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenIssueDuringPocessing() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
@@ -200,7 +209,7 @@ public class FetchActionTest {
 
   @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenIssueWithUrlParam() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
@@ -211,7 +220,7 @@ public class FetchActionTest {
 
   @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenTimeout() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
@@ -222,7 +231,7 @@ public class FetchActionTest {
 
   @Test(expected = AuthException.class)
   public void shouldThrowAuthExceptionWhenCallFetchActionCapabilityNotAssigned() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
@@ -233,7 +242,7 @@ public class FetchActionTest {
 
   @Test
   public void shouldReturnScheduledTaskForAsyncCall() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = refName;
     inputParams.async = true;
@@ -244,7 +253,7 @@ public class FetchActionTest {
 
   @Test
   public void shouldLocationHeaderForAsyncCall() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
+    Input inputParams = new Input();
     inputParams.label = label;
     inputParams.refName = refName;
     inputParams.async = true;

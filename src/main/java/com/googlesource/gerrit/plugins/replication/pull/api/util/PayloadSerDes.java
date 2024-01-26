@@ -78,8 +78,8 @@ public class PayloadSerDes {
   private static <T> T parse(HttpServletRequest httpRequest, TypeLiteral<T> typeLiteral)
       throws IOException, BadRequestException {
 
-    try (BufferedReader br = httpRequest.getReader();
-        JsonReader json = new JsonReader(br)) {
+    try (BufferedReader br = httpRequest.getReader()) {
+      JsonReader json = new JsonReader(br);
       try {
         json.setLenient(true);
 

@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
@@ -34,23 +35,30 @@ public interface FetchApiClient {
   HttpResult callFetch(
       Project.NameKey project,
       String refName,
+      boolean isDelete,
       URIish targetUri,
       long startTimeNanos,
       boolean forceAsyncFetch)
       throws IOException;
 
-  default HttpResult callFetch(Project.NameKey project, String refName, URIish targetUri)
+  default HttpResult callFetch(
+      Project.NameKey project, String refName, boolean isDelete, URIish targetUri)
       throws IOException {
     return callFetch(
-        project, refName, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()), false);
+        project,
+        refName,
+        isDelete,
+        targetUri,
+        MILLISECONDS.toNanos(System.currentTimeMillis()),
+        false);
   }
 
   HttpResult callBatchFetch(
-      Project.NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
+      Project.NameKey project, List<RefInput> refsInBatch, URIish targetUri, long startTimeNanos)
       throws IOException;
 
   default HttpResult callBatchFetch(
-      Project.NameKey project, List<String> refsInBatch, URIish targetUri) throws IOException {
+      Project.NameKey project, List<RefInput> refsInBatch, URIish targetUri) throws IOException {
     return callBatchFetch(
         project, refsInBatch, targetUri, MILLISECONDS.toNanos(System.currentTimeMillis()));
   }

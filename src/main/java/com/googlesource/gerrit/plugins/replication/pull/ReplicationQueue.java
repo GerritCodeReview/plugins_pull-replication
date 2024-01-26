@@ -40,6 +40,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
@@ -611,13 +612,13 @@ public class ReplicationQueue
 
     boolean resultIsSuccessful = true;
 
-    List<String> filteredRefs =
+    List<RefInput> filteredRefs =
         refs.stream()
-            .map(ReferenceUpdatedEvent::refName)
-            .filter(refName -> source.wouldFetchProject(project) && source.wouldFetchRef(refName))
+            .map(ref -> RefInput.create(ref.refName(), ref.isDelete()))
+            .filter(ref -> source.wouldFetchProject(project) && source.wouldFetchRef(ref.refName()))
             .collect(Collectors.toList());
 
-    String refsStr = String.join(",", filteredRefs);
+    String refsStr = filteredRefs.stream().map(RefInput::refName).collect(Collectors.joining(","));
     FetchApiClient fetchClient = fetchClientFactory.create(source);
 
     for (String apiUrl : source.getApis()) {
@@ -680,30 +681,37 @@ public class ReplicationQueue
     boolean resultIsSuccessful = true;
     for (ReferenceUpdatedEvent refEvent : refs) {
       String refName = refEvent.refName();
+      boolean isDelete = refEvent.isDelete();
       if (source.wouldFetchProject(project) && source.wouldFetchRef(refName)) {
         for (String apiUrl : source.getApis()) {
           try {
             URIish uri = new URIish(apiUrl);
             FetchApiClient fetchClient = fetchClientFactory.create(source);
             repLog.info(
-                "Pull replication REST API fetch to {} for {}:{}", apiUrl, project, refName);
+                "Pull replication REST API fetch to {} for {}:{}{}",
+                apiUrl,
+                project,
+                refName,
+                isDelete ? " (DELETE)" : "");
             long startTime = System.currentTimeMillis();
             Optional<HttpResult> result =
                 Optional.of(
                     fetchClient.callFetch(
                         project,
                         refName,
+                        isDelete,
                         uri,
                         MILLISECONDS.toNanos(System.currentTimeMillis()),
                         forceAsyncCall));
             long endTime = System.currentTimeMillis();
             boolean resultSuccessful = HttpResultUtils.isSuccessful(result);
             repLog.info(
-                "Pull replication REST API fetch to {} COMPLETED for {}:{}, HTTP Result:"
+                "Pull replication REST API fetch to {} COMPLETED for {}:{}{}, HTTP Result:"
                     + " {} - time: {} ms",
                 apiUrl,
                 project,
                 refName,
+                isDelete ? " (DELETE)" : "",
                 HttpResultUtils.status(result),
                 endTime - startTime);
             if (!resultSuccessful
@@ -763,7 +771,7 @@ public class ReplicationQueue
     HttpResult initProjectResult =
         fetchClient.initProject(project, uri, System.currentTimeMillis(), refsMetaConfigDataList);
     if (initProjectResult.isSuccessful()) {
-      result = Optional.of(fetchClient.callFetch(project, FetchOne.ALL_REFS, uri));
+      result = Optional.of(fetchClient.callFetch(project, FetchOne.ALL_REFS, false, uri));
     } else {
       String errorMessage = initProjectResult.getMessage().map(e -> " - Error: " + e).orElse("");
       repLog.error("Cannot create project " + project + errorMessage);
