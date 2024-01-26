@@ -609,6 +609,10 @@ remote.NAME.enableBatchedRefs
 >	*NOTE*: if any ref from a single batch matches `replication.syncRefs`
 >	filter, all refs in that batch are going to be fetched synchronously as
 >	a single git fetch operation.
+
+>	*NOTE*: Should ref deletions over apply-object/HTTP, they will
+>	be attempted over fetch/HTTP endpoint only when `enableBatchedRefs` is
+>	enabled.
 >
 >	By default, true.
 

@@ -186,7 +186,7 @@ public class StreamEventListenerTest {
 
     FetchAction.BatchInput batchInput = batchInputCaptor.getValue();
     assertThat(batchInput.label).isEqualTo(REMOTE_INSTANCE_ID);
-    assertThat(batchInput.refsNames).contains(TEST_REF_NAME);
+    assertThat(batchInput.refInputs).contains(FetchAction.RefInput.create(TEST_REF_NAME));
 
     verify(executor).submit(any(FetchJob.class));
   }
@@ -259,7 +259,7 @@ public class StreamEventListenerTest {
 
     FetchAction.BatchInput input = batchInputCaptor.getValue();
     assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
-    assertThat(input.refsNames).contains(FetchOne.ALL_REFS);
+    assertThat(input.refInputs).contains(FetchAction.RefInput.create(FetchOne.ALL_REFS));
 
     verify(executor).submit(any(FetchJob.class));
   }

@@ -22,11 +22,11 @@ import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
-import com.google.gerrit.json.OutputFormat;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.TypeLiteral;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
+import com.googlesource.gerrit.plugins.replication.pull.api.HttpPayloadGsonProvider;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import java.io.BufferedReader;
@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class PayloadSerDes {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final Gson gson = OutputFormat.JSON.newGsonBuilder().create();
+  private static final Gson gson = HttpPayloadGsonProvider.get();
 
   public static RevisionInput parseRevisionInput(HttpServletRequest httpRequest)
       throws BadRequestException, IOException {
