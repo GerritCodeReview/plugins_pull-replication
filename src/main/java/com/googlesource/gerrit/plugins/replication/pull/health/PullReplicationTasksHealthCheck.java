@@ -45,6 +45,7 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
   private final long periodOfTimeMillis;
   private final SourcesCollection sourcesCollection;
   private Optional<Long> successfulSince = Optional.empty();
+  private boolean isCaughtUp = false;
 
   @Inject
   public PullReplicationTasksHealthCheck(
@@ -83,6 +84,9 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
 
   @Override
   protected Result doCheck() throws Exception {
+    if (isCaughtUp) {
+      return Result.PASSED;
+    }
     long checkTime = Instant.now().toEpochMilli();
     List<Source> sources = sourcesCollection.getAll();
     boolean hasNoOutstandingTasks =
@@ -109,6 +113,7 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
     if (successfulSince.isPresent()) {
       long healthinessThreshold = successfulSince.get() + periodOfTimeMillis;
       if (checkTime >= healthinessThreshold) {
+        isCaughtUp = true;
         return Result.PASSED;
       }
     }
