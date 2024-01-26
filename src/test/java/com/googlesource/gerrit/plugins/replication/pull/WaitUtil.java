@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.base.Stopwatch;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.function.Supplier;
 
 public class WaitUtil {
@@ -29,5 +30,26 @@ public class WaitUtil {
       }
       MILLISECONDS.sleep(50);
     }
+  }
+
+  public static void eventually(Duration timeout, Duration interval, Runnable assertion)
+      throws InterruptedException {
+    Instant start = Instant.now();
+    Instant max = start.plus(timeout);
+
+    boolean failed;
+    do {
+      try {
+        assertion.run();
+        failed = false;
+      } catch (Throwable e) {
+        failed = true;
+        if (Instant.now().isAfter(max)) {
+          throw e;
+        } else {
+          Thread.sleep(interval.toMillis());
+        }
+      }
+    } while (failed);
   }
 }
