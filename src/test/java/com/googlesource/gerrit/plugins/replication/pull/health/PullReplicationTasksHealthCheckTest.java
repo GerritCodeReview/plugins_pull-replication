@@ -179,6 +179,26 @@ public class PullReplicationTasksHealthCheckTest {
     assertThat(check.run().result).isEqualTo(HealthCheck.Result.PASSED);
   }
 
+  @Test
+  public void shouldAlwaysReportHealthyAfterItHasCaughtUpWithOutstandingTasks() {
+    int numCheckIterations = 2;
+    when(source.pendingTasksCount()).thenReturn(0L, 0L, 1L);
+    when(source.inflightTasksCount()).thenReturn(0L);
+
+    Injector injector = testInjector(new TestModule(List.of(), periodOfTimeMillisStr));
+    PullReplicationTasksHealthCheck check =
+        injector.getInstance(PullReplicationTasksHealthCheck.class);
+
+    assertThat(
+            runNTimes(
+                numCheckIterations,
+                check,
+                () -> fakeTicker.advance(Duration.ofMillis(periodOfTimeMillis))))
+        .containsExactly(HealthCheck.Result.FAILED, HealthCheck.Result.PASSED);
+
+    assertThat(check.run().result).isEqualTo(HealthCheck.Result.PASSED);
+  }
+
   private Injector testInjector(AbstractModule testModule) {
     return Guice.createInjector(new HealthCheckExtensionApiModule(), testModule);
   }
