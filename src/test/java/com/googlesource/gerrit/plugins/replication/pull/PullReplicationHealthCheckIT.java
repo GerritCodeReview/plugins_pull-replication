@@ -15,7 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
+import static com.googlesource.gerrit.plugins.replication.pull.WaitUtil.eventually;
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.HEALTHCHECK_NAME_SUFFIX;
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.PERIOD_OF_TIME_FIELD;
 
@@ -39,10 +39,10 @@ import com.googlesource.gerrit.plugins.replication.ApiModule;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfigModule;
 import com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -82,6 +82,7 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
 
   @Inject private SitePaths sitePaths;
   private PullReplicationHealthCheckIT.BufferedEventListener eventListener;
+  private final int periodOfTimeSecs = 1;
 
   @Singleton
   public static class BufferedEventListener implements EventListener {
@@ -126,7 +127,7 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
         HealthCheckConfig.HEALTHCHECK,
         "pull-replication" + HEALTHCHECK_NAME_SUFFIX,
         PERIOD_OF_TIME_FIELD,
-        "3 sec");
+        periodOfTimeSecs + " sec");
     config.save();
 
     super.setUpTestPlugin(true);
@@ -178,7 +179,6 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
     eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onEvent(event);
 
-    AtomicInteger expectedFailuresDueToRace = new AtomicInteger(0);
     waitUntil(
         () -> {
           boolean replicationFinished =
@@ -187,23 +187,15 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
                   .filter(counter -> counter == 1)
                   .isPresent();
           if (!replicationFinished) {
-            try {
-              assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.FAILED);
-            } catch (Throwable e) {
-              // this is a race condition that we need to cater for
-              // it is possible that when replication finishes the in memory
-              // metrics counter is not updated fast enough, causing the assertion
-              // to fail as the health check will report PASSED.
-              expectedFailuresDueToRace.incrementAndGet();
-            }
+            assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.FAILED);
           }
           return replicationFinished;
         });
 
-    assertWithMessage("Instance reported healthy while waiting for replication to finish")
-        .that(expectedFailuresDueToRace.get())
-        .isAtMost(1);
-    assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.PASSED);
+    eventually(
+        Duration.ofSeconds(periodOfTimeSecs * 2),
+        Duration.ofMillis((periodOfTimeSecs * 1000) / 10),
+        () -> assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.PASSED));
   }
 
   private InMemoryMetricMaker inMemoryMetrics() {
