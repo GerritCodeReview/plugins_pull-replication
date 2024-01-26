@@ -15,7 +15,6 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.HEALTHCHECK_NAME_SUFFIX;
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.PERIOD_OF_TIME_FIELD;
 
@@ -42,7 +41,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -179,30 +177,21 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
     eventListener.clearFilter(FetchRefReplicatedEvent.TYPE);
     pullReplicationQueue.onEvent(event);
 
-    AtomicInteger expectedFailuresDueToRace = new AtomicInteger(0);
     waitUntil(
         () -> {
+          boolean checkPassed;
           boolean replicationFinished =
               inMemoryMetrics()
                   .counterValue("tasks/completed", TEST_REPLICATION_REMOTE)
                   .filter(counter -> counter > 0)
                   .isPresent();
           if (!replicationFinished) {
-            if (healthcheck.run().result != HealthCheck.Result.FAILED) {
-              // this is a race condition that we need to cater for
-              // it is possible that when replication finishes the in memory
-              // metrics counter is not updated fast enough, causing the assertion
-              // to fail as the health check will report PASSED.
-              expectedFailuresDueToRace.incrementAndGet();
-            }
+            assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.FAILED);
           }
-          return replicationFinished;
-        });
 
-    assertWithMessage("Instance reported healthy while waiting for replication to finish")
-        .that(expectedFailuresDueToRace.get())
-        .isAtMost(1);
-    assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.PASSED);
+          checkPassed = (healthcheck.run().result == HealthCheck.Result.PASSED);
+          return checkPassed;
+        });
   }
 
   private InMemoryMetricMaker inMemoryMetrics() {
