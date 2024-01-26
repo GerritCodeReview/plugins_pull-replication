@@ -51,6 +51,7 @@ import com.googlesource.gerrit.plugins.replication.FileConfigResource;
 import com.googlesource.gerrit.plugins.replication.MergedConfigResource;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfigImpl;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
@@ -65,6 +66,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -503,7 +505,7 @@ public class ReplicationQueueTest {
     verify(fetchRestApiClient)
         .callBatchFetch(
             PROJECT,
-            List.of("refs/changes/01/1/1", "refs/changes/02/1/1"),
+            Stream.of("refs/changes/01/1/1", "refs/changes/02/1/1").map(RefInput::create).toList(),
             new URIish("http://localhost:18080"));
   }
 

@@ -40,6 +40,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
@@ -611,13 +612,13 @@ public class ReplicationQueue
 
     boolean resultIsSuccessful = true;
 
-    List<String> filteredRefs =
+    List<RefInput> filteredRefs =
         refs.stream()
-            .map(ReferenceUpdatedEvent::refName)
-            .filter(refName -> source.wouldFetchProject(project) && source.wouldFetchRef(refName))
+            .map(ref -> RefInput.create(ref.refName(), ref.isDelete()))
+            .filter(ref -> source.wouldFetchProject(project) && source.wouldFetchRef(ref.refName()))
             .collect(Collectors.toList());
 
-    String refsStr = String.join(",", filteredRefs);
+    String refsStr = filteredRefs.stream().map(RefInput::refName).collect(Collectors.joining(","));
     FetchApiClient fetchClient = fetchClientFactory.create(source);
 
     for (String apiUrl : source.getApis()) {

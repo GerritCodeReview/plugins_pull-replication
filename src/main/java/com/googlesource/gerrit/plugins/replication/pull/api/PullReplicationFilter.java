@@ -38,7 +38,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.AllRequestFilter;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
-import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -117,7 +116,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.projectDeletionAction = projectDeletionAction;
     this.projectCache = projectCache;
     this.pluginName = pluginName;
-    this.gson = OutputFormat.JSON.newGsonBuilder().create();
+    this.gson = HttpPayloadGsonProvider.get();
     this.currentUserProvider = currentUserProvider;
   }
 
