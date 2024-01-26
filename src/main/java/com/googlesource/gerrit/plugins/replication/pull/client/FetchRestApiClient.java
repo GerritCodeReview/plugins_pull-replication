@@ -36,6 +36,7 @@ import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
@@ -151,19 +152,22 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
     return executeRequest(post, bearerTokenProvider.get(), targetUri);
   }
 
-  private Boolean containsSyncFetchRef(List<String> refsInBatch) {
-    return refsInBatch.stream().anyMatch(syncRefsFilter::match);
+  private Boolean containsSyncFetchRef(List<RefInput> refsInBatch) {
+    return refsInBatch.stream().anyMatch(r -> syncRefsFilter.match(r.refName()));
   }
 
   @Override
   public HttpResult callBatchFetch(
-      NameKey project, List<String> refsInBatch, URIish targetUri, long startTimeNanos)
+      NameKey project, List<RefInput> refsInBatch, URIish targetUri, long startTimeNanos)
       throws IOException {
     boolean callAsync = !containsSyncFetchRef(refsInBatch);
-    String refsNamesBody = refsInBatch.stream().collect(Collectors.joining("\",\"", "\"", "\""));
+    String refsNamesBody =
+        refsInBatch.stream()
+            .map(r -> "{\"ref_name\":\"" + r.refName() + "\", \"is_delete\":" + r.isDelete() + "}")
+            .collect(Collectors.joining(","));
     String msgBody =
         String.format(
-            "{\"label\":\"%s\", \"refs_names\": [ %s ], \"async\":%s}",
+            "{\"label\":\"%s\", \"ref_inputs\": [ %s ], \"async\":%s}",
             instanceId, refsNamesBody, callAsync);
 
     String url = formatUrl(targetUri.toString(), project, "batch-fetch");
