@@ -2,8 +2,8 @@
 ==============
 
 The @PLUGIN@ plugin registers the `pull-replication-outstanding-tasks`
-healthcheck. This check will mark a gerrit instance as healthy
-only when the node has caught up with all the outstanding
+healthcheck. This check will mark a gerrit instance as healthy upon
+startup only when the node has caught up with all the outstanding
 pull-replication tasks. The goal is to mark the node as healthy when it
 is ready to receive write traffic. "Caught up" means:
 
@@ -14,6 +14,10 @@ lasts for at least N seconds (configurable)
 
 See [Healthcheck based on replication tasks](https://issues.gerritcodereview.com/issues/312895374) for more details.
 
+**It is worth noting that once the healthcheck eventually succeeds and
+the instance is marked healthy, the check is then skipped (ie any
+subsequent invocations will always mark the instance as healthy
+irrespective of any pending or inflight tasks being present).**
 
 Health check configuration
 --------------------------

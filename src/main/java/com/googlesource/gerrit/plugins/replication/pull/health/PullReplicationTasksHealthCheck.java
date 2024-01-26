@@ -50,6 +50,7 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
   private final SourcesCollection sourcesCollection;
   private final Ticker ticker;
   private Optional<Long> successfulSince = Optional.empty();
+  private boolean isCaughtUp;
 
   @Inject
   public PullReplicationTasksHealthCheck(
@@ -90,6 +91,9 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
 
   @Override
   protected Result doCheck() throws Exception {
+    if (isCaughtUp) {
+      return Result.PASSED;
+    }
     long checkTime = ticker.read();
     List<Source> sources = sourcesCollection.getAll();
     boolean hasNoOutstandingTasks =
@@ -112,14 +116,12 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
   }
 
   private HealthCheck.Result reportResult(long checkTime) {
-    Result result =
-        successfulSince
-            .filter(ss -> checkTime >= ss + periodOfTimeNanos)
-            .map(ss -> Result.PASSED)
-            .orElse(Result.FAILED);
+    Optional<Result> maybePassed =
+        successfulSince.filter(ss -> checkTime >= ss + periodOfTimeNanos).map(ss -> Result.PASSED);
+    isCaughtUp = maybePassed.isPresent();
 
     if (successfulSince.isPresent()) {
-      if (result.equals(Result.PASSED)) {
+      if (maybePassed.filter(res -> res.equals(Result.PASSED)).isPresent()) {
         flogger.atFine().log(
             "Instance has caught up with all outstanding pull-replication tasks, so will be marked HEALTHY");
       } else {
@@ -130,6 +132,6 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
                 Duration.ofNanos(successfulSince.get() + periodOfTimeNanos).toMillis()));
       }
     }
-    return result;
+    return maybePassed.orElse(Result.FAILED);
   }
 }
