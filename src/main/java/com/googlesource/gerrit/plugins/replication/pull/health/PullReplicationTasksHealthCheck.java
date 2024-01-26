@@ -24,10 +24,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.healthcheck.HealthCheckConfig;
 import com.googlesource.gerrit.plugins.healthcheck.check.AbstractHealthCheck;
+import com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck;
 import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
@@ -39,8 +42,9 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
   public static final String PROJECTS_FILTER_FIELD = "projects";
   public static final String PERIOD_OF_TIME_FIELD = "periodOfTime";
   private final Set<String> projects;
-  private final long periodOfTimeSec;
+  private final long periodOfTimeMillis;
   private final SourcesCollection sourcesCollection;
+  private Optional<Long> successfulSince = Optional.empty();
 
   @Inject
   public PullReplicationTasksHealthCheck(
@@ -58,19 +62,19 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
         Set.of(
             replicationConfig.getStringList(
                 HealthCheckConfig.HEALTHCHECK, healthCheckName, PROJECTS_FILTER_FIELD));
-    this.periodOfTimeSec =
+    this.periodOfTimeMillis =
         ConfigUtil.getTimeUnit(
             replicationConfig,
             HealthCheckConfig.HEALTHCHECK,
             healthCheckName,
             PERIOD_OF_TIME_FIELD,
             DEFAULT_PERIOD_OF_TIME_SECS,
-            TimeUnit.SECONDS);
+            TimeUnit.MILLISECONDS);
     this.sourcesCollection = sourcesCollection;
   }
 
-  public long getPeriodOfTimeSec() {
-    return periodOfTimeSec;
+  public long getPeriodOfTimeMillis() {
+    return periodOfTimeMillis;
   }
 
   public Set<String> getProjects() {
@@ -79,6 +83,7 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
 
   @Override
   protected Result doCheck() throws Exception {
+    long checkTime = Instant.now().toEpochMilli();
     List<Source> sources = sourcesCollection.getAll();
     boolean hasNoOutstandingTasks =
         sources.stream()
@@ -94,6 +99,18 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
                                     && source.zeroInflightTasksForRepo(Project.nameKey(project)));
                   }
                 });
-    return hasNoOutstandingTasks ? Result.PASSED : Result.FAILED;
+    successfulSince =
+        hasNoOutstandingTasks ? successfulSince.or(() -> Optional.of(checkTime)) : Optional.empty();
+    return reportResult(checkTime);
+  }
+
+  private HealthCheck.Result reportResult(long checkTime) {
+    if (successfulSince.isPresent()) {
+      long healthinessThreshold = successfulSince.get() + periodOfTimeMillis;
+      if (checkTime >= healthinessThreshold) {
+        return Result.PASSED;
+      }
+    }
+    return Result.FAILED;
   }
 }
