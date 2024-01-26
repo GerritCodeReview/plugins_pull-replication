@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.health;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.PluginName;
@@ -37,6 +38,7 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
+  private static final FluentLogger flogger = FluentLogger.forEnclosingClass();
   private static final long DEFAULT_PERIOD_OF_TIME_SECS = 10L;
   public static final String HEALTHCHECK_NAME_SUFFIX = "-outstanding-tasks";
   public static final String PROJECTS_FILTER_FIELD = "projects";
@@ -112,8 +114,13 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
   private HealthCheck.Result reportResult(long checkTime) {
     if (successfulSince.isPresent()) {
       long healthinessThreshold = successfulSince.get() + periodOfTimeMillis;
+      flogger.atInfo().log(
+          "[STATUS: UNHEALTHY] Instance has been healthy since: %s, but needs to be consistently healthy until: %s so that it can be marked as healthy overall",
+          Instant.ofEpochMilli(successfulSince.get()), Instant.ofEpochMilli(healthinessThreshold));
       if (checkTime >= healthinessThreshold) {
         isCaughtUp = true;
+        flogger.atInfo().log(
+            "Instance has caught up with all outstanding pull-replication tasks, so will be marked HEALTHY");
         return Result.PASSED;
       }
     }
