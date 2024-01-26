@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.health;
 
+import com.google.common.base.Ticker;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.entities.Project;
@@ -24,10 +25,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.healthcheck.HealthCheckConfig;
 import com.googlesource.gerrit.plugins.healthcheck.check.AbstractHealthCheck;
+import com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck;
 import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
@@ -39,8 +42,10 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
   public static final String PROJECTS_FILTER_FIELD = "projects";
   public static final String PERIOD_OF_TIME_FIELD = "periodOfTime";
   private final Set<String> projects;
-  private final long periodOfTimeSec;
+  private final long periodOfTimeNanos;
   private final SourcesCollection sourcesCollection;
+  private final Ticker ticker;
+  private Optional<Long> successfulSince = Optional.empty();
 
   @Inject
   public PullReplicationTasksHealthCheck(
@@ -49,7 +54,8 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
       ConfigResource configResource,
       @PluginName String name,
       MetricMaker metricMaker,
-      SourcesCollection sourcesCollection) {
+      SourcesCollection sourcesCollection,
+      Ticker ticker) {
     super(executor, healthCheckConfig, name + HEALTHCHECK_NAME_SUFFIX, metricMaker);
     String healthCheckName = name + HEALTHCHECK_NAME_SUFFIX;
 
@@ -58,19 +64,20 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
         Set.of(
             replicationConfig.getStringList(
                 HealthCheckConfig.HEALTHCHECK, healthCheckName, PROJECTS_FILTER_FIELD));
-    this.periodOfTimeSec =
+    this.periodOfTimeNanos =
         ConfigUtil.getTimeUnit(
             replicationConfig,
             HealthCheckConfig.HEALTHCHECK,
             healthCheckName,
             PERIOD_OF_TIME_FIELD,
             DEFAULT_PERIOD_OF_TIME_SECS,
-            TimeUnit.SECONDS);
+            TimeUnit.NANOSECONDS);
     this.sourcesCollection = sourcesCollection;
+    this.ticker = ticker;
   }
 
-  public long getPeriodOfTimeSec() {
-    return periodOfTimeSec;
+  public long getPeriodOfTimeNanos() {
+    return periodOfTimeNanos;
   }
 
   public Set<String> getProjects() {
@@ -79,6 +86,7 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
 
   @Override
   protected Result doCheck() throws Exception {
+    long checkTime = ticker.read();
     List<Source> sources = sourcesCollection.getAll();
     boolean hasNoOutstandingTasks =
         sources.stream()
@@ -94,6 +102,18 @@ public class PullReplicationTasksHealthCheck extends AbstractHealthCheck {
                                     && source.zeroInflightTasksForRepo(Project.nameKey(project)));
                   }
                 });
-    return hasNoOutstandingTasks ? Result.PASSED : Result.FAILED;
+    successfulSince =
+        hasNoOutstandingTasks ? successfulSince.or(() -> Optional.of(checkTime)) : Optional.empty();
+    return reportResult(checkTime);
+  }
+
+  private HealthCheck.Result reportResult(long checkTime) {
+    long checkTimeSecs = TimeUnit.NANOSECONDS.toSeconds(checkTime);
+    long periodOfTimeSecs = TimeUnit.NANOSECONDS.toSeconds(getPeriodOfTimeNanos());
+    return successfulSince
+        .map(TimeUnit.NANOSECONDS::toSeconds)
+        .filter(ss -> checkTimeSecs >= ss + periodOfTimeSecs)
+        .map(ss -> Result.PASSED)
+        .orElse(Result.FAILED);
   }
 }

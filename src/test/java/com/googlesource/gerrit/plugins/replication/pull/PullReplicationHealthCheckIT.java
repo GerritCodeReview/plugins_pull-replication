@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.HEALTHCHECK_NAME_SUFFIX;
 import static com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck.PERIOD_OF_TIME_FIELD;
 
+import com.google.common.base.Stopwatch;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.UseLocalDisk;
@@ -41,6 +42,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -56,6 +58,8 @@ import org.junit.Test;
         "com.googlesource.gerrit.plugins.replication.pull.PullReplicationHealthCheckIT$PullReplicationHealthCheckTestModule",
     httpModule = "com.googlesource.gerrit.plugins.replication.pull.api.HttpModule")
 public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
+  private static final int TEST_HEALTHCHECK_PERIOD_OF_TIME_SEC = 5;
+  private static final String TEST_PLUGIN_NAME = "pull-replication";
 
   public static class PullReplicationHealthCheckTestModule extends AbstractModule {
     private final PullReplicationModule pullReplicationModule;
@@ -151,6 +155,11 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
     project.ifPresent(prj -> config.setString("remote", remoteName, "projects", prj));
     config.setBoolean("gerrit", null, "autoReload", true);
     config.setInt("replication", null, "maxApiPayloadSize", 1);
+    config.setString(
+        HealthCheckConfig.HEALTHCHECK,
+        TEST_PLUGIN_NAME + HEALTHCHECK_NAME_SUFFIX,
+        PERIOD_OF_TIME_FIELD,
+        TEST_HEALTHCHECK_PERIOD_OF_TIME_SEC + " sec");
     config.save();
   }
 
@@ -158,6 +167,7 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
   @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
   public void shouldReportInstanceHealthyWhenThereAreNoOutstandingReplicationTasks()
       throws Exception {
+    Stopwatch testStartStopwatch = Stopwatch.createUnstarted();
     testRepo = cloneProject(createTestProject(project + TEST_REPLICATION_SUFFIX));
     PullReplicationTasksHealthCheck healthcheck =
         getInstance(PullReplicationTasksHealthCheck.class);
@@ -182,20 +192,29 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
 
     waitUntil(
         () -> {
+          boolean healthCheckPassed = healthcheck.run().result == HealthCheck.Result.PASSED;
           boolean replicationFinished = hasReplicationFinished();
           if (!replicationFinished) {
-            boolean healthCheckPassed = healthcheck.run().result == HealthCheck.Result.PASSED;
-
             assertWithMessage("Instance reported healthy while waiting for replication to finish")
                 // Racy condition: we need to make sure that this isn't a false alarm
                 // and accept the case when the replication finished between the
                 // if(!replicationFinished) check and the assertion here
                 .that(!healthCheckPassed || hasReplicationFinished())
                 .isTrue();
+          } else {
+            if (!testStartStopwatch.isRunning()) {
+              testStartStopwatch.start();
+            }
           }
           return replicationFinished;
         });
 
+    if (testStartStopwatch.elapsed(TimeUnit.SECONDS) < TEST_HEALTHCHECK_PERIOD_OF_TIME_SEC) {
+      assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.FAILED);
+    }
+
+    waitUntil(
+        () -> testStartStopwatch.elapsed(TimeUnit.SECONDS) > TEST_HEALTHCHECK_PERIOD_OF_TIME_SEC);
     assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.PASSED);
   }
 
