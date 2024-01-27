@@ -3,6 +3,92 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b4939f9c_a23a5cb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "I would avoid adding white-box tests, we have already too many of them in this project and they already a bit pain to maintain.",
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "777555e8_aa6faa88",
+        "filename": "BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "This would include the whole plugin code into the pull-replication.jar, which is not what we want.\n\nDefine a custom target with the `neverlink` option. See for example the aws-dynamodb build at [1].\n\n[1] https://gerrit.googlesource.com/plugins/aws-dynamodb-refdb/+/refs/heads/master/BUILD#66",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 31
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f7ec49e_24c045fc",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "```suggestion\n\n  public long zeroPendingTasksForRepo(Project.NameKey project) {\n    return !pending.values().stream()\n        .anyMatch(fetch -\u003e fetch.getProjectNameKey().equals(project));\n  }\n```",
+      "range": {
+        "startLine": 942,
+        "startChar": 0,
+        "endLine": 948,
+        "endChar": 3
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b9526d9_b51dcb4a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 955,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "```suggestion\n  public long zeroInflightTasksForRepo(Project.NameKey project) {\n    return inFlight.values().stream()\n        .anyMatch(fetch -\u003e fetch.getProjectNameKey.equals(project));\n  }\n```",
+      "range": {
+        "startLine": 950,
+        "startChar": 0,
+        "endLine": 955,
+        "endChar": 3
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "eda9c6a5_ed49bd63",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
         "patchSetId": 10
@@ -14,6 +100,374 @@
       "writtenOn": "2024-01-25T12:23:21Z",
       "side": 1,
       "message": "this could be parallelized, but i am not convinced it will necessarily be faster due to the overhead of the thread management. The check is pretty fast anyway. I think it makes sense to leave it as is for now, rather than optimising prematurely. But something to keep in mind for the future.",
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "152774ac_23e3633f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "```suggestion\n                    return source.zeroPendingTasks() \u0026\u0026 source.zeroInflightTasks();\n```",
+      "range": {
+        "startLine": 88,
+        "startChar": 27,
+        "endLine": 88,
+        "endChar": 89
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1d90e6b_70121fe0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "We do not really need counting here, but just checking if we have at least one pending task. Performing the full exact counting and checking for zero is overkill IMHO and increases the CPU usage.\n\nHealthchecks are executed continuously and minimising CPU utilisation is paramount.\n\n\n```suggestion\n                                source.zeroPendingTasksForRepo(Project.nameKey(project))\n```",
+      "range": {
+        "startLine": 93,
+        "startChar": 32,
+        "endLine": 93,
+        "endChar": 94
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "032922a7_2d9df70d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "```suggestion\n                                    \u0026\u0026 source.zeroInflightTasksForRepo(Project.nameKey(project)));\n```",
+      "range": {
+        "startLine": 94,
+        "startChar": 39,
+        "endLine": 95,
+        "endChar": 44
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b8d116d_a63a0350",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Avoid magic values in tests.",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3861d9ec_799d2cd8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Avoid magic values in tests",
+      "range": {
+        "startLine": 150,
+        "startChar": 51,
+        "endLine": 150,
+        "endChar": 54
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9af934ed_ba34ee2d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Do you really need to create a change? Why not just creating a commit?\nThe fact that you are replicating changes is misleading, because it isn\u0027t relevant to the test\u0027s objective.",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 58
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa72df2e_be93215e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "would be safer `\u003e 0` ?",
+      "range": {
+        "startLine": 187,
+        "startChar": 37,
+        "endLine": 187,
+        "endChar": 49
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dda2eeb_e9f8ec48",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "I find quite strange that we throw an assertion failed for catching it and incrementing a counter.\n\nWhy not simply incrementing the counters when `healthcheck.run().result !\u003d HealthCheck.Result.FAILED` ?",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 13
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b5e4106_a63fe1dd",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Why exactly once? I would say *at least* onece.",
+      "range": {
+        "startLine": 205,
+        "startChar": 9,
+        "endLine": 205,
+        "endChar": 21
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eb3c46b_64a6ec6b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "This test is leaking the internal implementation and therefore will be quite fragile to future refactoring.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 96
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a30d6605_ebedb964",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Is there any async execution happening? If not, just call the `check.run()` multiple times, the test will still produce the same result and the build will be *a lot faster*.",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 14
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f613bfb1_cabd7532",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Same as above: do not leak internal implementation details in tests.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 68
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9ad77b7_94b7df2e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Same as above: do we really need async execution here?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 14
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47638777_35f9ef8e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Same as above: do not leak internal implementation details in the tests.",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 75
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0d3eb05_85b0b113",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Same as above: do we really need async execution here?",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 14
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94d31121_c8fd6f06",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-27T13:25:58Z",
+      "side": 1,
+      "message": "Do we really need this? In Gerrit we already have the `waitUntil` in case of async executions.\n\nSee `com.google.gerrit.acceptance.WaitUtil.waitUntil`.",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 3
+      },
       "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
