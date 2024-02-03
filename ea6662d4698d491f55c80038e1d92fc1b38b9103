@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f814da29_441d6df8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T00:37:14Z",
+      "side": 1,
+      "message": "I would like to avoid the broken windows syndrome on further white-box tests, with sleeps and assumptions on the implementation details.\n\nThe fact that the pull-replication tests aren\u0027t great, doesn\u0027t justify the spread of the problem further :-(",
+      "revId": "ea6662d4698d491f55c80038e1d92fc1b38b9103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6c68d70_9cf971dd",
+        "filename": "BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T00:37:14Z",
+      "side": 1,
+      "message": "Unrelated: this also should be with the neverlink option.",
+      "revId": "ea6662d4698d491f55c80038e1d92fc1b38b9103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
