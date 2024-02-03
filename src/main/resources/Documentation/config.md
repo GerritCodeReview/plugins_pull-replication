@@ -616,6 +616,21 @@ remote.NAME.enableBatchedRefs
 >
 >	By default, true.
 
+remote.NAME.fetchEvery
+:	Fetch the ref-spec `remote.NAME.fetch` from the remote repository defined
+	at `remote.NAME.url` for remote changes every `n` seconds.
+	By default set to `0s` which means that polling is disabled. Note that
+	larger time units (`m`, `h`, etc...) can be used to specify it conveniently.
+
+	Setting `fetchEvery` to value greater than `0` means that It will,
+	periodically, invoke git fetch to detect and retrieve new data from the
+	remote.
+
+>   *NOTE:* it is meant for the remote that doesn't offer events or webhooks
+>   that could be used otherwise for new data detection and connot be configured
+>	together with `remote.NAME.apiUrl`; such configuration is considered
+>	invalid and prevetns plugin from start
+
 Directory `replication`
 --------------------
 The optional directory `$site_path/etc/replication` contains Git-style
