@@ -32,6 +32,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   static final int DEFAULT_CONNECTION_TIMEOUT_MS = 5000;
   static final int DEFAULT_CONNECTIONS_PER_ROUTE = 100;
   static final int DEFAULT_DRAIN_SHUTDOWN_TIMEOUT_SECS = 300;
+  static final long DEFAULT_FETCH_ALL_DISABLED = 0L;
 
   private final int delay;
   private final int rescheduleDelay;
@@ -59,6 +60,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private boolean useCGitClient;
   private int refsBatchSize;
   private boolean enableBatchedRefs;
+  private final long fetchAllEvery;
 
   public SourceConfiguration(RemoteConfig remoteConfig, Config cfg) {
     this.remoteConfig = remoteConfig;
@@ -129,6 +131,18 @@ public class SourceConfiguration implements RemoteConfiguration {
               + "upgrading the plugin to the latest version and consult the plugin's documentation for more "
               + "details on the `enableBatchedRefs` configuration.",
           name);
+    }
+
+    fetchAllEvery =
+        cfg.getTimeUnit(
+            "remote", name, "fetchAllEvery", DEFAULT_FETCH_ALL_DISABLED, TimeUnit.SECONDS);
+    if (fetchAllEvery > DEFAULT_FETCH_ALL_DISABLED && !apis.isEmpty()) {
+      logger.atWarning().log(
+          "Receiving updates through periodic fetch (every %ds) and from Gerrit API(s) (%s) as a result of "
+              + "received events (in %s node) may result in racy writes to repo (in extreme cases to its "
+              + "corruption). Periodic fetch is meant only for remote that that doesn't offer events or "
+              + "webhooks that could be used otherwise for new data detection.",
+          fetchAllEvery, apis, name);
     }
   }
 
@@ -260,5 +274,9 @@ public class SourceConfiguration implements RemoteConfiguration {
 
   public boolean enableBatchedRefs() {
     return enableBatchedRefs;
+  }
+
+  public long fetchAllEvery() {
+    return fetchAllEvery;
   }
 }
