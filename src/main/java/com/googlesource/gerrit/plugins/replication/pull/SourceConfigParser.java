@@ -80,6 +80,22 @@ public class SourceConfigParser implements ConfigParser {
           }
         }
       }
+
+      if (sourceConfig.fetchEvery() > SourceConfiguration.DEFAULT_PERIODIC_FETCH_DISABLED
+          && !sourceConfig.getApis().isEmpty()) {
+        logger.atSevere().log(
+            "Receiving updates through periodic fetch (every %ds) and from Gerrit API(s) (%s) as a result of "
+                + "received events (in %s node) may result in racy writes to the repo (in extreme cases to its "
+                + "corruption). Periodic fetch is meant ONLY for remote that that doesn't offer events or "
+                + "webhooks that could be used otherwise for new data detection.",
+            sourceConfig.fetchEvery(), sourceConfig.getApis(), c.getName());
+        throw new ConfigInvalidException(
+            String.format(
+                "The [%s] remote has both 'fetchEvery' (every %ds) and `apiUrl` (%s) set which is "
+                    + "considered an invalid configuration.",
+                c.getName(), sourceConfig.fetchEvery(), sourceConfig.getApis()));
+      }
+
       sourceConfigs.add(sourceConfig);
     }
     return sourceConfigs.build();
