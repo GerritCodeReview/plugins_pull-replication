@@ -32,6 +32,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   static final int DEFAULT_CONNECTION_TIMEOUT_MS = 5000;
   static final int DEFAULT_CONNECTIONS_PER_ROUTE = 100;
   static final int DEFAULT_DRAIN_SHUTDOWN_TIMEOUT_SECS = 300;
+  static final long DEFAULT_FETCH_ALL_DISABLED = 0L;
 
   private final int delay;
   private final int rescheduleDelay;
@@ -59,6 +60,7 @@ public class SourceConfiguration implements RemoteConfiguration {
   private boolean useCGitClient;
   private int refsBatchSize;
   private boolean enableBatchedRefs;
+  private final long fetchAllEvery;
 
   public SourceConfiguration(RemoteConfig remoteConfig, Config cfg) {
     this.remoteConfig = remoteConfig;
@@ -130,6 +132,10 @@ public class SourceConfiguration implements RemoteConfiguration {
               + "details on the `enableBatchedRefs` configuration.",
           name);
     }
+
+    fetchAllEvery =
+        cfg.getTimeUnit(
+            "remote", name, "fetchAllEvery", DEFAULT_FETCH_ALL_DISABLED, TimeUnit.SECONDS);
   }
 
   @Override
@@ -260,5 +266,9 @@ public class SourceConfiguration implements RemoteConfiguration {
 
   public boolean enableBatchedRefs() {
     return enableBatchedRefs;
+  }
+
+  public long fetchAllEvery() {
+    return fetchAllEvery;
   }
 }
