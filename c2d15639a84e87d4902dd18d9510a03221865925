@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51b514d4_6bfad364",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T00:54:32Z",
+      "side": 1,
+      "message": "Why millis and not secs?",
+      "range": {
+        "startLine": 45,
+        "startChar": 21,
+        "endLine": 45,
+        "endChar": 39
+      },
+      "revId": "c2d15639a84e87d4902dd18d9510a03221865925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f1274e9_b722d6b7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T00:54:32Z",
+      "side": 1,
+      "message": "`successfulSince` is an `Optional\u003c\u003e` so this can be fully functional like below.\n\n\n```suggestion\n    return successfulSince.filter(ss -\u003e checkTime \u003e\u003d ss + periodOfTimeMillis)\n            .map(ss -\u003e Result.PASSED)\n            .orElse(Result.FAILED);\n```",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 25
+      },
+      "revId": "c2d15639a84e87d4902dd18d9510a03221865925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b76ae50d_2123456a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T00:54:32Z",
+      "side": 1,
+      "message": "Why not using [FakeTicker](https://www.javadoc.io/doc/com.google.guava/guava-testlib/19.0/com/google/common/testing/FakeTicker.html) instead?",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 58
+      },
+      "revId": "c2d15639a84e87d4902dd18d9510a03221865925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
