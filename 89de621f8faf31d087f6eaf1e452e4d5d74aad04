@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f9de473_974106b5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T01:33:19Z",
+      "side": 1,
+      "message": "We should make an effort and introduce the `Set\u003cString\u003e refNames` at L83 and use the batch-ref-update, instead of looping through the refs and delete them one-by-one.\n\nSome setups have a large number of refs and, periodically, clean them up in batches (e.g. 100s at a time). Removing 100 refs in one go, means re-generating the packed-refs only once.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf3b5779_aa74351a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T01:33:19Z",
+      "side": 1,
+      "message": "You could add the self-documenting predicates for filtering:\n\n```\n    public static final Predicate\u003cRefInput\u003e IS_DELETE \u003d RefInput::isDelete;\n    public static final Predicate\u003cRefInput\u003e IS_NOT_DELETE \u003d Predicate.not(RefInput::isDelete);\n```",
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a417d3b8_5bff1d8c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T01:33:19Z",
+      "side": 1,
+      "message": "This looks really the same method, with just the negation of the predicate function. Why not defining a single method called `getFilteredRefNames` and pass the predicate function as a self-documenting constant?\n\n\n```suggestion\n\n    public Set\u003cString\u003e getFilteredRefNames(Predicate\u003cRefInput\u003e filterFunc) {\n      return refInputs.stream()\n              .filter(filterFunc)\n              .map(RefInput::refName)\n              .collect(Collectors.toSet());\n    }\n```",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 5
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2459e86f_5e191901",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T01:33:19Z",
+      "side": 1,
+      "message": "This deserves a comment, explaining that you cannot make an atomic transaction involving a remote fetch and a local delete.\n\nTherefore you chose to sacrifice the delete: if the fetch fails, you still have the non-deleted refs, whilst the other way around is worse.",
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41384baa_75c817ed",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpPayloadGsonProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T01:33:19Z",
+      "side": 1,
+      "message": "Do you really need this custom type adapter? Gerrit has the [auto-value-gson](https://github.com/rharter/auto-value-gson) library which can do this automatically.",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 84
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
