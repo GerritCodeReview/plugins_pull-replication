@@ -616,6 +616,26 @@ remote.NAME.enableBatchedRefs
 >
 >	By default, true.
 
+remote.NAME.fetchAllEvery
+:	Polls for remote changes every `n` seconds. By default set to `0s`
+	which means that polling is disabled. Note that larger time units
+	(`m`, `h`, etc...) can be used to specify it conveniently.
+
+	Currently, there are two methods for obtaining repository updates in
+	pull-replication:
+
+	1. Apply objects - This transfers updated refs and objects via the REST
+	  API, eliminating the need for git fetch.
+	2. Trigger git fetch - This is used when objects exceed the REST API
+	  payload limit, necessitating a git fetch.
+
+	Setting `fetchAllEvery` to value greater than `0` introduces the third,
+	time-based method, independent of the REST API. It will periodically
+	invoke git fetch to detect and retrieve new data as it becomes available.
+
+>   *NOTE:* that it is meant for the remote that doesn't offer events or webhooks
+>   that could be used otherwise for new data detection.
+
 Directory `replication`
 --------------------
 The optional directory `$site_path/etc/replication` contains Git-style
