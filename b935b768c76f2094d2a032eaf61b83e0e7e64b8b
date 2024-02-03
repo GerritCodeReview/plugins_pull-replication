@@ -438,6 +438,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a0ee5469_b0bfb1b7",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T00:06:24Z",
+      "side": 1,
+      "message": "Well, you can reload the pull-replication plugin, isn\u0027t it? What are the other shortcomings?",
+      "parentUuid": "4a001162_2e7cc1be",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 164
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79a975e5_4a501083",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
         "patchSetId": 2
@@ -567,6 +591,30 @@
       "side": 1,
       "message": "It should be marked as non-nullable with the annotation then. Anyway I\u0027ve changed it.",
       "parentUuid": "af057ffd_fbac46cf",
+      "range": {
+        "startLine": 70,
+        "startChar": 21,
+        "endLine": 70,
+        "endChar": 25
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db887ee2_dc748e36",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T00:06:24Z",
+      "side": 1,
+      "message": "No, it\u0027s the other way around: a parameter that is nullable has the `@Nullable` annotation. If there isn\u0027t an annotation, then it is not nullable by default.",
+      "parentUuid": "5d7b151d_f6bf243c",
       "range": {
         "startLine": 70,
         "startChar": 21,
