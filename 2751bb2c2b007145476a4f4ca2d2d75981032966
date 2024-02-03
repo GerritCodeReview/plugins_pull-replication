@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8be357ef_7d3defd3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T00:57:56Z",
+      "side": 1,
+      "message": "`isCaughtUp` and result are the same concept IMHO:\n- When returning `Result.PASSED` then `isCaughtUp` is true\n- When returning `Result.FAILED` then `isCaughtUp` is false\n\nWhy not simply storing the result inside an atomic ref and doing the short-circuit at L87?",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 29
+      },
+      "revId": "2751bb2c2b007145476a4f4ca2d2d75981032966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07544051_eeeb0919",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-03T00:57:56Z",
+      "side": 1,
+      "message": "Avoid sleep in tests, have you checked if [FakeTicker](https://www.javadoc.io/doc/com.google.guava/guava-testlib/19.0/com/google/common/testing/FakeTicker.html) would do the job for you?",
+      "range": {
+        "startLine": 224,
+        "startChar": 4,
+        "endLine": 224,
+        "endChar": 39
+      },
+      "revId": "2751bb2c2b007145476a4f4ca2d2d75981032966",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
