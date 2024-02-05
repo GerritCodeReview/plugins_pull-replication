@@ -454,6 +454,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa20d9b1_c7cad3b9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:19:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "616ef727_37775128",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 129,
+        "endChar": 15
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3861d9ec_799d2cd8",
@@ -574,6 +598,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09a3c7f2_8f9af52c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:19:28Z",
+      "side": 1,
+      "message": "Ok, can you please point me to one of the sanitised tests which only uses a commit rather than a change, so I can take a look, and reuse as much as possible.",
+      "parentUuid": "0faf3d61_6c781ae7",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 58
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa72df2e_be93215e",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
         "patchSetId": 10
@@ -633,6 +681,30 @@
       "side": 1,
       "message": "Well, if you have counter \u003e 1 then this test will just get stuck and time out. The _bigger problem_ won\u0027t be detected anyway.\n\nIf counter is \u003e 1 we should fail fast, and not get the tests stuck.",
       "parentUuid": "c9fdcb3a_57bcc51e",
+      "range": {
+        "startLine": 187,
+        "startChar": 37,
+        "endLine": 187,
+        "endChar": 49
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0031aee6_b16dc9f3",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:19:28Z",
+      "side": 1,
+      "message": "How will you fail fast if counter \u003e 1? The test would still pass. \nWhereas if the test times out, it is an indicator, a _hint_ that something is wrong. Anyway, I have changed it.",
+      "parentUuid": "cad60136_37297556",
       "range": {
         "startLine": 187,
         "startChar": 37,
@@ -834,6 +906,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aa0f3e2a_55dfd2df",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:19:28Z",
+      "side": 1,
+      "message": "Depends what you mean with \"enough\". If you mean enough to give you confidence your code is correct, self-documented, meets the spec, and can be modified without regression in the future, then no, IMO the IT is not enough. Also the IT serves a different purpose to the unit test, and it\u0027s meant to be testing things at a different layer.\n\nAnyway, there\u0027s no point in debating this. I have modified the tests in this change so that the check is manually executed, and in [1] so that they use the FakeTicker, so the sleeps are gone, but that doesn\u0027t take away the fact we need to \"leak the internal implementation\" with the use of mockito. So please take another look, and let me know if you\u0027d like the unit tests to stay as they are, or they should be removed.\n\n[1] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/404837/3..4",
+      "parentUuid": "9bd8d433_5adeec7e",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 96
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a30d6605_ebedb964",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
         "patchSetId": 10
@@ -903,6 +999,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "57a32d51_82410d0f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:19:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a7e1b11_743f9440",
+      "range": {
+        "startLine": 89,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 14
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f613bfb1_cabd7532",
@@ -949,6 +1069,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "97ffcf87_dabcef96",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:19:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9ad77b7_94b7df2e",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 14
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47638777_35f9ef8e",
@@ -985,6 +1129,30 @@
       "writtenOn": "2024-01-27T13:25:58Z",
       "side": 1,
       "message": "Same as above: do we really need async execution here?",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 14
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a39f6898_1c7aa382",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:19:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0d3eb05_85b0b113",
       "range": {
         "startLine": 141,
         "startChar": 4,
@@ -1056,6 +1224,30 @@
       "side": 1,
       "message": "Why don\u0027t you improve the `WaitUntil` then?",
       "parentUuid": "ce196fc9_30021e01",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 3
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b85b6fa7_54f158ef",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:19:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a25718b_b4a14296",
       "range": {
         "startLine": 155,
         "startChar": 0,
