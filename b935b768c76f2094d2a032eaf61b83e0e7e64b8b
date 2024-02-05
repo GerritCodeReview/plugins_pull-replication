@@ -462,6 +462,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09cea5c4_a37d63b3",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T08:58:45Z",
+      "side": 1,
+      "message": "I think the main one applicable to the gerrit admin is the renaming of the plugin jar which contains the ApiModule classes.",
+      "parentUuid": "a0ee5469_b0bfb1b7",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 164
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79a975e5_4a501083",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
         "patchSetId": 2
