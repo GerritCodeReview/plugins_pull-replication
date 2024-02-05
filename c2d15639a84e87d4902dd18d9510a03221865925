@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba6f2526_b6449361",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:20:10Z",
+      "side": 1,
+      "message": "I have actually changed it to nanos with the introduction of the Ticker, it is because the time calculations should be done in the minimum logical denomination. Also the `periodOfTime` parameter supports millis is a valid configuration.",
+      "parentUuid": "51b514d4_6bfad364",
+      "range": {
+        "startLine": 45,
+        "startChar": 21,
+        "endLine": 45,
+        "endChar": 39
+      },
+      "revId": "c2d15639a84e87d4902dd18d9510a03221865925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f1274e9_b722d6b7",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60a6532a_91952b5f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:20:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07baf418_01bd0bf9",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 25
+      },
+      "revId": "c2d15639a84e87d4902dd18d9510a03221865925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b76ae50d_2123456a",
@@ -84,6 +132,30 @@
       "writtenOn": "2024-02-03T00:54:32Z",
       "side": 1,
       "message": "Why not using [FakeTicker](https://www.javadoc.io/doc/com.google.guava/guava-testlib/19.0/com/google/common/testing/FakeTicker.html) instead?",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 58
+      },
+      "revId": "c2d15639a84e87d4902dd18d9510a03221865925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8bb8dc8_676cde14",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-05T19:20:10Z",
+      "side": 1,
+      "message": "I moved the code inside the waitUntil and got rid of `eventually`.",
+      "parentUuid": "b76ae50d_2123456a",
       "range": {
         "startLine": 195,
         "startChar": 0,
