@@ -33,6 +33,29 @@
       "message": "Unrelated: this also should be with the neverlink option.",
       "revId": "ea6662d4698d491f55c80038e1d92fc1b38b9103",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c07e29d_58c9566d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-05T12:10:02Z",
+      "side": 1,
+      "message": "this change looks trivial[1] and can be easily squashed to this change. Even documentation in this change mentioning that healthcheck should be done only on startup. Without squashing you have to remove that from the documentation because current change code is not accurate with the documentation. Also there is no topic so merging just this change will cause healthcheck marking node as unhealthy whenever there is a fetch task\n\nhttps://gerrit-review.googlesource.com/c/plugins/pull-replication/+/404858/2",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 19
+      },
+      "revId": "ea6662d4698d491f55c80038e1d92fc1b38b9103",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
