@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ad37fb1_7339f20e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-05T12:55:45Z",
+      "side": 1,
+      "message": "should we document that this feature is available only for batch fetches.\n\nAlso, why it is only for batch fetches? For single fetch it is relatively simple to add that functionality and keep backward compatibility",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7f9de473_974106b5",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
         "patchSetId": 2
@@ -19,6 +42,53 @@
         "startChar": 0,
         "endLine": 81,
         "endChar": 3
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd2beb8b_dd2e2d8d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-05T12:55:45Z",
+      "side": 1,
+      "message": "I agree, but this can done as a separate change. WDYT?",
+      "parentUuid": "7f9de473_974106b5",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d64b7c6_a013b882",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefJob.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-05T12:55:45Z",
+      "side": 1,
+      "message": "should we catch and log exceptions here?",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 87
       },
       "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -66,6 +136,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b91ac23_b4c45581",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-05T12:55:45Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "a417d3b8_5bff1d8c",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 5
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2459e86f_5e191901",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
         "patchSetId": 2
@@ -99,6 +193,75 @@
         "startChar": 2,
         "endLine": 34,
         "endChar": 84
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e9bbd4c_c06e4b06",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/util/PayloadSerDes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-05T12:55:45Z",
+      "side": 1,
+      "message": "why JsonReader is not in try-with-resources?",
+      "range": {
+        "startLine": 82,
+        "startChar": 5,
+        "endLine": 82,
+        "endChar": 43
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3617791c_1c2c8ae1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-05T12:55:45Z",
+      "side": 1,
+      "message": "nit: this is getting more and more complex, maybe as a follow up we could use gson format to create json",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 46
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a419c921_07addba3",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-05T12:55:45Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 148,
+        "startChar": 15,
+        "endLine": 148,
+        "endChar": 155
       },
       "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
