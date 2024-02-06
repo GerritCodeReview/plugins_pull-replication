@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "81f192d7_71d9594a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "\u003e should we document that this feature is available only for batch fetches.\n\nThis was my intention when I say \"Note that this change does not change the payload of the single fetch\".\nAlso, the summary line specifically refers to batch-fetch endpoint.\n\nI think it is quite clear from the commit message, did you mean in the actual documentation file, where were you thinking of adding this?\n\n\u003e \n\u003e Also, why it is only for batch fetches? For single fetch it is relatively simple to add that functionality and keep backward compatibility\n\nI spoke to @luca.milanesio@gmail.com about this and even though it possible to make this back-compatible, it would still require some coding (and more importantly, testing) that we didn\u0027t feel was necessary since the idea would be to deprecate the single endpoint soon.",
+      "parentUuid": "0ad37fb1_7339f20e",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "d3b63307_60699eec",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-02-06T11:01:10Z",
       "side": 1,
       "message": "how does this relates to `remote.\u003cname\u003e.mirror` setting in the remote configuration?",
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "569fb45c_3c089872",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "ref deletions are only executed when the mirror configuration is enabled.",
+      "parentUuid": "d3b63307_60699eec",
       "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c532a9e5_8b95e39d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "Yes, I think it would be a good idea.\nI have created a feature request to handle delete refs as a batch [1]\n\n\n[1] https://issues.gerritcodereview.com/issues/323840842",
+      "parentUuid": "cd2beb8b_dd2e2d8d",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d64b7c6_a013b882",
@@ -111,6 +177,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f6a2f1a_18660ab3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefJob.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "Exceptions are already caught and logged as part of the `deleteRefsSync` implementation.",
+      "parentUuid": "6d64b7c6_a013b882",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 87
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf3b5779_aa74351a",
@@ -124,6 +214,24 @@
       "writtenOn": "2024-02-03T01:33:19Z",
       "side": 1,
       "message": "You could add the self-documenting predicates for filtering:\n\n```\n    public static final Predicate\u003cRefInput\u003e IS_DELETE \u003d RefInput::isDelete;\n    public static final Predicate\u003cRefInput\u003e IS_NOT_DELETE \u003d Predicate.not(RefInput::isDelete);\n```",
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de90488c_e1487e2e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "Thanks for the suggestion Luca.\nI have implemented only the `IS_DELETE` and express the `IS_NOT_DELETE` as a `negate()` of it.",
+      "parentUuid": "bf3b5779_aa74351a",
       "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -175,6 +283,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f87d511_b37715fb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, much more DRY 😊",
+      "parentUuid": "4b91ac23_b4c45581",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 5
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2459e86f_5e191901",
@@ -188,6 +320,24 @@
       "writtenOn": "2024-02-03T01:33:19Z",
       "side": 1,
       "message": "This deserves a comment, explaining that you cannot make an atomic transaction involving a remote fetch and a local delete.\n\nTherefore you chose to sacrifice the delete: if the fetch fails, you still have the non-deleted refs, whilst the other way around is worse.",
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1a1a306_c97265e9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "Good point, comment added.",
+      "parentUuid": "2459e86f_5e191901",
       "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -215,6 +365,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91af5d9d_e73242e8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/HttpPayloadGsonProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41384baa_75c817ed",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 84
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e9bbd4c_c06e4b06",
@@ -228,6 +402,30 @@
       "writtenOn": "2024-02-05T12:55:45Z",
       "side": 1,
       "message": "why JsonReader is not in try-with-resources?",
+      "range": {
+        "startLine": 82,
+        "startChar": 5,
+        "endLine": 82,
+        "endChar": 43
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f99a361_e1425489",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/util/PayloadSerDes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "Good catch! It was a leftover from some debugging",
+      "parentUuid": "5e9bbd4c_c06e4b06",
       "range": {
         "startLine": 82,
         "startChar": 5,
@@ -287,6 +485,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f385dc7_c63776e3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "I agree, current tests are written in a way that is quite flaky and difficult to read.\nWe definitely need to change the approach I will make a follow up change to tidy up a bit.",
+      "parentUuid": "3b5ddd12_b3ef725d",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 46
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a419c921_07addba3",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
         "patchSetId": 2
@@ -298,6 +520,30 @@
       "writtenOn": "2024-02-05T12:55:45Z",
       "side": 1,
       "message": "nit: wrap long line",
+      "range": {
+        "startLine": 148,
+        "startChar": 15,
+        "endLine": 148,
+        "endChar": 155
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7e39afe_deb190f9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-06T17:29:38Z",
+      "side": 1,
+      "message": "I will remove this in a follow up change.",
+      "parentUuid": "a419c921_07addba3",
       "range": {
         "startLine": 148,
         "startChar": 15,
