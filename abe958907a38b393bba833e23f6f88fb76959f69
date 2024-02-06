@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "715b6e59_83d9546e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "I do not see how the new feature is tested in the IT test.",
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c45ff36e_55f1d973",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "This would automatically increment by `periodOfTimeMillis + 1` every time that the time is checked; however, the test does not know (or well, it should not assume) how many times the implementation would query the time.\n\nThe tests would have more chances to continue to work with evolutions in the implementations if the tick advance is done explicitly in every test.",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 86
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b66c2b0c_d26e23f2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(check.getPeriodOfTimeNanos()).isEqualTo(TimeUnit.MILLISECONDS.toNanos(periodOfTimeMillis));\n```",
+      "range": {
+        "startLine": 77,
+        "startChar": 55,
+        "endLine": 77,
+        "endChar": 83
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b960329b_ffe28241",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "Why was this changed from `3` to `4`? Is this possibly due to the times that the FakeTicket is checked by the implementation and therefore the way it advances?",
+      "range": {
+        "startLine": 91,
+        "startChar": 54,
+        "endLine": 91,
+        "endChar": 55
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7d565ef_f3871e34",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "Same question as above, I don\u0027t get the rationale behind the number `4` compared to `3` that we had before.",
+      "range": {
+        "startLine": 110,
+        "startChar": 54,
+        "endLine": 110,
+        "endChar": 55
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b715203_7011c83e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "Why has also this be incremented from `5` to `6`?",
+      "range": {
+        "startLine": 131,
+        "startChar": 54,
+        "endLine": 131,
+        "endChar": 55
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5f187f2_548f0e76",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "There is too much _magic_ in this test:\n- The `50 ms` is actually `periodOfTime` * 5 but isn\u0027t explicit for the reader\n- The `5` at L152 is the factor of `periodOfTime` to obtain  the `50 ms`, but again it implicit\n\nCan you make those magic numbers more readable?\n\nThe test isn\u0027t tested and therefore only its clarify can tell the reader if that\u0027s right or wrong.",
+      "range": {
+        "startLine": 144,
+        "startChar": 38,
+        "endLine": 144,
+        "endChar": 40
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dcc4545_16f63c86",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "nit: can be inlined at L150.\n\nAlso the `testInjector(new TestModule(List.of(), \u003cperiod of time\u003e)).getInstance()` pattern could be DRY-ed out.",
+      "range": {
+        "startLine": 148,
+        "startChar": 13,
+        "endLine": 148,
+        "endChar": 21
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff1af752_615b9fb4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "This pattern is used multiple times, can be DRY-ed out and made it more readable?\n\n\n```suggestion\n    mockSourceWithNoOutstandingTasks(source);\n```",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 53
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48e2f2c1_08783150",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:19:48Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 53
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
