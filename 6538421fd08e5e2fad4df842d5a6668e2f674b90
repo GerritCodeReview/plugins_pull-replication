@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "101771e1_22c365e8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-06T10:47:26Z",
+      "side": 1,
+      "message": "This will only inject the _local configuration_ and ignore the `ReplicationConfigOverrides` coming from the _external configuration_. Instead the `MergedConfigResource` should be injected.",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 20
+      },
+      "revId": "6538421fd08e5e2fad4df842d5a6668e2f674b90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
