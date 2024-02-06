@@ -24,6 +24,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3b63307_60699eec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-06T11:01:10Z",
+      "side": 1,
+      "message": "how does this relates to `remote.\u003cname\u003e.mirror` setting in the remote configuration?",
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7f9de473_974106b5",
@@ -234,6 +251,30 @@
       "writtenOn": "2024-02-05T12:55:45Z",
       "side": 1,
       "message": "nit: this is getting more and more complex, maybe as a follow up we could use gson format to create json",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 46
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b5ddd12_b3ef725d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-06T11:01:10Z",
+      "side": 1,
+      "message": "+1, building JSON by hand is a terrible idea and should be avoided",
+      "parentUuid": "3617791c_1c2c8ae1",
       "range": {
         "startLine": 164,
         "startChar": 4,
