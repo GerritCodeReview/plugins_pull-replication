@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "615e1200_b688b1da",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T23:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f67d9c30_c58099ac",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 99
+      },
+      "revId": "e62cffa50e3a0f5f31c83bc16d7b950cdcac3511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff11f0c0_c4651211",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-02-03T00:59:07Z",
       "side": 1,
       "message": "Same as above.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 109
+      },
+      "revId": "e62cffa50e3a0f5f31c83bc16d7b950cdcac3511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37a3e6e3_f36f7b29",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T23:30:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff11f0c0_c4651211",
       "range": {
         "startLine": 121,
         "startChar": 0,
