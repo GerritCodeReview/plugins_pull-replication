@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45bbee36_95568eab",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "715b6e59_83d9546e",
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dffb13dd_44ef1c07",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-02-06T19:47:41Z",
       "side": 1,
       "message": "I see you\u0027re not configuring any `periodOfTime` explicitly, therefore this would last for 10 seconds.\n\nHowever, imagine that the `periodOfTime` isn\u0027t working, there are no assertions here to say that the check was successful only after that time, or am I missing something?",
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7f71c26_3cb5dc09",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dffb13dd_44ef1c07",
       "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fb86c38_36c935d8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45ff36e_55f1d973",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 86
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b66c2b0c_d26e23f2",
@@ -71,6 +131,30 @@
       "writtenOn": "2024-02-06T19:19:48Z",
       "side": 1,
       "message": "```suggestion\n    assertThat(check.getPeriodOfTimeNanos()).isEqualTo(TimeUnit.MILLISECONDS.toNanos(periodOfTimeMillis));\n```",
+      "range": {
+        "startLine": 77,
+        "startChar": 55,
+        "endLine": 77,
+        "endChar": 83
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc4af097_f816083d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b66c2b0c_d26e23f2",
       "range": {
         "startLine": 77,
         "startChar": 55,
@@ -128,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd22f502_dc0f7ecc",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12712556_de7c1eaa",
+      "range": {
+        "startLine": 91,
+        "startChar": 54,
+        "endLine": 91,
+        "endChar": 55
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7d565ef_f3871e34",
@@ -165,6 +273,30 @@
       "side": 1,
       "message": "I see, that is caused by the `periodOfTimeMillisStr` at L106, which makes the test passing after yet another cycle.\n\nThis test isn\u0027t explicitly dedicated to checking the `periodOfTime` functionality, hence should remain unchanged.",
       "parentUuid": "e7d565ef_f3871e34",
+      "range": {
+        "startLine": 110,
+        "startChar": 54,
+        "endLine": 110,
+        "endChar": 55
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a442770_ce5c8875",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fdd72d9_10b5dbc4",
       "range": {
         "startLine": 110,
         "startChar": 54,
@@ -222,6 +354,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb251fe_196f8f3d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e940c43_264b6bdd",
+      "range": {
+        "startLine": 131,
+        "startChar": 54,
+        "endLine": 131,
+        "endChar": 55
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5f187f2_548f0e76",
@@ -259,6 +415,30 @@
       "side": 1,
       "message": "If we set `checkInterval \u003d healthCheckPeriodOfTime / numChecks` then we do not need 5 checks but 3 would suffice, because the mock at L145 is configured to return 3 different values.",
       "parentUuid": "e5f187f2_548f0e76",
+      "range": {
+        "startLine": 144,
+        "startChar": 38,
+        "endLine": 144,
+        "endChar": 40
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6871744f_412d644b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9476c08b_95002dde",
       "range": {
         "startLine": 144,
         "startChar": 38,
@@ -315,6 +495,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f7705af_ea07bd5c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daea847d_20a4fc7f",
+      "range": {
+        "startLine": 152,
+        "startChar": 54,
+        "endLine": 152,
+        "endChar": 55
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f442267_bc69b9aa",
@@ -328,6 +532,24 @@
       "writtenOn": "2024-02-06T22:18:46Z",
       "side": 1,
       "message": "We are also missing an assertion on the timer, saying that the time passed was over the `periodOfTime` configured.",
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "283fb254_045ba15c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f442267_bc69b9aa",
       "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -355,6 +577,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "487cf89d_a552d1d8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff1af752_615b9fb4",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 53
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48e2f2c1_08783150",
@@ -368,6 +614,30 @@
       "writtenOn": "2024-02-06T19:19:48Z",
       "side": 1,
       "message": "Same as above.",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 53
+      },
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a6f29fc_5178e864",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T22:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48e2f2c1_08783150",
       "range": {
         "startLine": 173,
         "startChar": 0,
