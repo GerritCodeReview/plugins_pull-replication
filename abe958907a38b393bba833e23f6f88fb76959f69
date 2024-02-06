@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dffb13dd_44ef1c07",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T19:47:41Z",
+      "side": 1,
+      "message": "I see you\u0027re not configuring any `periodOfTime` explicitly, therefore this would last for 10 seconds.\n\nHowever, imagine that the `periodOfTime` isn\u0027t working, there are no assertions here to say that the check was successful only after that time, or am I missing something?",
+      "revId": "abe958907a38b393bba833e23f6f88fb76959f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c45ff36e_55f1d973",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
         "patchSetId": 6
