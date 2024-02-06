@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbdc4db9_95956f7e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T12:17:45Z",
+      "side": 1,
+      "message": "This would also succeed with 0, which is a failure condition though.\n\nImagine that the healthcheck doesn\u0027t work, then the the L191-L196 won\u0027t be triggered and the counter would remain set to zero. Then this assertion would still be satisfied, which honestly is a test error, because the code isn\u0027t working and the test is passing.\n\nI believe we need to:\n- Assert that once the event is triggered after L180, the healthcheck should fail\n- waitUntil the replication has finished\n- Assert that after the replication has finished, the healthcheck should pass",
+      "range": {
+        "startLine": 204,
+        "startChar": 8,
+        "endLine": 204,
+        "endChar": 20
+      },
+      "revId": "8be8828dae6ef2d8f83d67e1dc4910210c11b89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12895ac6_82d4f959",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T12:17:45Z",
+      "side": 1,
+      "message": "I like functional programming, but isn\u0027t a simple `for/loop` more readable here? I don\u0027t believe you are using the `i` anywhere in the `mapToObj()` closure.",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 45
+      },
+      "revId": "8be8828dae6ef2d8f83d67e1dc4910210c11b89c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

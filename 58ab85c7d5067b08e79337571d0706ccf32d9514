@@ -622,6 +622,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b9f1ea0_881ebf1e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T12:17:45Z",
+      "side": 1,
+      "message": "See the next PS to show you an example of how to create a commit into a repository.",
+      "parentUuid": "09a3c7f2_8f9af52c",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 58
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fa72df2e_be93215e",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
         "patchSetId": 10
@@ -918,6 +942,30 @@
       "side": 1,
       "message": "Depends what you mean with \"enough\". If you mean enough to give you confidence your code is correct, self-documented, meets the spec, and can be modified without regression in the future, then no, IMO the IT is not enough. Also the IT serves a different purpose to the unit test, and it\u0027s meant to be testing things at a different layer.\n\nAnyway, there\u0027s no point in debating this. I have modified the tests in this change so that the check is manually executed, and in [1] so that they use the FakeTicker, so the sleeps are gone, but that doesn\u0027t take away the fact we need to \"leak the internal implementation\" with the use of mockito. So please take another look, and let me know if you\u0027d like the unit tests to stay as they are, or they should be removed.\n\n[1] https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/404837/3..4",
       "parentUuid": "9bd8d433_5adeec7e",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 96
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64f22172_f40e0f12",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-06T12:17:45Z",
+      "side": 1,
+      "message": "\u003e Depends what you mean with \"enough\". If you mean enough to give you confidence your code is correct, self-documented, meets the spec, and can be modified without regression in the future, then no, IMO the IT is not enough. Also the IT serves a different purpose to the unit test, and it\u0027s meant to be testing things at a different layer.\n\nTrue, but this unit-test doesn\u0027t achieve the above either, because it relies on the internals of the implementation. So it *will break* with future refactoring.\nI agree that it helped you writing the code, but it should then be removed upon merging.\n\nAlso, the IT test was broken and was passing even with broken code. I would prefer to have a valid IT test and leave the unit-tests in your local environment. The IT test is the one that is verifying the end-user functionality, therefore is way more important than the one that verifies that code has the implementation that we expect.\n\nFeel free to still leave it in if you believe helps understanding the feature.",
+      "parentUuid": "aa0f3e2a_55dfd2df",
       "range": {
         "startLine": 80,
         "startChar": 0,
