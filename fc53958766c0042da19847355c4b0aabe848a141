@@ -16,6 +16,24 @@
       "message": "This will not produce an accurate datetime. We are using the `Ticker` which uses `System.nano` so we are not able to accurately calculate the timestamp based on the epoch.\n\nI suggest we abandon this change, or if we want to keep it, we need to track the timestamp separately.",
       "revId": "fc53958766c0042da19847355c4b0aabe848a141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f01fbab_89978b18",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-07T09:49:00Z",
+      "side": 1,
+      "message": "Agreed, let\u0027s abandon it for now. If we would need traces we\u0027ll add them later.",
+      "parentUuid": "c99039b7_9cd468ba",
+      "revId": "fc53958766c0042da19847355c4b0aabe848a141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
