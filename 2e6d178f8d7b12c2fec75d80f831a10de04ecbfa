@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b36edbcb_745fffe3",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-07T12:52:54Z",
+      "side": 1,
+      "message": "isn\u0027t that gonna cause issue on prod? If the node is marked as healthy before we even start consuming messages then we will end up serving traffic to that node. Also after some time node will be marked as unhealthy because of incoming traffic",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 59
+      },
+      "revId": "2e6d178f8d7b12c2fec75d80f831a10de04ecbfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
