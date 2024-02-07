@@ -93,6 +93,29 @@
       },
       "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2556408e_fa57e8ea",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-07T16:14:17Z",
+      "side": 1,
+      "message": "when `maybePassed` is present, its value can ever only be `PASSED` right?\nWhat\u0027s the reason of this `filter`?",
+      "range": {
+        "startLine": 124,
+        "startChar": 29,
+        "endLine": 124,
+        "endChar": 61
+      },
+      "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
