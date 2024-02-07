@@ -2,6 +2,8 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.common.net.HttpHeaders.ACCEPT;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchActionTestUtil.createBatchInput;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchActionTestUtil.toJsonString;
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
@@ -143,11 +145,8 @@ public class PullReplicationFilterTest {
   @Test
   public void shouldFilterBatchFetchAction() throws Exception {
     byte[] payloadBatchFetch =
-        ("{"
-                + "\"label\":\"Replication\", "
-                + "\"ref_inputs\": [ {\"ref_name\":\"refs/heads/master\", \"is_delete\":false}, {\"ref_name\":\"refs/heads/test\", \"is_delete\":false} ], "
-                + "\"async\":false"
-                + "}")
+        (toJsonString(
+                createBatchInput("Replication", false, "refs/heads/master", "refs/heads/test")))
             .getBytes(StandardCharsets.UTF_8);
 
     defineBehaviours(payloadBatchFetch, BATCH_FETCH_URI);

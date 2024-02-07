@@ -16,6 +16,8 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchActionTestUtil.createBatchInput;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchActionTestUtil.toJsonString;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -262,15 +264,9 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPost = httpPostCaptor.getValue();
     String expectedPayload =
-        "{\"label\":\"Replication\", \"ref_inputs\": ["
-            + " {\"ref_name\":\""
-            + refName
-            + "\", \"is_delete\":false}"
-            + ",{\"ref_name\":\""
-            + testRef
-            + "\", \"is_delete\":false}"
-            + " ]"
-            + ", \"async\":true}";
+        toJsonString(
+            createBatchInput(
+                "Replication", true, RefInput.create(refName), RefInput.create(testRef)));
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
   }
 
@@ -309,10 +305,7 @@ public abstract class FetchRestApiClientBase {
   public void shouldCallSyncBatchFetchOnlyForMetaRef() throws Exception {
     String metaRefName = "refs/changes/01/101/meta";
     String expectedMetaRefPayload =
-        "{\"label\":\"Replication\", \"ref_inputs\": [ "
-            + "{\"ref_name\":\""
-            + metaRefName
-            + "\", \"is_delete\":false} ], \"async\":false}";
+        toJsonString(createBatchInput("Replication", false, RefInput.create(metaRefName)));
 
     when(config.getStringList("replication", null, "syncRefs"))
         .thenReturn(new String[] {"^refs\\/changes\\/.*\\/meta"});
@@ -357,16 +350,13 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPost = httpPostCaptor.getValue();
     String expectedPayload =
-        "{\"label\":\"Replication\", \"ref_inputs\": [ "
-            + "{\"ref_name\":\""
-            + refName
-            + "\", \"is_delete\":false}"
-            + ",{\"ref_name\":\""
-            + refs.get(1).refName()
-            + "\", \"is_delete\":"
-            + refs.get(1).isDelete()
-            + "}"
-            + " ], \"async\":false}";
+        toJsonString(
+            createBatchInput(
+                "Replication",
+                false,
+                RefInput.create(refName),
+                RefInput.create(refs.get(1).refName(), refs.get(1).isDelete())));
+
     assertThat(readPayload(httpPost)).isEqualTo(expectedPayload);
   }
 
@@ -394,18 +384,7 @@ public abstract class FetchRestApiClientBase {
 
     HttpPost httpPosts = httpPostCaptor.getValue();
     String expectedSyncPayload =
-        "{\"label\":\"Replication\", \"ref_inputs\": [ "
-            + refs.stream()
-                .map(
-                    r ->
-                        "{\"ref_name\":\""
-                            + r.refName()
-                            + "\", \"is_delete\":"
-                            + r.isDelete()
-                            + "}")
-                .collect(Collectors.joining(","))
-            + " ], \"async\":false}";
-
+        toJsonString(createBatchInput("Replication", false, refs.toArray(new RefInput[0])));
     assertThat(readPayload(httpPosts)).isEqualTo(expectedSyncPayload);
   }
 
