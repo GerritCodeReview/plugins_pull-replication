@@ -486,6 +486,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d01f3149_f2e1aa23",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-07T00:32:07Z",
+      "side": 1,
+      "message": "Can you reformulate then the warning in a more _gerrit admin way_ ?\n(Gerrit admins aren\u0027t developers and won\u0027t be able to decypher the `dev-plugins.txt` file).\n\nExample:\n_\"Beware of renaming the plugin XYZ as ABC for preventing the risk of ...\"_",
+      "parentUuid": "09cea5c4_a37d63b3",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 164
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79a975e5_4a501083",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
         "patchSetId": 2
