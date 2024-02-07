@@ -508,6 +508,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01ff794b_f5de1e12",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-07T08:40:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d01f3149_f2e1aa23",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 164
+      },
+      "revId": "b935b768c76f2094d2a032eaf61b83e0e7e64b8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79a975e5_4a501083",
