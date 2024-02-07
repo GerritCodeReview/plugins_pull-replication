@@ -22,6 +22,30 @@
       },
       "revId": "2e6d178f8d7b12c2fec75d80f831a10de04ecbfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dab1861_0bcf75a3",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-07T15:05:16Z",
+      "side": 1,
+      "message": "You are right, the concerned is valid and addressed in the follow-up change in the chain. They are all in the same topic.",
+      "parentUuid": "b36edbcb_745fffe3",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 181,
+        "endChar": 59
+      },
+      "revId": "2e6d178f8d7b12c2fec75d80f831a10de04ecbfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
