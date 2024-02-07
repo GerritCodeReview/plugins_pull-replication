@@ -644,6 +644,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec01072c_8435cfb0",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-07T08:52:29Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7b9f1ea0_881ebf1e",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 58
+      },
+      "revId": "58ab85c7d5067b08e79337571d0706ccf32d9514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa72df2e_be93215e",
