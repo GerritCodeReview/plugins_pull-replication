@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bd9431ce_cee64e54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-07T15:55:35Z",
+      "side": 1,
+      "message": "nit: the repos configured in the filter (as in, they can be more than one).",
+      "range": {
+        "startLine": 12,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "2e6d178f8d7b12c2fec75d80f831a10de04ecbfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8fddefc_52a89788",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 21
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-07T15:55:35Z",
+      "side": 1,
+      "message": "nit: or",
+      "range": {
+        "startLine": 10,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 67
+      },
+      "revId": "2e6d178f8d7b12c2fec75d80f831a10de04ecbfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3fa9fc6_ad2d7be9",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-07T15:55:35Z",
+      "side": 1,
+      "message": "nit: Is the intent here to have all refs being replicated asynchronously?\n\nIf so, we could set this to a self-explanatory value that will never match.\nIn some testing environments [1], we test it as: `ALL REFS ASYNC`.\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/master/example-setup/http/configs/replication.config.template#10",
+      "range": {
+        "startLine": 123,
+        "startChar": 54,
+        "endLine": 123,
+        "endChar": 58
+      },
+      "revId": "2e6d178f8d7b12c2fec75d80f831a10de04ecbfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b36edbcb_745fffe3",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationHealthCheckIT.java",
         "patchSetId": 21
@@ -43,6 +112,29 @@
         "startChar": 0,
         "endLine": 181,
         "endChar": 59
+      },
+      "revId": "2e6d178f8d7b12c2fec75d80f831a10de04ecbfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df70ee8a_b7c81892",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-07T15:55:35Z",
+      "side": 1,
+      "message": "Should we not schedule replication tasks for repos other than `foo` to ensure the filter ignores them (as the test name suggests)?",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 24
       },
       "revId": "2e6d178f8d7b12c2fec75d80f831a10de04ecbfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
