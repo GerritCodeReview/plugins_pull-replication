@@ -36,7 +36,9 @@ import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
+import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
+import com.googlesource.gerrit.plugins.replication.pull.api.HttpPayloadGsonProvider;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
@@ -45,6 +47,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -161,14 +164,12 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
       NameKey project, List<RefInput> refsInBatch, URIish targetUri, long startTimeNanos)
       throws IOException {
     boolean callAsync = !containsSyncFetchRef(refsInBatch);
-    String refsNamesBody =
-        refsInBatch.stream()
-            .map(r -> "{\"ref_name\":\"" + r.refName() + "\", \"is_delete\":" + r.isDelete() + "}")
-            .collect(Collectors.joining(","));
-    String msgBody =
-        String.format(
-            "{\"label\":\"%s\", \"ref_inputs\": [ %s ], \"async\":%s}",
-            instanceId, refsNamesBody, callAsync);
+
+    FetchAction.BatchInput batchInput = new FetchAction.BatchInput();
+    batchInput.label = instanceId;
+    batchInput.async = callAsync;
+    batchInput.refInputs = new HashSet<>(refsInBatch);
+    String msgBody = HttpPayloadGsonProvider.get().toJson(batchInput);
 
     String url = formatUrl(targetUri.toString(), project, "batch-fetch");
     HttpPost post = createPostRequest(url, msgBody, startTimeNanos);
