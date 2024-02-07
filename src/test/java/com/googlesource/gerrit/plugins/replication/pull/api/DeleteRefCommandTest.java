@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.never;
@@ -36,9 +37,11 @@ import com.google.gerrit.server.project.ProjectState;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
+import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.ApplyObject;
+import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -108,12 +111,7 @@ public class DeleteRefCommandTest {
 
     objectUnderTest.deleteRef(TEST_PROJECT_NAME, TEST_REF_NAME, TEST_SOURCE_LABEL);
 
-    verify(eventDispatcher).postEvent(eventCaptor.capture());
-    Event sentEvent = eventCaptor.getValue();
-    assertThat(sentEvent).isInstanceOf(FetchRefReplicatedEvent.class);
-    FetchRefReplicatedEvent fetchEvent = (FetchRefReplicatedEvent) sentEvent;
-    assertThat(fetchEvent.getProjectNameKey()).isEqualTo(TEST_PROJECT_NAME);
-    assertThat(fetchEvent.getRefName()).isEqualTo(TEST_REF_NAME);
+    assertFetchReplicatedEvent(ReplicationState.RefFetchResult.SUCCEEDED, Result.FORCED);
   }
 
   @Test
@@ -132,5 +130,29 @@ public class DeleteRefCommandTest {
     objectUnderTest.deleteRef(TEST_PROJECT_NAME, NON_EXISTING_REF_NAME, TEST_SOURCE_LABEL);
 
     verify(eventDispatcher, never()).postEvent(any());
+  }
+
+  @Test
+  public void shouldThrowWhenRefDeletionFails() throws Exception {
+    when(source.isMirror()).thenReturn(true);
+    when(refUpdate.delete()).thenReturn(Result.LOCK_FAILURE);
+
+    assertThrows(
+        IOException.class,
+        () -> objectUnderTest.deleteRef(TEST_PROJECT_NAME, TEST_REF_NAME, TEST_SOURCE_LABEL));
+
+    assertFetchReplicatedEvent(ReplicationState.RefFetchResult.FAILED, Result.LOCK_FAILURE);
+  }
+
+  private void assertFetchReplicatedEvent(
+      ReplicationState.RefFetchResult refFetchResult, RefUpdate.Result result) throws Exception {
+    verify(eventDispatcher).postEvent(eventCaptor.capture());
+    Event sentEvent = eventCaptor.getValue();
+    assertThat(sentEvent).isInstanceOf(FetchRefReplicatedEvent.class);
+    FetchRefReplicatedEvent fetchEvent = (FetchRefReplicatedEvent) sentEvent;
+    assertThat(fetchEvent.getProjectNameKey()).isEqualTo(TEST_PROJECT_NAME);
+    assertThat(fetchEvent.getRefName()).isEqualTo(TEST_REF_NAME);
+    assertThat(fetchEvent.getStatus()).isEqualTo(refFetchResult.toString());
+    assertThat(fetchEvent.getRefUpdateResult()).isEqualTo(result);
   }
 }
