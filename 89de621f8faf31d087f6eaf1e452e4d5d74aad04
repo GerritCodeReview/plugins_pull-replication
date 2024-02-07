@@ -555,6 +555,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6558728e_ef630ddf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-07T15:16:17Z",
+      "side": 1,
+      "message": "Addressed in I0ccc9a05d42",
+      "parentUuid": "7bbc5ecb_ed8c4a56",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 46
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a419c921_07addba3",
@@ -592,6 +616,30 @@
       "side": 1,
       "message": "I will remove this in a follow up change.",
       "parentUuid": "a419c921_07addba3",
+      "range": {
+        "startLine": 148,
+        "startChar": 15,
+        "endLine": 148,
+        "endChar": 155
+      },
+      "revId": "89de621f8faf31d087f6eaf1e452e4d5d74aad04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17cc49b2_39d8cf1e",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/api/PullReplicationFilterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-07T15:16:17Z",
+      "side": 1,
+      "message": "Addressed in the follow up change (I0ccc9a05d42)",
+      "parentUuid": "b7e39afe_deb190f9",
       "range": {
         "startLine": 148,
         "startChar": 15,
