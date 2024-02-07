@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eb4c33b_52907cb7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-07T00:19:58Z",
+      "side": 1,
+      "message": "In Java, boolean are false by default.",
+      "range": {
+        "startLine": 49,
+        "startChar": 28,
+        "endLine": 49,
+        "endChar": 36
+      },
+      "revId": "8230abb1f79769a36c3688f4b320bc296b56679f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dab3b22f_d21a2a7d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-07T00:19:58Z",
+      "side": 1,
+      "message": "This looks convoluted, it can be simply rewritten as follows.\n\n```suggestion\n    isCaughtUp \u003d maybePassed.isPresent();\n```",
+      "range": {
+        "startLine": 117,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 51
+      },
+      "revId": "8230abb1f79769a36c3688f4b320bc296b56679f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11329e29_96a149d2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-07T00:19:58Z",
+      "side": 1,
+      "message": "```suggestion\n    when(source.pendingTasksCount()).thenReturn(0L, 0L, 1L);\n```",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 52
+      },
+      "revId": "8230abb1f79769a36c3688f4b320bc296b56679f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "438fe7cc_53fca248",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-07T00:19:58Z",
+      "side": 1,
+      "message": "You can use consistently the `runNTimes` introduced and used throughout the code.\n\n```suggestion\n    assertThat(\n            runNTimes(numCheckIterations, check, () -\u003e fakeTicker.advance(Duration.ofMillis(periodOfTimeMillis))))\n            .containsExactly(HealthCheck.Result.FAILED, HealthCheck.Result.PASSED);\n```",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 194,
+        "endChar": 72
+      },
+      "revId": "8230abb1f79769a36c3688f4b320bc296b56679f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f3e8dee_327befb4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-07T00:19:58Z",
+      "side": 1,
+      "message": "Just include this in L186, returning in order, 0L, 0L, 1L",
+      "range": {
+        "startLine": 196,
+        "startChar": 4,
+        "endLine": 196,
+        "endChar": 62
+      },
+      "revId": "8230abb1f79769a36c3688f4b320bc296b56679f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
