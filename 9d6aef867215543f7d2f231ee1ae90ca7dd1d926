@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "603bead7_19ebc261",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-07T12:52:16Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be a LifecycleListener as well to cover the situation when we reload plugin instead of redeploy? This can be addressed as a follow up",
+      "range": {
+        "startLine": 42,
+        "startChar": 53,
+        "endLine": 42,
+        "endChar": 72
+      },
+      "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dffc701_dd325485",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2024-02-07T12:52:16Z",
+      "side": 1,
+      "message": "what about situation when we are still starting the pull-replication? In this case we could not start consuming messages yet and healthcheck was already called",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 99,
+        "endChar": 33
+      },
+      "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
