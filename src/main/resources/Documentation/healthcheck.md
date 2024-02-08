@@ -63,6 +63,11 @@ Useful information
 is installed. If the `healthcheck` plugin is not installed, then the
 check registration is skipped during load of the pull-replication
 plugin.
+
+> **Note** that when the @@PLUGIN@@ plugin is installed as a lib(see [extension-point.md](extension-point.md)),
+> then the healthcheck plugin jar should also be present in the `lib` directory,
+> for the check registration to work.
+
 - Because the pull-replication healthcheck depends on the `healthcheck` plugin, renaming/removing the `healthcheck`
 jar file is not supported during runtime. Doing so can lead to unpredictable behaviour of your gerrit instance.
 
