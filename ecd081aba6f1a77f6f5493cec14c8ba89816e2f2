@@ -46,6 +46,76 @@
       },
       "revId": "ecd081aba6f1a77f6f5493cec14c8ba89816e2f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0da972a_00b1b299",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-08T19:30:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "55593001_28655ba4",
+      "range": {
+        "startLine": 9,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "ecd081aba6f1a77f6f5493cec14c8ba89816e2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7dce4c9_b218ebf5",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-08T19:30:16Z",
+      "side": 1,
+      "message": "Why don\u0027t you render it as a note?",
+      "range": {
+        "startLine": 65,
+        "startChar": 7,
+        "endLine": 65,
+        "endChar": 12
+      },
+      "revId": "ecd081aba6f1a77f6f5493cec14c8ba89816e2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f1f8e2d_f84bbe44",
+        "filename": "src/main/resources/Documentation/healthcheck.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-08T19:30:16Z",
+      "side": 1,
+      "message": "`@PLUGIN@`",
+      "range": {
+        "startLine": 65,
+        "startChar": 27,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "ecd081aba6f1a77f6f5493cec14c8ba89816e2f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
