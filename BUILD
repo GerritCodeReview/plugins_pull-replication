@@ -38,6 +38,7 @@ junit_tests(
         ":pull_replication_util",
         "//plugins/delete-project",
         "//plugins/events-broker",
+        "//plugins/healthcheck",
         "//plugins/replication",
     ],
 )
@@ -48,6 +49,7 @@ junit_tests(
     tags = ["pull-replication"],
     visibility = ["//visibility:public"],
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
+        ":healthcheck-neverlink",
         ":pull-replication__plugin",
         ":pull_replication_util",
         "//plugins/replication",
@@ -67,6 +69,7 @@ java_library(
     deps = PLUGIN_TEST_DEPS + PLUGIN_DEPS + [
         ":pull-replication__plugin",
         "//plugins/delete-project",
+        "//plugins/healthcheck",
         "//plugins/replication",
     ],
 )
