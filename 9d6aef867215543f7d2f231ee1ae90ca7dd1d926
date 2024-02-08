@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "22d987f6_a02e6728",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-08T09:20:18Z",
+      "side": 1,
+      "message": "@maczech@gmail.com By \"reload\" I assume you refer to the `gerrit plugin reload` ssh command. \n\nIs the `PullReplicationModule` executed on a plugin reload, or just on server startup? Because that\u0027s what ultimately affects the registration of the healthcheck. If the healthcheck is not registered again, then it\u0027s status remains intact (ie if prior to the reload it was reporting the node as unhealthy, this will be the case after the plugin reloads until it eventually becomes healthy - same if the node was reported healthy prior to the reload). If on the other hand the healthcheck is registered again, then we start from scratch.",
+      "parentUuid": "fe5872cd_39f1d7db",
+      "range": {
+        "startLine": 42,
+        "startChar": 53,
+        "endLine": 42,
+        "endChar": 72
+      },
+      "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8dffc701_dd325485",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
         "patchSetId": 7
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "If this plugin hasn\u0027t started, the Guice bindings are not set, isn\u0027t it? So the healthcheck is called but not bound to this check.",
       "parentUuid": "8dffc701_dd325485",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 99,
+        "endChar": 33
+      },
+      "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5c67673_4e946761",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-08T09:20:18Z",
+      "side": 1,
+      "message": "@maczech@gmail.com this is where the `periodOfTime` comes in, the healthcheck needs to consistently report `PASSED` over a period of time in order for the node to be marked healthy.",
+      "parentUuid": "12b4ffa2_def98b85",
       "range": {
         "startLine": 99,
         "startChar": 12,
