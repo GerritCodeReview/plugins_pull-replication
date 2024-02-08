@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0df24a79_bc22d7bb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-08T17:20:59Z",
+      "side": 1,
+      "message": "@maczech@gmail.com @luca.milanesio@gmail.com @christoforos.miliotis.dev@gmail.com, I have tested this and I can confirm the `PullReplicationModule` is called again, re-registering the custom component from scratch.\n\nThis means that upon reloading (or even disabling/enabling) the plugin, the check is performed again: we start with FAILURE and we transition to SUCCESS.\n\nThis for me is the right behaviour.\nIf you agree I suggest to resolve this comment, WDYT?",
+      "parentUuid": "22d987f6_a02e6728",
+      "range": {
+        "startLine": 42,
+        "startChar": 53,
+        "endLine": 42,
+        "endChar": 72
+      },
+      "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8dffc701_dd325485",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
         "patchSetId": 7
