@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0b0fc53_5dc77f9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-08T17:41:33Z",
+      "side": 1,
+      "message": "I tested this locally, by creating a backlog of fetches.\nI can see the healthcheck fails until the receiving node has caught up.\n\nFrom what I can tell it works very well, good job @christoforos.miliotis.dev@gmail.com!\n\nP.S. I have created a small follow-up change to document something that tripped me over during the tests 😊",
+      "revId": "468748b6a87ad7b7f00aa96d770f6f917032baf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
