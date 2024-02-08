@@ -116,6 +116,30 @@
       },
       "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f39760d4_1bf5534f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2024-02-08T09:02:10Z",
+      "side": 1,
+      "message": "this logging is broken (see the [abandoned change](https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/404877)) so I have removed it.",
+      "parentUuid": "2556408e_fa57e8ea",
+      "range": {
+        "startLine": 124,
+        "startChar": 29,
+        "endLine": 124,
+        "endChar": 61
+      },
+      "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
