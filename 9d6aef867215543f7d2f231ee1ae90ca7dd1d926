@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a78a002_4e14a2cf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheck.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-08T17:44:36Z",
+      "side": 1,
+      "message": "If you reload, you remove the old code and put the new code, therefore it is a startup. That\u0027s valid for any plugins, not sure if that needs mentioning.",
+      "parentUuid": "0df24a79_bc22d7bb",
+      "range": {
+        "startLine": 42,
+        "startChar": 53,
+        "endLine": 42,
+        "endChar": 72
+      },
+      "revId": "9d6aef867215543f7d2f231ee1ae90ca7dd1d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8dffc701_dd325485",
