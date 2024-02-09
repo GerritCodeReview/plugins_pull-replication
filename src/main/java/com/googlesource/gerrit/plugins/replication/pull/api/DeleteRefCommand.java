@@ -38,6 +38,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.DeleteRefE
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -65,6 +66,18 @@ public class DeleteRefCommand {
     this.eventDispatcher = eventDispatcher;
     this.sourcesCollection = sourcesCollection;
     this.gitManager = gitManagerProvider.get();
+  }
+
+  public void deleteRefsSync(
+      Project.NameKey name, Set<String> deletedRefNames, String sourceLabel) {
+    deletedRefNames.forEach(
+        r -> {
+          try {
+            deleteRef(name, r, sourceLabel);
+          } catch (RestApiException | IOException e) {
+            repLog.error("Could not delete ref {}:{} from source {}", name.get(), r, sourceLabel);
+          }
+        });
   }
 
   public void deleteRef(Project.NameKey name, String refName, String sourceLabel)
