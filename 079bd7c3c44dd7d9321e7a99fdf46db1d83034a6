@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "15cfc2e2_b8522f9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-12T10:41:32Z",
+      "side": 1,
+      "message": "That\u0027s a good point @luca.milanesio@gmail.com, thanks for spotting this!\n\nAs far as I can tell, we are just missing a test to cover (de)serialization, to assert the payload string is the expected one, which I am happy to add and it will be trivial.\n\nHowever, your `-2` suggests that you don\u0027t feel this refactoring is useful, perhaps just riskier and needlessly time-consuming, in which case I am happy to abandon 😊",
+      "parentUuid": "4a1feac3_d8c66b60",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "079bd7c3c44dd7d9321e7a99fdf46db1d83034a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "be22ca9e_079ab6a7",
