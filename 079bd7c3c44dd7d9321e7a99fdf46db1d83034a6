@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a1feac3_d8c66b60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T08:49:37Z",
+      "side": 1,
+      "message": "I believe that was done on purpose for asserting the REST-API behaviour on the JSON payload, rather than the one automatically created by the Gson serialiser.\n\nIf you change the serialised classes definition in a non-compatible way, with the hand-crafted JSON payload you\u0027ll notice the breakage, otherwise you won\u0027t.",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "079bd7c3c44dd7d9321e7a99fdf46db1d83034a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be22ca9e_079ab6a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T08:49:37Z",
+      "side": 1,
+      "message": "Not sure if we really want this, at least in its current form.",
+      "revId": "079bd7c3c44dd7d9321e7a99fdf46db1d83034a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6a915ed_58fe5fd4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-12T08:49:37Z",
+      "side": 1,
+      "message": "If you don\u0027t like the hand-crafted JSON, you should build it using the Gson primitives rather than serialising the object directly.",
+      "range": {
+        "startLine": 172,
+        "startChar": 21,
+        "endLine": 172,
+        "endChar": 70
+      },
+      "revId": "079bd7c3c44dd7d9321e7a99fdf46db1d83034a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
