@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "de12d0ce_b877d563",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-12T10:44:51Z",
+      "side": 1,
+      "message": "we should be testing here the REST API, not JSON serializer/deserializer, any changes in the formatting of payload/response (as long the JSON format is kept valid) should NOT influence the tests.\n\nAny JSON string comparison tests belong to the JSON serializer/deserializer libraries.\n\nHere we should parse the response into objects and assert on object properties.",
+      "parentUuid": "4a1feac3_d8c66b60",
+      "range": {
+        "startLine": 9,
+        "startChar": 64,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "079bd7c3c44dd7d9321e7a99fdf46db1d83034a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "be22ca9e_079ab6a7",
@@ -78,6 +102,30 @@
       "writtenOn": "2024-02-12T08:49:37Z",
       "side": 1,
       "message": "If you don\u0027t like the hand-crafted JSON, you should build it using the Gson primitives rather than serialising the object directly.",
+      "range": {
+        "startLine": 172,
+        "startChar": 21,
+        "endLine": 172,
+        "endChar": 70
+      },
+      "revId": "079bd7c3c44dd7d9321e7a99fdf46db1d83034a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51a310cb_029defdb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/FetchRestApiClient.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-12T10:44:51Z",
+      "side": 1,
+      "message": "why would you go and _handcraft the payload using Gson primitives_?\n\nwe should be testing the REST endpoint here, not data serialization/deserialization. How the input is built should not matter, as long as it has a valid format. We can hide this into a private method to reduce the test complexity, but I don\u0027t think we should be bothered by how the input data is being built.\n\nAlso, we could probably extract thee JSON object definitions into a library and share between projects, so that we don\u0027t duplicate object definitions and use the same API across multiple projects.",
+      "parentUuid": "e6a915ed_58fe5fd4",
       "range": {
         "startLine": 172,
         "startChar": 21,
