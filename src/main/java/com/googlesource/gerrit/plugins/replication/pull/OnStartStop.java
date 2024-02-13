@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
+import com.google.common.base.Suppliers;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -22,11 +23,13 @@ import com.google.gerrit.server.config.GerritIsReplica;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.ReplicationFilter;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 public class OnStartStop implements LifecycleListener {
   private final AtomicReference<Future<?>> fetchAllFuture;
@@ -37,6 +40,7 @@ public class OnStartStop implements LifecycleListener {
   private final ReplicationState.Factory replicationStateFactory;
   private final SourcesCollection sourcesCollection;
   private final WorkQueue workQueue;
+  private final Supplier<SourcesFetchAllPeriodically> fetchAllPeriodically;
   private boolean isReplica;
 
   @Inject
@@ -48,6 +52,7 @@ public class OnStartStop implements LifecycleListener {
       ReplicationState.Factory replicationStateFactory,
       SourcesCollection sourcesCollection,
       WorkQueue workQueue,
+      Provider<SourcesFetchAllPeriodically> fetchAllPeriodically,
       @GerritIsReplica Boolean isReplica) {
     this.srvInfo = srvInfo;
     this.fetchAll = fetchAll;
@@ -58,10 +63,14 @@ public class OnStartStop implements LifecycleListener {
     this.sourcesCollection = sourcesCollection;
     this.workQueue = workQueue;
     this.isReplica = isReplica;
+    this.fetchAllPeriodically = Suppliers.memoize(() -> fetchAllPeriodically.get());
   }
 
   @Override
   public void start() {
+    sourcesCollection.startup(workQueue);
+    fetchAllPeriodically.get().start();
+
     if (isReplica
         && srvInfo.getState() == ServerInformation.State.STARTUP
         && config.isReplicateAllOnPluginStart()) {
@@ -73,15 +82,16 @@ public class OnStartStop implements LifecycleListener {
               .create(null, ReplicationFilter.all(), state, false)
               .schedule(30, TimeUnit.SECONDS));
     }
-
-    sourcesCollection.startup(workQueue);
   }
 
   @Override
   public void stop() {
-    Future<?> f = fetchAllFuture.getAndSet(null);
-    if (f != null) {
-      f.cancel(true);
+    if (isReplica) {
+      Future<?> f = fetchAllFuture.getAndSet(null);
+      if (f != null) {
+        f.cancel(true);
+      }
+      fetchAllPeriodically.get().stop();
     }
   }
 }
