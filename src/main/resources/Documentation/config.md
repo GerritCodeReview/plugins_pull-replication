@@ -631,6 +631,13 @@ remote.NAME.fetchEvery
 >	together with `remote.NAME.apiUrl`; such configuration is considered
 >	invalid and prevetns plugin from start
 
+>   *NOTE*: Periodic fetches are scheduled using a dedicated (single
+>   threaded) pool, called `PeriodicallyFetchFromSources`. It is created only
+>   when there is at least one remote configured to fetch periodically.
+
+>   *NOTE*: Scheduling is performed on plugin start therefore one needs to
+>   reload plugin when configuration gets changed.
+
 Directory `replication`
 --------------------
 The optional directory `$site_path/etc/replication` contains Git-style
