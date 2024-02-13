@@ -137,6 +137,8 @@ class PullReplicationModule extends AbstractModule {
       install(new EventsBrokerConsumerModule(eventBrokerTopic, replicationConfig));
     }
 
+    install(new FactoryModuleBuilder().build(SourceFetchAllPeriodically.Factory.class));
+
     DynamicSet.setOf(binder(), ReplicationStateListener.class);
     DynamicSet.bind(binder(), ReplicationStateListener.class).to(PullReplicationStateLogger.class);
     EventTypes.register(FetchRefReplicatedEvent.TYPE, FetchRefReplicatedEvent.class);
