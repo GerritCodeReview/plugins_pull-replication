@@ -448,6 +448,15 @@ public class Source {
     return schedule(project, ref, uri, state, apiRequestMetrics, false);
   }
 
+  public Future<?> scheduleNow(
+      Project.NameKey project,
+      String ref,
+      ReplicationState state,
+      Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
+    URIish uri = getURI(project);
+    return schedule(project, ref, uri, state, apiRequestMetrics, true);
+  }
+
   public Future<?> schedule(
       Project.NameKey project,
       String ref,
@@ -915,6 +924,10 @@ public class Source {
 
   public boolean enableBatchedRefs() {
     return config.enableBatchedRefs();
+  }
+
+  public long fetchAllEvery() {
+    return config.fetchAllEvery();
   }
 
   void scheduleUpdateHead(String apiUrl, Project.NameKey project, String newHead) {
