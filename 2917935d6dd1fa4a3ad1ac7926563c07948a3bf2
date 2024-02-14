@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c68f932_0fab9cd3",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-14T09:48:41Z",
+      "side": 1,
+      "message": "what shall we do when both `remote.$name.apiUrl` and `remote.$name.fetchAllEvery` are set for the same remote? Is that configuration valid? Will it lead to any potential problems?",
+      "range": {
+        "startLine": 636,
+        "startChar": 4,
+        "endLine": 637,
+        "endChar": 56
+      },
+      "revId": "2917935d6dd1fa4a3ad1ac7926563c07948a3bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
