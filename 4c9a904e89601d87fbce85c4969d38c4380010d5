@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d23a93ab_86ec117f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/OnStartStop.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-14T08:13:45Z",
+      "side": 1,
+      "message": "periodic fetch is started regardless if it is replica or not hence it should be stopped always",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 40
+      },
+      "revId": "4c9a904e89601d87fbce85c4969d38c4380010d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
