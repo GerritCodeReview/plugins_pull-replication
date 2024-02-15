@@ -22,6 +22,30 @@
       },
       "revId": "2917935d6dd1fa4a3ad1ac7926563c07948a3bf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9440180e_07b93dd5",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-15T06:41:40Z",
+      "side": 1,
+      "message": "Having it configured is harmless. It becomes sub-optimal in case when remote events are received as it will result in higher load on both ends: events (e.g. head update) will be processed (and some of them will result in pull) and in the same time periodic pull for changes will run.\nWe should discuss if that should be indicated to the user.",
+      "parentUuid": "3c68f932_0fab9cd3",
+      "range": {
+        "startLine": 636,
+        "startChar": 4,
+        "endLine": 637,
+        "endChar": 56
+      },
+      "revId": "2917935d6dd1fa4a3ad1ac7926563c07948a3bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
