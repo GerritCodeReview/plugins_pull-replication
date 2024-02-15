@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2616a4fd_34dd93a5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/OnStartStop.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-15T13:06:01Z",
+      "side": 1,
+      "message": "moving this line above the `if` feels like a behaviour change. Now the `SourcesCollection` will start before we start the synchronization on replica. Have you tested this on the replica? why we need to change that order in the first place?",
+      "revId": "15ec639cbe2091bc4f83e40f2ce43c899cce1d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
