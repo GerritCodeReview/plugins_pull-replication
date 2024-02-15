@@ -25,7 +25,6 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import com.googlesource.gerrit.plugins.replication.ReplicationFilter;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -79,7 +78,11 @@ public class OnStartStop implements LifecycleListener {
               new FetchResultProcessing.GitUpdateProcessing(eventDispatcher.get()));
       fetchAllFuture.set(
           fetchAll
-              .create(null, ReplicationFilter.all(), state, false)
+              .create(
+                  null,
+                  fetchAllPeriodically.get().skipFromReplicateAllOnPluginStart(),
+                  state,
+                  false)
               .schedule(30, TimeUnit.SECONDS));
     }
   }
