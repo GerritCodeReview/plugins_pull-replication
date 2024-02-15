@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.project.ProjectCache;
@@ -26,6 +27,7 @@ import java.util.Optional;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 class SourceFetchPeriodically {
   interface Factory {
@@ -59,11 +61,14 @@ class SourceFetchPeriodically {
         this::scheduleFetchAll, 0L, source.fetchEvery(), TimeUnit.SECONDS);
   }
 
+  Stream<Project.NameKey> projectsToFetch() {
+    return projects.all().stream().filter(source::wouldFetchProject);
+  }
+
   private void scheduleFetchAll() {
     Optional<PullReplicationApiRequestMetrics> metrics = Optional.of(metricsProvider.get());
     long repositoriesToBeFetched =
-        projects.all().stream()
-            .filter(source::wouldFetchProject)
+        projectsToFetch()
             .map(
                 projectToFetch ->
                     source.scheduleNow(
