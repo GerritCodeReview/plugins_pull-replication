@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46dae3d7_3d266ba7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3303979
+      },
+      "writtenOn": "2024-02-15T02:10:18Z",
+      "side": 1,
+      "message": "+cGFyc2VyLT5mZXRjaFRlbXBsYXRlQW5kVGl0bGUoICR0aXRsZSApOwoJCWlmICggJHRleHQgPT09IGZhbHNlICkgewoJCQl0aHJvdyBuZXcgU2NyaWJ1bnRvRXhjZXB0aW9uKCAnc2NyaWJ1bnRvL WNvbW1vbi1ub3N1Y2htb2R1bGUnICk7CgkJfQoKCQkka2V5ID0gJGZpbmFsVGl0bGUtPmdldFByZWZpeGVkREJrZXkoKTsKCQlpZiAoICFpc3NldCggJHRoaXMtPm1vZHVsZXNbJGtleV0gKSApIHsKCQkJJHRoaXMtPm1vZHVsZXNbJGtleV0gPSAkdGhpcy0+bmV3TW9kdWxlKCAkdGV4dCwgJGtleSap OwoJCX0KCQlyZXR1cm4gJHRoaXMtPm1vZHVsZXNbJGtleV07Cgl9CgoJLyoqCgkgKiBWYWxpZGF0ZXMgdGhlIHNjcmlwdCBhbmQgcmV0dXJucyBhbiBhcnJheSBvZiB0aGUgc3ludGF4IGVycm9ycyB mb3IgdGhlCgkgKiBnaXZlbiBjb2RlLgoJICogCgkgKiBAcGFyYW0gJGNvZGUgQ29kZSB0byB2YWxpZGF0ZQoJICogQHBhcmFtICR0aXRsZSBUaXRsZSBvZiB0aGUgY29kZSBwYWdlCgkgKiBAcmV0dXJuIGFy cmF5CgkgKi8KCWZ1bmN0aW9uIHZhbGlkYXRlKCAkdGV4dCwgJGNodW5rTmFtZSA9IGZhbHNlICkgewoJCSRtb2R1bGUgPSAkdGhpcy0++Y2h1bmtOYW1lID0gJGNodW5rTmFtZTsKCX0KCgkv KiogQWNjZXNzb3JzICoqLwoJcHVibGljIGZ1bmN0aW9uIGdldEVuZ2luZSgpICAgICB7IHJldHVybiAkdGhpcy0++bmFtZSA9ICRuYW1lOwoJCSR0aGlzLT5jb250ZW50cyA9ICRjb250ZW50czsKCQkkdGhpcy0+bW9kdWxlID0gJG1vZHVsZTsKCQkkdGhpcy0+ZW5naW5lID0gJG1vZHVsZS0+Z2V0RW5naW5lKCk7Cgl9C gkKCS8qKgoJICogQ2FsbHMgdGhlIGZ1bmN0aW9uLiBSZXR1cm5zIGl0cyBmaXJzdCByZXN1bHQgb3IgbnVsbCBpZiBubyByZXN1bHQuCgkgKiAKCSAqIEBwYXJhbSAkYXJncyBhcnJheSBBcmd1bWVudHM gdG8gdGhlIGZ1bmN0aW9uCgkgKiBAcGFyYW0gJGZyYW1liIFBQRnJhbWUgCgkgKi8KCWFic3RyYWN0IHB1YmxpYyBmdW5jdGlvbiBjYWxsKCAkYXJncywgJGZyYW1lICk7CgkKCS8qKiBBY2Nl c3NvcnMgKiovCglwdWJsaWMgZnVuY3Rpb24gZ2V0TmFtZSgpICAgeyByZXR1cm4gJHRoaXMtPm5hbWU7IH0KCXB1YmxpYyBmdW5jdGlvbiBnZXRNb2R1bGUoKSB7IHJldHVybiAkdGhpcy0+b W9kdWxlOyB9CglwdWJsaWMgZnVuY3Rpb24gZ2V0RW5naW5lKCkgeyByZXR1cm4gJHRoaXMtPmVuZ2luZTsgfQp9Cg\u003d\u003d",
+      "revId": "28172110b4bad9d9941ffcf963619f1d54e495bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
