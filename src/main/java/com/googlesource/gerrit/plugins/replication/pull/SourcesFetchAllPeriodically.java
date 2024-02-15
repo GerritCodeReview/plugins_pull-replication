@@ -16,14 +16,19 @@ package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration.DEFAULT_FETCH_ALL_DISABLED;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Suppliers;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.googlesource.gerrit.plugins.replication.ReplicationFilter;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.function.Supplier;
@@ -32,7 +37,7 @@ import java.util.function.Supplier;
 class SourcesFetchAllPeriodically {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final Supplier<List<ScheduledFuture<?>>> scheduled;
+  private final Supplier<List<ScheduledSource>> scheduled;
 
   @Inject
   SourcesFetchAllPeriodically(
@@ -47,7 +52,19 @@ class SourcesFetchAllPeriodically {
     scheduled.get();
   }
 
-  private List<ScheduledFuture<?>> scheduleFetchAll(
+  ReplicationFilter skipFromReplicateAllOnPluginStart() {
+    Set<Project.NameKey> projectsToSkip =
+        scheduled.get().stream()
+            .flatMap(scheduledSource -> scheduledSource.sourceFetchAll.projectsToFetch())
+            .collect(toSet());
+    if (projectsToSkip.isEmpty()) {
+      return ReplicationFilter.all();
+    }
+
+    return new SkipProjectsFilter(projectsToSkip);
+  }
+
+  private List<ScheduledSource> scheduleFetchAll(
       WorkQueue workQueue,
       Provider<SourcesCollection> sources,
       SourceFetchAllPeriodically.Factory fetchAllCreator) {
@@ -60,12 +77,42 @@ class SourcesFetchAllPeriodically {
               logger.atInfo().log(
                   "Enabling periodic (every %ds) fetch of all refs for [%s] remote",
                   source.fetchAllEvery(), source.getRemoteConfigName());
-              return fetchAllCreator.create(source).start(queue.get());
+              SourceFetchAllPeriodically sourceFetchAll = fetchAllCreator.create(source);
+              return new ScheduledSource(sourceFetchAll, sourceFetchAll.start(queue.get()));
             })
         .collect(toList());
   }
 
   void stop() {
-    scheduled.get().forEach(schedule -> schedule.cancel(true));
+    scheduled.get().forEach(source -> source.schedule.cancel(true));
+  }
+
+  private static class ScheduledSource {
+    private final SourceFetchAllPeriodically sourceFetchAll;
+    private final ScheduledFuture<?> schedule;
+
+    private ScheduledSource(
+        SourceFetchAllPeriodically sourceFetchAll, ScheduledFuture<?> schedule) {
+      this.sourceFetchAll = sourceFetchAll;
+      this.schedule = schedule;
+    }
+  }
+
+  /**
+   * The ReplicationFilter implementation that matches all projects that are not part of the
+   * internal set.
+   */
+  private static class SkipProjectsFilter extends ReplicationFilter {
+    private final Set<Project.NameKey> projectsToSkip;
+
+    private SkipProjectsFilter(Set<Project.NameKey> projectsToSkip) {
+      super(Collections.emptyList());
+      this.projectsToSkip = projectsToSkip;
+    }
+
+    @Override
+    public boolean matches(Project.NameKey name) {
+      return !projectsToSkip.contains(name);
+    }
   }
 }
