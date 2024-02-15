@@ -46,6 +46,30 @@
       },
       "revId": "2917935d6dd1fa4a3ad1ac7926563c07948a3bf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b76c27f_01dcae68",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-15T13:13:21Z",
+      "side": 1,
+      "message": "having a warning in logs wouldn\u0027t hurt probably.\n\nI\u0027m bit afraid of having race conditions when two different operations try to write to the same resource. Sure, git data is immutable, but the file system isn\u0027t, JGit should create lock files preventing from writing to the same file... but it\u0027s always better to stay on the safe side and not even try to initiate racy situations ;)",
+      "parentUuid": "9440180e_07b93dd5",
+      "range": {
+        "startLine": 636,
+        "startChar": 4,
+        "endLine": 637,
+        "endChar": 56
+      },
+      "revId": "2917935d6dd1fa4a3ad1ac7926563c07948a3bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
