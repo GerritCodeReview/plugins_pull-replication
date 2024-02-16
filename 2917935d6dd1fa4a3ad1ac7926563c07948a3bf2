@@ -70,6 +70,30 @@
       },
       "revId": "2917935d6dd1fa4a3ad1ac7926563c07948a3bf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed8e0992_bb0b94d9",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-16T07:10:54Z",
+      "side": 1,
+      "message": "I agree and that is the reason why this note is here. Added the warning to the log - yet keep in mind that it could be a configuration mistake.",
+      "parentUuid": "0b76c27f_01dcae68",
+      "range": {
+        "startLine": 636,
+        "startChar": 4,
+        "endLine": 637,
+        "endChar": 56
+      },
+      "revId": "2917935d6dd1fa4a3ad1ac7926563c07948a3bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
