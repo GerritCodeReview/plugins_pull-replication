@@ -34,6 +34,24 @@
       "parentUuid": "2616a4fd_34dd93a5",
       "revId": "15ec639cbe2091bc4f83e40f2ce43c899cce1d81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e6ca406_519c47a9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/OnStartStop.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-16T08:51:27Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "97fb5cfd_210255f8",
+      "revId": "15ec639cbe2091bc4f83e40f2ce43c899cce1d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
