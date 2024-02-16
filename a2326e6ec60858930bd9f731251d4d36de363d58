@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8590e46_d10b34aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:59:06Z",
+      "side": 1,
+      "message": "This should be in the same topic with the configuration, as one doesn\u0027t make sense without the other.",
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
