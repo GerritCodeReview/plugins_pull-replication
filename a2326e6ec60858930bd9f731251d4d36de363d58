@@ -16,6 +16,24 @@
       "message": "This should be in the same topic with the configuration, as one doesn\u0027t make sense without the other.",
       "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74ea1f7e_69b42245",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-16T09:07:44Z",
+      "side": 1,
+      "message": "Makes sense. Done.",
+      "parentUuid": "a8590e46_d10b34aa",
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
