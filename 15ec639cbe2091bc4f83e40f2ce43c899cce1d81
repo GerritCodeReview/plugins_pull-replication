@@ -16,6 +16,24 @@
       "message": "moving this line above the `if` feels like a behaviour change. Now the `SourcesCollection` will start before we start the synchronization on replica. Have you tested this on the replica? why we need to change that order in the first place?",
       "revId": "15ec639cbe2091bc4f83e40f2ce43c899cce1d81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97fb5cfd_210255f8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/OnStartStop.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-16T07:10:54Z",
+      "side": 1,
+      "message": "I will start from the last question first: I\u0027m moving it to the beginning of the scope so that all sources are started before fetches are scheduled.\n\nNote that `fetchAll.schedule` is meant to start in `30s` (see line `#83`) IOW it would happen after all sources would be started anyway (which is actually correct as otherwise sources wouldn\u0027t be initialised). It is correct: I\u0027m changing the order of the lines in the scope, but am I really changing the behaviour? I don\u0027t believe so 😊.",
+      "parentUuid": "2616a4fd_34dd93a5",
+      "revId": "15ec639cbe2091bc4f83e40f2ce43c899cce1d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
