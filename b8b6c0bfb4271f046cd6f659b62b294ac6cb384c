@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c94c329_2df830d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "remote",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae2d407d_8eb95fdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "three: we also have the events-broker based triggering",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c5d7172_d9d764f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "This is more an optimisation on top of the git fetch, only for:\n- small payloads (as you\u0027ve mentioned already)\n- a subset of refs (configurable on the replication.config)",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f5ef524_7c5f890e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "Not necessarily, it is more a configuration-based settings. Then it is also used as fallback in case apply-object either is not applicable or it is failing.",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb5f297d_2fc42601",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "the fourth",
+      "range": {
+        "startLine": 16,
+        "startChar": 59,
+        "endLine": 16,
+        "endChar": 68
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d12296c0_58fc912d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "Why the *all* inside the configuration name? I believe we should fetch the ref-spec that is configured, honouring the existing settings.\n\n\n```suggestion\n            \"remote\", name, \"fetchEvery\", DEFAULT_FETCH_EVERY_DISABLED, TimeUnit.SECONDS);\n```",
+      "range": {
+        "startLine": 138,
+        "startChar": 29,
+        "endLine": 138,
+        "endChar": 42
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5680efe0_42fd01f0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "Ah, well done in spotting it ! I am wondering if we should be evening be stronger and report an error for this source, preventing it to work?\n\nThe warning is most likely to be left unnoticed :-(",
+      "range": {
+        "startLine": 139,
+        "startChar": 51,
+        "endLine": 139,
+        "endChar": 69
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe05418a_309b9f02",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "What about `fetchEvery` ?\n\n\n```suggestion\nremote.NAME.fetchEvery\n```",
+      "range": {
+        "startLine": 619,
+        "startChar": 12,
+        "endLine": 619,
+        "endChar": 25
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eccb82f4_84978e96",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "I would more clearly say: \"Fetch the ref-spec `remote.NAME.fetch` from the remote repository defined at `remote.NAME.url`\"",
+      "range": {
+        "startLine": 620,
+        "startChar": 2,
+        "endLine": 620,
+        "endChar": 26
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7142007_6d755aa5",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-16T08:58:13Z",
+      "side": 1,
+      "message": "Is this relevant for understanding how the `fetchEvery` works?",
+      "range": {
+        "startLine": 624,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 44
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
