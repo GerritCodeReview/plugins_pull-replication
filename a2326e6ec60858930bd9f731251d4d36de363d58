@@ -34,6 +34,184 @@
       "parentUuid": "a8590e46_d10b34aa",
       "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cbfb008_b84dd1ea",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/OnStartStop.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T02:25:31Z",
+      "side": 1,
+      "message": "Is this related?",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 18
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62893431_64e2df76",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T02:25:31Z",
+      "side": 1,
+      "message": "```suggestion\n  private final List\u003cScheduledFuture\u003c?\u003e\u003e scheduled;\n```",
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a482dfc_4e655ac9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T02:25:31Z",
+      "side": 1,
+      "message": "```suggestion\n      Provider\u003cSourceFetchAllPeriodically.Factory\u003e fetchAllFactoryProvider) {\n```",
+      "range": {
+        "startLine": 41,
+        "startChar": 51,
+        "endLine": 41,
+        "endChar": 66
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6810ecdb_4f213296",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T02:25:31Z",
+      "side": 1,
+      "message": "```suggestion\n    this.scheduled \u003d new ArrayList\u003c\u003e();\n```",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 93
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2c3f2df_f804b9ea",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T02:25:31Z",
+      "side": 1,
+      "message": "This is implicitly using the side-effect of the supplier, and not using its return value: that looks a bit strange.\n\nWhy not just call the `scheduleFetchAll(workQueue, sources, fetchAllCreator.get())` here instead?\n\n\n```suggestion\n    scheduled.addAll(scheduleFetchAll(workQueue, sources, fetchAllCreator.get()));\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 20
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "948b918a_1241532c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T02:25:31Z",
+      "side": 1,
+      "message": "This looks strange, because the call to `stop()` could actually do the opposite and schedule the fetch all, because of calling the supplier which *may* in theory call the function to return its value.\n\n```suggestion\n    scheduled.forEach(schedule -\u003e schedule.cancel(true));\n```",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 63
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25d9d936_2c71a8ea",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodicallyIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T02:25:31Z",
+      "side": 1,
+      "message": "```suggestion\n    config.setString(\"remote\", remoteName, \"fetchAllEvery\", TEST_FETCH_FREQUENCY);\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 60,
+        "endLine": 53,
+        "endChar": 64
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b59b0a49_4487bc1a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodicallyIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T02:25:31Z",
+      "side": 1,
+      "message": "Do we want to verify that the fetch happens more than once?",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 5
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
