@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfb2424e_8742888d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c94c329_2df830d7",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae2d407d_8eb95fdc",
@@ -95,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11b167c9_1e2e563c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13c639e1_1f106c69",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c5d7172_d9d764f2",
@@ -108,6 +156,30 @@
       "writtenOn": "2024-02-16T08:58:13Z",
       "side": 1,
       "message": "This is more an optimisation on top of the git fetch, only for:\n- small payloads (as you\u0027ve mentioned already)\n- a subset of refs (configurable on the replication.config)",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79f4b735_28bb4500",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c5d7172_d9d764f2",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -141,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1b8e6bd_f7b3d2d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f5ef524_7c5f890e",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb5f297d_2fc42601",
@@ -154,6 +250,30 @@
       "writtenOn": "2024-02-16T08:58:13Z",
       "side": 1,
       "message": "the fourth",
+      "range": {
+        "startLine": 16,
+        "startChar": 59,
+        "endLine": 16,
+        "endChar": 68
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b5f4a67_9eda0380",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb5f297d_2fc42601",
       "range": {
         "startLine": 16,
         "startChar": 59,
@@ -187,6 +307,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cbada47_59dcdb82",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d12296c0_58fc912d",
+      "range": {
+        "startLine": 138,
+        "startChar": 29,
+        "endLine": 138,
+        "endChar": 42
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5680efe0_42fd01f0",
@@ -200,6 +344,30 @@
       "writtenOn": "2024-02-16T08:58:13Z",
       "side": 1,
       "message": "Ah, well done in spotting it ! I am wondering if we should be evening be stronger and report an error for this source, preventing it to work?\n\nThe warning is most likely to be left unnoticed :-(",
+      "range": {
+        "startLine": 139,
+        "startChar": 51,
+        "endLine": 139,
+        "endChar": 69
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7115e8ff_0ae34ca9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done. I have moved it to the `SoruceConfigParser` as we are validating the configuration there. I have also added a unit test to cover it.",
+      "parentUuid": "5680efe0_42fd01f0",
       "range": {
         "startLine": 139,
         "startChar": 51,
@@ -233,6 +401,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb31b54_3fe49a1a",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe05418a_309b9f02",
+      "range": {
+        "startLine": 619,
+        "startChar": 12,
+        "endLine": 619,
+        "endChar": 25
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eccb82f4_84978e96",
@@ -256,6 +448,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e59d4ab0_8b8fde5d",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 620,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eccb82f4_84978e96",
+      "range": {
+        "startLine": 620,
+        "startChar": 2,
+        "endLine": 620,
+        "endChar": 26
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e7142007_6d755aa5",
@@ -269,6 +485,30 @@
       "writtenOn": "2024-02-16T08:58:13Z",
       "side": 1,
       "message": "Is this relevant for understanding how the `fetchEvery` works?",
+      "range": {
+        "startLine": 624,
+        "startChar": 0,
+        "endLine": 630,
+        "endChar": 44
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ef62ddb_b3cf8244",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-17T09:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7142007_6d755aa5",
       "range": {
         "startLine": 624,
         "startChar": 0,
