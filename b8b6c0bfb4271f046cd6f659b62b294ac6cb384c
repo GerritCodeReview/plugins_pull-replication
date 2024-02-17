@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "13c639e1_1f106c69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-17T01:42:10Z",
+      "side": 1,
+      "message": "\u003e isn\u0027t the event-broker based a replacement for the REST API? So it\u0027s mutually exclusive with it.\n\nNo, they are independent and also make sense to be used together.",
+      "parentUuid": "4c00b3a1_dd8fb5e8",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "b8b6c0bfb4271f046cd6f659b62b294ac6cb384c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8c5d7172_d9d764f2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
