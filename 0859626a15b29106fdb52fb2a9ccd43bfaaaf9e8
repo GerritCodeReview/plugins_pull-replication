@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bfa0ee0_162c02ed",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodicallyIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:28:36Z",
+      "side": 1,
+      "message": "nit: this is not needed as `SourceConfigParser` sets it to the default here is the code:\n```java\n        if (remoteConfig.getFetchRefSpecs().isEmpty()) {\n          remoteConfig.setFetchRefSpecs(\n              List.of(\n                  new RefSpec()\n                      .setSourceDestination(\"refs/*\", \"refs/*\")\n                      .setForceUpdate(replicationConfigProvider.get().isDefaultForceUpdate())));\n        }\n```",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 70
+      },
+      "revId": "0859626a15b29106fdb52fb2a9ccd43bfaaaf9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

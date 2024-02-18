@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7aa95ef6_4667658f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/OnStartStop.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:28:36Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "9cbfb008_b84dd1ea",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 18
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62893431_64e2df76",
@@ -76,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5ed9147_03165937",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62893431_64e2df76",
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a482dfc_4e655ac9",
@@ -89,6 +131,30 @@
       "writtenOn": "2024-02-17T02:25:31Z",
       "side": 1,
       "message": "```suggestion\n      Provider\u003cSourceFetchAllPeriodically.Factory\u003e fetchAllFactoryProvider) {\n```",
+      "range": {
+        "startLine": 41,
+        "startChar": 51,
+        "endLine": 41,
+        "endChar": 66
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e48a8c_91a2936d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a482dfc_4e655ac9",
       "range": {
         "startLine": 41,
         "startChar": 51,
@@ -122,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d392894b_a56f07a0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6810ecdb_4f213296",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 93
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2c3f2df_f804b9ea",
@@ -135,6 +225,30 @@
       "writtenOn": "2024-02-17T02:25:31Z",
       "side": 1,
       "message": "This is implicitly using the side-effect of the supplier, and not using its return value: that looks a bit strange.\n\nWhy not just call the `scheduleFetchAll(workQueue, sources, fetchAllCreator.get())` here instead?\n\n\n```suggestion\n    scheduled.addAll(scheduleFetchAll(workQueue, sources, fetchAllCreator.get()));\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 20
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc6d4b9e_f99a0b87",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2c3f2df_f804b9ea",
       "range": {
         "startLine": 47,
         "startChar": 4,
@@ -168,6 +282,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d176d7cb_564474b5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodically.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "948b918a_1241532c",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 63
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25d9d936_2c71a8ea",
@@ -191,6 +329,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba632740_7ae5a5a8",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodicallyIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25d9d936_2c71a8ea",
+      "range": {
+        "startLine": 53,
+        "startChar": 60,
+        "endLine": 53,
+        "endChar": 64
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b59b0a49_4487bc1a",
@@ -204,6 +366,30 @@
       "writtenOn": "2024-02-17T02:25:31Z",
       "side": 1,
       "message": "Do we want to verify that the fetch happens more than once?",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 5
+      },
+      "revId": "a2326e6ec60858930bd9f731251d4d36de363d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5f5d813_2526f018",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/SourcesFetchAllPeriodicallyIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:28:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b59b0a49_4487bc1a",
       "range": {
         "startLine": 71,
         "startChar": 0,
