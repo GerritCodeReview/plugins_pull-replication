@@ -45,6 +45,30 @@
       },
       "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfc93833_d1bc9ebb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-18T10:32:24Z",
+      "side": 1,
+      "message": "The same happens in line `#78` hence I\u0027m following the pattern 😊 having said that I believe that you are having a valid point therefore let me create the follow-up that introduces a dedicated exception for `pull-replication` plugin miss-configuration. WDYT?",
+      "parentUuid": "407be66f_41ebbbd3",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
