@@ -22,6 +22,29 @@
       },
       "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "407be66f_41ebbbd3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-02-18T09:46:42Z",
+      "side": 1,
+      "message": "nit: JGit\u0027s `ConfigInvalidException` is intended to indicate a config file that is not possible to parse. Here we have a valid (parsable) config file with conflicting values, that\u0027s a different case.",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
