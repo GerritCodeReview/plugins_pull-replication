@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class SourcesCollection implements ReplicationSources {
@@ -51,7 +50,7 @@ public class SourcesCollection implements ReplicationSources {
       EventBus eventBus,
       Provider<ReplicationQueue> replicationQueue,
       ShutdownState shutdownState)
-      throws ConfigInvalidException {
+      throws ConfigParser.ReplicationConfigInvalidException {
     this.sourceFactory = sourceFactory;
     this.shutdownState = shutdownState;
     this.sources =

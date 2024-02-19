@@ -27,7 +27,6 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -51,7 +50,8 @@ public class SourceConfigParser implements ConfigParser {
    * @see com.googlesource.gerrit.plugins.replication.ConfigParser#parseRemotes(org.eclipse.jgit.lib.Config)
    */
   @Override
-  public List<RemoteConfiguration> parseRemotes(Config config) throws ConfigInvalidException {
+  public List<RemoteConfiguration> parseRemotes(Config config)
+      throws ReplicationConfigInvalidException {
 
     if (config.getSections().isEmpty()) {
       logger.atWarning().log("Replication config does not exist or it's empty; not replicating");
@@ -66,7 +66,7 @@ public class SourceConfigParser implements ConfigParser {
 
       // fetch source has to be specified.
       if (c.getFetchRefSpecs().isEmpty()) {
-        throw new ConfigInvalidException(
+        throw new ReplicationConfigInvalidException(
             String.format("You must specify a valid refSpec for this remote"));
       }
 
@@ -75,7 +75,7 @@ public class SourceConfigParser implements ConfigParser {
       if (!sourceConfig.isSingleProjectMatch()) {
         for (URIish u : c.getURIs()) {
           if (u.getPath() == null || !u.getPath().contains("${name}")) {
-            throw new ConfigInvalidException(
+            throw new ReplicationConfigInvalidException(
                 String.format("remote.%s.url \"%s\" lacks ${name} placeholder", c.getName(), u));
           }
         }
@@ -89,7 +89,7 @@ public class SourceConfigParser implements ConfigParser {
                 + "corruption). Periodic fetch is meant ONLY for remote that that doesn't offer events or "
                 + "webhooks that could be used otherwise for new data detection.",
             sourceConfig.fetchEvery(), sourceConfig.getApis(), c.getName());
-        throw new ConfigInvalidException(
+        throw new ReplicationConfigInvalidException(
             String.format(
                 "The [%s] remote has both 'fetchEvery' (every %ds) and `apiUrl` (%s) set which is "
                     + "considered an invalid configuration.",
@@ -101,7 +101,7 @@ public class SourceConfigParser implements ConfigParser {
     return sourceConfigs.build();
   }
 
-  private List<RemoteConfig> allFetchRemotes(Config cfg) throws ConfigInvalidException {
+  private List<RemoteConfig> allFetchRemotes(Config cfg) throws ReplicationConfigInvalidException {
 
     Set<String> names = cfg.getSubsections("remote");
     List<RemoteConfig> result = Lists.newArrayListWithCapacity(names.size());
@@ -117,7 +117,7 @@ public class SourceConfigParser implements ConfigParser {
         }
         result.add(remoteConfig);
       } catch (URISyntaxException e) {
-        throw new ConfigInvalidException(
+        throw new ReplicationConfigInvalidException(
             String.format("remote %s has invalid URL in %s", name, cfg));
       }
     }
