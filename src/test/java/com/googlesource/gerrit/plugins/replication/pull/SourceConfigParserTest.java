@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.inject.util.Providers;
+import com.googlesource.gerrit.plugins.replication.ConfigParser.ReplicationConfigurationException;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +50,8 @@ public class SourceConfigParserTest {
 
     // when/then
     String errorMessage =
-        assertThrows(ConfigInvalidException.class, () -> objectUnderTest.parseRemotes(config))
+        assertThrows(
+                ReplicationConfigurationException.class, () -> objectUnderTest.parseRemotes(config))
             .getMessage();
     assertThat(errorMessage).contains("invalid configuration");
   }
