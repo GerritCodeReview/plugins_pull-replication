@@ -93,6 +93,52 @@
       },
       "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c448c3ad_f67b191f",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-21T20:20:04Z",
+      "side": 1,
+      "message": "```suggestion\n\u003e\tthat could be used otherwise for new data detection and cannot be configured\n```",
+      "range": {
+        "startLine": 630,
+        "startChar": 58,
+        "endLine": 630,
+        "endChar": 64
+      },
+      "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cbaa05d_779c202d",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-21T20:20:04Z",
+      "side": 1,
+      "message": "```suggestion\n\u003e\tinvalid and prevents the plugin from starting\n```",
+      "range": {
+        "startLine": 632,
+        "startChar": 14,
+        "endLine": 632,
+        "endChar": 40
+      },
+      "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
