@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fac349f_20624686",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfigParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-22T06:25:34Z",
+      "side": 1,
+      "message": "Here we go:\n* change to `replication` plugin (as `ConfigParser` comes from it) I46c0b3a4cf\n* change to `pull-replication` plugin that adjusts to it\n\ncc: @maczech@gmail.com @luca.milanesio@gmail.com",
+      "parentUuid": "8b74390b_17d65e1c",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c448c3ad_f67b191f",
@@ -118,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ce59153_b59097ba",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 630,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-22T06:25:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c448c3ad_f67b191f",
+      "range": {
+        "startLine": 630,
+        "startChar": 58,
+        "endLine": 630,
+        "endChar": 64
+      },
+      "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cbaa05d_779c202d",
@@ -131,6 +179,30 @@
       "writtenOn": "2024-02-21T20:20:04Z",
       "side": 1,
       "message": "```suggestion\n\u003e\tinvalid and prevents the plugin from starting\n```",
+      "range": {
+        "startLine": 632,
+        "startChar": 14,
+        "endLine": 632,
+        "endChar": 40
+      },
+      "revId": "78de6c2b87e2a9ab50880ef7ec413ebfccf3ea69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bd5fa39_63fa2874",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-02-22T06:25:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cbaa05d_779c202d",
       "range": {
         "startLine": 632,
         "startChar": 14,
