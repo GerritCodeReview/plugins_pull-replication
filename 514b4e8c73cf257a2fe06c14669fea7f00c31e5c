@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c5a37c7_044b0693",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3320194
+      },
+      "writtenOn": "2024-02-26T23:05:24Z",
+      "side": 1,
+      "message": "397280: Merge branch \u0027stable-3.5\u0027 into stable-3.6 | https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/397280",
+      "revId": "514b4e8c73cf257a2fe06c14669fea7f00c31e5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
