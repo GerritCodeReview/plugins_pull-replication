@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca3c18a3_3735e804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-27T08:46:12Z",
+      "side": 1,
+      "message": "What is this change trying to achieve? What is the problem you are trying to solve and the expected behaviour?",
+      "revId": "b44eed1e402caa0975eaa2bb8b4edaa6eebb0428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6d3c21e_5d9ee06d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-27T08:46:12Z",
+      "side": 1,
+      "message": "Why is this needed?",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 3
+      },
+      "revId": "b44eed1e402caa0975eaa2bb8b4edaa6eebb0428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca0a8627_3030deff",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-27T08:46:12Z",
+      "side": 1,
+      "message": "That is part of Gerrit behaviour and configuration: why don\u0027t you just say that and give a pointer at L707 when you introduce the file? Also, the SecureStore interface could be implemented by any plugin, so mentioning the `secure-config` plugin is redundant IMHO.",
+      "range": {
+        "startLine": 734,
+        "startChar": 0,
+        "endLine": 740,
+        "endChar": 0
+      },
+      "revId": "b44eed1e402caa0975eaa2bb8b4edaa6eebb0428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
