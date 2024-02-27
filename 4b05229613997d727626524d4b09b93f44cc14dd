@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4692d596_c1dd4caa",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-27T14:38:52Z",
+      "side": 1,
+      "message": "Why do we call `stop()` here? If `shutdownState.isShuttingDown()` is true, then it means that `stop()` was called already, hence there is no need to call the same method again.",
+      "revId": "4b05229613997d727626524d4b09b93f44cc14dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
