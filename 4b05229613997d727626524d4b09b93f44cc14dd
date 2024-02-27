@@ -52,6 +52,24 @@
       "parentUuid": "c4384079_2a5295fc",
       "revId": "4b05229613997d727626524d4b09b93f44cc14dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e087afb1_fb07b02f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-02-27T17:52:34Z",
+      "side": 1,
+      "message": "Nope, I believe it is clear to me now. Thanks.",
+      "parentUuid": "8166b44b_029c6d12",
+      "revId": "4b05229613997d727626524d4b09b93f44cc14dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
