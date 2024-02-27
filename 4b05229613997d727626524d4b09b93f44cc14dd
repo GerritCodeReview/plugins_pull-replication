@@ -34,6 +34,24 @@
       "parentUuid": "4692d596_c1dd4caa",
       "revId": "4b05229613997d727626524d4b09b93f44cc14dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8166b44b_029c6d12",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/EventsBrokerMessageConsumer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-02-27T16:26:02Z",
+      "side": 1,
+      "message": "\u003e Why do we call `stop()` here? If `shutdownState.isShuttingDown()` is true, then it means that `stop()` was called already, hence there is no need to call the same method again.\n\n`isShuttingDown()` is not set to true exclusively from L67 (when `stop()` is called), but also when `ReplicationQueue.stop()` is called.\n\n`ReplicationQueue.stop()` might be invoked by the Lifecycle listener _before_ the `EventsBrokerMessageConsumer.stop()` was called.\n\nThe idea here was that if we are consuming an event and we realize we are shutting down we disconnect immediately from the broker. I guess we could also wait for the lifecycle listener to eventually call `stop()` too if there was a good reason.\n\nIs calling the `stop()` multiple times creating any problem?",
+      "parentUuid": "c4384079_2a5295fc",
+      "revId": "4b05229613997d727626524d4b09b93f44cc14dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
