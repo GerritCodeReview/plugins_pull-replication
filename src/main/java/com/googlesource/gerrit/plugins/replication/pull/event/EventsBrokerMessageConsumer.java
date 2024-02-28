@@ -18,7 +18,6 @@ import static com.googlesource.gerrit.plugins.replication.pull.event.EventsBroke
 import static com.googlesource.gerrit.plugins.replication.pull.event.EventsBrokerConsumerModule.STREAM_EVENTS_TOPIC_NAME;
 
 import com.gerritforge.gerrit.eventbroker.BrokerApi;
-import com.gerritforge.gerrit.eventbroker.ExtendedBrokerApi;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -76,16 +75,7 @@ public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleLi
       brokerApi.receiveAsync(eventsTopicName, this);
       return;
     }
-
-    if (!(brokerApi instanceof ExtendedBrokerApi)) {
-      throw new IllegalArgumentException(
-          String.format(
-              "Failed to load the pull-replication plugin: %s does not support the custom group-id '%s'.\n"
-                  + "Remove replication.eventBrokerGroupId from replication.config or install a different event-broker plugin.",
-              brokerApi.getClass(), groupId));
-    }
-
-    ((ExtendedBrokerApi) brokerApi).receiveAsync(eventsTopicName, groupId, this);
+    brokerApi.receiveAsync(eventsTopicName, groupId, this);
   }
 
   @Override
