@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "957be564_009dbb3f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/SourceConfiguration.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1090261
+      },
+      "writtenOn": "2024-02-28T11:58:11Z",
+      "side": 1,
+      "message": "The introduction of the username and password on the replication.config within the change of the replication plugin (RemoteConfiguration) forces the implementation of these two methods, otherwise the pull replication will not be able to read the information (the pull replication plugin extends the functionality of the replication)",
+      "parentUuid": "e6d3c21e_5d9ee06d",
+      "range": {
+        "startLine": 268,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 3
+      },
+      "revId": "b44eed1e402caa0975eaa2bb8b4edaa6eebb0428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca0a8627_3030deff",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-02-27T08:46:12Z",
       "side": 1,
       "message": "That is part of Gerrit behaviour and configuration: why don\u0027t you just say that and give a pointer at L707 when you introduce the file? Also, the SecureStore interface could be implemented by any plugin, so mentioning the `secure-config` plugin is redundant IMHO.",
+      "range": {
+        "startLine": 734,
+        "startChar": 0,
+        "endLine": 740,
+        "endChar": 0
+      },
+      "revId": "b44eed1e402caa0975eaa2bb8b4edaa6eebb0428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6adb443f_687cd6fc",
+        "filename": "src/main/resources/Documentation/config.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1090261
+      },
+      "writtenOn": "2024-02-28T11:58:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca0a8627_3030deff",
       "range": {
         "startLine": 734,
         "startChar": 0,
