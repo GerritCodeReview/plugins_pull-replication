@@ -77,6 +77,6 @@ public class EventsBrokerMessageConsumerTest {
     shutdownState.setIsShuttingDown(true);
 
     objectUnderTest.accept(new RefUpdatedEvent());
-    verify(eventsBroker, times(1)).disconnect();
+    verify(eventsBroker, times(1)).disconnect("topicName", null);
   }
 }

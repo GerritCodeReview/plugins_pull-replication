@@ -81,6 +81,6 @@ public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleLi
   @Override
   public void stop() {
     shutdownState.setIsShuttingDown(true);
-    eventsBrokerDi.get().disconnect();
+    eventsBrokerDi.get().disconnect(eventsTopicName, groupId);
   }
 }
