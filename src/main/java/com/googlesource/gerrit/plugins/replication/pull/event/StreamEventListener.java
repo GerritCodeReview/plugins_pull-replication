@@ -184,6 +184,12 @@ public class StreamEventListener implements EventListener {
       return false;
     }
 
+    String projectName = ((ProjectEvent) event).getProjectNameKey().get();
+    if (projectName.contains("ghs-gym")) {
+      logger.atInfo().log("Skipping event %s on project %s", event.getType(), projectName);
+      return false;
+    }
+
     Optional<Source> maybeSource =
         sources.getAll().stream()
             .filter(s -> s.getRemoteConfigName().equals(event.instanceId))

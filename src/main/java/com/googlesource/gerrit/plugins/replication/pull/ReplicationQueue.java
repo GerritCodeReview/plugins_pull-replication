@@ -33,6 +33,7 @@ import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.BatchRefUpdateEvent;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.events.EventListener;
+import com.google.gerrit.server.events.ProjectEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
@@ -179,6 +180,13 @@ public class ReplicationQueue
 
   @Override
   public void onEvent(com.google.gerrit.server.events.Event e) {
+    if (e instanceof ProjectEvent) {
+      String projectName = ((ProjectEvent) e).getProjectNameKey().get();
+      if (projectName.contains("ghs-gym")) {
+        repLog.info("Skipping event {} on project {}", e.getType(), projectName);
+        return;
+      }
+    }
     if (!instanceId.equals(e.instanceId)) {
       return;
     }
