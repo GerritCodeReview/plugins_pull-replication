@@ -38,6 +38,7 @@ import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.MergedConfigResource;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -252,6 +253,11 @@ public class PullReplicationTasksHealthCheckTest {
                 @Override
                 public Config getConfig() {
                   return config;
+                }
+
+                @Override
+                public void update(Config config) throws IOException {
+                  // no-op
                 }
 
                 @Override
