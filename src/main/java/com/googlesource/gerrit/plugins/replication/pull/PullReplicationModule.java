@@ -34,10 +34,10 @@ import com.google.inject.Scopes;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.name.Names;
+import com.google.inject.util.Modules;
 import com.googlesource.gerrit.plugins.replication.AutoReloadSecureCredentialsFactoryDecorator;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.ReplicationConfigModule;
 import com.googlesource.gerrit.plugins.replication.StartReplicationCapability;
 import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefJob;
@@ -77,7 +77,15 @@ class PullReplicationModule extends AbstractModule {
         .annotatedWith(Exports.named(CALL_FETCH_ACTION))
         .to(FetchApiCapability.class);
 
-    install(configModule);
+    install(
+        Modules.override(configModule)
+            .with(
+                new AbstractModule() {
+                  @Override
+                  protected void configure() {
+                    bind(ConfigParser.class).to(SourceConfigParser.class).in(Scopes.SINGLETON);
+                  }
+                }));
     install(new PullReplicationGroupModule());
     bind(BearerTokenProvider.class).in(Scopes.SINGLETON);
     bind(RevisionReader.class).in(Scopes.SINGLETON);
@@ -119,15 +127,11 @@ class PullReplicationModule extends AbstractModule {
     DynamicSet.bind(binder(), ProjectDeletedListener.class).to(ReplicationQueue.class);
     DynamicSet.bind(binder(), HeadUpdatedListener.class).to(ReplicationQueue.class);
 
-    bind(ReplicationQueue.class).in(Scopes.SINGLETON);
-    bind(ObservableQueue.class).to(ReplicationQueue.class);
     bind(LifecycleListener.class)
         .annotatedWith(UniqueAnnotations.create())
         .to(ReplicationQueue.class);
 
     DynamicSet.bind(binder(), EventListener.class).to(ReplicationQueue.class);
-
-    bind(ConfigParser.class).to(SourceConfigParser.class).in(Scopes.SINGLETON);
 
     Config replicationConfig = configModule.getReplicationConfig();
     String eventBrokerTopic = replicationConfig.getString("replication", null, "eventBrokerTopic");
