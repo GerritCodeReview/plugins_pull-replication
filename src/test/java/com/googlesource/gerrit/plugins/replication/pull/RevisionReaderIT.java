@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.truth.Truth8;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
@@ -255,7 +254,7 @@ public class RevisionReaderIT extends LightweightPluginDaemonTest {
     Optional<RevisionData> revisionDataOption =
         refObjectId(refName).flatMap(objId -> readRevisionFromObjectUnderTest(refName, objId, 0));
 
-    Truth8.assertThat(revisionDataOption).isEmpty();
+    assertThat(revisionDataOption).isEmpty();
   }
 
   @Test
