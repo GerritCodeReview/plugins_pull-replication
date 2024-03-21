@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "34a507fb_e5847df8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-21T12:56:58Z",
+      "side": 1,
+      "message": "As commented on change 415182, it will break the usage of _remtoes\u0027 update API_ from other plugins. Instead we should override that binding in the `pull-replication`, please see the latest PS on this change.",
+      "parentUuid": "a825b89e_e8665587",
+      "revId": "470fa1904f534df606d20b2f94edb24c36fb2b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fe7c6a5b_27011e1b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2024-03-21T00:17:25Z",
       "side": 1,
       "message": "This fix is incomplete and isn\u0027t working. @Darek were the tests passing for you? They were failing the compile phase for me and the parsing of the replication.config was incorrect.\n\nSee my comments and the hints to fix the issues.",
+      "revId": "470fa1904f534df606d20b2f94edb24c36fb2b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0f62202_7f3f1c33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-21T12:56:58Z",
+      "side": 1,
+      "message": "I haven\u0027t run tests this time, just build the plugin and deployed it to verify that it loads and not complain about bindings.",
+      "parentUuid": "fe7c6a5b_27011e1b",
       "revId": "470fa1904f534df606d20b2f94edb24c36fb2b1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2024-03-21T00:17:25Z",
       "side": 1,
       "message": "Missing the empty implementation of the `update()` method.\n\n\n```suggestion\n\n                @Override\n                public void update(Config config) {\n                }\n               });\n```",
+      "revId": "470fa1904f534df606d20b2f94edb24c36fb2b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31a946ac_571b4462",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/health/PullReplicationTasksHealthCheckTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-21T12:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "633c8ec0_56893160",
       "revId": "470fa1904f534df606d20b2f94edb24c36fb2b1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

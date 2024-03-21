@@ -39,6 +39,48 @@
       "message": "This *must* stay, otherwise the pull-replication would parse the replication.config using the replication plugin `DestinationConfigParser` which would not load anything because it does not contain the `push` targets.",
       "revId": "a0c798e3f31b9e63b4b3bb405a6082794e4867a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ede25369_f742b26a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-21T12:56:58Z",
+      "side": 0,
+      "message": "Yeah, you\u0027re right and the latest PS actually does that using `Module.overrides()`. With it all three plugins (`replication`, `pull-replication` and `replication-remote-updates`) and unit and IT tests are passing here.",
+      "parentUuid": "1b6485b1_6185c8ef",
+      "revId": "a0c798e3f31b9e63b4b3bb405a6082794e4867a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb665df4_f358b713",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-03-21T12:56:58Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "68191fd6_32c6ee15",
+      "range": {
+        "startLine": 130,
+        "startChar": 3,
+        "endLine": 130,
+        "endChar": 79
+      },
+      "revId": "a0c798e3f31b9e63b4b3bb405a6082794e4867a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
