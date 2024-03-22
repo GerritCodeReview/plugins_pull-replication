@@ -22,6 +22,30 @@
       },
       "revId": "4bc1900fc55c7ee50da494addaed69f7846d17bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fce7b8d_0abee846",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T00:49:06Z",
+      "side": 1,
+      "message": "By [fixing the replication plugin](https://gerrit-review.googlesource.com/c/plugins/replication/+/415182) this isn\u0027t needed anymore.",
+      "parentUuid": "993d8ed5_8ba36286",
+      "range": {
+        "startLine": 81,
+        "startChar": 16,
+        "endLine": 81,
+        "endChar": 24
+      },
+      "revId": "4bc1900fc55c7ee50da494addaed69f7846d17bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

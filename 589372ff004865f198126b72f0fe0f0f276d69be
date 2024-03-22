@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05fbe108_bf33fa38",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T00:49:06Z",
+      "side": 0,
+      "message": "This should stay.",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 79
+      },
+      "revId": "589372ff004865f198126b72f0fe0f0f276d69be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
