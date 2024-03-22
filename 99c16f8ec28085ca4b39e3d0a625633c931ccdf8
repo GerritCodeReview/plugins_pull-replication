@@ -16,6 +16,23 @@
       "message": "The CI failure is not related to this change, as it\u0027s complaining about missing method implementation in `PullReplicationTasksHealthCheckTest`.",
       "revId": "99c16f8ec28085ca4b39e3d0a625633c931ccdf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8a8aecb_d2da3a36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-03-22T00:56:23Z",
+      "side": 1,
+      "message": "The fix is incomplete, see the fix I did 2 days ago at Ied75dadf54",
+      "revId": "99c16f8ec28085ca4b39e3d0a625633c931ccdf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
