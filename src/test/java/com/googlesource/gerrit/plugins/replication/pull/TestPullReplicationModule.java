@@ -3,7 +3,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.healthcheck.HealthCheckExtensionApiModule;
-import com.googlesource.gerrit.plugins.replication.ApiModule;
+import com.googlesource.gerrit.plugins.replication.api.ApiModule;
 
 public class TestPullReplicationModule extends AbstractModule {
 

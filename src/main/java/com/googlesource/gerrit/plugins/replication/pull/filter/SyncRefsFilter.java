@@ -17,7 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.filter;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.api.ReplicationConfig;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 

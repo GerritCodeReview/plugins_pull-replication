@@ -34,8 +34,8 @@ import com.google.inject.Injector;
 import com.googlesource.gerrit.plugins.healthcheck.HealthCheckConfig;
 import com.googlesource.gerrit.plugins.healthcheck.HealthCheckExtensionApiModule;
 import com.googlesource.gerrit.plugins.healthcheck.check.HealthCheck;
-import com.googlesource.gerrit.plugins.replication.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.MergedConfigResource;
+import com.googlesource.gerrit.plugins.replication.api.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import java.time.Duration;
@@ -236,6 +236,7 @@ public class PullReplicationTasksHealthCheckTest {
   }
 
   private class TestModule extends AbstractModule {
+    private final ConfigResource baseConfigResource;
     Config config;
     MergedConfigResource configResource;
     private final HealthCheckConfig healthCheckConfig = HealthCheckConfig.DEFAULT_CONFIG;
@@ -246,24 +247,25 @@ public class PullReplicationTasksHealthCheckTest {
           HealthCheckConfig.HEALTHCHECK, SECTION_NAME, PROJECTS_FILTER_FIELD, projects);
       config.setString(
           HealthCheckConfig.HEALTHCHECK, SECTION_NAME, PERIOD_OF_TIME_FIELD, periodOfTime);
-      configResource =
-          MergedConfigResource.withBaseOnly(
-              new ConfigResource() {
-                @Override
-                public Config getConfig() {
-                  return config;
-                }
+      baseConfigResource =
+          new ConfigResource() {
+            @Override
+            public Config getConfig() {
+              return config;
+            }
 
-                @Override
-                public String getVersion() {
-                  return "";
-                }
-              });
+            @Override
+            public String getVersion() {
+              return "";
+            }
+          };
+      configResource = MergedConfigResource.withBaseOnly(baseConfigResource);
     }
 
     @Override
     protected void configure() {
       bind(Config.class).toInstance(config);
+      bind(ConfigResource.class).toInstance(baseConfigResource);
       bind(MergedConfigResource.class).toInstance(configResource);
       bind(MetricMaker.class).toInstance(new DisabledMetricMaker());
       bind(HealthCheckConfig.class).toInstance(healthCheckConfig);
