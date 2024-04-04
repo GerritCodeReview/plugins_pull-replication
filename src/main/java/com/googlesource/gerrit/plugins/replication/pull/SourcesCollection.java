@@ -25,7 +25,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.replication.ConfigParser;
 import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.api.ReplicationConfig;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;

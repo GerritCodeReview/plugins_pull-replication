@@ -28,7 +28,7 @@ import com.google.common.net.MediaType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
-import com.googlesource.gerrit.plugins.replication.ReplicationConfig;
+import com.googlesource.gerrit.plugins.replication.api.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
