@@ -58,12 +58,6 @@ public class SourceConfigParser implements ConfigParser {
         continue;
       }
 
-      // fetch source has to be specified.
-      if (c.getFetchRefSpecs().isEmpty()) {
-        throw new ConfigInvalidException(
-            String.format("You must specify a valid refSpec for this remote"));
-      }
-
       SourceConfiguration sourceConfig = new SourceConfiguration(c, config);
 
       if (!sourceConfig.isSingleProjectMatch()) {
