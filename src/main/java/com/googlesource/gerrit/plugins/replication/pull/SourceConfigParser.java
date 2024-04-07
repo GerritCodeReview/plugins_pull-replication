@@ -54,14 +54,11 @@ public class SourceConfigParser implements ConfigParser {
 
     ImmutableList.Builder<RemoteConfiguration> sourceConfigs = ImmutableList.builder();
     for (RemoteConfig c : allFetchRemotes(config)) {
-      if (isReplica && c.getURIs().isEmpty()) {
+      if (!isReplica || !remoteConfig.getFetchRefSpecs().isEmpty()) {
         continue;
-      }
-
-      // fetch source has to be specified.
-      if (c.getFetchRefSpecs().isEmpty()) {
-        throw new ConfigInvalidException(
-            String.format("You must specify a valid refSpec for this remote"));
+      } else {
+        logger.atFine().log(
+            "Skip loading of remote [remote \"%s\"], since it has no 'fetch' configuration", name);
       }
 
       SourceConfiguration sourceConfig = new SourceConfiguration(c, config);
@@ -86,12 +83,8 @@ public class SourceConfigParser implements ConfigParser {
     for (String name : names) {
       try {
         final RemoteConfig remoteConfig = new RemoteConfig(cfg, name);
-        if (!isReplica || !remoteConfig.getFetchRefSpecs().isEmpty()) {
+        if (!remoteConfig.getFetchRefSpecs().isEmpty()) {
           result.add(remoteConfig);
-        } else {
-          logger.atFine().log(
-              "Skip loading of remote [remote \"%s\"], since it has no 'fetch' configuration",
-              name);
         }
       } catch (URISyntaxException e) {
         throw new ConfigInvalidException(

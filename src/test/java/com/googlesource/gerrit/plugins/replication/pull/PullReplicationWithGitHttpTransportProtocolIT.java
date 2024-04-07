@@ -45,10 +45,7 @@ public class PullReplicationWithGitHttpTransportProtocolIT extends PullReplicati
     List<String> fetchUrls =
         buildReplicaURLs(replicaSuffixes, s -> adminRestSession.url() + "/${name}" + s + ".git");
     config.setStringList("remote", remoteName, "url", fetchUrls);
-    config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
     config.setString("remote", remoteName, "fetch", "+refs/*:refs/*");
-    config.setInt("remote", remoteName, "timeout", 600);
-    config.setInt("remote", remoteName, "replicationDelay", TEST_REPLICATION_DELAY);
     project.ifPresent(prj -> config.setString("remote", remoteName, "projects", prj));
     config.setBoolean("gerrit", null, "autoReload", true);
     config.save();
