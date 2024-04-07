@@ -51,6 +51,7 @@ public class SourcesFetchPeriodicallyIT extends PullReplicationSetupBase {
     List<String> fetchUrls =
         buildReplicaURLs(replicaSuffixes, s -> gitPath.resolve("${name}" + s + ".git").toString());
     config.setStringList("remote", remoteName, "url", fetchUrls);
+    config.setString("remote", remoteName, "fetch", "+refs/*:refs/*");
     project.ifPresent(prj -> config.setString("remote", remoteName, "projects", prj));
     config.setString("remote", remoteName, "fetchEvery", TEST_FETCH_FREQUENCY);
     config.save();
