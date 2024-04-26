@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.base.Suppliers;
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -50,6 +49,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
@@ -88,7 +88,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final FetchRefsDatabase fetchRefsDatabase;
   private final Project.NameKey projectName;
   private final URIish uri;
-  private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
+  private final Set<String> delta = Sets.newConcurrentHashSet();
   private final Set<TransportException> fetchFailures = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
@@ -109,15 +109,24 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
 
+  private final AtomicReference<List<RefSpec>> deltaRefSpecs = new AtomicReference<>();
+
   private final Supplier<List<RefSpec>> fetchRefSpecsSupplier =
-      Suppliers.memoize(
-          () -> {
-            try {
-              return computeFetchRefSpecs();
-            } catch (IOException e) {
-              throw new RuntimeException("Could not compute refs specs to fetch", e);
-            }
-          });
+      () -> {
+        try {
+          List<RefSpec> currentRefSpecs = deltaRefSpecs.get();
+          if (currentRefSpecs != null) {
+            return currentRefSpecs;
+          }
+
+          while (!deltaRefSpecs.compareAndSet(currentRefSpecs, computeFetchRefSpecs())) {
+            currentRefSpecs = deltaRefSpecs.get();
+          }
+          return deltaRefSpecs.get();
+        } catch (IOException e) {
+          throw new RuntimeException("Could not compute refs specs to fetch", e);
+        }
+      };
 
   @Inject
   FetchOne(
@@ -227,10 +236,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   void addRef(String ref) {
     if (ALL_REFS.equals(ref)) {
       delta.clear();
+      deltaRefSpecs.set(null);
       fetchAllRefs = true;
       repLog.trace("[{}] Added all refs for replication from {}", taskIdHex, uri);
     } else if (!fetchAllRefs) {
       delta.add(ref);
+      deltaRefSpecs.set(null);
       repLog.trace("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
     }
   }
@@ -470,6 +481,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
           inexistentRef);
       fetchFailures.add(e);
       delta.remove(inexistentRef);
+      deltaRefSpecs.set(null);
       if (delta.isEmpty()) {
         repLog.warn("[{}] Empty replication task, skipping.", taskIdHex);
         return Collections.emptyList();
