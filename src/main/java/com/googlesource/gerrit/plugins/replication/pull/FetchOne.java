@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.base.Suppliers;
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -110,14 +109,13 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private boolean succeeded;
 
   private final Supplier<List<RefSpec>> fetchRefSpecsSupplier =
-      Suppliers.memoize(
-          () -> {
-            try {
-              return computeFetchRefSpecs();
-            } catch (IOException e) {
-              throw new RuntimeException("Could not compute refs specs to fetch", e);
-            }
-          });
+      () -> {
+        try {
+          return computeFetchRefSpecs();
+        } catch (IOException e) {
+          throw new RuntimeException("Could not compute refs specs to fetch", e);
+        }
+      };
 
   @Inject
   FetchOne(
