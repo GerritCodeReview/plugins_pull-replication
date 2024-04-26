@@ -520,7 +520,7 @@ public class Source {
     synchronized (stateLock) {
       FetchOne e = pending.get(uri);
       Future<?> f = CompletableFuture.completedFuture(null);
-      if (e == null || e.isRetrying()) {
+      if (e == null || e.isRetrying() || e.isCompleted()) {
         e = opFactory.create(project, uri, apiRequestMetrics);
         addRef(e, ref);
         e.addState(ref, state);
