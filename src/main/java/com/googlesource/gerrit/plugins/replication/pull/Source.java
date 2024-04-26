@@ -520,7 +520,7 @@ public class Source {
     synchronized (stateLock) {
       FetchOne e = pending.get(uri);
       Future<?> f = CompletableFuture.completedFuture(null);
-      if (e == null || e.isRetrying()) {
+      if (e == null || e.isRetrying() || e.isCompleted()) {
         e = opFactory.create(project, uri, apiRequestMetrics);
         addRef(e, ref);
         e.addState(ref, state);
@@ -617,7 +617,7 @@ public class Source {
       if (pendingFetchOp != null) {
         // There is one FetchOp instance already pending to same URI.
 
-        if (pendingFetchOp.isRetrying()) {
+        if (pendingFetchOp.isRetrying() && !pendingFetchOp.isCompleted()) {
           // The one pending is one already retrying, so it should
           // maintain it and add to it the refs of the one passed
           // as parameter to the method.
