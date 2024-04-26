@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.base.Suppliers;
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -50,7 +49,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -88,7 +86,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final FetchRefsDatabase fetchRefsDatabase;
   private final Project.NameKey projectName;
   private final URIish uri;
-  private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
+  private final Set<String> delta = Sets.newConcurrentHashSet();
   private final Set<TransportException> fetchFailures = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
@@ -108,16 +106,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
-
-  private final Supplier<List<RefSpec>> fetchRefSpecsSupplier =
-      Suppliers.memoize(
-          () -> {
-            try {
-              return computeFetchRefSpecs();
-            } catch (IOException e) {
-              throw new RuntimeException("Could not compute refs specs to fetch", e);
-            }
-          });
+  private boolean completed;
 
   @Inject
   FetchOne(
@@ -202,11 +191,15 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return print;
   }
 
-  boolean isRetrying() {
+  synchronized boolean isRetrying() {
     return retrying;
   }
 
-  boolean setToRetry() {
+  synchronized boolean isCompleted() {
+    return completed;
+  }
+
+  synchronized boolean setToRetry() {
     retrying = true;
     retryCount++;
     return maxRetries == 0 || retryCount <= maxRetries;
@@ -224,7 +217,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return uri;
   }
 
-  void addRef(String ref) {
+  synchronized void addRef(String ref) {
     if (ALL_REFS.equals(ref)) {
       delta.clear();
       fetchAllRefs = true;
@@ -239,7 +232,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return fetchAllRefs ? Sets.newHashSet(ALL_REFS) : delta;
   }
 
-  void addRefs(Set<String> refs) {
+  synchronized void addRefs(Set<String> refs) {
     if (!fetchAllRefs) {
       for (String ref : refs) {
         addRef(ref);
@@ -326,7 +319,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     }
   }
 
-  private void doRunFetchOperation(ReplicationType replicationType) {
+  private synchronized void doRunFetchOperation(ReplicationType replicationType) {
     // Lock the queue, and remove ourselves, so we can't be modified once
     // we start replication (instead a new instance, with the same URI, is
     // created and scheduled for a future point in time.)
@@ -448,6 +441,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       if (replicationType == ReplicationType.ASYNC) {
         pool.notifyFinished(this);
       }
+
+      if (canceled || !retrying) {
+        completed = true;
+      }
     }
   }
 
@@ -457,7 +454,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   private List<RefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<RefSpec> fetchRefSpecs = fetchRefSpecsSupplier.get();
+    List<RefSpec> fetchRefSpecs = computeFetchRefSpecs();
 
     try {
       updateStates(fetch.fetch(fetchRefSpecs));
@@ -499,7 +496,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
    * @return The list of refSpecs to fetch
    */
   public List<RefSpec> getFetchRefSpecs() {
-    return fetchRefSpecsSupplier.get();
+    try {
+      return computeFetchRefSpecs();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private List<RefSpec> computeFetchRefSpecs() throws IOException {
