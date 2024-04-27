@@ -109,6 +109,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
+  private boolean completed;
 
   private final Supplier<List<RefSpec>> fetchRefSpecsSupplier =
       () -> {
@@ -210,11 +211,15 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return print;
   }
 
-  boolean isRetrying() {
+  synchronized boolean isRetrying() {
     return retrying;
   }
 
-  boolean setToRetry() {
+  synchronized boolean isCompleted() {
+    return completed;
+  }
+
+  synchronized boolean setToRetry() {
     retrying = true;
     retryCount++;
     return maxRetries == 0 || retryCount <= maxRetries;
@@ -232,7 +237,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return uri;
   }
 
-  void addRef(String ref) {
+  synchronized void addRef(String ref) {
     if (ALL_REFS.equals(ref)) {
       delta.clear();
       deltaRefSpecs.set(null);
@@ -249,7 +254,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return fetchAllRefs ? Sets.newHashSet(ALL_REFS) : delta;
   }
 
-  void addRefs(Set<String> refs) {
+  synchronized void addRefs(Set<String> refs) {
     if (!fetchAllRefs) {
       for (String ref : refs) {
         addRef(ref);
@@ -336,7 +341,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     }
   }
 
-  private void doRunFetchOperation(ReplicationType replicationType) {
+  private synchronized void doRunFetchOperation(ReplicationType replicationType) {
     // Lock the queue, and remove ourselves, so we can't be modified once
     // we start replication (instead a new instance, with the same URI, is
     // created and scheduled for a future point in time.)
@@ -424,6 +429,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
           if (canceledWhileRunning.get()) {
             logCanceledWhileRunningException(e);
           } else {
+            retrying = true;
             pool.reschedule(this, Source.RetryReason.TRANSPORT_ERROR);
           }
         } else {
@@ -439,6 +445,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         if (canceledWhileRunning.get()) {
           logCanceledWhileRunningException(e);
         } else {
+          retrying = true;
           // The remote fetch operation should be retried.
           pool.reschedule(this, Source.RetryReason.TRANSPORT_ERROR);
         }
@@ -457,6 +464,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
       if (replicationType == ReplicationType.ASYNC) {
         pool.notifyFinished(this);
+      }
+
+      if (canceled || !retrying) {
+        completed = true;
       }
     }
   }
