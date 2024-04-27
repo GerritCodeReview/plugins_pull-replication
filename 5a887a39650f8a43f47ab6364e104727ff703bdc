@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49077fb3_5845c794",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-27T12:21:50Z",
+      "side": 1,
+      "message": "This works, but I\u0027m unsure if that isn\u0027t really the culprit of the problem: there shouldn\u0027t be any concurrency on the `FetchOne` execution.",
+      "revId": "5a887a39650f8a43f47ab6364e104727ff703bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f07b9e72_790aad63",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-27T12:21:50Z",
+      "side": 1,
+      "message": "Why should this be concurrent? During the execution fetch of a repository from a remote the delta-refs should not change at all.\n\nHowever, I do see concurrent executions exceptions in the logs, see an example below:\n\n```\nCaused by: java.util.ConcurrentModificationException\n        at java.base/java.util.HashMap$KeySpliterator.forEachRemaining(HashMap.java:1712)\n        at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)\n        at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)\n        at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)\n        at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)\n        at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)\n        at com.googlesource.gerrit.plugins.multisite.validation.MultisiteReplicationFetchFilter.filter(MultisiteReplicationFetchFilter.java:85)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.lambda$runRefsFilter$7(FetchOne.java:555)\n        at java.base/java.util.Optional.map(Optional.java:260)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.runRefsFilter(FetchOne.java:555)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.computeFetchRefSpecs(FetchOne.java:512)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.lambda$new$0(FetchOne.java:116)\n        at com.google.common.base.Suppliers$NonSerializableMemoizingSupplier.get(Suppliers.java:181)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.getFetchRefSpecs(FetchOne.java:502)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.hasSucceeded(FetchOne.java:682)\n```",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 89,
+        "endChar": 64
+      },
+      "revId": "5a887a39650f8a43f47ab6364e104727ff703bdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9f2b2c8b_38e7bd34",
