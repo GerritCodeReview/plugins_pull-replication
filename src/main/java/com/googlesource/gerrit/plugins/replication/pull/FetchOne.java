@@ -49,8 +49,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -89,7 +87,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final Project.NameKey projectName;
   private final URIish uri;
   private final Set<String> delta = Sets.newConcurrentHashSet();
-  private final AtomicReference<List<RefSpec>> deltaRefSpecs = new AtomicReference<>();
   private final Set<TransportException> fetchFailures = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
@@ -109,23 +106,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
-
-  private final Supplier<List<RefSpec>> fetchRefSpecsSupplier =
-      () -> {
-        try {
-          List<RefSpec> currentRefSpecs = deltaRefSpecs.get();
-          if (currentRefSpecs != null) {
-            return currentRefSpecs;
-          }
-
-          while (!deltaRefSpecs.compareAndSet(currentRefSpecs, computeFetchRefSpecs())) {
-            currentRefSpecs = deltaRefSpecs.get();
-          }
-          return deltaRefSpecs.get();
-        } catch (IOException e) {
-          throw new RuntimeException("Could not compute refs specs to fetch", e);
-        }
-      };
+  private boolean completed;
 
   @Inject
   FetchOne(
@@ -210,11 +191,15 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return print;
   }
 
-  boolean isRetrying() {
+  synchronized boolean isRetrying() {
     return retrying;
   }
 
-  boolean setToRetry() {
+  synchronized boolean isCompleted() {
+    return completed;
+  }
+
+  synchronized boolean setToRetry() {
     retrying = true;
     retryCount++;
     return maxRetries == 0 || retryCount <= maxRetries;
@@ -232,15 +217,13 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return uri;
   }
 
-  void addRef(String ref) {
+  synchronized void addRef(String ref) {
     if (ALL_REFS.equals(ref)) {
       delta.clear();
-      deltaRefSpecs.set(null);
       fetchAllRefs = true;
       repLog.trace("[{}] Added all refs for replication from {}", taskIdHex, uri);
     } else if (!fetchAllRefs) {
       delta.add(ref);
-      deltaRefSpecs.set(null);
       repLog.trace("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
     }
   }
@@ -249,7 +232,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return fetchAllRefs ? Sets.newHashSet(ALL_REFS) : delta;
   }
 
-  void addRefs(Set<String> refs) {
+  synchronized void addRefs(Set<String> refs) {
     if (!fetchAllRefs) {
       for (String ref : refs) {
         addRef(ref);
@@ -336,7 +319,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     }
   }
 
-  private void doRunFetchOperation(ReplicationType replicationType) {
+  private synchronized void doRunFetchOperation(ReplicationType replicationType) {
     // Lock the queue, and remove ourselves, so we can't be modified once
     // we start replication (instead a new instance, with the same URI, is
     // created and scheduled for a future point in time.)
@@ -458,6 +441,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       if (replicationType == ReplicationType.ASYNC) {
         pool.notifyFinished(this);
       }
+
+      if (canceled || !retrying) {
+        completed = true;
+      }
     }
   }
 
@@ -467,7 +454,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   private List<RefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<RefSpec> fetchRefSpecs = fetchRefSpecsSupplier.get();
+    List<RefSpec> fetchRefSpecs = computeFetchRefSpecs();
 
     try {
       updateStates(fetch.fetch(fetchRefSpecs));
@@ -480,7 +467,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
           inexistentRef);
       fetchFailures.add(e);
       delta.remove(inexistentRef);
-      deltaRefSpecs.set(null);
       if (delta.isEmpty()) {
         repLog.warn("[{}] Empty replication task, skipping.", taskIdHex);
         return Collections.emptyList();
@@ -510,7 +496,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
    * @return The list of refSpecs to fetch
    */
   public List<RefSpec> getFetchRefSpecs() {
-    return fetchRefSpecsSupplier.get();
+    try {
+      return computeFetchRefSpecs();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private List<RefSpec> computeFetchRefSpecs() throws IOException {
