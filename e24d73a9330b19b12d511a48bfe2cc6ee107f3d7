@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "759ca09a_cd31bdb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-27T12:33:06Z",
+      "side": 1,
+      "message": "Even though this change was intended for managing the non-delta fetches, it has actually modified the logic of the delta fetches and memoizing their filtering and computation of the associated refSpecs.",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "10f67a53_60395a92",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 21
