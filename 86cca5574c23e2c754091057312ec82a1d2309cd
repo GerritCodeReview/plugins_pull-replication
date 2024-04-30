@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bf3a908_b3cf795f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-30T12:57:28Z",
+      "side": 1,
+      "message": "avoid",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40debd8e_ece4c81c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-30T12:57:28Z",
+      "side": 1,
+      "message": "That happens only for _delta_ refs fetching, not for fetching everything. My understanding is that your memoizing was done for avoiding the _all_ fetching calculation rather than the _delta_ refs.",
+      "range": {
+        "startLine": 17,
+        "startChar": 21,
+        "endLine": 17,
+        "endChar": 60
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1de57c57_3309e552",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-30T12:57:28Z",
+      "side": 1,
+      "message": "Use the past tense for the behaviour *before* this change.\n\nWhat about: _\"If FetchOne tried ...\"_",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f165ab6_b71260fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-30T12:57:28Z",
+      "side": 1,
+      "message": "Issue 337338030",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 14
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15ae2525_d4b63deb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-30T12:57:28Z",
+      "side": 1,
+      "message": "I believe this should be just declared, even though we may need change some other parts of the code.",
+      "range": {
+        "startLine": 504,
+        "startChar": 13,
+        "endLine": 504,
+        "endChar": 26
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e1dc32a_0200616c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-04-30T12:57:28Z",
+      "side": 1,
+      "message": "This may now not compute anymore the current refsSpecs to fetch, if there was a previous attempt that went into rescheduling.\n\nEven though it would be quicker to just reuse the old computation, the situation of the repository locally and on the global-refdb may have changed, so possibly it would make sense to re-compute even if that means using more CPU cycles.",
+      "range": {
+        "startLine": 509,
+        "startChar": 24,
+        "endLine": 509,
+        "endChar": 46
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
