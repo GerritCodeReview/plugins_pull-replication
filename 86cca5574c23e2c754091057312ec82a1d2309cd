@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef6ade0f_ef251faa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T17:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bf3a908_b3cf795f",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40debd8e_ece4c81c",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-04-30T12:57:28Z",
       "side": 1,
       "message": "That happens only for _delta_ refs fetching, not for fetching everything. My understanding is that your memoizing was done for avoiding the _all_ fetching calculation rather than the _delta_ refs.",
+      "range": {
+        "startLine": 17,
+        "startChar": 21,
+        "endLine": 17,
+        "endChar": 60
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cef98db_ce549001",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T17:21:34Z",
+      "side": 1,
+      "message": "Yes, that was the _intention_, however, the implementation introduced the memoization was done for both cases, which is what led to this issue.\n\nI have clarified this.",
+      "parentUuid": "40debd8e_ece4c81c",
       "range": {
         "startLine": 17,
         "startChar": 21,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b87f7203_7f27c888",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T17:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1de57c57_3309e552",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f165ab6_b71260fe",
@@ -83,6 +155,30 @@
       "writtenOn": "2024-04-30T12:57:28Z",
       "side": 1,
       "message": "Issue 337338030",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 14
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3a8c442_bb617956",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T17:21:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f165ab6_b71260fe",
       "range": {
         "startLine": 28,
         "startChar": 5,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3073e3c_2d60df9f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T17:21:34Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "15ae2525_d4b63deb",
+      "range": {
+        "startLine": 504,
+        "startChar": 13,
+        "endLine": 504,
+        "endChar": 26
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e1dc32a_0200616c",
@@ -129,6 +249,30 @@
       "writtenOn": "2024-04-30T12:57:28Z",
       "side": 1,
       "message": "This may now not compute anymore the current refsSpecs to fetch, if there was a previous attempt that went into rescheduling.\n\nEven though it would be quicker to just reuse the old computation, the situation of the repository locally and on the global-refdb may have changed, so possibly it would make sense to re-compute even if that means using more CPU cycles.",
+      "range": {
+        "startLine": 509,
+        "startChar": 24,
+        "endLine": 509,
+        "endChar": 46
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45882971_625d52ba",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T17:21:34Z",
+      "side": 1,
+      "message": "Imagine that the rescheduling of a FetchOne happens:\n\n1 -  if it is the rescheduling of a `FetchOne` *with* `delta`, new `refs` might be added to the `delta` field. But this is fine because the `delta` is not memoized but returned at L525.\n\n```\n   if (!delta.isEmpty()) {\n      return delta;\n    }\n```\n\n2 - If it is the rescheduling of a `FetchOne` without `delta` (i.e. fetching all refs), then `delta` is always empty. `L512` will just return the configuration (unless there is a filter for which the delta needs to be expanded).\n\n```\nif (delta.isEmpty() \u0026\u0026 replicationFetchFilter().isEmpty()) {\n      return configRefSpecs;\n    }\n```\n\n3 - If it is the rescheduling of a `FetchOne` without `delta` (i.e. fetching all refs) *and* delta expansion is needed, then yes it will return the memoized version, as you say.\n\nI have now removed the memoization, however, I think there is a potential for the `hasSucceeded()` method call at L690, to never terminate.\n\nThis is because it will trigger _new_ list of refs to be computed. Not only this would be _expensive_ (possibly comparing hundreds of thousands of refs), but it would also not be _stable_, causing the `hasSucceeded()` to potentially never terminate because _new_ entries will always be found.\n\nWDYT?",
+      "parentUuid": "0e1dc32a_0200616c",
       "range": {
         "startLine": 509,
         "startChar": 24,
