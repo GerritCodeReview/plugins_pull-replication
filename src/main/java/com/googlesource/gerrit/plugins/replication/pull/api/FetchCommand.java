@@ -113,7 +113,7 @@ public class FetchCommand implements Command {
       } else {
         Optional<FetchOne> maybeFetch =
             source.get().fetchSync(name, refsNames, source.get().getURI(name), apiRequestMetrics);
-        if (maybeFetch.map(FetchOne::getFetchRefSpecs).filter(List::isEmpty).isPresent()) {
+        if (maybeFetch.map(FetchOne::safeGetFetchRefSpecs).filter(List::isEmpty).isPresent()) {
           fetchStateLog.warn(
               String.format(
                   "[%s] Nothing to fetch, ref-specs is empty", maybeFetch.get().getTaskIdHex()));
@@ -140,7 +140,7 @@ public class FetchCommand implements Command {
   }
 
   private TransportException newTransportException(FetchOne fetchOne) {
-    List<RefSpec> fetchRefSpecs = fetchOne.getFetchRefSpecs();
+    List<RefSpec> fetchRefSpecs = fetchOne.safeGetFetchRefSpecs();
     String combinedErrorMessage =
         fetchOne.getFetchFailures().stream()
             .map(TransportException::getMessage)
