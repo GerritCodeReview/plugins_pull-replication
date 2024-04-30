@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd87a658_57610be1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T10:40:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "759ca09a_cd31bdb0",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10f67a53_60395a92",
@@ -37,6 +61,24 @@
       "writtenOn": "2024-04-27T12:31:14Z",
       "side": 1,
       "message": "Post-merge -1: this change caused Issue 337338030",
+      "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9c6f103_9883c770",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T10:40:59Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "10f67a53_60395a92",
       "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f04cc3_b673c7e7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T10:40:59Z",
+      "side": 1,
+      "message": "Fixed with: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/423697",
+      "parentUuid": "e3899779_159121a6",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 23
+      },
+      "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bcf51e9f_ede8256d",
@@ -77,6 +143,30 @@
       "writtenOn": "2024-04-27T12:31:14Z",
       "side": 1,
       "message": "This is *very* dangerous, for two reasons:\n- We do not have control on when this is called: if that is called from a different thread than the one executing the `FetchOne`, we may end up with a `java.util.ConcurrentModificationException` which actually has happened after this change:\n\n```\n[2024-04-24T12:04:09.031Z] [WorkQueue-1[com.googlesource.gerrit.plugins.replication.pull.api.FetchJob@74d9ad60]] ERROR com.googlesource.gerrit.plugins.replication.pull.api.FetchJob : Exception during the async fetch call for project eclipse-jgit/jgit-permissions, label 3b83ed6a-9fd2-11ed-a8fc-0242ac120002 and ref(s) name(s) [refs/changes/36/1193536/2] [CONTEXT PLUGIN\u003d\"pull-replication\" ]\njava.util.concurrent.ExecutionException: java.util.ConcurrentModificationException\n        at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)\n        at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:205)\n        at com.google.gerrit.server.git.WorkQueue$Task.get(WorkQueue.java:672)\n        at com.googlesource.gerrit.plugins.replication.pull.api.FetchCommand.fetch(FetchCommand.java:110)\n        at com.googlesource.gerrit.plugins.replication.pull.api.FetchCommand.fetchAsync(FetchCommand.java:71)\n        at com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.run(FetchJob.java:55)\n        at com.google.gerrit.server.logging.LoggingContextAwareRunnable.run(LoggingContextAwareRunnable.java:113)\n        at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)\n        at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n        at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n        at com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:703)\n        at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)\n        at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)\n        at java.base/java.lang.Thread.run(Thread.java:840)\nCaused by: java.util.ConcurrentModificationException\n        at java.base/java.util.HashMap$KeySpliterator.forEachRemaining(HashMap.java:1712)\n        at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)\n        at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)\n        at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)\n        at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)\n        at java.base/java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:682)\n        at com.googlesource.gerrit.plugins.multisite.validation.MultisiteReplicationFetchFilter.filter(MultisiteReplicationFetchFilter.java:85)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.lambda$runRefsFilter$7(FetchOne.java:555)\n        at java.base/java.util.Optional.map(Optional.java:260)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.runRefsFilter(FetchOne.java:555)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.computeFetchRefSpecs(FetchOne.java:512)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.lambda$new$0(FetchOne.java:116)\n        at com.google.common.base.Suppliers$NonSerializableMemoizingSupplier.get(Suppliers.java:181)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.getFetchRefSpecs(FetchOne.java:502)\n        at com.googlesource.gerrit.plugins.replication.pull.FetchOne.hasSucceeded(FetchOne.java:682)\n        at com.googlesource.gerrit.plugins.replication.pull.ReplicationQueueMetrics$RunnableWithMetrics.run(ReplicationQueueMetrics.java:77)\n        ... 8 more\n```",
+      "range": {
+        "startLine": 486,
+        "startChar": 0,
+        "endLine": 503,
+        "endChar": 3
+      },
+      "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d4d923_3c206a2a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-04-30T10:40:59Z",
+      "side": 1,
+      "message": "Fixed with: https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/423697",
+      "parentUuid": "bcf51e9f_ede8256d",
       "range": {
         "startLine": 486,
         "startChar": 0,
