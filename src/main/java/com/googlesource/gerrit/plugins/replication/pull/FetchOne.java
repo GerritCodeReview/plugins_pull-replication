@@ -109,11 +109,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
 
-  private final Supplier<List<RefSpec>> fetchRefSpecsSupplier =
+  private final Supplier<Set<String>> staleOrMissingLocalRefsSupplier =
       Suppliers.memoize(
           () -> {
             try {
-              return computeFetchRefSpecs();
+              return staleOrMissingLocalRefs();
             } catch (IOException e) {
               throw new RuntimeException("Could not compute refs specs to fetch", e);
             }
@@ -457,7 +457,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   private List<RefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<RefSpec> fetchRefSpecs = fetchRefSpecsSupplier.get();
+    List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
 
     try {
       updateStates(fetch.fetch(fetchRefSpecs));
@@ -499,7 +499,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
    * @return The list of refSpecs to fetch
    */
   public List<RefSpec> getFetchRefSpecs() {
-    return fetchRefSpecsSupplier.get();
+    try {
+      return computeFetchRefSpecs();
+    } catch (IOException e) {
+      throw new RuntimeException("Could not return list of refSpecs", e);
+    }
   }
 
   private List<RefSpec> computeFetchRefSpecs() throws IOException {
@@ -509,17 +513,21 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       return configRefSpecs;
     }
 
-    return runRefsFilter(computeDelta(configRefSpecs)).stream()
+    return runRefsFilter(computeDeltaIfNeeded()).stream()
         .map(ref -> refToFetchRefSpec(ref, configRefSpecs))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
   }
 
-  private Set<String> computeDelta(List<RefSpec> configRefSpecs) throws IOException {
+  private Set<String> computeDeltaIfNeeded() {
     if (!delta.isEmpty()) {
       return delta;
     }
+    return staleOrMissingLocalRefsSupplier.get();
+  }
+
+  private Set<String> staleOrMissingLocalRefs() throws IOException {
     Map<String, Ref> localRefsMap = fetchRefsDatabase.getLocalRefsMap(git);
     Map<String, Ref> remoteRefsMap = fetchRefsDatabase.getRemoteRefsMap(git, uri);
 
@@ -527,7 +535,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         .filter(
             srcRef -> {
               // that match our configured refSpecs
-              return refToFetchRefSpec(srcRef, configRefSpecs)
+              return refToFetchRefSpec(srcRef, config.getFetchRefSpecs())
                   .flatMap(
                       spec ->
                           shouldBeFetched(srcRef, localRefsMap, remoteRefsMap)
