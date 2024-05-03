@@ -281,6 +281,30 @@
       },
       "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae05dae7_8b4cdbfd",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-03T19:24:12Z",
+      "side": 1,
+      "message": "My worry is the filtering against global-refdb: if you reschedule and use the _memoized and filtered_ values, the filtering happened at the time of the first computation, but the global-refdb situation may have changed and that filtering could have not been valid anymore.\n\nMaybe we can keep the memoization but always to filtering explicitly?",
+      "parentUuid": "45882971_625d52ba",
+      "range": {
+        "startLine": 509,
+        "startChar": 24,
+        "endLine": 509,
+        "endChar": 46
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
