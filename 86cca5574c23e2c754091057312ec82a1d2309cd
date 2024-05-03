@@ -305,6 +305,30 @@
       },
       "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da10d24e_a629d50a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-03T20:57:16Z",
+      "side": 1,
+      "message": "I believe this can be addressed as a follow-up though, and it\u0027s not critical either.",
+      "parentUuid": "ae05dae7_8b4cdbfd",
+      "range": {
+        "startLine": 509,
+        "startChar": 24,
+        "endLine": 509,
+        "endChar": 46
+      },
+      "revId": "86cca5574c23e2c754091057312ec82a1d2309cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
