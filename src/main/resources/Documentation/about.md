@@ -15,9 +15,9 @@ share is mounted to which the repositories should be replicated from.
 Installation
 ------------
 
-This plugin depends on the replication and delete-project plugins,
-therefore requires them to be installed as well into the
-`$GERRIT_SITE/plugins` directory.
+This plugin depends on the delete-project plugins, therefore
+requires it to be installed as well into the `$GERRIT_SITE/plugins`
+directory.
 
 Access
 ------

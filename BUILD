@@ -19,7 +19,7 @@ gerrit_plugin(
         ":delete-project-neverlink",
         ":events-broker-neverlink",
         ":healthcheck-neverlink",
-        ":replication-neverlink",
+        ":replication",
         "//lib/commons:io",
         "@commons-lang3//jar",
     ],
@@ -97,8 +97,7 @@ java_library(
 )
 
 java_library(
-    name = "replication-neverlink",
-    neverlink = 1,
+    name = "replication",
     exports = ["//plugins/replication"],
 )
 
