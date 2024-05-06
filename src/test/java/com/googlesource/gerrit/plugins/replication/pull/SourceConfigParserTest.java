@@ -18,9 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.inject.util.Providers;
+import com.googlesource.gerrit.plugins.replication.RemoteConfiguration;
 import com.googlesource.gerrit.plugins.replication.api.ReplicationConfig;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +32,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SourceConfigParserTest {
+  private static final String TEST_REMOTE_URL = "http://git.foo.remote.url/${name}";
+  private static final String TEST_REMOTE_FETCH_REFSPEC = "refs/heads/mybranch:refs/heads/mybranch";
+  private static final String TEST_REMOTE_NAME = "testremote";
+
   @Mock ReplicationConfig replicationConfigMock;
 
   private SourceConfigParser objectUnderTest;
@@ -53,5 +60,30 @@ public class SourceConfigParserTest {
         assertThrows(ConfigInvalidException.class, () -> objectUnderTest.parseRemotes(config))
             .getMessage();
     assertThat(errorMessage).contains("invalid configuration");
+  }
+
+  @Test
+  public void shouldIgnoreRemoteWithoutFetchConfiguration() throws Exception {
+    Config config = new Config();
+    config.fromText("[remote \"foo\"]\n" + "url = http://git.foo.remote.url/repo");
+
+    assertThat(objectUnderTest.parseRemotes(config)).isEmpty();
+  }
+
+  @Test
+  public void shouldParseRemoteWithFetchConfiguration() throws Exception {
+    Config config = new Config();
+    config.fromText(
+        String.format(
+            "[remote \"%s\"]\n" + "url = %s\n" + "fetch = %s",
+            TEST_REMOTE_NAME, TEST_REMOTE_URL, TEST_REMOTE_FETCH_REFSPEC));
+
+    List<RemoteConfiguration> remotes = objectUnderTest.parseRemotes(config);
+    assertThat(remotes).hasSize(1);
+    RemoteConfiguration remoteConfig = remotes.get(0);
+
+    assertThat(remoteConfig.getUrls()).containsExactly(TEST_REMOTE_URL);
+    assertThat(remoteConfig.getRemoteConfig().getFetchRefSpecs())
+        .containsExactly(new RefSpec(TEST_REMOTE_FETCH_REFSPEC));
   }
 }

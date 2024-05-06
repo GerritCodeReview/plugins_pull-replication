@@ -17,7 +17,6 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.base.Suppliers;
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -50,7 +49,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
@@ -108,16 +106,6 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
-
-  private final Supplier<List<RefSpec>> fetchRefSpecsSupplier =
-      Suppliers.memoize(
-          () -> {
-            try {
-              return computeFetchRefSpecs();
-            } catch (IOException e) {
-              throw new RuntimeException("Could not compute refs specs to fetch", e);
-            }
-          });
 
   @Inject
   FetchOne(
@@ -457,7 +445,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   private List<RefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<RefSpec> fetchRefSpecs = fetchRefSpecsSupplier.get();
+    List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
 
     try {
       updateStates(fetch.fetch(fetchRefSpecs));
@@ -498,28 +486,37 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
    *
    * @return The list of refSpecs to fetch
    */
-  public List<RefSpec> getFetchRefSpecs() {
-    return fetchRefSpecsSupplier.get();
-  }
-
-  private List<RefSpec> computeFetchRefSpecs() throws IOException {
+  public List<RefSpec> getFetchRefSpecs() throws IOException {
     List<RefSpec> configRefSpecs = config.getFetchRefSpecs();
 
     if (delta.isEmpty() && replicationFetchFilter().isEmpty()) {
       return configRefSpecs;
     }
 
-    return runRefsFilter(computeDelta(configRefSpecs)).stream()
+    return runRefsFilter(computeDeltaIfNeeded()).stream()
         .map(ref -> refToFetchRefSpec(ref, configRefSpecs))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
   }
 
-  private Set<String> computeDelta(List<RefSpec> configRefSpecs) throws IOException {
+  public List<RefSpec> safeGetFetchRefSpecs() {
+    try {
+      return getFetchRefSpecs();
+    } catch (IOException e) {
+      repLog.error("[{}] Error when evaluating refsSpecs: {}", taskIdHex, e.getMessage());
+      return Collections.emptyList();
+    }
+  }
+
+  private Set<String> computeDeltaIfNeeded() throws IOException {
     if (!delta.isEmpty()) {
       return delta;
     }
+    return staleOrMissingLocalRefs();
+  }
+
+  private Set<String> staleOrMissingLocalRefs() throws IOException {
     Map<String, Ref> localRefsMap = fetchRefsDatabase.getLocalRefsMap(git);
     Map<String, Ref> remoteRefsMap = fetchRefsDatabase.getRemoteRefsMap(git, uri);
 
@@ -527,7 +524,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         .filter(
             srcRef -> {
               // that match our configured refSpecs
-              return refToFetchRefSpec(srcRef, configRefSpecs)
+              return refToFetchRefSpec(srcRef, config.getFetchRefSpecs())
                   .flatMap(
                       spec ->
                           shouldBeFetched(srcRef, localRefsMap, remoteRefsMap)
@@ -679,6 +676,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   @Override
   public boolean hasSucceeded() {
-    return succeeded || getFetchRefSpecs().isEmpty();
+    try {
+      return succeeded || getFetchRefSpecs().isEmpty();
+    } catch (IOException e) {
+      repLog.error("[{}] Error when evaluating refsSpecs: {}", taskIdHex, e.getMessage());
+      return false;
+    }
   }
 }

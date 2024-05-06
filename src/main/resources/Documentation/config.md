@@ -21,6 +21,7 @@ file, for example to replicate in parallel from four different hosts:</a>
   [remote "host-two"]
     url = gerrit2@host-two.example.com:/some/path/${name}.git
     apiUrl = http://host-two.example.com:8080
+    fetch = +refs/*:refs/*
 
   [remote "pubmirror"]
     url = mirror1.us.some.org:/pub/git/${name}.git
@@ -443,12 +444,8 @@ remote.NAME.fetch
 	when `replicatePermissions` is true, even if the push refspec
 	is 'all refs'.
 
->  NOTE: When using the pull-replication and replication plugins together,
->  **NOT having** a `fetch` configuration for a remote, will also enable
->  the standard _push_ replication for that remote.
-
-  Default: refs/*:refs/*, with the force fetch set to
-    `gerrit.defaultForceUpdate`
+>  NOTE: **NOT having** a `fetch` configuration for a remote, causes
+>  the remote to be ignored.
 
 [2]: #example_file
 
