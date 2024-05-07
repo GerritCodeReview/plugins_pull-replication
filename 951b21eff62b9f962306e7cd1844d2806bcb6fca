@@ -117,6 +117,30 @@
       },
       "revId": "951b21eff62b9f962306e7cd1844d2806bcb6fca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0404045_07479e67",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-05-07T21:06:17Z",
+      "side": 1,
+      "message": "AFAIK doesn\u0027t actually depend on `replication-api` yet, so the statement should just remove `replication` from the list of plugins to be added into the `$GERRIT_SITE/plugins` path.",
+      "parentUuid": "3fa3e5a8_1a2a5a1f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 33
+      },
+      "revId": "951b21eff62b9f962306e7cd1844d2806bcb6fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
