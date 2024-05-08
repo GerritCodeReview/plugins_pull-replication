@@ -189,6 +189,30 @@
       },
       "revId": "951b21eff62b9f962306e7cd1844d2806bcb6fca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81dc892e_7aefae24",
+        "filename": "src/main/resources/Documentation/about.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-05-08T06:25:33Z",
+      "side": 1,
+      "message": "I was sure that I\u0027ve updated this change. Haven\u0027t noticed that it was re-targetted to `stable-3.10`, so there\u0027s another one https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/424740 with a documentation change.\n\nI think that this should go to `master` as I\u0027m not sure if this will make any differences on `stable-3.10`, without other changes in the `replication` plugin with the same tag.",
+      "parentUuid": "93a5f135_cc2fef17",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 33
+      },
+      "revId": "951b21eff62b9f962306e7cd1844d2806bcb6fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
