@@ -523,6 +523,12 @@ remote site.
 
 	By default, false, do *not* replicate project deletions.
 
+remote.NAME.replicateHiddenProjects
+:	If true, hidden projects will also be replicated to the
+remote site.
+
+	By default, false, do *not* replicate hidden projects.
+
 remote.NAME.mirror
 :	If true, replication will remove local branches and tags that are
 absent remotely or invisible to the replication (for example read access
