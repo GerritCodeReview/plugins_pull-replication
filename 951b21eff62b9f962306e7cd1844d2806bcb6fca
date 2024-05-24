@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eda4525_934af3fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2024-05-24T07:05:40Z",
+      "side": 1,
+      "message": "Should it be moved to `master` as the corresponding changes in the _fix-pull-replication_ tag are there?",
+      "revId": "951b21eff62b9f962306e7cd1844d2806bcb6fca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1e4b0a2_d8800b3b",
