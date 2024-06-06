@@ -16,7 +16,7 @@ gerrit_plugin(
     ],
     resources = glob(["src/main/resources/**/*"]),
     deps = [
-        ":delete-project-neverlink",
+        ":delete-project",
         ":events-broker-neverlink",
         ":healthcheck-neverlink",
         ":replication",
@@ -102,7 +102,6 @@ java_library(
 )
 
 java_library(
-    name = "delete-project-neverlink",
-    neverlink = 1,
+    name = "delete-project",
     exports = ["//plugins/delete-project"],
 )
