@@ -1,4 +1,4 @@
-FROM gerritcodereview/gerrit:3.9.0-rc4-almalinux9
+FROM gerritcodereview/gerrit:3.10.0-almalinux9
 
 USER root
 
