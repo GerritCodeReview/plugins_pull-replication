@@ -95,4 +95,3 @@ java_library(
     neverlink = 1,
     exports = ["//plugins/healthcheck"],
 )
-
