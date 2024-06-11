@@ -12,13 +12,6 @@ configuration is not recommended.  It is also possible to specify a
 local path as replication source. This makes e.g. sense if a network
 share is mounted to which the repositories should be replicated from.
 
-Installation
-------------
-
-This plugin depends on the replication and delete-project plugins,
-therefore requires them to be installed as well into the
-`$GERRIT_SITE/plugins` directory.
-
 Access
 ------
 
