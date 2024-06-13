@@ -70,7 +70,6 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   public static final boolean FORCE_ASYNC = true;
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  static String GERRIT_ADMIN_PROTOCOL_PREFIX = "gerrit+";
 
   private static final Gson GSON =
       new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
