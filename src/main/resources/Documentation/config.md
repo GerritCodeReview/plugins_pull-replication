@@ -281,12 +281,6 @@ replication.excludeRefs
     the ref `foo/bar`, but no other refs.
 
     By default, the following refs are excluded from the git fetch calls:
-    - refs/users/*
-    - refs/meta/config
-    - refs/sequences/*
-    - refs/meta/external-ids
-    - refs/groups/*
-    - refs/meta/group-names
     - refs/cache-automerge/*
     - refs/starred-changes/*
 
