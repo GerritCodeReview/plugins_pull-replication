@@ -20,6 +20,7 @@ import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
+import com.googlesource.gerrit.plugins.deleteproject.cache.CacheDeleteHandler;
 import com.googlesource.gerrit.plugins.replication.pull.BearerTokenProvider;
 
 public class HttpModule extends ServletModule {
@@ -45,6 +46,9 @@ public class HttpModule extends ServletModule {
                   .to(BearerAuthenticationFilter.class)
                   .in(Scopes.SINGLETON);
             });
+
+    bind(CacheDeleteHandler.class);
+    bind(ProjectDeletionAction.class).in(Scopes.SINGLETON);
 
     DynamicSet.bind(binder(), AllRequestFilter.class)
         .to(PullReplicationFilter.class)
