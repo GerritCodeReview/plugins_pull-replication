@@ -281,12 +281,6 @@ replication.excludeRefs
     the ref `foo/bar`, but no other refs.
 
     By default, the following refs are excluded from the git fetch calls:
-    - refs/users/*
-    - refs/meta/config
-    - refs/sequences/*
-    - refs/meta/external-ids
-    - refs/groups/*
-    - refs/meta/group-names
     - refs/cache-automerge/*
     - refs/starred-changes/*
 
@@ -522,6 +516,12 @@ remote.NAME.replicateProjectDeletions
 remote site.
 
 	By default, false, do *not* replicate project deletions.
+
+remote.NAME.replicateHiddenProjects
+:	If true, hidden projects will also be replicated to the
+remote site.
+
+	By default, false, do *not* replicate hidden projects.
 
 remote.NAME.mirror
 :	If true, replication will remove local branches and tags that are
