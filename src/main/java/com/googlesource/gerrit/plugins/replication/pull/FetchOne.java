@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -103,6 +105,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final FetchReplicationMetrics metrics;
   private final AtomicBoolean canceledWhileRunning;
   private final FetchFactory fetchFactory;
+  private final DeleteRefCommand deleteRefCommand;
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
@@ -118,6 +121,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       FetchReplicationMetrics m,
       FetchFactory fetchFactory,
       FetchRefsDatabase fetchRefsDatabase,
+      DeleteRefCommand deleteRefCommand,
       @Assisted Project.NameKey d,
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -126,6 +130,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     config = c.getRemoteConfig();
     threadScoper = ts;
     this.fetchRefsDatabase = fetchRefsDatabase;
+    this.deleteRefCommand = deleteRefCommand;
     projectName = d;
     uri = u;
     lockRetryCount = 0;
@@ -445,10 +450,19 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   private List<RefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
+    List<RefSpec> refSpecs = getRefSpecs();
+    List<RefSpec> fetchRefSpecs =
+        refSpecs.stream().filter(refSpec -> !Strings.isNullOrEmpty(refSpec.getSource())).toList();
+    Set<String> deleteRefNames =
+        refSpecs.stream()
+            .filter(refSpec -> Strings.isNullOrEmpty(refSpec.getSource()))
+            .map(RefSpec::getDestination)
+            .collect(Collectors.toSet());
 
     try {
       updateStates(fetch.fetch(fetchRefSpecs));
+      updateStates(
+          deleteRefCommand.deleteRefsSync(projectName, deleteRefNames, pool.getRemoteConfigName()));
     } catch (InexistentRefTransportException e) {
       String inexistentRef = e.getInexistentRef();
       repLog.info(
@@ -472,7 +486,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   }
 
   /**
-   * Return the list of refSpecs to fetch, possibly after having been filtered.
+   * Return the list of refSpecs to fetch or delete, possibly after having been filtered.
    *
    * <p>When {@link FetchOne#delta} is empty and no {@link FetchOne#replicationFetchFilter} was
    * provided, the configured refsSpecs is returned.
@@ -484,9 +498,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
    * <p>When {@link FetchOne#delta} is not empty and {@link FetchOne#replicationFetchFilter} was
    * provided, the filtered refsSpecs are returned.
    *
+   * <p>The refs to delete are ref-specs with an empty source and a non-empty destination, e.g.,
+   * :refs/heads/to-delete.
+   *
    * @return The list of refSpecs to fetch
    */
-  public List<RefSpec> getFetchRefSpecs() throws IOException {
+  public List<RefSpec> getRefSpecs() throws IOException {
     List<RefSpec> configRefSpecs = config.getFetchRefSpecs();
 
     if (delta.isEmpty() && replicationFetchFilter().isEmpty()) {
@@ -502,7 +519,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   public List<RefSpec> safeGetFetchRefSpecs() {
     try {
-      return getFetchRefSpecs();
+      return getRefSpecs();
     } catch (IOException e) {
       repLog.error("[{}] Error when evaluating refsSpecs: {}", taskIdHex, e.getMessage());
       return Collections.emptyList();
@@ -677,7 +694,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   @Override
   public boolean hasSucceeded() {
     try {
-      return succeeded || getFetchRefSpecs().isEmpty();
+      return succeeded || getRefSpecs().isEmpty();
     } catch (IOException e) {
       repLog.error("[{}] Error when evaluating refsSpecs: {}", taskIdHex, e.getMessage());
       return false;

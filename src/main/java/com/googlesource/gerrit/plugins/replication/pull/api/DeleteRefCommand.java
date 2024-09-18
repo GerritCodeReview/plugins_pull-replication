@@ -23,12 +23,10 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.EventDispatcher;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.Context;
-import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
 import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
@@ -37,6 +35,7 @@ import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.DeleteRefException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
@@ -49,7 +48,6 @@ public class DeleteRefCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PullReplicationStateLogger fetchStateLog;
-  private final DynamicItem<EventDispatcher> eventDispatcher;
   private final ProjectCache projectCache;
   private final SourcesCollection sourcesCollection;
   private final GitRepositoryManager gitManager;
@@ -63,24 +61,27 @@ public class DeleteRefCommand {
       LocalGitRepositoryManagerProvider gitManagerProvider) {
     this.fetchStateLog = fetchStateLog;
     this.projectCache = projectCache;
-    this.eventDispatcher = eventDispatcher;
     this.sourcesCollection = sourcesCollection;
     this.gitManager = gitManagerProvider.get();
   }
 
-  public void deleteRefsSync(
+  public List<RefUpdateState> deleteRefsSync(
       Project.NameKey name, Set<String> deletedRefNames, String sourceLabel) {
-    deletedRefNames.forEach(
-        r -> {
-          try {
-            deleteRef(name, r, sourceLabel);
-          } catch (RestApiException | IOException e) {
-            repLog.error("Could not delete ref {}:{} from source {}", name.get(), r, sourceLabel);
-          }
-        });
+    return deletedRefNames.stream()
+        .map(
+            r -> {
+              try {
+                return deleteRef(name, r, sourceLabel);
+              } catch (RestApiException | IOException e) {
+                repLog.error(
+                    "Could not delete ref {}:{} from source {}", name.get(), r, sourceLabel);
+                return new RefUpdateState(r, RefUpdate.Result.IO_FAILURE);
+              }
+            })
+        .toList();
   }
 
-  public void deleteRef(Project.NameKey name, String refName, String sourceLabel)
+  public RefUpdateState deleteRef(Project.NameKey name, String refName, String sourceLabel)
       throws IOException, RestApiException {
     Source source =
         sourcesCollection
@@ -92,71 +93,52 @@ public class DeleteRefCommand {
     if (!source.isMirror()) {
       repLog.info(
           "Ignoring ref {} deletion from project {}, as mirror option is false", refName, name);
-      return;
+      return new RefUpdateState(refName, RefUpdate.Result.NOT_ATTEMPTED);
     }
+
+    repLog.info("Delete ref from {} for project {}, ref name {}", sourceLabel, name, refName);
+    Optional<ProjectState> projectState = projectCache.get(name);
+    if (!projectState.isPresent()) {
+      throw new ResourceNotFoundException(String.format("Project %s was not found", name));
+    }
+
+    Optional<Ref> ref = getRef(name, refName);
+    if (!ref.isPresent()) {
+      logger.atFine().log("Ref %s was not found in project %s", refName, name);
+      return new RefUpdateState(refName, RefUpdate.Result.NOT_ATTEMPTED);
+    }
+
+    URIish sourceUri = source.getURI(name);
+
     try {
-      repLog.info("Delete ref from {} for project {}, ref name {}", sourceLabel, name, refName);
-      Optional<ProjectState> projectState = projectCache.get(name);
-      if (!projectState.isPresent()) {
-        throw new ResourceNotFoundException(String.format("Project %s was not found", name));
-      }
-
-      Optional<Ref> ref = getRef(name, refName);
-      if (!ref.isPresent()) {
-        logger.atFine().log("Ref %s was not found in project %s", refName, name);
-        return;
-      }
-
-      URIish sourceUri = source.getURI(name);
-
-      try {
-
-        Context.setLocalEvent(true);
-        RefUpdate.Result successResult = ensureSuccess(deleteRef(name, ref.get()));
-
-        eventDispatcher
-            .get()
-            .postEvent(
-                new FetchRefReplicatedEvent(
-                    name.get(),
-                    refName,
-                    sourceUri,
-                    ReplicationState.RefFetchResult.SUCCEEDED,
-                    successResult));
-      } catch (PermissionBackendException e) {
-        logger.atSevere().withCause(e).log(
-            "Unexpected error while trying to delete ref '%s' on project %s and notifying it",
-            refName, name);
-        throw RestApiException.wrap(e.getMessage(), e);
-      } catch (IOException e) {
-        RefUpdate.Result refUpdateResult =
-            e instanceof DeleteRefException
-                ? ((DeleteRefException) e).getResult()
-                : RefUpdate.Result.LOCK_FAILURE;
-        eventDispatcher
-            .get()
-            .postEvent(
-                new FetchRefReplicatedEvent(
-                    name.get(),
-                    refName,
-                    sourceUri,
-                    ReplicationState.RefFetchResult.FAILED,
-                    refUpdateResult));
-        String message =
-            String.format(
-                "RefUpdate lock failure for: sourceLabel=%s, project=%s, refName=%s",
-                sourceLabel, name, refName);
-        logger.atSevere().withCause(e).log("%s", message);
-        fetchStateLog.error(message);
-        throw e;
-      } finally {
-        Context.unsetLocalEvent();
-      }
-
+      Context.setLocalEvent(true);
+      RefUpdateState deleteResult = deleteRef(name, ref.get());
+      ReplicationState.RefFetchResult deleteAsFetchResult =
+          isSuccess(deleteResult)
+              ? ReplicationState.RefFetchResult.SUCCEEDED
+              : ReplicationState.RefFetchResult.FAILED;
       repLog.info(
-          "Delete ref from {} for project {}, ref name {} completed", sourceLabel, name, refName);
-    } catch (PermissionBackendException e) {
-      throw RestApiException.wrap(e.getMessage(), e);
+          "Delete ref from {} for project {}, ref name {}: {} ({})",
+          sourceLabel,
+          name,
+          refName,
+          deleteAsFetchResult,
+          deleteResult);
+      return deleteResult;
+    } catch (IOException e) {
+      RefUpdate.Result refUpdateResult =
+          e instanceof DeleteRefException
+              ? ((DeleteRefException) e).getResult()
+              : RefUpdate.Result.LOCK_FAILURE;
+      String message =
+          String.format(
+              "RefUpdate lock failure for: sourceLabel=%s, project=%s, refName=%s",
+              sourceLabel, name, refName);
+      logger.atSevere().withCause(e).log("%s", message);
+      fetchStateLog.error(message);
+      return new RefUpdateState(refName, RefUpdate.Result.IO_FAILURE);
+    } finally {
+      Context.unsetLocalEvent();
     }
   }
 
@@ -181,8 +163,7 @@ public class DeleteRefCommand {
     }
   }
 
-  private static RefUpdate.Result ensureSuccess(RefUpdateState refUpdateState)
-      throws DeleteRefException {
+  private static boolean isSuccess(RefUpdateState refUpdateState) {
     switch (refUpdateState.getResult()) {
       case NOT_ATTEMPTED:
       case REJECTED:
@@ -191,8 +172,9 @@ public class DeleteRefCommand {
       case LOCK_FAILURE:
       case IO_FAILURE:
       case REJECTED_OTHER_REASON:
-        throw new DeleteRefException("Failed ref deletion", refUpdateState.getResult());
+        return false;
+      default:
+        return true;
     }
-    return refUpdateState.getResult();
   }
 }
