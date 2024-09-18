@@ -34,21 +34,15 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateE
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
-import javax.servlet.http.HttpServletResponse;
 
 public class ApplyObjectsAction implements RestModifyView<ProjectResource, RevisionsInput> {
 
   private final ApplyObjectCommand command;
-  private final DeleteRefCommand deleteRefCommand;
   private final FetchPreconditions preConditions;
 
   @Inject
-  public ApplyObjectsAction(
-      ApplyObjectCommand command,
-      DeleteRefCommand deleteRefCommand,
-      FetchPreconditions preConditions) {
+  public ApplyObjectsAction(ApplyObjectCommand command, FetchPreconditions preConditions) {
     this.command = command;
-    this.deleteRefCommand = deleteRefCommand;
     this.preConditions = preConditions;
   }
 
@@ -65,6 +59,14 @@ public class ApplyObjectsAction implements RestModifyView<ProjectResource, Revis
       if (Strings.isNullOrEmpty(input.getRefName())) {
         throw new BadRequestException("Ref-update refname cannot be null or empty");
       }
+      if (Objects.isNull(input.getRevisionsData())) {
+        repLog.error(
+            "Apply object API *FAILED* from {} for {}:{} - revision data is null",
+            input.getLabel(),
+            resource.getNameKey(),
+            input.getRefName());
+        throw new BadRequestException("Null revision data");
+      }
 
       repLog.info(
           "Apply object API from {} for {}:{} - {}",
@@ -72,16 +74,6 @@ public class ApplyObjectsAction implements RestModifyView<ProjectResource, Revis
           resource.getNameKey(),
           input.getRefName(),
           Arrays.toString(input.getRevisionsData()));
-
-      if (Objects.isNull(input.getRevisionsData())) {
-        deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
-        repLog.info(
-            "Apply object API - REF DELETED - from {} for {}:{}",
-            input.getLabel(),
-            resource.getNameKey(),
-            input.getRefName());
-        return Response.withStatusCode(HttpServletResponse.SC_NO_CONTENT, "");
-      }
 
       try {
         input.validate();
