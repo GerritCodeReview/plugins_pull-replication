@@ -34,22 +34,17 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingPar
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
 import java.util.Objects;
-import javax.servlet.http.HttpServletResponse;
 
 @Singleton
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
   private final ApplyObjectCommand applyObjectCommand;
-  private final DeleteRefCommand deleteRefCommand;
   private final FetchPreconditions preConditions;
 
   @Inject
   public ApplyObjectAction(
-      ApplyObjectCommand applyObjectCommand,
-      DeleteRefCommand deleteRefCommand,
-      FetchPreconditions preConditions) {
+      ApplyObjectCommand applyObjectCommand, FetchPreconditions preConditions) {
     this.applyObjectCommand = applyObjectCommand;
-    this.deleteRefCommand = deleteRefCommand;
     this.preConditions = preConditions;
   }
 
@@ -75,14 +70,13 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           input.getRevisionData());
 
       if (Objects.isNull(input.getRevisionData())) {
-        deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
-        repLog.info(
-            "Apply object API - REF DELETED - from {} for {}:{} - {}",
+        repLog.error(
+            "Apply object API *FAILED* from {} for {}:{} - revision data is null",
             input.getLabel(),
             resource.getNameKey(),
             input.getRefName(),
             input.getRevisionData());
-        return Response.withStatusCode(HttpServletResponse.SC_NO_CONTENT, "");
+        throw new BadRequestException("Null revision data");
       }
 
       try {
