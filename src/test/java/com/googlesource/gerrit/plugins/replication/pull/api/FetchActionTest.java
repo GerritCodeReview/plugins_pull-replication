@@ -63,9 +63,7 @@ public class FetchActionTest {
   @Mock FetchCommand fetchCommand;
   @Mock DeleteRefCommand deleteRefCommand;
   @Mock FetchJob fetchJob;
-  @Mock DeleteRefJob deleteRefJob;
   @Mock FetchJob.Factory fetchJobFactory;
-  @Mock DeleteRefJob.Factory deleteRefJobFactory;
   @Mock ProjectResource projectResource;
   @Mock WorkQueue workQueue;
   @Mock ScheduledExecutorService exceutorService;
@@ -77,7 +75,6 @@ public class FetchActionTest {
   @Before
   public void setup() throws Exception {
     when(fetchJobFactory.create(any(), any(), any())).thenReturn(fetchJob);
-    when(deleteRefJobFactory.create(any(), any())).thenReturn(deleteRefJob);
     when(workQueue.getDefaultQueue()).thenReturn(exceutorService);
     when(urlFormatter.getRestUrl(anyString())).thenReturn(Optional.of(location));
     when(exceutorService.submit(any(Runnable.class)))
@@ -94,13 +91,7 @@ public class FetchActionTest {
 
     fetchAction =
         new FetchAction(
-            fetchCommand,
-            deleteRefCommand,
-            workQueue,
-            urlFormatterDynamicItem,
-            preConditions,
-            fetchJobFactory,
-            deleteRefJobFactory);
+            fetchCommand, workQueue, urlFormatterDynamicItem, preConditions, fetchJobFactory);
   }
 
   @Test
@@ -132,7 +123,7 @@ public class FetchActionTest {
     batchInputParams.refInputs = Set.of(RefInput.create(refName, true));
 
     Response<?> response = fetchAction.apply(projectResource, batchInputParams);
-    verify(deleteRefCommand).deleteRefsSync(any(), eq(Set.of(refName)), eq(label));
+    verify(deleteRefCommand).deleteRefsSync(anyString(), any(), eq(Set.of(refName)), eq(label));
 
     assertThat(response.statusCode()).isEqualTo(SC_CREATED);
   }
@@ -145,7 +136,6 @@ public class FetchActionTest {
     batchInputParams.refInputs = Set.of(RefInput.create(refName, true));
 
     Response<?> response = fetchAction.apply(projectResource, batchInputParams);
-    verify(deleteRefJobFactory).create(any(), eq(batchInputParams));
 
     assertThat(response.statusCode()).isEqualTo(SC_ACCEPTED);
   }
