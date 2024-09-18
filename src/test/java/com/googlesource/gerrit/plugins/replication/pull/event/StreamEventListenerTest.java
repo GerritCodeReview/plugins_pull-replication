@@ -94,7 +94,6 @@ public class StreamEventListenerTest {
     objectUnderTest =
         new StreamEventListener(
             INSTANCE_ID,
-            deleteRefCommand,
             updateHeadCommand,
             projectInitializationAction,
             workQueue,
@@ -151,7 +150,7 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldDeleteRefForRefDeleteEvent() throws Exception {
+  public void shouldScheduleJobForRefDeleteEvent() throws Exception {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
@@ -163,8 +162,15 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(deleteRefCommand)
-        .deleteRef(Project.nameKey(TEST_PROJECT), refUpdate.refName, REMOTE_INSTANCE_ID);
+    verify(fetchJobFactory)
+            .create(eq(Project.nameKey(TEST_PROJECT)), batchInputCaptor.capture(), any());
+
+    FetchAction.BatchInput batchInput = batchInputCaptor.getValue();
+    assertThat(batchInput.label).isEqualTo(REMOTE_INSTANCE_ID);
+    FetchAction.RefInput deletedRefInput = FetchAction.RefInput.create(TEST_REF_NAME, true);
+    assertThat(batchInput.refInputs).contains(deletedRefInput);
+
+    verify(executor).submit(any(FetchJob.class));
   }
 
   @Test
