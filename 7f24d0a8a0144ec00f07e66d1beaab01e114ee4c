@@ -34,6 +34,69 @@
       "parentUuid": "ee574f8b_d97dd1a7",
       "revId": "7f24d0a8a0144ec00f07e66d1beaab01e114ee4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "157b3e13_d19660f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-18T14:32:52Z",
+      "side": 1,
+      "message": "I propose a much simpler solution with I94d2850c4a, WDYT?",
+      "revId": "7f24d0a8a0144ec00f07e66d1beaab01e114ee4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3023baf1_ddb0599f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-18T14:32:52Z",
+      "side": 1,
+      "message": "This looks wrong, because it is also performed in the update states in the FetchOne() class, hence done twice.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 44
+      },
+      "revId": "7f24d0a8a0144ec00f07e66d1beaab01e114ee4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "555c6d9e_4950963b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-18T14:32:52Z",
+      "side": 1,
+      "message": "Should be `IO_FAILURE` IMHO.",
+      "range": {
+        "startLine": 115,
+        "startChar": 18,
+        "endLine": 115,
+        "endChar": 47
+      },
+      "revId": "7f24d0a8a0144ec00f07e66d1beaab01e114ee4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
