@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2a67204_69b08ef5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-18T18:13:47Z",
+      "side": 1,
+      "message": "I\u0027d like to have an apply-object that could work reliably on master, passing the SHA1 of the ref *just before* the delete, so that it could be done also synchronously.",
+      "parentUuid": "1dc53eb0_6e74c2c2",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 57
+      },
+      "revId": "5d9c454934e1ffd1569b35eabe15438af36788f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c3ff678_00232c2a",
@@ -37,6 +61,30 @@
       "writtenOn": "2024-09-18T17:58:41Z",
       "side": 1,
       "message": "I don\u0027t think this is the case.\nWhen the event is consumed (either via brokerConsumer or via streamEventListener), we simply perform `deleteRef` [1].\n\nCurrently, ref deletion is a fire-and-forget operation and there is no retry, nor queueing for it.\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.10/src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java#140",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 52
+      },
+      "revId": "5d9c454934e1ffd1569b35eabe15438af36788f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "044d6f0e_26fa8a1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-18T18:13:47Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think this is the case.\n\u003e When the event is consumed (either via brokerConsumer or via streamEventListener), we simply perform `deleteRef` [1].\n\nYeah, that has to be changed as well.\n\n\u003e Currently, ref deletion is a fire-and-forget operation and there is no retry, nor queueing for it.\n\nYes, still need to be addressed as part of this change.\n\n\u003e \n\u003e [1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.10/src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java#140",
+      "parentUuid": "6c3ff678_00232c2a",
       "range": {
         "startLine": 15,
         "startChar": 0,
