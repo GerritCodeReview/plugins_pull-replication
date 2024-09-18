@@ -64,6 +64,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -362,13 +363,19 @@ public class ReplicationQueue
       ReplicationState state) {
 
     try {
-      List<BatchApplyObjectData> refsBatch =
+      List<Optional<BatchApplyObjectData>> refsBatch =
           refs.stream()
               .map(ref -> toBatchApplyObject(project, ref, state))
               .collect(Collectors.toList());
 
-      if (!containsLargeRef(refsBatch)) {
-        return ((source) -> callBatchSendObject(source, project, refsBatch, eventCreatedOn, state));
+      if (!containsDeleteRef(refsBatch) && !containsLargeRef(refsBatch)) {
+        return ((source) ->
+            callBatchSendObject(
+                source,
+                project,
+                refsBatch.stream().filter(Optional::isPresent).map(Optional::get),
+                eventCreatedOn,
+                state));
       }
     } catch (UncheckedIOException e) {
       stateLog.error("Falling back to calling fetch", e, state);
@@ -376,16 +383,17 @@ public class ReplicationQueue
     return ((source) -> callBatchFetch(source, project, refs, state));
   }
 
-  private BatchApplyObjectData toBatchApplyObject(
+  private Optional<BatchApplyObjectData> toBatchApplyObject(
       NameKey project, ReferenceUpdatedEvent event, ReplicationState state) {
     if (event.isDelete()) {
       Optional<RevisionData> noRevisionData = Optional.empty();
-      return BatchApplyObjectData.create(event.refName(), noRevisionData, event.isDelete());
+      return Optional.empty();
     }
     try {
       Optional<RevisionData> maybeRevisionData =
           revReaderProvider.get().read(project, event.objectId(), event.refName(), 0);
-      return BatchApplyObjectData.create(event.refName(), maybeRevisionData, event.isDelete());
+      return Optional.of(
+          BatchApplyObjectData.create(event.refName(), maybeRevisionData, event.isDelete()));
     } catch (IOException e) {
       stateLog.error(
           String.format(
@@ -397,8 +405,13 @@ public class ReplicationQueue
     }
   }
 
-  private boolean containsLargeRef(List<BatchApplyObjectData> batchApplyObjectData) {
-    return batchApplyObjectData.stream().anyMatch(e -> e.revisionData().isEmpty() && !e.isDelete());
+  private boolean containsLargeRef(List<Optional<BatchApplyObjectData>> batchApplyObjectData) {
+    return batchApplyObjectData.stream()
+        .anyMatch(e -> e.isPresent() && e.get().revisionData().isEmpty());
+  }
+
+  private boolean containsDeleteRef(List<Optional<BatchApplyObjectData>> batchApplyObjectData) {
+    return batchApplyObjectData.stream().anyMatch(Optional::isEmpty);
   }
 
   private Optional<HttpResult> callSendObject(
@@ -442,14 +455,14 @@ public class ReplicationQueue
   private boolean callBatchSendObject(
       Source source,
       NameKey project,
-      List<BatchApplyObjectData> refsBatch,
+      Stream<BatchApplyObjectData> refsBatch,
       long eventCreatedOn,
       ReplicationState state)
       throws MissingParentObjectException {
     boolean batchResultSuccessful = true;
 
     List<BatchApplyObjectData> filteredRefsBatch =
-        refsBatch.stream()
+        refsBatch
             .filter(r -> source.wouldFetchProject(project) && source.wouldFetchRef(r.refName()))
             .collect(Collectors.toList());
 
@@ -618,7 +631,10 @@ public class ReplicationQueue
             .filter(ref -> source.wouldFetchProject(project) && source.wouldFetchRef(ref.refName()))
             .collect(Collectors.toList());
 
-    String refsStr = filteredRefs.stream().map(RefInput::refName).collect(Collectors.joining(","));
+    String refsStr =
+        filteredRefs.stream()
+            .map(ri -> (ri.isDelete() ? ":" : "") + ri.refName())
+            .collect(Collectors.joining(","));
     FetchApiClient fetchClient = fetchClientFactory.create(source);
 
     for (String apiUrl : source.getApis()) {
