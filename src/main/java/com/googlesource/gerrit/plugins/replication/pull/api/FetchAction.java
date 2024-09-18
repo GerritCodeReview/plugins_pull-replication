@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -37,8 +38,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
-import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
 import java.util.Set;
@@ -50,31 +49,25 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.errors.TransportException;
 
 @Singleton
-public class FetchAction implements RestModifyView<ProjectResource, Input> {
+public class FetchAction implements RestModifyView<ProjectResource, FetchAction.Input> {
   private final FetchCommand command;
-  private final DeleteRefCommand deleteRefCommand;
   private final WorkQueue workQueue;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final FetchPreconditions preConditions;
-  private final Factory fetchJobFactory;
-  private final DeleteRefJob.Factory deleteJobFactory;
+  private final FetchJob.Factory fetchJobFactory;
 
   @Inject
   public FetchAction(
       FetchCommand command,
-      DeleteRefCommand deleteRefCommand,
       WorkQueue workQueue,
       DynamicItem<UrlFormatter> urlFormatter,
       FetchPreconditions preConditions,
-      FetchJob.Factory fetchJobFactory,
-      DeleteRefJob.Factory deleteJobFactory) {
+      FetchJob.Factory fetchJobFactory) {
     this.command = command;
-    this.deleteRefCommand = deleteRefCommand;
     this.workQueue = workQueue;
     this.urlFormatter = urlFormatter;
     this.preConditions = preConditions;
     this.fetchJobFactory = fetchJobFactory;
-    this.deleteJobFactory = deleteJobFactory;
   }
 
   public static class Input {
@@ -184,16 +177,13 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private Response<?> applySync(Project.NameKey project, BatchInput input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    command.fetchSync(project, input.label, input.getNonDeletedRefNames());
+    command.fetchSync(
+        project,
+        input.label,
+        Sets.union(
+            input.getNonDeletedRefNames(),
+            input.getDeletedRefNames().stream().map(r -> ":" + r).collect(Collectors.toSet())));
 
-    /* git fetches and deletes cannot be handled atomically within the same transaction.
-    Here we choose to handle fetches first and then deletes:
-    - If the fetch fails delete is not even attempted.
-    - If the delete fails after the fetch then the client is left with some extra refs.
-    */
-    if (!input.getDeletedRefNames().isEmpty()) {
-      deleteRefCommand.deleteRefsSync(project, input.getDeletedRefNames(), input.label);
-    }
     return Response.created(input);
   }
 
@@ -211,9 +201,6 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
             .get()
             .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
 
-    if (!batchInput.getDeletedRefNames().isEmpty()) {
-      workQueue.getDefaultQueue().submit(deleteJobFactory.create(project, batchInput));
-    }
     // We're in a HTTP handler, so must be present.
     checkState(url.isPresent());
     return Response.accepted(url.get());

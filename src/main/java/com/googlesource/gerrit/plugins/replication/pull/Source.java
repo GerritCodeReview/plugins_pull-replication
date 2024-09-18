@@ -382,7 +382,7 @@ public class Source {
                     return true;
                   }
                   try {
-                    if (!ref.startsWith(RefNames.REFS_CHANGES)) {
+                    if (!refName(ref).startsWith(RefNames.REFS_CHANGES)) {
                       permissionBackend
                           .user(userProvider.get())
                           .project(project)
@@ -1009,5 +1009,13 @@ public class Source {
     } finally {
       Context.unsetLocalEvent();
     }
+  }
+
+  public static boolean isRefDeletion(String ref) {
+    return ref.charAt(0) == ':';
+  }
+
+  public static String refName(String ref) {
+    return isRefDeletion(ref) ? ref.substring(1) : ref;
   }
 }
