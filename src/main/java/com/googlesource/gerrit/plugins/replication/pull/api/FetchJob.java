@@ -14,14 +14,17 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
+import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.BatchInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.TransportException;
 
 public class FetchJob implements Runnable {
@@ -52,7 +55,13 @@ public class FetchJob implements Runnable {
   @Override
   public void run() {
     try {
-      command.fetchAsync(project, batchInput.label, batchInput.getNonDeletedRefNames(), metrics);
+      Set<String> refNames =
+          Sets.union(
+              batchInput.getNonDeletedRefNames(),
+              batchInput.getDeletedRefNames().stream()
+                  .map(r -> ":" + r)
+                  .collect(Collectors.toSet()));
+      command.fetchAsync(project, batchInput.label, refNames, metrics);
     } catch (InterruptedException
         | ExecutionException
         | RemoteConfigurationMissingException

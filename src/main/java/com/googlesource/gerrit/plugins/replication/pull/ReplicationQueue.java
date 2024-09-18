@@ -618,7 +618,10 @@ public class ReplicationQueue
             .filter(ref -> source.wouldFetchProject(project) && source.wouldFetchRef(ref.refName()))
             .collect(Collectors.toList());
 
-    String refsStr = filteredRefs.stream().map(RefInput::refName).collect(Collectors.joining(","));
+    String refsStr =
+        filteredRefs.stream()
+            .map(ri -> (ri.isDelete() ? ":" : "") + ri.refName())
+            .collect(Collectors.joining(","));
     FetchApiClient fetchClient = fetchClientFactory.create(source);
 
     for (String apiUrl : source.getApis()) {
