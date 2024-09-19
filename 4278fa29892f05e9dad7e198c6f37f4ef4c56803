@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "80e7c959_f0e8a092",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-09-19T14:59:47Z",
+      "side": 1,
+      "message": "cannot",
+      "range": {
+        "startLine": 16,
+        "startChar": 42,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e089762_8acbc506",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-09-19T14:59:47Z",
+      "side": 1,
+      "message": "This has a chance to be split into a separate change.\n- Banning ref-delete via apply-object\n- manage deletes in the replication queue.\n\nThis will make it smaller and easier to review.\n\nWDYT?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53eae545_31a3d9dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-09-19T14:59:47Z",
+      "side": 1,
+      "message": "Why targeting 3.10? Shouldn\u0027t we target 3.8 instead, since the problem is already there and the release is still maintained?",
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ef4b830e_4dce90c5",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
         "patchSetId": 16
