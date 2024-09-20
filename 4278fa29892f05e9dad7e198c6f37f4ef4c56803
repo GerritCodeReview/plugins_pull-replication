@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "05ec2747_82365431",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "4e089762_8acbc506",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "53eae545_31a3d9dc",
@@ -83,6 +107,47 @@
         "endLine": 230,
         "endChar": 7
       },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "364cfb73_a6dcbd70",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "It is indeed called in a retrying replication, for example `reschedule` [1] \n\n[1]: https://gerrit.googlesource.com/plugins/pull-replication/+/ddd6f89a328030f3a1d2683287e160a8ac30e448/src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java#632",
+      "parentUuid": "ef4b830e_4dce90c5",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 7
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "783e73d6_bdbc18df",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "This has to be skipped if `Source.isRefDeletion(ref))`, isn\u0027t it? Otherwise we remove it at L227 and then add it back here.",
       "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -135,6 +200,47 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6277d907_4583a807",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "d5806808_b763d980",
+      "range": {
+        "startLine": 636,
+        "startChar": 23,
+        "endLine": 636,
+        "endChar": 64
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b004fe3_995f152a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "When upgrading the plugin version, in case a client with an old version of the plugin will call an apply object with the new code it will receive a bad request response, hence it won\u0027t retry and will default to fetch.\n\nI don\u0027t see any issue with that, but I am just raising it to double check. Correct?",
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "368225e3_a554cffc",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
         "patchSetId": 16
@@ -181,6 +287,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "879ce4e2_80b9cd94",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "not needed. We are not firing events anymore",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 34
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c269dbcb_6105f0f0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "not used anymore",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 46
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc7c3238_9b1f17a1",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
         "patchSetId": 16
@@ -197,6 +349,75 @@
         "startChar": 0,
         "endLine": 152,
         "endChar": 29
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4869f45d_06c18447",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "Looking at `fetchSync` implementation it seems like adding the `:` will not include the deletion of refs among the refs to replicate.\n\n`fetchSync` [1] calls `shouldReplicate` which checks [2] for`RefNames.REFS_CHANGES`:\n\n```\n  if (!ref.startsWith(RefNames.REFS_CHANGES)) {\n\tpermissionBackend\n        \t.user(userProvider.get())\n                .project(project)\n                .ref(ref)\n                .check(RefPermission.READ);\n  }\n```\n\nOr am I reading it wrong?\n\n[1]: https://gerrit.googlesource.com/plugins/pull-replication/+/ddd6f89a328030f3a1d2683287e160a8ac30e448/src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java#547\n[2]: https://gerrit.googlesource.com/plugins/pull-replication/+/ddd6f89a328030f3a1d2683287e160a8ac30e448/src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java#385",
+      "range": {
+        "startLine": 185,
+        "startChar": 12,
+        "endLine": 185,
+        "endChar": 94
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19c77f80_05f0076b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchJob.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "Add `getDeletedRefNames` in the list as well",
+      "range": {
+        "startLine": 72,
+        "startChar": 54,
+        "endLine": 72,
+        "endChar": 75
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b09dae2a_8bf351b4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 1,
+      "message": "Why not leaving the `Input` creation inside `fetchRefsAsync` to avoid code repetition? We would only need to add `isDelete` as extra parameter to capture it.",
+      "range": {
+        "startLine": 214,
+        "startChar": 17,
+        "endLine": 214,
+        "endChar": 31
       },
       "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

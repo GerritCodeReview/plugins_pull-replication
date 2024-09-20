@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "527c1b2b_736a47fb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 0,
+      "message": "The `DeleteRefException` class need to be removed. Not needed anymore.",
+      "range": {
+        "startLine": 185,
+        "startChar": 13,
+        "endLine": 185,
+        "endChar": 31
+      },
+      "revId": "705d35dcdf75a863969e70eeb88b82d775df725f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e7f8ff2_dd011968",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 0,
+      "message": "You could leave this import and avoid modifying the `FetchAction` signature to minimize the diff.\n\nThe signature can stay: `public class FetchAction implements RestModifyView\u003cProjectResource, Input\u003e`",
+      "revId": "705d35dcdf75a863969e70eeb88b82d775df725f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee2b421c_3d18f322",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-20T15:07:23Z",
+      "side": 0,
+      "message": "You could leave this import and avoid modifying the `fetchJobFactory` definition to minimize the diff.",
+      "revId": "705d35dcdf75a863969e70eeb88b82d775df725f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
