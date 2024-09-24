@@ -65,6 +65,7 @@ abstract class PullReplicationITBase extends PullReplicationSetupBase {
     config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
     config.setString("remote", remoteName, "fetch", "+refs/*:refs/*");
     config.setInt("remote", remoteName, "timeout", 600);
+    config.setBoolean("remote", remoteName, "mirror", true);
     config.setInt("remote", remoteName, "replicationDelay", TEST_REPLICATION_DELAY);
     project.ifPresent(prj -> config.setString("remote", remoteName, "projects", prj));
     config.setBoolean("gerrit", null, "autoReload", true);
@@ -135,6 +136,39 @@ abstract class PullReplicationITBase extends PullReplicationSetupBase {
       Ref targetBranchRef = getRef(repo, newBranch);
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  public void shouldReplicateBranchDeleted() throws Exception {
+    String testProjectName = project + TEST_REPLICATION_SUFFIX;
+    createTestProject(testProjectName);
+
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(project.get()).branch(newBranch).create(input);
+    String branchRevision = gApi.projects().name(project.get()).branch(newBranch).get().revision;
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+    ProjectEvent event =
+        generateUpdateEvent(
+            project,
+            newBranch,
+            branchRevision,
+            ObjectId.zeroId().getName(),
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
+
+    try (Repository repo = repoManager.openRepository(project);
+        Repository sourceRepo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, newBranch) == null);
+
+      Ref targetBranchRef = getRef(repo, newBranch);
+      assertThat(targetBranchRef).isNull();
     }
   }
 
