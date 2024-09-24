@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "002362ea_08864123",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-09-24T07:53:57Z",
+      "side": 1,
+      "message": "\u003e My doubt is that if we ban the ref-delete via apply-object, how can the refs be deleted? We would end up with a non-functioning plugin.\n\nrefs are are also deleted by consuming stream events [1].\n\n\u003e If we split this into two changes, they must be in the same topic.\n\nYep that\u0027s a good idea, imho.\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.10/src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java#140\n\n[2]",
+      "parentUuid": "175ac119_e54b04cb",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "53eae545_31a3d9dc",
