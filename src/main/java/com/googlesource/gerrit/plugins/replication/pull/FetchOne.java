@@ -33,6 +33,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -72,6 +73,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final ReplicationStateListener stateLog;
   public static final String ALL_REFS = "..all..";
   static final String ID_KEY = "fetchOneId";
+  private final DeleteRefCommand deleteRefCommand;
 
   interface Factory {
     FetchOne create(
@@ -118,6 +120,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       FetchReplicationMetrics m,
       FetchFactory fetchFactory,
       FetchRefsDatabase fetchRefsDatabase,
+      DeleteRefCommand deleteRefCommand,
       @Assisted Project.NameKey d,
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -126,6 +129,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     config = c.getRemoteConfig();
     threadScoper = ts;
     this.fetchRefsDatabase = fetchRefsDatabase;
+    this.deleteRefCommand = deleteRefCommand;
     projectName = d;
     uri = u;
     lockRetryCount = 0;
@@ -454,7 +458,19 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     List<FetchRefSpec> fetchRefSpecs = getFetchRefSpecs();
 
     try {
-      updateStates(fetch.fetch(fetchRefSpecs));
+      List<FetchRefSpec> toFetch =
+          fetchRefSpecs.stream().filter(rs -> rs.getSource() != null).toList();
+      Set<String> toDelete =
+          fetchRefSpecs.stream()
+              .filter(rs -> rs.getSource() == null)
+              .map(RefSpec::getDestination)
+              .collect(Collectors.toSet());
+      updateStates(fetch.fetch(toFetch));
+
+      if (!toDelete.isEmpty()) {
+        updateStates(
+            deleteRefCommand.deleteRefsSync(taskIdHex, projectName, toDelete, getRemoteName()));
+      }
     } catch (InexistentRefTransportException e) {
       String inexistentRef = e.getInexistentRef();
       repLog.info(
@@ -571,9 +587,14 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private Optional<FetchRefSpec> refToFetchRefSpec(
       FetchRefSpec refSpec, List<? extends RefSpec> configRefSpecs) {
     for (RefSpec configRefSpec : configRefSpecs) {
-      if (configRefSpec.matchSource(refSpec.refName())) {
-        return Optional.of(
-            FetchRefSpec.ofRefSpec(configRefSpec.expandFromSource(refSpec.refName())));
+      String refName = refSpec.refName();
+      if (configRefSpec.matchSource(refName)) {
+        if (refSpec.getSource() != null) {
+          return Optional.of(
+              FetchRefSpec.ofRefSpec(configRefSpec.expandFromSource(refSpec.getSource())));
+        } else {
+          return Optional.of(refSpec);
+        }
       }
     }
     return Optional.empty();

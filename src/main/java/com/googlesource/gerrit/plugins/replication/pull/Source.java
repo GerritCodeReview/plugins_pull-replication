@@ -393,7 +393,7 @@ public class Source {
                     repLog.warn(
                         "NOT scheduling replication {}:{} because lack of permissions to access project/ref",
                         project,
-                        refSpec);
+                        refSpec.refName());
                     return false;
                   }
                   return true;
