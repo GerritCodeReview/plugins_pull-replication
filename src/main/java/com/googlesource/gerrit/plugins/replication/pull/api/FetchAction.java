@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Predicates;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
@@ -53,29 +54,23 @@ import org.eclipse.jgit.transport.RefSpec;
 @Singleton
 public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private final FetchCommand command;
-  private final DeleteRefCommand deleteRefCommand;
   private final WorkQueue workQueue;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final FetchPreconditions preConditions;
   private final Factory fetchJobFactory;
-  private final DeleteRefJob.Factory deleteJobFactory;
 
   @Inject
   public FetchAction(
       FetchCommand command,
-      DeleteRefCommand deleteRefCommand,
       WorkQueue workQueue,
       DynamicItem<UrlFormatter> urlFormatter,
       FetchPreconditions preConditions,
-      FetchJob.Factory fetchJobFactory,
-      DeleteRefJob.Factory deleteJobFactory) {
+      FetchJob.Factory fetchJobFactory) {
     this.command = command;
-    this.deleteRefCommand = deleteRefCommand;
     this.workQueue = workQueue;
     this.urlFormatter = urlFormatter;
     this.preConditions = preConditions;
     this.fetchJobFactory = fetchJobFactory;
-    this.deleteJobFactory = deleteJobFactory;
   }
 
   public static class Input {
@@ -131,6 +126,10 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
 
     private Stream<RefSpec> getFilteredRefSpecs(Predicate<RefInput> filterFunc) {
       return getFilteredRefNames(filterFunc).map(RefSpec::new);
+    }
+
+    public Set<RefSpec> getRefSpecs() {
+      return getFilteredRefSpecs(Predicates.alwaysTrue()).collect(Collectors.toSet());
     }
 
     public Set<RefSpec> getNonDeletedRefSpecs() {
@@ -190,16 +189,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private Response<?> applySync(Project.NameKey project, BatchInput input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    command.fetchSync(project, input.label, input.getNonDeletedRefSpecs());
-
-    /* git fetches and deletes cannot be handled atomically within the same transaction.
-    Here we choose to handle fetches first and then deletes:
-    - If the fetch fails delete is not even attempted.
-    - If the delete fails after the fetch then the client is left with some extra refs.
-    */
-    if (!input.getDeletedRefSpecs().isEmpty()) {
-      deleteRefCommand.deleteRefsSync(project, input.getDeletedRefNames(), input.label);
-    }
+    command.fetchSync(project, input.label, input.getRefSpecs());
     return Response.created(input);
   }
 
@@ -216,10 +206,6 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
         urlFormatter
             .get()
             .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
-
-    if (!batchInput.getDeletedRefSpecs().isEmpty()) {
-      workQueue.getDefaultQueue().submit(deleteJobFactory.create(project, batchInput));
-    }
     // We're in a HTTP handler, so must be present.
     checkState(url.isPresent());
     return Response.accepted(url.get());
