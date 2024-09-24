@@ -14,10 +14,12 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
+import static com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec.asListOfRefSpec;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import com.googlesource.gerrit.plugins.replication.pull.transport.TransportProvider;
 import java.io.IOException;
 import java.util.List;
@@ -49,10 +51,10 @@ public class JGitFetch implements Fetch {
   }
 
   @Override
-  public List<RefUpdateState> fetch(List<RefSpec> refs) throws IOException {
+  public List<RefUpdateState> fetch(List<FetchRefSpec> refs) throws IOException {
     FetchResult res;
     try (Transport tn = transportProvider.open(git, uri)) {
-      res = fetchVia(tn, refs);
+      res = fetchVia(tn, asListOfRefSpec(refs));
     }
     return res.getTrackingRefUpdates().stream()
         .map(value -> new RefUpdateState(value.getRemoteName(), value.getResult()))

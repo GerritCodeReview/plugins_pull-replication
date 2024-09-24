@@ -14,11 +14,11 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import java.io.IOException;
 import java.util.List;
-import org.eclipse.jgit.transport.RefSpec;
 
 @FunctionalInterface
 public interface Fetch {
-  public List<RefUpdateState> fetch(List<RefSpec> refs) throws IOException;
+  public List<RefUpdateState> fetch(List<FetchRefSpec> refs) throws IOException;
 }
