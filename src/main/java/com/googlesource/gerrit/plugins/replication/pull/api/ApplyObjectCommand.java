@@ -33,6 +33,7 @@ import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.Context;
 import com.googlesource.gerrit.plugins.replication.pull.FetchRefReplicatedEvent;
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState.RefFetchResult;
@@ -50,7 +51,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.eclipse.jgit.transport.RefSpec;
 
 public class ApplyObjectCommand {
 
@@ -113,7 +113,8 @@ public class ApplyObjectCommand {
         Arrays.toString(revisionsData));
     Timer1.Context<String> context = metrics.start(sourceLabel);
 
-    RefUpdateState refUpdateState = applyObject.apply(name, new RefSpec(refName), revisionsData);
+    RefUpdateState refUpdateState =
+        applyObject.apply(name, FetchRefSpec.ofRef(refName), revisionsData);
     Boolean isRefUpdateSuccessful = isSuccessful(refUpdateState.getResult());
 
     if (isRefUpdateSuccessful) {
