@@ -24,6 +24,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationFilter;
 import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 
 public class FetchAll implements Runnable {
@@ -85,9 +86,9 @@ public class FetchAll implements Runnable {
       if (cfg.wouldFetchProject(project)) {
         for (URIish uri : cfg.getURIs(project, urlMatch)) {
           if (now) {
-            cfg.scheduleNow(project, FetchOne.ALL_REFS, uri, state, Optional.empty());
+            cfg.scheduleNow(project, new RefSpec(FetchOne.ALL_REFS), uri, state, Optional.empty());
           } else {
-            cfg.schedule(project, FetchOne.ALL_REFS, uri, state, Optional.empty());
+            cfg.schedule(project, new RefSpec(FetchOne.ALL_REFS), uri, state, Optional.empty());
           }
         }
       }

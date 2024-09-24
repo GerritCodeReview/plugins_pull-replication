@@ -64,23 +64,23 @@ public class FetchCommand implements Command {
   public void fetchAsync(
       Project.NameKey name,
       String label,
-      Set<String> refsNames,
+      Set<RefSpec> refsSpecs,
       PullReplicationApiRequestMetrics apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    fetch(name, label, refsNames, ASYNC, Optional.of(apiRequestMetrics));
+    fetch(name, label, refsSpecs, ASYNC, Optional.of(apiRequestMetrics));
   }
 
-  public void fetchSync(Project.NameKey name, String label, Set<String> refsNames)
+  public void fetchSync(Project.NameKey name, String label, Set<RefSpec> refsSpecs)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    fetch(name, label, refsNames, SYNC, Optional.empty());
+    fetch(name, label, refsSpecs, SYNC, Optional.empty());
   }
 
   private void fetch(
       Project.NameKey name,
       String label,
-      Set<String> refsNames,
+      Set<RefSpec> refSpecs,
       ReplicationType fetchType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
@@ -99,8 +99,8 @@ public class FetchCommand implements Command {
       if (fetchType == ReplicationType.ASYNC) {
         state.markAllFetchTasksScheduled();
         List<Future<?>> futures = new ArrayList<>();
-        for (String refName : refsNames) {
-          futures.add(source.get().schedule(name, refName, state, apiRequestMetrics));
+        for (RefSpec refSpec : refSpecs) {
+          futures.add(source.get().schedule(name, refSpec, state, apiRequestMetrics));
         }
         int timeout = source.get().getTimeout();
         for (Future future : futures) {
@@ -112,7 +112,7 @@ public class FetchCommand implements Command {
         }
       } else {
         Optional<FetchOne> maybeFetch =
-            source.get().fetchSync(name, refsNames, source.get().getURI(name), apiRequestMetrics);
+            source.get().fetchSync(name, refSpecs, source.get().getURI(name), apiRequestMetrics);
         if (maybeFetch.map(FetchOne::safeGetFetchRefSpecs).filter(List::isEmpty).isPresent()) {
           fetchStateLog.warn(
               String.format(

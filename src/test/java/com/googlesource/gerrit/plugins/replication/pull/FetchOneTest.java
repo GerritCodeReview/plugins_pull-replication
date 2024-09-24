@@ -68,6 +68,7 @@ public class FetchOneTest {
   private final String TEST_PROJECT_NAME = "FetchOneTest";
   private final Project.NameKey PROJECT_NAME = Project.NameKey.parse(TEST_PROJECT_NAME);
   private final String TEST_REF = "refs/heads/refForReplicationTask";
+  private final RefSpec TEST_REF_SPEC = new RefSpec(TEST_REF);
   private final String URI_PATTERN = "http://test.com/" + TEST_PROJECT_NAME + ".git";
   private final TestMetricMaker testMetricMaker = new TestMetricMaker();
 
@@ -132,63 +133,64 @@ public class FetchOneTest {
 
   @Test
   public void shouldIncludeTheTaskIndexInItsStringRepresentation() {
-    objectUnderTest.addRefs(Set.of("refs/heads/foo", "refs/heads/bar"));
+    objectUnderTest.addRefs(refSpecsSetOf("refs/heads/foo", "refs/heads/bar"));
     String expected =
         "["
             + objectUnderTest.getTaskIdHex()
             + "] fetch "
             + URI_PATTERN
-            + " [refs/heads/bar,refs/heads/foo]";
+            + " [refs/heads/bar, refs/heads/foo]";
 
     assertThat(objectUnderTest.toString()).isEqualTo(expected);
   }
 
   @Test
   public void shouldIncludeTheRetryCountInItsStringRepresentationWhenATaskIsRetried() {
-    objectUnderTest.addRefs(Set.of("refs/heads/bar", "refs/heads/foo"));
+    objectUnderTest.addRefs(refSpecsSetOf("refs/heads/bar", "refs/heads/foo"));
     objectUnderTest.setToRetry();
     String expected =
         "(retry 1) ["
             + objectUnderTest.getTaskIdHex()
             + "] fetch "
             + URI_PATTERN
-            + " [refs/heads/bar,refs/heads/foo]";
+            + " [refs/heads/bar, refs/heads/foo]";
 
     assertThat(objectUnderTest.toString()).isEqualTo(expected);
   }
 
   @Test
   public void shouldAddARefToTheDeltaIfItsNotTheAllRefs() {
-    Set<String> refs = Set.of(TEST_REF);
+    Set<RefSpec> refs = Set.of(TEST_REF_SPEC);
     objectUnderTest.addRefs(refs);
 
-    assertThat(refs).isEqualTo(objectUnderTest.getRefs());
+    assertThat(refs).isEqualTo(objectUnderTest.getRefSpecs());
   }
 
   @Test
   public void shouldIgnoreEveryRefButTheAllRefsWhenAddingARef() {
-    objectUnderTest.addRefs(Set.of(TEST_REF, FetchOne.ALL_REFS));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF, FetchOne.ALL_REFS));
 
     assertThat(Set.of(FetchOne.ALL_REFS)).isEqualTo(objectUnderTest.getRefs());
   }
 
   @Test
   public void shouldReturnExistingStates() {
-    assertThat(createTestStates(TEST_REF, 1)).isEqualTo(objectUnderTest.getStates().get(TEST_REF));
+    assertThat(createTestStates(TEST_REF_SPEC, 1))
+        .isEqualTo(objectUnderTest.getStates().get(TEST_REF_SPEC));
   }
 
   @Test
   public void shouldKeepMultipleStatesInInsertionOrderForARef() {
-    List<ReplicationState> states = createTestStates(TEST_REF, 2);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 2);
 
-    List<ReplicationState> actualStates = objectUnderTest.getStates().get(TEST_REF);
+    List<ReplicationState> actualStates = objectUnderTest.getStates().get(TEST_REF_SPEC);
 
     assertThat(actualStates).containsExactlyElementsIn(states).inOrder();
   }
 
   @Test
   public void shouldReturnStatesInAnArray() {
-    List<ReplicationState> states = createTestStates(TEST_REF, 2);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 2);
 
     ReplicationState[] actualStates = objectUnderTest.getStatesAsArray();
 
@@ -197,7 +199,7 @@ public class FetchOneTest {
 
   @Test
   public void shouldClearTheStates() {
-    createTestStates(TEST_REF, 2);
+    createTestStates(TEST_REF_SPEC, 2);
 
     objectUnderTest.removeStates();
 
@@ -215,7 +217,7 @@ public class FetchOneTest {
   @Test
   public void shouldRunAReplicationTaskForAllRefsIfDeltaIsEmpty() throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(FetchOne.ALL_REFS, 1);
+    List<ReplicationState> states = createTestStates(new RefSpec(FetchOne.ALL_REFS), 1);
     setupFetchFactoryMock(Collections.emptyList());
 
     objectUnderTest.run();
@@ -264,11 +266,11 @@ public class FetchOneTest {
                     .withRemoteName("testRemote")
                     .withResult(RefUpdate.Result.NEW)
                     .build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(Set.of(TEST_REF_SPEC));
 
     objectUnderTest.run();
 
-    verify(mockFetch).fetch(List.of(new RefSpec(TEST_REF)));
+    verify(mockFetch).fetch(List.of(TEST_REF_SPEC));
   }
 
   @Test
@@ -277,10 +279,10 @@ public class FetchOneTest {
           throws Exception {
     setupMocks(true);
     String someRef = "refs/heads/someRef";
-    List<ReplicationState> states = createTestStates(someRef, 1);
+    List<ReplicationState> states = createTestStates(new RefSpec(someRef), 1);
     setupFetchFactoryMock(
         List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(Set.of(TEST_REF_SPEC));
 
     objectUnderTest.run();
 
@@ -307,11 +309,13 @@ public class FetchOneTest {
   @Test
   public void shouldFilterOutRefsFromFetchReplicationDelta() throws Exception {
     setupMocks(true);
-    String filteredRef = "refs/heads/filteredRef";
-    Set<String> refSpecs = Set.of(TEST_REF, filteredRef);
+    RefSpec filteredRef = new RefSpec("refs/heads/filteredRef");
+    Set<RefSpec> refSpecs = Set.of(TEST_REF_SPEC, filteredRef);
+    Set<String> refs = Set.of(TEST_REF, filteredRef.getSource());
     List<ReplicationState> states =
         Stream.concat(
-                createTestStates(TEST_REF, 1).stream(), createTestStates(filteredRef, 1).stream())
+                createTestStates(TEST_REF_SPEC, 1).stream(),
+                createTestStates(filteredRef, 1).stream())
             .collect(Collectors.toList());
     setupFetchFactoryMock(
         List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()),
@@ -320,7 +324,7 @@ public class FetchOneTest {
     objectUnderTest.setReplicationFetchFilter(replicationFilter);
     ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
     when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, refSpecs)).thenReturn(Set.of(TEST_REF));
+    when(mockFilter.filter(TEST_PROJECT_NAME, refs)).thenReturn(Set.of(TEST_REF));
 
     objectUnderTest.run();
 
@@ -334,7 +338,11 @@ public class FetchOneTest {
             RefUpdate.Result.NEW);
     verify(states.get(1))
         .notifyRefReplicated(
-            TEST_PROJECT_NAME, filteredRef, urIish, ReplicationState.RefFetchResult.FAILED, null);
+            TEST_PROJECT_NAME,
+            filteredRef.getSource(),
+            urIish,
+            ReplicationState.RefFetchResult.FAILED,
+            null);
   }
 
   @Test
@@ -408,10 +416,10 @@ public class FetchOneTest {
   public void shouldMarkTheReplicationStatusAsSucceededOnSuccessfulReplicationOfARef()
       throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 1);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 1);
     setupFetchFactoryMock(
         List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     objectUnderTest.run();
     assertFinishedWithEmptyStateAndNoFailures();
@@ -428,10 +436,10 @@ public class FetchOneTest {
   public void shouldMarkAllTheStatesOfARefAsReplicatedSuccessfullyOnASuccessfulReplication()
       throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 2);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 2);
     setupFetchFactoryMock(
         List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     objectUnderTest.run();
 
@@ -457,12 +465,12 @@ public class FetchOneTest {
     setupMocks(true);
     List<ReplicationState> states =
         Stream.concat(
-                createTestStates(TEST_REF, 1).stream(),
-                createTestStates(FetchOne.ALL_REFS, 1).stream())
+                createTestStates(TEST_REF_SPEC, 1).stream(),
+                createTestStates(new RefSpec(FetchOne.ALL_REFS), 1).stream())
             .collect(Collectors.toList());
     setupFetchFactoryMock(
         List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     objectUnderTest.run();
 
@@ -487,14 +495,14 @@ public class FetchOneTest {
   public void shouldMarkReplicationStateAsRejectedWhenTheObjectIsNotInRepository()
       throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 2);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 2);
     setupFetchFactoryMock(
         List.of(
             new FetchFactoryEntry.Builder()
                 .withRefNames(TEST_REF)
                 .withResult(RefUpdate.Result.REJECTED_MISSING_OBJECT)
                 .build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     objectUnderTest.run();
 
@@ -511,14 +519,14 @@ public class FetchOneTest {
   @Test
   public void shouldMarkReplicationStateAsRejectedWhenFailedForUnknownReason() throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 1);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 1);
     setupFetchFactoryMock(
         List.of(
             new FetchFactoryEntry.Builder()
                 .withRefNames(TEST_REF)
                 .withResult(RefUpdate.Result.REJECTED_OTHER_REASON)
                 .build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     objectUnderTest.run();
 
@@ -539,10 +547,10 @@ public class FetchOneTest {
     String forcedRef = "refs/heads/forcedRef";
     List<ReplicationState> states =
         Stream.of(
-                createTestStates(TEST_REF, 1),
-                createTestStates(failingRef, 1),
-                createTestStates(forcedRef, 1),
-                createTestStates(FetchOne.ALL_REFS, 1))
+                createTestStates(TEST_REF_SPEC, 1),
+                createTestStates(new RefSpec(failingRef), 1),
+                createTestStates(new RefSpec(forcedRef), 1),
+                createTestStates(new RefSpec(FetchOne.ALL_REFS), 1))
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
     setupFetchFactoryMock(
@@ -559,7 +567,7 @@ public class FetchOneTest {
                 .withRefNames(forcedRef)
                 .withResult(RefUpdate.Result.FORCED)
                 .build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF, failingRef, forcedRef));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF, failingRef, forcedRef));
 
     objectUnderTest.run();
 
@@ -597,14 +605,14 @@ public class FetchOneTest {
   @Test
   public void shouldRetryOnLockingFailures() throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 1);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 1);
     setupFetchFactoryMock(
         List.of(
             new FetchFactoryEntry.Builder()
                 .withRefNames(TEST_REF)
                 .withResult(RefUpdate.Result.LOCK_FAILURE)
                 .build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     objectUnderTest.run();
 
@@ -618,14 +626,14 @@ public class FetchOneTest {
   @Test
   public void shouldNotRetryWhenMaxLockRetriesLimitIsReached() throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 1);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 1);
     setupFetchFactoryMock(
         List.of(
             new FetchFactoryEntry.Builder()
                 .withRefNames(TEST_REF)
                 .withResult(RefUpdate.Result.LOCK_FAILURE)
                 .build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     Stream.of(1, 1).forEach(e -> objectUnderTest.run());
 
@@ -639,14 +647,14 @@ public class FetchOneTest {
   @Test
   public void shouldNotRetryOnLockingFailuresIfTheTaskWasCancelledWhileRunning() throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 1);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 1);
     setupFetchFactoryMock(
         List.of(
             new FetchFactoryEntry.Builder()
                 .withRefNames(TEST_REF)
                 .withResult(RefUpdate.Result.LOCK_FAILURE)
                 .build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
     objectUnderTest.setCanceledWhileRunning();
 
     objectUnderTest.run();
@@ -661,14 +669,14 @@ public class FetchOneTest {
   @Test
   public void shouldNotRetryForUnexpectedIOErrors() throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 1);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 1);
     setupFetchFactoryMock(
         List.of(
             new FetchFactoryEntry.Builder()
                 .withRefNames(TEST_REF)
                 .withResult(RefUpdate.Result.IO_FAILURE)
                 .build()));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     objectUnderTest.run();
 
@@ -682,7 +690,7 @@ public class FetchOneTest {
   @Test
   public void shouldTreatInexistentRefsAsFailures() throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 1);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 1);
     Fetch fetch =
         setupFetchFactoryMock(
             List.of(
@@ -692,7 +700,7 @@ public class FetchOneTest {
                     .build()));
     when(fetch.fetch(anyList()))
         .thenThrow(new InexistentRefTransportException(TEST_REF, new Throwable("boom")));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     objectUnderTest.run();
 
@@ -707,7 +715,8 @@ public class FetchOneTest {
     setupMocks(true);
     String inexistentRef = "refs/heads/inexistentRef";
     List<ReplicationState> states =
-        Stream.of(createTestStates(inexistentRef, 1), createTestStates(TEST_REF, 1))
+        Stream.of(
+                createTestStates(new RefSpec(inexistentRef), 1), createTestStates(TEST_REF_SPEC, 1))
             .flatMap(Collection::stream)
             .collect(Collectors.toList());
     Fetch fetch =
@@ -724,7 +733,7 @@ public class FetchOneTest {
     when(fetch.fetch(anyList()))
         .thenThrow(new InexistentRefTransportException(TEST_REF, new Throwable("boom")))
         .thenReturn(List.of(new RefUpdateState(TEST_REF, RefUpdate.Result.NEW)));
-    objectUnderTest.addRefs(Set.of(inexistentRef, TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(inexistentRef, TEST_REF));
 
     objectUnderTest.run();
 
@@ -751,7 +760,7 @@ public class FetchOneTest {
   @Test
   public void shouldRescheduleCertainTypesOfTransportException() throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 1);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 1);
     Fetch fetch =
         setupFetchFactoryMock(
             List.of(
@@ -760,7 +769,7 @@ public class FetchOneTest {
                     .withResult(RefUpdate.Result.NEW)
                     .build()));
     when(fetch.fetch(anyList())).thenThrow(new PackProtocolException(urIish, "boom"));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
     objectUnderTest.run();
 
@@ -774,7 +783,7 @@ public class FetchOneTest {
   @Test
   public void shouldNotMarkReplicationTaskAsFailedIfItIsBeingRetried() throws Exception {
     setupMocks(true);
-    List<ReplicationState> states = createTestStates(TEST_REF, 1);
+    List<ReplicationState> states = createTestStates(TEST_REF_SPEC, 1);
     Fetch fetch =
         setupFetchFactoryMock(
             List.of(
@@ -783,7 +792,7 @@ public class FetchOneTest {
                     .withResult(RefUpdate.Result.NEW)
                     .build()));
     when(fetch.fetch(anyList())).thenThrow(new PackProtocolException(urIish, "boom"));
-    objectUnderTest.addRefs(Set.of(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
     objectUnderTest.setToRetry();
 
     objectUnderTest.run();
@@ -798,9 +807,9 @@ public class FetchOneTest {
   public void shouldNotRecordReplicationLatencyMetricIfAllRefsAreExcluded() throws Exception {
     setupMocks(true);
     String filteredRef = "refs/heads/filteredRef";
-    Set<String> refSpecs = Set.of(TEST_REF, filteredRef);
-    createTestStates(TEST_REF, 1);
-    createTestStates(filteredRef, 1);
+    Set<RefSpec> refSpecs = refSpecsSetOf(TEST_REF, filteredRef);
+    createTestStates(TEST_REF_SPEC, 1);
+    createTestStates(new RefSpec(filteredRef), 1);
     setupFetchFactoryMock(
         List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()),
         Optional.of(List.of(TEST_REF)));
@@ -818,9 +827,10 @@ public class FetchOneTest {
       throws Exception {
     setupMocks(true);
     String filteredRef = "refs/heads/filteredRef";
-    Set<String> refSpecs = Set.of(TEST_REF, filteredRef);
-    createTestStates(TEST_REF, 1);
-    createTestStates(filteredRef, 1);
+    Set<RefSpec> refSpecs = refSpecsSetOf(TEST_REF, filteredRef);
+    Set<String> refs = Set.of(TEST_REF, filteredRef);
+    createTestStates(TEST_REF_SPEC, 1);
+    createTestStates(new RefSpec(filteredRef), 1);
     setupFetchFactoryMock(
         List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()),
         Optional.of(List.of(TEST_REF)));
@@ -828,7 +838,7 @@ public class FetchOneTest {
     objectUnderTest.setReplicationFetchFilter(replicationFilter);
     ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
     when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, refSpecs)).thenReturn(Set.of(TEST_REF));
+    when(mockFilter.filter(TEST_PROJECT_NAME, refs)).thenReturn(Set.of(TEST_REF));
 
     objectUnderTest.run();
 
@@ -884,12 +894,12 @@ public class FetchOneTest {
     return mockFilter;
   }
 
-  private List<ReplicationState> createTestStates(String ref, int numberOfStates) {
+  private List<ReplicationState> createTestStates(RefSpec refSpec, int numberOfStates) {
     List<ReplicationState> states =
         IntStream.rangeClosed(1, numberOfStates)
             .mapToObj(i -> Mockito.mock(ReplicationState.class))
             .collect(Collectors.toList());
-    states.forEach(rs -> objectUnderTest.addState(ref, rs));
+    states.forEach(rs -> objectUnderTest.addState(refSpec, rs));
 
     return states;
   }
@@ -945,6 +955,10 @@ public class FetchOneTest {
     assertThat(objectUnderTest.getStates().isEmpty()).isEqualTo(emptyState);
     verify(source).notifyFinished(objectUnderTest);
     assertThat(objectUnderTest.getFetchFailures().isEmpty()).isEqualTo(noFailures);
+  }
+
+  private Set<RefSpec> refSpecsSetOf(String... refs) {
+    return Stream.of(refs).map(RefSpec::new).collect(Collectors.toSet());
   }
 }
 

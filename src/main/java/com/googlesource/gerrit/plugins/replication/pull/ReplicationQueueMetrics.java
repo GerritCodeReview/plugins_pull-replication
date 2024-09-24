@@ -318,7 +318,8 @@ public class ReplicationQueueMetrics {
   private void incrementFetchRefsCounter(
       Source source, Runnable runnableTask, Counter1<String> counter) {
     if (runnableTask instanceof FetchOne) {
-      counter.incrementBy(source.getRemoteConfigName(), ((FetchOne) runnableTask).getRefs().size());
+      counter.incrementBy(
+          source.getRemoteConfigName(), ((FetchOne) runnableTask).getRefSpecs().size());
     }
   }
 
