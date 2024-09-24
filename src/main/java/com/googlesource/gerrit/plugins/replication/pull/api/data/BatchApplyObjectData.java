@@ -20,14 +20,9 @@ import java.util.Optional;
 @AutoValue
 public abstract class BatchApplyObjectData {
 
-  public static BatchApplyObjectData create(
-      String refName, Optional<RevisionData> revisionData, boolean isDelete)
+  public static BatchApplyObjectData create(String refName, Optional<RevisionData> revisionData)
       throws IllegalArgumentException {
-    if (isDelete && revisionData.isPresent()) {
-      throw new IllegalArgumentException(
-          "DELETE ref-updates cannot be associated with a RevisionData");
-    }
-    return new AutoValue_BatchApplyObjectData(refName, revisionData, isDelete);
+    return new AutoValue_BatchApplyObjectData(refName, revisionData, false);
   }
 
   public abstract String refName();

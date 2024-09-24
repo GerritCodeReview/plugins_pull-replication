@@ -623,7 +623,7 @@ public abstract class FetchRestApiClientBase {
 
     List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
     batchApplyObjects.add(
-        BatchApplyObjectData.create(refName, Optional.of(createSampleRevisionData("a")), false));
+        BatchApplyObjectData.create(refName, Optional.of(createSampleRevisionData("a"))));
 
     objectUnderTest.callBatchSendObject(
         Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
@@ -646,8 +646,8 @@ public abstract class FetchRestApiClientBase {
     RevisionData revisionA = createSampleRevisionData("a");
     RevisionData revisionB = createSampleRevisionData("b");
     String refNameB = "refs/heads/b";
-    batchApplyObjects.add(BatchApplyObjectData.create(refName, Optional.of(revisionA), false));
-    batchApplyObjects.add(BatchApplyObjectData.create(refNameB, Optional.of(revisionB), false));
+    batchApplyObjects.add(BatchApplyObjectData.create(refName, Optional.of(revisionA)));
+    batchApplyObjects.add(BatchApplyObjectData.create(refNameB, Optional.of(revisionB)));
 
     objectUnderTest.callBatchSendObject(
         Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
@@ -680,38 +680,6 @@ public abstract class FetchRestApiClientBase {
             + revisionB.getBlobs().get(0).getSha1()
             + "\",\"type\":3,\"content\":\"YmxvYmJjb250ZW50\"}]}}]";
     assertThat(readPayload(httpPost)).isEqualTo(expectedSendObjectsPayload);
-  }
-
-  @Test
-  public void shouldCallBatchApplyObjectEndpointWithNoRevisionDataForDeletes() throws Exception {
-    List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
-    batchApplyObjects.add(BatchApplyObjectData.create(refName, Optional.empty(), true));
-
-    objectUnderTest.callBatchSendObject(
-        Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
-
-    verify(httpClient, times(1)).execute(httpPostCaptor.capture(), any());
-
-    HttpPost httpPost = httpPostCaptor.getValue();
-
-    String expectedSendObjectsPayload =
-        "[{\"label\":\"Replication\",\"ref_name\":\""
-            + refName
-            + "\",\"event_created_on\":"
-            + eventCreatedOn
-            + "}]";
-    assertThat(readPayload(httpPost)).isEqualTo(expectedSendObjectsPayload);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void shouldThrowExceptionIfDeleteFlagIsSetButRevisionDataIsPresentForBatchSendEndpoint()
-      throws Exception {
-    List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
-    batchApplyObjects.add(
-        BatchApplyObjectData.create(refName, Optional.of(createSampleRevisionData()), true));
-
-    objectUnderTest.callBatchSendObject(
-        Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
   }
 
   public String readPayload(HttpPost entity) throws Exception {

@@ -378,14 +378,10 @@ public class ReplicationQueue
 
   private BatchApplyObjectData toBatchApplyObject(
       NameKey project, ReferenceUpdatedEvent event, ReplicationState state) {
-    if (event.isDelete()) {
-      Optional<RevisionData> noRevisionData = Optional.empty();
-      return BatchApplyObjectData.create(event.refName(), noRevisionData, event.isDelete());
-    }
     try {
       Optional<RevisionData> maybeRevisionData =
           revReaderProvider.get().read(project, event.objectId(), event.refName(), 0);
-      return BatchApplyObjectData.create(event.refName(), maybeRevisionData, event.isDelete());
+      return BatchApplyObjectData.create(event.refName(), maybeRevisionData);
     } catch (IOException e) {
       stateLog.error(
           String.format(
