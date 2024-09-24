@@ -47,7 +47,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.URIish;
@@ -58,7 +57,7 @@ public abstract class FetchITBase extends LightweightPluginDaemonTest {
 
   private static final int TEST_REPLICATION_DELAY = 60;
   private static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2);
-  private static final RefSpec ALL_REFS = new RefSpec("+refs/*:refs/*");
+  private static final FetchRefSpec ALL_REFS = FetchRefSpec.fromRef("+refs/*:refs/*");
 
   @Inject private SitePaths sitePaths;
   @Inject private ProjectOperations projectOperations;

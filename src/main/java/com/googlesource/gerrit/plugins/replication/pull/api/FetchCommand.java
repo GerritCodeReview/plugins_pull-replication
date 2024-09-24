@@ -23,6 +23,7 @@ import com.google.gerrit.server.events.EventDispatcher;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.pull.Command;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
@@ -40,7 +41,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.TransportException;
-import org.eclipse.jgit.transport.RefSpec;
 
 public class FetchCommand implements Command {
 
@@ -64,23 +64,23 @@ public class FetchCommand implements Command {
   public void fetchAsync(
       Project.NameKey name,
       String label,
-      Set<String> refsNames,
+      Set<FetchRefSpec> refsSpecs,
       PullReplicationApiRequestMetrics apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    fetch(name, label, refsNames, ASYNC, Optional.of(apiRequestMetrics));
+    fetch(name, label, refsSpecs, ASYNC, Optional.of(apiRequestMetrics));
   }
 
-  public void fetchSync(Project.NameKey name, String label, Set<String> refsNames)
+  public void fetchSync(Project.NameKey name, String label, Set<FetchRefSpec> refsSpecs)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    fetch(name, label, refsNames, SYNC, Optional.empty());
+    fetch(name, label, refsSpecs, SYNC, Optional.empty());
   }
 
   private void fetch(
       Project.NameKey name,
       String label,
-      Set<String> refsNames,
+      Set<FetchRefSpec> refSpecs,
       ReplicationType fetchType,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
@@ -99,8 +99,8 @@ public class FetchCommand implements Command {
       if (fetchType == ReplicationType.ASYNC) {
         state.markAllFetchTasksScheduled();
         List<Future<?>> futures = new ArrayList<>();
-        for (String refName : refsNames) {
-          futures.add(source.get().schedule(name, refName, state, apiRequestMetrics));
+        for (FetchRefSpec refSpec : refSpecs) {
+          futures.add(source.get().schedule(name, refSpec, state, apiRequestMetrics));
         }
         int timeout = source.get().getTimeout();
         for (Future future : futures) {
@@ -112,7 +112,7 @@ public class FetchCommand implements Command {
         }
       } else {
         Optional<FetchOne> maybeFetch =
-            source.get().fetchSync(name, refsNames, source.get().getURI(name), apiRequestMetrics);
+            source.get().fetchSync(name, refSpecs, source.get().getURI(name), apiRequestMetrics);
         if (maybeFetch.map(FetchOne::safeGetFetchRefSpecs).filter(List::isEmpty).isPresent()) {
           fetchStateLog.warn(
               String.format(
@@ -140,7 +140,6 @@ public class FetchCommand implements Command {
   }
 
   private TransportException newTransportException(FetchOne fetchOne) {
-    List<RefSpec> fetchRefSpecs = fetchOne.safeGetFetchRefSpecs();
     String combinedErrorMessage =
         fetchOne.getFetchFailures().stream()
             .map(TransportException::getMessage)
@@ -148,7 +147,7 @@ public class FetchCommand implements Command {
     return new TransportException(
         String.format(
             "[%s] %s trying to fetch %s",
-            fetchOne.getTaskIdHex(), combinedErrorMessage, fetchRefSpecs));
+            fetchOne.getTaskIdHex(), combinedErrorMessage, fetchOne.safeGetFetchRefSpecs()));
   }
 
   @Override
