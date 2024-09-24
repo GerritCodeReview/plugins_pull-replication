@@ -36,7 +36,6 @@ import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
-import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
@@ -69,7 +68,6 @@ public class StreamEventListenerTest {
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
   @Mock private UpdateHeadCommand updateHeadCommand;
-  @Mock private DeleteRefCommand deleteRefCommand;
   @Captor ArgumentCaptor<FetchAction.BatchInput> batchInputCaptor;
   @Mock private PullReplicationApiRequestMetrics metrics;
   @Mock private SourcesCollection sources;
@@ -94,7 +92,6 @@ public class StreamEventListenerTest {
     objectUnderTest =
         new StreamEventListener(
             INSTANCE_ID,
-            deleteRefCommand,
             updateHeadCommand,
             projectInitializationAction,
             workQueue,
@@ -151,7 +148,7 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldDeleteRefForRefDeleteEvent() throws Exception {
+  public void shouldScheduleJobForRefDeleteEvent() throws Exception {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
@@ -163,8 +160,15 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(deleteRefCommand)
-        .deleteRef(Project.nameKey(TEST_PROJECT), refUpdate.refName, REMOTE_INSTANCE_ID);
+    verify(fetchJobFactory)
+        .create(eq(Project.nameKey(TEST_PROJECT)), batchInputCaptor.capture(), any());
+
+    FetchAction.BatchInput batchInput = batchInputCaptor.getValue();
+    assertThat(batchInput.label).isEqualTo(REMOTE_INSTANCE_ID);
+    FetchAction.RefInput deletedRefInput = FetchAction.RefInput.create(TEST_REF_NAME, true);
+    assertThat(batchInput.refInputs).contains(deletedRefInput);
+
+    verify(executor).submit(any(FetchJob.class));
   }
 
   @Test

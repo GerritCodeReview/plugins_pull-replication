@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -91,7 +92,15 @@ public class CGitFetch implements Fetch {
       return refsSpec.stream()
           .map(
               value -> {
+<<<<<<< PATCH SET (ecf551 Delete refs as part of the replication queue execution)
+                return new RefUpdateState(
+                    MoreObjects.firstNonNull(value.getSource(), value.getDestination()),
+                    RefUpdate.Result.NEW);
+||||||| BASE
+                return new RefUpdateState(value.getSource(), RefUpdate.Result.NEW);
+=======
                 return new RefUpdateState(value.refName(), RefUpdate.Result.NEW);
+>>>>>>> BASE      (e09c5f Introduce FetchRefSpec over the whole repication queue proce)
               })
           .collect(Collectors.toList());
     } catch (TransportException e) {

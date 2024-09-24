@@ -18,6 +18,7 @@ import static com.googlesource.gerrit.plugins.replication.ReplicationConfigImpl.
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -381,19 +382,33 @@ public class Source {
                   if (refSpec.equalsToRef(FetchOne.ALL_REFS)) {
                     return true;
                   }
+                  String refName =
+                      MoreObjects.firstNonNull(refSpec.getSource(), refSpec.getDestination());
                   try {
+<<<<<<< PATCH SET (ecf551 Delete refs as part of the replication queue execution)
+                    if (!refName.startsWith(RefNames.REFS_CHANGES)) {
+||||||| BASE
+                    if (!refSpec.getSource().startsWith(RefNames.REFS_CHANGES)) {
+=======
                     if (!refSpec.refName().startsWith(RefNames.REFS_CHANGES)) {
+>>>>>>> BASE      (e09c5f Introduce FetchRefSpec over the whole repication queue proce)
                       permissionBackend
                           .user(userProvider.get())
                           .project(project)
+<<<<<<< PATCH SET (ecf551 Delete refs as part of the replication queue execution)
+                          .ref(refName)
+||||||| BASE
+                          .ref(refSpec.getSource())
+=======
                           .ref(refSpec.refName())
+>>>>>>> BASE      (e09c5f Introduce FetchRefSpec over the whole repication queue proce)
                           .check(RefPermission.READ);
                     }
                   } catch (AuthException e) {
                     repLog.warn(
                         "NOT scheduling replication {}:{} because lack of permissions to access project/ref",
                         project,
-                        refSpec);
+                        refName);
                     return false;
                   }
                   return true;
@@ -538,7 +553,14 @@ public class Source {
       } else {
         queueMetrics.incrementTaskNotScheduled(this);
       }
+<<<<<<< PATCH SET (ecf551 Delete refs as part of the replication queue execution)
+      state.increaseFetchTaskCount(
+          project.get(), MoreObjects.firstNonNull(refSpec.getSource(), refSpec.getDestination()));
+||||||| BASE
+      state.increaseFetchTaskCount(project.get(), refSpec.getSource());
+=======
       state.increaseFetchTaskCount(project.get(), refSpec.refName());
+>>>>>>> BASE      (e09c5f Introduce FetchRefSpec over the whole repication queue proce)
       repLog.info("scheduled {}:{} => {} to run after {}s", e, refSpec, project, config.getDelay());
       return f;
     }
@@ -585,7 +607,14 @@ public class Source {
 
   private void addRef(FetchOne e, FetchRefSpec ref) {
     e.addRef(ref);
+<<<<<<< PATCH SET (ecf551 Delete refs as part of the replication queue execution)
+    postReplicationScheduledEvent(
+        e, MoreObjects.firstNonNull(ref.getSource(), ref.getDestination()));
+||||||| BASE
+    postReplicationScheduledEvent(e, ref.getSource());
+=======
     postReplicationScheduledEvent(e, ref.refName());
+>>>>>>> BASE      (e09c5f Introduce FetchRefSpec over the whole repication queue proce)
   }
 
   /**

@@ -52,7 +52,7 @@ public class FetchJob implements Runnable {
   @Override
   public void run() {
     try {
-      command.fetchAsync(project, batchInput.label, batchInput.getNonDeletedRefSpecs(), metrics);
+      command.fetchAsync(project, batchInput.label, batchInput.getRefSpecs(), metrics);
     } catch (InterruptedException
         | ExecutionException
         | RemoteConfigurationMissingException
@@ -60,7 +60,7 @@ public class FetchJob implements Runnable {
         | TransportException e) {
       log.atSevere().withCause(e).log(
           "Exception during the async fetch call for project %s, label %s and ref(s) name(s) %s",
-          project.get(), batchInput.label, batchInput.getNonDeletedRefSpecs());
+          project.get(), batchInput.label, batchInput.getRefSpecs());
     }
   }
 }

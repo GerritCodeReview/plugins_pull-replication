@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.util.IdGenerator;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -86,6 +87,7 @@ public class FetchOneTest {
   @Mock private RemoteConfig remoteConfig;
   @Mock private DynamicItem<ReplicationFetchFilter> replicationFilter;
   @Mock private FetchRefsDatabase fetchRefsDatabase;
+  @Mock private DeleteRefCommand deleteRefCommand;
 
   @Mock private Transport transport;
 
@@ -126,6 +128,7 @@ public class FetchOneTest {
             fetchReplicationMetrics,
             fetchFactory,
             fetchRefsDatabase,
+            deleteRefCommand,
             PROJECT_NAME,
             urIish,
             Optional.of(pullReplicationApiRequestMetrics));

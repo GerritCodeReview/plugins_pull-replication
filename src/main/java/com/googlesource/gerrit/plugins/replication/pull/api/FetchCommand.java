@@ -142,7 +142,7 @@ public class FetchCommand implements Command {
   private TransportException newTransportException(FetchOne fetchOne) {
     String combinedErrorMessage =
         fetchOne.getFetchFailures().stream()
-            .map(TransportException::getMessage)
+                .map(TransportException::getMessage)
             .collect(Collectors.joining("\n"));
     return new TransportException(
         String.format(
