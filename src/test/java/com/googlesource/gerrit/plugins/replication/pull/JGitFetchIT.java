@@ -34,7 +34,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,7 +65,7 @@ public class JGitFetchIT extends FetchITBase {
     try (Repository repo = repoManager.openRepository(project)) {
       Fetch objectUnderTest =
           fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
-      objectUnderTest.fetch(Lists.newArrayList(new RefSpec(nonExistingRef)));
+      objectUnderTest.fetch(Lists.newArrayList(FetchRefSpec.fromRef(nonExistingRef)));
     }
   }
 

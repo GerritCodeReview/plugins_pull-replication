@@ -73,7 +73,7 @@ class SourceFetchPeriodically {
                 projectToFetch ->
                     source.scheduleNow(
                         projectToFetch,
-                        FetchOne.ALL_REFS,
+                        FetchRefSpec.fromRef(FetchOne.ALL_REFS),
                         fetchReplicationFactory.create(
                             new FetchResultProcessing.GitUpdateProcessing(eventDispatcher.get())),
                         metrics))
