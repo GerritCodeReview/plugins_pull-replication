@@ -28,6 +28,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
+import org.eclipse.jgit.transport.RefSpec;
 
 class SourceFetchPeriodically {
   interface Factory {
@@ -73,7 +74,7 @@ class SourceFetchPeriodically {
                 projectToFetch ->
                     source.scheduleNow(
                         projectToFetch,
-                        FetchOne.ALL_REFS,
+                        new RefSpec(FetchOne.ALL_REFS),
                         fetchReplicationFactory.create(
                             new FetchResultProcessing.GitUpdateProcessing(eventDispatcher.get())),
                         metrics))

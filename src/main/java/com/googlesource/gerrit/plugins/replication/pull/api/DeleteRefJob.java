@@ -18,6 +18,8 @@ import com.google.gerrit.entities.Project;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.BatchInput;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.transport.RefSpec;
 
 public class DeleteRefJob implements Runnable {
   public interface Factory {
@@ -40,6 +42,11 @@ public class DeleteRefJob implements Runnable {
 
   @Override
   public void run() {
-    command.deleteRefsSync(project, batchInput.getDeletedRefNames(), batchInput.label);
+    command.deleteRefsSync(
+        project,
+        batchInput.getDeletedRefSpecs().stream()
+            .map(RefSpec::getSource)
+            .collect(Collectors.toSet()),
+        batchInput.label);
   }
 }

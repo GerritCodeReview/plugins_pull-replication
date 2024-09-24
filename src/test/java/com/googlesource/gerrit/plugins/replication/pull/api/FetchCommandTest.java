@@ -34,6 +34,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,9 +44,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FetchCommandTest {
-  private static final String REF_NAME_TO_FETCH = "refs/heads/master";
-  private static final String ALT_REF_NAME_TO_FETCH = "refs/heads/alt";
-  private static final Set<String> REFS_NAMES_TO_FETCH =
+  private static final RefSpec REF_NAME_TO_FETCH = new RefSpec("refs/heads/master");
+  private static final RefSpec ALT_REF_NAME_TO_FETCH = new RefSpec("refs/heads/alt");
+  private static final Set<RefSpec> REFS_NAMES_TO_FETCH =
       Set.of(REF_NAME_TO_FETCH, ALT_REF_NAME_TO_FETCH);
   @Mock ReplicationState state;
   @Mock ReplicationState.Factory fetchReplicationStateFactory;
