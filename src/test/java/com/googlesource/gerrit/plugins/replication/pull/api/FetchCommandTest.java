@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.events.EventDispatcher;
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogger;
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
@@ -43,9 +44,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FetchCommandTest {
-  private static final String REF_NAME_TO_FETCH = "refs/heads/master";
-  private static final String ALT_REF_NAME_TO_FETCH = "refs/heads/alt";
-  private static final Set<String> REFS_NAMES_TO_FETCH =
+  private static final FetchRefSpec REF_NAME_TO_FETCH = FetchRefSpec.ofRef("refs/heads/master");
+  private static final FetchRefSpec ALT_REF_NAME_TO_FETCH = FetchRefSpec.ofRef("refs/heads/alt");
+  private static final Set<FetchRefSpec> REFS_NAMES_TO_FETCH =
       Set.of(REF_NAME_TO_FETCH, ALT_REF_NAME_TO_FETCH);
   @Mock ReplicationState state;
   @Mock ReplicationState.Factory fetchReplicationStateFactory;
