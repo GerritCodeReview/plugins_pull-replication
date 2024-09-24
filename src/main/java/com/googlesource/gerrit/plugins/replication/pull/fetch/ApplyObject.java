@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import com.googlesource.gerrit.plugins.replication.pull.LocalGitRepositoryManagerProvider;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
@@ -31,7 +32,6 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.RefSpec;
 
 public class ApplyObject {
 
@@ -46,13 +46,14 @@ public class ApplyObject {
     this.gitManager = gitManagerProvider.get();
   }
 
-  public RefUpdateState apply(Project.NameKey name, RefSpec refSpec, RevisionData[] revisionsData)
+  public RefUpdateState apply(
+      Project.NameKey name, FetchRefSpec refSpec, RevisionData[] revisionsData)
       throws MissingParentObjectException, IOException, ResourceNotFoundException,
           MissingLatestPatchSetException {
     try (Repository git = gitManager.openRepository(name)) {
 
       ObjectId refHead = null;
-      RefUpdate ru = git.updateRef(refSpec.getSource());
+      RefUpdate ru = git.updateRef(refSpec.refName());
       try (ObjectInserter oi = git.newObjectInserter()) {
         for (RevisionData revisionData : revisionsData) {
 
@@ -63,14 +64,13 @@ public class ApplyObject {
             RevCommit commit = RevCommit.parse(commitObject.getContent());
             for (RevCommit parent : commit.getParents()) {
               if (!git.getObjectDatabase().has(parent.getId())) {
-                throw new MissingParentObjectException(name, refSpec.getSource(), parent.getId());
+                throw new MissingParentObjectException(name, refSpec.refName(), parent.getId());
               }
             }
 
             StringBuffer error = new StringBuffer();
-            if (!ChangeMetaCommitValidator.isValid(
-                git, refSpec.getSource(), commit, error::append)) {
-              throw new MissingLatestPatchSetException(name, refSpec.getSource(), error.toString());
+            if (!ChangeMetaCommitValidator.isValid(git, refSpec.refName(), commit, error::append)) {
+              throw new MissingLatestPatchSetException(name, refSpec.refName(), error.toString());
             }
           }
 
@@ -99,7 +99,7 @@ public class ApplyObject {
 
         ru.setNewObjectId(refHead);
         RefUpdate.Result result = ru.update();
-        return new RefUpdateState(refSpec.getSource(), result);
+        return new RefUpdateState(refSpec.refName(), result);
       }
     } catch (RepositoryNotFoundException e) {
       throw new ResourceNotFoundException(IdString.fromDecoded(name.get()), e);
