@@ -367,7 +367,7 @@ public class ReplicationQueue
               .map(ref -> toBatchApplyObject(project, ref, state))
               .collect(Collectors.toList());
 
-      if (!containsLargeRef(refsBatch)) {
+      if (!containsLargeOrDeletedRefs(refsBatch)) {
         return ((source) -> callBatchSendObject(source, project, refsBatch, eventCreatedOn, state));
       }
     } catch (UncheckedIOException e) {
@@ -378,14 +378,10 @@ public class ReplicationQueue
 
   private BatchApplyObjectData toBatchApplyObject(
       NameKey project, ReferenceUpdatedEvent event, ReplicationState state) {
-    if (event.isDelete()) {
-      Optional<RevisionData> noRevisionData = Optional.empty();
-      return BatchApplyObjectData.create(event.refName(), noRevisionData, event.isDelete());
-    }
     try {
       Optional<RevisionData> maybeRevisionData =
           revReaderProvider.get().read(project, event.objectId(), event.refName(), 0);
-      return BatchApplyObjectData.create(event.refName(), maybeRevisionData, event.isDelete());
+      return BatchApplyObjectData.create(event.refName(), maybeRevisionData);
     } catch (IOException e) {
       stateLog.error(
           String.format(
@@ -397,8 +393,8 @@ public class ReplicationQueue
     }
   }
 
-  private boolean containsLargeRef(List<BatchApplyObjectData> batchApplyObjectData) {
-    return batchApplyObjectData.stream().anyMatch(e -> e.revisionData().isEmpty() && !e.isDelete());
+  private boolean containsLargeOrDeletedRefs(List<BatchApplyObjectData> batchApplyObjectData) {
+    return batchApplyObjectData.stream().anyMatch(e -> e.revisionData().isEmpty());
   }
 
   private Optional<HttpResult> callSendObject(
@@ -408,7 +404,6 @@ public class ReplicationQueue
       NameKey project,
       String refName,
       long eventCreatedOn,
-      boolean isDelete,
       List<RevisionData> revision)
       throws IOException {
     String revisionDataStr =
@@ -423,9 +418,7 @@ public class ReplicationQueue
         revisionDataStr);
     Context<String> apiTimer = applyObjectMetrics.startEnd2End(remoteName);
     HttpResult result =
-        isDelete
-            ? fetchClient.callSendObject(project, refName, eventCreatedOn, isDelete, null, uri)
-            : fetchClient.callSendObjects(project, refName, eventCreatedOn, revision, uri);
+        fetchClient.callSendObjects(project, refName, eventCreatedOn, revision, uri);
     repLog.info(
         "Pull replication REST API apply object to {} COMPLETED for {}:{} - {}, HTTP Result:"
             + " {} - time:{} ms",
@@ -500,7 +493,6 @@ public class ReplicationQueue
                     project,
                     batchApplyObject.refName(),
                     eventCreatedOn,
-                    batchApplyObject.isDelete(),
                     batchApplyObject.revisionData().map(ImmutableList::of).orElse(null));
 
             resultSuccessful = HttpResultUtils.isSuccessful(result);
@@ -533,14 +525,7 @@ public class ReplicationQueue
 
               Optional<HttpResult> sendObjectResult =
                   callSendObject(
-                      fetchClient,
-                      remoteName,
-                      uri,
-                      project,
-                      refName,
-                      eventCreatedOn,
-                      batchApplyObject.isDelete(),
-                      allRevisions);
+                      fetchClient, remoteName, uri, project, refName, eventCreatedOn, allRevisions);
               resultSuccessful = HttpResultUtils.isSuccessful(sendObjectResult);
               if (!resultSuccessful) {
                 break;
