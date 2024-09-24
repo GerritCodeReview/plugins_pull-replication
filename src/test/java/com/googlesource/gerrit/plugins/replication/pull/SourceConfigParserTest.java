@@ -23,7 +23,6 @@ import com.googlesource.gerrit.plugins.replication.api.ReplicationConfig;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -84,6 +83,6 @@ public class SourceConfigParserTest {
 
     assertThat(remoteConfig.getUrls()).containsExactly(TEST_REMOTE_URL);
     assertThat(remoteConfig.getRemoteConfig().getFetchRefSpecs())
-        .containsExactly(new RefSpec(TEST_REMOTE_FETCH_REFSPEC));
+        .containsExactly(FetchRefSpec.fromRef(TEST_REMOTE_FETCH_REFSPEC));
   }
 }
