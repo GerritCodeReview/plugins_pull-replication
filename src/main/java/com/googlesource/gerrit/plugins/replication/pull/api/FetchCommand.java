@@ -143,7 +143,7 @@ public class FetchCommand implements Command {
     List<RefSpec> fetchRefSpecs = fetchOne.safeGetFetchRefSpecs();
     String combinedErrorMessage =
         fetchOne.getFetchFailures().stream()
-            .map(TransportException::getMessage)
+                .map(TransportException::getMessage)
             .collect(Collectors.joining("\n"));
     return new TransportException(
         String.format(

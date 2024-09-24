@@ -18,6 +18,7 @@ import static com.googlesource.gerrit.plugins.replication.ReplicationConfigImpl.
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -381,19 +382,21 @@ public class Source {
                   if (FetchOne.ALL_REFS.equals(refSpec.getSource())) {
                     return true;
                   }
+                  String refName =
+                      MoreObjects.firstNonNull(refSpec.getSource(), refSpec.getDestination());
                   try {
-                    if (!refSpec.getSource().startsWith(RefNames.REFS_CHANGES)) {
+                    if (!refName.startsWith(RefNames.REFS_CHANGES)) {
                       permissionBackend
                           .user(userProvider.get())
                           .project(project)
-                          .ref(refSpec.getSource())
+                          .ref(refName)
                           .check(RefPermission.READ);
                     }
                   } catch (AuthException e) {
                     repLog.warn(
                         "NOT scheduling replication {}:{} because lack of permissions to access project/ref",
                         project,
-                        refSpec);
+                        refName);
                     return false;
                   }
                   return true;
@@ -538,7 +541,8 @@ public class Source {
       } else {
         queueMetrics.incrementTaskNotScheduled(this);
       }
-      state.increaseFetchTaskCount(project.get(), refSpec.getSource());
+      state.increaseFetchTaskCount(
+          project.get(), MoreObjects.firstNonNull(refSpec.getSource(), refSpec.getDestination()));
       repLog.info("scheduled {}:{} => {} to run after {}s", e, refSpec, project, config.getDelay());
       return f;
     }
@@ -585,7 +589,8 @@ public class Source {
 
   private void addRef(FetchOne e, RefSpec ref) {
     e.addRef(ref);
-    postReplicationScheduledEvent(e, ref.getSource());
+    postReplicationScheduledEvent(
+        e, MoreObjects.firstNonNull(ref.getSource(), ref.getDestination()));
   }
 
   /**
