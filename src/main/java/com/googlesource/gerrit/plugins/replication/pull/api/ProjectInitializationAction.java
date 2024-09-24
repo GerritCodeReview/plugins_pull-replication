@@ -167,22 +167,24 @@ public class ProjectInitializationAction extends HttpServlet {
     }
 
     String projectName = gitRepositoryName.replace(".git", "");
-    try {
-      applyObjectCommand.applyObjects(
-          Project.nameKey(projectName),
-          input.getRefName(),
-          input.getRevisionsData(),
-          input.getLabel(),
-          input.getEventCreatedOn());
-    } catch (MissingLatestPatchSetException e) {
-      repLog.error(
-          "Init project API FAILED from {} for {} - configuration data cannot contain change meta refs: {}:{}",
-          input.getLabel(),
-          projectName,
-          input.getRefName(),
-          Arrays.toString(input.getRevisionsData()),
-          e);
-      throw new BadRequestException("Configuration data cannot contain change meta refs", e);
+    if (input.getRevisionsData() != null && input.getRevisionsData().length > 0) {
+      try {
+        applyObjectCommand.applyObjects(
+            Project.nameKey(projectName),
+            input.getRefName(),
+            input.getRevisionsData(),
+            input.getLabel(),
+            input.getEventCreatedOn());
+      } catch (MissingLatestPatchSetException e) {
+        repLog.error(
+            "Init project API FAILED from {} for {} - configuration data cannot contain change meta refs: {}:{}",
+            input.getLabel(),
+            projectName,
+            input.getRefName(),
+            Arrays.toString(input.getRevisionsData()),
+            e);
+        throw new BadRequestException("Configuration data cannot contain change meta refs", e);
+      }
     }
     projectCache.onCreateProject(Project.nameKey(projectName));
     // In case pull-replication is used in conjunction with multi-site, by convention the remote
