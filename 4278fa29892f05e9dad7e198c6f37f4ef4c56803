@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "175ac119_e54b04cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-24T07:40:44Z",
+      "side": 1,
+      "message": "My doubt is that if we ban the ref-delete via apply-object, how can the refs be deleted? We would end up with a non-functioning plugin.\n\nIf we split this into two changes, they must be in the same topic.",
+      "parentUuid": "05ec2747_82365431",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "53eae545_31a3d9dc",
@@ -235,6 +259,24 @@
       "writtenOn": "2024-09-20T15:07:23Z",
       "side": 1,
       "message": "When upgrading the plugin version, in case a client with an old version of the plugin will call an apply object with the new code it will receive a bad request response, hence it won\u0027t retry and will default to fetch.\n\nI don\u0027t see any issue with that, but I am just raising it to double check. Correct?",
+      "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a4c7424_9a7455ac",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ApplyObjectAction.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-24T07:40:44Z",
+      "side": 1,
+      "message": "Yes, that is correct. It will fallback to fetching.",
+      "parentUuid": "7b004fe3_995f152a",
       "revId": "4278fa29892f05e9dad7e198c6f37f4ef4c56803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
