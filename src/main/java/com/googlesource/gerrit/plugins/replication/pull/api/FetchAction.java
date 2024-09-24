@@ -53,29 +53,23 @@ import org.eclipse.jgit.errors.TransportException;
 @Singleton
 public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private final FetchCommand command;
-  private final DeleteRefCommand deleteRefCommand;
   private final WorkQueue workQueue;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final FetchPreconditions preConditions;
   private final Factory fetchJobFactory;
-  private final DeleteRefJob.Factory deleteJobFactory;
 
   @Inject
   public FetchAction(
       FetchCommand command,
-      DeleteRefCommand deleteRefCommand,
       WorkQueue workQueue,
       DynamicItem<UrlFormatter> urlFormatter,
       FetchPreconditions preConditions,
-      FetchJob.Factory fetchJobFactory,
-      DeleteRefJob.Factory deleteJobFactory) {
+      FetchJob.Factory fetchJobFactory) {
     this.command = command;
-    this.deleteRefCommand = deleteRefCommand;
     this.workQueue = workQueue;
     this.urlFormatter = urlFormatter;
     this.preConditions = preConditions;
     this.fetchJobFactory = fetchJobFactory;
-    this.deleteJobFactory = deleteJobFactory;
   }
 
   public static class Input {
@@ -125,6 +119,35 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
       return batchInput;
     }
 
+<<<<<<< PATCH SET (3a3566 Delete refs as part of the replication queue execution)
+    public Set<FetchRefSpec> getRefSpecs() {
+      return refInputs.stream()
+          .map(
+              ri ->
+                  ri.isDelete()
+                      ? FetchRefSpec.ofRef(":" + ri.refName())
+                      : FetchRefSpec.ofRef(ri.refName()))
+          .collect(Collectors.toSet());
+||||||| BASE
+    private Stream<String> getFilteredRefNames(Predicate<RefInput> filterFunc) {
+      return refInputs.stream().filter(filterFunc).map(RefInput::refName);
+    }
+
+    private Stream<FetchRefSpec> getFilteredRefSpecs(Predicate<RefInput> filterFunc) {
+      return getFilteredRefNames(filterFunc).map(FetchRefSpec::ofRef);
+    }
+
+    public Set<FetchRefSpec> getNonDeletedRefSpecs() {
+      return getFilteredRefSpecs(RefInput.IS_DELETE.negate()).collect(Collectors.toSet());
+    }
+
+    public boolean hasDeletedRefSpecs() {
+      return refInputs.stream().anyMatch(RefInput.IS_DELETE);
+    }
+
+    public Set<String> getDeletedRefNames() {
+      return getFilteredRefNames(RefInput.IS_DELETE).collect(Collectors.toSet());
+=======
     private Stream<String> getFilteredRefNames(Predicate<RefInput> filterFunc) {
       return refInputs.stream().filter(filterFunc).map(RefInput::refName);
     }
@@ -143,6 +166,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
 
     public Set<String> getDeletedRefNames() {
       return getFilteredRefNames(RefInput.IS_DELETE).collect(Collectors.toSet());
+>>>>>>> BASE      (a1d06d Introduce FetchRefSpec over the whole replication queue proc)
     }
   }
 
@@ -190,16 +214,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private Response<?> applySync(Project.NameKey project, BatchInput input)
       throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
           TimeoutException, TransportException {
-    command.fetchSync(project, input.label, input.getNonDeletedRefSpecs());
-
-    /* git fetches and deletes cannot be handled atomically within the same transaction.
-    Here we choose to handle fetches first and then deletes:
-    - If the fetch fails delete is not even attempted.
-    - If the delete fails after the fetch then the client is left with some extra refs.
-    */
-    if (input.hasDeletedRefSpecs()) {
-      deleteRefCommand.deleteRefsSync(project, input.getDeletedRefNames(), input.label);
-    }
+    command.fetchSync(project, input.label, input.getRefSpecs());
     return Response.created(input);
   }
 
@@ -216,10 +231,6 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
         urlFormatter
             .get()
             .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
-
-    if (batchInput.hasDeletedRefSpecs()) {
-      workQueue.getDefaultQueue().submit(deleteJobFactory.create(project, batchInput));
-    }
     // We're in a HTTP handler, so must be present.
     checkState(url.isPresent());
     return Response.accepted(url.get());
