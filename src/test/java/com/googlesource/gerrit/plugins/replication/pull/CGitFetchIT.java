@@ -48,7 +48,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
@@ -86,7 +85,7 @@ public class CGitFetchIT extends FetchITBase {
       Fetch objectUnderTest =
           fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
-      objectUnderTest.fetch(Lists.newArrayList(new RefSpec(sourceRef + ":" + sourceRef)));
+      objectUnderTest.fetch(Lists.newArrayList(FetchRefSpec.ofRef(sourceRef + ":" + sourceRef)));
 
       waitUntil(() -> checkedGetRef(repo, sourceRef) != null);
 
@@ -107,7 +106,7 @@ public class CGitFetchIT extends FetchITBase {
       Fetch objectUnderTest =
           fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
-      objectUnderTest.fetch(Lists.newArrayList(new RefSpec(nonExistingRef)));
+      objectUnderTest.fetch(Lists.newArrayList(FetchRefSpec.ofRef(nonExistingRef)));
     }
   }
 
@@ -122,7 +121,7 @@ public class CGitFetchIT extends FetchITBase {
       Fetch objectUnderTest =
           fetchFactory.create(TEST_TASK_ID, new URIish("/not_existing_path/"), repo);
 
-      objectUnderTest.fetch(Lists.newArrayList(new RefSpec(sourceRef + ":" + sourceRef)));
+      objectUnderTest.fetch(Lists.newArrayList(FetchRefSpec.ofRef(sourceRef + ":" + sourceRef)));
     }
   }
 
@@ -142,8 +141,8 @@ public class CGitFetchIT extends FetchITBase {
 
       objectUnderTest.fetch(
           Lists.newArrayList(
-              new RefSpec(sourceRefOne + ":" + sourceRefOne),
-              new RefSpec(sourceRefTwo + ":" + sourceRefTwo)));
+              FetchRefSpec.ofRef(sourceRefOne + ":" + sourceRefOne),
+              FetchRefSpec.ofRef(sourceRefTwo + ":" + sourceRefTwo)));
 
       waitUntil(
           () ->
@@ -183,9 +182,9 @@ public class CGitFetchIT extends FetchITBase {
 
     objectUnderTest.fetch(
         Lists.newArrayList(
-            new RefSpec("refs/changes/01/1/1:refs/changes/01/1/1"),
-            new RefSpec("refs/changes/02/2/1:refs/changes/02/2/1"),
-            new RefSpec("refs/changes/03/3/1:refs/changes/03/3/1")));
+            FetchRefSpec.ofRef("refs/changes/01/1/1:refs/changes/01/1/1"),
+            FetchRefSpec.ofRef("refs/changes/02/2/1:refs/changes/02/2/1"),
+            FetchRefSpec.ofRef("refs/changes/03/3/1:refs/changes/03/3/1")));
     verify(fetchClient, times(2)).fetch(any());
   }
 
@@ -205,7 +204,7 @@ public class CGitFetchIT extends FetchITBase {
       Fetch objectUnderTest =
           fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
-      objectUnderTest.fetch(Lists.newArrayList(new RefSpec(newBranch + ":" + newBranch)));
+      objectUnderTest.fetch(Lists.newArrayList(FetchRefSpec.ofRef(newBranch + ":" + newBranch)));
 
       waitUntil(() -> checkedGetRef(repo, newBranch) != null);
 
@@ -231,7 +230,8 @@ public class CGitFetchIT extends FetchITBase {
           fetchFactory.create(TEST_TASK_ID, new URIish(testRepoPath.toString()), repo);
 
       objectUnderTest.fetch(
-          Lists.newArrayList(new RefSpec("non_existing_branch" + ":" + "non_existing_branch")));
+          Lists.newArrayList(
+              FetchRefSpec.ofRef("non_existing_branch" + ":" + "non_existing_branch")));
     }
   }
 

@@ -17,11 +17,11 @@ package com.googlesource.gerrit.plugins.replication.pull.fetch;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 
 public class BatchFetchClient implements Fetch {
@@ -40,9 +40,9 @@ public class BatchFetchClient implements Fetch {
   }
 
   @Override
-  public List<RefUpdateState> fetch(List<RefSpec> refs) throws IOException {
+  public List<RefUpdateState> fetch(List<FetchRefSpec> refs) throws IOException {
     List<RefUpdateState> results = Lists.newArrayList();
-    for (List<RefSpec> refsBatch : Lists.partition(refs, batchSize)) {
+    for (List<FetchRefSpec> refsBatch : Lists.partition(refs, batchSize)) {
       results.addAll(fetchClient.fetch(refsBatch));
     }
     return results;
