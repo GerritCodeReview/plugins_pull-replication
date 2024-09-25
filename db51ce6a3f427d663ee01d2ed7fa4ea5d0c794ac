@@ -22,6 +22,29 @@
       },
       "revId": "db51ce6a3f427d663ee01d2ed7fa4ea5d0c794ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e15922f_d0e8b491",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueMetrics.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-25T20:11:47Z",
+      "side": 1,
+      "message": "Not needed, as we just care about the size.",
+      "range": {
+        "startLine": 322,
+        "startChar": 66,
+        "endLine": 322,
+        "endChar": 76
+      },
+      "revId": "db51ce6a3f427d663ee01d2ed7fa4ea5d0c794ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
