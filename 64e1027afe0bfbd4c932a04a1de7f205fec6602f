@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10659a9f_ddc0df0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-25T16:11:04Z",
+      "side": 1,
+      "message": "cannot",
+      "range": {
+        "startLine": 16,
+        "startChar": 42,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "64e1027afe0bfbd4c932a04a1de7f205fec6602f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce464cb0_408aa599",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-25T16:11:04Z",
+      "side": 1,
+      "message": "A couple of general notes:\n* shouldn\u0027t we apply this change to 3.8?\n* I believe this can be merged without the other changes in the topics, since we will fallback to fetch because we always fail the delete via apply object. The bug will still be there but it won\u0027t be worst.",
+      "revId": "64e1027afe0bfbd4c932a04a1de7f205fec6602f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a080a8e_efd7b92d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-25T16:11:04Z",
+      "side": 1,
+      "message": "This can go as well I believe",
+      "range": {
+        "startLine": 397,
+        "startChar": 82,
+        "endLine": 397,
+        "endChar": 98
+      },
+      "revId": "64e1027afe0bfbd4c932a04a1de7f205fec6602f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7a49d33_bb3eb071",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-25T16:11:04Z",
+      "side": 1,
+      "message": "This is not needed anymore, isn\u0027t it?",
+      "range": {
+        "startLine": 407,
+        "startChar": 4,
+        "endLine": 407,
+        "endChar": 23
+      },
+      "revId": "64e1027afe0bfbd4c932a04a1de7f205fec6602f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22f25c39_b7cd4e88",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-25T16:11:04Z",
+      "side": 1,
+      "message": "I think this could be:\n\n```\nfetchClient.callSendObject(project, refName, eventCreatedOn, null, uri)\n```",
+      "range": {
+        "startLine": 423,
+        "startChar": 14,
+        "endLine": 423,
+        "endChar": 95
+      },
+      "revId": "64e1027afe0bfbd4c932a04a1de7f205fec6602f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
