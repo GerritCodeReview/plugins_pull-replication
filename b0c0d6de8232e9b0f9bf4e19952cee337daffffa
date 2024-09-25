@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52220f5d_a4fe2a43",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-25T16:57:44Z",
+      "side": 1,
+      "message": "nit: `toUnmodifiableSet` ?",
+      "range": {
+        "startLine": 559,
+        "startChar": 85,
+        "endLine": 559,
+        "endChar": 90
+      },
+      "revId": "b0c0d6de8232e9b0f9bf4e19952cee337daffffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af778c28_d76b83f6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-25T16:57:44Z",
+      "side": 1,
+      "message": "nit: `toUnmodifiableSet` ?",
+      "range": {
+        "startLine": 566,
+        "startChar": 28,
+        "endLine": 566,
+        "endChar": 33
+      },
+      "revId": "b0c0d6de8232e9b0f9bf4e19952cee337daffffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cacf652d_a8669d9c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-25T16:57:44Z",
+      "side": 1,
+      "message": "If we go for `Stream` at L#132 we should probably do it here as well for consistency or just leave a `Set` for now at L#132",
+      "range": {
+        "startLine": 140,
+        "startChar": 11,
+        "endLine": 140,
+        "endChar": 14
+      },
+      "revId": "b0c0d6de8232e9b0f9bf4e19952cee337daffffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68e58268_c4980321",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-25T16:57:44Z",
+      "side": 1,
+      "message": "nit : `toUnmodifiableSet` ?",
+      "range": {
+        "startLine": 961,
+        "startChar": 64,
+        "endLine": 961,
+        "endChar": 69
+      },
+      "revId": "b0c0d6de8232e9b0f9bf4e19952cee337daffffa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
