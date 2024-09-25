@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "169a7155_eb6f4f61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-25T19:20:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10659a9f_ddc0df0b",
+      "range": {
+        "startLine": 16,
+        "startChar": 42,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "64e1027afe0bfbd4c932a04a1de7f205fec6602f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce464cb0_408aa599",
@@ -82,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f2e5c78_c9edacd1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-25T19:20:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a080a8e_efd7b92d",
+      "range": {
+        "startLine": 397,
+        "startChar": 82,
+        "endLine": 397,
+        "endChar": 98
+      },
+      "revId": "64e1027afe0bfbd4c932a04a1de7f205fec6602f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7a49d33_bb3eb071",
@@ -105,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "111897f0_deaab2a5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-25T19:20:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7a49d33_bb3eb071",
+      "range": {
+        "startLine": 407,
+        "startChar": 4,
+        "endLine": 407,
+        "endChar": 23
+      },
+      "revId": "64e1027afe0bfbd4c932a04a1de7f205fec6602f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22f25c39_b7cd4e88",
@@ -118,6 +190,30 @@
       "writtenOn": "2024-09-25T16:11:04Z",
       "side": 1,
       "message": "I think this could be:\n\n```\nfetchClient.callSendObject(project, refName, eventCreatedOn, null, uri)\n```",
+      "range": {
+        "startLine": 423,
+        "startChar": 14,
+        "endLine": 423,
+        "endChar": 95
+      },
+      "revId": "64e1027afe0bfbd4c932a04a1de7f205fec6602f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fca1c96b_fd09e817",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-25T19:20:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22f25c39_b7cd4e88",
       "range": {
         "startLine": 423,
         "startChar": 14,
