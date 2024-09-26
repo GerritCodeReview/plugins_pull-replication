@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcafbe01_59bcccd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-26T12:39:10Z",
+      "side": 1,
+      "message": "replication",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "e09c5fcd886542c06b358fdb5ad4d0b02a9c8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f470d3ca_a8819495",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-26T12:39:10Z",
+      "side": 1,
+      "message": "Should we move this in the `FetchRefSpec` class?",
+      "range": {
+        "startLine": 571,
+        "startChar": 33,
+        "endLine": 571,
+        "endChar": 50
+      },
+      "revId": "e09c5fcd886542c06b358fdb5ad4d0b02a9c8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1790ec64_1b482982",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefSpec.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-26T12:39:10Z",
+      "side": 1,
+      "message": "What about `from` and `to` for the factory methods? i.e.: `fromRefSpec`, `toListOfRefSpec`",
+      "revId": "e09c5fcd886542c06b358fdb5ad4d0b02a9c8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42bd48d0_73040a93",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefSpec.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-26T12:39:10Z",
+      "side": 1,
+      "message": "new ArrayList\u003c\u003e(fetchRefSpecsList);\n\nIf you apply this change, `asRefSpec` won\u0027t be needed anymore.",
+      "range": {
+        "startLine": 32,
+        "startChar": 11,
+        "endLine": 32,
+        "endChar": 75
+      },
+      "revId": "e09c5fcd886542c06b358fdb5ad4d0b02a9c8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
