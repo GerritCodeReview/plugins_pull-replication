@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcbebd65_b949dd6c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-26T16:46:53Z",
+      "side": 1,
+      "message": "Might be worth adding a comment on why we are doing this and not just relying on the `fetch`.",
+      "range": {
+        "startLine": 470,
+        "startChar": 6,
+        "endLine": 473,
+        "endChar": 7
+      },
+      "revId": "fcf1e0c28f36b174fbb8248dc2147eaf709a8f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e428cc43_51bd2e79",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-26T16:46:53Z",
+      "side": 1,
+      "message": "This will result in a non-successful state (see `isSuccess` implementation).\n\nHowever, I think in this case we should consider it a success since we are ignoring the deletion on purpose. Shall we use `NO_CHANGE` here as well, even if it is not entirely correct semantically?",
+      "range": {
+        "startLine": 99,
+        "startChar": 58,
+        "endLine": 99,
+        "endChar": 71
+      },
+      "revId": "fcf1e0c28f36b174fbb8248dc2147eaf709a8f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47511f85_2b18a7da",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-26T16:46:53Z",
+      "side": 1,
+      "message": "Not used anymore",
+      "revId": "fcf1e0c28f36b174fbb8248dc2147eaf709a8f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cba0f383_6d056a70",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-09-26T16:46:53Z",
+      "side": 1,
+      "message": "Is this part of this change?",
+      "revId": "fcf1e0c28f36b174fbb8248dc2147eaf709a8f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
