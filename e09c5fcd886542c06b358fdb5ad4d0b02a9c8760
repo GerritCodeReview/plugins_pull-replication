@@ -112,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9577c961_84fdb9a6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefSpec.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-26T13:23:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1790ec64_1b482982",
+      "revId": "e09c5fcd886542c06b358fdb5ad4d0b02a9c8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42bd48d0_73040a93",
