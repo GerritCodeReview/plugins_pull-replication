@@ -79,7 +79,7 @@ public class SourcesFetchPeriodicallyIT extends PullReplicationSetupBase {
       assertThat(targetChangeRef.getObjectId()).isEqualTo(changeCommit.getId());
 
       // ensure that previous fetch was finished
-      Thread.sleep(Duration.ofSeconds(TEST_REPLICATION_DELAY).toMillis());
+      Thread.sleep(Duration.ofSeconds(replicationDelaySec()).toMillis());
 
       Ref sourceNewRef = createNewRef();
 
