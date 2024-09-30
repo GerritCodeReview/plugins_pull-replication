@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6596f58b_f8497089",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/DeleteRefCommand.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-30T14:40:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47511f85_2b18a7da",
+      "revId": "fcf1e0c28f36b174fbb8248dc2147eaf709a8f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cba0f383_6d056a70",
@@ -101,6 +119,24 @@
       "writtenOn": "2024-09-26T16:46:53Z",
       "side": 1,
       "message": "Is this part of this change?",
+      "revId": "fcf1e0c28f36b174fbb8248dc2147eaf709a8f12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e3e84de_724f126b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/ProjectInitializationAction.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-09-30T14:40:05Z",
+      "side": 1,
+      "message": "Point taken, it can be extracted into a separate change. It was causing NPEs.",
+      "parentUuid": "cba0f383_6d056a70",
       "revId": "fcf1e0c28f36b174fbb8248dc2147eaf709a8f12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
