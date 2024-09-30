@@ -656,7 +656,22 @@ public class Source {
           pendingFetchOp.canceledByReplication();
           pending.remove(uri);
 
+          Set<FetchRefSpec> fetchOpRefSpecs = fetchOp.getRefSpecs();
           fetchOp.addRefs(pendingFetchOp.getRefSpecs());
+
+          if (reason == RetryReason.COLLISION) {
+            // The fetch was never executed and is delayed
+            // because of a collision with an in-flight replication.
+            // The pending one was already in the queue and
+            // therefore is for sure older than fetchOp
+            // otherwise it would have been also rescheduled
+            // because of a collision.
+            // FetchOp has to take precedence over the pending
+            // operation that is for sure older, therefore its
+            // initial ref-specs need to be reapplied.
+            fetchOp.addRefs(fetchOpRefSpecs);
+          }
+
           fetchOp.addStates(pendingFetchOp.getStates());
           pendingFetchOp.removeStates();
 
