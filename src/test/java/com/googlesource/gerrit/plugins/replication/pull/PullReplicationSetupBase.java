@@ -53,8 +53,6 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
 
   protected static final Optional<String> ALL_PROJECTS = Optional.empty();
   protected static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  protected static final int TEST_REPLICATION_DELAY = 1;
-  protected static final Duration TEST_TIMEOUT = Duration.ofSeconds(TEST_REPLICATION_DELAY * 2000);
   protected static final String TEST_REPLICATION_SUFFIX = "suffix1";
   protected static final String TEST_REPLICATION_REMOTE = "remote1";
   @Inject protected SitePaths sitePaths;
@@ -63,6 +61,14 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
   protected Path gitPath;
   protected FileBasedConfig config;
   protected FileBasedConfig secureConfig;
+
+  protected int replicationDelaySec() {
+    return 1;
+  }
+
+  protected Duration testTimeoutDuration() {
+    return Duration.ofSeconds(replicationDelaySec() * 2L);
+  }
 
   protected abstract boolean useBatchRefUpdateEvent();
 
@@ -134,7 +140,7 @@ public abstract class PullReplicationSetupBase extends LightweightPluginDaemonTe
   }
 
   protected void waitUntil(Supplier<Boolean> waitCondition) throws Exception {
-    WaitUtil.waitUntil(waitCondition, TEST_TIMEOUT);
+    WaitUtil.waitUntil(waitCondition, testTimeoutDuration());
   }
 
   protected <T> T getInstance(Class<T> classObj) {
