@@ -39,6 +39,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfigModule;
 import com.googlesource.gerrit.plugins.replication.api.ApiModule;
 import com.googlesource.gerrit.plugins.replication.pull.health.PullReplicationTasksHealthCheck;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +61,10 @@ import org.junit.Test;
 public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
   private static final int TEST_HEALTHCHECK_PERIOD_OF_TIME_SEC = 5;
   private static final String TEST_PLUGIN_NAME = "pull-replication";
+
+  protected Duration testTimeoutDuration() {
+    return Duration.ofSeconds(TEST_HEALTHCHECK_PERIOD_OF_TIME_SEC * 2);
+  }
 
   public static class PullReplicationHealthCheckTestModule extends AbstractModule {
     private final PullReplicationModule pullReplicationModule;
@@ -151,7 +156,7 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
     config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
     config.setString("remote", remoteName, "fetch", "+refs/*:refs/*");
     config.setInt("remote", remoteName, "timeout", 600);
-    config.setInt("remote", remoteName, "replicationDelay", TEST_REPLICATION_DELAY);
+    config.setInt("remote", remoteName, "replicationDelay", replicationDelaySec());
     project.ifPresent(prj -> config.setString("remote", remoteName, "projects", prj));
     config.setBoolean("gerrit", null, "autoReload", true);
     config.setInt("replication", null, "maxApiPayloadSize", 1);

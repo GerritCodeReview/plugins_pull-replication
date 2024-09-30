@@ -222,13 +222,26 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       fetchAllRefs = true;
       repLog.trace("[{}] Added all refs for replication from {}", taskIdHex, uri);
     } else if (!fetchAllRefs) {
+      // The ref-spec could be already present as either
+      // update or delete, therefore a simple addition to the
+      // set may risk to have both update and delete for the same
+      // ref, which would be an issue: the delta is an unordered set
+      // and executing updates and deletes for the same ref may have
+      // unexpected results, depending on which one you execute firt.
+      //
+      // Delete any previous ref-spec as delete or update for the same
+      // refname so that the subsequent addition will make sure that
+      // there is only one operation per refName.
+      delta.remove(ref);
+      delta.remove(FetchRefSpec.fromRef(ref.refName()));
+
       delta.add(ref);
       repLog.trace("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
     }
   }
 
   Set<FetchRefSpec> getRefSpecs() {
-    return fetchAllRefs ? Set.of(FetchRefSpec.fromRef(ALL_REFS)) : delta;
+    return fetchAllRefs ? Set.of(FetchRefSpec.fromRef(ALL_REFS)) : Set.copyOf(delta);
   }
 
   Set<String> getRefs() {
