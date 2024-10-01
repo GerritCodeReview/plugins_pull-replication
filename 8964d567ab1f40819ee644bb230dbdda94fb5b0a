@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3bda4ea_f4c80b20",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T08:41:32Z",
+      "side": 1,
+      "message": "The test suites aren\u0027t fit for purpose in the pull-replication plugin, that\u0027s a different discussion altogether unfortunately.",
+      "parentUuid": "2c74be23_b5d4a402",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 228,
+        "endChar": 56
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "635e30c3_424120f1",
@@ -66,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f23a120_26860045",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T08:41:32Z",
+      "side": 1,
+      "message": "Nope, because if you move it at L663 it would also contain the `pendingFetchOp.getRefSpecs()` entries. It must stay here.",
+      "parentUuid": "635e30c3_424120f1",
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "63b93857_32bbf4a3",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
         "patchSetId": 3
@@ -77,6 +119,30 @@
       "writtenOn": "2024-10-01T08:26:16Z",
       "side": 1,
       "message": "Can you expand on this highlighting _why_ `FetchOp` has to take precedence of the pending, oder operation?\n\nWouldn\u0027t older operations take precedence over more recent ones so that they can be applied _in order_?",
+      "range": {
+        "startLine": 669,
+        "startChar": 0,
+        "endLine": 671,
+        "endChar": 54
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ef1df34_7ca9b2f2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T08:41:32Z",
+      "side": 1,
+      "message": "\u003e Can you expand on this highlighting _why_ `FetchOp` has to take precedence of the pending, oder operation?\n\nA newer update on a ref has to take precedence over an older update, I don\u0027t believe it deserves more rationale. Why would do you do differently?\n\n\u003e Wouldn\u0027t older operations take precedence over more recent ones so that they can be applied _in order_?\n\nIf you execute *first* the newer update and *then* the older update, you end up with an older ref value.",
+      "parentUuid": "63b93857_32bbf4a3",
       "range": {
         "startLine": 669,
         "startChar": 0,
@@ -112,6 +178,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4af2d7aa_a90615d5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T08:41:32Z",
+      "side": 1,
+      "message": "This condition isn\u0027t easy to test, how would you cover it?",
+      "parentUuid": "c238e901_f19fb38b",
+      "range": {
+        "startLine": 661,
+        "startChar": 0,
+        "endLine": 673,
+        "endChar": 11
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "01b39a5b_2d632efe",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
         "patchSetId": 3
@@ -123,6 +213,30 @@
       "writtenOn": "2024-10-01T08:26:16Z",
       "side": 1,
       "message": "Good catch!\n\nHowever, I notice that all tests are passing even without this fix.\nCould you consider splitting this as a follow up change?",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 73
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb64c57c_243f6f6b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchCommand.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T08:41:32Z",
+      "side": 1,
+      "message": "Well, you know the quality of the pull-replication tests :-( ... I am sure they pass even when the plugin isn\u0027t working at all.\n\nBut yes, it should be a separate fix.",
+      "parentUuid": "01b39a5b_2d632efe",
       "range": {
         "startLine": 102,
         "startChar": 2,
@@ -158,6 +272,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "761661d8_978ba09d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/AsyncPullReplicationBatchRefUpdatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T08:41:32Z",
+      "side": 1,
+      "message": "If none of the refs are replicated synchronously, then the replication suite is executed with async replication, as the prefix `Async` suggests :-)",
+      "parentUuid": "2e9fec72_14282f71",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad79c26a_71f3e09f",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/AsyncPullReplicationBatchRefUpdatedIT.java",
         "patchSetId": 3
@@ -169,6 +307,30 @@
       "writtenOn": "2024-10-01T08:26:16Z",
       "side": 1,
       "message": "I understand the reasons why we want to delay replication, but 5 seconds seems quite a long delay, does it _need_ to be this high?\n\nHave you tests this failing with the default delay of `1` sec?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4a0d35a_1d38233a",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/AsyncPullReplicationBatchRefUpdatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T08:41:32Z",
+      "side": 1,
+      "message": "Tests aren\u0027t failing, as we know about their quality :-( I have verified that the events are collapsed and grouped as expected with `5` seconds, possibly with `2` seconds would also work.",
+      "parentUuid": "ad79c26a_71f3e09f",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -204,6 +366,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0be9245f_e8b8691c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/AsyncPullReplicationRefUpdatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T08:41:32Z",
+      "side": 1,
+      "message": "Yes, see the same answer as above.",
+      "parentUuid": "1a2f95d8_1034bc59",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b36e2615_817e602f",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationITBase.java",
         "patchSetId": 3
@@ -215,6 +401,24 @@
       "writtenOn": "2024-10-01T08:26:16Z",
       "side": 1,
       "message": "Isn\u0027t this redundant and implicitly tested by L210?",
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5715ef5_fcf862d2",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationITBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-10-01T08:41:32Z",
+      "side": 1,
+      "message": "True.",
+      "parentUuid": "b36e2615_817e602f",
       "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
