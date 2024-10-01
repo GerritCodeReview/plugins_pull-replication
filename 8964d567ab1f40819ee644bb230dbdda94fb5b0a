@@ -130,6 +130,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "179439c1_1bb59e1e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-10-01T10:30:19Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9f23a120_26860045",
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63b93857_32bbf4a3",
@@ -177,6 +195,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50df7abe_7756efdb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-10-01T10:30:19Z",
+      "side": 1,
+      "message": "\u003e If you execute first the newer update and then the older update, you end up with an older ref value.\n\nI agree, so if you execute first the newer update (`fetchOp`), and then the older update (`pending`), you might end up with an older ref value, which is what I thought it was wrong.\n\nWhat I understand now, however, is that the \"old\" will be _replaced_ by the new one, so it will never (rightfully) be executed.\n\nI think I understand.",
+      "parentUuid": "8ef1df34_7ca9b2f2",
+      "range": {
+        "startLine": 669,
+        "startChar": 0,
+        "endLine": 671,
+        "endChar": 54
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c238e901_f19fb38b",
@@ -214,6 +256,30 @@
       "side": 1,
       "message": "This condition isn\u0027t easy to test, how would you cover it?",
       "parentUuid": "c238e901_f19fb38b",
+      "range": {
+        "startLine": 661,
+        "startChar": 0,
+        "endLine": 673,
+        "endChar": 11
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a691af53_0b06c95d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-10-01T10:30:19Z",
+      "side": 1,
+      "message": "I was wondering what issue this was fixing.\nbut now I understand that this is preventing older refspecs to be executed as opposed to newer ones.\n\nResolving.",
+      "parentUuid": "4af2d7aa_a90615d5",
       "range": {
         "startLine": 661,
         "startChar": 0,
@@ -342,6 +408,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b5c0dd_21eb5d52",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/AsyncPullReplicationBatchRefUpdatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-10-01T10:30:19Z",
+      "side": 1,
+      "message": "\u003e If none of the refs are replicated synchronously, then the replication suite is executed with async replication, as the prefix `Async` suggests :-)\n\noh I see, not having any \"syncRefs\" default to making all fetches _synchronous_.\nMakes sense.",
+      "parentUuid": "761661d8_978ba09d",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad79c26a_71f3e09f",
@@ -379,6 +469,30 @@
       "side": 1,
       "message": "Tests aren\u0027t failing, as we know about their quality :-( I have verified that the events are collapsed and grouped as expected with `5` seconds, possibly with `2` seconds would also work.",
       "parentUuid": "ad79c26a_71f3e09f",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 3
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff339ec8_309ef77d",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/AsyncPullReplicationBatchRefUpdatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-10-01T10:30:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4a0d35a_1d38233a",
       "range": {
         "startLine": 36,
         "startChar": 0,
@@ -436,6 +550,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65990578_85d082a1",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/AsyncPullReplicationRefUpdatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-10-01T10:30:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0be9245f_e8b8691c",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 3
+      },
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b36e2615_817e602f",
@@ -467,6 +605,24 @@
       "side": 1,
       "message": "True.",
       "parentUuid": "b36e2615_817e602f",
+      "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5de37d70_f903a171",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/PullReplicationITBase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2024-10-01T10:30:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5715ef5_fcf862d2",
       "revId": "8964d567ab1f40819ee644bb230dbdda94fb5b0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
