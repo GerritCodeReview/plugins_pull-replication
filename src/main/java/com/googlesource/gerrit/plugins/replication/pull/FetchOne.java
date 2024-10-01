@@ -346,7 +346,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         taskIdHex,
         replicationType,
         uri,
-        String.join(",", getRefs()));
+        getRefSpecs());
     Timer1.Context<String> context = metrics.start(config.getName());
     try {
       long startedAt = context.getStartTime();
