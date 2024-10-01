@@ -37,9 +37,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeoutException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -200,36 +198,12 @@ public class FetchActionTest {
   }
 
   @Test(expected = RestApiException.class)
-  public void shouldThrowRestApiExceptionWhenIssueDuringPocessing() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
-    inputParams.label = label;
-    inputParams.refName = refName;
-
-    doThrow(new ExecutionException(new RuntimeException()))
-        .when(fetchCommand)
-        .fetchSync(any(), any(), any());
-
-    fetchAction.apply(projectResource, inputParams);
-  }
-
-  @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenIssueWithUrlParam() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
     doThrow(new IllegalStateException()).when(fetchCommand).fetchSync(any(), any(), any());
-
-    fetchAction.apply(projectResource, inputParams);
-  }
-
-  @Test(expected = RestApiException.class)
-  public void shouldThrowRestApiExceptionWhenTimeout() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
-    inputParams.label = label;
-    inputParams.refName = refName;
-
-    doThrow(new TimeoutException()).when(fetchCommand).fetchSync(any(), any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }

@@ -20,8 +20,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.BatchInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.errors.TransportException;
 
 public class FetchJob implements Runnable {
@@ -53,11 +51,7 @@ public class FetchJob implements Runnable {
   public void run() {
     try {
       command.fetchAsync(project, batchInput.label, batchInput.getRefSpecs(), metrics);
-    } catch (InterruptedException
-        | ExecutionException
-        | RemoteConfigurationMissingException
-        | TimeoutException
-        | TransportException e) {
+    } catch (InterruptedException | RemoteConfigurationMissingException | TransportException e) {
       log.atSevere().withCause(e).log(
           "Exception during the async fetch call for project %s, label %s and ref(s) name(s) %s",
           project.get(), batchInput.label, batchInput.getRefSpecs());
