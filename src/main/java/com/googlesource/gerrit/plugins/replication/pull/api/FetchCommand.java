@@ -31,13 +31,10 @@ import com.googlesource.gerrit.plugins.replication.pull.ReplicationType;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.TransportException;
@@ -98,17 +95,8 @@ public class FetchCommand implements Command {
     try {
       if (fetchType == ReplicationType.ASYNC) {
         state.markAllFetchTasksScheduled();
-        List<Future<?>> futures = new ArrayList<>();
         for (FetchRefSpec refSpec : refSpecs) {
-          futures.add(source.get().schedule(name, refSpec, state, apiRequestMetrics));
-        }
-        int timeout = source.get().getTimeout();
-        for (Future future : futures) {
-          if (timeout == 0) {
-            future.get();
-          } else {
-            future.get(timeout, TimeUnit.SECONDS);
-          }
+          source.get().schedule(name, refSpec, state, apiRequestMetrics);
         }
       } else {
         Optional<FetchOne> maybeFetch =
@@ -121,10 +109,7 @@ public class FetchCommand implements Command {
           throw newTransportException(maybeFetch.get());
         }
       }
-    } catch (ExecutionException
-        | IllegalStateException
-        | TimeoutException
-        | InterruptedException e) {
+    } catch (IllegalStateException e) {
       fetchStateLog.error("Exception during the fetch operation", e, state);
       throw e;
     }
