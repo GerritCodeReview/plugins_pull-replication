@@ -43,4 +43,9 @@ public class FetchRefSpec extends RefSpec {
   public String refName() {
     return MoreObjects.firstNonNull(getSource(), getDestination());
   }
+
+  @Override
+  public String toString() {
+    return getSource() == null ? "<<DELETED>>:" + getDestination() : super.toString();
+  }
 }
