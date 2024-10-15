@@ -33,6 +33,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
@@ -72,6 +73,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final ReplicationStateListener stateLog;
   public static final String ALL_REFS = "..all..";
   static final String ID_KEY = "fetchOneId";
+  private final DeleteRefCommand deleteRefCommand;
 
   interface Factory {
     FetchOne create(
@@ -86,7 +88,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final FetchRefsDatabase fetchRefsDatabase;
   private final Project.NameKey projectName;
   private final URIish uri;
-  private final Set<String> delta = Sets.newHashSetWithExpectedSize(4);
+  private final Set<FetchRefSpec> delta = Sets.newHashSetWithExpectedSize(4);
   private final Set<TransportException> fetchFailures = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
@@ -94,7 +96,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private int retryCount;
   private final int maxRetries;
   private boolean canceled;
-  private final ListMultimap<String, ReplicationState> stateMap = LinkedListMultimap.create();
+  private final ListMultimap<FetchRefSpec, ReplicationState> stateMap = LinkedListMultimap.create();
   private final int maxLockRetries;
   private int lockRetryCount;
   private final int id;
@@ -118,6 +120,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       FetchReplicationMetrics m,
       FetchFactory fetchFactory,
       FetchRefsDatabase fetchRefsDatabase,
+      DeleteRefCommand deleteRefCommand,
       @Assisted Project.NameKey d,
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -126,6 +129,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     config = c.getRemoteConfig();
     threadScoper = ts;
     this.fetchRefsDatabase = fetchRefsDatabase;
+    this.deleteRefCommand = deleteRefCommand;
     projectName = d;
     uri = u;
     lockRetryCount = 0;
@@ -182,7 +186,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   @Override
   public String toString() {
-    String print = "[" + taskIdHex + "] fetch " + uri + " [" + String.join(",", delta) + "]";
+    String print = "[" + taskIdHex + "] fetch " + uri + " " + delta;
 
     if (retryCount > 0) {
       print = "(retry " + retryCount + ") " + print;
@@ -212,34 +216,53 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return uri;
   }
 
-  void addRef(String ref) {
-    if (ALL_REFS.equals(ref)) {
+  void addRef(FetchRefSpec ref) {
+    if (ref.equalsToRef(ALL_REFS)) {
       delta.clear();
       fetchAllRefs = true;
       repLog.trace("[{}] Added all refs for replication from {}", taskIdHex, uri);
     } else if (!fetchAllRefs) {
+      // The ref-spec could be already present as either
+      // update or delete, therefore a simple addition to the
+      // set may risk to have both update and delete for the same
+      // ref, which would be an issue: the delta is an unordered set
+      // and executing updates and deletes for the same ref may have
+      // unexpected results, depending on which one you execute firt.
+      //
+      // Delete any previous ref-spec as delete or update for the same
+      // refname so that the subsequent addition will make sure that
+      // there is only one operation per refName.
+      delta.remove(ref);
+      delta.remove(FetchRefSpec.fromRef(ref.refName()));
+
       delta.add(ref);
       repLog.trace("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
     }
   }
 
-  Set<String> getRefs() {
-    return fetchAllRefs ? Sets.newHashSet(ALL_REFS) : delta;
+  Set<FetchRefSpec> getRefSpecs() {
+    return fetchAllRefs ? Set.of(FetchRefSpec.fromRef(ALL_REFS)) : Set.copyOf(delta);
   }
 
-  void addRefs(Set<String> refs) {
+  Set<String> getRefs() {
+    return getRefSpecs().stream()
+        .map(FetchRefSpec::refName)
+        .collect(Collectors.toUnmodifiableSet());
+  }
+
+  void addRefs(Set<FetchRefSpec> refs) {
     if (!fetchAllRefs) {
-      for (String ref : refs) {
+      for (FetchRefSpec ref : refs) {
         addRef(ref);
       }
     }
   }
 
-  void addState(String ref, ReplicationState state) {
+  void addState(FetchRefSpec ref, ReplicationState state) {
     stateMap.put(ref, state);
   }
 
-  ListMultimap<String, ReplicationState> getStates() {
+  ListMultimap<FetchRefSpec, ReplicationState> getStates() {
     return stateMap;
   }
 
@@ -249,12 +272,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     return statesSet.toArray(new ReplicationState[statesSet.size()]);
   }
 
-  ReplicationState[] getStatesByRef(String ref) {
-    Collection<ReplicationState> states = stateMap.get(ref);
+  ReplicationState[] getStatesByRef(FetchRefSpec refSpec) {
+    Collection<ReplicationState> states = stateMap.get(refSpec);
     return states.toArray(new ReplicationState[states.size()]);
   }
 
-  void addStates(ListMultimap<String, ReplicationState> states) {
+  void addStates(ListMultimap<FetchRefSpec, ReplicationState> states) {
     stateMap.putAll(states);
   }
 
@@ -264,12 +287,12 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   private void statesCleanUp() {
     if (!stateMap.isEmpty() && !isRetrying()) {
-      for (Map.Entry<String, ReplicationState> entry : stateMap.entries()) {
+      for (Map.Entry<FetchRefSpec, ReplicationState> entry : stateMap.entries()) {
         entry
             .getValue()
             .notifyRefReplicated(
                 projectName.get(),
-                entry.getKey(),
+                entry.getKey().refName(),
                 uri,
                 ReplicationState.RefFetchResult.FAILED,
                 null);
@@ -336,13 +359,13 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         taskIdHex,
         replicationType,
         uri,
-        String.join(",", getRefs()));
+        getRefSpecs());
     Timer1.Context<String> context = metrics.start(config.getName());
     try {
       long startedAt = context.getStartTime();
       long delay = NANOSECONDS.toMillis(startedAt - createdAt);
       git = gitManager.openRepository(projectName);
-      List<RefSpec> fetchRefSpecs = runImpl();
+      List<FetchRefSpec> fetchRefSpecs = runImpl();
 
       if (fetchRefSpecs.isEmpty()) {
         repLog.info(
@@ -443,12 +466,26 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     repLog.info("[{}] Cannot replicate from {}. It was canceled while running", taskIdHex, uri, e);
   }
 
-  private List<RefSpec> runImpl() throws IOException {
+  private List<FetchRefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<RefSpec> fetchRefSpecs = getFetchRefSpecs();
+    List<FetchRefSpec> fetchRefSpecs = getFetchRefSpecs();
 
     try {
-      updateStates(fetch.fetch(fetchRefSpecs));
+      List<FetchRefSpec> toFetch =
+          fetchRefSpecs.stream().filter(rs -> rs.getSource() != null).toList();
+      Set<String> toDelete =
+          fetchRefSpecs.stream()
+              .filter(rs -> rs.getSource() == null)
+              .map(RefSpec::getDestination)
+              .collect(Collectors.toSet());
+      updateStates(fetch.fetch(toFetch));
+
+      // JGit doesn't support a fetch of <empty> to a ref (e.g. :refs/to/delete) therefore we have
+      // manage them separately and remove them one by one.
+      if (!toDelete.isEmpty()) {
+        updateStates(
+            deleteRefCommand.deleteRefsSync(taskIdHex, projectName, toDelete, getRemoteName()));
+      }
     } catch (InexistentRefTransportException e) {
       String inexistentRef = e.getInexistentRef();
       repLog.info(
@@ -457,7 +494,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
           uri,
           inexistentRef);
       fetchFailures.add(e);
-      delta.remove(inexistentRef);
+      delta.remove(FetchRefSpec.fromRef(inexistentRef));
       if (delta.isEmpty()) {
         repLog.warn("[{}] Empty replication task, skipping.", taskIdHex);
         return Collections.emptyList();
@@ -486,8 +523,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
    *
    * @return The list of refSpecs to fetch
    */
-  public List<RefSpec> getFetchRefSpecs() throws IOException {
-    List<RefSpec> configRefSpecs = config.getFetchRefSpecs();
+  public List<FetchRefSpec> getFetchRefSpecs() throws IOException {
+    List<FetchRefSpec> configRefSpecs =
+        config.getFetchRefSpecs().stream().map(FetchRefSpec::fromRefSpec).toList();
 
     if (delta.isEmpty() && replicationFetchFilter().isEmpty()) {
       return configRefSpecs;
@@ -500,7 +538,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         .collect(Collectors.toList());
   }
 
-  public List<RefSpec> safeGetFetchRefSpecs() {
+  public List<FetchRefSpec> safeGetFetchRefSpecs() {
     try {
       return getFetchRefSpecs();
     } catch (IOException e) {
@@ -509,14 +547,14 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     }
   }
 
-  private Set<String> computeDeltaIfNeeded() throws IOException {
+  private Set<FetchRefSpec> computeDeltaIfNeeded() throws IOException {
     if (!delta.isEmpty()) {
       return delta;
     }
     return staleOrMissingLocalRefs();
   }
 
-  private Set<String> staleOrMissingLocalRefs() throws IOException {
+  private Set<FetchRefSpec> staleOrMissingLocalRefs() throws IOException {
     Map<String, Ref> localRefsMap = fetchRefsDatabase.getLocalRefsMap(git);
     Map<String, Ref> remoteRefsMap = fetchRefsDatabase.getRemoteRefsMap(git, uri);
 
@@ -524,7 +562,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         .filter(
             srcRef -> {
               // that match our configured refSpecs
-              return refToFetchRefSpec(srcRef, config.getFetchRefSpecs())
+              return refToFetchRefSpec(FetchRefSpec.fromRef(srcRef), config.getFetchRefSpecs())
                   .flatMap(
                       spec ->
                           shouldBeFetched(srcRef, localRefsMap, remoteRefsMap)
@@ -532,6 +570,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
                               : Optional.empty())
                   .isPresent();
             })
+        .map(FetchRefSpec::fromRef)
         .collect(Collectors.toSet());
   }
 
@@ -548,21 +587,36 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         .flatMap(filter -> Optional.ofNullable(filter.get()));
   }
 
-  private Set<String> runRefsFilter(Set<String> refs) {
-    return replicationFetchFilter().map(f -> f.filter(this.projectName.get(), refs)).orElse(refs);
+  private Set<FetchRefSpec> runRefsFilter(Set<FetchRefSpec> refs) {
+    Set<String> refsNames =
+        refs.stream().map(FetchRefSpec::refName).collect(Collectors.toUnmodifiableSet());
+    Set<String> filteredRefNames =
+        replicationFetchFilter()
+            .map(f -> f.filter(this.projectName.get(), refsNames))
+            .orElse(refsNames);
+    return refs.stream()
+        .filter(refSpec -> filteredRefNames.contains(refSpec.refName()))
+        .collect(Collectors.toUnmodifiableSet());
   }
 
-  private Optional<RefSpec> refToFetchRefSpec(String ref, List<RefSpec> configRefSpecs) {
-    for (RefSpec refSpec : configRefSpecs) {
-      if (refSpec.matchSource(ref)) {
-        return Optional.of(refSpec.expandFromSource(ref));
+  private Optional<FetchRefSpec> refToFetchRefSpec(
+      FetchRefSpec refSpec, List<? extends RefSpec> configRefSpecs) {
+    for (RefSpec configRefSpec : configRefSpecs) {
+      String refName = refSpec.refName();
+      if (configRefSpec.matchSource(refName)) {
+        if (refSpec.getSource() != null) {
+          return Optional.of(
+              FetchRefSpec.fromRefSpec(configRefSpec.expandFromSource(refSpec.getSource())));
+        } else {
+          return Optional.of(refSpec);
+        }
       }
     }
     return Optional.empty();
   }
 
   private void updateStates(List<RefUpdateState> refUpdates) throws IOException {
-    Set<String> doneRefs = new HashSet<>();
+    Set<RefSpec> doneRefSpecs = new HashSet<>();
     boolean anyRefFailed = false;
     RefUpdate.Result lastRefUpdateResult = RefUpdate.Result.NO_CHANGE;
 
@@ -571,11 +625,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       Set<ReplicationState> logStates = new HashSet<>();
       lastRefUpdateResult = u.getResult();
 
-      logStates.addAll(stateMap.get(u.getRemoteName()));
-      logStates.addAll(stateMap.get(ALL_REFS));
+      logStates.addAll(stateMap.get(FetchRefSpec.fromRef(u.getRemoteName())));
+      logStates.addAll(stateMap.get(FetchRefSpec.fromRef(ALL_REFS)));
       ReplicationState[] logStatesArray = logStates.toArray(new ReplicationState[logStates.size()]);
 
-      doneRefs.add(u.getRemoteName());
+      doneRefSpecs.add(FetchRefSpec.fromRef(u.getRemoteName()));
       switch (u.getResult()) {
         case NO_CHANGE:
         case NEW:
@@ -614,14 +668,14 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
           break;
       }
 
-      for (ReplicationState rs : getStatesByRef(u.getRemoteName())) {
+      for (ReplicationState rs : getStatesByRef(FetchRefSpec.fromRef(u.getRemoteName()))) {
         rs.notifyRefReplicated(
             projectName.get(), u.getRemoteName(), uri, fetchStatus, u.getResult());
       }
     }
 
-    doneRefs.add(ALL_REFS);
-    for (ReplicationState rs : getStatesByRef(ALL_REFS)) {
+    doneRefSpecs.add(FetchRefSpec.fromRef(ALL_REFS));
+    for (ReplicationState rs : getStatesByRef(FetchRefSpec.fromRef(ALL_REFS))) {
       rs.notifyRefReplicated(
           projectName.get(),
           ALL_REFS,
@@ -631,31 +685,31 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
               : ReplicationState.RefFetchResult.SUCCEEDED,
           lastRefUpdateResult);
     }
-    for (Map.Entry<String, ReplicationState> entry : stateMap.entries()) {
-      if (!doneRefs.contains(entry.getKey())) {
+    for (Map.Entry<FetchRefSpec, ReplicationState> entry : stateMap.entries()) {
+      if (!doneRefSpecs.contains(entry.getKey())) {
         entry
             .getValue()
             .notifyRefReplicated(
                 projectName.get(),
-                entry.getKey(),
+                entry.getKey().refName(),
                 uri,
                 ReplicationState.RefFetchResult.NOT_ATTEMPTED,
                 null);
       }
     }
 
-    for (String doneRef : doneRefs) {
+    for (RefSpec doneRef : doneRefSpecs) {
       stateMap.removeAll(doneRef);
     }
   }
 
   private void notifyRefReplicatedIOException() {
-    for (Map.Entry<String, ReplicationState> entry : stateMap.entries()) {
+    for (Map.Entry<FetchRefSpec, ReplicationState> entry : stateMap.entries()) {
       entry
           .getValue()
           .notifyRefReplicated(
               projectName.get(),
-              entry.getKey(),
+              entry.getKey().refName(),
               uri,
               ReplicationState.RefFetchResult.FAILED,
               RefUpdate.Result.IO_FAILURE);

@@ -19,9 +19,7 @@ import static org.apache.http.HttpStatus.SC_ACCEPTED;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -39,9 +37,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeoutException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,9 +59,7 @@ public class FetchActionTest {
   @Mock FetchCommand fetchCommand;
   @Mock DeleteRefCommand deleteRefCommand;
   @Mock FetchJob fetchJob;
-  @Mock DeleteRefJob deleteRefJob;
   @Mock FetchJob.Factory fetchJobFactory;
-  @Mock DeleteRefJob.Factory deleteRefJobFactory;
   @Mock ProjectResource projectResource;
   @Mock WorkQueue workQueue;
   @Mock ScheduledExecutorService exceutorService;
@@ -77,7 +71,6 @@ public class FetchActionTest {
   @Before
   public void setup() throws Exception {
     when(fetchJobFactory.create(any(), any(), any())).thenReturn(fetchJob);
-    when(deleteRefJobFactory.create(any(), any())).thenReturn(deleteRefJob);
     when(workQueue.getDefaultQueue()).thenReturn(exceutorService);
     when(urlFormatter.getRestUrl(anyString())).thenReturn(Optional.of(location));
     when(exceutorService.submit(any(Runnable.class)))
@@ -94,13 +87,7 @@ public class FetchActionTest {
 
     fetchAction =
         new FetchAction(
-            fetchCommand,
-            deleteRefCommand,
-            workQueue,
-            urlFormatterDynamicItem,
-            preConditions,
-            fetchJobFactory,
-            deleteRefJobFactory);
+            fetchCommand, workQueue, urlFormatterDynamicItem, preConditions, fetchJobFactory);
   }
 
   @Test
@@ -126,18 +113,6 @@ public class FetchActionTest {
   }
 
   @Test
-  public void shouldDeleteRefSync() throws Exception {
-    FetchAction.BatchInput batchInputParams = new FetchAction.BatchInput();
-    batchInputParams.label = label;
-    batchInputParams.refInputs = Set.of(RefInput.create(refName, true));
-
-    Response<?> response = fetchAction.apply(projectResource, batchInputParams);
-    verify(deleteRefCommand).deleteRefsSync(any(), eq(Set.of(refName)), eq(label));
-
-    assertThat(response.statusCode()).isEqualTo(SC_CREATED);
-  }
-
-  @Test
   public void shouldDeleteRefAsync() throws Exception {
     FetchAction.BatchInput batchInputParams = new FetchAction.BatchInput();
     batchInputParams.label = label;
@@ -145,8 +120,6 @@ public class FetchActionTest {
     batchInputParams.refInputs = Set.of(RefInput.create(refName, true));
 
     Response<?> response = fetchAction.apply(projectResource, batchInputParams);
-    verify(deleteRefJobFactory).create(any(), eq(batchInputParams));
-
     assertThat(response.statusCode()).isEqualTo(SC_ACCEPTED);
   }
 
@@ -225,36 +198,12 @@ public class FetchActionTest {
   }
 
   @Test(expected = RestApiException.class)
-  public void shouldThrowRestApiExceptionWhenIssueDuringPocessing() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
-    inputParams.label = label;
-    inputParams.refName = refName;
-
-    doThrow(new ExecutionException(new RuntimeException()))
-        .when(fetchCommand)
-        .fetchSync(any(), any(), any());
-
-    fetchAction.apply(projectResource, inputParams);
-  }
-
-  @Test(expected = RestApiException.class)
   public void shouldThrowRestApiExceptionWhenIssueWithUrlParam() throws Exception {
     FetchAction.Input inputParams = new FetchAction.Input();
     inputParams.label = label;
     inputParams.refName = refName;
 
     doThrow(new IllegalStateException()).when(fetchCommand).fetchSync(any(), any(), any());
-
-    fetchAction.apply(projectResource, inputParams);
-  }
-
-  @Test(expected = RestApiException.class)
-  public void shouldThrowRestApiExceptionWhenTimeout() throws Exception {
-    FetchAction.Input inputParams = new FetchAction.Input();
-    inputParams.label = label;
-    inputParams.refName = refName;
-
-    doThrow(new TimeoutException()).when(fetchCommand).fetchSync(any(), any(), any());
 
     fetchAction.apply(projectResource, inputParams);
   }

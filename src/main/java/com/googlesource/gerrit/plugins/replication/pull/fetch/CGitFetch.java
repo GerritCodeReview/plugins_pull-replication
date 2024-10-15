@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlesource.gerrit.plugins.replication.CredentialsFactory;
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import com.googlesource.gerrit.plugins.replication.pull.SourceConfiguration;
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,7 +36,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialItem;
 import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.URIish;
 
 public class CGitFetch implements Fetch {
@@ -61,7 +61,7 @@ public class CGitFetch implements Fetch {
   }
 
   @Override
-  public List<RefUpdateState> fetch(List<RefSpec> refsSpec) throws IOException {
+  public List<RefUpdateState> fetch(List<FetchRefSpec> refsSpec) throws IOException {
     List<String> refs = refsSpec.stream().map(s -> s.toString()).collect(Collectors.toList());
     List<String> command = Lists.newArrayList("git", "fetch");
     if (isMirror) {
@@ -91,7 +91,7 @@ public class CGitFetch implements Fetch {
       return refsSpec.stream()
           .map(
               value -> {
-                return new RefUpdateState(value.getSource(), RefUpdate.Result.NEW);
+                return new RefUpdateState(value.refName(), RefUpdate.Result.NEW);
               })
           .collect(Collectors.toList());
     } catch (TransportException e) {

@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
@@ -65,10 +66,16 @@ abstract class PullReplicationITBase extends PullReplicationSetupBase {
     config.setString("remote", remoteName, "apiUrl", adminRestSession.url());
     config.setString("remote", remoteName, "fetch", "+refs/*:refs/*");
     config.setInt("remote", remoteName, "timeout", 600);
-    config.setInt("remote", remoteName, "replicationDelay", TEST_REPLICATION_DELAY);
+    config.setBoolean("remote", remoteName, "mirror", true);
+    config.setInt("remote", remoteName, "replicationDelay", replicationDelaySec());
     project.ifPresent(prj -> config.setString("remote", remoteName, "projects", prj));
     config.setBoolean("gerrit", null, "autoReload", true);
+    config.setStringList("replication", null, "syncRefs", syncRefs());
     config.save();
+  }
+
+  protected List<String> syncRefs() {
+    return List.of();
   }
 
   @Override
@@ -135,6 +142,72 @@ abstract class PullReplicationITBase extends PullReplicationSetupBase {
       Ref targetBranchRef = getRef(repo, newBranch);
       assertThat(targetBranchRef).isNotNull();
       assertThat(targetBranchRef.getObjectId().getName()).isEqualTo(branchRevision);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  public void shouldReplicateBranchDeleted() throws Exception {
+    String testProjectName = project + TEST_REPLICATION_SUFFIX;
+    createTestProject(testProjectName);
+
+    String newBranch = "refs/heads/mybranch";
+    String master = "refs/heads/master";
+    BranchInput input = new BranchInput();
+    input.revision = master;
+    gApi.projects().name(project.get()).branch(newBranch).create(input);
+    String branchRevision = gApi.projects().name(project.get()).branch(newBranch).get().revision;
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+    ProjectEvent event =
+        generateUpdateEvent(
+            project,
+            newBranch,
+            branchRevision,
+            ObjectId.zeroId().getName(),
+            TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
+
+    try (Repository repo = repoManager.openRepository(project);
+        Repository sourceRepo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, newBranch) == null);
+
+      Ref targetBranchRef = getRef(repo, newBranch);
+      assertThat(targetBranchRef).isNull();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = TEST_REPLICATION_REMOTE)
+  public void shouldReplicateBranchUpdatedAndThenDeleted() throws Exception {
+    String testProjectName = project + TEST_REPLICATION_SUFFIX;
+    createTestProject(testProjectName);
+
+    String master = "refs/heads/master";
+    String initial = gApi.projects().name(testProjectName).branch(master).get().revision;
+    testRepo = cloneProject(NameKey.parse(testProjectName));
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
+    PushOneCommit.Result result = push.to("refs/heads/master");
+    result.assertOkStatus();
+
+    String updated = gApi.projects().name(testProjectName).branch(master).get().revision;
+
+    ReplicationQueue pullReplicationQueue =
+        plugin.getSysInjector().getInstance(ReplicationQueue.class);
+    ProjectEvent event =
+        generateUpdateEvent(project, master, initial, updated, TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(event);
+
+    gApi.projects().name(testProjectName).branch(master).delete();
+    ProjectEvent deleteEvent =
+        generateUpdateEvent(
+            project, master, updated, ObjectId.zeroId().getName(), TEST_REPLICATION_REMOTE);
+    pullReplicationQueue.onEvent(deleteEvent);
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      waitUntil(() -> checkedGetRef(repo, master) == null);
     }
   }
 

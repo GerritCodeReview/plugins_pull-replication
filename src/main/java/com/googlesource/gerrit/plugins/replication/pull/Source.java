@@ -350,7 +350,7 @@ public class Source {
   }
 
   private boolean shouldReplicate(
-      final Project.NameKey project, String ref, ReplicationState... states) {
+      final Project.NameKey project, FetchRefSpec refSpec, ReplicationState... states) {
     try {
       return threadScoper
           .scope(
@@ -364,7 +364,7 @@ public class Source {
                     repLog.warn(
                         "NOT scheduling replication {}:{} because could not open source project",
                         project,
-                        ref,
+                        refSpec,
                         e);
                     return false;
                   }
@@ -372,28 +372,28 @@ public class Source {
                     repLog.warn(
                         "NOT scheduling replication {}:{} because project does not exist",
                         project,
-                        ref);
+                        refSpec);
                     throw new NoSuchProjectException(project);
                   }
                   if (!shouldReplicate(projectState.get(), userProvider.get())) {
                     return false;
                   }
-                  if (FetchOne.ALL_REFS.equals(ref)) {
+                  if (refSpec.equalsToRef(FetchOne.ALL_REFS)) {
                     return true;
                   }
                   try {
-                    if (!ref.startsWith(RefNames.REFS_CHANGES)) {
+                    if (!refSpec.refName().startsWith(RefNames.REFS_CHANGES)) {
                       permissionBackend
                           .user(userProvider.get())
                           .project(project)
-                          .ref(ref)
+                          .ref(refSpec.refName())
                           .check(RefPermission.READ);
                     }
                   } catch (AuthException e) {
                     repLog.warn(
                         "NOT scheduling replication {}:{} because lack of permissions to access project/ref",
                         project,
-                        ref);
+                        refSpec);
                     return false;
                   }
                   return true;
@@ -406,7 +406,7 @@ public class Source {
       Throwables.throwIfUnchecked(e);
       throw new RuntimeException(e);
     }
-    repLog.warn("NOT scheduling replication {}:{}", project, ref);
+    repLog.warn("NOT scheduling replication {}:{}", project, refSpec);
     return false;
   }
 
@@ -441,16 +441,16 @@ public class Source {
 
   public Future<?> schedule(
       Project.NameKey project,
-      String ref,
+      FetchRefSpec refSpec,
       ReplicationState state,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
     URIish uri = getURI(project);
-    return schedule(project, ref, uri, state, apiRequestMetrics, false);
+    return schedule(project, refSpec, uri, state, apiRequestMetrics, false);
   }
 
   public Future<?> scheduleNow(
       Project.NameKey project,
-      String ref,
+      FetchRefSpec ref,
       ReplicationState state,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
     URIish uri = getURI(project);
@@ -459,7 +459,7 @@ public class Source {
 
   public Future<?> schedule(
       Project.NameKey project,
-      String ref,
+      FetchRefSpec ref,
       URIish uri,
       ReplicationState state,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -468,7 +468,7 @@ public class Source {
 
   public Future<?> scheduleNow(
       Project.NameKey project,
-      String ref,
+      FetchRefSpec ref,
       URIish uri,
       ReplicationState state,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -477,14 +477,14 @@ public class Source {
 
   private Future<?> schedule(
       Project.NameKey project,
-      String ref,
+      FetchRefSpec refSpec,
       URIish uri,
       ReplicationState state,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics,
       boolean now) {
 
-    repLog.info("scheduling replication {}:{} => {}", uri, ref, project);
-    if (!shouldReplicate(project, ref, state)) {
+    repLog.info("scheduling replication {}:{} => {}", uri, refSpec, project);
+    if (!shouldReplicate(project, refSpec, state)) {
       queueMetrics.incrementTaskNotScheduled(this);
       return CompletableFuture.completedFuture(null);
     }
@@ -522,8 +522,8 @@ public class Source {
       Future<?> f = CompletableFuture.completedFuture(null);
       if (e == null || e.isRetrying()) {
         e = opFactory.create(project, uri, apiRequestMetrics);
-        addRef(e, ref);
-        e.addState(ref, state);
+        addRef(e, refSpec);
+        e.addState(refSpec, state);
         pending.put(uri, e);
         f =
             pool.schedule(
@@ -531,25 +531,25 @@ public class Source {
                 now ? 0 : config.getDelay(),
                 TimeUnit.SECONDS);
         queueMetrics.incrementTaskScheduled(this);
-      } else if (!e.getRefs().contains(ref)) {
-        addRef(e, ref);
-        e.addState(ref, state);
+      } else if (!e.getRefSpecs().contains(refSpec)) {
+        addRef(e, refSpec);
+        e.addState(refSpec, state);
         queueMetrics.incrementTaskMerged(this);
       } else {
         queueMetrics.incrementTaskNotScheduled(this);
       }
-      state.increaseFetchTaskCount(project.get(), ref);
-      repLog.info("scheduled {}:{} => {} to run after {}s", e, ref, project, config.getDelay());
+      state.increaseFetchTaskCount(project.get(), refSpec.refName());
+      repLog.info("scheduled {}:{} => {} to run after {}s", e, refSpec, project, config.getDelay());
       return f;
     }
   }
 
   public Optional<FetchOne> fetchSync(
       Project.NameKey project,
-      Set<String> refs,
+      Set<FetchRefSpec> refs,
       URIish uri,
       Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
-    Set<String> refsToReplicate =
+    Set<FetchRefSpec> refsToReplicate =
         refs.stream()
             .filter(ref -> shouldReplicate(project, ref))
             .filter(ref -> config.replicatePermissions() || !ref.equals(RefNames.REFS_CONFIG))
@@ -583,9 +583,9 @@ public class Source {
     }
   }
 
-  private void addRef(FetchOne e, String ref) {
+  private void addRef(FetchOne e, FetchRefSpec ref) {
     e.addRef(ref);
-    postReplicationScheduledEvent(e, ref);
+    postReplicationScheduledEvent(e, ref.refName());
   }
 
   /**
@@ -629,7 +629,7 @@ public class Source {
           // second one fails, it will also be rescheduled and then,
           // here, find out replication to its URI is already pending
           // for retry (blocking).
-          pendingFetchOp.addRefs(fetchOp.getRefs());
+          pendingFetchOp.addRefs(fetchOp.getRefSpecs());
           pendingFetchOp.addStates(fetchOp.getStates());
           fetchOp.removeStates();
 
@@ -656,7 +656,22 @@ public class Source {
           pendingFetchOp.canceledByReplication();
           pending.remove(uri);
 
-          fetchOp.addRefs(pendingFetchOp.getRefs());
+          Set<FetchRefSpec> fetchOpRefSpecs = fetchOp.getRefSpecs();
+          fetchOp.addRefs(pendingFetchOp.getRefSpecs());
+
+          if (reason == RetryReason.COLLISION) {
+            // The fetch was never executed and is delayed
+            // because of a collision with an in-flight replication.
+            // The pending one was already in the queue and
+            // therefore is for sure older than fetchOp
+            // otherwise it would have been also rescheduled
+            // because of a collision.
+            // FetchOp has to take precedence over the pending
+            // operation that is for sure older, therefore its
+            // initial ref-specs need to be reapplied.
+            fetchOp.addRefs(fetchOpRefSpecs);
+          }
+
           fetchOp.addStates(pendingFetchOp.getStates());
           pendingFetchOp.removeStates();
 

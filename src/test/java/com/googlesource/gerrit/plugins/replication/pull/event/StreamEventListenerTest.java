@@ -25,7 +25,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
@@ -36,7 +35,6 @@ import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
-import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
@@ -69,7 +67,6 @@ public class StreamEventListenerTest {
   @Mock private FetchJob fetchJob;
   @Mock private FetchJob.Factory fetchJobFactory;
   @Mock private UpdateHeadCommand updateHeadCommand;
-  @Mock private DeleteRefCommand deleteRefCommand;
   @Captor ArgumentCaptor<FetchAction.BatchInput> batchInputCaptor;
   @Mock private PullReplicationApiRequestMetrics metrics;
   @Mock private SourcesCollection sources;
@@ -94,7 +91,6 @@ public class StreamEventListenerTest {
     objectUnderTest =
         new StreamEventListener(
             INSTANCE_ID,
-            deleteRefCommand,
             updateHeadCommand,
             projectInitializationAction,
             workQueue,
@@ -113,22 +109,6 @@ public class StreamEventListenerTest {
 
     verify(executor, never()).submit(any(Runnable.class));
     verify(sources, never()).getAll();
-  }
-
-  @Test
-  public void shouldSkipFetchForProjectDeleteEvent() {
-    RefUpdatedEvent event = new RefUpdatedEvent();
-    RefUpdateAttribute refUpdate = new RefUpdateAttribute();
-    refUpdate.refName = RefNames.REFS_CONFIG;
-    refUpdate.newRev = ObjectId.zeroId().getName();
-    refUpdate.project = TEST_PROJECT;
-
-    event.instanceId = REMOTE_INSTANCE_ID;
-    event.refUpdate = () -> refUpdate;
-
-    objectUnderTest.onEvent(event);
-
-    verify(executor, never()).submit(any(Runnable.class));
   }
 
   @Test
@@ -151,7 +131,7 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldDeleteRefForRefDeleteEvent() throws Exception {
+  public void shouldScheduleJobForRefDeleteEvent() throws Exception {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
@@ -163,8 +143,15 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(deleteRefCommand)
-        .deleteRef(Project.nameKey(TEST_PROJECT), refUpdate.refName, REMOTE_INSTANCE_ID);
+    verify(fetchJobFactory)
+        .create(eq(Project.nameKey(TEST_PROJECT)), batchInputCaptor.capture(), any());
+
+    FetchAction.BatchInput batchInput = batchInputCaptor.getValue();
+    assertThat(batchInput.label).isEqualTo(REMOTE_INSTANCE_ID);
+    FetchAction.RefInput deletedRefInput = FetchAction.RefInput.create(TEST_REF_NAME, true);
+    assertThat(batchInput.refInputs).contains(deletedRefInput);
+
+    verify(executor).submit(any(FetchJob.class));
   }
 
   @Test

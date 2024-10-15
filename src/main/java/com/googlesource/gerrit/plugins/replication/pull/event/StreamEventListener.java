@@ -26,7 +26,6 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.data.RefUpdateAttribute;
@@ -45,7 +44,6 @@ import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
-import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
@@ -61,7 +59,6 @@ public class StreamEventListener implements EventListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String ZERO_ID_NAME = ObjectId.zeroId().name();
 
-  private final DeleteRefCommand deleteCommand;
   private final ExcludedRefsFilter refsFilter;
   private final Factory fetchJobFactory;
   private final UpdateHeadCommand updateHeadCommand;
@@ -75,7 +72,6 @@ public class StreamEventListener implements EventListener {
   @Inject
   public StreamEventListener(
       @Nullable @GerritInstanceId String instanceId,
-      DeleteRefCommand deleteCommand,
       UpdateHeadCommand updateHeadCommand,
       ProjectInitializationAction projectInitializationAction,
       WorkQueue workQueue,
@@ -85,7 +81,6 @@ public class StreamEventListener implements EventListener {
       ExcludedRefsFilter excludedRefsFilter,
       @Named(APPLY_OBJECTS_CACHE) Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache) {
     this.instanceId = instanceId;
-    this.deleteCommand = deleteCommand;
     this.updateHeadCommand = updateHeadCommand;
     this.projectInitializationAction = projectInitializationAction;
     this.workQueue = workQueue;
@@ -133,15 +128,6 @@ public class StreamEventListener implements EventListener {
         return;
       }
 
-      if (isProjectDelete(refUpdatedEvent)) {
-        return;
-      }
-
-      if (isRefDelete(refUpdatedEvent)) {
-        deleteRef(refUpdatedEvent);
-        return;
-      }
-
       if (isApplyObjectsCacheHit(refUpdatedEvent)) {
         logger.atFine().log(
             "Skipping refupdate '%s'  '%s'=>'%s' (eventCreatedOn=%d) for project '%s' because has been already replicated via apply-object",
@@ -157,6 +143,7 @@ public class StreamEventListener implements EventListener {
           refUpdatedEvent.getRefName(),
           refUpdatedEvent.instanceId,
           refUpdatedEvent.getProjectNameKey(),
+          isRefDelete(refUpdatedEvent),
           metrics);
     } else if (event instanceof ProjectCreatedEvent) {
       ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
@@ -166,6 +153,7 @@ public class StreamEventListener implements EventListener {
             FetchOne.ALL_REFS,
             projectCreatedEvent.instanceId,
             projectCreatedEvent.getProjectNameKey(),
+            false,
             metrics);
       } catch (AuthException | PermissionBackendException | IOException e) {
         logger.atSevere().withCause(e).log(
@@ -181,19 +169,6 @@ public class StreamEventListener implements EventListener {
             "Failed to update HEAD on project: %s", headUpdatedEvent.projectName);
         throw e;
       }
-    }
-  }
-
-  private void deleteRef(RefUpdatedEvent refUpdatedEvent) {
-    try {
-      deleteCommand.deleteRef(
-          refUpdatedEvent.getProjectNameKey(),
-          refUpdatedEvent.getRefName(),
-          refUpdatedEvent.instanceId);
-    } catch (IOException | RestApiException e) {
-      logger.atSevere().withCause(e).log(
-          "Cannot delete ref %s project:%s",
-          refUpdatedEvent.getRefName(), refUpdatedEvent.getProjectNameKey());
     }
   }
 
@@ -239,10 +214,12 @@ public class StreamEventListener implements EventListener {
       String refName,
       String sourceInstanceId,
       NameKey projectNameKey,
+      boolean isDelete,
       PullReplicationApiRequestMetrics metrics) {
     FetchAction.Input input = new FetchAction.Input();
     input.refName = refName;
     input.label = sourceInstanceId;
+    input.isDelete = isDelete;
     workQueue
         .getDefaultQueue()
         .submit(fetchJobFactory.create(projectNameKey, fromInput(input), metrics));

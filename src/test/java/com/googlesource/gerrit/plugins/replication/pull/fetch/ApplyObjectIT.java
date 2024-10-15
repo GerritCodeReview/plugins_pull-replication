@@ -44,6 +44,7 @@ import com.googlesource.gerrit.plugins.replication.ReplicationConfigImpl;
 import com.googlesource.gerrit.plugins.replication.api.ConfigResource;
 import com.googlesource.gerrit.plugins.replication.api.ReplicationConfig;
 import com.googlesource.gerrit.plugins.replication.api.ReplicationConfigOverrides;
+import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import com.googlesource.gerrit.plugins.replication.pull.RevisionReader;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectData;
@@ -54,7 +55,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,13 +85,13 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     String refName = RefNames.changeMetaRef(changeId);
     String patchSetRefName = RefNames.patchSetRef(PatchSet.id(changeId, 1));
 
-    RefSpec refSpec = new RefSpec(refName);
+    FetchRefSpec refSpec = FetchRefSpec.fromRef(refName);
     Optional<RevisionData> revisionData;
     NameKey testRepoKey = Project.nameKey(testRepoProjectName);
 
     try (Repository repo = repoManager.openRepository(testRepoKey)) {
       revisionData = reader.read(testRepoKey, repo.exactRef(refName).getObjectId(), refName, 0);
-      objectUnderTest.apply(project, new RefSpec(patchSetRefName), toArray(revisionData));
+      objectUnderTest.apply(project, FetchRefSpec.fromRef(patchSetRefName), toArray(revisionData));
       objectUnderTest.apply(project, refSpec, toArray(revisionData));
     }
 
@@ -114,7 +114,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
 
     Optional<RevisionData> revisionData = reader.read(allProjects, seqChangesRef, 0);
 
-    RefSpec refSpec = new RefSpec(seqChangesRef);
+    FetchRefSpec refSpec = FetchRefSpec.fromRef(seqChangesRef);
     objectUnderTest.apply(project, refSpec, toArray(revisionData));
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<Repository> testRepo = new TestRepository<>(repo); ) {
@@ -135,13 +135,13 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
     Change.Id changeId = pushResult.getChange().getId();
     String patchSetRefname = RefNames.patchSetRef(PatchSet.id(changeId, 1));
     String refName = RefNames.changeMetaRef(changeId);
-    RefSpec refSpec = new RefSpec(refName);
+    FetchRefSpec refSpec = FetchRefSpec.fromRef(refName);
 
     NameKey testRepoKey = Project.nameKey(testRepoProjectName);
     try (Repository repo = repoManager.openRepository(testRepoKey)) {
       Optional<RevisionData> revisionData =
           reader.read(testRepoKey, repo.exactRef(refName).getObjectId(), refName, 0);
-      objectUnderTest.apply(project, new RefSpec(patchSetRefname), toArray(revisionData));
+      objectUnderTest.apply(project, FetchRefSpec.fromRef(patchSetRefname), toArray(revisionData));
       objectUnderTest.apply(project, refSpec, toArray(revisionData));
     }
 
@@ -185,7 +185,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
       Optional<RevisionData> revisionData =
           reader.read(createTestProject, repo.exactRef(refName).getObjectId(), refName, 0);
 
-      RefSpec refSpec = new RefSpec(refName);
+      FetchRefSpec refSpec = FetchRefSpec.fromRef(refName);
       assertThrows(
           MissingParentObjectException.class,
           () -> objectUnderTest.apply(project, refSpec, toArray(revisionData)));
@@ -206,7 +206,7 @@ public class ApplyObjectIT extends LightweightPluginDaemonTest {
       Optional<RevisionData> revisionData =
           reader.read(createTestProject, repo.exactRef(refName).getObjectId(), refName, 0);
 
-      RefSpec refSpec = new RefSpec(refName);
+      FetchRefSpec refSpec = FetchRefSpec.fromRef(refName);
       assertThrows(
           MissingLatestPatchSetException.class,
           () -> objectUnderTest.apply(project, refSpec, toArray(revisionData)));

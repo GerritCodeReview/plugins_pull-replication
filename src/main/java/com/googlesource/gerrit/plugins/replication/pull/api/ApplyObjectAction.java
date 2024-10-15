@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
@@ -34,22 +35,18 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingPar
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
 import java.util.Objects;
-import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.lib.RefUpdate;
 
 @Singleton
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
 
   private final ApplyObjectCommand applyObjectCommand;
-  private final DeleteRefCommand deleteRefCommand;
   private final FetchPreconditions preConditions;
 
   @Inject
   public ApplyObjectAction(
-      ApplyObjectCommand applyObjectCommand,
-      DeleteRefCommand deleteRefCommand,
-      FetchPreconditions preConditions) {
+      ApplyObjectCommand applyObjectCommand, FetchPreconditions preConditions) {
     this.applyObjectCommand = applyObjectCommand;
-    this.deleteRefCommand = deleteRefCommand;
     this.preConditions = preConditions;
   }
 
@@ -65,6 +62,9 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
     if (Strings.isNullOrEmpty(input.getRefName())) {
       throw new BadRequestException("Ref-update refname cannot be null or empty");
     }
+    if (Objects.isNull(input.getRevisionData())) {
+      throw new BadRequestException("Revision data cannot be null");
+    }
 
     try {
       repLog.info(
@@ -73,17 +73,6 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           resource.getNameKey(),
           input.getRefName(),
           input.getRevisionData());
-
-      if (Objects.isNull(input.getRevisionData())) {
-        deleteRefCommand.deleteRef(resource.getNameKey(), input.getRefName(), input.getLabel());
-        repLog.info(
-            "Apply object API - REF DELETED - from {} for {}:{} - {}",
-            input.getLabel(),
-            resource.getNameKey(),
-            input.getRefName(),
-            input.getRevisionData());
-        return Response.withStatusCode(HttpServletResponse.SC_NO_CONTENT, "");
-      }
 
       try {
         input.validate();
@@ -126,13 +115,23 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           e);
       throw RestApiException.wrap(e.getMessage(), e);
     } catch (RefUpdateException e) {
-      repLog.error(
-          "Apply object API *FAILED* from {} for {}:{} - {}",
-          input.getLabel(),
-          resource.getNameKey(),
-          input.getRefName(),
-          input.getRevisionData(),
-          e);
+      if (RefNames.isRefsDraftsComments(input.getRefName())
+          && e.getResult().equals(RefUpdate.Result.REJECTED)) {
+        repLog.info(
+            "Apply object API *REJECTED* from {} for {}:{} - {}",
+            input.getLabel(),
+            resource.getNameKey(),
+            input.getRefName(),
+            input.getRevisionData());
+      } else {
+        repLog.error(
+            "Apply object API *FAILED* from {} for {}:{} - {}",
+            input.getLabel(),
+            resource.getNameKey(),
+            input.getRefName(),
+            input.getRevisionData(),
+            e);
+      }
       throw new UnprocessableEntityException(e.getMessage());
     } catch (MissingLatestPatchSetException e) {
       repLog.error(

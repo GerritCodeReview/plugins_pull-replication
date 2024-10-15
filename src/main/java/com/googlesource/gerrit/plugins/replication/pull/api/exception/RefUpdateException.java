@@ -14,11 +14,19 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api.exception;
 
+import org.eclipse.jgit.lib.RefUpdate;
+
 public class RefUpdateException extends Exception {
 
   private static final long serialVersionUID = 1L;
+  private final RefUpdate.Result result;
 
-  public RefUpdateException(String msg) {
+  public RefUpdateException(RefUpdate.Result result, String msg) {
     super(msg);
+    this.result = result;
+  }
+
+  public RefUpdate.Result getResult() {
+    return result;
   }
 }
