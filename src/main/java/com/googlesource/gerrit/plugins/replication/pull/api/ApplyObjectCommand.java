@@ -164,7 +164,7 @@ public class ApplyObjectCommand {
     if (!isRefUpdateSuccessful) {
       String message =
           String.format(
-              "RefUpdate failed with result %s for: sourceLcabel=%s, project=%s, refName=%s",
+              "RefUpdate failed with result %s for: sourceLabel=%s, project=%s, refName=%s",
               refUpdateState.getResult().name(), sourceLabel, name, refName);
       fetchStateLog.error(message);
       throw new RefUpdateException(message);
