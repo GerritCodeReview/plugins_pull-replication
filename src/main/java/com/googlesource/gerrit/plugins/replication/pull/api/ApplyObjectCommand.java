@@ -167,7 +167,7 @@ public class ApplyObjectCommand {
               "RefUpdate failed with result %s for: sourceLabel=%s, project=%s, refName=%s",
               refUpdateState.getResult().name(), sourceLabel, name, refName);
       fetchStateLog.error(message);
-      throw new RefUpdateException(message);
+      throw new RefUpdateException(refUpdateState.getResult(), message);
     }
     repLog.info(
         "Apply object from {} for project {}, ref name {} completed in {}ms",

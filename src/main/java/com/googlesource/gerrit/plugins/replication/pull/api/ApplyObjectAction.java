@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
@@ -34,6 +35,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingPar
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RefUpdateException;
 import java.io.IOException;
 import java.util.Objects;
+import org.eclipse.jgit.lib.RefUpdate;
 
 @Singleton
 public class ApplyObjectAction implements RestModifyView<ProjectResource, RevisionInput> {
@@ -113,13 +115,23 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
           e);
       throw RestApiException.wrap(e.getMessage(), e);
     } catch (RefUpdateException e) {
-      repLog.error(
-          "Apply object API *FAILED* from {} for {}:{} - {}",
-          input.getLabel(),
-          resource.getNameKey(),
-          input.getRefName(),
-          input.getRevisionData(),
-          e);
+      if (RefNames.isRefsDraftsComments(input.getRefName())
+          && e.getResult().equals(RefUpdate.Result.REJECTED)) {
+        repLog.info(
+            "Apply object API *REJECTED* from {} for {}:{} - {}",
+            input.getLabel(),
+            resource.getNameKey(),
+            input.getRefName(),
+            input.getRevisionData());
+      } else {
+        repLog.error(
+            "Apply object API *FAILED* from {} for {}:{} - {}",
+            input.getLabel(),
+            resource.getNameKey(),
+            input.getRefName(),
+            input.getRevisionData(),
+            e);
+      }
       throw new UnprocessableEntityException(e.getMessage());
     } catch (MissingLatestPatchSetException e) {
       repLog.error(
