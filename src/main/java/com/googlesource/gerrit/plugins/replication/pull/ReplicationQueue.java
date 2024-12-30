@@ -283,8 +283,8 @@ public class ReplicationQueue
     if (!running) {
       stateLog.warn(
           String.format(
-              "Replication plugin did not finish startup before event, event replication is postponed"
-                  + " for event %s",
+              "Replication plugin did not finish startup before event, event replication is"
+                  + " postponed for event %s",
               event),
           state);
       beforeStartupEventsQueue.add(event);
@@ -470,8 +470,8 @@ public class ReplicationQueue
                   fetchClient.callBatchSendObject(project, filteredRefsBatch, eventCreatedOn, uri));
           resultSuccessful = HttpResultUtils.isSuccessful(result);
           repLog.info(
-              "Pull replication REST API batch apply object to {} COMPLETED for {}:[{}], HTTP  Result:"
-                  + " {} - time:{} ms",
+              "Pull replication REST API batch apply object to {} COMPLETED for {}:[{}], HTTP "
+                  + " Result: {} - time:{} ms",
               apiUrl,
               project,
               batchApplyObjectStr,
@@ -479,7 +479,8 @@ public class ReplicationQueue
               apiTimer.stop() / 1000000.0);
         } else {
           repLog.info(
-              "REST API batch apply object not enabled for source {}, using REST API apply object to {} for {}:[{}]",
+              "REST API batch apply object not enabled for source {}, using REST API apply object"
+                  + " to {} for {}:[{}]",
               remoteName,
               apiUrl,
               project,
@@ -569,8 +570,11 @@ public class ReplicationQueue
 
   private List<RevisionData> fetchWholeMetaHistory(
       NameKey project, String refName, RevisionData revision)
-      throws RepositoryNotFoundException, MissingObjectException, IncorrectObjectTypeException,
-          CorruptObjectException, IOException {
+      throws RepositoryNotFoundException,
+          MissingObjectException,
+          IncorrectObjectTypeException,
+          CorruptObjectException,
+          IOException {
     RevisionReader revisionReader = revReaderProvider.get();
     Optional<RevisionData> revisionDataWithParents =
         revisionReader.read(project, refName, Integer.MAX_VALUE);

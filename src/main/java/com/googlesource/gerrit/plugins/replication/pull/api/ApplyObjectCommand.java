@@ -91,8 +91,11 @@ public class ApplyObjectCommand {
       RevisionData revisionsData,
       String sourceLabel,
       long eventCreatedOn)
-      throws IOException, RefUpdateException, MissingParentObjectException,
-          ResourceNotFoundException, MissingLatestPatchSetException {
+      throws IOException,
+          RefUpdateException,
+          MissingParentObjectException,
+          ResourceNotFoundException,
+          MissingLatestPatchSetException {
     applyObjects(name, refName, new RevisionData[] {revisionsData}, sourceLabel, eventCreatedOn);
   }
 
@@ -102,8 +105,11 @@ public class ApplyObjectCommand {
       RevisionData[] revisionsData,
       String sourceLabel,
       long eventCreatedOn)
-      throws IOException, RefUpdateException, MissingParentObjectException,
-          ResourceNotFoundException, MissingLatestPatchSetException {
+      throws IOException,
+          RefUpdateException,
+          MissingParentObjectException,
+          ResourceNotFoundException,
+          MissingLatestPatchSetException {
 
     repLog.info(
         "Apply object from {} for {}:{} - {}",

@@ -72,8 +72,9 @@ public class SourceConfiguration implements RemoteConfiguration {
     int connectionTimeoutInSec = connectionTimeout / 1000;
     if (connectionTimeoutInSec < getRemoteConfig().getTimeout()) {
       logger.atWarning().log(
-          "The connection timeout is currently set to %s sec, which is less than the timeout value of %s sec. "
-              + "To avoid potential issues, consider increasing the connection timeout to exceed the timeout value.",
+          "The connection timeout is currently set to %s sec, which is less than the timeout value"
+              + " of %s sec. To avoid potential issues, consider increasing the connection timeout"
+              + " to exceed the timeout value.",
           connectionTimeoutInSec, getRemoteConfig().getTimeout());
     }
     idleTimeout = cfg.getInt("remote", name, "idleTimeout", DEFAULT_MAX_CONNECTION_INACTIVITY_MS);
@@ -126,10 +127,10 @@ public class SourceConfiguration implements RemoteConfiguration {
     enableBatchedRefs = cfg.getBoolean("remote", name, "enableBatchedRefs", true);
     if (!enableBatchedRefs) {
       logger.atWarning().log(
-          "You haven't enabled batched refs in the %s node, as such you are not "
-              + "leveraging the performance improvements introduced by the batch-apply-object API. Consider "
-              + "upgrading the plugin to the latest version and consult the plugin's documentation for more "
-              + "details on the `enableBatchedRefs` configuration.",
+          "You haven't enabled batched refs in the %s node, as such you are not leveraging the"
+              + " performance improvements introduced by the batch-apply-object API. Consider"
+              + " upgrading the plugin to the latest version and consult the plugin's documentation"
+              + " for more details on the `enableBatchedRefs` configuration.",
           name);
     }
 

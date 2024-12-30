@@ -149,7 +149,8 @@ class PullReplicationModule extends AbstractModule {
       if (e.getMessage()
           .contains("com/googlesource/gerrit/plugins/healthcheck/check/HealthCheck")) {
         flogger.atInfo().log(
-            "Skipping registration of pull replication health checks; healthcheck plugin API not loaded");
+            "Skipping registration of pull replication health checks; healthcheck plugin API not"
+                + " loaded");
       } else {
         throw e;
       }
