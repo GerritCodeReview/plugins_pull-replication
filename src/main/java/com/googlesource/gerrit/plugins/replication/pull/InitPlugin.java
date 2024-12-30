@@ -60,7 +60,8 @@ public class InitPlugin implements InitStep {
 
     if (!bearerTokenProvider.get().isPresent()) {
       ui.message(
-          "The %s plugin is not configured to use bearer token. If you are using basic auth, remember to grant the '%s' global capability to all relevant users\n",
+          "The %s plugin is not configured to use bearer token. If you are using basic auth,"
+              + " remember to grant the '%s' global capability to all relevant users\n",
           pluginName, GlobalCapability.ACCESS_DATABASE);
       return;
     }

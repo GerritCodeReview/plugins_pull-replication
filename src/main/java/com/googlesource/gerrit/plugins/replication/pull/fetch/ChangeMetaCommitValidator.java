@@ -56,7 +56,8 @@ class ChangeMetaCommitValidator {
 
     RevCommit patchSetCommit = repo.parseCommit(patchSetObjectId.get());
     logger.atFine().log(
-        "Change on repository %s ref %s has latest patch-set %d and is successfully resolved to %s with commit %s",
+        "Change on repository %s ref %s has latest patch-set %d and is successfully resolved to %s"
+            + " with commit %s",
         repo, refName, latestPatchSet.getAsInt(), patchSetObjectId.get().getName(), patchSetCommit);
 
     return true;

@@ -38,7 +38,8 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]},"
+            + " \"async\":true}";
 
     Optional<RevisionData> revisionDataOption = createRevisionData(REFS_HEADS_MASTER);
     assertThat(revisionDataOption.isPresent()).isTrue();
@@ -157,7 +158,8 @@ public class ApplyObjectActionIT extends ActionITBase {
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnBadRequestCodeWhenMandatoryFieldLabelIsMissing() throws Exception {
     String payloadWithoutLabelFieldTemplate =
-        "{\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true}";
+        "{\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]},"
+            + " \"async\":true}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -180,7 +182,8 @@ public class ApplyObjectActionIT extends ActionITBase {
     String wrongPayloadTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}, \"async\":true,}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]},"
+            + " \"async\":true,}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);

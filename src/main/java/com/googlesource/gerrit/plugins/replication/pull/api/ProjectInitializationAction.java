@@ -157,8 +157,13 @@ public class ProjectInitializationAction extends HttpServlet {
 
   private boolean initProjectWithConfiguration(
       HttpServletRequest httpServletRequest, String gitRepositoryName)
-      throws AuthException, PermissionBackendException, IOException, BadRequestException,
-          MissingParentObjectException, RefUpdateException, ResourceNotFoundException {
+      throws AuthException,
+          PermissionBackendException,
+          IOException,
+          BadRequestException,
+          MissingParentObjectException,
+          RefUpdateException,
+          ResourceNotFoundException {
 
     RevisionsInput input = PayloadSerDes.parseRevisionsInput(httpServletRequest);
     validateInput(input);
@@ -177,7 +182,8 @@ public class ProjectInitializationAction extends HttpServlet {
             input.getEventCreatedOn());
       } catch (MissingLatestPatchSetException e) {
         repLog.error(
-            "Init project API FAILED from {} for {} - configuration data cannot contain change meta refs: {}:{}",
+            "Init project API FAILED from {} for {} - configuration data cannot contain change meta"
+                + " refs: {}:{}",
             input.getLabel(),
             projectName,
             input.getRefName(),

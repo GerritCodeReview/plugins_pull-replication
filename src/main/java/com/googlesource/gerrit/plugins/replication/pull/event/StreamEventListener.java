@@ -111,7 +111,10 @@ public class StreamEventListener implements EventListener {
   }
 
   public void fetchRefsForEvent(Event event)
-      throws AuthException, PermissionBackendException, IOException, UnprocessableEntityException,
+      throws AuthException,
+          PermissionBackendException,
+          IOException,
+          UnprocessableEntityException,
           ResourceNotFoundException {
     if (instanceId.equals(event.instanceId) || !shouldReplicateProject(event)) {
       return;
@@ -130,7 +133,8 @@ public class StreamEventListener implements EventListener {
 
       if (isApplyObjectsCacheHit(refUpdatedEvent)) {
         logger.atFine().log(
-            "Skipping refupdate '%s'  '%s'=>'%s' (eventCreatedOn=%d) for project '%s' because has been already replicated via apply-object",
+            "Skipping refupdate '%s'  '%s'=>'%s' (eventCreatedOn=%d) for project '%s' because has"
+                + " been already replicated via apply-object",
             refUpdatedEvent.getRefName(),
             refUpdatedEvent.refUpdate.get().oldRev,
             refUpdatedEvent.refUpdate.get().newRev,
