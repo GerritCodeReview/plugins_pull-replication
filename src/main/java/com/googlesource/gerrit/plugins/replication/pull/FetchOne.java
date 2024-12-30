@@ -345,7 +345,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     if (replicationType == ReplicationType.ASYNC && !pool.requestRunway(this)) {
       if (!canceled) {
         repLog.info(
-            "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task [{}].",
+            "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task"
+                + " [{}].",
             taskIdHex,
             uri,
             pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
@@ -369,7 +370,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
       if (fetchRefSpecs.isEmpty()) {
         repLog.info(
-            "[{}] {} replication from {} finished but no refs were replicated, {}ms delay, {} retries",
+            "[{}] {} replication from {} finished but no refs were replicated, {}ms delay, {}"
+                + " retries",
             taskIdHex,
             replicationType,
             uri,
@@ -429,7 +431,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
           }
         } else {
           repLog.error(
-              "[{}] Giving up after {} occurrences of this error: {} during replication from [{}] {}",
+              "[{}] Giving up after {} occurrences of this error: {} during replication from [{}]"
+                  + " {}",
               taskIdHex,
               lockRetryCount,
               e.getMessage(),
@@ -489,7 +492,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     } catch (InexistentRefTransportException e) {
       String inexistentRef = e.getInexistentRef();
       repLog.info(
-          "[{}] Remote {} does not have ref {} in replication task, flagging as failed and removing from the replication task",
+          "[{}] Remote {} does not have ref {} in replication task, flagging as failed and removing"
+              + " from the replication task",
           taskIdHex,
           uri,
           inexistentRef);

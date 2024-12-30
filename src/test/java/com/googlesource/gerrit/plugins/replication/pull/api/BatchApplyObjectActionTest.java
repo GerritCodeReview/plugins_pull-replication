@@ -56,7 +56,8 @@ public class BatchApplyObjectActionTest {
           + SAMPLE_TREE_OBJECT_ID
           + "\n"
           + "parent 20eb48d28be86dc88fb4bef747f08de0fbefe12d\n"
-          + "author Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac> 1610471611 +0100\n"
+          + "author Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac> 1610471611"
+          + " +0100\n"
           + "committer Gerrit Code Review <root@maczech-XPS-15> 1610471611 +0100\n"
           + "\n"
           + "Update patch set 1\n"
@@ -70,7 +71,8 @@ public class BatchApplyObjectActionTest {
           + "Label: SUBM=+1\n"
           + "Submission-id: 1904-1610471611558-783c0a2f\n"
           + "Submitted-with: OK\n"
-          + "Submitted-with: OK: Code-Review: Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac>";
+          + "Submitted-with: OK: Code-Review: Gerrit User 1000000"
+          + " <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac>";
 
   @Mock private ApplyObjectAction applyObjectAction;
   @Mock private ProjectResource projectResource;

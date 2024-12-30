@@ -172,8 +172,11 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
   }
 
   private Response<?> applySync(Project.NameKey project, BatchInput input)
-      throws InterruptedException, ExecutionException, RemoteConfigurationMissingException,
-          TimeoutException, TransportException {
+      throws InterruptedException,
+          ExecutionException,
+          RemoteConfigurationMissingException,
+          TimeoutException,
+          TransportException {
     command.fetchSync(project, input.label, input.getRefSpecs());
     return Response.created(input);
   }

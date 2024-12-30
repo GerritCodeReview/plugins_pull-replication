@@ -27,7 +27,9 @@ public interface ReplicationSources {
    */
   List<Source> getAll();
 
-  /** @return true if there are no destinations, false otherwise. */
+  /**
+   * @return true if there are no destinations, false otherwise.
+   */
   boolean isEmpty();
 
   /**
