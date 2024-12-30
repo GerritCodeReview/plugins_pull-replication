@@ -624,6 +624,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     boolean anyRefFailed = false;
     RefUpdate.Result lastRefUpdateResult = RefUpdate.Result.NO_CHANGE;
 
+    // NOOP fetches are considered as successes
+    if (refUpdates.isEmpty()) {
+      succeeded = true;
+    }
+
     for (RefUpdateState u : refUpdates) {
       ReplicationState.RefFetchResult fetchStatus = ReplicationState.RefFetchResult.SUCCEEDED;
       Set<ReplicationState> logStates = new HashSet<>();
