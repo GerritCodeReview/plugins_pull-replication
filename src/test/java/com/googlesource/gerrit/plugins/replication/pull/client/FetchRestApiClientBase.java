@@ -119,7 +119,8 @@ public abstract class FetchRestApiClientBase {
           + treeObjectId
           + "\n"
           + "parent 983ff1a3cf74725a53a5dec8d0c06122128f5a8d\n"
-          + "author Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac> 1610578648 +0100\n"
+          + "author Gerrit User 1000000 <1000000@69ec38f0-350e-4d9c-96d4-bc956f2faaac> 1610578648"
+          + " +0100\n"
           + "committer Gerrit Code Review <root@maczech-XPS-15> 1610578648 +0100\n"
           + "\n"
           + "Update patch set 1\n"

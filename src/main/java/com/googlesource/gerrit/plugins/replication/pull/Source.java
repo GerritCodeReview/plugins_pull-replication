@@ -391,7 +391,8 @@ public class Source {
                     }
                   } catch (AuthException e) {
                     repLog.warn(
-                        "NOT scheduling replication {}:{} because lack of permissions to access project/ref",
+                        "NOT scheduling replication {}:{} because lack of permissions to access"
+                            + " project/ref",
                         project,
                         refSpec);
                     return false;
@@ -635,7 +636,8 @@ public class Source {
 
           stateLog.warn(
               String.format(
-                  "[%s] Merging all refs to fetch from [%s] to the already retrying task [%s] for keeping its position into the replication queue",
+                  "[%s] Merging all refs to fetch from [%s] to the already retrying task [%s] for"
+                      + " keeping its position into the replication queue",
                   fetchOp.getTaskIdHex(), fetchOp.getURI(), pendingFetchOp.getTaskIdHex()),
               fetchOp.getStatesAsArray());
 
