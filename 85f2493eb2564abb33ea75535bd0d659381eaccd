@@ -22,6 +22,30 @@
       },
       "revId": "85f2493eb2564abb33ea75535bd0d659381eaccd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e829081f_bf47a99d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-12-31T10:21:29Z",
+      "side": 1,
+      "message": "We could, but it would be a lot more moving parts IMHO.\n\nAlso, we consider a success if *at least* one ref-update was successful: if we set the default to true and we set to false at any failure, we are breaking the existing behaviour.",
+      "parentUuid": "530879ad_13868c66",
+      "range": {
+        "startLine": 629,
+        "startChar": 6,
+        "endLine": 629,
+        "endChar": 15
+      },
+      "revId": "85f2493eb2564abb33ea75535bd0d659381eaccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
