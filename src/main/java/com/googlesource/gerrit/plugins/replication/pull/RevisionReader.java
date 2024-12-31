@@ -75,8 +75,11 @@ public class RevisionReader {
 
   public Optional<RevisionData> read(
       Project.NameKey project, String refName, int maxParentObjectIds)
-      throws RepositoryNotFoundException, MissingObjectException, IncorrectObjectTypeException,
-          CorruptObjectException, IOException {
+      throws RepositoryNotFoundException,
+          MissingObjectException,
+          IncorrectObjectTypeException,
+          CorruptObjectException,
+          IOException {
     return read(project, null, refName, maxParentObjectIds);
   }
 
@@ -85,8 +88,11 @@ public class RevisionReader {
       @Nullable ObjectId refObjectId,
       String refName,
       int maxParentObjectIds)
-      throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
-          RepositoryNotFoundException, IOException {
+      throws MissingObjectException,
+          IncorrectObjectTypeException,
+          CorruptObjectException,
+          RepositoryNotFoundException,
+          IOException {
     try (Repository git = gitRepositoryManager.openRepository(project)) {
       Long totalRefSize = 0l;
 
@@ -190,7 +196,9 @@ public class RevisionReader {
   }
 
   private List<DiffEntry> readDiffs(Repository git, RevCommit commit, RevTree tree, TreeWalk walk)
-      throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
+      throws MissingObjectException,
+          IncorrectObjectTypeException,
+          CorruptObjectException,
           IOException {
     walk.setFilter(TreeFilter.ANY_DIFF);
     walk.reset(getParentTree(git, commit), tree);
@@ -199,7 +207,9 @@ public class RevisionReader {
 
   private List<RevisionObjectData> readBlobs(
       Project.NameKey projectName, String refName, Repository git, Long totalRefSize, TreeWalk walk)
-      throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
+      throws MissingObjectException,
+          IncorrectObjectTypeException,
+          CorruptObjectException,
           IOException {
     List<RevisionObjectData> blobs = Lists.newLinkedList();
     while (walk.next()) {

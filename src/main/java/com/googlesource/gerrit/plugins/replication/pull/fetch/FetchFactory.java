@@ -19,6 +19,7 @@ import org.eclipse.jgit.transport.URIish;
 
 public interface FetchFactory {
   Fetch create(String taskIdHex, URIish uri, Repository git);
+
   // Return implementation without any decorators
   @FetchClientImplementation
   Fetch createPlainImpl(String taskIdHex, URIish uri, Repository git);

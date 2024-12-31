@@ -38,7 +38,8 @@ class HttpServletOps {
       setResponse(
           rsp,
           HttpServletResponse.SC_BAD_REQUEST,
-          "No advertised 'Accept' headers can be honoured. 'text/plain' should be provided in the request 'Accept' header.");
+          "No advertised 'Accept' headers can be honoured. 'text/plain' should be provided in the"
+              + " request 'Accept' header.");
       return false;
     }
 
