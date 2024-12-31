@@ -47,7 +47,9 @@ public class ApplyObject {
   }
 
   public RefUpdateState apply(Project.NameKey name, RefSpec refSpec, RevisionData[] revisionsData)
-      throws MissingParentObjectException, IOException, ResourceNotFoundException,
+      throws MissingParentObjectException,
+          IOException,
+          ResourceNotFoundException,
           MissingLatestPatchSetException {
     try (Repository git = gitManager.openRepository(name)) {
 

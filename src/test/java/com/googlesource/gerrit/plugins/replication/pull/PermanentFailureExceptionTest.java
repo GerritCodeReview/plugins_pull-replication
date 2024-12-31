@@ -48,7 +48,8 @@ public class PermanentFailureExceptionTest {
     assertThat(
             PermanentTransportException.wrapIfPermanentTransportException(
                 new TransportException(
-                    "Cannot fetch from repo, error message: fatal: couldn't find remote ref refs/heads/foobranch")))
+                    "Cannot fetch from repo, error message: fatal: couldn't find remote ref"
+                        + " refs/heads/foobranch")))
         .isInstanceOf(InexistentRefTransportException.class);
   }
 }
