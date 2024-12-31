@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "530879ad_13868c66",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-12-31T09:03:12Z",
+      "side": 1,
+      "message": "Maybe we could follow the same pattern of `anyRefSpecs`, assigning a default value and modifying it later on.\n\nThe change would look like:\n\n```\ndiff --git a/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java b/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java\nindex c69b45a..4d4e497 100644\n--- a/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java\n+++ b/src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java\n@@ -618,6 +618,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa\n   private void updateStates(List\u003cRefUpdateState\u003e refUpdates) throws IOException {\n     Set\u003cRefSpec\u003e doneRefSpecs \u003d new HashSet\u003c\u003e();\n     boolean anyRefFailed \u003d false;\n+    succeeded \u003d true;\n     RefUpdate.Result lastRefUpdateResult \u003d RefUpdate.Result.NO_CHANGE;\n \n     for (RefUpdateState u : refUpdates) {\n@@ -649,11 +650,14 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa\n               logStatesArray);\n           fetchStatus \u003d ReplicationState.RefFetchResult.FAILED;\n           anyRefFailed \u003d true;\n+          succeeded \u003d false;\n           break;\n \n         case LOCK_FAILURE:\n+          succeeded \u003d false;\n           throw new LockFailureException(uri, u.toString());\n         case IO_FAILURE:\n+          succeeded \u003d false;\n           throw new IOException(u.toString());\n \n         case REJECTED_OTHER_REASON:\n@@ -664,6 +668,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa\n               logStatesArray);\n \n           fetchStatus \u003d ReplicationState.RefFetchResult.FAILED;\n+          succeeded \u003d false;\n           anyRefFailed \u003d true;\n           break;\n       }\n```",
+      "range": {
+        "startLine": 629,
+        "startChar": 6,
+        "endLine": 629,
+        "endChar": 15
+      },
+      "revId": "85f2493eb2564abb33ea75535bd0d659381eaccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
