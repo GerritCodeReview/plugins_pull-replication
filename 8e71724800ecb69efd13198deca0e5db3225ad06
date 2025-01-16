@@ -63,6 +63,30 @@
       },
       "revId": "8e71724800ecb69efd13198deca0e5db3225ad06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bfae782_3ad9cff3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-16T22:23:41Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right it was not a cache-eviction, as we only consume `ProjectEvent` events [1].\n\nHowever, there are many project events that we might still be consuming that might be referencing the project that was just deleted.\n\nI debugged this particular case and the event is a `FetchRefReplicatedEvent`, but I guess there could be others.\n\nI think we should be handling this case similarly to what the webhooks plugin does, see [2].\n\nHowever, again, this is just noise in the logs and could be done as a follow-up change.\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.10/src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java#184\n\n[2]https://gerrit.googlesource.com/plugins/webhooks/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/webhooks/EventHandler.java#62",
+      "parentUuid": "81a08c5b_50c731f6",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 5
+      },
+      "revId": "8e71724800ecb69efd13198deca0e5db3225ad06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
