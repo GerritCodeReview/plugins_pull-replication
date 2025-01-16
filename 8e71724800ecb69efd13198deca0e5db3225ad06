@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "261742b6_95394b3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-16T18:07:16Z",
+      "side": 1,
+      "message": "Tested E2E and it works with and without the `replicateProjectDeletions`.\nLGTM!",
+      "revId": "8e71724800ecb69efd13198deca0e5db3225ad06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b582dfff_dcb545c0",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-16T18:07:16Z",
+      "side": 1,
+      "message": "Now that we correctly handle project deletions over stream events consumption, we have uncovered an issue where this line does not cope with projects that might not exist anymore.\n\nFor example imagine we receive a cache-eviction for a project `foo` that was just removed, so it\u0027s no longer on project cache nor on disk.\n\nThe pull_replication_log shows this error:\n\n```\n[2025-01-16 17:49:44,037] source project focaccia not available\ncom.google.gerrit.server.project.NoSuchProjectException: Project not found: focaccia\n\tat com.googlesource.gerrit.plugins.replication.pull.Source$3.call(Source.java:428)\n\tat com.googlesource.gerrit.plugins.replication.pull.Source$3.call(Source.java:418)\n\tat com.google.gerrit.server.util.RequestScopePropagator.lambda$cleanup$1(RequestScopePropagator.java:187)\n\tat com.google.gerrit.server.util.RequestScopePropagator.lambda$context$0(RequestScopePropagator.java:174)\n\tat com.google.gerrit.server.git.PerThreadRequestScope$Propagator.lambda$scope$0(PerThreadRequestScope.java:70)\n\tat com.googlesource.gerrit.plugins.replication.pull.Source.shouldReplicate(Source.java:433)\n\tat com.googlesource.gerrit.plugins.replication.pull.Source.wouldFetchProject(Source.java:782)\n\tat com.googlesource.gerrit.plugins.replication.pull.event.StreamEventListener.shouldReplicateProject(StreamEventListener.java:243)\n\tat com.googlesource.gerrit.plugins.replication.pull.event.StreamEventListener.fetchRefsForEvent(StreamEventListener.java:131)\n\tat com.googlesource.gerrit.plugins.replication.pull.event.StreamEventListener.onEvent(StreamEventListener.java:112)\n\tat com.ericsson.gerrit.plugins.highavailability.forwarder.ForwardedAwareEventBroker.fireEventForListener(ForwardedAwareEventBroker.java:63)\n\tat com.ericsson.gerrit.plugins.highavailability.forwarder.ForwardedAwareEventBroker.lambda$fireEventForUnrestrictedListeners$0(ForwardedAwareEventBroker.java:57)\n```\n\nThis is because the `shouldReplicateProject` calls `projectCache.get()`, but now that project might no longer exist, since we are handling deletion.\n\nWe can either move the `shouldReplicateProject` in a try block and handle `NoSuchProjectException`, or skip any event type that we are not interested about.\n\nI think this could be done as a follow-up, since it is just noise in the logs.\n\nWDYT?",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 5
+      },
+      "revId": "8e71724800ecb69efd13198deca0e5db3225ad06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
