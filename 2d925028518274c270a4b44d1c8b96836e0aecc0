@@ -88,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68d68507_c52f4b5a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-16T17:01:19Z",
+      "side": 1,
+      "message": "\u003e it is possible to delete a project and yet \"Preserve GIT Repository\".\n\nThat information is not available in the event, therefore there\u0027s no way that the pull-replication plugin can honour it.\n\n\u003e In this case (but also in the REST-API case), we would still end up deleting the repository.\n\nYes, that is the expected behaviour IMHO: this change is purely using the existing mechanism via stream events.\n\n\u003e Also, the `force deletion with existing changes` is ignored.\n\nThat\u0027s the business logic implemented by the delete-project plugin and then deleting the project and, if requested, also the changes. The removal of the changes will trigger the events and therefore removing the changes replicated through pull-replication.\n\n\u003e To make this work we should probably extend the `project-deleted` event to carry on these extra information, so this is out-of-scope for this change, we should however consider mentioning this in the documentation, as a caveat.\n\nCorrect: out of scope of this change and, possibly, not even the role of the pull-replication plugin to implement.",
+      "parentUuid": "eccfab12_444801d2",
+      "range": {
+        "startLine": 187,
+        "startChar": 15,
+        "endLine": 187,
+        "endChar": 51
+      },
+      "revId": "2d925028518274c270a4b44d1c8b96836e0aecc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7fced18b_2fed9295",
@@ -111,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7a738bb_e0def481",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-16T17:01:19Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "7fced18b_2fed9295",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 62
+      },
+      "revId": "2d925028518274c270a4b44d1c8b96836e0aecc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00d062a2_faff204c",
@@ -124,6 +172,30 @@
       "writtenOn": "2025-01-16T15:43:37Z",
       "side": 1,
       "message": "We shouldn\u0027t delete the project blindly, but honour the ` replicateProjectDeletions` flag\n\nWhen deleting a project via REST-API this setting is already honoured (caller side). However, when consuming via broker we must check that we can delete the \nproject by checking the remote configuration (consumer side).\n\nWe follow the same approach for `createMissingRepositories` in `shouldReplicateProject` [1].\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.10/src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java#183",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 92
+      },
+      "revId": "2d925028518274c270a4b44d1c8b96836e0aecc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dde5ea9_dafe04d8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-16T17:01:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00d062a2_faff204c",
       "range": {
         "startLine": 199,
         "startChar": 6,
