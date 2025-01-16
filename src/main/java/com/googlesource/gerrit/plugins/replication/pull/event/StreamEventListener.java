@@ -25,7 +25,9 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.data.RefUpdateAttribute;
@@ -37,6 +39,8 @@ import com.google.gerrit.server.events.ProjectHeadUpdatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
@@ -47,6 +51,7 @@ import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
+import com.googlesource.gerrit.plugins.replication.pull.api.ProjectDeletionAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.api.UpdateHeadCommand;
@@ -68,6 +73,8 @@ public class StreamEventListener implements EventListener {
   private final String instanceId;
   private final WorkQueue workQueue;
   private final Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache;
+  private final ProjectDeletionAction projectDeletionAction;
+  private final ProjectsCollection projectsCollection;
 
   @Inject
   public StreamEventListener(
@@ -79,7 +86,9 @@ public class StreamEventListener implements EventListener {
       Provider<PullReplicationApiRequestMetrics> metricsProvider,
       SourcesCollection sources,
       ExcludedRefsFilter excludedRefsFilter,
-      @Named(APPLY_OBJECTS_CACHE) Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache) {
+      @Named(APPLY_OBJECTS_CACHE) Cache<ApplyObjectsCacheKey, Long> refUpdatesSucceededCache,
+      ProjectDeletionAction projectDeletionAction,
+      ProjectsCollection projectsCollection) {
     this.instanceId = instanceId;
     this.updateHeadCommand = updateHeadCommand;
     this.projectInitializationAction = projectInitializationAction;
@@ -89,6 +98,8 @@ public class StreamEventListener implements EventListener {
     this.sources = sources;
     this.refsFilter = excludedRefsFilter;
     this.refUpdatesSucceededCache = refUpdatesSucceededCache;
+    this.projectDeletionAction = projectDeletionAction;
+    this.projectsCollection = projectsCollection;
 
     requireNonNull(
         Strings.emptyToNull(this.instanceId), "gerrit.instanceId cannot be null or empty");
@@ -173,6 +184,23 @@ public class StreamEventListener implements EventListener {
             "Failed to update HEAD on project: %s", headUpdatedEvent.projectName);
         throw e;
       }
+    } else if (event instanceof ProjectDeletedEvent) {
+      deleteProject((ProjectDeletedEvent) event);
+    }
+      deleteProject(projectDeletedEvent);
+    }
+  }
+
+  protected void deleteProject(ProjectEvent projectDeletedEvent) {
+    try {
+      ProjectResource projectResource =
+          projectsCollection.parse(
+              TopLevelResource.INSTANCE,
+              IdString.fromDecoded(projectDeletedEvent.getProjectNameKey().get()));
+      projectDeletionAction.apply(projectResource, new ProjectDeletionAction.DeleteInput());
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(
+          "Cannot delete project:%s", projectDeletedEvent.getProjectNameKey().get());
     }
   }
 
