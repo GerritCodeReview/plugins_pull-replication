@@ -31,12 +31,14 @@ import com.google.gerrit.server.events.ProjectCreatedEvent;
 import com.google.gerrit.server.events.ProjectHeadUpdatedEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.googlesource.gerrit.plugins.replication.pull.ApplyObjectsCacheKey;
 import com.googlesource.gerrit.plugins.replication.pull.FetchOne;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob;
+import com.googlesource.gerrit.plugins.replication.pull.api.ProjectDeletionAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.ProjectInitializationAction;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.api.UpdateHeadCommand;
@@ -72,6 +74,9 @@ public class StreamEventListenerTest {
   @Mock private SourcesCollection sources;
   @Mock private Source source;
   @Mock private ExcludedRefsFilter refsFilter;
+  @Mock private ProjectDeletionAction projectDeletionAction;
+  @Mock private ProjectsCollection projectsCollection;
+
   private Cache<ApplyObjectsCacheKey, Long> cache;
 
   private StreamEventListener objectUnderTest;
@@ -98,7 +103,9 @@ public class StreamEventListenerTest {
             () -> metrics,
             sources,
             refsFilter,
-            cache);
+            cache,
+            projectDeletionAction,
+            projectsCollection);
   }
 
   @Test
