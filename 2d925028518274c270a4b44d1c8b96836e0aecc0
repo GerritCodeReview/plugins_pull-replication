@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80ca254b_d85e1b76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-16T15:43:37Z",
+      "side": 1,
+      "message": "API\n```suggestion\nprovides a backfill mechanism for REST API calls missed when the node was\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "2d925028518274c270a4b44d1c8b96836e0aecc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45aeac26_1de53d58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-16T15:43:37Z",
+      "side": 1,
+      "message": "I tested this E2E and it works, however I think there are some small issues we should address.",
+      "revId": "2d925028518274c270a4b44d1c8b96836e0aecc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eccfab12_444801d2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-16T15:43:37Z",
+      "side": 1,
+      "message": "it is possible to delete a project and yet \"Preserve GIT Repository\".\n\nIn this case (but also in the REST-API case), we would still end up deleting the repository.\n\nAlso, the `force deletion with existing changes` is ignored.\n\nTo make this work we should probably extend the `project-deleted` event to carry on these extra information, so this is out-of-scope for this change, we should however consider mentioning this in the documentation, as a caveat.",
+      "range": {
+        "startLine": 187,
+        "startChar": 15,
+        "endLine": 187,
+        "endChar": 51
+      },
+      "revId": "2d925028518274c270a4b44d1c8b96836e0aecc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fced18b_2fed9295",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-16T15:43:37Z",
+      "side": 1,
+      "message": "Why casting to `ProjectEvent`?\nWe know precisely which event type we expect here.\n\nShouldn\u0027t this just be:\n\n```suggestion\n    } else if (event instanceof ProjectDeletedEvent) {\n      deleteProject((ProjectDeletedEvent) event);\n    }\n```",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 62
+      },
+      "revId": "2d925028518274c270a4b44d1c8b96836e0aecc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00d062a2_faff204c",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-16T15:43:37Z",
+      "side": 1,
+      "message": "We shouldn\u0027t delete the project blindly, but honour the ` replicateProjectDeletions` flag\n\nWhen deleting a project via REST-API this setting is already honoured (caller side). However, when consuming via broker we must check that we can delete the \nproject by checking the remote configuration (consumer side).\n\nWe follow the same approach for `createMissingRepositories` in `shouldReplicateProject` [1].\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.10/src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java#183",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 92
+      },
+      "revId": "2d925028518274c270a4b44d1c8b96836e0aecc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3531843_81670888",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-01-16T15:43:37Z",
+      "side": 1,
+      "message": "In a case where the REST-API and the stream events consumptions are both enabled, this would log a failure if the repository was already deleted thanks to the REST-API.\n\nShould we check if the repo doesn\u0027t exist already in which case this becomes a noop?",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 5
+      },
+      "revId": "2d925028518274c270a4b44d1c8b96836e0aecc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
