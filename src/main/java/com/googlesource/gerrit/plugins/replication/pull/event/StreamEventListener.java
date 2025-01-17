@@ -212,7 +212,7 @@ public class StreamEventListener implements EventListener {
   }
 
   private boolean shouldReplicateProject(Event event) {
-    if (!(event instanceof ProjectEvent)) {
+    if (!isInterestingEventType(event)) {
       return false;
     }
 
@@ -241,6 +241,13 @@ public class StreamEventListener implements EventListener {
 
     ProjectEvent projectEvent = (ProjectEvent) event;
     return source.wouldFetchProject(projectEvent.getProjectNameKey());
+  }
+
+  private static boolean isInterestingEventType(Event event) {
+    return event instanceof ProjectDeletedEvent
+        || event instanceof ProjectCreatedEvent
+        || event instanceof RefUpdatedEvent
+        || event instanceof ProjectHeadUpdatedEvent;
   }
 
   private boolean isRefDelete(RefUpdatedEvent event) {
