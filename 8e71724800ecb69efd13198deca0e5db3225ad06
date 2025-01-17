@@ -87,6 +87,30 @@
       },
       "revId": "8e71724800ecb69efd13198deca0e5db3225ad06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74b214a3_151b2acf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-01-17T09:11:36Z",
+      "side": 1,
+      "message": "I managed to reproduce the issue: the problem is that we receive the ref-updates events *well before* the create project event, therefore it fails to fetch the refs of a repository that doesn\u0027t exist. However, the issue happens when you *create* the repo and not when you *remove* it. So it is a valid concern but for a different change :-)\n\nI\u0027ve raised the Issue 390443239 and the fix should be in Gerrit core: it is the out of order events propagation for new projects and isn\u0027t directly related to the pull-replication plugin.",
+      "parentUuid": "81a08c5b_50c731f6",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 5
+      },
+      "revId": "8e71724800ecb69efd13198deca0e5db3225ad06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
