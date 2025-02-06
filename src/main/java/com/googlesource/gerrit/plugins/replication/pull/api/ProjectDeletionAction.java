@@ -29,6 +29,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.googlesource.gerrit.plugins.deleteproject.cache.CacheDeleteHandler;
 import com.googlesource.gerrit.plugins.deleteproject.fs.RepositoryDelete;
 import com.googlesource.gerrit.plugins.replication.pull.GerritConfigOps;
@@ -37,12 +38,13 @@ import java.util.Optional;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.transport.URIish;
 
-class ProjectDeletionAction
+@Singleton
+public class ProjectDeletionAction
     implements RestModifyView<ProjectResource, ProjectDeletionAction.DeleteInput> {
   private static final PluginPermission DELETE_PROJECT =
       new PluginPermission("delete-project", "deleteProject");
 
-  static class DeleteInput {}
+  public static class DeleteInput {}
 
   private final Provider<CurrentUser> userProvider;
   private final GerritConfigOps gerritConfigOps;

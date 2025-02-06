@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchOne.refsToDelete;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.anyList;
 import static org.mockito.Mockito.argThat;
@@ -848,6 +849,36 @@ public class FetchOneTest {
 
     verify(pullReplicationApiRequestMetrics).stop(any());
     assertThat(testMetricMaker.getTimer("replication_latency")).isGreaterThan(0);
+  }
+
+  @Test
+  public void shouldSkipDeletionWhenDeleteAndCreateOfSameRef() {
+    List<FetchRefSpec> fetchRefSpecs =
+        List.of(
+            FetchRefSpec.fromRef(":refs/something/someref"),
+            FetchRefSpec.fromRef("refs/something/someref"));
+    assertThat(refsToDelete(fetchRefSpecs)).isEmpty();
+  }
+
+  @Test
+  public void shouldDeleteWhenCreateAndDeleteOfSameRef() {
+    List<FetchRefSpec> fetchRefSpecs =
+        List.of(
+            FetchRefSpec.fromRef("refs/something/someref"),
+            FetchRefSpec.fromRef(":refs/something/someref"));
+    assertThat(refsToDelete(fetchRefSpecs)).isEqualTo(Set.of("refs/something/someref"));
+  }
+
+  @Test
+  public void shouldNotDeleteWhenCreateRef() {
+    List<FetchRefSpec> fetchRefSpecs = List.of(FetchRefSpec.fromRef("refs/something/someref"));
+    assertThat(refsToDelete(fetchRefSpecs)).isEmpty();
+  }
+
+  @Test
+  public void shouldDeleteWhenDeleteRef() {
+    List<FetchRefSpec> fetchRefSpecs = List.of(FetchRefSpec.fromRef(":refs/something/someref"));
+    assertThat(refsToDelete(fetchRefSpecs)).isEqualTo(Set.of("refs/something/someref"));
   }
 
   private void setupRequestScopeMock() {
