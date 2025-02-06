@@ -42,7 +42,7 @@ class ProjectDeletionAction
   private static final PluginPermission DELETE_PROJECT =
       new PluginPermission("delete-project", "deleteProject");
 
-  static class DeleteInput {}
+  public static class DeleteInput {}
 
   private final Provider<CurrentUser> userProvider;
   private final GerritConfigOps gerritConfigOps;

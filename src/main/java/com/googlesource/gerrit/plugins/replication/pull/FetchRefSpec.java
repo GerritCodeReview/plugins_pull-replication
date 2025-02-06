@@ -44,6 +44,10 @@ public class FetchRefSpec extends RefSpec {
     return MoreObjects.firstNonNull(getSource(), getDestination());
   }
 
+  public boolean isDelete() {
+    return getSource() == null;
+  }
+
   @Override
   public String toString() {
     return getSource() == null ? "<<DELETED>>:" + getDestination() : super.toString();
