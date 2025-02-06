@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -476,11 +477,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     try {
       List<FetchRefSpec> toFetch =
           fetchRefSpecs.stream().filter(rs -> rs.getSource() != null).toList();
-      Set<String> toDelete =
-          fetchRefSpecs.stream()
-              .filter(rs -> rs.getSource() == null)
-              .map(RefSpec::getDestination)
-              .collect(Collectors.toSet());
+      Set<String> toDelete = refsToDelete(fetchRefSpecs);
       updateStates(fetch.fetch(toFetch));
 
       // JGit doesn't support a fetch of <empty> to a ref (e.g. :refs/to/delete) therefore we have
@@ -510,6 +507,21 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       throw e;
     }
     return fetchRefSpecs;
+  }
+
+  @VisibleForTesting
+  static Set<String> refsToDelete(List<FetchRefSpec> fetchRefSpecs) {
+    final Set<String> refsToDelete = new HashSet<>();
+    fetchRefSpecs.forEach(
+        rs -> {
+          String refName = rs.refName();
+          if (rs.isDelete()) {
+            refsToDelete.add(refName);
+          } else {
+            refsToDelete.remove(refName);
+          }
+        });
+    return refsToDelete;
   }
 
   /**
