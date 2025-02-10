@@ -15,19 +15,48 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
+import com.google.gerrit.server.config.LogConfig;
 import com.google.gerrit.server.util.PluginLogFile;
 import com.google.gerrit.server.util.SystemLog;
+import com.google.gerrit.util.logging.JsonLayout;
+import com.google.gerrit.util.logging.JsonLogEntry;
+import com.google.gson.annotations.SerializedName;
 import com.google.inject.Inject;
 import org.apache.log4j.PatternLayout;
+import org.apache.log4j.spi.LoggingEvent;
 
 public class PullReplicationLogFile extends PluginLogFile {
 
   @Inject
-  public PullReplicationLogFile(SystemLog systemLog, ServerInformation serverInfo) {
+  public PullReplicationLogFile(
+      SystemLog systemLog, ServerInformation serverInfo, LogConfig config) {
     super(
         systemLog,
         serverInfo,
         PullReplicationLogger.PULL_REPLICATION_LOG_NAME,
-        new PatternLayout("[%d] %m%n"));
+        new PatternLayout("[%d] %m%n"),
+        new PullReplicationJsonLayout(),
+        config);
+  }
+
+  static class PullReplicationJsonLayout extends JsonLayout {
+    @SuppressWarnings("unused")
+    private class ReplicationJsonLogEntry extends JsonLogEntry {
+      public String timestamp;
+      public String message;
+
+      @SerializedName("@version")
+      public final int version = 1;
+
+      public ReplicationJsonLogEntry(LoggingEvent event) {
+        timestamp = timestampFormatter.format(event.getTimeStamp());
+        message = (String) event.getMessage();
+      }
+    }
+
+    @Override
+    public JsonLogEntry toJsonLogEntry(LoggingEvent event) {
+      return new ReplicationJsonLogEntry(event);
+    }
   }
 }
