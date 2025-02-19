@@ -172,7 +172,7 @@ public class DeleteRefCommand {
       u.setForceUpdate(true);
 
       result = u.delete();
-      return new RefUpdateState(ref.getName(), result);
+      return new RefUpdateState(":" + ref.getName(), result);
     }
   }
 
