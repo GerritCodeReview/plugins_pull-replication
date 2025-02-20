@@ -153,7 +153,7 @@ public abstract class ActionITBase extends LightweightPluginDaemonTest {
       throws Exception {
     try (Repository repository = repoManager.openRepository(projectName)) {
       return revisionReader.read(
-          projectName, repository.exactRef(refName).getObjectId(), refName, 0);
+          projectName, repository.exactRef(refName).getObjectId(), refName, 1);
     }
   }
 

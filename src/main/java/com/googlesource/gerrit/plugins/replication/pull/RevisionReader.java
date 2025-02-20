@@ -153,7 +153,7 @@ public class RevisionReader {
         }
       }
 
-      List<ObjectId> parentObjectIds =
+      List<String> parentObjectIds =
           getParentObjectIds(git, commit.getParents(), 0, Math.min(maxDepth, maxParentObjectIds));
       Collections.reverse(parentObjectIds);
 
@@ -169,23 +169,23 @@ public class RevisionReader {
     }
   }
 
-  private List<ObjectId> getParentObjectIds(
+  private List<String> getParentObjectIds(
       Repository git, RevCommit[] commit, int parentsDepth, int maxParentObjectIds)
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
     if (commit == null || commit.length == 0) {
       return Collections.emptyList();
     }
 
-    ArrayList<ObjectId> parentObjectIds = new ArrayList<>();
+    ArrayList<String> parentObjectIds = new ArrayList<>();
     for (RevCommit revCommit : commit) {
       if (parentsDepth < maxParentObjectIds) {
-        parentObjectIds.add(revCommit.getId());
+        parentObjectIds.add(revCommit.getId().name());
         parentsDepth++;
 
         ObjectLoader ol = git.open(revCommit.getId(), Constants.OBJ_COMMIT);
         RevCommit[] commitParents = RevCommit.parse(ol.getCachedBytes()).getParents();
 
-        List<ObjectId> nestedParentObjectIds =
+        List<String> nestedParentObjectIds =
             getParentObjectIds(git, commitParents, parentsDepth, maxParentObjectIds);
         parentObjectIds.addAll(nestedParentObjectIds);
         parentsDepth += nestedParentObjectIds.size();

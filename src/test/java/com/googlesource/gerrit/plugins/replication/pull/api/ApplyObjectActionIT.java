@@ -24,6 +24,10 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -38,7 +42,7 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]},"
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"parent_object_ids\":%s,\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]},"
             + " \"async\":true}";
 
     Optional<RevisionData> revisionDataOption = createRevisionData(REFS_HEADS_MASTER);
@@ -63,7 +67,8 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"parent_object_ids\":%s,"
+            + " \"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     Optional<RevisionData> revisionDataOption = createRevisionData(REFS_HEADS_MASTER);
     assertThat(revisionDataOption.isPresent()).isTrue();
@@ -88,7 +93,8 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"parent_object_ids\":%s,"
+            + " \"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     Optional<RevisionData> revisionDataOption = createRevisionData(REFS_HEADS_MASTER);
     assertThat(revisionDataOption.isPresent()).isTrue();
@@ -112,7 +118,8 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"parent_object_ids\":%s,"
+            + " \"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
     NameKey projectName = Project.nameKey("test/repo");
     String refName = createRef(projectName);
     Optional<RevisionData> revisionDataOption = createRevisionData(projectName, refName);
@@ -139,7 +146,8 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"parent_object_ids\":%s,"
+            + " \"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -158,7 +166,8 @@ public class ApplyObjectActionIT extends ActionITBase {
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnBadRequestCodeWhenMandatoryFieldLabelIsMissing() throws Exception {
     String payloadWithoutLabelFieldTemplate =
-        "{\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]},"
+        "{\"ref_name\":\"%s\",\"revision_data\":{\"parent_object_ids\":%s,"
+            + " \"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]},"
             + " \"async\":true}";
 
     String refName = createRef();
@@ -182,7 +191,8 @@ public class ApplyObjectActionIT extends ActionITBase {
     String wrongPayloadTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]},"
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"parent_object_ids\":%s,"
+            + " \"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]},"
             + " \"async\":true,}";
 
     String refName = createRef();
@@ -208,7 +218,8 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"parent_object_ids\":%s,"
+            + " \"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     String refName = createRef();
     Optional<RevisionData> revisionDataOption = createRevisionData(refName);
@@ -235,7 +246,8 @@ public class ApplyObjectActionIT extends ActionITBase {
     String payloadWithoutAsyncFieldTemplate =
         "{\"label\":\""
             + TEST_REPLICATION_REMOTE
-            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
+            + "\",\"ref_name\":\"%s\",\"revision_data\":{\"parent_object_ids\":%s,"
+            + " \"commit_object\":{\"sha1\":\"%s\",\"type\":1,\"content\":\"%s\"},\"tree_object\":{\"type\":2,\"content\":\"%s\"},\"blobs\":[]}}";
 
     Optional<RevisionData> revisionDataOption = createRevisionData(REFS_HEADS_MASTER);
     assertThat(revisionDataOption.isPresent()).isTrue();
@@ -258,6 +270,10 @@ public class ApplyObjectActionIT extends ActionITBase {
         String.format(
             wrongPayloadTemplate,
             refName,
+            revisionData.getParentObjetIds().stream()
+                .map(AnyObjectId::name)
+                .map(s -> "\"" + s + "\"")
+                .collect(Collectors.joining(",", "[", "]")),
             revisionData.getCommitObject().getSha1(),
             encode(revisionData.getCommitObject().getContent()),
             encode(revisionData.getTreeObject().getContent()));
@@ -272,7 +288,10 @@ public class ApplyObjectActionIT extends ActionITBase {
   }
 
   private void createTestProjectWithReplicationSuffix() throws Exception {
-    createTestProject(project.get() + TEST_REPLICATION_SUFFIX);
+    Project.NameKey testProject = createTestProject(project.get() + TEST_REPLICATION_SUFFIX);
+    try (TestRepository<InMemoryRepository> testRepoWithSuffix = cloneProject(testProject)) {
+      createCommitAndPush(testRepoWithSuffix, REFS_HEADS_MASTER, "Initial commit", "foo", "bar");
+    }
   }
 
   private void deleteTestProjectBranch(String branchRefName) throws RestApiException {

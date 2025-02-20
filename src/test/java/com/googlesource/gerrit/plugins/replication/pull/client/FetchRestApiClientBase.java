@@ -96,7 +96,7 @@ public abstract class FetchRestApiClientBase {
   String expectedSendObjectPayload =
       "{\"label\":\"Replication\",\"ref_name\":\"refs/heads/master\",\"event_created_on\":"
           + eventCreatedOn
-          + ",\"revision_data\":{\"commit_object\":{\"sha1\":\""
+          + ",\"revision_data\":{\"parent_object_ids\":[],\"commit_object\":{\"sha1\":\""
           + commitObjectId
           + "\",\"type\":1,\"content\":\"dHJlZSA3NzgxNGQyMTZhNmNhYjJkZGI5ZjI4NzdmYmJkMGZlYmRjMGZhNjA4CnBhcmVudCA5ODNmZjFhM2NmNzQ3MjVhNTNhNWRlYzhkMGMwNjEyMjEyOGY1YThkCmF1dGhvciBHZXJyaXQgVXNlciAxMDAwMDAwIDwxMDAwMDAwQDY5ZWMzOGYwLTM1MGUtNGQ5Yy05NmQ0LWJjOTU2ZjJmYWFhYz4gMTYxMDU3ODY0OCArMDEwMApjb21taXR0ZXIgR2Vycml0IENvZGUgUmV2aWV3IDxyb290QG1hY3plY2gtWFBTLTE1PiAxNjEwNTc4NjQ4ICswMTAwCgpVcGRhdGUgcGF0Y2ggc2V0IDEKClBhdGNoIFNldCAxOgoKKDEgY29tbWVudCkKClBhdGNoLXNldDogMQo\\u003d\"},\"tree_object\":{\"sha1\":\""
           + treeObjectId
@@ -107,7 +107,7 @@ public abstract class FetchRestApiClientBase {
   String expectedInitProjectWithConfigPayload =
       "{\"label\":\"Replication\",\"ref_name\":\"refs/meta/config\",\"event_created_on\":"
           + eventCreatedOn
-          + ",\"revisions_data\":[{\"commit_object\":{\"sha1\":\""
+          + ",\"revisions_data\":[{\"parent_object_ids\":[],\"commit_object\":{\"sha1\":\""
           + commitObjectId
           + "\",\"type\":1,\"content\":\"dHJlZSA3NzgxNGQyMTZhNmNhYjJkZGI5ZjI4NzdmYmJkMGZlYmRjMGZhNjA4CnBhcmVudCA5ODNmZjFhM2NmNzQ3MjVhNTNhNWRlYzhkMGMwNjEyMjEyOGY1YThkCmF1dGhvciBHZXJyaXQgVXNlciAxMDAwMDAwIDwxMDAwMDAwQDY5ZWMzOGYwLTM1MGUtNGQ5Yy05NmQ0LWJjOTU2ZjJmYWFhYz4gMTYxMDU3ODY0OCArMDEwMApjb21taXR0ZXIgR2Vycml0IENvZGUgUmV2aWV3IDxyb290QG1hY3plY2gtWFBTLTE1PiAxNjEwNTc4NjQ4ICswMTAwCgpVcGRhdGUgcGF0Y2ggc2V0IDEKClBhdGNoIFNldCAxOgoKKDEgY29tbWVudCkKClBhdGNoLXNldDogMQo\\u003d\"},\"tree_object\":{\"sha1\":\""
           + treeObjectId
@@ -662,7 +662,7 @@ public abstract class FetchRestApiClientBase {
             + refName
             + "\",\"event_created_on\":"
             + eventCreatedOn
-            + ",\"revision_data\":{\"commit_object\":{\"sha1\":\""
+            + ",\"revision_data\":{\"parent_object_ids\":[],\"commit_object\":{\"sha1\":\""
             + revisionA.getCommitObject().getSha1()
             + "\",\"type\":1,\"content\":\"Y29tbWl0YWNvbnRlbnQ\\u003d\"},\"tree_object\":{\"sha1\":\""
             + revisionA.getTreeObject().getSha1()
@@ -673,7 +673,7 @@ public abstract class FetchRestApiClientBase {
             + refNameB
             + "\",\"event_created_on\":"
             + eventCreatedOn
-            + ",\"revision_data\":{\"commit_object\":{\"sha1\":\""
+            + ",\"revision_data\":{\"parent_object_ids\":[],\"commit_object\":{\"sha1\":\""
             + revisionB.getCommitObject().getSha1()
             + "\",\"type\":1,\"content\":\"Y29tbWl0YmNvbnRlbnQ\\u003d\"},\"tree_object\":{\"sha1\":\""
             + revisionB.getTreeObject().getSha1()

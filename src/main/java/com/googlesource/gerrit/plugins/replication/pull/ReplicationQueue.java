@@ -380,7 +380,7 @@ public class ReplicationQueue
       NameKey project, ReferenceUpdatedEvent event, ReplicationState state) {
     try {
       Optional<RevisionData> maybeRevisionData =
-          revReaderProvider.get().read(project, event.objectId(), event.refName(), 0);
+          revReaderProvider.get().read(project, event.objectId(), event.refName(), 1);
       return BatchApplyObjectData.create(event.refName(), maybeRevisionData);
     } catch (IOException e) {
       stateLog.error(
