@@ -14,11 +14,12 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api.data;
 
+import com.google.common.base.MoreObjects;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class RevisionData {
-  private transient List<ObjectId> parentObjectIds;
+  private List<String> parentObjectIds;
 
   private RevisionObjectData commitObject;
 
@@ -27,7 +28,7 @@ public class RevisionData {
   private List<RevisionObjectData> blobs;
 
   public RevisionData(
-      List<ObjectId> parentObjectIds,
+      List<String> parentObjectIds,
       RevisionObjectData commitObject,
       RevisionObjectData treeObject,
       List<RevisionObjectData> blobs) {
@@ -38,7 +39,8 @@ public class RevisionData {
   }
 
   public List<ObjectId> getParentObjetIds() {
-    return parentObjectIds;
+    List<String> parentSha1s = MoreObjects.firstNonNull(parentObjectIds, List.of());
+    return parentSha1s.stream().map(ObjectId::fromString).toList();
   }
 
   public RevisionObjectData getCommitObject() {

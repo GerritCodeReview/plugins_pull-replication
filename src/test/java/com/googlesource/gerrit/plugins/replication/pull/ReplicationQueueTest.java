@@ -148,8 +148,12 @@ public class ReplicationQueueTest {
     when(config.getBoolean("event", "stream-events", "enableBatchRefUpdatedEvents", false))
         .thenReturn(true);
     lenient()
+        .when(revReader.read(any(), any(), anyString(), eq(1)))
+        .thenReturn(Optional.of(revisionData));
+    lenient()
         .when(revReader.read(any(), any(), anyString(), eq(0)))
         .thenReturn(Optional.of(revisionData));
+    lenient().when(revReader.read(any(), anyString(), eq(1))).thenReturn(Optional.of(revisionData));
     lenient().when(revReader.read(any(), anyString(), eq(0))).thenReturn(Optional.of(revisionData));
     lenient()
         .when(revReader.read(any(), any(), anyString(), eq(Integer.MAX_VALUE)))

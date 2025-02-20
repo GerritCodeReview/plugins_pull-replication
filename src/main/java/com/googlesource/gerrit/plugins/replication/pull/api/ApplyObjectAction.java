@@ -65,6 +65,11 @@ public class ApplyObjectAction implements RestModifyView<ProjectResource, Revisi
     if (Objects.isNull(input.getRevisionData())) {
       throw new BadRequestException("Revision data cannot be null");
     }
+    if (!RefNames.isRefsChanges(input.getRefName())
+        && input.getRevisionData().getParentObjetIds().isEmpty()) {
+      throw new BadRequestException(
+          "Ref-update parent object-ids cannot be empty for branches/tags");
+    }
 
     try {
       repLog.info(
