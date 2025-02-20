@@ -57,6 +57,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectBannedCreateRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
@@ -110,6 +111,7 @@ public class ReplicationQueueTest {
   @Mock HttpResult httpResult;
   @Mock HttpResult batchHttpResult;
   @Mock ApplyObjectsRefsFilter applyObjectsRefsFilter;
+  @Mock ApplyObjectBannedCreateRefsFilter applyObjectsBannedCreateRefsFilter;
 
   @Mock Config config;
   ApplyObjectMetrics applyObjectMetrics;
@@ -207,6 +209,7 @@ public class ReplicationQueueTest {
             LOCAL_INSTANCE_ID,
             config,
             applyObjectsRefsFilter,
+            applyObjectsBannedCreateRefsFilter,
             shutdownState);
   }
 
@@ -238,6 +241,7 @@ public class ReplicationQueueTest {
             LOCAL_INSTANCE_ID,
             config,
             applyObjectsRefsFilter,
+            applyObjectsBannedCreateRefsFilter,
             shutdownState);
 
     Event event = new TestEvent("refs/changes/01/1/meta");
@@ -332,6 +336,7 @@ public class ReplicationQueueTest {
             LOCAL_INSTANCE_ID,
             config,
             applyObjectsRefsFilter,
+            applyObjectsBannedCreateRefsFilter,
             shutdownState);
   }
 
@@ -536,6 +541,7 @@ public class ReplicationQueueTest {
             LOCAL_INSTANCE_ID,
             config,
             applyObjectsRefsFilter,
+            applyObjectsBannedCreateRefsFilter,
             shutdownState);
     Event event = generateBatchRefUpdateEvent("refs/multi-site/version");
     objectUnderTest.onEvent(event);
