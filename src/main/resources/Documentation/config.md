@@ -132,6 +132,33 @@ gerrit.defaultForceUpdate
 :	If true, the default fetch refspec will be set to use forced update to
 	the local repository when no refspec is given.  By default, false.
 
+
+replication.applyObjectBannedCreateRefs
+:	Specify which refs created should be banned from being
+	replicated synchronously via apply-object.
+
+	It can be provided more than once, and supports three formats: regular expressions,
+	wildcard matching, and single ref matching. All three formats match are case-sensitive.
+
+	Values starting with a caret `^` are treated as regular
+	expressions. For the regular expressions details please follow
+	official [java documentation](https://docs.oracle.com/javase/tutorial/essential/regex/).
+
+	Please note that regular expressions could also be used
+	with inverse match.
+
+	Values that are not regular expressions and end in `*` are
+	treated as wildcard matches. Wildcards match refs whose
+	name agrees from the beginning until the trailing `*`. So
+	`foo/b*` would match the refs `foo/b`, `foo/bar`, and
+	`foo/baz`, but neither `foobar`, nor `bar/foo/baz`.
+
+	Values that are neither regular expressions nor wildcards are
+	treated as single ref matches. So `foo/bar` matches only
+	the ref `foo/bar`, but no other refs.
+
+	By default, set to empty (all create refs are replicated synchronously).
+
 replication.lockErrorMaxRetries
 :	Number of times to retry a replication operation if a lock
 	error is detected.

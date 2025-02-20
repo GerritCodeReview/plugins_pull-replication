@@ -48,6 +48,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResultUtils;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectBannedCreateRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
@@ -107,6 +108,7 @@ public class ReplicationQueue
   private final String instanceId;
   private final boolean useBatchUpdateEvents;
   private ApplyObjectsRefsFilter applyObjectsRefsFilter;
+  private final ApplyObjectBannedCreateRefsFilter applyObjectsBannedCreateRefsFilter;
 
   @Inject
   ReplicationQueue(
@@ -122,6 +124,7 @@ public class ReplicationQueue
       @GerritInstanceId String instanceId,
       @GerritServerConfig Config gerritConfig,
       ApplyObjectsRefsFilter applyObjectsRefsFilter,
+      ApplyObjectBannedCreateRefsFilter applyObjectsBannedCreateRefsFilter,
       ShutdownState shutdownState) {
     workQueue = wq;
     dispatcher = dis;
@@ -138,6 +141,7 @@ public class ReplicationQueue
     this.useBatchUpdateEvents =
         gerritConfig.getBoolean("event", "stream-events", "enableBatchRefUpdatedEvents", false);
     this.applyObjectsRefsFilter = applyObjectsRefsFilter;
+    this.applyObjectsBannedCreateRefsFilter = applyObjectsBannedCreateRefsFilter;
   }
 
   @Override
@@ -367,8 +371,9 @@ public class ReplicationQueue
               .map(ref -> toBatchApplyObject(project, ref, state))
               .collect(Collectors.toList());
 
-      if (!containsLargeOrDeletedRefs(refsBatch)) {
-        return ((source) -> callBatchSendObject(source, project, refsBatch, eventCreatedOn, state));
+      if (!containsLargeOrDeletedRefs(refsBatch)
+          && !hasCreateRefsBannedFromApplyObject(refsBatch)) {
+        return (source -> callBatchSendObject(source, project, refsBatch, eventCreatedOn, state));
       }
     } catch (UncheckedIOException e) {
       stateLog.error("Falling back to calling fetch", e, state);
@@ -381,7 +386,8 @@ public class ReplicationQueue
     try {
       Optional<RevisionData> maybeRevisionData =
           revReaderProvider.get().read(project, event.objectId(), event.refName(), 0);
-      return BatchApplyObjectData.create(event.refName(), maybeRevisionData);
+      return BatchApplyObjectData.create(
+          event.refName(), maybeRevisionData, event.isDelete(), event.isCreate());
     } catch (IOException e) {
       stateLog.error(
           String.format(
@@ -395,6 +401,13 @@ public class ReplicationQueue
 
   private boolean containsLargeOrDeletedRefs(List<BatchApplyObjectData> batchApplyObjectData) {
     return batchApplyObjectData.stream().anyMatch(e -> e.revisionData().isEmpty());
+  }
+
+  private boolean hasCreateRefsBannedFromApplyObject(
+      List<BatchApplyObjectData> batchApplyObjectData) {
+    return batchApplyObjectData.stream()
+        .filter(BatchApplyObjectData::isCreate)
+        .anyMatch(e -> applyObjectsBannedCreateRefsFilter.match(e.refName()));
   }
 
   private Optional<HttpResult> callSendObject(
@@ -820,9 +833,10 @@ public class ReplicationQueue
         String refName,
         ObjectId objectId,
         long eventCreatedOn,
-        boolean isDelete) {
+        boolean isDelete,
+        boolean isCreate) {
       return new AutoValue_ReplicationQueue_ReferenceUpdatedEvent(
-          projectName, refName, objectId, eventCreatedOn, isDelete);
+          projectName, refName, objectId, eventCreatedOn, isDelete, isCreate);
     }
 
     static ReferenceUpdatedEvent from(RefUpdateAttribute refUpdateAttribute, long eventCreatedOn) {
@@ -831,7 +845,8 @@ public class ReplicationQueue
           refUpdateAttribute.refName,
           ObjectId.fromString(refUpdateAttribute.newRev),
           eventCreatedOn,
-          ZEROS_OBJECTID.equals(refUpdateAttribute.newRev));
+          ZEROS_OBJECTID.equals(refUpdateAttribute.newRev),
+          ZEROS_OBJECTID.equals(refUpdateAttribute.oldRev));
     }
 
     public abstract String projectName();
@@ -843,6 +858,8 @@ public class ReplicationQueue
     public abstract long eventCreatedOn();
 
     public abstract boolean isDelete();
+
+    public abstract boolean isCreate();
   }
 
   @FunctionalInterface

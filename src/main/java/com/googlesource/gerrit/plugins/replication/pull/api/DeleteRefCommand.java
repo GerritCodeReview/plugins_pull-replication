@@ -73,7 +73,7 @@ public class DeleteRefCommand {
                     name.get(),
                     r,
                     sourceLabel);
-                return new RefUpdateState(r, RefUpdate.Result.IO_FAILURE);
+                return new RefUpdateState(":" + r, RefUpdate.Result.IO_FAILURE);
               }
             })
         .toList();
@@ -95,7 +95,7 @@ public class DeleteRefCommand {
           taskIdRef,
           refName,
           name);
-      return new RefUpdateState(refName, RefUpdate.Result.NO_CHANGE);
+      return new RefUpdateState(":" + refName, RefUpdate.Result.NO_CHANGE);
     }
 
     repLog.info(
@@ -112,7 +112,7 @@ public class DeleteRefCommand {
     Optional<Ref> ref = getRef(name, refName);
     if (!ref.isPresent()) {
       logger.atFine().log("[%s] Ref %s was not found in project %s", taskIdRef, refName, name);
-      return new RefUpdateState(refName, RefUpdate.Result.NO_CHANGE);
+      return new RefUpdateState(":" + refName, RefUpdate.Result.NO_CHANGE);
     }
 
     RefUpdateState deleteResult = deleteRef(name, ref.get());
@@ -149,7 +149,7 @@ public class DeleteRefCommand {
       u.setForceUpdate(true);
 
       result = u.delete();
-      return new RefUpdateState(ref.getName(), result);
+      return new RefUpdateState(":" + ref.getName(), result);
     }
   }
 
