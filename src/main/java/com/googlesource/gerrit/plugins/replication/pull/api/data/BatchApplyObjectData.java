@@ -20,16 +20,37 @@ import java.util.Optional;
 @AutoValue
 public abstract class BatchApplyObjectData {
 
-  public static BatchApplyObjectData create(String refName, Optional<RevisionData> revisionData)
+  public static BatchApplyObjectData create(
+	  String refName, Optional<RevisionData> revisionData, boolean isDelete, boolean isCreate)
       throws IllegalArgumentException {
-    return new AutoValue_BatchApplyObjectData(refName, revisionData, false);
+    return new AutoValue_BatchApplyObjectData(refName, revisionData, isDelete, isCreate);
   }
 
+  public static BatchApplyObjectData newDeleteRef(
+          String refName)
+          throws IllegalArgumentException {
+    return create(refName, Optional.empty(), true, false);
+  }
+
+  public static BatchApplyObjectData newUpdateRef(
+          String refName, Optional<RevisionData> revisionData)
+          throws IllegalArgumentException {
+    return create(refName, revisionData, false, false);
+  }
+
+  public static BatchApplyObjectData newCreateRef(
+          String refName, Optional<RevisionData> revisionData)
+          throws IllegalArgumentException {
+    return new AutoValue_BatchApplyObjectData(refName, revisionData, false, true);
+  }
+  
   public abstract String refName();
 
   public abstract Optional<RevisionData> revisionData();
 
   public abstract boolean isDelete();
+
+  public abstract boolean isCreate();
 
   @Override
   public String toString() {

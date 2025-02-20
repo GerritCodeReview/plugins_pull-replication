@@ -624,7 +624,7 @@ public abstract class FetchRestApiClientBase {
 
     List<BatchApplyObjectData> batchApplyObjects = new ArrayList<>();
     batchApplyObjects.add(
-        BatchApplyObjectData.create(refName, Optional.of(createSampleRevisionData("a"))));
+        BatchApplyObjectData.newUpdateRef(refName, Optional.of(createSampleRevisionData("a"))));
 
     objectUnderTest.callBatchSendObject(
         Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));
@@ -647,8 +647,8 @@ public abstract class FetchRestApiClientBase {
     RevisionData revisionA = createSampleRevisionData("a");
     RevisionData revisionB = createSampleRevisionData("b");
     String refNameB = "refs/heads/b";
-    batchApplyObjects.add(BatchApplyObjectData.create(refName, Optional.of(revisionA)));
-    batchApplyObjects.add(BatchApplyObjectData.create(refNameB, Optional.of(revisionB)));
+    batchApplyObjects.add(BatchApplyObjectData.newUpdateRef(refName, Optional.of(revisionA)));
+    batchApplyObjects.add(BatchApplyObjectData.newUpdateRef(refNameB, Optional.of(revisionB)));
 
     objectUnderTest.callBatchSendObject(
         Project.nameKey("test_repo"), batchApplyObjects, eventCreatedOn, new URIish(api));

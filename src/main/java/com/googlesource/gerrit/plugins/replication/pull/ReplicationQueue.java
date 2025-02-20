@@ -381,7 +381,8 @@ public class ReplicationQueue
     try {
       Optional<RevisionData> maybeRevisionData =
           revReaderProvider.get().read(project, event.objectId(), event.refName(), 0);
-      return BatchApplyObjectData.create(event.refName(), maybeRevisionData);
+      return BatchApplyObjectData.create(
+          event.refName(), maybeRevisionData, event.isDelete(), event.isCreate());
     } catch (IOException e) {
       stateLog.error(
           String.format(
@@ -820,9 +821,10 @@ public class ReplicationQueue
         String refName,
         ObjectId objectId,
         long eventCreatedOn,
-        boolean isDelete) {
+        boolean isDelete,
+        boolean isCreate) {
       return new AutoValue_ReplicationQueue_ReferenceUpdatedEvent(
-          projectName, refName, objectId, eventCreatedOn, isDelete);
+          projectName, refName, objectId, eventCreatedOn, isDelete, isCreate);
     }
 
     static ReferenceUpdatedEvent from(RefUpdateAttribute refUpdateAttribute, long eventCreatedOn) {
@@ -831,7 +833,8 @@ public class ReplicationQueue
           refUpdateAttribute.refName,
           ObjectId.fromString(refUpdateAttribute.newRev),
           eventCreatedOn,
-          ZEROS_OBJECTID.equals(refUpdateAttribute.newRev));
+          ZEROS_OBJECTID.equals(refUpdateAttribute.newRev),
+          ZEROS_OBJECTID.equals(refUpdateAttribute.oldRev));
     }
 
     public abstract String projectName();
@@ -843,6 +846,8 @@ public class ReplicationQueue
     public abstract long eventCreatedOn();
 
     public abstract boolean isDelete();
+
+    public abstract boolean isCreate();
   }
 
   @FunctionalInterface
