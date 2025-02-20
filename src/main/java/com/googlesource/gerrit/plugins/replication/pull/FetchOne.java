@@ -214,6 +214,21 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       fetchAllRefs = true;
       repLog.trace("[{}] Added all refs for replication from {}", taskIdHex, uri);
     } else if (!fetchAllRefs) {
+      // The ref-spec could be already present as either
+      // update or delete, therefore a simple addition to the
+      // set may risk to have both update and delete for the same
+      // ref, which would be an issue: the delta is an unordered set
+      // and executing updates and deletes for the same ref may have
+      // unexpected results, depending on which one you execute first.
+
+      // Delete any previous ref-spec as delete
+      delta.remove(":" + ref);
+
+      // Delete any previous ref-spec as update
+      delta.remove(ref);
+
+      // Add the new ref as-is for making sure that
+      // there is only one operation per refName.
       delta.add(ref);
       repLog.trace("[{}] Added ref {} for replication from {}", taskIdHex, ref, uri);
     }
@@ -318,7 +333,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     if (replicationType == ReplicationType.ASYNC && !pool.requestRunway(this)) {
       if (!canceled) {
         repLog.info(
-            "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task [{}].",
+            "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task"
+                + " [{}].",
             taskIdHex,
             uri,
             pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
@@ -402,7 +418,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
           }
         } else {
           repLog.error(
-              "[{}] Giving up after {} occurrences of this error: {} during replication from [{}] {}",
+              "[{}] Giving up after {} occurrences of this error: {} during replication from [{}]"
+                  + " {}",
               taskIdHex,
               lockRetryCount,
               e.getMessage(),
@@ -448,7 +465,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     } catch (InexistentRefTransportException e) {
       String inexistentRef = e.getInexistentRef();
       repLog.info(
-          "[{}] Remote {} does not have ref {} in replication task, flagging as failed and removing from the replication task",
+          "[{}] Remote {} does not have ref {} in replication task, flagging as failed and removing"
+              + " from the replication task",
           taskIdHex,
           uri,
           inexistentRef);
