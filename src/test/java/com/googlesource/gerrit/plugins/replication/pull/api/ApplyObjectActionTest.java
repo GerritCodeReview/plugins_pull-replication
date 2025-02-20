@@ -36,7 +36,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionObjectD
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
@@ -49,6 +49,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class ApplyObjectActionTest {
 
   private static final long DUMMY_EVENT_TIMESTAMP = 1684875939;
+  public static final String TEST_PARENT_COMMIT_ID = "d252dc5e7b2009ac31a465d3e71dd06ce10ddf33";
 
   ApplyObjectAction applyObjectAction;
   String label = "instance-2-label";
@@ -235,10 +236,15 @@ public class ApplyObjectActionTest {
 
   private RevisionData createSampleRevisionData(
       RevisionObjectData commitData, RevisionObjectData treeData) {
-    return new RevisionData(Collections.emptyList(), commitData, treeData, Lists.newArrayList());
+    return new RevisionData(
+        List.of(ObjectId.fromString(TEST_PARENT_COMMIT_ID)),
+        commitData,
+        treeData,
+        Lists.newArrayList());
   }
 
   private RevisionData createSampleRevisionDataBlob(RevisionObjectData blob) {
-    return new RevisionData(Collections.emptyList(), null, null, Arrays.asList(blob));
+    return new RevisionData(
+        List.of(ObjectId.fromString(TEST_PARENT_COMMIT_ID)), null, null, Arrays.asList(blob));
   }
 }

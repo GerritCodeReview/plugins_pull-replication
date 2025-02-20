@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.api;
 import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLogger.repLog;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.PreconditionFailedException;
@@ -61,6 +62,12 @@ public class ApplyObjectsAction implements RestModifyView<ProjectResource, Revis
       }
       if (Objects.isNull(input.getRevisionsData())) {
         throw new BadRequestException("Revision data cannot be null");
+      }
+      if (!RefNames.isRefsChanges(input.getRefName())
+          && Arrays.stream(input.getRevisionsData())
+              .anyMatch(revisionData -> revisionData.getParentObjetIds().isEmpty())) {
+        throw new BadRequestException(
+            "Ref-update of parent object-ids cannot be empty for branches/tags");
       }
 
       repLog.info(
