@@ -57,6 +57,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectBannedCreateRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
@@ -88,6 +89,8 @@ public class ReplicationQueueTest {
   private static final String TEST_REF_NAME = "refs/meta/heads/anyref";
 
   private static final Project.NameKey PROJECT = Project.nameKey("defaultProject");
+  private static final String OLD_OBJECT_ID =
+      ObjectId.fromString("00f11fd1e3206333235603f889837bad2692da4b").getName();
   private static final String NEW_OBJECT_ID =
       ObjectId.fromString("3c1ddc050d7906adb0e29bc3bc46af8749b2f63b").getName();
 
@@ -110,6 +113,7 @@ public class ReplicationQueueTest {
   @Mock HttpResult httpResult;
   @Mock HttpResult batchHttpResult;
   @Mock ApplyObjectsRefsFilter applyObjectsRefsFilter;
+  @Mock ApplyObjectBannedCreateRefsFilter applyObjectsBannedCreateRefsFilter;
 
   @Mock Config config;
   ApplyObjectMetrics applyObjectMetrics;
@@ -207,6 +211,7 @@ public class ReplicationQueueTest {
             LOCAL_INSTANCE_ID,
             config,
             applyObjectsRefsFilter,
+            applyObjectsBannedCreateRefsFilter,
             shutdownState);
   }
 
@@ -238,6 +243,7 @@ public class ReplicationQueueTest {
             LOCAL_INSTANCE_ID,
             config,
             applyObjectsRefsFilter,
+            applyObjectsBannedCreateRefsFilter,
             shutdownState);
 
     Event event = new TestEvent("refs/changes/01/1/meta");
@@ -332,6 +338,7 @@ public class ReplicationQueueTest {
             LOCAL_INSTANCE_ID,
             config,
             applyObjectsRefsFilter,
+            applyObjectsBannedCreateRefsFilter,
             shutdownState);
   }
 
@@ -413,6 +420,33 @@ public class ReplicationQueueTest {
     when(batchHttpResult.isParentObjectMissing()).thenReturn(false);
     lenient().when(httpResult.isSuccessful()).thenReturn(false);
     lenient().when(httpResult.isParentObjectMissing()).thenReturn(false);
+
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient).callBatchFetch(any(), any(), any());
+  }
+
+  @Test
+  public void shouldCallApplyObjectWhenCreatedRefNotMatchesApplyObjectBannedCreateRefsFilter()
+      throws Exception {
+    String bannedRef = "refs/heads/banned";
+    Event event = generateBatchCreateRefEvent("refs/heads/not-banned");
+    objectUnderTest.start();
+    when(applyObjectsBannedCreateRefsFilter.match(eq(bannedRef))).thenReturn(true);
+
+    objectUnderTest.onEvent(event);
+
+    verify(fetchRestApiClient).callBatchSendObject(any(), any(), anyLong(), any());
+    verify(fetchRestApiClient, never()).callBatchFetch(any(), any(), any());
+  }
+
+  @Test
+  public void shouldFallbackToCallBatchFetchWhenCreatedRefMatchesApplyObjectBannedCreateRefsFilter()
+      throws Exception {
+    String bannedRef = "refs/heads/banned";
+    Event event = generateBatchCreateRefEvent("refs/heads/banned");
+    objectUnderTest.start();
+    when(applyObjectsBannedCreateRefsFilter.match(eq(bannedRef))).thenReturn(true);
 
     objectUnderTest.onEvent(event);
 
@@ -536,6 +570,7 @@ public class ReplicationQueueTest {
             LOCAL_INSTANCE_ID,
             config,
             applyObjectsRefsFilter,
+            applyObjectsBannedCreateRefsFilter,
             shutdownState);
     Event event = generateBatchRefUpdateEvent("refs/multi-site/version");
     objectUnderTest.onEvent(event);
@@ -618,13 +653,21 @@ public class ReplicationQueueTest {
   }
 
   private BatchRefUpdateEvent generateBatchRefUpdateEvent(String... refs) {
+    return generateBatchRefEvent(OLD_OBJECT_ID, NEW_OBJECT_ID, refs);
+  }
+
+  private BatchRefUpdateEvent generateBatchCreateRefEvent(String... refs) {
+    return generateBatchRefEvent(ObjectId.zeroId().name(), NEW_OBJECT_ID, refs);
+  }
+
+  private BatchRefUpdateEvent generateBatchRefEvent(String oldRev, String newRev, String[] refs) {
     List<RefUpdateAttribute> refUpdates =
         Arrays.stream(refs)
             .map(
                 ref -> {
                   RefUpdateAttribute upd = new RefUpdateAttribute();
-                  upd.newRev = NEW_OBJECT_ID;
-                  upd.oldRev = ObjectId.zeroId().getName();
+                  upd.newRev = newRev;
+                  upd.oldRev = oldRev;
                   upd.project = PROJECT.get();
                   upd.refName = ref;
                   return upd;
