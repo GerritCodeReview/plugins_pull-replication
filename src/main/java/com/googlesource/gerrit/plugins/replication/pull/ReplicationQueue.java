@@ -48,6 +48,7 @@ import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchRestApiClient;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResult;
 import com.googlesource.gerrit.plugins.replication.pull.client.HttpResultUtils;
+import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectBannedCreateRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ApplyObjectsRefsFilter;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
@@ -107,6 +108,7 @@ public class ReplicationQueue
   private final String instanceId;
   private final boolean useBatchUpdateEvents;
   private ApplyObjectsRefsFilter applyObjectsRefsFilter;
+  private final ApplyObjectBannedCreateRefsFilter applyObjectsBannedCreateRefsFilter;
 
   @Inject
   ReplicationQueue(
@@ -122,6 +124,7 @@ public class ReplicationQueue
       @GerritInstanceId String instanceId,
       @GerritServerConfig Config gerritConfig,
       ApplyObjectsRefsFilter applyObjectsRefsFilter,
+      ApplyObjectBannedCreateRefsFilter applyObjectsBannedCreateRefsFilter,
       ShutdownState shutdownState) {
     workQueue = wq;
     dispatcher = dis;
@@ -138,6 +141,7 @@ public class ReplicationQueue
     this.useBatchUpdateEvents =
         gerritConfig.getBoolean("event", "stream-events", "enableBatchRefUpdatedEvents", false);
     this.applyObjectsRefsFilter = applyObjectsRefsFilter;
+    this.applyObjectsBannedCreateRefsFilter = applyObjectsBannedCreateRefsFilter;
   }
 
   @Override
@@ -367,8 +371,9 @@ public class ReplicationQueue
               .map(ref -> toBatchApplyObject(project, ref, state))
               .collect(Collectors.toList());
 
-      if (!containsLargeOrDeletedRefs(refsBatch)) {
-        return ((source) -> callBatchSendObject(source, project, refsBatch, eventCreatedOn, state));
+      if (!containsLargeOrDeletedRefs(refsBatch)
+          && !hasCreateRefsBannedFromApplyObject(refsBatch)) {
+        return (source -> callBatchSendObject(source, project, refsBatch, eventCreatedOn, state));
       }
     } catch (UncheckedIOException e) {
       stateLog.error("Falling back to calling fetch", e, state);
@@ -396,6 +401,13 @@ public class ReplicationQueue
 
   private boolean containsLargeOrDeletedRefs(List<BatchApplyObjectData> batchApplyObjectData) {
     return batchApplyObjectData.stream().anyMatch(e -> e.revisionData().isEmpty());
+  }
+
+  private boolean hasCreateRefsBannedFromApplyObject(
+      List<BatchApplyObjectData> batchApplyObjectData) {
+    return batchApplyObjectData.stream()
+        .filter(BatchApplyObjectData::isCreate)
+        .anyMatch(e -> applyObjectsBannedCreateRefsFilter.match(e.refName()));
   }
 
   private Optional<HttpResult> callSendObject(
