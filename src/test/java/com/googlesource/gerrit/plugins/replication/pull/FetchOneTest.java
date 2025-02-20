@@ -70,6 +70,7 @@ public class FetchOneTest {
   private final String TEST_PROJECT_NAME = "FetchOneTest";
   private final Project.NameKey PROJECT_NAME = Project.NameKey.parse(TEST_PROJECT_NAME);
   private final String TEST_REF = "refs/heads/refForReplicationTask";
+  private final String TEST_DELETE_REF = ":" + TEST_REF;
   private final FetchRefSpec TEST_REF_SPEC = FetchRefSpec.fromRef(TEST_REF);
   private final String URI_PATTERN = "http://test.com/" + TEST_PROJECT_NAME + ".git";
   private final TestMetricMaker testMetricMaker = new TestMetricMaker();
@@ -175,6 +176,26 @@ public class FetchOneTest {
     objectUnderTest.addRefs(refSpecsSetOf(TEST_REF, FetchOne.ALL_REFS));
 
     assertThat(Set.of(FetchOne.ALL_REFS)).isEqualTo(objectUnderTest.getRefs());
+  }
+
+  @Test
+  public void shouldDeleteRefWhenAddingDeleteRefSpec() throws IOException {
+    setupRemoteConfigMock(List.of(ALL_REFS_SPEC));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
+
+    assertThat(objectUnderTest.getFetchRefSpecs())
+        .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_DELETE_REF)));
+  }
+
+  @Test
+  public void shouldAddRefWhenAddingRefSpecToDeleteRefSpec() throws IOException {
+    setupRemoteConfigMock(List.of(ALL_REFS_SPEC));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
+    objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
+
+    assertThat(objectUnderTest.getFetchRefSpecs())
+        .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_REF + ":" + TEST_REF)));
   }
 
   @Test
