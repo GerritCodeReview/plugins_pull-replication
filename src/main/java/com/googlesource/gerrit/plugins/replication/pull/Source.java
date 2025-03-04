@@ -710,7 +710,10 @@ public class Source {
 
             if (fetchOp.setToRetry()) {
               postReplicationScheduledEvent(fetchOp);
-              pool.schedule(fetchOp, config.getRetryDelay(), TimeUnit.MINUTES);
+              pool.schedule(
+                  queueMetrics.runWithMetrics(this, fetchOp),
+                  config.getRetryDelay(),
+                  TimeUnit.MINUTES);
               queueMetrics.incrementTaskRetrying(this);
             } else {
               fetchOp.canceledByReplication();
