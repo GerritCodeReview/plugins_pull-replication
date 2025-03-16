@@ -25,5 +25,5 @@ import java.util.Set;
 @ExtensionPoint
 public interface ReplicationFetchFilter {
 
-  public Set<String> filter(String projectName, Set<String> fetchRefs);
+  Set<String> filter(String projectName, Set<String> fetchRefs);
 }
