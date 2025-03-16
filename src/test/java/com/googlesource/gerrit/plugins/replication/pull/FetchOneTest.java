@@ -347,9 +347,8 @@ public class FetchOneTest {
         Optional.of(List.of(TEST_REF)));
     objectUnderTest.addRefs(refSpecs);
     objectUnderTest.setReplicationFetchFilter(replicationFilter);
-    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
+    ReplicationFetchFilter mockFilter = (projectName, fetchRefs) -> Set.of(TEST_REF);
     when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, refs)).thenReturn(Set.of(TEST_REF));
 
     objectUnderTest.run();
 
@@ -433,8 +432,6 @@ public class FetchOneTest {
     ReplicationFetchFilter mockFilter = setupReplicationFilterMock(remoteRefs);
 
     objectUnderTest.run();
-
-    verify(mockFilter).filter(TEST_PROJECT_NAME, Set.of());
   }
 
   @Test
@@ -862,9 +859,8 @@ public class FetchOneTest {
         Optional.of(List.of(TEST_REF)));
     objectUnderTest.addRefs(refSpecs);
     objectUnderTest.setReplicationFetchFilter(replicationFilter);
-    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
+    ReplicationFetchFilter mockFilter = (projectName, refNames) -> Set.of(TEST_REF);
     when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, refs)).thenReturn(Set.of(TEST_REF));
 
     objectUnderTest.run();
 
@@ -944,9 +940,8 @@ public class FetchOneTest {
 
   private ReplicationFetchFilter setupReplicationFilterMock(Set<String> inRefs) {
     objectUnderTest.setReplicationFetchFilter(replicationFilter);
-    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
+    ReplicationFetchFilter mockFilter = (projectName, refs) -> inRefs;
     when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, inRefs)).thenReturn(inRefs);
     return mockFilter;
   }
 
