@@ -474,7 +474,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
   private List<FetchRefSpec> runImpl() throws IOException {
     Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<FetchRefSpec> fetchRefSpecs = getFetchRefSpecs();
+    List<FetchRefSpec> fetchRefSpecs = getAndLockFetchRefSpecs();
 
     try {
       List<FetchRefSpec> toFetch =
@@ -507,6 +507,8 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     } catch (IOException e) {
       notifyRefReplicatedIOException();
       throw e;
+    } finally {
+      unlockRefSpecs(fetchRefSpecs);
     }
     return fetchRefSpecs;
   }
@@ -541,7 +543,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
    *
    * @return The list of refSpecs to fetch
    */
-  public List<FetchRefSpec> getFetchRefSpecs() throws IOException {
+  public List<FetchRefSpec> getAndLockFetchRefSpecs() throws IOException {
     List<FetchRefSpec> configRefSpecs =
         config.getFetchRefSpecs().stream().map(FetchRefSpec::fromRefSpec).toList();
 
@@ -556,9 +558,15 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         .collect(Collectors.toList());
   }
 
+  public void unlockRefSpecs(List<FetchRefSpec> refs) {
+    Set<String> refsNames =
+        refs.stream().map(FetchRefSpec::refName).collect(Collectors.toUnmodifiableSet());
+    replicationFetchFilter().ifPresent(f -> f.unlock(this.projectName.get(), refsNames));
+  }
+
   public List<FetchRefSpec> safeGetFetchRefSpecs() {
     try {
-      return getFetchRefSpecs();
+      return getAndLockFetchRefSpecs();
     } catch (IOException e) {
       repLog.error("[{}] Error when evaluating refsSpecs: {}", taskIdHex, e.getMessage());
       return Collections.emptyList();
@@ -610,7 +618,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         refs.stream().map(FetchRefSpec::refName).collect(Collectors.toUnmodifiableSet());
     Set<String> filteredRefNames =
         replicationFetchFilter()
-            .map(f -> f.filter(this.projectName.get(), refsNames))
+            .map(f -> f.filterAndLock(this.projectName.get(), refsNames))
             .orElse(refsNames);
     return refs.stream()
         .filter(refSpec -> filteredRefNames.contains(refSpec.refName()))
@@ -754,7 +762,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   @Override
   public boolean hasSucceeded() {
     try {
-      return succeeded || getFetchRefSpecs().isEmpty();
+      return succeeded || getAndLockFetchRefSpecs().isEmpty();
     } catch (IOException e) {
       repLog.error("[{}] Error when evaluating refsSpecs: {}", taskIdHex, e.getMessage());
       return false;

@@ -26,4 +26,10 @@ import java.util.Set;
 public interface ReplicationFetchFilter {
 
   Set<String> filter(String projectName, Set<String> fetchRefs);
+
+  default Set<String> filterAndLock(String projectName, Set<String> fetchRefs) {
+    return filter(projectName, fetchRefs);
+  }
+
+  default void unlock(String projectName, Set<String> fetchRefs) {}
 }
