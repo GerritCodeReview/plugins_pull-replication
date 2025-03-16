@@ -184,7 +184,7 @@ public class FetchOneTest {
     objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
     objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
 
-    assertThat(objectUnderTest.getFetchRefSpecs())
+    assertThat(objectUnderTest.getAndLockFetchRefSpecs())
         .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_DELETE_REF)));
   }
 
@@ -194,7 +194,7 @@ public class FetchOneTest {
     objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
     objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
-    assertThat(objectUnderTest.getFetchRefSpecs())
+    assertThat(objectUnderTest.getAndLockFetchRefSpecs())
         .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_REF + ":" + TEST_REF)));
   }
 
