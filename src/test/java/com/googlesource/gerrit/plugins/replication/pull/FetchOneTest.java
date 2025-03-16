@@ -56,7 +56,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
@@ -91,8 +90,6 @@ public class FetchOneTest {
   @Mock private DynamicItem<ReplicationFetchFilter> replicationFilter;
   @Mock private FetchRefsDatabase fetchRefsDatabase;
   @Mock private DeleteRefCommand deleteRefCommand;
-
-  @Mock private Transport transport;
 
   private URIish urIish;
   private FetchOne objectUnderTest;
