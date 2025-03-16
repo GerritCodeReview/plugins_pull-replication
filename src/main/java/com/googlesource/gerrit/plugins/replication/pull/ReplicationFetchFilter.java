@@ -15,7 +15,9 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Filter that is invoked before a set of remote refs are fetched from a remote instance.
@@ -26,4 +28,9 @@ import java.util.Set;
 public interface ReplicationFetchFilter {
 
   Set<String> filter(String projectName, Set<String> fetchRefs);
+
+  default Map<String, AutoCloseable> filterAndLock(String projectName, Set<String> fetchRefs) {
+    return filter(projectName, fetchRefs).stream()
+        .collect(Collectors.toMap(ref -> ref, ref -> () -> {}));
+  }
 }

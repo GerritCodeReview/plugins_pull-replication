@@ -70,6 +70,7 @@ public class FetchOneTest {
   private final String TEST_PROJECT_NAME = "FetchOneTest";
   private final Project.NameKey PROJECT_NAME = Project.NameKey.parse(TEST_PROJECT_NAME);
   private final String TEST_REF = "refs/heads/refForReplicationTask";
+  private final Map<String, AutoCloseable> TEST_REF_AND_LOCK = Map.of(TEST_REF, () -> {});
   private final String TEST_DELETE_REF = ":" + TEST_REF;
   private final FetchRefSpec TEST_REF_SPEC = FetchRefSpec.fromRef(TEST_REF);
   private final String URI_PATTERN = "http://test.com/" + TEST_PROJECT_NAME + ".git";
@@ -184,7 +185,7 @@ public class FetchOneTest {
     objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
     objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
 
-    assertThat(objectUnderTest.getFetchRefSpecs())
+    assertThat(objectUnderTest.getAndLockFetchRefSpecs())
         .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_DELETE_REF)));
   }
 
@@ -194,7 +195,7 @@ public class FetchOneTest {
     objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
     objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
-    assertThat(objectUnderTest.getFetchRefSpecs())
+    assertThat(objectUnderTest.getAndLockFetchRefSpecs())
         .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_REF + ":" + TEST_REF)));
   }
 
@@ -349,7 +350,7 @@ public class FetchOneTest {
     objectUnderTest.setReplicationFetchFilter(replicationFilter);
     ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
     when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, refs)).thenReturn(Set.of(TEST_REF));
+    when(mockFilter.filterAndLock(TEST_PROJECT_NAME, refs)).thenReturn(TEST_REF_AND_LOCK);
 
     objectUnderTest.run();
 
@@ -383,7 +384,7 @@ public class FetchOneTest {
 
     objectUnderTest.run();
 
-    verify(mockFilter).filter(TEST_PROJECT_NAME, remoteRefs);
+    verify(mockFilter).filterAndLock(TEST_PROJECT_NAME, remoteRefs);
   }
 
   @Test
@@ -401,7 +402,7 @@ public class FetchOneTest {
 
     objectUnderTest.run();
 
-    verify(mockFilter).filter(TEST_PROJECT_NAME, remoteRefs);
+    verify(mockFilter).filterAndLock(TEST_PROJECT_NAME, remoteRefs);
   }
 
   @Test
@@ -418,7 +419,7 @@ public class FetchOneTest {
 
     objectUnderTest.run();
 
-    verify(mockFilter).filter(TEST_PROJECT_NAME, Set.of());
+    verify(mockFilter).filterAndLock(TEST_PROJECT_NAME, Set.of());
   }
 
   @Test
@@ -434,7 +435,7 @@ public class FetchOneTest {
 
     objectUnderTest.run();
 
-    verify(mockFilter).filter(TEST_PROJECT_NAME, Set.of());
+    verify(mockFilter).filterAndLock(TEST_PROJECT_NAME, Set.of());
   }
 
   @Test
@@ -855,6 +856,7 @@ public class FetchOneTest {
     String filteredRef = "refs/heads/filteredRef";
     Set<FetchRefSpec> refSpecs = refSpecsSetOf(TEST_REF, filteredRef);
     Set<String> refs = Set.of(TEST_REF, filteredRef);
+    Map<String, AutoCloseable> refsAndLocks = Map.of(TEST_REF, () -> {}, filteredRef, () -> {});
     createTestStates(TEST_REF_SPEC, 1);
     createTestStates(FetchRefSpec.fromRef(filteredRef), 1);
     setupFetchFactoryMock(
