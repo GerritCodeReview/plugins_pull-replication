@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8b8d911_bcbe6fac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-03-17T15:36:14Z",
+      "side": 1,
+      "message": "This sentence reads a bit weird: did you mean \"the validity\" here?",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "569970c69999e1a6347a3598e3447f74ac4d2c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02ba95f0_b55de5d1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-03-17T15:36:14Z",
+      "side": 1,
+      "message": "nit: Any constraint for which the closing of the locks should be done sequentially?\nHave you considered doing this in parallel instead? ```locks.entrySet().parallelStream()```",
+      "range": {
+        "startLine": 567,
+        "startChar": 0,
+        "endLine": 567,
+        "endChar": 18
+      },
+      "revId": "569970c69999e1a6347a3598e3447f74ac4d2c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
