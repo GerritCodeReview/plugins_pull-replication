@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchOne.FILTER_ONLY;
 import static com.googlesource.gerrit.plugins.replication.pull.FetchOne.refsToDelete;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.anyList;
@@ -182,7 +183,7 @@ public class FetchOneTest {
     objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
     objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
 
-    assertThat(objectUnderTest.getFetchRefSpecs())
+    assertThat(objectUnderTest.getFetchRefSpecs(FILTER_ONLY))
         .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_DELETE_REF)));
   }
 
@@ -192,7 +193,7 @@ public class FetchOneTest {
     objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
     objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
-    assertThat(objectUnderTest.getFetchRefSpecs())
+    assertThat(objectUnderTest.getFetchRefSpecs(FetchOne.FILTER_ONLY))
         .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_REF + ":" + TEST_REF)));
   }
 
