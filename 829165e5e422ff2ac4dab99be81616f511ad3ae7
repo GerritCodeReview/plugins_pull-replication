@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e72a039_f09e724d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-03-20T11:57:36Z",
+      "side": 1,
+      "message": "just a question on this: do we need to unlock/re-lock every time we enter in a new loop? couldn\u0027t we just unlock once at the end of the entire execution?",
+      "range": {
+        "startLine": 515,
+        "startChar": 0,
+        "endLine": 517,
+        "endChar": 7
+      },
+      "revId": "829165e5e422ff2ac4dab99be81616f511ad3ae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
