@@ -22,6 +22,30 @@
       },
       "revId": "829165e5e422ff2ac4dab99be81616f511ad3ae7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c7bdfaf_f30e1aad",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-03-21T15:01:30Z",
+      "side": 1,
+      "message": "Locks have a queue associated and it\u0027s always a good norm to hold a lock for the shortest time possible.",
+      "parentUuid": "3e72a039_f09e724d",
+      "range": {
+        "startLine": 515,
+        "startChar": 0,
+        "endLine": 517,
+        "endChar": 7
+      },
+      "revId": "829165e5e422ff2ac4dab99be81616f511ad3ae7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
