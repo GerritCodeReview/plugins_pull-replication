@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.googlesource.gerrit.plugins.replication.pull.FetchOne.FILTER_ONLY;
 import static com.googlesource.gerrit.plugins.replication.pull.FetchOne.refsToDelete;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.anyList;
@@ -48,6 +49,7 @@ import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import junit.framework.AssertionFailedError;
 import org.eclipse.jgit.errors.PackProtocolException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -55,7 +57,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.Transport;
 import org.eclipse.jgit.transport.URIish;
 import org.junit.Before;
 import org.junit.Test;
@@ -90,8 +91,6 @@ public class FetchOneTest {
   @Mock private DynamicItem<ReplicationFetchFilter> replicationFilter;
   @Mock private FetchRefsDatabase fetchRefsDatabase;
   @Mock private DeleteRefCommand deleteRefCommand;
-
-  @Mock private Transport transport;
 
   private URIish urIish;
   private FetchOne objectUnderTest;
@@ -184,7 +183,7 @@ public class FetchOneTest {
     objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
     objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
 
-    assertThat(objectUnderTest.getFetchRefSpecs())
+    assertThat(objectUnderTest.getFetchRefSpecs(FILTER_ONLY))
         .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_DELETE_REF)));
   }
 
@@ -194,7 +193,7 @@ public class FetchOneTest {
     objectUnderTest.addRefs(refSpecsSetOf(TEST_DELETE_REF));
     objectUnderTest.addRefs(refSpecsSetOf(TEST_REF));
 
-    assertThat(objectUnderTest.getFetchRefSpecs())
+    assertThat(objectUnderTest.getFetchRefSpecs(FetchOne.FILTER_ONLY))
         .isEqualTo(List.of(FetchRefSpec.fromRef(TEST_REF + ":" + TEST_REF)));
   }
 
@@ -347,9 +346,7 @@ public class FetchOneTest {
         Optional.of(List.of(TEST_REF)));
     objectUnderTest.addRefs(refSpecs);
     objectUnderTest.setReplicationFetchFilter(replicationFilter);
-    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
-    when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, refs)).thenReturn(Set.of(TEST_REF));
+    when(replicationFilter.get()).thenReturn((projectName, fetchRefs) -> Set.of(TEST_REF));
 
     objectUnderTest.run();
 
@@ -379,11 +376,9 @@ public class FetchOneTest {
     Map<String, Ref> remoteRefsMap = Map.of(REMOTE_REF, mock(Ref.class));
     setupRemoteConfigMock(List.of(ALL_REFS_SPEC));
     setupFetchRefsDatabaseMock(localRefsMap, remoteRefsMap);
-    ReplicationFetchFilter mockFilter = setupReplicationFilterMock(remoteRefs);
+    setupReplicationFilter(remoteRefs, remoteRefs);
 
     objectUnderTest.run();
-
-    verify(mockFilter).filter(TEST_PROJECT_NAME, remoteRefs);
   }
 
   @Test
@@ -397,11 +392,9 @@ public class FetchOneTest {
         Map.of(REF, mockRef("badc0feebadc0feebadc0feebadc0feebadc0fee"));
     setupRemoteConfigMock(List.of(ALL_REFS_SPEC));
     setupFetchRefsDatabaseMock(localRefsMap, remoteRefsMap);
-    ReplicationFetchFilter mockFilter = setupReplicationFilterMock(remoteRefs);
+    setupReplicationFilter(remoteRefs, remoteRefs);
 
     objectUnderTest.run();
-
-    verify(mockFilter).filter(TEST_PROJECT_NAME, remoteRefs);
   }
 
   @Test
@@ -414,11 +407,9 @@ public class FetchOneTest {
     Map<String, Ref> remoteRefsMap = Map.of(REF, refValue);
     setupRemoteConfigMock(List.of(ALL_REFS_SPEC));
     setupFetchRefsDatabaseMock(localRefsMap, remoteRefsMap);
-    ReplicationFetchFilter mockFilter = setupReplicationFilterMock(remoteRefs);
+    setupReplicationFilter(Set.of(), remoteRefs);
 
     objectUnderTest.run();
-
-    verify(mockFilter).filter(TEST_PROJECT_NAME, Set.of());
   }
 
   @Test
@@ -430,11 +421,9 @@ public class FetchOneTest {
 
     setupRemoteConfigMock(List.of(DEV_REFS_SPEC));
     setupFetchRefsDatabaseMock(Map.of(), Map.of(REF, mock(Ref.class)));
-    ReplicationFetchFilter mockFilter = setupReplicationFilterMock(remoteRefs);
+    setupReplicationFilter(Set.of(), remoteRefs);
 
     objectUnderTest.run();
-
-    verify(mockFilter).filter(TEST_PROJECT_NAME, Set.of());
   }
 
   @Test
@@ -840,7 +829,7 @@ public class FetchOneTest {
         List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()),
         Optional.of(List.of(TEST_REF)));
     objectUnderTest.addRefs(refSpecs);
-    setupReplicationFilterMock(Collections.emptySet());
+    setupReplicationFilter(Set.of(), Set.of());
 
     objectUnderTest.run();
 
@@ -862,9 +851,7 @@ public class FetchOneTest {
         Optional.of(List.of(TEST_REF)));
     objectUnderTest.addRefs(refSpecs);
     objectUnderTest.setReplicationFetchFilter(replicationFilter);
-    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
-    when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, refs)).thenReturn(Set.of(TEST_REF));
+    when(replicationFilter.get()).thenReturn((projectName, refNames) -> Set.of(TEST_REF));
 
     objectUnderTest.run();
 
@@ -942,12 +929,17 @@ public class FetchOneTest {
     when(fetchRefsDatabase.getRemoteRefsMap(repository, urIish)).thenReturn(remote);
   }
 
-  private ReplicationFetchFilter setupReplicationFilterMock(Set<String> inRefs) {
+  private void setupReplicationFilter(Set<String> expectedRefs, Set<String> filteredRefs) {
     objectUnderTest.setReplicationFetchFilter(replicationFilter);
-    ReplicationFetchFilter mockFilter = mock(ReplicationFetchFilter.class);
-    when(replicationFilter.get()).thenReturn(mockFilter);
-    when(mockFilter.filter(TEST_PROJECT_NAME, inRefs)).thenReturn(inRefs);
-    return mockFilter;
+    when(replicationFilter.get())
+        .thenReturn(
+            (projectName, refs) -> {
+              if (refs.equals(expectedRefs)) {
+                return filteredRefs;
+              }
+              throw new AssertionFailedError(
+                  "Expected to filter " + expectedRefs + " but received " + refs);
+            });
   }
 
   private List<ReplicationState> createTestStates(FetchRefSpec refSpec, int numberOfStates) {
