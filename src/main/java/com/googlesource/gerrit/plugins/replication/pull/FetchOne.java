@@ -73,6 +73,8 @@ import org.eclipse.jgit.transport.URIish;
 public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completable {
   private final ReplicationStateListener stateLog;
   public static final String ALL_REFS = "..all..";
+  public static final boolean FILTER_AND_LOCK = true;
+  public static final boolean FILTER_ONLY = false;
   static final String ID_KEY = "fetchOneId";
   private final DeleteRefCommand deleteRefCommand;
 
@@ -109,6 +111,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final Optional<PullReplicationApiRequestMetrics> apiRequestMetrics;
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
+  private Map<String, AutoCloseable> fetchLocks;
 
   @Inject
   FetchOne(
@@ -473,42 +476,46 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   }
 
   private List<FetchRefSpec> runImpl() throws IOException {
-    Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
-    List<FetchRefSpec> fetchRefSpecs = getFetchRefSpecs();
+    while (true) {
+      Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
+      List<FetchRefSpec> fetchRefSpecs = getFetchRefSpecs(FILTER_AND_LOCK);
 
-    try {
-      List<FetchRefSpec> toFetch =
-          fetchRefSpecs.stream().filter(rs -> rs.getSource() != null).toList();
-      Set<String> toDelete = refsToDelete(fetchRefSpecs);
-      updateStates(fetch.fetch(toFetch));
+      try {
+        repLog.info("[{}] Running fetch from {} on {} ...", taskIdHex, uri, fetchRefSpecs);
 
-      // JGit doesn't support a fetch of <empty> to a ref (e.g. :refs/to/delete) therefore we have
-      // manage them separately and remove them one by one.
-      if (!toDelete.isEmpty()) {
-        updateStates(
-            deleteRefCommand.deleteRefsSync(taskIdHex, projectName, toDelete, getRemoteName()));
+        List<FetchRefSpec> toFetch =
+            fetchRefSpecs.stream().filter(rs -> rs.getSource() != null).toList();
+        Set<String> toDelete = refsToDelete(fetchRefSpecs);
+        updateStates(fetch.fetch(toFetch));
+
+        // JGit doesn't support a fetch of <empty> to a ref (e.g. :refs/to/delete) therefore we have
+        // manage them separately and remove them one by one.
+        if (!toDelete.isEmpty()) {
+          updateStates(
+              deleteRefCommand.deleteRefsSync(taskIdHex, projectName, toDelete, getRemoteName()));
+        }
+        return fetchRefSpecs;
+      } catch (InexistentRefTransportException e) {
+        String inexistentRef = e.getInexistentRef();
+        repLog.info(
+            "[{}] Remote {} does not have ref {} in replication task, flagging as failed and"
+                + " removing from the replication task",
+            taskIdHex,
+            uri,
+            inexistentRef);
+        fetchFailures.add(e);
+        delta.remove(FetchRefSpec.fromRef(inexistentRef));
+        if (delta.isEmpty()) {
+          repLog.warn("[{}] Empty replication task, skipping.", taskIdHex);
+          return Collections.emptyList();
+        }
+      } catch (IOException e) {
+        notifyRefReplicatedIOException();
+        throw e;
+      } finally {
+        unlockRefSpecs(fetchLocks);
       }
-    } catch (InexistentRefTransportException e) {
-      String inexistentRef = e.getInexistentRef();
-      repLog.info(
-          "[{}] Remote {} does not have ref {} in replication task, flagging as failed and removing"
-              + " from the replication task",
-          taskIdHex,
-          uri,
-          inexistentRef);
-      fetchFailures.add(e);
-      delta.remove(FetchRefSpec.fromRef(inexistentRef));
-      if (delta.isEmpty()) {
-        repLog.warn("[{}] Empty replication task, skipping.", taskIdHex);
-        return Collections.emptyList();
-      }
-
-      runImpl();
-    } catch (IOException e) {
-      notifyRefReplicatedIOException();
-      throw e;
     }
-    return fetchRefSpecs;
   }
 
   @VisibleForTesting
@@ -539,9 +546,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
    * <p>When {@link FetchOne#delta} is not empty and {@link FetchOne#replicationFetchFilter} was
    * provided, the filtered refsSpecs are returned.
    *
+   * @param lock true if the refs should also be locally locked upon filtering.
    * @return The list of refSpecs to fetch
    */
-  public List<FetchRefSpec> getFetchRefSpecs() throws IOException {
+  public List<FetchRefSpec> getFetchRefSpecs(boolean lock) throws IOException {
     List<FetchRefSpec> configRefSpecs =
         config.getFetchRefSpecs().stream().map(FetchRefSpec::fromRefSpec).toList();
 
@@ -549,16 +557,35 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       return configRefSpecs;
     }
 
-    return runRefsFilter(computeDeltaIfNeeded()).stream()
+    return runRefsFilter(computeDeltaIfNeeded(), lock).stream()
         .map(ref -> refToFetchRefSpec(ref, configRefSpecs))
         .filter(Optional::isPresent)
         .map(Optional::get)
         .collect(Collectors.toList());
   }
 
+  public void unlockRefSpecs(Map<String, AutoCloseable> locks) {
+    if (locks == null) {
+      return;
+    }
+
+    locks.forEach(
+        (key, value) -> {
+          try {
+            value.close();
+          } catch (Exception e) {
+            repLog.error(
+                String.format(
+                    "[%s] Error when unlocking ref %s:%s", taskIdHex, projectName.get(), key),
+                e);
+          }
+        });
+    locks.clear();
+  }
+
   public List<FetchRefSpec> safeGetFetchRefSpecs() {
     try {
-      return getFetchRefSpecs();
+      return getFetchRefSpecs(FILTER_ONLY);
     } catch (IOException e) {
       repLog.error("[{}] Error when evaluating refsSpecs: {}", taskIdHex, e.getMessage());
       return Collections.emptyList();
@@ -605,12 +632,20 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         .flatMap(filter -> Optional.ofNullable(filter.get()));
   }
 
-  private Set<FetchRefSpec> runRefsFilter(Set<FetchRefSpec> refs) {
+  private Set<FetchRefSpec> runRefsFilter(Set<FetchRefSpec> refs, boolean lock) {
     Set<String> refsNames =
         refs.stream().map(FetchRefSpec::refName).collect(Collectors.toUnmodifiableSet());
     Set<String> filteredRefNames =
         replicationFetchFilter()
-            .map(f -> f.filter(this.projectName.get(), refsNames))
+            .map(
+                f -> {
+                  if (lock) {
+                    fetchLocks = f.filterAndLock(this.projectName.get(), refsNames);
+                    return fetchLocks.keySet();
+                  } else {
+                    return f.filter(this.projectName.get(), refsNames);
+                  }
+                })
             .orElse(refsNames);
     return refs.stream()
         .filter(refSpec -> filteredRefNames.contains(refSpec.refName()))
@@ -754,7 +789,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   @Override
   public boolean hasSucceeded() {
     try {
-      return succeeded || getFetchRefSpecs().isEmpty();
+      return succeeded || getFetchRefSpecs(FILTER_ONLY).isEmpty();
     } catch (IOException e) {
       repLog.error("[{}] Error when evaluating refsSpecs: {}", taskIdHex, e.getMessage());
       return false;
