@@ -641,7 +641,6 @@ public class Source {
                   fetchOp.getTaskIdHex(), fetchOp.getURI(), pendingFetchOp.getTaskIdHex()),
               fetchOp.getStatesAsArray());
 
-          queueMetrics.incrementTaskRescheduled(this);
 
         } else {
           // The one pending is one that is NOT retrying, it was just
@@ -683,8 +682,8 @@ public class Source {
                   pendingFetchOp.getTaskIdHex(), pendingFetchOp.getURI(), fetchOp.getTaskIdHex()),
               pendingFetchOp.getStatesAsArray());
 
-          queueMetrics.incrementTaskMerged(this);
         }
+        queueMetrics.incrementTaskMerged(this);
       }
 
       if (pendingFetchOp == null || !pendingFetchOp.isRetrying()) {
