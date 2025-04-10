@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c47f8df2_76d1d252",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-10T19:56:24Z",
+      "side": 0,
+      "message": "Good catch @ponch78@gmail.com: the task is there already and wasn\u0027t rescheduled at all.",
+      "range": {
+        "startLine": 644,
+        "startChar": 10,
+        "endLine": 644,
+        "endChar": 54
+      },
+      "revId": "95a5b4ef90f9f7e1ab315a5a73135f2e6b09c929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fd91f7d_1b16fa76",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-10T19:56:24Z",
+      "side": 0,
+      "message": "Unrelated: should we do anything in this case? The task was scheduled but it will never be executed.",
+      "range": {
+        "startLine": 658,
+        "startChar": 10,
+        "endLine": 658,
+        "endChar": 49
+      },
+      "revId": "95a5b4ef90f9f7e1ab315a5a73135f2e6b09c929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
