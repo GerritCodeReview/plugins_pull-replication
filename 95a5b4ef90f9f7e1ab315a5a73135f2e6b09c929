@@ -45,6 +45,30 @@
       },
       "revId": "95a5b4ef90f9f7e1ab315a5a73135f2e6b09c929",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6644a5ad_aed7c4c1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-04-14T14:35:47Z",
+      "side": 0,
+      "message": "\u003e The task was scheduled but it will never be executed.\n\nAnswering myself: the replication task *will start* and then *fail* immediately, so there\u0027s nothing to worry about the counters here.",
+      "parentUuid": "5fd91f7d_1b16fa76",
+      "range": {
+        "startLine": 658,
+        "startChar": 10,
+        "endLine": 658,
+        "endChar": 49
+      },
+      "revId": "95a5b4ef90f9f7e1ab315a5a73135f2e6b09c929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
