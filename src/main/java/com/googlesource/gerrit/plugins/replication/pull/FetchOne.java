@@ -99,6 +99,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private int retryCount;
   private final int maxRetries;
   private boolean canceled;
+  private boolean collided;
   private final ListMultimap<FetchRefSpec, ReplicationState> stateMap = LinkedListMultimap.create();
   private final int maxLockRetries;
   private int lockRetryCount;
@@ -292,7 +293,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   }
 
   private void statesCleanUp() {
-    if (!stateMap.isEmpty() && !isRetrying()) {
+    if (!stateMap.isEmpty() && !isRetrying() && !collided) {
       for (Map.Entry<FetchRefSpec, ReplicationState> entry : stateMap.entries()) {
         entry
             .getValue()
@@ -348,6 +349,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     // we start replication (instead a new instance, with the same URI, is
     // created and scheduled for a future point in time.)
     //
+    collided = false;
     if (replicationType == ReplicationType.ASYNC && !pool.requestRunway(this)) {
       if (!canceled) {
         repLog.info(
@@ -356,6 +358,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
             taskIdHex,
             uri,
             pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
+        collided = true;
         pool.reschedule(this, Source.RetryReason.COLLISION);
       }
       return;
