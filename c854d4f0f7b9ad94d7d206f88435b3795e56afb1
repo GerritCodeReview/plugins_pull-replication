@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3a2ab6d_13dd258d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-05-21T13:11:36Z",
+      "side": 1,
+      "message": "```suggestion\nThe same logic was been applied to the replication plugin with change Ibf1ca6247.\n```",
+      "range": {
+        "startLine": 18,
+        "startChar": 15,
+        "endLine": 18,
+        "endChar": 18
+      },
+      "revId": "c854d4f0f7b9ad94d7d206f88435b3795e56afb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
