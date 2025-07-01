@@ -197,7 +197,7 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
 
     waitUntil(
         () -> {
-          boolean healthCheckPassed = healthcheck.run().result == HealthCheck.Result.PASSED;
+          boolean healthCheckPassed = healthcheck.run().result() == HealthCheck.Result.PASSED;
           boolean replicationFinished = hasReplicationFinished();
           if (!replicationFinished) {
             assertWithMessage("Instance reported healthy while waiting for replication to finish")
@@ -215,12 +215,12 @@ public class PullReplicationHealthCheckIT extends PullReplicationSetupBase {
         });
 
     if (testStartStopwatch.elapsed(TimeUnit.SECONDS) < TEST_HEALTHCHECK_PERIOD_OF_TIME_SEC) {
-      assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.FAILED);
+      assertThat(healthcheck.run().result()).isEqualTo(HealthCheck.Result.FAILED);
     }
 
     waitUntil(
         () -> testStartStopwatch.elapsed(TimeUnit.SECONDS) > TEST_HEALTHCHECK_PERIOD_OF_TIME_SEC);
-    assertThat(healthcheck.run().result).isEqualTo(HealthCheck.Result.PASSED);
+    assertThat(healthcheck.run().result()).isEqualTo(HealthCheck.Result.PASSED);
   }
 
   private boolean hasReplicationFinished() {
