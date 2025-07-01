@@ -165,7 +165,7 @@ public class PullReplicationTasksHealthCheckTest {
     PullReplicationTasksHealthCheck check =
         injector.getInstance(PullReplicationTasksHealthCheck.class);
 
-    assertThat(check.run().result).isEqualTo(HealthCheck.Result.FAILED);
+    assertThat(check.run().result()).isEqualTo(HealthCheck.Result.FAILED);
   }
 
   @Test
@@ -177,7 +177,7 @@ public class PullReplicationTasksHealthCheckTest {
     PullReplicationTasksHealthCheck check =
         injector.getInstance(PullReplicationTasksHealthCheck.class);
 
-    assertThat(check.run().result).isEqualTo(HealthCheck.Result.PASSED);
+    assertThat(check.run().result()).isEqualTo(HealthCheck.Result.PASSED);
   }
 
   @Test
@@ -197,7 +197,7 @@ public class PullReplicationTasksHealthCheckTest {
                 () -> fakeTicker.advance(Duration.ofMillis(periodOfTimeMillis))))
         .containsExactly(HealthCheck.Result.FAILED, HealthCheck.Result.PASSED);
 
-    assertThat(check.run().result).isEqualTo(HealthCheck.Result.PASSED);
+    assertThat(check.run().result()).isEqualTo(HealthCheck.Result.PASSED);
   }
 
   private Injector testInjector(AbstractModule testModule) {
@@ -222,7 +222,7 @@ public class PullReplicationTasksHealthCheckTest {
       int nTimes, PullReplicationTasksHealthCheck check, @Nullable Runnable postRunFunc) {
     List<HealthCheck.Result> results = new ArrayList<>();
     for (int i = 0; i < nTimes; i++) {
-      results.add(check.run().result);
+      results.add(check.run().result());
       if (postRunFunc != null) {
         postRunFunc.run();
       }
