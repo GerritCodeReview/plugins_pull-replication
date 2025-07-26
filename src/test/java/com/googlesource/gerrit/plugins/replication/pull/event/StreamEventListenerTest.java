@@ -25,6 +25,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.ProjectCreatedEvent;
@@ -208,10 +209,12 @@ public class StreamEventListenerTest {
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.instanceId = REMOTE_INSTANCE_ID;
     event.projectName = TEST_PROJECT;
+    event.headName = RefNames.HEAD;
 
     objectUnderTest.onEvent(event);
 
-    verify(projectInitializationAction).initProject(String.format("%s.git", TEST_PROJECT));
+    verify(projectInitializationAction)
+        .initProject(String.format("%s.git", TEST_PROJECT), RefNames.HEAD);
   }
 
   @Test
@@ -221,10 +224,11 @@ public class StreamEventListenerTest {
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.instanceId = REMOTE_INSTANCE_ID;
     event.projectName = TEST_PROJECT;
+    event.headName = RefNames.HEAD;
 
     objectUnderTest.onEvent(event);
 
-    verify(projectInitializationAction, never()).initProject(any());
+    verify(projectInitializationAction, never()).initProject(any(), eq(RefNames.HEAD));
   }
 
   @Test
@@ -234,10 +238,11 @@ public class StreamEventListenerTest {
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.instanceId = REMOTE_INSTANCE_ID;
     event.projectName = TEST_PROJECT;
+    event.headName = RefNames.HEAD;
 
     objectUnderTest.onEvent(event);
 
-    verify(projectInitializationAction, never()).initProject(any());
+    verify(projectInitializationAction, never()).initProject(any(), eq(RefNames.HEAD));
   }
 
   @Test
