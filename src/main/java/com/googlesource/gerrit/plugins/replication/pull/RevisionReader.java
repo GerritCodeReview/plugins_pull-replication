@@ -19,6 +19,7 @@ import static com.googlesource.gerrit.plugins.replication.pull.PullReplicationLo
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.googlesource.gerrit.plugins.replication.api.ReplicationConfig;
@@ -317,6 +318,17 @@ public class RevisionReader {
         return "TREE";
       default:
         return "type:" + type;
+    }
+  }
+
+  @Nullable
+  public String getHeadName(Project.NameKey project) throws IOException {
+    try (Repository repo = gitRepositoryManager.openRepository(project)) {
+      Ref ref = repo.exactRef(RefNames.HEAD);
+      if (ref == null) {
+        return null;
+      }
+      return ref.getName();
     }
   }
 }

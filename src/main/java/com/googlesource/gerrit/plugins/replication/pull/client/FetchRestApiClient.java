@@ -44,6 +44,8 @@ import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionsInput;
 import com.googlesource.gerrit.plugins.replication.pull.filter.SyncRefsFilter;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +61,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.message.BasicHeader;
@@ -190,11 +193,12 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
   @Override
   public HttpResult initProject(
       NameKey project,
+      @Nullable String headName,
       URIish uri,
       long eventCreatedOn,
       List<RevisionData> refsMetaConfigRevisionData)
-      throws IOException {
-    String url = formatInitProjectUrl(uri.toString(), project);
+      throws IOException, URISyntaxException {
+    URI url = formatInitProjectUrl(uri.toString(), project, headName);
 
     RevisionData[] inputData = new RevisionData[refsMetaConfigRevisionData.size()];
     RevisionsInput input =
@@ -321,10 +325,18 @@ public class FetchRestApiClient implements FetchApiClient, ResponseHandler<HttpR
         targetUri, urlAuthenticationPrefix, Url.encode(project.get()), pluginName, api);
   }
 
-  private String formatInitProjectUrl(String targetUri, Project.NameKey project) {
-    return String.format(
-        "%s/%splugins/%s/init-project/%s.git",
-        targetUri, urlAuthenticationPrefix, pluginName, Url.encode(project.get()));
+  private URI formatInitProjectUrl(
+      String targetUri, Project.NameKey project, @Nullable String headName)
+      throws URISyntaxException {
+    String baseUrl =
+        String.format(
+            "%s/%splugins/%s/init-project/%s.git",
+            targetUri, urlAuthenticationPrefix, pluginName, Url.encode(project.get()));
+    URIBuilder baseUriBuilder = new URIBuilder(baseUrl);
+    if (headName != null) {
+      baseUriBuilder = baseUriBuilder.addParameter("headName", headName);
+    }
+    return baseUriBuilder.build();
   }
 
   private void requireNull(Object object, String string) {
