@@ -16,6 +16,7 @@ package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
@@ -23,6 +24,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import org.eclipse.jgit.transport.URIish;
 
@@ -68,10 +70,11 @@ public interface FetchApiClient {
    */
   HttpResult initProject(
       Project.NameKey project,
+      @Nullable String headName,
       URIish uri,
       long eventCreatedOn,
       List<RevisionData> refsMetaConfigRevisionData)
-      throws IOException;
+      throws IOException, URISyntaxException;
 
   HttpResult deleteProject(Project.NameKey project, URIish apiUri) throws IOException;
 
