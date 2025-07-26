@@ -557,8 +557,10 @@ public abstract class FetchRestApiClientBase {
 
   @Test
   public void shouldCallInitProjectEndpoint() throws Exception {
+    String headName = RefNames.REFS_HEADS + "main";
     objectUnderTest.initProject(
         Project.nameKey("test_repo"),
+        headName,
         new URIish(api),
         eventCreatedOn,
         Collections.singletonList(createSampleRevisionData()));
@@ -576,6 +578,7 @@ public abstract class FetchRestApiClientBase {
             String.format(
                 "%s/plugins/pull-replication/init-project/test_repo.git",
                 urlAuthenticationPrefix()));
+    assertThat(httpPut.getURI().getQuery()).isEqualTo("headName=" + headName);
     assertThat(payload).isEqualTo(expectedInitProjectWithConfigPayload);
     assertAuthentication(httpPut);
   }

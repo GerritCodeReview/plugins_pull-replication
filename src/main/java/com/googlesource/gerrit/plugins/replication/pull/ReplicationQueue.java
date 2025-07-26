@@ -750,10 +750,10 @@ public class ReplicationQueue
 
   private Optional<HttpResult> initProject(
       Project.NameKey project, URIish uri, FetchApiClient fetchClient, Optional<HttpResult> result)
-      throws IOException {
+      throws IOException, URISyntaxException {
+    RevisionReader revisionReader = revReaderProvider.get();
     RevisionData refsMetaConfigRevisionData =
-        revReaderProvider
-            .get()
+        revisionReader
             .read(project, null, RefNames.REFS_CONFIG, 0)
             .orElseThrow(
                 () ->
@@ -764,7 +764,12 @@ public class ReplicationQueue
     List<RevisionData> refsMetaConfigDataList =
         fetchWholeMetaHistory(project, RefNames.REFS_CONFIG, refsMetaConfigRevisionData);
     HttpResult initProjectResult =
-        fetchClient.initProject(project, uri, System.currentTimeMillis(), refsMetaConfigDataList);
+        fetchClient.initProject(
+            project,
+            revisionReader.getHeadName(project),
+            uri,
+            System.currentTimeMillis(),
+            refsMetaConfigDataList);
     if (initProjectResult.isSuccessful()) {
       result = Optional.of(fetchClient.callFetch(project, FetchOne.ALL_REFS, uri));
     } else {
