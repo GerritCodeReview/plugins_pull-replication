@@ -376,6 +376,7 @@ abstract class PullReplicationITBase extends PullReplicationSetupBase {
     FetchApiClient client = getInstance(FetchApiClient.Factory.class).create(source);
     client.initProject(
         projectToCreate,
+        null,
         new URIish(source.getApis().get(0)),
         System.currentTimeMillis(),
         Collections.emptyList());
