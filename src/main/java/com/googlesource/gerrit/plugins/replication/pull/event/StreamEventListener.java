@@ -164,7 +164,8 @@ public class StreamEventListener implements EventListener {
     } else if (event instanceof ProjectCreatedEvent) {
       ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
       try {
-        projectInitializationAction.initProject(getProjectRepositoryName(projectCreatedEvent));
+        projectInitializationAction.initProject(
+            getProjectRepositoryName(projectCreatedEvent), projectCreatedEvent.headName);
         fetchRefsAsync(
             FetchOne.ALL_REFS,
             projectCreatedEvent.instanceId,
