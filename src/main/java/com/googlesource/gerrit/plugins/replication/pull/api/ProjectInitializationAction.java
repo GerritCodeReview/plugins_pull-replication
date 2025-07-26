@@ -22,6 +22,7 @@ import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.net.MediaType;
@@ -103,15 +104,17 @@ public class ProjectInitializationAction extends HttpServlet {
     }
 
     String gitRepositoryName = getGitRepositoryName(httpServletRequest);
+    String headName = getGitRepositoryHeadName(httpServletRequest);
     try {
       boolean initProjectStatus;
       String contentType = httpServletRequest.getContentType();
       if (checkContentType(contentType, MediaType.JSON_UTF_8)) {
         // init project request includes project configuration in JSON format.
-        initProjectStatus = initProjectWithConfiguration(httpServletRequest, gitRepositoryName);
+        initProjectStatus =
+            initProjectWithConfiguration(httpServletRequest, gitRepositoryName, headName);
       } else if (checkContentType(contentType, MediaType.PLAIN_TEXT_UTF_8)) {
         // init project request does not include project configuration.
-        initProjectStatus = initProject(gitRepositoryName);
+        initProjectStatus = initProject(gitRepositoryName, RefNames.HEAD);
       } else {
         setResponse(
             httpServletResponse,
@@ -146,9 +149,9 @@ public class ProjectInitializationAction extends HttpServlet {
     }
   }
 
-  public boolean initProject(String gitRepositoryName)
+  public boolean initProject(String gitRepositoryName, String headName)
       throws AuthException, PermissionBackendException, IOException {
-    if (initProject(gitRepositoryName, true)) {
+    if (initProject(gitRepositoryName, headName, true)) {
       repLog.info("Init project API from {}", gitRepositoryName);
       return true;
     }
@@ -156,7 +159,7 @@ public class ProjectInitializationAction extends HttpServlet {
   }
 
   private boolean initProjectWithConfiguration(
-      HttpServletRequest httpServletRequest, String gitRepositoryName)
+      HttpServletRequest httpServletRequest, String gitRepositoryName, String headName)
       throws AuthException,
           PermissionBackendException,
           IOException,
@@ -167,7 +170,7 @@ public class ProjectInitializationAction extends HttpServlet {
 
     RevisionsInput input = PayloadSerDes.parseRevisionsInput(httpServletRequest);
     validateInput(input);
-    if (!initProject(gitRepositoryName, false)) {
+    if (!initProject(gitRepositoryName, headName, false)) {
       return false;
     }
 
@@ -206,7 +209,8 @@ public class ProjectInitializationAction extends HttpServlet {
     return true;
   }
 
-  private boolean initProject(String gitRepositoryName, boolean needsProjectReindexing)
+  private boolean initProject(
+      String gitRepositoryName, String headName, boolean needsProjectReindexing)
       throws AuthException, PermissionBackendException, IOException {
     // When triggered internally(for example by consuming stream events) user is not provided
     // and internal user is returned. Project creation should be always allowed for internal user.
@@ -220,7 +224,7 @@ public class ProjectInitializationAction extends HttpServlet {
     }
     LocalFS localFS = new LocalFS(maybeUri.get());
     Project.NameKey projectNameKey = Project.NameKey.parse(gitRepositoryName);
-    if (localFS.createProject(projectNameKey, RefNames.HEAD)) {
+    if (localFS.createProject(projectNameKey, headName)) {
       if (needsProjectReindexing) {
         projectCache.onCreateProject(projectNameKey);
       }
@@ -245,6 +249,11 @@ public class ProjectInitializationAction extends HttpServlet {
   private String getGitRepositoryName(HttpServletRequest httpServletRequest) {
     String path = httpServletRequest.getRequestURI();
     return Url.decode(path.substring(path.lastIndexOf('/') + 1));
+  }
+
+  private String getGitRepositoryHeadName(HttpServletRequest httpServletRequest) {
+    String headName = httpServletRequest.getParameter("headName");
+    return MoreObjects.firstNonNull(headName, RefNames.HEAD);
   }
 
   private void logExceptionAndUpdateResponse(
