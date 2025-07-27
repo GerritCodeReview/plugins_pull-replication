@@ -1,4 +1,4 @@
-FROM gerritcodereview/gerrit:3.11.4
+FROM gerritcodereview/gerrit:3.12.1
 
 USER root
 
