@@ -11,4 +11,6 @@ COPY --chown=gerrit:gerrit entrypoint.sh /tmp/
 COPY --chown=gerrit:gerrit configs/replication.config.template /var/gerrit/etc/
 COPY --chown=gerrit:gerrit configs/gerrit.config.template /var/gerrit/etc/
 
+ENV JAVA_HOME=/usr/lib/jvm/jre-21
+
 ENTRYPOINT [ "/tmp/entrypoint.sh" ]
