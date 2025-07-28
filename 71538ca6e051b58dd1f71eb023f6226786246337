@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3d53446_d9da7b5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2025-07-28T10:32:26Z",
+      "side": 1,
+      "message": "Tested on stable-3.11 by cherry-picking, this seems to work as expected both in a standard Primary-Replica setup and in a Multi-Site Primary-Primary setup (though the multi-site required a restart).\n\nI unfortunately do not have a 3.12 or a master setup to test with at the moment.",
+      "revId": "71538ca6e051b58dd1f71eb023f6226786246337",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
