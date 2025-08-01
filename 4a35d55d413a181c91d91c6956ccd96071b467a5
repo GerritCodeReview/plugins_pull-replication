@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c9072c8_ffbe1bc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2025-08-01T10:37:27Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com Sorry, I was sure you had already cherry-picked it because I was too slow. I must have confused things.\n\nHere\u0027s the cherry-pick.",
+      "revId": "4a35d55d413a181c91d91c6956ccd96071b467a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
