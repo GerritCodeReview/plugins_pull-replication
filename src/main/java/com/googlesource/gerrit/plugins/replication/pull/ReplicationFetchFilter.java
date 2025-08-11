@@ -29,7 +29,7 @@ public interface ReplicationFetchFilter {
 
   Set<String> filter(String projectName, Set<String> fetchRefs);
 
-  default Map<String, AutoCloseable> filterAndLock(String projectName, Set<String> fetchRefs) {
+  default Map<String, AutoCloseable> filterAndLock(String projectName, Set<String> fetchRefs) throws com.googlesource.gerrit.plugins.replication.pull.FetchOne.LockFailureException {
     return filter(projectName, fetchRefs).stream()
         .collect(Collectors.toMap(ref -> ref, ref -> () -> {}));
   }
