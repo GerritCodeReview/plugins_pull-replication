@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f02947b_3c0b5b9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-11T22:59:55Z",
+      "side": 1,
+      "message": "Tested E2E and unfortunately I can still see the issue: using the `Project.NameKey` on the inflight and pending of the source isn\u0027t enough, see comments.",
+      "revId": "eebcfdd1c3ece403247a37f5a766cb7facdb94c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47138312_a1f97a00",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-11T22:59:55Z",
+      "side": 1,
+      "message": "This is not enough, as different sources will have different `pending` and `inFlight` maps, therefore won\u0027t be able to block fetches on other sources.\n\nWe could extract `QueueInfo` and make it a global singleton, so that the `pending` and `inFlight` maps can be shared across sources.",
+      "range": {
+        "startLine": 136,
+        "startChar": 2,
+        "endLine": 146,
+        "endChar": 0
+      },
+      "revId": "eebcfdd1c3ece403247a37f5a766cb7facdb94c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
