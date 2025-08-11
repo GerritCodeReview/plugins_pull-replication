@@ -110,8 +110,8 @@ public class Source {
   private final ReplicationStateListener stateLog;
   private final UpdateHeadTask.Factory updateHeadFactory;
   private final Object stateLock = new Object();
-  private final Map<URIish, FetchOne> pending = new HashMap<>();
-  private final Map<URIish, FetchOne> inFlight = new HashMap<>();
+  private final Map<Project.NameKey, FetchOne> pending = new HashMap<>();
+  private final Map<Project.NameKey, FetchOne> inFlight = new HashMap<>();
   private final FetchOne.Factory opFactory;
   private final GitRepositoryManager gitManager;
   private final PermissionBackend permissionBackend;
@@ -134,10 +134,11 @@ public class Source {
   }
 
   public static class QueueInfo {
-    public final Map<URIish, FetchOne> pending;
-    public final Map<URIish, FetchOne> inFlight;
+    public final Map<Project.NameKey, FetchOne> pending;
+    public final Map<Project.NameKey, FetchOne> inFlight;
 
-    public QueueInfo(Map<URIish, FetchOne> pending, Map<URIish, FetchOne> inFlight) {
+    public QueueInfo(
+        Map<Project.NameKey, FetchOne> pending, Map<Project.NameKey, FetchOne> inFlight) {
       this.pending = ImmutableMap.copyOf(pending);
       this.inFlight = ImmutableMap.copyOf(inFlight);
     }
@@ -493,7 +494,7 @@ public class Source {
     if (!config.replicatePermissions()) {
       FetchOne e;
       synchronized (stateLock) {
-        e = pending.get(uri);
+        e = pending.get(project);
       }
       if (e == null) {
         try (Repository git = gitManager.openRepository(project)) {
@@ -519,13 +520,13 @@ public class Source {
     }
 
     synchronized (stateLock) {
-      FetchOne e = pending.get(uri);
+      FetchOne e = pending.get(project);
       Future<?> f = CompletableFuture.completedFuture(null);
       if (e == null || e.isRetrying()) {
         e = opFactory.create(project, uri, apiRequestMetrics);
         addRef(e, refSpec);
         e.addState(refSpec, state);
-        pending.put(uri, e);
+        pending.put(project, e);
         f =
             pool.schedule(
                 queueMetrics.runWithMetrics(this, e),
@@ -578,8 +579,7 @@ public class Source {
 
   void fetchWasCanceled(FetchOne fetchOp) {
     synchronized (stateLock) {
-      URIish uri = fetchOp.getURI();
-      pending.remove(uri);
+      pending.remove(fetchOp.getProjectNameKey());
       queueMetrics.incrementTaskCancelled(this);
     }
   }
@@ -612,11 +612,11 @@ public class Source {
    */
   void reschedule(FetchOne fetchOp, RetryReason reason) {
     synchronized (stateLock) {
-      URIish uri = fetchOp.getURI();
-      FetchOne pendingFetchOp = pending.get(uri);
+      Project.NameKey projectName = fetchOp.getProjectNameKey();
+      FetchOne pendingFetchOp = pending.get(projectName);
 
       if (pendingFetchOp != null) {
-        // There is one FetchOp instance already pending to same URI.
+        // There is one FetchOp instance already pending for the same project.
 
         if (pendingFetchOp.isRetrying()) {
           // The one pending is one already retrying, so it should
@@ -625,10 +625,10 @@ public class Source {
 
           // This scenario would happen if a FetchOp has started running
           // and then before it failed due transport exception, another
-          // one to same URI started. The first one would fail and would
+          // one to same project started. The first one would fail and would
           // be rescheduled, being present in pending list. When the
           // second one fails, it will also be rescheduled and then,
-          // here, find out replication to its URI is already pending
+          // here, find out replication to the project is already pending
           // for retry (blocking).
           pendingFetchOp.addRefs(fetchOp.getRefSpecs());
           pendingFetchOp.addStates(fetchOp.getStates());
@@ -654,7 +654,7 @@ public class Source {
           // it will see it was canceled and then it will do nothing with
           // pending list and it will not execute its run implementation.
           pendingFetchOp.canceledByReplication();
-          pending.remove(uri);
+          pending.remove(projectName);
 
           Set<FetchRefSpec> fetchOpRefSpecs = fetchOp.getRefSpecs();
           fetchOp.addRefs(pendingFetchOp.getRefSpecs());
@@ -685,7 +685,7 @@ public class Source {
       }
 
       if (pendingFetchOp == null || !pendingFetchOp.isRetrying()) {
-        pending.put(uri, fetchOp);
+        pending.put(projectName, fetchOp);
         switch (reason) {
           case COLLISION:
             queueMetrics.incrementTaskRescheduled(this);
@@ -712,7 +712,7 @@ public class Source {
               queueMetrics.incrementTaskRetrying(this);
             } else {
               fetchOp.canceledByReplication();
-              pending.remove(uri);
+              pending.remove(projectName);
               stateLog.error(
                   "Fetch from " + fetchOp.getURI() + " cancelled after maximum number of retries",
                   fetchOp.getStatesAsArray());
@@ -729,22 +729,22 @@ public class Source {
       if (op.wasCanceled()) {
         return false;
       }
-      pending.remove(op.getURI());
-      if (inFlight.containsKey(op.getURI())) {
+      pending.remove(op.getProjectNameKey());
+      if (inFlight.containsKey(op.getProjectNameKey())) {
         return false;
       }
-      inFlight.put(op.getURI(), op);
+      inFlight.put(op.getProjectNameKey(), op);
     }
     return true;
   }
 
-  Optional<FetchOne> getInFlight(URIish uri) {
-    return Optional.ofNullable(inFlight.get(uri));
+  Optional<FetchOne> getInFlight(Project.NameKey projectName) {
+    return Optional.ofNullable(inFlight.get(projectName));
   }
 
   void notifyFinished(FetchOne op) {
     synchronized (stateLock) {
-      inFlight.remove(op.getURI());
+      inFlight.remove(op.getProjectNameKey());
     }
 
     Set<TransportException> fetchFailures = op.getFetchFailures();
