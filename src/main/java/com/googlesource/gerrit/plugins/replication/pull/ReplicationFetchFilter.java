@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import com.googlesource.gerrit.plugins.replication.pull.FetchOne.LockFailureException;
 
 /**
  * Filter that is invoked before a set of remote refs are fetched from a remote instance.

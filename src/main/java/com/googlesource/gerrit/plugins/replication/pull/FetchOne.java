@@ -52,6 +52,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
+
 import org.eclipse.jgit.errors.NoRemoteRepositoryException;
 import org.eclipse.jgit.errors.NotSupportedException;
 import org.eclipse.jgit.errors.RemoteRepositoryException;
@@ -782,6 +783,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
 
     LockFailureException(URIish uri, String message) {
       super(uri, message);
+    }
+
+    public LockFailureException(String message) {
+      super(message);
     }
   }
 
