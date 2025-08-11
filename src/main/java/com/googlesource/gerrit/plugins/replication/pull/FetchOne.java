@@ -783,6 +783,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     LockFailureException(URIish uri, String message) {
       super(uri, message);
     }
+
+    public LockFailureException(String message, Throwable cause) {
+      super(message, cause);
+    }
   }
 
   public Optional<PullReplicationApiRequestMetrics> getRequestMetrics() {
