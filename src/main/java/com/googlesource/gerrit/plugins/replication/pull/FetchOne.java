@@ -635,21 +635,22 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         .flatMap(filter -> Optional.ofNullable(filter.get()));
   }
 
-  private Set<FetchRefSpec> runRefsFilter(Set<FetchRefSpec> refs, boolean lock) {
+  private Set<FetchRefSpec> runRefsFilter(Set<FetchRefSpec> refs, boolean lock)
+      throws LockFailureException {
     Set<String> refsNames =
         refs.stream().map(FetchRefSpec::refName).collect(Collectors.toUnmodifiableSet());
-    Set<String> filteredRefNames =
-        replicationFetchFilter()
-            .map(
-                f -> {
-                  if (lock) {
-                    fetchLocks = f.filterAndLock(this.projectName.get(), refsNames);
-                    return fetchLocks.keySet();
-                  } else {
-                    return f.filter(this.projectName.get(), refsNames);
-                  }
-                })
-            .orElse(refsNames);
+    Set<String> filteredRefNames;
+    Optional<ReplicationFetchFilter> fetchFilter = replicationFetchFilter();
+    if (fetchFilter.isPresent()) {
+      if (lock) {
+        fetchLocks = fetchFilter.get().filterAndLock(this.projectName.get(), refsNames);
+        filteredRefNames = fetchLocks.keySet();
+      } else {
+        filteredRefNames = fetchFilter.get().filter(this.projectName.get(), refsNames);
+      }
+    } else {
+      filteredRefNames = refsNames;
+    }
     return refs.stream()
         .filter(refSpec -> filteredRefNames.contains(refSpec.refName()))
         .collect(Collectors.toUnmodifiableSet());
