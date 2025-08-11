@@ -643,11 +643,15 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         replicationFetchFilter()
             .map(
                 f -> {
-                  if (lock) {
-                    fetchLocks = f.filterAndLock(this.projectName.get(), refsNames);
-                    return fetchLocks.keySet();
-                  } else {
-                    return f.filter(this.projectName.get(), refsNames);
+                  try {
+                    if (lock) {
+                      fetchLocks = f.filterAndLock(this.projectName.get(), refsNames);
+                      return fetchLocks.keySet();
+                    } else {
+                      return f.filter(this.projectName.get(), refsNames);
+                    }
+                  } catch (LockFailureException e) {
+                    throw new RuntimeException(e.getMessage());
                   }
                 })
             .orElse(refsNames);
