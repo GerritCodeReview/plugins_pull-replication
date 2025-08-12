@@ -68,6 +68,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "78a8716e_d2eff41b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-12T13:38:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b301f48_8c02c702",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 655,
+        "endChar": 19
+      },
+      "revId": "886b58a3a76e4d207cc1f0d05eb12a568f7485ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "30d40826_da7fa946",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationFetchFilter.java",
         "patchSetId": 1
