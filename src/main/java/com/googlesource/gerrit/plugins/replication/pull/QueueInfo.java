@@ -18,6 +18,22 @@ import com.google.gerrit.entities.Project;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Holds the state of the replication queues.
+ *
+ * <p>This class tracks:
+ *
+ * <ul>
+ *   <li>{@link #pending} - operations that are scheduled but not yet started
+ *   <li>{@link #inFlight} - operations that are currently running
+ * </ul>
+ *
+ * <p>Both maps are keyed by {@link Project.NameKey} and store a {@code FetchOne} task representing
+ * the work to be performed for that project.
+ *
+ * <p>The class is a singleton so that it can be injected and shared across multiple {@link
+ * Source}s.
+ */
 public class QueueInfo {
   private final Map<Project.NameKey, FetchOne> pending;
   private final Map<Project.NameKey, FetchOne> inFlight;
@@ -27,10 +43,20 @@ public class QueueInfo {
     this.inFlight = new ConcurrentHashMap<>();
   }
 
+  /**
+   * Returns the map of operations that are scheduled but not yet started.
+   *
+   * @return a thread-safe map of pending operations, keyed by project.
+   */
   public Map<Project.NameKey, FetchOne> pending() {
     return pending;
   }
 
+  /**
+   * Returns the map of operations that are currently running.
+   *
+   * @return a thread-safe map of in-flight operations, keyed by project.
+   */
   public Map<Project.NameKey, FetchOne> inFlight() {
     return inFlight;
   }
