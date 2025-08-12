@@ -89,9 +89,9 @@ final class ListCommand extends SshCommand {
         addProperty(obj, "AdminUrl", s.getAdminUrls());
         addProperty(obj, "AuthGroup", s.getAuthGroupNames());
         addProperty(obj, "Project", s.getProjects());
-        Source.QueueInfo q = s.getQueueInfo();
-        addQueueDetails(obj, "InFlight", q.inFlight.values());
-        addQueueDetails(obj, "Pending", q.pending.values());
+        QueueInfo q = s.getQueueInfo();
+        addQueueDetails(obj, "InFlight", q.getAllInFlight());
+        addQueueDetails(obj, "Pending", q.getAllPending());
       }
       stdout.print(obj.toString() + "\n");
     } else {
@@ -114,11 +114,11 @@ final class ListCommand extends SshCommand {
           out.append("Project: ").append(project).append("\n");
         }
 
-        Source.QueueInfo q = s.getQueueInfo();
-        out.append("In Flight: ").append(q.inFlight.size()).append("\n");
-        addQueueDetails(out, q.inFlight.values());
-        out.append("Pending: ").append(q.pending.size()).append("\n");
-        addQueueDetails(out, q.pending.values());
+        QueueInfo q = s.getQueueInfo();
+        out.append("In Flight: ").append(q.inFlightSize()).append("\n");
+        addQueueDetails(out, q.getAllInFlight());
+        out.append("Pending: ").append(q.pendingSize()).append("\n");
+        addQueueDetails(out, q.getAllPending());
       }
       stdout.print(out.toString() + "\n");
     }

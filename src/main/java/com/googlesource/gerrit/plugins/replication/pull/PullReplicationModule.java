@@ -118,6 +118,7 @@ class PullReplicationModule extends AbstractModule {
     DynamicSet.bind(binder(), HeadUpdatedListener.class).to(ReplicationQueue.class);
 
     bind(ReplicationQueue.class).in(Scopes.SINGLETON);
+    bind(QueueInfo.class).in(Scopes.SINGLETON);
     bind(ObservableQueue.class).to(ReplicationQueue.class);
     bind(LifecycleListener.class)
         .annotatedWith(UniqueAnnotations.create())
