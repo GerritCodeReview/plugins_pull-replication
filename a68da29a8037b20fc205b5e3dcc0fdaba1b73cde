@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceed4bb7_9d10286b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-12T17:09:45Z",
+      "side": 1,
+      "message": "You need to include here the why this change is done and what it would like to achieve.\n\nAlso, it should mention that this isn\u0027t just adding getters but also removing all references to the pending and in-flight, storing only the QueueInfo object and always getting the maps from it.",
+      "revId": "a68da29a8037b20fc205b5e3dcc0fdaba1b73cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
