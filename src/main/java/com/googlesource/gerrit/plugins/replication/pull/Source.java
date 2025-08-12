@@ -75,7 +75,6 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -108,8 +107,6 @@ public class Source {
   private final ReplicationStateListener stateLog;
   private final UpdateHeadTask.Factory updateHeadFactory;
   private final Object stateLock = new Object();
-  private final Map<Project.NameKey, FetchOne> pending;
-  private final Map<Project.NameKey, FetchOne> inFlight;
   private final QueueInfo queueInfo;
   private final FetchOne.Factory opFactory;
   private final GitRepositoryManager gitManager;
@@ -156,8 +153,6 @@ public class Source {
     this.stateLog = stateLog;
     this.queueMetrics = queueMetrics;
     this.queueInfo = queueInfo;
-    this.pending = queueInfo.pending;
-    this.inFlight = queueInfo.inFlight;
 
     CurrentUser remoteUser;
     if (!cfg.getAuthGroupNames().isEmpty()) {
@@ -285,9 +280,13 @@ public class Source {
     String neverExecutedTasks =
         fetchTasks.stream().map(r -> r.toString()).collect(Collectors.joining(","));
     String pendingTasks =
-        pending.values().stream().map(FetchOne::toString).collect(Collectors.joining(","));
+        queueInfo.pending().values().stream()
+            .map(FetchOne::toString)
+            .collect(Collectors.joining(","));
     String inFlightTasks =
-        inFlight.values().stream().map(FetchOne::toString).collect(Collectors.joining(","));
+        queueInfo.inFlight().values().stream()
+            .map(FetchOne::toString)
+            .collect(Collectors.joining(","));
 
     repLog.error("Never executed tasks: {}", neverExecutedTasks);
     repLog.error("Pending tasks: {}", pendingTasks);
@@ -295,8 +294,8 @@ public class Source {
   }
 
   private boolean isDrained() {
-    int numberOfPending = pending.size();
-    int numberOfInFlight = inFlight.size();
+    int numberOfPending = queueInfo.pending().size();
+    int numberOfInFlight = queueInfo.inFlight().size();
 
     boolean drained = numberOfPending == 0 && numberOfInFlight == 0;
 
@@ -486,7 +485,7 @@ public class Source {
     if (!config.replicatePermissions()) {
       FetchOne e;
       synchronized (stateLock) {
-        e = pending.get(project);
+        e = queueInfo.pending().get(project);
       }
       if (e == null) {
         try (Repository git = gitManager.openRepository(project)) {
@@ -512,13 +511,13 @@ public class Source {
     }
 
     synchronized (stateLock) {
-      FetchOne e = pending.get(project);
+      FetchOne e = queueInfo.pending().get(project);
       Future<?> f = CompletableFuture.completedFuture(null);
       if (e == null || e.isRetrying()) {
         e = opFactory.create(project, uri, apiRequestMetrics);
         addRef(e, refSpec);
         e.addState(refSpec, state);
-        pending.put(project, e);
+        queueInfo.pending().put(project, e);
         f =
             pool.schedule(
                 queueMetrics.runWithMetrics(this, e),
@@ -571,7 +570,7 @@ public class Source {
 
   void fetchWasCanceled(FetchOne fetchOp) {
     synchronized (stateLock) {
-      pending.remove(fetchOp.getProjectNameKey());
+      queueInfo.pending().remove(fetchOp.getProjectNameKey());
       queueMetrics.incrementTaskCancelled(this);
     }
   }
@@ -605,7 +604,7 @@ public class Source {
   void reschedule(FetchOne fetchOp, RetryReason reason) {
     synchronized (stateLock) {
       Project.NameKey projectName = fetchOp.getProjectNameKey();
-      FetchOne pendingFetchOp = pending.get(projectName);
+      FetchOne pendingFetchOp = queueInfo.pending().get(projectName);
 
       if (pendingFetchOp != null) {
         // There is one FetchOp instance already pending for the same project.
@@ -646,7 +645,7 @@ public class Source {
           // it will see it was canceled and then it will do nothing with
           // pending list and it will not execute its run implementation.
           pendingFetchOp.canceledByReplication();
-          pending.remove(projectName);
+          queueInfo.pending().remove(projectName);
 
           Set<FetchRefSpec> fetchOpRefSpecs = fetchOp.getRefSpecs();
           fetchOp.addRefs(pendingFetchOp.getRefSpecs());
@@ -677,7 +676,7 @@ public class Source {
       }
 
       if (pendingFetchOp == null || !pendingFetchOp.isRetrying()) {
-        pending.put(projectName, fetchOp);
+        queueInfo.pending().put(projectName, fetchOp);
         switch (reason) {
           case COLLISION:
             queueMetrics.incrementTaskRescheduled(this);
@@ -704,7 +703,7 @@ public class Source {
               queueMetrics.incrementTaskRetrying(this);
             } else {
               fetchOp.canceledByReplication();
-              pending.remove(projectName);
+              queueInfo.pending().remove(projectName);
               stateLog.error(
                   "Fetch from " + fetchOp.getURI() + " cancelled after maximum number of retries",
                   fetchOp.getStatesAsArray());
@@ -721,22 +720,22 @@ public class Source {
       if (op.wasCanceled()) {
         return false;
       }
-      pending.remove(op.getProjectNameKey());
-      if (inFlight.containsKey(op.getProjectNameKey())) {
+      queueInfo.pending().remove(op.getProjectNameKey());
+      if (queueInfo.inFlight().containsKey(op.getProjectNameKey())) {
         return false;
       }
-      inFlight.put(op.getProjectNameKey(), op);
+      queueInfo.inFlight().put(op.getProjectNameKey(), op);
     }
     return true;
   }
 
   Optional<FetchOne> getInFlight(Project.NameKey projectName) {
-    return Optional.ofNullable(inFlight.get(projectName));
+    return Optional.ofNullable(queueInfo.inFlight().get(projectName));
   }
 
   void notifyFinished(FetchOne op) {
     synchronized (stateLock) {
-      inFlight.remove(op.getProjectNameKey());
+      queueInfo.inFlight().remove(op.getProjectNameKey());
     }
 
     Set<TransportException> fetchFailures = op.getFetchFailures();
@@ -955,19 +954,21 @@ public class Source {
   }
 
   public long inflightTasksCount() {
-    return inFlight.size();
+    return queueInfo.inFlight().size();
   }
 
   public long pendingTasksCount() {
-    return pending.size();
+    return queueInfo.pending().size();
   }
 
   public boolean zeroPendingTasksForRepo(Project.NameKey project) {
-    return pending.values().stream().noneMatch(fetch -> fetch.getProjectNameKey().equals(project));
+    return queueInfo.pending().values().stream()
+        .noneMatch(fetch -> fetch.getProjectNameKey().equals(project));
   }
 
   public boolean zeroInflightTasksForRepo(Project.NameKey project) {
-    return inFlight.values().stream().noneMatch(fetch -> fetch.getProjectNameKey().equals(project));
+    return queueInfo.inFlight().values().stream()
+        .noneMatch(fetch -> fetch.getProjectNameKey().equals(project));
   }
 
   private static boolean matches(URIish uri, String urlMatch) {
