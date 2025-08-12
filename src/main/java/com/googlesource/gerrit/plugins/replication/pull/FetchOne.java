@@ -113,6 +113,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
   private Map<String, AutoCloseable> fetchLocks;
+  private ProjectsLock projectsLock;
 
   @Inject
   FetchOne(
@@ -126,6 +127,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       FetchFactory fetchFactory,
       FetchRefsDatabase fetchRefsDatabase,
       DeleteRefCommand deleteRefCommand,
+      ProjectsLock projectsLock,
       @Assisted Project.NameKey d,
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -148,6 +150,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     this.fetchFactory = fetchFactory;
     maxRetries = s.getMaxRetries();
     this.apiRequestMetrics = apiRequestMetrics;
+    this.projectsLock = projectsLock;
   }
 
   @Inject(optional = true)
@@ -350,11 +353,14 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     // created and scheduled for a future point in time.)
     //
     isCollision = false;
-    if (replicationType == ReplicationType.ASYNC && !pool.requestRunway(this)) {
+
+    Optional<ProjectsLock.LockToken> tok = projectsLock.tryLock(projectName);
+    if (tok.isEmpty()) {
       if (!canceled) {
         repLog.info(
-            "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task"
-                + " [{}].",
+            "[{}] Project {} is locked. Rescheduling replication from {} to avoid collision with an"
+                + " in-flight fetch task [{}].",
+            projectName,
             taskIdHex,
             uri,
             pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
@@ -362,6 +368,22 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         isCollision = true;
       }
       return;
+    }
+
+    try (ProjectsLock.LockToken ignored = tok.get()) {
+      if (replicationType == ReplicationType.ASYNC && !pool.requestRunway(this)) {
+        if (!canceled) {
+          repLog.info(
+              "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch"
+                  + " task [{}].",
+              taskIdHex,
+              uri,
+              pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
+          pool.reschedule(this, Source.RetryReason.COLLISION);
+          isCollision = true;
+        }
+        return;
+      }
     }
 
     repLog.info(
