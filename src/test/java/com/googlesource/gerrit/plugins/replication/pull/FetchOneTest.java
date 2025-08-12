@@ -130,6 +130,7 @@ public class FetchOneTest {
             fetchFactory,
             fetchRefsDatabase,
             deleteRefCommand,
+            new ProjectsLock(),
             PROJECT_NAME,
             urIish,
             Optional.of(pullReplicationApiRequestMetrics));
