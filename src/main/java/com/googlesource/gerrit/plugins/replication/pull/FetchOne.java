@@ -113,6 +113,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private DynamicItem<ReplicationFetchFilter> replicationFetchFilter;
   private boolean succeeded;
   private Map<String, AutoCloseable> fetchLocks;
+  private ProjectsLock projectsLock;
 
   @Inject
   FetchOne(
@@ -126,6 +127,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
       FetchFactory fetchFactory,
       FetchRefsDatabase fetchRefsDatabase,
       DeleteRefCommand deleteRefCommand,
+      ProjectsLock projectsLock,
       @Assisted Project.NameKey d,
       @Assisted URIish u,
       @Assisted Optional<PullReplicationApiRequestMetrics> apiRequestMetrics) {
@@ -148,6 +150,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     this.fetchFactory = fetchFactory;
     maxRetries = s.getMaxRetries();
     this.apiRequestMetrics = apiRequestMetrics;
+    this.projectsLock = projectsLock;
   }
 
   @Inject(optional = true)
@@ -350,126 +353,142 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     // created and scheduled for a future point in time.)
     //
     isCollision = false;
-    if (replicationType == ReplicationType.ASYNC && !pool.requestRunway(this)) {
-      if (!canceled) {
-        repLog.info(
-            "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch task"
-                + " [{}].",
-            taskIdHex,
-            uri,
-            pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
-        pool.reschedule(this, Source.RetryReason.COLLISION);
-        isCollision = true;
+
+    try (ProjectsLock.LockToken unused = projectsLock.tryLock(projectName, getTaskIdHex())) {
+      if (replicationType == ReplicationType.ASYNC && !pool.requestRunway(this)) {
+        if (!canceled) {
+          repLog.info(
+              "[{}] Rescheduling replication from {} to avoid collision with an in-flight fetch"
+                  + " task [{}].",
+              taskIdHex,
+              uri,
+              pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
+          pool.reschedule(this, Source.RetryReason.COLLISION);
+          isCollision = true;
+        }
+        return;
       }
-      return;
-    }
 
-    repLog.info(
-        "[{}] {} replication from {} started for refs [{}] ...",
-        taskIdHex,
-        replicationType,
-        uri,
-        getRefSpecs());
-    Timer1.Context<String> context = metrics.start(config.getName());
-    try {
-      long startedAt = context.getStartTime();
-      long delay = NANOSECONDS.toMillis(startedAt - createdAt);
-      git = gitManager.openRepository(projectName);
-      List<FetchRefSpec> fetchRefSpecs = runImpl();
+      repLog.info(
+          "[{}] {} replication from {} started for refs [{}] ...",
+          taskIdHex,
+          replicationType,
+          uri,
+          getRefSpecs());
+      Timer1.Context<String> context = metrics.start(config.getName());
+      try {
+        long startedAt = context.getStartTime();
+        long delay = NANOSECONDS.toMillis(startedAt - createdAt);
+        git = gitManager.openRepository(projectName);
+        List<FetchRefSpec> fetchRefSpecs = runImpl();
 
-      if (fetchRefSpecs.isEmpty()) {
-        repLog.info(
-            "[{}] {} replication from {} finished but no refs were replicated, {}ms delay, {}"
-                + " retries",
-            taskIdHex,
-            replicationType,
-            uri,
-            delay,
-            retryCount);
-      } else {
-        metrics.record(config.getName(), delay, retryCount);
-        long elapsed = NANOSECONDS.toMillis(context.stop());
-        Optional<Long> elapsedEnd2End =
-            apiRequestMetrics
-                .flatMap(metrics -> metrics.stop(config.getName()))
-                .map(NANOSECONDS::toMillis);
-        repLog.info(
-            "[{}] Replication from {} completed in {}ms, {}ms delay, {} retries{}",
-            taskIdHex,
-            uri,
-            elapsed,
-            delay,
-            retryCount,
-            elapsedEnd2End.map(el -> String.format(", E2E %dms", el)).orElse(""));
-      }
-    } catch (RepositoryNotFoundException e) {
-      stateLog.error(
-          "["
-              + taskIdHex
-              + "] Cannot replicate "
-              + projectName
-              + "; Local repository error: "
-              + e.getMessage(),
-          getStatesAsArray());
+        if (fetchRefSpecs.isEmpty()) {
+          repLog.info(
+              "[{}] {} replication from {} finished but no refs were replicated, {}ms delay, {}"
+                  + " retries",
+              taskIdHex,
+              replicationType,
+              uri,
+              delay,
+              retryCount);
+        } else {
+          metrics.record(config.getName(), delay, retryCount);
+          long elapsed = NANOSECONDS.toMillis(context.stop());
+          Optional<Long> elapsedEnd2End =
+              apiRequestMetrics
+                  .flatMap(metrics -> metrics.stop(config.getName()))
+                  .map(NANOSECONDS::toMillis);
+          repLog.info(
+              "[{}] Replication from {} completed in {}ms, {}ms delay, {} retries{}",
+              taskIdHex,
+              uri,
+              elapsed,
+              delay,
+              retryCount,
+              elapsedEnd2End.map(el -> String.format(", E2E %dms", el)).orElse(""));
+        }
+      } catch (RepositoryNotFoundException e) {
+        stateLog.error(
+            "["
+                + taskIdHex
+                + "] Cannot replicate "
+                + projectName
+                + "; Local repository error: "
+                + e.getMessage(),
+            getStatesAsArray());
 
-    } catch (NoRemoteRepositoryException | RemoteRepositoryException e) {
-      // Tried to replicate to a remote via anonymous git:// but the repository
-      // does not exist. In this case NoRemoteRepositoryException is not
-      // raised.
-      String msg = e.getMessage();
-      repLog.error(
-          "[{}] Cannot replicate {}; Remote repository error: {}", taskIdHex, projectName, msg);
-    } catch (NotSupportedException e) {
-      stateLog.error("[" + taskIdHex + "] Cannot replicate  from " + uri, e, getStatesAsArray());
-    } catch (PermanentTransportException e) {
-      repLog.error(
-          String.format("Terminal failure. Cannot replicate [%s] from %s", taskIdHex, uri), e);
-    } catch (TransportException e) {
-      repLog.error(String.format("[%s] Cannot replicate from %s", taskIdHex, uri), e);
-      if (replicationType == ReplicationType.ASYNC && e instanceof LockFailureException) {
-        lockRetryCount++;
-        // The LockFailureException message contains both URI and reason
-        // for this failure.
+      } catch (NoRemoteRepositoryException | RemoteRepositoryException e) {
+        // Tried to replicate to a remote via anonymous git:// but the repository
+        // does not exist. In this case NoRemoteRepositoryException is not
+        // raised.
+        String msg = e.getMessage();
+        repLog.error(
+            "[{}] Cannot replicate {}; Remote repository error: {}", taskIdHex, projectName, msg);
+      } catch (NotSupportedException e) {
+        stateLog.error("[" + taskIdHex + "] Cannot replicate  from " + uri, e, getStatesAsArray());
+      } catch (PermanentTransportException e) {
+        repLog.error(
+            String.format("Terminal failure. Cannot replicate [%s] from %s", taskIdHex, uri), e);
+      } catch (TransportException e) {
+        repLog.error(String.format("[%s] Cannot replicate from %s", taskIdHex, uri), e);
+        if (replicationType == ReplicationType.ASYNC && e instanceof LockFailureException) {
+          lockRetryCount++;
+          // The LockFailureException message contains both URI and reason
+          // for this failure.
 
-        // The remote fetch operation should be retried.
-        if (lockRetryCount <= maxLockRetries) {
+          // The remote fetch operation should be retried.
+          if (lockRetryCount <= maxLockRetries) {
+            if (canceledWhileRunning.get()) {
+              logCanceledWhileRunningException(e);
+            } else {
+              pool.reschedule(this, Source.RetryReason.TRANSPORT_ERROR);
+            }
+          } else {
+            repLog.error(
+                "[{}] Giving up after {} occurrences of this error: {} during replication from [{}]"
+                    + " {}",
+                taskIdHex,
+                lockRetryCount,
+                e.getMessage(),
+                taskIdHex,
+                uri);
+          }
+        } else if (replicationType == ReplicationType.ASYNC) {
           if (canceledWhileRunning.get()) {
             logCanceledWhileRunningException(e);
           } else {
+            // The remote fetch operation should be retried.
             pool.reschedule(this, Source.RetryReason.TRANSPORT_ERROR);
           }
-        } else {
-          repLog.error(
-              "[{}] Giving up after {} occurrences of this error: {} during replication from [{}]"
-                  + " {}",
-              taskIdHex,
-              lockRetryCount,
-              e.getMessage(),
-              taskIdHex,
-              uri);
         }
-      } else if (replicationType == ReplicationType.ASYNC) {
-        if (canceledWhileRunning.get()) {
-          logCanceledWhileRunningException(e);
-        } else {
-          // The remote fetch operation should be retried.
-          pool.reschedule(this, Source.RetryReason.TRANSPORT_ERROR);
+      } catch (IOException e) {
+        stateLog.error("[" + taskIdHex + "] Cannot replicate from " + uri, e, getStatesAsArray());
+      } catch (RuntimeException | Error e) {
+        stateLog.error(
+            "[" + taskIdHex + "] Unexpected error during replication from " + uri,
+            e,
+            getStatesAsArray());
+      } finally {
+        if (git != null) {
+          git.close();
         }
-      }
-    } catch (IOException e) {
-      stateLog.error("[" + taskIdHex + "] Cannot replicate from " + uri, e, getStatesAsArray());
-    } catch (RuntimeException | Error e) {
-      stateLog.error(
-          "[" + taskIdHex + "] Unexpected error during replication from " + uri,
-          e,
-          getStatesAsArray());
-    } finally {
-      if (git != null) {
-        git.close();
-      }
 
-      if (replicationType == ReplicationType.ASYNC) {
-        pool.notifyFinished(this);
+        if (replicationType == ReplicationType.ASYNC) {
+          pool.notifyFinished(this);
+        }
+      }
+    } catch (ProjectsLock.UnableToLockProjectException e) {
+      pool.fetchWasCanceled(this);
+      if (!canceled) {
+        repLog.info(
+            "[{}] Project {} is locked. Rescheduling replication from {} to avoid collision with an"
+                + " in-flight fetch task [{}].",
+            taskIdHex,
+            projectName,
+            uri,
+            e.getConflictingTaskId());
+        pool.reschedule(this, Source.RetryReason.COLLISION);
+        isCollision = true;
       }
     }
   }
