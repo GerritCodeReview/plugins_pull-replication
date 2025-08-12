@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61b43842_510bc558",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationFetchFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-12T13:44:43Z",
+      "side": 1,
+      "message": "Reformat with GJF\n\n\n\n```suggestion\n  private Set\u003cFetchRefSpec\u003e runRefsFilter(Set\u003cFetchRefSpec\u003e refs, boolean lock)\n      throws LockFailureException {\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 181
+      },
+      "revId": "58db8b963dd8d9d07cedfc29c0d8da45b11ba1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
