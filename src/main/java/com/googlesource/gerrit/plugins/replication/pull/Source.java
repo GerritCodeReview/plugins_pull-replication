@@ -74,7 +74,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -109,8 +108,9 @@ public class Source {
   private final ReplicationStateListener stateLog;
   private final UpdateHeadTask.Factory updateHeadFactory;
   private final Object stateLock = new Object();
-  private final Map<Project.NameKey, FetchOne> pending = new HashMap<>();
-  private final Map<Project.NameKey, FetchOne> inFlight = new HashMap<>();
+  private final Map<Project.NameKey, FetchOne> pending;
+  private final Map<Project.NameKey, FetchOne> inFlight;
+  private final QueueInfo queueInfo;
   private final FetchOne.Factory opFactory;
   private final GitRepositoryManager gitManager;
   private final PermissionBackend permissionBackend;
@@ -145,7 +145,8 @@ public class Source {
       ReplicationStateListeners stateLog,
       GroupIncludeCache groupIncludeCache,
       DynamicItem<EventDispatcher> eventDispatcher,
-      ReplicationQueueMetrics queueMetrics) {
+      ReplicationQueueMetrics queueMetrics,
+      QueueInfo queueInfo) {
     config = cfg;
     this.eventDispatcher = eventDispatcher;
     gitManager = gitRepositoryManager;
@@ -154,6 +155,9 @@ public class Source {
     this.projectCache = projectCache;
     this.stateLog = stateLog;
     this.queueMetrics = queueMetrics;
+    this.queueInfo = queueInfo;
+    this.pending = queueInfo.pending;
+    this.inFlight = queueInfo.inFlight;
 
     CurrentUser remoteUser;
     if (!cfg.getAuthGroupNames().isEmpty()) {
@@ -242,7 +246,7 @@ public class Source {
 
   public QueueInfo getQueueInfo() {
     synchronized (stateLock) {
-      return new QueueInfo(pending, inFlight);
+      return queueInfo;
     }
   }
 
