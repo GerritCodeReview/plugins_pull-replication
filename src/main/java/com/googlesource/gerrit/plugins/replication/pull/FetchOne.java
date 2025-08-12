@@ -357,7 +357,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
                 + " [{}].",
             taskIdHex,
             uri,
-            pool.getInFlight(projectName).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
+            pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
         pool.reschedule(this, Source.RetryReason.COLLISION);
         isCollision = true;
       }
