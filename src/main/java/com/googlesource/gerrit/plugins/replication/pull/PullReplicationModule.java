@@ -89,6 +89,7 @@ class PullReplicationModule extends AbstractModule {
             .implement(HttpClient.class, SourceHttpClient.class)
             .build(SourceHttpClient.Factory.class));
 
+    bind(ProjectsLock.class).in(Scopes.SINGLETON);
     install(new FactoryModuleBuilder().build(Source.Factory.class));
     install(
         new FactoryModuleBuilder()
