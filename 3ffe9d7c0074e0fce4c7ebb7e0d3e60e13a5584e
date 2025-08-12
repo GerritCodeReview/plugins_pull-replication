@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfdd3543_c1cbcc9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-12T15:14:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e616eef1_788b1f3e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 18
+      },
+      "revId": "3ffe9d7c0074e0fce4c7ebb7e0d3e60e13a5584e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5c6a3b9_4f6dd9d8",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-12T15:12:07Z",
       "side": 1,
       "message": "No, the handling of the exception already existed. This change is just about declaring that the filtering *can throw* the exception and change the filtering lambda into imperative form to allow the exception propagation.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "3ffe9d7c0074e0fce4c7ebb7e0d3e60e13a5584e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99700176_bca74129",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-12T15:14:10Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f5c6a3b9_4f6dd9d8",
       "range": {
         "startLine": 12,
         "startChar": 0,
