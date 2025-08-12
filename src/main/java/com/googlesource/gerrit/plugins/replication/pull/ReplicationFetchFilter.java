@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.googlesource.gerrit.plugins.replication.pull.FetchOne.LockFailureException;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,7 +30,8 @@ public interface ReplicationFetchFilter {
 
   Set<String> filter(String projectName, Set<String> fetchRefs);
 
-  default Map<String, AutoCloseable> filterAndLock(String projectName, Set<String> fetchRefs) {
+  default Map<String, AutoCloseable> filterAndLock(String projectName, Set<String> fetchRefs)
+      throws LockFailureException {
     return filter(projectName, fetchRefs).stream()
         .collect(Collectors.toMap(ref -> ref, ref -> () -> {}));
   }
