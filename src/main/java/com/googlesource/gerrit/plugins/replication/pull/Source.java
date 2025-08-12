@@ -21,7 +21,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 import com.google.common.collect.Lists;
@@ -131,17 +130,6 @@ public class Source {
     TRANSPORT_ERROR,
     COLLISION,
     REPOSITORY_MISSING
-  }
-
-  public static class QueueInfo {
-    public final Map<Project.NameKey, FetchOne> pending;
-    public final Map<Project.NameKey, FetchOne> inFlight;
-
-    public QueueInfo(
-        Map<Project.NameKey, FetchOne> pending, Map<Project.NameKey, FetchOne> inFlight) {
-      this.pending = ImmutableMap.copyOf(pending);
-      this.inFlight = ImmutableMap.copyOf(inFlight);
-    }
   }
 
   @Inject
