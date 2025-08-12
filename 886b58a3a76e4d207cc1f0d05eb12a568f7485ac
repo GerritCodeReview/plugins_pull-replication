@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b301f48_8c02c702",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2025-08-12T08:46:46Z",
+      "side": 1,
+      "message": "Because I can\u0027t throw a checked expection inside a lambda(or a map).\nNot sure how we get around this? We\u0027ll need to check that this exception is retried as we expect, at which point it might jsut make sense to retry the original RefDb exception.",
+      "parentUuid": "40dbe8ec_88e4a33f",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 655,
+        "endChar": 19
+      },
+      "revId": "886b58a3a76e4d207cc1f0d05eb12a568f7485ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "30d40826_da7fa946",
