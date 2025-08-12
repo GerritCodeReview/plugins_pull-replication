@@ -90,8 +90,8 @@ final class ListCommand extends SshCommand {
         addProperty(obj, "AuthGroup", s.getAuthGroupNames());
         addProperty(obj, "Project", s.getProjects());
         QueueInfo q = s.getQueueInfo();
-        addQueueDetails(obj, "InFlight", q.inFlight.values());
-        addQueueDetails(obj, "Pending", q.pending.values());
+        addQueueDetails(obj, "InFlight", q.inFlight().values());
+        addQueueDetails(obj, "Pending", q.pending().values());
       }
       stdout.print(obj.toString() + "\n");
     } else {
@@ -115,10 +115,10 @@ final class ListCommand extends SshCommand {
         }
 
         QueueInfo q = s.getQueueInfo();
-        out.append("In Flight: ").append(q.inFlight.size()).append("\n");
-        addQueueDetails(out, q.inFlight.values());
-        out.append("Pending: ").append(q.pending.size()).append("\n");
-        addQueueDetails(out, q.pending.values());
+        out.append("In Flight: ").append(q.inFlight().size()).append("\n");
+        addQueueDetails(out, q.inFlight().values());
+        out.append("Pending: ").append(q.pending().size()).append("\n");
+        addQueueDetails(out, q.pending().values());
       }
       stdout.print(out.toString() + "\n");
     }

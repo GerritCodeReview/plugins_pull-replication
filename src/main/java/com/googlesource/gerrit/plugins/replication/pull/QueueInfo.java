@@ -19,11 +19,19 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class QueueInfo {
-  public final Map<Project.NameKey, FetchOne> pending;
-  public final Map<Project.NameKey, FetchOne> inFlight;
+  private final Map<Project.NameKey, FetchOne> pending;
+  private final Map<Project.NameKey, FetchOne> inFlight;
 
   public QueueInfo() {
     this.pending = new ConcurrentHashMap<>();
     this.inFlight = new ConcurrentHashMap<>();
+  }
+
+  public Map<Project.NameKey, FetchOne> pending() {
+    return pending;
+  }
+
+  public Map<Project.NameKey, FetchOne> inFlight() {
+    return inFlight;
   }
 }
