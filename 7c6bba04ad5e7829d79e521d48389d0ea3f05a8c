@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d348dc_e44b6617",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-12T20:48:38Z",
+      "side": 1,
+      "message": "By mixing the inFlight and pending tasks between remotes, we are mixing up the replication tasks by all remotes, fetching the wrong ref from the wrong remote and breaking the overall replication consistency.",
+      "revId": "7c6bba04ad5e7829d79e521d48389d0ea3f05a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
