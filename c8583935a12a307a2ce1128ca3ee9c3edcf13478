@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a499ac21_9f050191",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T14:07:21Z",
+      "side": 1,
+      "message": "The name can be improved.",
+      "range": {
+        "startLine": 23,
+        "startChar": 62,
+        "endLine": 23,
+        "endChar": 67
+      },
+      "revId": "c8583935a12a307a2ce1128ca3ee9c3edcf13478",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
