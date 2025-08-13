@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "338d01cb_38a0355c",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T05:58:23Z",
+      "side": 1,
+      "message": "Needs to be adapted to the new constructor.\n\n\n\n```suggestion\n        new FetchOne(\n            grm,\n            source,\n            sourceConfiguration,\n            scoper,\n            idGenerator,\n            replicationStateListeners,\n            fetchReplicationMetrics,\n            fetchFactory,\n            fetchRefsDatabase,\n            deleteRefCommand,\n            new ProjectsLock(),\n            PROJECT_NAME,\n            urIish,\n            Optional.of(pullReplicationApiRequestMetrics));\n```",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 59
+      },
+      "revId": "85a2657dfbd46c9fc7c8eabb827f1dd4926a8bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
