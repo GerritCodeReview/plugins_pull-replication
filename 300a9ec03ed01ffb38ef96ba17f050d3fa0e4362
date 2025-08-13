@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8018e3f_6b2b8ea2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-13T12:22:31Z",
+      "side": 1,
+      "message": "ConcurrentHashMap",
+      "range": {
+        "startLine": 25,
+        "startChar": 67,
+        "endLine": 25,
+        "endChar": 74
+      },
+      "revId": "300a9ec03ed01ffb38ef96ba17f050d3fa0e4362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba74dda8_7fe5ff69",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-13T12:22:31Z",
+      "side": 1,
+      "message": "This might create racy updates of the 2 data structures. What if we just keep a `ConcurrentHashMap\u003cProject.NameKey, String\u003e` where the value is the task id?",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "300a9ec03ed01ffb38ef96ba17f050d3fa0e4362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
