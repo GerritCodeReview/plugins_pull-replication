@@ -15,33 +15,24 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.gerrit.entities.Project;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 class ProjectsLock {
-  private final Map<Project.NameKey, AtomicBoolean> locks = new ConcurrentHashMap<>();
-  private final Map<Project.NameKey, String> tasksOnProjects = new HashMap<>();
+  private final Map<Project.NameKey, String> locks = new ConcurrentHashMap<>();
 
   LockToken tryLock(Project.NameKey project, String taskId) throws UnableToLockProjectException {
-    AtomicBoolean flag = locks.computeIfAbsent(project, k -> new AtomicBoolean(false));
+    String previousTaskId = locks.putIfAbsent(project, taskId);
 
-    if (!flag.compareAndSet(false, true)) {
-      throw new UnableToLockProjectException(project, tasksOnProjects.get(project));
+    if (previousTaskId != null) {
+      throw new UnableToLockProjectException(project, previousTaskId);
     }
 
-    tasksOnProjects.put(project, taskId);
     return new LockToken(project, this);
   }
 
-  boolean unlock(Project.NameKey project) {
-    AtomicBoolean flag = locks.computeIfAbsent(project, k -> new AtomicBoolean(false));
-    boolean unlocked = flag.compareAndSet(true, false);
-    if (unlocked) {
-      tasksOnProjects.remove(project);
-    }
-    return unlocked;
+  void unlock(Project.NameKey project) {
+    locks.remove(project);
   }
 
   static final class LockToken implements AutoCloseable {
@@ -56,8 +47,9 @@ class ProjectsLock {
 
     @Override
     public void close() {
-      if (!closed && projectsLock.unlock(project)) {
+      if (!closed) {
         closed = true;
+        projectsLock.unlock(project);
       }
     }
   }
