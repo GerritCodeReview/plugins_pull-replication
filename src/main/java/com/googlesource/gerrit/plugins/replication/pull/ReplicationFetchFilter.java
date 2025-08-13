@@ -15,7 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.git.LockFailureException;
+import com.googlesource.gerrit.plugins.replication.pull.FetchOne.LockFailureException;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
