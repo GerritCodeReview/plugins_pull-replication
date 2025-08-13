@@ -29,4 +29,3 @@ Changes will be automatically indexed upon replication.
 
 For more information please refer to the [docs](src/main/resources/Documentation)
 
-
