@@ -45,6 +45,30 @@
       },
       "revId": "300a9ec03ed01ffb38ef96ba17f050d3fa0e4362",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c06f59a4_b01209d2",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-13T14:01:10Z",
+      "side": 1,
+      "message": "See this I80a7e98c",
+      "parentUuid": "ba74dda8_7fe5ff69",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "300a9ec03ed01ffb38ef96ba17f050d3fa0e4362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
