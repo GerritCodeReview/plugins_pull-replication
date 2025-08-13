@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2edcb1e2_9f4f29c8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T06:16:13Z",
+      "side": 1,
+      "message": "The parameters should be swapped: the first is the taskIdHex, the second the projectName.\n\n\n\n```suggestion\n            taskIdHex,\n            projectName,\n```",
+      "range": {
+        "startLine": 363,
+        "startChar": 0,
+        "endLine": 364,
+        "endChar": 22
+      },
+      "revId": "85a2657dfbd46c9fc7c8eabb827f1dd4926a8bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "338d01cb_38a0355c",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
         "patchSetId": 5
