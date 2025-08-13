@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7442e4dd_6414fb25",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T07:10:49Z",
+      "side": 1,
+      "message": "I believe we should log *something* if we are not rescheduling the replication task because the fetch was cancelled.",
+      "range": {
+        "startLine": 482,
+        "startChar": 6,
+        "endLine": 482,
+        "endChar": 22
+      },
+      "revId": "109980907088b4f34a3a4b29ce3378919e414ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
