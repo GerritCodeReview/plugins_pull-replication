@@ -64,6 +64,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5844def_f60fb147",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T09:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "150e04d6_22470647",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 6
+      },
+      "revId": "109980907088b4f34a3a4b29ce3378919e414ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9839bc8b_ef6519c0",
@@ -77,6 +101,30 @@
       "writtenOn": "2025-08-13T07:12:23Z",
       "side": 1,
       "message": "package-protected.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 8
+      },
+      "revId": "109980907088b4f34a3a4b29ce3378919e414ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43fbbb7d_e706bce6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T09:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9839bc8b_ef6519c0",
       "range": {
         "startLine": 27,
         "startChar": 2,
@@ -110,6 +158,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28e7ab5d_b8f4fcaf",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T09:51:51Z",
+      "side": 1,
+      "message": "Actually not, because it would need to be used in FetchOne.",
+      "parentUuid": "62f24b7f_991c095f",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 8
+      },
+      "revId": "109980907088b4f34a3a4b29ce3378919e414ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c130d72_db96a9a4",
@@ -123,6 +195,30 @@
       "writtenOn": "2025-08-13T07:12:23Z",
       "side": 1,
       "message": "Can be package-protected.",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 8
+      },
+      "revId": "109980907088b4f34a3a4b29ce3378919e414ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9341c7bb_8ce0ae25",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T09:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c130d72_db96a9a4",
       "range": {
         "startLine": 66,
         "startChar": 2,
@@ -156,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53e62772_ca6a27b1",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T09:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90122507_6ef23c00",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "109980907088b4f34a3a4b29ce3378919e414ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22a0f18e_6e768f5e",
@@ -169,6 +289,30 @@
       "writtenOn": "2025-08-13T07:12:23Z",
       "side": 1,
       "message": "Can be package-protected.",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 10
+      },
+      "revId": "109980907088b4f34a3a4b29ce3378919e414ad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46c8001_76809ebe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T09:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22a0f18e_6e768f5e",
       "range": {
         "startLine": 79,
         "startChar": 4,
