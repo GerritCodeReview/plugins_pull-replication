@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a525dccc_86ae23ae",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T07:05:19Z",
+      "side": 1,
+      "message": "This isn\u0027t raising any errors if the auto-closeable `LockToken` isn\u0027t closed, because it is not directly returned.\n\nI\u0027d prefer to return the `LockToken` directly and rather throw a checked exception if the lock cannot be obtained. So that the mistake of not closing it would be directly reported.\n\n\n\n```suggestion\n  public LockToken tryLock(Project.NameKey project) {\n```",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "85a2657dfbd46c9fc7c8eabb827f1dd4926a8bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "338d01cb_38a0355c",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
         "patchSetId": 5
