@@ -489,6 +489,14 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
             e.getConflictingTaskId());
         pool.reschedule(this, Source.RetryReason.COLLISION);
         isCollision = true;
+      } else {
+        repLog.info(
+            "[{}] Project {} is locked. Task is cancelled and conflicting with in-flight fetch task"
+                + " [{}]. NOT rescheduling replication from {}.",
+            taskIdHex,
+            projectName,
+            e.getConflictingTaskId(),
+            uri);
       }
     }
   }
