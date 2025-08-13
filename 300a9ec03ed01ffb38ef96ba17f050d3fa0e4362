@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a20f543_41d96a39",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T14:06:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8018e3f_6b2b8ea2",
+      "range": {
+        "startLine": 25,
+        "startChar": 67,
+        "endLine": 25,
+        "endChar": 74
+      },
+      "revId": "300a9ec03ed01ffb38ef96ba17f050d3fa0e4362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba74dda8_7fe5ff69",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "See this I80a7e98c",
       "parentUuid": "ba74dda8_7fe5ff69",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "300a9ec03ed01ffb38ef96ba17f050d3fa0e4362",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3951f223_f9a748b6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ProjectsLock.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-13T14:06:48Z",
+      "side": 1,
+      "message": "\u003e See this I80a7e98c\n\nThe lock/unlock will happen *very frequently*, at least 2x per replication task. I wouldn\u0027t like to mutate the concurrent hash-map so frequently because every lock/unlock runs in kernel mode and it would add significant system load.\n\nSee the latest PS which uses a single map and still doesn\u0027t perform locking, but still relies on the simple compare-and-get operation, which is non-locking.\n\nAlso, the map, once pre-populated, remains stable and won\u0027t lock.",
+      "parentUuid": "c06f59a4_b01209d2",
       "range": {
         "startLine": 24,
         "startChar": 2,
