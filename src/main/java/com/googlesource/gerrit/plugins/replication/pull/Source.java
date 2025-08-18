@@ -995,11 +995,7 @@ public class Source {
     for (String ref : refs) {
       FetchReplicationScheduledEvent event =
           new FetchReplicationScheduledEvent(project.get(), ref, fetchOp.getURI());
-      try {
-        eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
-      } catch (PermissionBackendException e) {
-        repLog.error("error posting event", e);
-      }
+      eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
     }
   }
 
@@ -1015,11 +1011,7 @@ public class Source {
                 fetchOp.getURI(),
                 ReplicationState.RefFetchResult.FAILED,
                 result);
-        try {
-          eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
-        } catch (PermissionBackendException e) {
-          repLog.error("error posting event", e);
-        }
+        eventDispatcher.get().postEvent(BranchNameKey.create(project, ref), event);
       }
     } finally {
       Context.unsetLocalEvent();
