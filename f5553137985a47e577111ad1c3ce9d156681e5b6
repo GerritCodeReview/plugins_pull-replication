@@ -22,6 +22,29 @@
       },
       "revId": "f5553137985a47e577111ad1c3ce9d156681e5b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21611c5d_4e9f352a",
+        "filename": "example-setup/broker/configs/replication.config.primary.template",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2025-08-21T08:52:12Z",
+      "side": 0,
+      "message": "Can you remove the variable from the `example-setup/*/docker-compose.yaml` ?",
+      "range": {
+        "startLine": 3,
+        "startChar": 26,
+        "endLine": 3,
+        "endChar": 46
+      },
+      "revId": "f5553137985a47e577111ad1c3ce9d156681e5b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
