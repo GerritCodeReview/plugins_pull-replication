@@ -1,0 +1,16 @@
+[replication]
+    excludeRefs = ^refs/users/\\d\\d/\\d+/edit-\\d+/\\d+$
+    lockErrorMaxRetries = 5
+    maxRetries = 100
+    syncRefs="ALL REFS ASYNC"
+    eventBrokerTopic = gerrit
+    maxApiPayloadSize = 40000
+[remote "$REMOTE"]
+    apiUrl = http://$REMOTE_URL:8080/
+    fetch = +refs/*:refs/*
+    mirror = true
+    timeout = 60 # In seconds
+    connectionTimeout = 120000 # In mseconds
+    createMissingRepositories = true
+    replicateProjectDeletions = true
+    replicateHiddenProjects = true
