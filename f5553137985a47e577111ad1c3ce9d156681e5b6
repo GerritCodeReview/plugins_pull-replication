@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4f5d8e9_9d2c6370",
+        "filename": "example-setup/broker/configs/replication.config.primary.template",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2025-08-21T07:55:46Z",
+      "side": 0,
+      "message": "This should be removed also from the docker-compose primary service [1][2]\n\n[1] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.6/example-setup/broker/docker-compose.yaml#13\n[2] https://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/stable-3.6/example-setup/http/docker-compose.yaml#11",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 46
+      },
+      "revId": "f5553137985a47e577111ad1c3ce9d156681e5b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
