@@ -1,9 +1,15 @@
 #!/bin/bash -x
 
 function setup_replication_config {
+  if "$REPLICA" '==' 'true'
+  then
+    REPLICATION_CONFIG_TEMPLATE=replication.config.replica.template
+  else
+    REPLICATION_CONFIG_TEMPLATE=replication.config.primary.template
+  fi
 
-  echo "Replacing variables for file /var/gerrit/etc/replication.config.template"
-  cat /var/gerrit/etc/replication.config.template | envsubst | sed 's/#{name}#/${name}/g' > /var/gerrit/etc/replication.config
+  echo "Replacing variables for file /var/gerrit/etc/$REPLICATION_CONFIG_TEMPLATE"
+  cat /var/gerrit/etc/$REPLICATION_CONFIG_TEMPLATE | envsubst | sed 's/#{name}#/${name}/g' > /var/gerrit/etc/replication.config
 
   cat /var/gerrit/etc/replication.config
 }
