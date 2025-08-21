@@ -17,7 +17,7 @@ COPY --chown=gerrit:gerrit events-kafka.jar /var/gerrit/plugins/z-events-kafka.j
 COPY --chown=gerrit:gerrit events-broker.jar /var/gerrit/lib/events-broker.jar
 
 COPY --chown=gerrit:gerrit entrypoint.sh /tmp/
-COPY --chown=gerrit:gerrit configs/replication.config.template /var/gerrit/etc/
+COPY --chown=gerrit:gerrit configs/replication.config.* /var/gerrit/etc/
 COPY --chown=gerrit:gerrit configs/gerrit.config.template /var/gerrit/etc/
 
 ENTRYPOINT [ "/tmp/entrypoint.sh" ]
