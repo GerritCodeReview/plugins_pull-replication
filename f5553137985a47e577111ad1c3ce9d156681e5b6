@@ -45,6 +45,29 @@
       },
       "revId": "f5553137985a47e577111ad1c3ce9d156681e5b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efa99c75_e322f3bc",
+        "filename": "example-setup/broker/configs/replication.config.replica.template",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2025-08-22T06:36:56Z",
+      "side": 0,
+      "message": "This example setup relied on a _trick_ where the initial replication on startup was aligning all the repos.\n\nI believe we should keep for now maybe with a note.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 46
+      },
+      "revId": "f5553137985a47e577111ad1c3ce9d156681e5b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
