@@ -71,7 +71,6 @@ public class ProjectInitializationAction extends HttpServlet {
   private final GerritConfigOps gerritConfigOps;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
-  private final ProjectIndexer projectIndexer;
   private final ApplyObjectCommand applyObjectCommand;
   private final ProjectCache projectCache;
   private final DynamicSet<NewProjectCreatedListener> newProjectCreatedListeners;
@@ -88,7 +87,6 @@ public class ProjectInitializationAction extends HttpServlet {
     this.gerritConfigOps = gerritConfigOps;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
-    this.projectIndexer = projectIndexer;
     this.applyObjectCommand = applyObjectCommand;
     this.projectCache = projectCache;
     this.newProjectCreatedListeners = newProjectCreatedListeners;
