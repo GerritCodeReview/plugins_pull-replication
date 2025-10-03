@@ -1,4 +1,11 @@
-# Gerrit pull-replication plugin
+# DEPRECATION NOTICE
+
+GerritForge has decided to [change the license to BSL](https://gitenterprise.me/2025/09/30/re-licensing-gerritforge-plugins-welcome-to-gerrit-enterprise/)
+therefore the Apache 2.0 version of this plugin is deprecated.
+The recommended version of the pull-replication plugin is on [GitHub](https://github.com/GerritForge/pull-replication)
+and the development continues on [GerritHub.io](https://review.gerrithub.io/admin/repos/GerritForge/pull-replication,general).
+
+# Gerrit pull-replication plugin (DEPRECATED)
 
 This plugin can automatically mirror repositories from other systems.
 
