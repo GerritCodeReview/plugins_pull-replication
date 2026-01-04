@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af4caedb_6972c823",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3542828
+      },
+      "writtenOn": "2026-01-04T07:09:47Z",
+      "side": 1,
+      "message": "please cherry-pick to stable-3.10 branch",
+      "revId": "b83d642d4badeb201e39ebfa9e703e3a4fd3ca91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
