@@ -16,6 +16,23 @@
       "message": "please cherry-pick to stable-3.10 branch",
       "revId": "b83d642d4badeb201e39ebfa9e703e3a4fd3ca91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc9aa2ca_5019186a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2026-01-07T09:36:56Z",
+      "side": 1,
+      "message": "@1534521395@qq.com Development of the pull-replication plugin on gerrit-review has ceased, so this is up to @luca.milanesio@gmail.com and/or @danielesassoli@gmail.com if they want to backport it on https://review.gerrithub.io/admin/repos/GerritForge/pull-replication,general",
+      "revId": "b83d642d4badeb201e39ebfa9e703e3a4fd3ca91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
