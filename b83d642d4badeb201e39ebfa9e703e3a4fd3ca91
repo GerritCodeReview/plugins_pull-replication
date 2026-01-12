@@ -33,6 +33,24 @@
       "message": "@1534521395@qq.com Development of the pull-replication plugin on gerrit-review has ceased, so this is up to @luca.milanesio@gmail.com and/or @danielesassoli@gmail.com if they want to backport it on https://review.gerrithub.io/admin/repos/GerritForge/pull-replication,general",
       "revId": "b83d642d4badeb201e39ebfa9e703e3a4fd3ca91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37314c37_33468e41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-01-12T13:45:30Z",
+      "side": 1,
+      "message": "The issue here isn\u0027t really backporting a fix, but this one includes a change in the format of the REST-API, therefore it was done in the new version of the pull-replication plugin.\n\nI\u0027d say this change belongs to master, but not to stable-3.11 :-(\nNevertheless, feel free to use this fix in your setup, but this cannot be merged IMHO on stable-3.11.",
+      "parentUuid": "fc9aa2ca_5019186a",
+      "revId": "b83d642d4badeb201e39ebfa9e703e3a4fd3ca91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
