@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "929b6445_11184ad4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-30T12:51:34Z",
+      "side": 1,
+      "message": "This `event` variable isn\u0027t available.",
+      "range": {
+        "startLine": 241,
+        "startChar": 14,
+        "endLine": 241,
+        "endChar": 19
+      },
+      "revId": "3f893fe51cd34a932fd754e8c7e683fdfda640ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
