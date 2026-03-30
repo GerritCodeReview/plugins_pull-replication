@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "879e7065_42bd4372",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/Source.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-30T12:44:46Z",
+      "side": 1,
+      "message": "This is unwanted",
+      "range": {
+        "startLine": 912,
+        "startChar": 0,
+        "endLine": 916,
+        "endChar": 0
+      },
+      "revId": "213a8c7eb40ec0aa6fbebea301da4eb9b100be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
