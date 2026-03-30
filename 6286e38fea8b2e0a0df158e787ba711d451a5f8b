@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68b76412_a126eff5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-30T13:36:28Z",
+      "side": 1,
+      "message": "```suggestion\n      delta.remove(FetchRefSpec.fromRef(\":\" + ref));\n```",
+      "range": {
+        "startLine": 225,
+        "startChar": 49,
+        "endLine": 225,
+        "endChar": 59
+      },
+      "revId": "6286e38fea8b2e0a0df158e787ba711d451a5f8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2af470af_3d819289",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-03-30T13:36:28Z",
+      "side": 1,
+      "message": "```suggestion\n      delta.remove(FetchRefSpec.fromRef(ref));\n```",
+      "range": {
+        "startLine": 228,
+        "startChar": 40,
+        "endLine": 228,
+        "endChar": 53
+      },
+      "revId": "6286e38fea8b2e0a0df158e787ba711d451a5f8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
