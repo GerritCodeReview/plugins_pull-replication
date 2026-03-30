@@ -628,8 +628,6 @@ public class Source {
                   fetchOp.getTaskIdHex(), fetchOp.getURI(), pendingFetchOp.getTaskIdHex()),
               fetchOp.getStatesAsArray());
 
-          queueMetrics.incrementTaskRescheduled(this);
-
         } else {
           // The one pending is one that is NOT retrying, it was just
           // scheduled believing no problem would happen. The one pending
@@ -654,9 +652,8 @@ public class Source {
                   "[%s] Merging the pending fetch from [%s] with task [%s] and rescheduling",
                   pendingFetchOp.getTaskIdHex(), pendingFetchOp.getURI(), fetchOp.getTaskIdHex()),
               pendingFetchOp.getStatesAsArray());
-
-          queueMetrics.incrementTaskMerged(this);
         }
+        queueMetrics.incrementTaskMerged(this);
       }
 
       if (pendingFetchOp == null || !pendingFetchOp.isRetrying()) {
@@ -677,11 +674,13 @@ public class Source {
                     ? RefUpdate.Result.NOT_ATTEMPTED
                     : RefUpdate.Result.REJECTED_OTHER_REASON;
             postReplicationFailedEvent(fetchOp, trackingRefUpdate);
-            queueMetrics.incrementTaskFailed(this);
 
             if (fetchOp.setToRetry()) {
               postReplicationScheduledEvent(fetchOp);
-              pool.schedule(fetchOp, config.getRetryDelay(), TimeUnit.MINUTES);
+              pool.schedule(
+                  queueMetrics.runWithMetrics(this, fetchOp),
+                  config.getRetryDelay(),
+                  TimeUnit.MINUTES);
               queueMetrics.incrementTaskRetrying(this);
             } else {
               fetchOp.canceledByReplication();
@@ -904,6 +903,10 @@ public class Source {
 
   public boolean isReplicateProjectDeletions() {
     return config.replicateProjectDeletions();
+  }
+
+  public boolean isMirror() {
+    return config.getRemoteConfig().isMirror();
   }
 
   void scheduleUpdateHead(String apiUrl, Project.NameKey project, String newHead) {
