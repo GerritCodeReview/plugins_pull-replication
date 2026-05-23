@@ -380,7 +380,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         long startedAt = context.getStartTime();
         long delay = NANOSECONDS.toMillis(startedAt - createdAt);
         git = gitManager.openRepository(projectName);
-        List<FetchRefSpec> fetchRefSpecs = runImpl();
+        List<FetchRefSpec> fetchRefSpecs = ReplicationTaskId.withTaskId(taskIdHex, this::runImpl);
 
         if (fetchRefSpecs.isEmpty()) {
           repLog.info(
