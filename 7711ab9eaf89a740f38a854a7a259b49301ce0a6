@@ -156,6 +156,30 @@
       },
       "revId": "7711ab9eaf89a740f38a854a7a259b49301ce0a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fa102c3_bb43b290",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTaskId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-24T10:13:11Z",
+      "side": 1,
+      "message": "I\u0027d prefer the `@Nullable` here.",
+      "parentUuid": "6e174221_0bae0ba7",
+      "range": {
+        "startLine": 36,
+        "startChar": 16,
+        "endLine": 36,
+        "endChar": 22
+      },
+      "revId": "7711ab9eaf89a740f38a854a7a259b49301ce0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
