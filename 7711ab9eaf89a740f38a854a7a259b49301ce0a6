@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29d0ea68_7a90c4b4",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTaskId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-24T09:34:10Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "1e073101_631fc035",
+      "revId": "7711ab9eaf89a740f38a854a7a259b49301ce0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1de3a190_88b36a96",
