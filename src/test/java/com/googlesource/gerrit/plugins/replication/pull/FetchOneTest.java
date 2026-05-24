@@ -369,6 +369,25 @@ public class FetchOneTest {
   }
 
   @Test
+  public void shouldSetReplicationTaskIdDuringRefsFiltering() throws Exception {
+    assertThat(ReplicationTaskId.get()).isNull();
+
+    setupObjectUnderTestMocksForFetchingTestRef();
+
+    objectUnderTest.setReplicationFetchFilter(replicationFilter);
+    when(replicationFilter.get())
+        .thenReturn(
+            (projectName, fetchRefs) -> {
+              assertThat(ReplicationTaskId.get()).isEqualTo(objectUnderTest.getTaskIdHex());
+              return Set.of(TEST_REF);
+            });
+
+    objectUnderTest.run();
+
+    assertThat(ReplicationTaskId.get()).isNull();
+  }
+
+  @Test
   public void fetchWithoutDelta_shouldPassNewRefsToFilter() throws Exception {
     setupMocks(true);
     String REMOTE_REF = "refs/heads/remote";
@@ -888,6 +907,15 @@ public class FetchOneTest {
   public void shouldDeleteWhenDeleteRef() {
     List<FetchRefSpec> fetchRefSpecs = List.of(FetchRefSpec.fromRef(":refs/something/someref"));
     assertThat(refsToDelete(fetchRefSpecs)).isEqualTo(Set.of("refs/something/someref"));
+  }
+
+  private void setupObjectUnderTestMocksForFetchingTestRef() throws Exception {
+    setupMocks(true);
+    Set<FetchRefSpec> refSpecs = Set.of(TEST_REF_SPEC);
+    setupFetchFactoryMock(
+        List.of(new FetchFactoryEntry.Builder().refSpecNameWithDefaults(TEST_REF).build()),
+        Optional.of(List.of(TEST_REF)));
+    objectUnderTest.addRefs(refSpecs);
   }
 
   private void setupRequestScopeMock() {
