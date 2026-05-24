@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab25539c_82652c90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T09:05:02Z",
+      "side": 1,
+      "message": "I think this needs a small lifecycle test because it introduces public thread-local state. In particular, the nested `withTaskId()` case should be covered: the inner scope should not clear the outer task id. Tests for cleanup after success and after `IOException` would also be useful. This could also be done in a follow-up change, though.",
+      "revId": "7711ab9eaf89a740f38a854a7a259b49301ce0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1029bbd6_780faaec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T09:05:02Z",
+      "side": 1,
+      "message": "Do we need to set the task id here? `getFetchRefSpecs()` is also used by helper/status paths such as `safeGetFetchRefSpecs()` and `hasSucceeded()`, not only while the fetch task is actively running. Setting the thread-local here may make callers see a task id during refspec evaluation rather than during actual task execution. Could the task id instead be scoped only around the real fetch execution path?",
+      "revId": "7711ab9eaf89a740f38a854a7a259b49301ce0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e073101_631fc035",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTaskId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T09:05:02Z",
+      "side": 1,
+      "message": "This can be `static final`, since the thread-local reference itself should not be reassigned.\n\n```suggestion\n  private static final ThreadLocal\u003cString\u003e currentTaskId \u003d new ThreadLocal\u003c\u003e();\n```",
+      "revId": "7711ab9eaf89a740f38a854a7a259b49301ce0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1de3a190_88b36a96",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTaskId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T09:05:02Z",
+      "side": 1,
+      "message": "This does not preserve an existing outer task id. In this patch `runImpl()` is called inside `withTaskId(...)`, and then `getFetchRefSpecs()` also calls `withTaskId(...)`. The inner finally will remove the thread-local, so code later in `runImpl()` can observe `ReplicationTaskId.get() \u003d\u003d null` while the task is still running.\n\nOne option is to avoid scoping `getFetchRefSpecs()` with `withTaskId(...)`. Another option is to make `withTaskId(...)` restore the previous value instead of always removing it:\n\n```suggestion\n  String oldTaskId \u003d currentTaskId.get();\n  currentTaskId.set(taskId);\n  try {\n    return body.apply();\n  } finally {\n    if (oldTaskId \u003d\u003d null) {\n      currentTaskId.remove();\n    } else {\n      currentTaskId.set(oldTaskId);\n    }\n  }\n```",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "7711ab9eaf89a740f38a854a7a259b49301ce0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e174221_0bae0ba7",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTaskId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T09:05:02Z",
+      "side": 1,
+      "message": "Since this is a public API for other plugins/classes, could we make the null contract explicit? Either document that this returns null when no replication task is active on the current thread, or annotate the method with `@Nullable`.\n\nReturning `Optional\u003cString\u003e` would also make the contract explicit, but may be more API churn.",
+      "range": {
+        "startLine": 36,
+        "startChar": 16,
+        "endLine": 36,
+        "endChar": 22
+      },
+      "revId": "7711ab9eaf89a740f38a854a7a259b49301ce0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
