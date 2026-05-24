@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f890885a_e539a998",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T11:54:18Z",
+      "side": 1,
+      "message": "Could this assert the expected task id directly? That would verify not only that some id is present, but that it is the current FetchOne task id.\n\n```suggestion\n    assertThat(ReplicationTaskId.get()).isNull();\n    String taskIdDuringFiltering \u003d replicationTaskIdDuringFiltering.get();\n    assertThat(taskIdDuringFiltering).isEqualTo(objectUnderTest.getTaskIdHex());\n```",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 392,
+        "endChar": 50
+      },
+      "revId": "f514b3d63d463d8033339dc107f6dcfd526de570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80df1b58_67248013",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTaskIdTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T11:54:18Z",
+      "side": 1,
+      "message": "```suggestion\n  public void withTaskIdShouldPreserveIdUponNestedCalls() throws IOException {\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 79
+      },
+      "revId": "f514b3d63d463d8033339dc107f6dcfd526de570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5326e3c4_929fb1df",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTaskIdTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T11:54:18Z",
+      "side": 1,
+      "message": "This verifies that the outer id is restored after the nested scope, but it does not verify cleanup after the outermost scope exits. Could we also assert that ReplicationTaskId.get() is null after withTaskId(...) returns?\n\n```suggestion\n    assertThat(ReplicationTaskId.get()).isNull();\n    assertThat(outerTaskIdReference.get()).isEqualTo(OUTER_TASK_ID);\n```",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 68
+      },
+      "revId": "f514b3d63d463d8033339dc107f6dcfd526de570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca83e09a_97fb641b",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTaskIdTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T11:54:18Z",
+      "side": 1,
+      "message": "```suggestion\n  public void withTaskIdShouldPreserveIdUponNestedCallsWithExceptions() throws IOException {\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 93
+      },
+      "revId": "f514b3d63d463d8033339dc107f6dcfd526de570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ab10b98_f8240df4",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationTaskIdTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T11:54:18Z",
+      "side": 1,
+      "message": "Same cleanup check here: after the outer withTaskId(...) exits via exception, the thread-local should be removed. Could we assert that ReplicationTaskId.get() is null?\n\n```suggestion\n    assertThat(ReplicationTaskId.get()).isNull();\n    assertThat(outerTaskIdReference.get()).isEqualTo(OUTER_TASK_ID);\n```",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 68
+      },
+      "revId": "f514b3d63d463d8033339dc107f6dcfd526de570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
