@@ -574,6 +574,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3359efdb_83ed62bd",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-03T07:43:04Z",
+      "side": 1,
+      "message": "Apart from the cosmetics, why do we need to even use a parallel executor for scheduling a replication task?",
+      "parentUuid": "61adbf41_358c4412",
+      "range": {
+        "startLine": 100,
+        "startChar": 21,
+        "endLine": 100,
+        "endChar": 30
+      },
+      "revId": "0314f43ece1f878a4659b5b94373c39a769bf261",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "94d2dcab_a86917dc",
         "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/event/StreamEventListenerTest.java",
         "patchSetId": 9
