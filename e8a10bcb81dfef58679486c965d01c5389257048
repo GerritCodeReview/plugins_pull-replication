@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "67e00e9c_d1286289",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchOne.java",
@@ -20,8 +21,30 @@
         "endChar": 75
       },
       "revId": "e8a10bcb81dfef58679486c965d01c5389257048",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fea0ca48_c8035dbb",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/FetchAction.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-03T18:36:19Z",
+      "side": 1,
+      "message": "This is wrong: the management of sync/async invocation is already implemented in the `FetchJob` class in its `run()` method:\n\n```java\n  public void run() {\n    try {\n      command.fetchAsync(project, batchInput.label, batchInput.getRefSpecs(), metrics);\n    } catch (InterruptedException | RemoteConfigurationMissingException | TransportException e) {\n      log.atSevere().withCause(e).log(\n          \"Exception during the async fetch call for project %s, label %s and ref(s) name(s) %s\",\n          project.get(), batchInput.label, batchInput.getRefSpecs());\n    }\n  }\n```",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 86
+      },
+      "revId": "e8a10bcb81dfef58679486c965d01c5389257048",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
