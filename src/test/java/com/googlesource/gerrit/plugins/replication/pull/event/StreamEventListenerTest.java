@@ -17,6 +17,7 @@ package com.googlesource.gerrit.plugins.replication.pull.event;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -85,7 +86,7 @@ public class StreamEventListenerTest {
   @Before
   public void setup() {
     cache = CacheBuilder.newBuilder().build();
-    when(workQueue.getDefaultQueue()).thenReturn(executor);
+    lenient().when(workQueue.getDefaultQueue()).thenReturn(executor);
     when(fetchJobFactory.create(eq(Project.nameKey(TEST_PROJECT)), any(), any()))
         .thenReturn(fetchJob);
     when(sources.getAll()).thenReturn(Lists.newArrayList(source));
@@ -139,7 +140,7 @@ public class StreamEventListenerTest {
   }
 
   @Test
-  public void shouldScheduleJobForRefDeleteEvent() throws Exception {
+  public void shouldRunFetchJobForRefDeleteEvent() throws Exception {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
@@ -159,11 +160,12 @@ public class StreamEventListenerTest {
     FetchAction.RefInput deletedRefInput = FetchAction.RefInput.create(TEST_REF_NAME, true);
     assertThat(batchInput.refInputs).contains(deletedRefInput);
 
-    verify(executor).submit(any(FetchJob.class));
+    verify(executor, never()).submit(any(FetchJob.class));
+    verify(fetchJob).run();
   }
 
   @Test
-  public void shouldScheduleFetchJobForRefUpdateEvent() {
+  public void shouldRunFetchJobForRefUpdateEvent() {
     RefUpdatedEvent event = new RefUpdatedEvent();
     RefUpdateAttribute refUpdate = new RefUpdateAttribute();
     refUpdate.refName = TEST_REF_NAME;
@@ -183,7 +185,8 @@ public class StreamEventListenerTest {
     assertThat(batchInput.label).isEqualTo(REMOTE_INSTANCE_ID);
     assertThat(batchInput.refInputs).contains(FetchAction.RefInput.create(TEST_REF_NAME));
 
-    verify(executor).submit(any(FetchJob.class));
+    verify(executor, never()).submit(any(FetchJob.class));
+    verify(fetchJob).run();
   }
 
   @Test
@@ -202,6 +205,7 @@ public class StreamEventListenerTest {
     objectUnderTest.onEvent(event);
 
     verify(executor, never()).submit(any(Runnable.class));
+    verify(fetchJob, never()).run();
   }
 
   @Test
@@ -260,25 +264,29 @@ public class StreamEventListenerTest {
     assertThat(input.label).isEqualTo(REMOTE_INSTANCE_ID);
     assertThat(input.refInputs).contains(FetchAction.RefInput.create(FetchOne.ALL_REFS));
 
-    verify(executor).submit(any(FetchJob.class));
+    verify(executor, never()).submit(any(FetchJob.class));
+    verify(fetchJob).run();
   }
 
   @Test
   public void shouldSkipEventWhenFoundInApplyObjectsCacheWithTheSameTimestamp() {
     sendRefUpdateEventWithTimestamp(TEST_EVENT_TIMESTAMP, TEST_EVENT_TIMESTAMP);
     verify(executor, never()).submit(any(Runnable.class));
+    verify(fetchJob, never()).run();
   }
 
   @Test
   public void shouldSkipEventWhenFoundInApplyObjectsCacheWithOlderTimestamp() {
     sendRefUpdateEventWithTimestamp(TEST_EVENT_TIMESTAMP - 1, TEST_EVENT_TIMESTAMP);
     verify(executor, never()).submit(any(Runnable.class));
+    verify(fetchJob, never()).run();
   }
 
   @Test
   public void shouldProcessEventWhenFoundInApplyObjectsCacheWithNewerTimestamp() {
     sendRefUpdateEventWithTimestamp(TEST_EVENT_TIMESTAMP + 1, TEST_EVENT_TIMESTAMP);
-    verify(executor).submit(any(Runnable.class));
+    verify(executor, never()).submit(any(Runnable.class));
+    verify(fetchJob).run();
   }
 
   private void sendRefUpdateEventWithTimestamp(long eventTimestamp, long cachedTimestamp) {
@@ -314,7 +322,8 @@ public class StreamEventListenerTest {
 
     objectUnderTest.onEvent(event);
 
-    verify(executor).submit(any(FetchJob.class));
+    verify(executor, never()).submit(any(FetchJob.class));
+    verify(fetchJob).run();
   }
 
   @Test

@@ -14,23 +14,16 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.api;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.config.UrlFormatter;
-import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
@@ -41,7 +34,6 @@ import com.googlesource.gerrit.plugins.replication.pull.FetchRefSpec;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.Input;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchJob.Factory;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.RemoteConfigurationMissingException;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -53,21 +45,13 @@ import org.eclipse.jgit.errors.TransportException;
 @Singleton
 public class FetchAction implements RestModifyView<ProjectResource, Input> {
   private final FetchCommand command;
-  private final WorkQueue workQueue;
-  private final DynamicItem<UrlFormatter> urlFormatter;
   private final FetchPreconditions preConditions;
   private final Factory fetchJobFactory;
 
   @Inject
   public FetchAction(
-      FetchCommand command,
-      WorkQueue workQueue,
-      DynamicItem<UrlFormatter> urlFormatter,
-      FetchPreconditions preConditions,
-      FetchJob.Factory fetchJobFactory) {
+      FetchCommand command, FetchPreconditions preConditions, FetchJob.Factory fetchJobFactory) {
     this.command = command;
-    this.workQueue = workQueue;
-    this.urlFormatter = urlFormatter;
     this.preConditions = preConditions;
     this.fetchJobFactory = fetchJobFactory;
   }
@@ -183,19 +167,7 @@ public class FetchAction implements RestModifyView<ProjectResource, Input> {
 
   @SuppressWarnings("unchecked")
   private Response.Accepted applyAsync(Project.NameKey project, BatchInput batchInput) {
-    WorkQueue.Task<Void> task =
-        (Task<Void>)
-            workQueue
-                .getDefaultQueue()
-                .submit(
-                    fetchJobFactory.create(
-                        project, batchInput, PullReplicationApiRequestMetrics.get()));
-    Optional<String> url =
-        urlFormatter
-            .get()
-            .getRestUrl("a/config/server/tasks/" + HexFormat.fromInt(task.getTaskId()));
-    // We're in a HTTP handler, so must be present.
-    checkState(url.isPresent());
-    return Response.accepted(url.get());
+    fetchJobFactory.create(project, batchInput, PullReplicationApiRequestMetrics.get()).run();
+    return Response.accepted("");
   }
 }
