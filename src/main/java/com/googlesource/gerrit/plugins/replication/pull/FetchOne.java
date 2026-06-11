@@ -88,6 +88,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   private final Set<TransportException> fetchFailures = Sets.newHashSetWithExpectedSize(4);
   private boolean fetchAllRefs;
   private Repository git;
+  private boolean isCollision;
   private boolean retrying;
   private int retryCount;
   private final int maxRetries;
@@ -259,7 +260,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
   }
 
   private void statesCleanUp() {
-    if (!stateMap.isEmpty() && !isRetrying()) {
+    if (!stateMap.isEmpty() && !isRetrying() && !isCollision) {
       for (Map.Entry<String, ReplicationState> entry : stateMap.entries()) {
         entry
             .getValue()
@@ -315,6 +316,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     // we start replication (instead a new instance, with the same URI, is
     // created and scheduled for a future point in time.)
     //
+    isCollision = false;
     if (replicationType == ReplicationType.ASYNC && !pool.requestRunway(this)) {
       if (!canceled) {
         repLog.info(
@@ -323,6 +325,7 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
             uri,
             pool.getInFlight(getURI()).map(FetchOne::getTaskIdHex).orElse("<unknown>"));
         pool.reschedule(this, Source.RetryReason.COLLISION);
+        isCollision = true;
       }
       return;
     }
@@ -356,8 +359,9 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
                 .flatMap(metrics -> metrics.stop(config.getName()))
                 .map(NANOSECONDS::toMillis);
         repLog.info(
-            "[{}] Replication from {} completed in {}ms, {}ms delay, {} retries{}",
+            "[{}] {} replication from {} completed in {}ms, {}ms delay, {} retries{}",
             taskIdHex,
+            replicationType,
             uri,
             elapsed,
             delay,
@@ -500,6 +504,11 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     Set<String> doneRefs = new HashSet<>();
     boolean anyRefFailed = false;
     RefUpdate.Result lastRefUpdateResult = RefUpdate.Result.NO_CHANGE;
+
+    // NOOP fetches are considered as successes
+    if (refUpdates.isEmpty()) {
+      succeeded = true;
+    }
 
     for (RefUpdateState u : refUpdates) {
       ReplicationState.RefFetchResult fetchStatus = ReplicationState.RefFetchResult.SUCCEEDED;
