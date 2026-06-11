@@ -787,6 +787,7 @@ public class ReplicationQueue
         fire(event);
         eventsReplayed.add(eventKey);
       }
+      beforeStartupEventsQueue.remove(event);
     }
   }
 

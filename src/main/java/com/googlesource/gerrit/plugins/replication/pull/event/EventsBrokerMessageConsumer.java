@@ -57,8 +57,10 @@ public class EventsBrokerMessageConsumer implements Consumer<Event>, LifecycleLi
   public void accept(Event event) {
     try {
       eventListener.fetchRefsForEvent(event);
-      if (shutdownState.isShuttingDown()) stop();
-    } catch (AuthException | PermissionBackendException | IOException e) {
+      if (shutdownState.isShuttingDown()) {
+        stop();
+      }
+    } catch (AuthException | PermissionBackendException e) {
       throw new EventRejectedException(event, e);
     }
   }
