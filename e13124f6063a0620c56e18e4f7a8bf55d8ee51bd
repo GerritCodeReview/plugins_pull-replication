@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caaf884a_7dba4cdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T22:15:19Z",
+      "side": 1,
+      "message": "This cherry-pick is wrong, because the change Iec2b040210 was later reverted because the `push` targets were considered as `fetch` targets.",
+      "revId": "e13124f6063a0620c56e18e4f7a8bf55d8ee51bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
