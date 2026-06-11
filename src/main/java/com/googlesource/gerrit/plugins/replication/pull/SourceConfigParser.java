@@ -79,14 +79,14 @@ public class SourceConfigParser implements ConfigParser {
     return sourceConfigs.build();
   }
 
-  private List<RemoteConfig> allFetchRemotes(Config cfg) throws ConfigInvalidException {
+  private static List<RemoteConfig> allFetchRemotes(Config cfg) throws ConfigInvalidException {
 
     Set<String> names = cfg.getSubsections("remote");
     List<RemoteConfig> result = Lists.newArrayListWithCapacity(names.size());
     for (String name : names) {
       try {
         final RemoteConfig remoteConfig = new RemoteConfig(cfg, name);
-        if (!isReplica || !remoteConfig.getFetchRefSpecs().isEmpty()) {
+        if (!remoteConfig.getFetchRefSpecs().isEmpty()) {
           result.add(remoteConfig);
         } else {
           logger.atFine().log(
