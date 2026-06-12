@@ -35,7 +35,6 @@ import com.googlesource.gerrit.plugins.replication.pull.PullReplicationStateLogg
 import com.googlesource.gerrit.plugins.replication.pull.ReplicationState;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.SourcesCollection;
-import com.googlesource.gerrit.plugins.replication.pull.api.exception.DeleteRefException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
 import java.io.IOException;
 import java.util.Optional;
@@ -103,7 +102,7 @@ public class DeleteRefCommand {
       try {
 
         Context.setLocalEvent(true);
-        RefUpdate.Result successResult = ensureSuccess(deleteRef(name, ref.get()));
+        deleteRef(name, ref.get());
 
         eventDispatcher
             .get()
@@ -113,17 +112,13 @@ public class DeleteRefCommand {
                     refName,
                     sourceUri,
                     ReplicationState.RefFetchResult.SUCCEEDED,
-                    successResult));
+                    RefUpdate.Result.FORCED));
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log(
             "Unexpected error while trying to delete ref '%s' on project %s and notifying it",
             refName, name);
         throw RestApiException.wrap(e.getMessage(), e);
       } catch (IOException e) {
-        RefUpdate.Result refUpdateResult =
-            e instanceof DeleteRefException
-                ? ((DeleteRefException) e).getResult()
-                : RefUpdate.Result.LOCK_FAILURE;
         eventDispatcher
             .get()
             .postEvent(
@@ -132,7 +127,7 @@ public class DeleteRefCommand {
                     refName,
                     sourceUri,
                     ReplicationState.RefFetchResult.FAILED,
-                    refUpdateResult));
+                    RefUpdate.Result.LOCK_FAILURE));
         String message =
             String.format(
                 "RefUpdate lock failure for: sourceLabel=%s, project=%s, refName=%s",
@@ -170,20 +165,5 @@ public class DeleteRefCommand {
       result = u.delete();
       return new RefUpdateState(":" + ref.getName(), result);
     }
-  }
-
-  private static RefUpdate.Result ensureSuccess(RefUpdateState refUpdateState)
-      throws DeleteRefException {
-    switch (refUpdateState.getResult()) {
-      case NOT_ATTEMPTED:
-      case REJECTED:
-      case REJECTED_CURRENT_BRANCH:
-      case REJECTED_MISSING_OBJECT:
-      case LOCK_FAILURE:
-      case IO_FAILURE:
-      case REJECTED_OTHER_REASON:
-        throw new DeleteRefException("Failed ref deletion", refUpdateState.getResult());
-    }
-    return refUpdateState.getResult();
   }
 }
