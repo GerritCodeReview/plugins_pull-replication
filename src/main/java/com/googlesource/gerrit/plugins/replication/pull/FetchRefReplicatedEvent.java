@@ -14,7 +14,6 @@
 
 package com.googlesource.gerrit.plugins.replication.pull;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Project;
 import com.googlesource.gerrit.plugins.replication.events.RemoteRefReplicationEvent;
 import java.util.Objects;
@@ -74,10 +73,5 @@ public class FetchRefReplicatedEvent extends RemoteRefReplicationEvent {
   @Override
   public String getRefName() {
     return ref;
-  }
-
-  @VisibleForTesting
-  public RefUpdate.Result getRefUpdateResult() {
-    return refUpdateResult;
   }
 }
