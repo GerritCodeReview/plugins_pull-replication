@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "709e1dca_5beae167",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-03T16:49:34Z",
+      "side": 1,
+      "message": "Unrelated: I believe we should create another batch with the new `apply-objects` requests in one go, but it can be done as a follow-up change.",
+      "range": {
+        "startLine": 10,
+        "startChar": 53,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "226a3c8d93fc350a493eca763768a106183cb494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df47b469_62b9f5f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-03T16:49:34Z",
+      "side": 1,
+      "message": "Well, we don\u0027t really know which one was the related ref, isn\u0027t it? We just check all of them but not the one that failed because of the missing parent object for.",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "226a3c8d93fc350a493eca763768a106183cb494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0106dfda_7d16962a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -19,6 +65,46 @@
         "startChar": 0,
         "endLine": 15,
         "endChar": 18
+      },
+      "revId": "226a3c8d93fc350a493eca763768a106183cb494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e38bfc57_06321845",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-03T16:49:34Z",
+      "side": 1,
+      "message": "Yeah, the Change 377697 was merged, but there are lots of unresolved comments.",
+      "revId": "226a3c8d93fc350a493eca763768a106183cb494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da7fdf9f_6ed2ea9e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-03T16:49:34Z",
+      "side": 1,
+      "message": "This part of code was merged with unreviewed comments: this logic is broken because we\u0027re breaking the batch and performing individual apply-objects one by one.\n\nWhat I believe we should do is what has been suggested in https://gerrit-review.googlesource.com/c/plugins/pull-replication/+/377697/38/src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java\n\n1. For all the `/meta` fetch all the history\n2. Create a new batch with the new `/meta` with the full history\n3. Re-try the batch\n\nIn this fix, you just retry the `/meta` and ignore the others.",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 546,
+        "endChar": 15
       },
       "revId": "226a3c8d93fc350a493eca763768a106183cb494",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
