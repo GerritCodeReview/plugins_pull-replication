@@ -527,7 +527,6 @@ public class ReplicationQueue
         }
 
         if (!resultSuccessful && HttpResultUtils.isParentObjectMissing(result)) {
-          resultSuccessful = true;
           for (BatchApplyObjectData batchApplyObject : filteredRefsBatch) {
             String refName = batchApplyObject.refName();
             if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
@@ -542,11 +541,9 @@ public class ReplicationQueue
                       fetchClient, remoteName, uri, project, refName, eventCreatedOn, allRevisions);
               resultSuccessful = HttpResultUtils.isSuccessful(sendObjectResult);
               if (!resultSuccessful) {
-                break;
+                throw new MissingParentObjectException(
+                    project, refName, source.getRemoteConfigName());
               }
-            } else {
-              throw new MissingParentObjectException(
-                  project, refName, source.getRemoteConfigName());
             }
           }
         }
