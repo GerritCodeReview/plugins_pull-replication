@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0106dfda_7d16962a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-03T16:02:04Z",
+      "side": 1,
+      "message": "```suggestion\nthe meta ref\u0027s whole history from being sent and forces the entire batch to\nfallback to Git fetch.\n```",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 18
+      },
+      "revId": "226a3c8d93fc350a493eca763768a106183cb494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
