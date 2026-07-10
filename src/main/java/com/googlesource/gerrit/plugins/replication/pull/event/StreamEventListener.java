@@ -58,6 +58,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRe
 import com.googlesource.gerrit.plugins.replication.pull.api.UpdateHeadCommand;
 import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilter;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -157,7 +158,7 @@ public class StreamEventListener implements EventListener {
 
       fetchRefsAsync(
           refUpdatedEvent.getRefName(),
-          refUpdatedEvent.instanceId,
+          findMatchingRemoteName(refUpdatedEvent.instanceId, refUpdatedEvent.getProjectNameKey()),
           refUpdatedEvent.getProjectNameKey(),
           isRefDelete(refUpdatedEvent),
           metrics);
@@ -168,7 +169,8 @@ public class StreamEventListener implements EventListener {
             getProjectRepositoryName(projectCreatedEvent), projectCreatedEvent.headName);
         fetchRefsAsync(
             FetchOne.ALL_REFS,
-            projectCreatedEvent.instanceId,
+            findMatchingRemoteName(
+                projectCreatedEvent.instanceId, projectCreatedEvent.getProjectNameKey()),
             projectCreatedEvent.getProjectNameKey(),
             false,
             metrics);
@@ -217,26 +219,21 @@ public class StreamEventListener implements EventListener {
       return false;
     }
 
-    Optional<Source> maybeSource =
-        sources.getAll().stream()
-            .filter(s -> s.getRemoteConfigName().equals(event.instanceId))
-            .findFirst();
+    return sources.getAll().stream()
+        .filter(s -> s.getRemoteConfigName().startsWith(event.instanceId))
+        .sorted(Comparator.comparingInt((Source s) -> s.getRemoteConfigName().length()).reversed())
+        .anyMatch(s -> wouldSourceHandleEvent(s, event));
+  }
 
-    if (!maybeSource.isPresent()) {
-      return false;
-    }
-
-    Source source = maybeSource.get();
+  private boolean wouldSourceHandleEvent(Source source, Event event) {
     if (event instanceof ProjectCreatedEvent) {
       ProjectCreatedEvent projectCreatedEvent = (ProjectCreatedEvent) event;
-
       return source.isCreateMissingRepositories()
           && source.wouldCreateProject(projectCreatedEvent.getProjectNameKey());
     }
 
     if (event instanceof ProjectDeletedEvent) {
       ProjectDeletedEvent projectDeletedEvent = (ProjectDeletedEvent) event;
-
       return source.wouldDeleteProject(projectDeletedEvent.getProjectNameKey());
     }
 
@@ -257,6 +254,16 @@ public class StreamEventListener implements EventListener {
 
   private boolean isProjectDelete(RefUpdatedEvent event) {
     return RefNames.isConfigRef(event.getRefName()) && isRefDelete(event);
+  }
+
+  private String findMatchingRemoteName(String eventInstanceId, NameKey projectNameKey) {
+    return sources.getAll().stream()
+        .filter(s -> s.getRemoteConfigName().startsWith(eventInstanceId))
+        .sorted(Comparator.comparingInt((Source s) -> s.getRemoteConfigName().length()).reversed())
+        .filter(s -> s.wouldFetchProject(projectNameKey))
+        .map(Source::getRemoteConfigName)
+        .findFirst()
+        .orElse(eventInstanceId);
   }
 
   protected void fetchRefsAsync(

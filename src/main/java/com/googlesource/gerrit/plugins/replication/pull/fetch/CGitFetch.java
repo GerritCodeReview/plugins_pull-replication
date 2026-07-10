@@ -45,6 +45,7 @@ public class CGitFetch implements Fetch {
   private int timeout;
   private final String taskIdHex;
   private final boolean isMirror;
+  private final Repository git;
 
   @Inject
   public CGitFetch(
@@ -54,6 +55,7 @@ public class CGitFetch implements Fetch {
       @Assisted URIish uri,
       @Assisted Repository git) {
     this.localProjectDirectory = git.getDirectory();
+    this.git = git;
     this.taskIdHex = taskIdHex;
     this.uri = appendCredentials(uri, cpFactory.create(config.getRemoteConfig().getName()));
     this.timeout = config.getRemoteConfig().getTimeout();
@@ -63,7 +65,15 @@ public class CGitFetch implements Fetch {
   @Override
   public List<RefUpdateState> fetch(List<FetchRefSpec> refsSpec) throws IOException {
     List<String> refs = refsSpec.stream().map(s -> s.toString()).collect(Collectors.toList());
+    boolean narrowFetch = refsSpec.stream().noneMatch(FetchRefSpec::isWildcard);
     List<String> command = Lists.newArrayList("git", "fetch");
+    if (narrowFetch) {
+      command.add("--no-tags");
+      if (git.resolve("HEAD") != null) {
+        command.add("--negotiation-tip=HEAD");
+      }
+      command.add("--no-auto-gc");
+    }
     if (isMirror) {
       command.add("--prune");
     }
@@ -89,10 +99,8 @@ public class CGitFetch implements Fetch {
       }
 
       return refsSpec.stream()
-          .map(
-              value -> {
-                return new RefUpdateState(value.refName(), RefUpdate.Result.NEW);
-              })
+          .filter(value -> !value.isWildcard())
+          .map(value -> new RefUpdateState(value.refName(), RefUpdate.Result.NEW))
           .collect(Collectors.toList());
     } catch (TransportException e) {
       throw PermanentTransportException.wrapIfPermanentTransportException(e);

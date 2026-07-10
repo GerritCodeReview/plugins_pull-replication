@@ -39,6 +39,7 @@ import com.googlesource.gerrit.plugins.replication.pull.api.DeleteRefCommand;
 import com.googlesource.gerrit.plugins.replication.pull.api.PullReplicationApiRequestMetrics;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.Fetch;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.FetchFactory;
+import com.googlesource.gerrit.plugins.replication.pull.fetch.BadObjectTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.InexistentRefTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.PermanentTransportException;
 import com.googlesource.gerrit.plugins.replication.pull.fetch.RefUpdateState;
@@ -506,7 +507,10 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
     repLog.info("[{}] Cannot replicate from {}. It was canceled while running", taskIdHex, uri, e);
   }
 
+  private static final int MAX_BAD_OBJECT_CLEANUPS = 5;
+
   private List<FetchRefSpec> runImpl() throws IOException {
+    int badObjectCleanups = 0;
     while (true) {
       Fetch fetch = fetchFactory.create(taskIdHex, uri, git);
       List<FetchRefSpec> fetchRefSpecs = getFetchRefSpecs(FILTER_AND_LOCK);
@@ -539,6 +543,35 @@ public class FetchOne implements ProjectRunnable, CanceledWhileRunning, Completa
         if (delta.isEmpty()) {
           repLog.warn("[{}] Empty replication task, skipping.", taskIdHex);
           return Collections.emptyList();
+        }
+      } catch (BadObjectTransportException e) {
+        String badRef = e.getBadRef();
+        if (++badObjectCleanups > MAX_BAD_OBJECT_CLEANUPS) {
+          repLog.error(
+              "[{}] Too many corrupt refs (>{}) encountered fetching from {}, giving up",
+              taskIdHex,
+              MAX_BAD_OBJECT_CLEANUPS,
+              uri);
+          throw e;
+        }
+        repLog.warn(
+            "[{}] Local ref {} points to a missing object. Deleting corrupt ref and retrying"
+                + " fetch from {}",
+            taskIdHex,
+            badRef,
+            uri);
+        try {
+          RefUpdate refUpdate = git.getRefDatabase().newUpdate(badRef, true);
+          refUpdate.setForceUpdate(true);
+          refUpdate.delete();
+          repLog.info("[{}] Deleted corrupt local ref {}", taskIdHex, badRef);
+        } catch (IOException deleteEx) {
+          repLog.error(
+              "[{}] Failed to delete corrupt ref {}: {}",
+              taskIdHex,
+              badRef,
+              deleteEx.getMessage());
+          throw e;
         }
       } catch (IOException e) {
         notifyRefReplicatedIOException();
