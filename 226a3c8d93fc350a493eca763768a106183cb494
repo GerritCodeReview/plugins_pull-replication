@@ -108,6 +108,30 @@
       },
       "revId": "226a3c8d93fc350a493eca763768a106183cb494",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2367325_5af85b89",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-10T15:16:58Z",
+      "side": 1,
+      "message": "\u003e For all the /meta fetch all the history\n\nIsn\u0027t this a bit overkill? Or maybe we should make it configurable?\nApply-object was always meant to be a quick shortcut to getting replication done. Sure, we\u0027ve found an issue with rebase strategies where really you\u0027d need the last 2 elements in the meta ref, but sending the whole meta ref seems excessive?\n\nWhat if we have thousands of updates?",
+      "parentUuid": "da7fdf9f_6ed2ea9e",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 546,
+        "endChar": 15
+      },
+      "revId": "226a3c8d93fc350a493eca763768a106183cb494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
