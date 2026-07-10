@@ -14,6 +14,7 @@
 
 package com.googlesource.gerrit.plugins.replication.pull.fetch;
 
+import java.util.Optional;
 import org.apache.sshd.common.SshException;
 import org.eclipse.jgit.errors.TransportException;
 
@@ -25,6 +26,11 @@ public class PermanentTransportException extends TransportException {
   }
 
   public static TransportException wrapIfPermanentTransportException(TransportException e) {
+    Optional<BadObjectTransportException> badObj = BadObjectTransportException.wrapIfBadObject(e);
+    if (badObj.isPresent()) {
+      return badObj.get();
+    }
+
     Throwable cause = e.getCause();
     if (cause instanceof SshException
         && cause.getMessage().startsWith("Failed (UnsupportedCredentialItem) to execute:")) {
