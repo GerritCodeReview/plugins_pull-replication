@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ffe4ecd_935efc67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3911711
+      },
+      "writtenOn": "2026-07-10T06:21:26Z",
+      "side": 1,
+      "message": "Not sure if it makes sense to push the changes to the upstream pull-replication plugin. These would make great additions, but the plugin is deprecated. It makes more sense to continue development on the new plugin source code.",
+      "revId": "803a57d32fb19f52796e1e46385a845de4f03dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
