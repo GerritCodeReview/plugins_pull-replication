@@ -105,6 +105,11 @@ public class BearerAuthenticationFilterTest {
   }
 
   @Test
+  public void shouldAuthenticateWhenBatchApplyObjects() throws Exception {
+    authenticateAndFilter("any-prefix/pull-replication~batch-apply-objects", NO_QUERY_PARAMETERS);
+  }
+
+  @Test
   public void shouldAuthenticateWhenDeleteProject() throws Exception {
     authenticateAndFilter("any-prefix/pull-replication~delete-project", NO_QUERY_PARAMETERS);
   }

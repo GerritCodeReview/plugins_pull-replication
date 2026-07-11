@@ -35,6 +35,8 @@ public interface PullReplicationEndpoints {
 
   public static final String BATCH_APPLY_OBJECT_API_ENDPOINT = "batch-apply-object";
 
+  public static final String BATCH_APPLY_OBJECTS_API_ENDPOINT = "batch-apply-objects";
+
   public static final String FETCH_ENDPOINT = "fetch";
   public static final String BATCH_FETCH_ENDPOINT = "batch-fetch";
   public static final String INIT_PROJECT_ENDPOINT = "init-project";
