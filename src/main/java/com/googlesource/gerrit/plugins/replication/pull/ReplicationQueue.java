@@ -54,6 +54,7 @@ import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilte
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -452,6 +453,18 @@ public class ReplicationQueue
       long eventCreatedOn,
       ReplicationState state)
       throws MissingParentObjectException {
+    return callBatchSendObject(source, project, refsBatch, eventCreatedOn, state, true);
+  }
+
+  private boolean callBatchSendObject(
+      Source source,
+      NameKey project,
+      List<BatchApplyObjectData> refsBatch,
+      long eventCreatedOn,
+      ReplicationState state,
+      boolean allowRetryWithHistory)
+      throws MissingParentObjectException {
+    repLog.error("Going through here");
     boolean batchResultSuccessful = true;
 
     List<BatchApplyObjectData> filteredRefsBatch =
@@ -527,28 +540,39 @@ public class ReplicationQueue
         }
 
         if (!resultSuccessful && HttpResultUtils.isParentObjectMissing(result)) {
-          resultSuccessful = true;
+          repLog.error("Expanding history");
+          if (!allowRetryWithHistory) {
+            throw new MissingParentObjectException(
+                project, filteredRefsBatch.get(0).refName(), source.getRemoteConfigName());
+          }
+          List<BatchApplyObjectData> enrichedBatch = new ArrayList<>();
           for (BatchApplyObjectData batchApplyObject : filteredRefsBatch) {
             String refName = batchApplyObject.refName();
             if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
                 && batchApplyObject.revisionData().isPresent()) {
-
-              Optional<RevisionData> maybeRevisionData = batchApplyObject.revisionData();
               List<RevisionData> allRevisions =
-                  fetchWholeMetaHistory(project, refName, maybeRevisionData.get());
-
-              Optional<HttpResult> sendObjectResult =
-                  callSendObject(
-                      fetchClient, remoteName, uri, project, refName, eventCreatedOn, allRevisions);
-              resultSuccessful = HttpResultUtils.isSuccessful(sendObjectResult);
-              if (!resultSuccessful) {
-                break;
+                  fetchWholeMetaHistory(project, refName, batchApplyObject.revisionData().get());
+              // Expand history: each ancestor becomes a separate entry; the last
+              // entry (the current revision) preserves the original create/delete flags.
+              for (int i = 0; i < allRevisions.size() - 1; i++) {
+                repLog.error(
+                    String.format(
+                        "Adding %s:%s to batch",
+                        refName, allRevisions.get(i).getCommitObject().getSha1()));
+                enrichedBatch.add(
+                    BatchApplyObjectData.newUpdateRef(refName, Optional.of(allRevisions.get(i))));
               }
+              enrichedBatch.add(
+                  BatchApplyObjectData.create(
+                      refName,
+                      Optional.of(allRevisions.get(allRevisions.size() - 1)),
+                      batchApplyObject.isDelete(),
+                      batchApplyObject.isCreate()));
             } else {
-              throw new MissingParentObjectException(
-                  project, refName, source.getRemoteConfigName());
+              enrichedBatch.add(batchApplyObject);
             }
           }
+          return callBatchSendObject(source, project, enrichedBatch, eventCreatedOn, state, false);
         }
 
         batchResultSuccessful &= resultSuccessful;
