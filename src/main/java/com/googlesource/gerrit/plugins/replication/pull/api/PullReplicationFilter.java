@@ -85,6 +85,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
   private ApplyObjectAction applyObjectAction;
   private ApplyObjectsAction applyObjectsAction;
   private BatchApplyObjectAction batchApplyObjectAction;
+  private BatchApplyObjectsAction batchApplyObjectsAction;
   private ProjectInitializationAction projectInitializationAction;
   private UpdateHeadAction updateHEADAction;
   private ProjectDeletionAction projectDeletionAction;
@@ -100,6 +101,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       ApplyObjectAction applyObjectAction,
       ApplyObjectsAction applyObjectsAction,
       BatchApplyObjectAction batchApplyObjectAction,
+      BatchApplyObjectsAction batchApplyObjectsAction,
       ProjectInitializationAction projectInitializationAction,
       UpdateHeadAction updateHEADAction,
       ProjectDeletionAction projectDeletionAction,
@@ -111,6 +113,7 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
     this.applyObjectAction = applyObjectAction;
     this.applyObjectsAction = applyObjectsAction;
     this.batchApplyObjectAction = batchApplyObjectAction;
+    this.batchApplyObjectsAction = batchApplyObjectsAction;
     this.projectInitializationAction = projectInitializationAction;
     this.updateHEADAction = updateHEADAction;
     this.projectDeletionAction = projectDeletionAction;
@@ -143,9 +146,12 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
       } else if (isApplyObjectsAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         PayloadSerDes.writeResponse(httpResponse, doApplyObjects(httpRequest));
-      } else if (isBatchApplyObjectsAction(httpRequest)) {
+      } else if (isBatchApplyObjectAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         PayloadSerDes.writeResponse(httpResponse, doBatchApplyObject(httpRequest));
+      } else if (isBatchApplyObjectsAction(httpRequest)) {
+        failIfcurrentUserIsAnonymous();
+        PayloadSerDes.writeResponse(httpResponse, doBatchApplyObjects(httpRequest));
       } else if (isInitProjectAction(httpRequest)) {
         failIfcurrentUserIsAnonymous();
         if (!checkAcceptHeader(httpRequest, httpResponse)) {
@@ -236,6 +242,17 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
 
     return (Response<Map<String, Object>>)
         batchApplyObjectAction.apply(parseProjectResource(id), inputs);
+  }
+
+  @SuppressWarnings("unchecked")
+  private Response<Map<String, Object>> doBatchApplyObjects(HttpServletRequest httpRequest)
+      throws RestApiException, IOException {
+    TypeLiteral<List<RevisionsInput>> collectionType = new TypeLiteral<>() {};
+    List<RevisionsInput> inputs = readJson(httpRequest, collectionType.getType());
+    IdString id = getProjectName(httpRequest).get();
+
+    return (Response<Map<String, Object>>)
+        batchApplyObjectsAction.apply(parseProjectResource(id), inputs);
   }
 
   @SuppressWarnings("unchecked")
@@ -352,10 +369,16 @@ public class PullReplicationFilter extends AllRequestFilter implements PullRepli
         .endsWith(String.format("/%s~" + APPLY_OBJECTS_API_ENDPOINT, pluginName));
   }
 
-  private boolean isBatchApplyObjectsAction(HttpServletRequest httpRequest) {
+  private boolean isBatchApplyObjectAction(HttpServletRequest httpRequest) {
     return httpRequest
         .getRequestURI()
         .endsWith(String.format("/%s~" + BATCH_APPLY_OBJECT_API_ENDPOINT, pluginName));
+  }
+
+  private boolean isBatchApplyObjectsAction(HttpServletRequest httpRequest) {
+    return httpRequest
+        .getRequestURI()
+        .endsWith(String.format("/%s~" + BATCH_APPLY_OBJECTS_API_ENDPOINT, pluginName));
   }
 
   private boolean isFetchAction(HttpServletRequest httpRequest) {
