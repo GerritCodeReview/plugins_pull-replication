@@ -21,6 +21,7 @@ import com.google.gerrit.entities.Project.NameKey;
 import com.googlesource.gerrit.plugins.replication.pull.Source;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectsData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import java.io.IOException;
 import java.util.List;
@@ -89,6 +90,13 @@ public interface FetchApiClient {
   HttpResult callBatchSendObject(
       NameKey project,
       List<BatchApplyObjectData> batchApplyObjects,
+      long eventCreatedOn,
+      URIish targetUri)
+      throws IOException;
+
+  HttpResult callBatchSendObjects(
+      NameKey project,
+      List<BatchApplyObjectsData> batchApplyObjects,
       long eventCreatedOn,
       URIish targetUri)
       throws IOException;
