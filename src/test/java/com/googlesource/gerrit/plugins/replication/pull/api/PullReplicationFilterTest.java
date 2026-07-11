@@ -50,6 +50,7 @@ public class PullReplicationFilterTest {
   @Mock private ApplyObjectAction applyObjectAction;
   @Mock private ApplyObjectsAction applyObjectsAction;
   @Mock private BatchApplyObjectAction batchApplyObjectAction;
+  @Mock private BatchApplyObjectsAction batchApplyObjectsAction;
   @Mock private ProjectInitializationAction projectInitializationAction;
   @Mock private UpdateHeadAction updateHEADAction;
   @Mock private ProjectDeletionAction projectDeletionAction;
@@ -75,6 +76,8 @@ public class PullReplicationFilterTest {
 
   private final String BATCH_APPLY_OBJECT_URI =
       String.format("any-prefix/projects/%s/%s~batch-apply-object", PROJECT_NAME, PLUGIN_NAME);
+  private final String BATCH_APPLY_OBJECTS_URI =
+      String.format("any-prefix/projects/%s/%s~batch-apply-objects", PROJECT_NAME, PLUGIN_NAME);
   private final String DELETE_PROJECT_URI =
       String.format("any-prefix/projects/%s/%s~delete-project", PROJECT_NAME, PLUGIN_NAME);
   private final String INIT_PROJECT_URI =
@@ -93,6 +96,7 @@ public class PullReplicationFilterTest {
         applyObjectAction,
         applyObjectsAction,
         batchApplyObjectAction,
+        batchApplyObjectsAction,
         projectInitializationAction,
         updateHEADAction,
         projectDeletionAction,
@@ -408,5 +412,34 @@ public class PullReplicationFilterTest {
 
     verifyBehaviours();
     verify(batchApplyObjectAction).apply(any(ProjectResource.class), any());
+  }
+
+  @Test
+  public void shouldFilterBatchApplyObjectsAction() throws Exception {
+
+    byte[] payloadApplyObjects =
+        ("[{\"label\":\"Replication\",\"ref_name\":\"refs/heads/foo\","
+                + "\"revisions_data\":[{"
+                + "\"commit_object\":{\"type\":1,\"content\":\"some-content\"},"
+                + "\"tree_object\":{\"type\":2,\"content\":\"some-content\"},"
+                + "\"blobs\":[]}]"
+                + "},"
+                + "{\"label\":\"Replication\",\"ref_name\":\"refs/heads/bar\","
+                + "\"revisions_data\":[{"
+                + "\"commit_object\":{\"type\":1,\"content\":\"some-content\"},"
+                + "\"tree_object\":{\"type\":2,\"content\":\"some-content\"},"
+                + "\"blobs\":[]}]"
+                + "}]")
+            .getBytes(StandardCharsets.UTF_8);
+
+    defineBehaviours(payloadApplyObjects, BATCH_APPLY_OBJECTS_URI);
+
+    when(batchApplyObjectsAction.apply(any(), any())).thenReturn(OK_RESPONSE);
+
+    PullReplicationFilter pullReplicationFilter = createPullReplicationFilter();
+    pullReplicationFilter.doFilter(request, response, filterChain);
+
+    verifyBehaviours();
+    verify(batchApplyObjectsAction).apply(any(ProjectResource.class), any());
   }
 }
