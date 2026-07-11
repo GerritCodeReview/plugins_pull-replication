@@ -37,6 +37,10 @@ public class HttpResultUtils {
     return maybeResult.map(HttpResult::isParentObjectMissing).orElse(false);
   }
 
+  public static boolean isNotFound(Optional<HttpResult> maybeResult) {
+    return maybeResult.map(HttpResult::isNotFound).orElse(false);
+  }
+
   public static String errorMsg(Optional<HttpResult> maybeResult) {
     return maybeResult.flatMap(HttpResult::getMessage).orElse("unknown");
   }

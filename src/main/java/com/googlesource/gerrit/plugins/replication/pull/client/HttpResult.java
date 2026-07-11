@@ -15,6 +15,7 @@
 package com.googlesource.gerrit.plugins.replication.pull.client;
 
 import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 
 import com.google.gerrit.entities.Project;
 import java.util.Optional;
@@ -43,6 +44,10 @@ public class HttpResult {
 
   public boolean isParentObjectMissing() {
     return responseCode == SC_CONFLICT;
+  }
+
+  public boolean isNotFound() {
+    return responseCode == SC_NOT_FOUND;
   }
 
   @Override
