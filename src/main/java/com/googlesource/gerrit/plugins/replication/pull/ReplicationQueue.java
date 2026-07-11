@@ -42,6 +42,7 @@ import com.googlesource.gerrit.plugins.replication.ObservableQueue;
 import com.googlesource.gerrit.plugins.replication.pull.FetchResultProcessing.GitUpdateProcessing;
 import com.googlesource.gerrit.plugins.replication.pull.api.FetchAction.RefInput;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectData;
+import com.googlesource.gerrit.plugins.replication.pull.api.data.BatchApplyObjectsData;
 import com.googlesource.gerrit.plugins.replication.pull.api.data.RevisionData;
 import com.googlesource.gerrit.plugins.replication.pull.api.exception.MissingParentObjectException;
 import com.googlesource.gerrit.plugins.replication.pull.client.FetchApiClient;
@@ -54,6 +55,7 @@ import com.googlesource.gerrit.plugins.replication.pull.filter.ExcludedRefsFilte
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -527,28 +529,76 @@ public class ReplicationQueue
         }
 
         if (!resultSuccessful && HttpResultUtils.isParentObjectMissing(result)) {
-          resultSuccessful = true;
+          List<BatchApplyObjectsData> expandedBatch = new ArrayList<>();
+          boolean anyRefExpanded = false;
           for (BatchApplyObjectData batchApplyObject : filteredRefsBatch) {
             String refName = batchApplyObject.refName();
+            List<RevisionData> revisions =
+                batchApplyObject.revisionData().map(ImmutableList::of).orElse(ImmutableList.of());
             if ((RefNames.isNoteDbMetaRef(refName) || applyObjectsRefsFilter.match(refName))
                 && batchApplyObject.revisionData().isPresent()) {
-
-              Optional<RevisionData> maybeRevisionData = batchApplyObject.revisionData();
-              List<RevisionData> allRevisions =
-                  fetchWholeMetaHistory(project, refName, maybeRevisionData.get());
-
-              Optional<HttpResult> sendObjectResult =
-                  callSendObject(
-                      fetchClient, remoteName, uri, project, refName, eventCreatedOn, allRevisions);
-              resultSuccessful = HttpResultUtils.isSuccessful(sendObjectResult);
-              if (!resultSuccessful) {
-                break;
-              }
-            } else {
-              throw new MissingParentObjectException(
-                  project, refName, source.getRemoteConfigName());
+              revisions =
+                  fetchWholeMetaHistory(project, refName, batchApplyObject.revisionData().get());
+              anyRefExpanded = true;
             }
+            expandedBatch.add(new BatchApplyObjectsData(refName, revisions));
           }
+
+          if (!anyRefExpanded) {
+            return false;
+          }
+
+          String expandedBatchStr =
+              expandedBatch.stream()
+                  .map(BatchApplyObjectsData::toString)
+                  .collect(Collectors.joining(","));
+          repLog.info(
+              "Sending whole history for {} refs as a single batch to {} for {}: [{}]",
+              expandedBatch.size(),
+              apiUrl,
+              project,
+              expandedBatchStr);
+          Context<String> expandedBatchTimer = applyObjectMetrics.startEnd2End(remoteName);
+          Optional<HttpResult> expandedResult =
+              Optional.of(
+                  fetchClient.callBatchSendObjects(project, expandedBatch, eventCreatedOn, uri));
+          repLog.info(
+              "Sending whole history for {} refs as a single batch to {} for {} COMPLETED, HTTP"
+                  + " Result: {} - time:{} ms",
+              expandedBatch.size(),
+              apiUrl,
+              project,
+              HttpResultUtils.status(expandedResult),
+              expandedBatchTimer.stop() / 1000000.0);
+
+          // Only needed for backwards compatibility: an un-upgraded target node doesn't
+          // recognise batch-apply-objects and rejects it as unauthenticated (403), so fall
+          // back to sending each ref's history individually via the pre-existing endpoint.
+          if (!HttpResultUtils.isSuccessful(expandedResult)
+              && HttpResultUtils.isForbidden(expandedResult)) {
+            repLog.warn(
+                "{} does not support the batch-apply-objects endpoint, falling back to"
+                    + " one apply-objects call per ref for {}:[{}]",
+                apiUrl,
+                project,
+                batchApplyObjectStr);
+            boolean fallbackSuccessful = true;
+            for (BatchApplyObjectsData batchApplyObjectsData : expandedBatch) {
+              Optional<HttpResult> perRefResult =
+                  callSendObject(
+                      fetchClient,
+                      remoteName,
+                      uri,
+                      project,
+                      batchApplyObjectsData.refName(),
+                      eventCreatedOn,
+                      batchApplyObjectsData.revisionsData());
+              fallbackSuccessful &= HttpResultUtils.isSuccessful(perRefResult);
+            }
+            return fallbackSuccessful;
+          }
+
+          return HttpResultUtils.isSuccessful(expandedResult);
         }
 
         batchResultSuccessful &= resultSuccessful;
