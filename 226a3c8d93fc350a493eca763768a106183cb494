@@ -89,6 +89,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a1b05478_af95cf98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-12T15:50:10Z",
+      "side": 1,
+      "message": "Was this change meant for 3.12? I thought we where doing it on 3.10.\nAs per comment on [1].\n\n[1] https://gerrithub.io/c/GerritForge/pull-replication/+/1240956",
+      "revId": "226a3c8d93fc350a493eca763768a106183cb494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da7fdf9f_6ed2ea9e",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 1
