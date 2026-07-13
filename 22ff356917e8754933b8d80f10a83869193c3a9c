@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a099205a_9e466607",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-13T14:51:01Z",
+      "side": 1,
+      "message": "This won\u0027t work as the server will try to apply all the objects in the meta\u0027s history, even the ones preceding the point it\u0027s at already, and this fails.\n\nNeed to discuss best solution from here.",
+      "revId": "22ff356917e8754933b8d80f10a83869193c3a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
