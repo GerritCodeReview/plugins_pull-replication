@@ -104,6 +104,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be1f90d3_e08b8873",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-13T07:47:08Z",
+      "side": 1,
+      "message": "The earlier non-EOL release is stable-3.12, therefore, the branch is correct.",
+      "parentUuid": "a1b05478_af95cf98",
+      "revId": "226a3c8d93fc350a493eca763768a106183cb494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da7fdf9f_6ed2ea9e",
@@ -141,6 +159,30 @@
       "side": 1,
       "message": "\u003e For all the /meta fetch all the history\n\nIsn\u0027t this a bit overkill? Or maybe we should make it configurable?\nApply-object was always meant to be a quick shortcut to getting replication done. Sure, we\u0027ve found an issue with rebase strategies where really you\u0027d need the last 2 elements in the meta ref, but sending the whole meta ref seems excessive?\n\nWhat if we have thousands of updates?",
       "parentUuid": "da7fdf9f_6ed2ea9e",
+      "range": {
+        "startLine": 539,
+        "startChar": 0,
+        "endLine": 546,
+        "endChar": 15
+      },
+      "revId": "226a3c8d93fc350a493eca763768a106183cb494",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9ba6c9_4d8f7ee6",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-13T07:47:08Z",
+      "side": 1,
+      "message": "\u003e \u003e For all the /meta fetch all the history\n\u003e \n\u003e Isn\u0027t this a bit overkill? Or maybe we should make it configurable?\n\nThe code can already do it, see `RevisionReader.read()`. The issue here is to reduce the round-trips. If you failed, we already fetched the full history of `/meta`, which consists of very small commits.\n\nAn improvement could be to eagerly fetch multiple ones up-front to avoid failing in the first place, but that can be a different change.\n\n\u003e Apply-object was always meant to be a quick shortcut to getting replication done. Sure, we\u0027ve found an issue with rebase strategies where really you\u0027d need the last 2 elements in the meta ref, but sending the whole meta ref seems excessive?\n\nSee above.\n \n\u003e What if we have thousands of updates?\n\nThat\u0027s impossible, because we don\u0027t allow them: the number of commits in a `/meta` ref is limited.",
+      "parentUuid": "b2367325_5af85b89",
       "range": {
         "startLine": 539,
         "startChar": 0,
