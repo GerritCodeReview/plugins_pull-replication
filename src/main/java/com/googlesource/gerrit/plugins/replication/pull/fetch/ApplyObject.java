@@ -62,6 +62,10 @@ public class ApplyObject {
           RevisionObjectData commitObject = revisionData.getCommitObject();
 
           if (commitObject != null) {
+            if (git.getObjectDatabase().has(ObjectId.fromString(commitObject.getSha1()))) {
+              continue;
+            }
+
             RevCommit commit = RevCommit.parse(commitObject.getContent());
             for (RevCommit parent : commit.getParents()) {
               if (!git.getObjectDatabase().has(parent.getId())) {
@@ -97,6 +101,10 @@ public class ApplyObject {
             // Non-commits must be forced as they do not have a graph associated
             ru.setForceUpdate(true);
           }
+        }
+
+        if (refHead == null) {
+          return new RefUpdateState(refSpec.getSource(), RefUpdate.Result.NO_CHANGE);
         }
 
         ru.setNewObjectId(refHead);
