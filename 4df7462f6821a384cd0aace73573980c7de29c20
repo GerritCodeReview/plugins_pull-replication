@@ -16,6 +16,29 @@
       "message": "This is the wrong solution.",
       "revId": "4df7462f6821a384cd0aace73573980c7de29c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1138cb4_1acd23f9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-18T00:53:58Z",
+      "side": 1,
+      "message": "This is wrong: we *should not* add one ref-update per commit in the history, otherwise we would rewind the ref history to the past points.\n\nYou should create an apply-objects passing the whole history as the commit objects of the single ref-update.",
+      "range": {
+        "startLine": 562,
+        "startChar": 0,
+        "endLine": 564,
+        "endChar": 15
+      },
+      "revId": "4df7462f6821a384cd0aace73573980c7de29c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }
