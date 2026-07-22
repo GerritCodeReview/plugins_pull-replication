@@ -153,6 +153,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecb80cb2_bd4b6eb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:40:34Z",
+      "side": 1,
+      "message": "Sorry, didn\u0027t meant to publish that unfinished comment. The fallback has been removed.",
+      "parentUuid": "0a3f1748_002266f3",
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60edf5c2_5c461172",
@@ -260,6 +278,30 @@
       "writtenOn": "2026-07-22T05:40:29Z",
       "side": 1,
       "message": "I don\u0027t believe we need this fallback, as the earlier logic was broken anyway.",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 11
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4193162_a5526b7f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99bf2924_20fedb46",
       "range": {
         "startLine": 575,
         "startChar": 0,
@@ -398,6 +440,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a543a84_bd5c4d62",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9596e046_05e1ce2e",
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e5bf6f8_de0b13f5",
@@ -411,6 +471,30 @@
       "writtenOn": "2026-07-22T05:40:29Z",
       "side": 1,
       "message": "Not needed.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01275c38_7579f01b",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e5bf6f8_de0b13f5",
       "range": {
         "startLine": 48,
         "startChar": 0,
@@ -444,6 +528,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "331f3ce4_0eae3321",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResultUtils.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67bb5a10_7a7abcec",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc915162_e80c8e53",
@@ -461,6 +569,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a842000_6a67e88f",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc915162_e80c8e53",
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95fb1e99_eda363e5",
@@ -474,6 +600,30 @@
       "writtenOn": "2026-07-22T05:40:29Z",
       "side": 1,
       "message": "This isn\u0027t needed as the previous behaviour wasn\u0027t working.",
+      "range": {
+        "startLine": 550,
+        "startChar": 0,
+        "endLine": 572,
+        "endChar": 3
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31c3e957_7e7dc525",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95fb1e99_eda363e5",
       "range": {
         "startLine": 550,
         "startChar": 0,
