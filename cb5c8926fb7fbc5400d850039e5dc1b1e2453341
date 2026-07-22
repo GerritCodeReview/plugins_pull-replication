@@ -178,6 +178,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f9f00018_d7ce8bbe",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:39:40Z",
+      "side": 1,
+      "message": "Revisions is reassigned only if its a meta ref, for other refs we use this variable.\nI guess I could have an else branch and do two separate `expandedBatch.add` but is it better?",
+      "parentUuid": "60edf5c2_5c461172",
+      "range": {
+        "startLine": 536,
+        "startChar": 0,
+        "endLine": 537,
+        "endChar": 98
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6eb0c28_9fe0dfb8",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 14
@@ -189,6 +213,30 @@
       "writtenOn": "2026-07-22T05:40:29Z",
       "side": 1,
       "message": "This can be simply checked upfront if any refs contained a `/meta`.",
+      "range": {
+        "startLine": 547,
+        "startChar": 0,
+        "endLine": 550,
+        "endChar": 11
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1658606_a778b344",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6eb0c28_9fe0dfb8",
       "range": {
         "startLine": 547,
         "startChar": 0,
