@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39a8b7fa_ceedcb4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T11:59:56Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "f3d3b6ba_80fa8288",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9501d0e5_f71aa9f0",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-07-22T05:40:29Z",
       "side": 1,
       "message": "```suggestion\nobjects for a set of refs within a single batch. If the receiving node\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b4f38da_a2290fd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T11:59:56Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9501d0e5_f71aa9f0",
       "range": {
         "startLine": 17,
         "startChar": 0,
