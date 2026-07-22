@@ -1,0 +1,325 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3d3b6ba_80fa8288",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "```suggestion\nEncapsulate all meta ref revisions in the same apply-object\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9501d0e5_f71aa9f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "```suggestion\nobjects for a set of refs within a single batch. If the receiving node\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea7e9474_1e376423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "```suggestion\ndoesn\u0027t support BatchApplyObjects yet, fall back to the previous\n```",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 38
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40473187_52c1eab5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "Well, the fallback wasn\u0027t working before, so shall we just fail in that case?",
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60edf5c2_5c461172",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "This isn\u0027t needed IMHO, as you check for `batchApplyObject.revisionData().isPresent()` at L539 and `revisions` is reassigned.",
+      "range": {
+        "startLine": 536,
+        "startChar": 0,
+        "endLine": 537,
+        "endChar": 98
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6eb0c28_9fe0dfb8",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "This can be simply checked upfront if any refs contained a `/meta`.",
+      "range": {
+        "startLine": 547,
+        "startChar": 0,
+        "endLine": 550,
+        "endChar": 11
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99bf2924_20fedb46",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "I don\u0027t believe we need this fallback, as the earlier logic was broken anyway.",
+      "range": {
+        "startLine": 575,
+        "startChar": 0,
+        "endLine": 600,
+        "endChar": 11
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9f82356_ff7bb225",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "```suggestion\n * Batches ref-updates that each carry more than one object (e.g. a whole meta-ref objects\u0027 ancestry),\n```",
+      "range": {
+        "startLine": 31,
+        "startChar": 53,
+        "endLine": 31,
+        "endChar": 61
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e38a4be_d5cc99a9",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "```suggestion\n        \"Batch apply objects API from {} for refs {}\",\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 15,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "670112a1_615354e3",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/data/BatchApplyObjectsData.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "We should also preserve for consistency the `isCreate` and `isDelete` of the original `BatchApplyObjectData` that created is `BatchApplyObjectsData`.",
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9596e046_05e1ce2e",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "Not needed.",
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e5bf6f8_de0b13f5",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResult.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67bb5a10_7a7abcec",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/client/HttpResultUtils.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc915162_e80c8e53",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "```suggestion\n      shouldFallbackToBatchSendObjectsWhenParentObjectIsMissingAndRefMatchesApplyObjectsRefFilter()\n```",
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95fb1e99_eda363e5",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueueTest.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-22T05:40:29Z",
+      "side": 1,
+      "message": "This isn\u0027t needed as the previous behaviour wasn\u0027t working.",
+      "range": {
+        "startLine": 550,
+        "startChar": 0,
+        "endLine": 572,
+        "endChar": 3
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}
