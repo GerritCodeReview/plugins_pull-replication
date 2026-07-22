@@ -137,6 +137,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0a3f1748_002266f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:02:02Z",
+      "side": 1,
+      "message": "Well, it didn\u0027t work because of the ordering of the refs, but sending the separate request did use to wo",
+      "parentUuid": "40473187_52c1eab5",
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "60edf5c2_5c461172",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 14
@@ -227,6 +245,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fca64e34_532dd25a",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:02:02Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b9f82356_ff7bb225",
+      "range": {
+        "startLine": 31,
+        "startChar": 53,
+        "endLine": 31,
+        "endChar": 61
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0e38a4be_d5cc99a9",
@@ -240,6 +282,30 @@
       "writtenOn": "2026-07-22T05:40:29Z",
       "side": 1,
       "message": "```suggestion\n        \"Batch apply objects API from {} for refs {}\",\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 15,
+        "endLine": 49,
+        "endChar": 20
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9536631_ee0c0116",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/api/BatchApplyObjectsAction.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-22T12:02:02Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "0e38a4be_d5cc99a9",
       "range": {
         "startLine": 49,
         "startChar": 15,
