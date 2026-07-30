@@ -244,6 +244,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f63a152_c1b49a1f",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:14:12Z",
+      "side": 1,
+      "message": "\u003e Revisions are reassigned only if it\u0027s a meta ref; for other refs, we use this variable.\n\nYes, correct. It\u0027s always best to avoid reassigning local variables to improve the effective final evaluation from the Java compiler.\n\n\u003e I guess I could have an else branch and do two separate `expandedBatch.add` but is it better?\n\nYes, because you avoid the variable reassignment.",
+      "parentUuid": "f9f00018_d7ce8bbe",
+      "range": {
+        "startLine": 536,
+        "startChar": 0,
+        "endLine": 537,
+        "endChar": 98
+      },
+      "revId": "cb5c8926fb7fbc5400d850039e5dc1b1e2453341",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b6eb0c28_9fe0dfb8",
         "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java",
         "patchSetId": 14
