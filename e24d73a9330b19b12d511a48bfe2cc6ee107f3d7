@@ -100,6 +100,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7d043cd_d27bd50d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4624548
+      },
+      "writtenOn": "2026-08-24T17:08:51Z",
+      "side": 1,
+      "message": "😍",
+      "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3899779_159121a6",
@@ -190,6 +207,40 @@
         "endLine": 503,
         "endChar": 3
       },
+      "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a680878_7fb3723d",
+        "filename": "src/main/java/com/googlesource/gerrit/plugins/replication/pull/FetchRefsDatabase.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4624548
+      },
+      "writtenOn": "2026-08-24T17:08:51Z",
+      "side": 1,
+      "message": "Marked as resolved.",
+      "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "086a1050_33784d68",
+        "filename": "src/test/java/com/googlesource/gerrit/plugins/replication/pull/FetchOneTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4624548
+      },
+      "writtenOn": "2026-08-24T17:08:51Z",
+      "side": 1,
+      "message": "Marked as resolved.",
       "revId": "e24d73a9330b19b12d511a48bfe2cc6ee107f3d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
